@@ -22,4 +22,4 @@ jobs:
     - name: Build
       run: dotnet build ./AutoTest.Web
     - name: Test
-      run: dotnet test ./AutoTest.Unit.Test
+      run: dotnet test ./Test/AutoTest.Test.Unit
