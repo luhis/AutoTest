@@ -11,5 +11,10 @@
     {
 
         private readonly IMediator mediator;
+
+        public AccessController(IMediator mediator)
+        {
+            this.mediator = mediator;
+        }
     }
 }
