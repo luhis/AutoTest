@@ -25,7 +25,7 @@
     "dependencies": {
         "preact": "10.4.4",
         "preact-markup": "2.0.0",
-        "preact-render-to-string": "5.1.8",
+        "preact-render-to-string": "5.1.9",
         "preact-router": "3.2.1",
         "rbx": "2.2.0",
         "react-use-googlelogin": "0.12.5",
