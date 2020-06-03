@@ -28,7 +28,7 @@
         "preact-render-to-string": "5.1.8",
         "preact-router": "3.2.1",
         "rbx": "2.2.0",
-        "react-use-googlelogin": "^0.12.5",
+        "react-use-googlelogin": "0.12.5",
         "ts-date": "3.0.1"
     },
     "devDependencies": {
