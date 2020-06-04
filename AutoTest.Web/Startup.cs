@@ -1,11 +1,17 @@
 namespace AutoTest.Web
 {
+    using System.Collections.Generic;
+    using System.Security.Claims;
+    using System.Text;
+    using AutoTest.Web.Authorization;
+    using Microsoft.AspNetCore.Authentication.JwtBearer;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Hosting;
+    using Microsoft.IdentityModel.Tokens;
     using WebMarkupMin.AspNetCore3;
 
     public class Startup
@@ -13,15 +19,50 @@ namespace AutoTest.Web
         public Startup(IConfiguration configuration)
         {
             this.Configuration = configuration;
+            this.AdminEmails = new HashSet<string>(configuration.GetSection("RootAdminIds").Get<IEnumerable<string>>());
+            var authSection = configuration.GetSection("Authentication");
+            this.ClientSecret = authSection["ClientSecret"];
+            this.ClientId = authSection["ClientId"];
         }
 
         public IConfiguration Configuration { get; }
+        private ISet<string> AdminEmails { get; }
+        private const string Authority = "https://accounts.google.com";
+        private readonly string ClientSecret;
+        private readonly string ClientId;
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-
             services.AddControllersWithViews();
+
+            services.AddAuthentication(x =>
+            {
+                x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            }).AddJwtBearer(o =>
+            {
+                o.Authority = Authority;
+                o.Audience = ClientId;
+                o.RequireHttpsMetadata = false;
+                o.TokenValidationParameters = new TokenValidationParameters()
+                {
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(ClientSecret)),
+
+                    ValidateIssuer = false,
+                    ValidateAudience = false
+                };
+            });
+            services.AddAuthorization(o =>
+            {
+                o.AddPolicy(Policies.Admin, p =>
+                {
+                    p.RequireAuthenticatedUser();
+                    p.RequireClaim(ClaimTypes.Email, this.AdminEmails);
+                });
+            });
+
             services.AddWebMarkupMin(options =>
                 {
                     options.AllowMinificationInDevelopmentEnvironment = false;
@@ -62,6 +103,7 @@ namespace AutoTest.Web
             app.UseSpaStaticFiles();
 
             app.UseRouting();
+            app.UseAuthentication().UseAuthorization();
             app.UseWebMarkupMin();
 
 

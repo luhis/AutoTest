@@ -35,6 +35,10 @@ const AccessContext = createContext<[Access, StateUpdater<Access>]>([
 ]);
 
 const App: FunctionalComponent = () => {
+    const googleAuth = useGoogleLogin({
+        clientId: process.env.PREACT_APP_GOOGLE_CLIENT_ID as string, // Your clientID from Google.
+    });
+    const access = useState<Access>(defaultAccess);
     let currentUrl: string;
     const handleRoute = (e: RouterOnChangeArgs) => {
         currentUrl = e.url;
@@ -42,14 +46,18 @@ const App: FunctionalComponent = () => {
 
     return (
         <div id="app">
-            <Header />
-            <Router onChange={handleRoute}>
-                <Route path="/" component={Home} />
-                <Route path="/profile/" component={Profile} user="me" />
-                <Route path="/profile/:user" component={Profile} />
-                <Route path="/clubs/" component={Club} />
-                <NotFoundPage default />
-            </Router>
+            <AccessContext.Provider value={access}>
+                <GoogleAuthContext.Provider value={googleAuth as GoogleAuth}>
+                    <Header />
+                    <Router onChange={handleRoute}>
+                        <Route path="/" component={Home} />
+                        <Route path="/profile/" component={Profile} user="me" />
+                        <Route path="/profile/:user" component={Profile} />
+                        <Route path="/clubs/" component={Club} />
+                        <NotFoundPage default />
+                    </Router>
+                </GoogleAuthContext.Provider>
+            </AccessContext.Provider>
         </div>
     );
 };

@@ -13,6 +13,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\AutoTest.Domain\AutoTest.Domain.csproj" />
+    <ProjectReference Include="..\AutoTest.Persistence\AutoTest.Persistence.csproj" />
   </ItemGroup>
 
 </Project>
