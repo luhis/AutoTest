@@ -3,7 +3,10 @@ namespace AutoTest.Web
     using System.Collections.Generic;
     using System.Security.Claims;
     using System.Text;
+    using AutoTest.Persistence;
+    using AutoTest.Service.Messages;
     using AutoTest.Web.Authorization;
+    using MediatR;
     using Microsoft.AspNetCore.Authentication.JwtBearer;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
@@ -35,6 +38,8 @@ namespace AutoTest.Web
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
+            services.AddMediatR(typeof(GetClubs).Assembly);
+            services.AddPersistence();
 
             services.AddAuthentication(x =>
             {

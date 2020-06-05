@@ -1,5 +1,6 @@
 ﻿namespace AutoTest.Web.Controllers
 {
+    using AutoTest.Web.Models;
     using MediatR;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
@@ -15,6 +16,12 @@
         public AccessController(IMediator mediator)
         {
             this.mediator = mediator;
+        }
+
+        [HttpGet]
+        public AccessModel GetAccess()
+        {
+            return new AccessModel(true);
         }
     }
 }
