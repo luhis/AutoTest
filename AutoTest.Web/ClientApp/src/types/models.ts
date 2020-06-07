@@ -27,4 +27,11 @@ export interface Access {
 
 export interface Club {
     clubId: number;
+    clubName: string;
+    clubPaymentAddress: string;
+    website: string;
 }
+
+export type EditableClub = Override<Club, { clubId: number | undefined }>;
+
+type Override<T, P> = P & Omit<T, keyof P>;
