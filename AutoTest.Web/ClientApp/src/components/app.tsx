@@ -1,5 +1,5 @@
 import { FunctionalComponent, h, createContext } from "preact";
-import { Route, Router, RouterOnChangeArgs } from "preact-router";
+import { Route, Router } from "preact-router";
 import { useGoogleLogin } from "react-use-googlelogin";
 import { useContext, useState, StateUpdater } from "preact/hooks";
 
@@ -39,17 +39,13 @@ const App: FunctionalComponent = () => {
         clientId: process.env.PREACT_APP_GOOGLE_CLIENT_ID as string, // Your clientID from Google.
     });
     const access = useState<Access>(defaultAccess);
-    let currentUrl: string;
-    const handleRoute = (e: RouterOnChangeArgs) => {
-        currentUrl = e.url;
-    };
 
     return (
         <div id="app">
             <AccessContext.Provider value={access}>
                 <GoogleAuthContext.Provider value={googleAuth as GoogleAuth}>
                     <Header />
-                    <Router onChange={handleRoute}>
+                    <Router>
                         <Route path="/" component={Home} />
                         <Route path="/profile/" component={Profile} user="me" />
                         <Route path="/profile/:user" component={Profile} />

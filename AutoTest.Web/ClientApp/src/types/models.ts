@@ -6,6 +6,16 @@ export type ApiResponse<T> =
 
 export type LoadingState<T> = ApiResponse<T> | { tag: "Loading" };
 
+export const toApiResponse = async <T>(
+    f: () => Promise<T>
+): Promise<ApiResponse<T>> => {
+    try {
+        return { tag: "Loaded", value: await f() };
+    } catch (e) {
+        return { tag: "Error", value: "API error" };
+    }
+};
+
 export interface GoogleAuth {
     signIn: () => Promise<GoogleUser>;
     googleUser: GoogleUser | null;
@@ -13,4 +23,8 @@ export interface GoogleAuth {
 
 export interface Access {
     canViewClubs: boolean;
+}
+
+export interface Club {
+    clubId: number;
 }

@@ -1,6 +1,13 @@
 import { FunctionalComponent, h } from "preact";
+import { useEffect } from "preact/hooks";
 
-const Home: FunctionalComponent = () => {
+import { getClubs } from "../../api/clubs";
+import { useGoogleAuth } from "../../components/app";
+import { getAccessToken } from "../../api/api";
+
+const Club: FunctionalComponent = () => {
+    const auth = useGoogleAuth();
+    useEffect(() => void getClubs(getAccessToken(auth)), [auth]);
     return (
         <div>
             <h1>Club</h1>
@@ -9,4 +16,4 @@ const Home: FunctionalComponent = () => {
     );
 };
 
-export default Home;
+export default Club;
