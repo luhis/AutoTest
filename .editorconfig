@@ -2,3 +2,6 @@
 
 # VSTHRD200: Use "Async" suffix for async methods
 dotnet_diagnostic.VSTHRD200.severity = none
+
+# CS8602: Dereference of a possibly null reference.
+dotnet_diagnostic.CS8602.severity = warning

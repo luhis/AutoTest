@@ -1,8 +1,8 @@
 ﻿namespace AutoTest.Domain.StorageModels
 {
-    public class AdminEmails
+    public class AdminEmail
     {
-        public AdminEmails(ulong adminEmailId, ulong clubId, string email)
+        public AdminEmail(ulong adminEmailId, ulong clubId, string email)
         {
             this.AdminEmailId = adminEmailId;
             this.ClubId = clubId;

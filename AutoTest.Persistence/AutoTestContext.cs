@@ -17,8 +17,12 @@
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            SetupAdminEmails.Setup(modelBuilder.Entity<AdminEmail>());
             SetupClubs.Setup(modelBuilder.Entity<Club>());
+            SetupEntrant.Setup(modelBuilder.Entity<Entrant>());
             SetupEvent.Setup(modelBuilder.Entity<Event>());
+            SetupTest.Setup(modelBuilder.Entity<Test>());
+            SetupTestRun.Setup(modelBuilder.Entity<TestRun>());
         }
     }
 }
