@@ -1,8 +1,8 @@
 import { GoogleUser } from "react-use-googlelogin/dist/types";
 
 export type ApiResponse<T> =
-    | { tag: "Loaded"; value: T }
-    | { tag: "Error"; value: string };
+    | { readonly tag: "Loaded"; readonly value: T }
+    | { readonly tag: "Error"; readonly value: string };
 
 export type LoadingState<T> = ApiResponse<T> | { tag: "Loading" };
 
@@ -17,21 +17,24 @@ export const toApiResponse = async <T>(
 };
 
 export interface GoogleAuth {
-    signIn: () => Promise<GoogleUser>;
-    googleUser: GoogleUser | null;
+    readonly signIn: () => Promise<GoogleUser>;
+    readonly googleUser: GoogleUser | null;
 }
 
 export interface Access {
-    canViewClubs: boolean;
+    readonly canViewClubs: boolean;
 }
 
 export interface Club {
-    clubId: number;
-    clubName: string;
-    clubPaymentAddress: string;
-    website: string;
+    readonly clubId: number;
+    readonly clubName: string;
+    readonly clubPaymentAddress: string;
+    readonly website: string;
 }
 
-export type EditableClub = Override<Club, { clubId: number | undefined }>;
+export type EditableClub = Override<
+    Club,
+    { readonly clubId: number | undefined }
+>;
 
 type Override<T, P> = P & Omit<T, keyof P>;

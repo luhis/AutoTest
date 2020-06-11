@@ -39,6 +39,7 @@ namespace AutoTest.Web
         {
             services.AddControllersWithViews();
             services.AddMediatR(typeof(GetClubs).Assembly);
+            services.AddWeb();
             services.AddPersistence();
 
             services.AddAuthentication(x =>

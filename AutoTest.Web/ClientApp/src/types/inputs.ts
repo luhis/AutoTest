@@ -1,7 +1,7 @@
 export interface OnChange {
-    target: HTMLInputElement;
+    readonly target: HTMLInputElement;
 }
 
 export interface OnChangeCheck {
-    target: { checked: boolean };
+    readonly target: { checked: boolean };
 }
