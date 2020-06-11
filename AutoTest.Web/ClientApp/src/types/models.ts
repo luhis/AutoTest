@@ -1,4 +1,5 @@
 import { GoogleUser } from "react-use-googlelogin/dist/types";
+import { ValidDate } from "ts-date/locale/en";
 
 export type ApiResponse<T> =
     | { readonly tag: "Loaded"; readonly value: T }
@@ -32,9 +33,16 @@ export interface Club {
     readonly website: string;
 }
 
+export interface Event {
+    readonly eventId: number;
+    readonly clubId: number;
+    readonly location: string;
+    readonly startTime: ValidDate;
+}
+
 export type EditableClub = Override<
     Club,
     { readonly clubId: number | undefined }
 >;
 
-type Override<T, P> = P & Omit<T, keyof P>;
+export type Override<T, P> = P & Omit<T, keyof P>;

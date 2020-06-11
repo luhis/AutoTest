@@ -27,6 +27,7 @@ const Header: FunctionalComponent = () => {
                     {access.canViewClubs ? (
                         <Navbar.Item href="/clubs">Clubs</Navbar.Item>
                     ) : null}
+                    <Navbar.Item href="/events">Events</Navbar.Item>
                     <Navbar.Item>
                         <Button
                             onClick={async (): Promise<void> => {
