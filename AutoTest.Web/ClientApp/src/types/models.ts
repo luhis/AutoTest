@@ -40,6 +40,10 @@ export interface Event {
     readonly startTime: ValidDate;
 }
 
+export interface Entrant {
+    readonly entrantId: number;
+}
+
 export type EditableClub = Override<
     Club,
     { readonly clubId: number | undefined }

@@ -11,10 +11,9 @@
     using Microsoft.AspNetCore.Mvc;
 
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     public class ClubsController : ControllerBase
     {
-
         private readonly IMediator mediator;
 
         public ClubsController(IMediator mediator)

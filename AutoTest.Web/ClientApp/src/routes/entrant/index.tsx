@@ -6,7 +6,7 @@ import { LoadingState } from "../../types/models";
 import { Event } from "../../types/models";
 
 const Events: FunctionalComponent = () => {
-    const [events, setEvents] = useState<LoadingState<readonly Event[]>>({
+    const [events, setEvents] = useState<LoadingState<readonly Entrant[]>>({
         tag: "Loading",
     });
     useEffect(() => {

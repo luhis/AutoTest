@@ -7,7 +7,7 @@
 
     [AllowAnonymous]
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     public class AccessController : ControllerBase
     {
 

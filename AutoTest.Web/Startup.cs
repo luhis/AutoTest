@@ -111,6 +111,10 @@ namespace AutoTest.Web
             app.UseRouting();
             app.UseAuthentication().UseAuthorization();
             app.UseWebMarkupMin();
+            app.UseSecurityHeaders(
+                policies => policies.AddDefaultSecurityHeaders()
+                    .AddStrictTransportSecurityMaxAgeIncludeSubDomains(maxAgeInSeconds: 63072000)
+                    .RemoveServerHeader());
 
 
             app.UseEndpoints(endpoints =>
