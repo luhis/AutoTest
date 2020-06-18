@@ -1,9 +1,8 @@
 import { FunctionalComponent, h } from "preact";
 import { useEffect, useState } from "preact/hooks";
 
-import { getEvents } from "../../api/events";
-import { LoadingState } from "../../types/models";
-import { Event } from "../../types/models";
+import { getEntrants } from "../../api/entrants";
+import { LoadingState, Entrant } from "../../types/models";
 
 const Events: FunctionalComponent = () => {
     const [events, setEvents] = useState<LoadingState<readonly Entrant[]>>({
@@ -11,16 +10,18 @@ const Events: FunctionalComponent = () => {
     });
     useEffect(() => {
         const fetchData = async () => {
-            const events = await getEvents();
+            const events = await getEntrants();
             setEvents(events);
         };
         void fetchData();
     }, []);
     return (
         <div>
-            <h1>Events</h1>
+            <h1>Entrants</h1>
             {events.tag === "Loaded"
-                ? events.value.map((a) => <p key={a.clubId}>{a.location}</p>)
+                ? events.value.map((a) => (
+                      <p key={a.entrantId}>{a.entrantId}</p>
+                  ))
                 : null}
             <p>This is the Events component.</p>
         </div>
