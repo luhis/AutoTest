@@ -3,5 +3,6 @@
     "googlelogin",
     "preact"
   ],
+  "files.eol": "\n",
   "typescript.tsdk": "node_modules\\typescript\\lib"
 }
