@@ -1,10 +1,10 @@
 import { FunctionalComponent, h } from "preact";
-import * as style from "./style.css";
+import { Title } from "rbx";
 
 const Home: FunctionalComponent = () => {
     return (
-        <div class={style.home}>
-            <h1>Home</h1>
+        <div>
+            <Title>Home</Title>
             <p>This is the Home component.</p>
         </div>
     );

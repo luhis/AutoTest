@@ -8,6 +8,7 @@ import Profile from "../routes/profile";
 import Club from "../routes/club";
 import NotFoundPage from "../routes/notfound";
 import Events from "../routes/events";
+import Entrant from "../routes/entrant";
 import Header from "./header";
 import { GoogleAuth, Access } from "../types/models";
 
@@ -52,6 +53,7 @@ const App: FunctionalComponent = () => {
                         <Route path="/profile/:user" component={Profile} />
                         <Route path="/clubs/" component={Club} />
                         <Route path="/events/" component={Events} />
+                        <Route path="/entrants/" component={Entrant} />
                         <NotFoundPage default />
                     </Router>
                 </GoogleAuthContext.Provider>

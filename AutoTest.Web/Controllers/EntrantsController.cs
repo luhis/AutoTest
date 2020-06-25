@@ -12,11 +12,11 @@
 
     [ApiController]
     [Route("api/[controller]")]
-    public class EntrantController : ControllerBase
+    public class EntrantsController : ControllerBase
     {
         private readonly IMediator mediator;
 
-        public EntrantController(IMediator mediator)
+        public EntrantsController(IMediator mediator)
         {
             this.mediator = mediator;
         }
