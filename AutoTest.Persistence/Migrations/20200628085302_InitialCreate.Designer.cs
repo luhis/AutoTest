@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AutoTest.Persistence.Migrations
 {
     [DbContext(typeof(AutoTestContext))]
-    [Migration("20200611213556_InitialCreate")]
+    [Migration("20200628085302_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -64,12 +64,20 @@ namespace AutoTest.Persistence.Migrations
                     b.Property<ulong>("EntrantId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("Category")
+                    b.Property<string>("Class")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<ulong>("EventId")
                         .HasColumnType("INTEGER");
+
+                    b.Property<string>("FamilyName")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("GivenName")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
 
                     b.Property<bool>("IsPaid")
                         .HasColumnType("INTEGER");
@@ -82,7 +90,7 @@ namespace AutoTest.Persistence.Migrations
 
                     b.HasIndex("EventId");
 
-                    b.ToTable("Entrant");
+                    b.ToTable("Entrants");
                 });
 
             modelBuilder.Entity("AutoTest.Domain.StorageModels.Event", b =>
@@ -125,7 +133,7 @@ namespace AutoTest.Persistence.Migrations
 
                     b.HasIndex("EventId");
 
-                    b.ToTable("Test");
+                    b.ToTable("Tests");
                 });
 
             modelBuilder.Entity("AutoTest.Domain.StorageModels.TestRun", b =>
@@ -133,7 +141,12 @@ namespace AutoTest.Persistence.Migrations
                     b.Property<ulong>("TestRunId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<ulong>("Entrant")
+                    b.Property<DateTime>("Created")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT")
+                        .HasDefaultValueSql("(getdate())");
+
+                    b.Property<ulong>("EntrantId")
                         .HasColumnType("INTEGER");
 
                     b.Property<ulong>("TestId")
@@ -144,11 +157,33 @@ namespace AutoTest.Persistence.Migrations
 
                     b.HasKey("TestRunId");
 
-                    b.HasIndex("Entrant");
+                    b.HasIndex("EntrantId");
 
                     b.HasIndex("TestId");
 
-                    b.ToTable("TestRun");
+                    b.ToTable("TestRuns");
+                });
+
+            modelBuilder.Entity("AutoTest.Domain.StorageModels.User", b =>
+                {
+                    b.Property<ulong>("UserId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("FamilyName")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("GivenName")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("MsaLicense")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("UserId");
+
+                    b.ToTable("Users");
                 });
 
             modelBuilder.Entity("AutoTest.Domain.StorageModels.AdminEmail", b =>
@@ -191,7 +226,7 @@ namespace AutoTest.Persistence.Migrations
                 {
                     b.HasOne("AutoTest.Domain.StorageModels.Entrant", null)
                         .WithMany()
-                        .HasForeignKey("Entrant")
+                        .HasForeignKey("EntrantId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

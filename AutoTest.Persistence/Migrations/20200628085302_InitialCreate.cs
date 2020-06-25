@@ -22,6 +22,20 @@ namespace AutoTest.Persistence.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Users",
+                columns: table => new
+                {
+                    UserId = table.Column<ulong>(nullable: false),
+                    GivenName = table.Column<string>(nullable: false),
+                    FamilyName = table.Column<string>(nullable: false),
+                    MsaLicense = table.Column<string>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Users", x => x.UserId);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "AdminEmail",
                 columns: table => new
                 {
@@ -61,20 +75,22 @@ namespace AutoTest.Persistence.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Entrant",
+                name: "Entrants",
                 columns: table => new
                 {
                     EntrantId = table.Column<ulong>(nullable: false),
+                    GivenName = table.Column<string>(nullable: false),
+                    FamilyName = table.Column<string>(nullable: false),
                     Registration = table.Column<string>(nullable: false),
-                    Category = table.Column<string>(nullable: false),
+                    Class = table.Column<string>(nullable: false),
                     EventId = table.Column<ulong>(nullable: false),
                     IsPaid = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Entrant", x => x.EntrantId);
+                    table.PrimaryKey("PK_Entrants", x => x.EntrantId);
                     table.ForeignKey(
-                        name: "FK_Entrant_Events_EventId",
+                        name: "FK_Entrants_Events_EventId",
                         column: x => x.EventId,
                         principalTable: "Events",
                         principalColumn: "EventId",
@@ -82,7 +98,7 @@ namespace AutoTest.Persistence.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Test",
+                name: "Tests",
                 columns: table => new
                 {
                     TestId = table.Column<ulong>(nullable: false),
@@ -92,9 +108,9 @@ namespace AutoTest.Persistence.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Test", x => x.TestId);
+                    table.PrimaryKey("PK_Tests", x => x.TestId);
                     table.ForeignKey(
-                        name: "FK_Test_Events_EventId",
+                        name: "FK_Tests_Events_EventId",
                         column: x => x.EventId,
                         principalTable: "Events",
                         principalColumn: "EventId",
@@ -102,27 +118,28 @@ namespace AutoTest.Persistence.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "TestRun",
+                name: "TestRuns",
                 columns: table => new
                 {
                     TestRunId = table.Column<ulong>(nullable: false),
                     TestId = table.Column<ulong>(nullable: false),
                     TimeInMS = table.Column<ulong>(nullable: false),
-                    Entrant = table.Column<ulong>(nullable: false)
+                    Created = table.Column<DateTime>(nullable: false, defaultValueSql: "(getdate())"),
+                    EntrantId = table.Column<ulong>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_TestRun", x => x.TestRunId);
+                    table.PrimaryKey("PK_TestRuns", x => x.TestRunId);
                     table.ForeignKey(
-                        name: "FK_TestRun_Entrant_Entrant",
-                        column: x => x.Entrant,
-                        principalTable: "Entrant",
+                        name: "FK_TestRuns_Entrants_EntrantId",
+                        column: x => x.EntrantId,
+                        principalTable: "Entrants",
                         principalColumn: "EntrantId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_TestRun_Test_TestId",
+                        name: "FK_TestRuns_Tests_TestId",
                         column: x => x.TestId,
-                        principalTable: "Test",
+                        principalTable: "Tests",
                         principalColumn: "TestId",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -133,8 +150,8 @@ namespace AutoTest.Persistence.Migrations
                 column: "ClubId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Entrant_EventId",
-                table: "Entrant",
+                name: "IX_Entrants_EventId",
+                table: "Entrants",
                 column: "EventId");
 
             migrationBuilder.CreateIndex(
@@ -143,19 +160,19 @@ namespace AutoTest.Persistence.Migrations
                 column: "ClubId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Test_EventId",
-                table: "Test",
-                column: "EventId");
+                name: "IX_TestRuns_EntrantId",
+                table: "TestRuns",
+                column: "EntrantId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_TestRun_Entrant",
-                table: "TestRun",
-                column: "Entrant");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_TestRun_TestId",
-                table: "TestRun",
+                name: "IX_TestRuns_TestId",
+                table: "TestRuns",
                 column: "TestId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Tests_EventId",
+                table: "Tests",
+                column: "EventId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -164,13 +181,16 @@ namespace AutoTest.Persistence.Migrations
                 name: "AdminEmail");
 
             migrationBuilder.DropTable(
-                name: "TestRun");
+                name: "TestRuns");
 
             migrationBuilder.DropTable(
-                name: "Entrant");
+                name: "Users");
 
             migrationBuilder.DropTable(
-                name: "Test");
+                name: "Entrants");
+
+            migrationBuilder.DropTable(
+                name: "Tests");
 
             migrationBuilder.DropTable(
                 name: "Events");

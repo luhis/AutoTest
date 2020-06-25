@@ -2,20 +2,25 @@
 {
     public class Entrant
     {
-        public Entrant(ulong entrantId, string registration, string category, ulong eventId, bool isPaid)
+
+        public Entrant(ulong entrantId, string givenName, string familyName, string registration, string @class, ulong eventId, bool isPaid)
         {
+            GivenName = givenName;
+            FamilyName = familyName;
             EntrantId = entrantId;
             Registration = registration;
-            Category = category;
-            this.EventId = eventId;
-            this.IsPaid = isPaid;
+            Class = @class;
+            EventId = eventId;
+            IsPaid = isPaid;
         }
 
         public ulong EntrantId { get; }
+        public string GivenName { get; }
+        public string FamilyName { get; }
 
         public string Registration { get; }
 
-        public string Category { get; }
+        public string Class { get; }
 
         public ulong EventId { get; }
 

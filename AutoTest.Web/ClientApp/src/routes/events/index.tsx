@@ -1,11 +1,17 @@
 import { FunctionalComponent, h } from "preact";
 import { useEffect, useState } from "preact/hooks";
+import { Title, Column } from "rbx";
+import { Link } from "preact-router";
 
 import { getEvents } from "../../api/events";
-import { LoadingState } from "../../types/models";
-import { Event } from "../../types/models";
+import { LoadingState, Event } from "../../types/models";
+import ifSome from "../../components/shared/isSome";
 
-const Events: FunctionalComponent = () => {
+interface Props {
+    clubId: number | undefined;
+}
+
+const Events: FunctionalComponent<Props> = () => {
     const [events, setEvents] = useState<LoadingState<readonly Event[]>>({
         tag: "Loading",
     });
@@ -18,11 +24,20 @@ const Events: FunctionalComponent = () => {
     }, []);
     return (
         <div>
-            <h1>Events</h1>
-            {events.tag === "Loaded"
-                ? events.value.map((a) => <p key={a.clubId}>{a.location}</p>)
-                : null}
-            <p>This is the Events component.</p>
+            <Title>Events</Title>
+            {ifSome(events, (a) => (
+                <Column.Group key={a.eventId}>
+                    <Column>
+                        <p key={a.eventId}>{a.location}</p>
+                    </Column>
+                    <Column>
+                        <Link href={`/entrants/${a.eventId}`}>Entrants</Link>
+                        <Link href={`/tests/${a.eventId}`}>Tests</Link>
+                        <Link href={`/marshal/${a.eventId}`}>Marshal</Link>
+                        <Link href={`/results/${a.eventId}`}>Results</Link>
+                    </Column>
+                </Column.Group>
+            ))}
         </div>
     );
 };

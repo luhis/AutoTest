@@ -2,7 +2,7 @@ import { Access } from "../types/models";
 import { throwIfNotOk } from "./api";
 
 export const getAccess = async (token: string | undefined): Promise<Access> => {
-    const response = await fetch("api/access", {
+    const response = await fetch("/api/access", {
         headers: { Authorization: token ? `Bearer ${token}` : "" },
     });
     throwIfNotOk(response);

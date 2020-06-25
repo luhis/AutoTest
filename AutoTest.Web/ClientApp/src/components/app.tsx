@@ -5,17 +5,23 @@ import { useContext, useState, StateUpdater } from "preact/hooks";
 
 import Home from "../routes/home";
 import Profile from "../routes/profile";
-import Club from "../routes/club";
+import Club from "../routes/clubs";
 import NotFoundPage from "../routes/notfound";
 import Events from "../routes/events";
+import Entrant from "../routes/entrants";
 import Header from "./header";
 import { GoogleAuth, Access } from "../types/models";
+import Results from "../routes/results";
+import Tests from "../routes/tests";
+import Marshal from "../routes/marshal";
 
 import "rbx/index.css";
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-if ((module as any).hot) {
+interface Module {
+    hot: unknown | undefined;
+}
+
+if ((module as Module).hot) {
     require("preact/debug");
 }
 
@@ -52,6 +58,10 @@ const App: FunctionalComponent = () => {
                         <Route path="/profile/:user" component={Profile} />
                         <Route path="/clubs/" component={Club} />
                         <Route path="/events/" component={Events} />
+                        <Route path="/entrants/:eventId" component={Entrant} />
+                        <Route path="/results/:eventId" component={Results} />
+                        <Route path="/tests/:eventId" component={Tests} />
+                        <Route path="/marshal/:eventId" component={Marshal} />
                         <NotFoundPage default />
                     </Router>
                 </GoogleAuthContext.Provider>

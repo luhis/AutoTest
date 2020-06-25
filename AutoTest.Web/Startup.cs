@@ -1,3 +1,6 @@
+﻿using System;
+using Microsoft.OpenApi.Models;
+
 namespace AutoTest.Web
 {
     using System.Collections.Generic;
@@ -88,10 +91,27 @@ namespace AutoTest.Web
             {
                 configuration.RootPath = "ClientApp/build";
             });
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "MyRentals API", Version = "v1" });
+                c.AddSecurityDefinition("bearer", new OpenApiSecurityScheme()
+                {
+                    Type = SecuritySchemeType.OAuth2,
+                    Flows = new OpenApiOAuthFlows()
+                    {
+                        Implicit = new OpenApiOAuthFlow()
+                        {
+                            AuthorizationUrl = new Uri("https://accounts.google.com/o/oauth2/auth"),
+                            Scopes = new Dictionary<string, string> { { "email", "View Email" }, { "profile", "View Profile" } }
+                        },
+                    }
+                });
+                c.OperationFilter<OAuth2OperationFilter>();
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, AutoTestContext autoTestContext)
         {
             if (env.IsDevelopment())
             {
@@ -123,6 +143,13 @@ namespace AutoTest.Web
                     name: "default",
                     pattern: "{controller}/{action=Index}/{id?}");
             });
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+            {
+                //c.OAuthClientId("implicit");
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
+                c.OAuthConfigObject.ClientId = ClientId;
+            });
 
             app.UseSpa(spa =>
             {
@@ -133,6 +160,7 @@ namespace AutoTest.Web
                     spa.UseReactDevelopmentServer(npmScript: "dev");
                 }
             });
+            autoTestContext.SeedDatabase();
         }
     }
 }

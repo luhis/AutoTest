@@ -12,17 +12,17 @@
 
     [ApiController]
     [Route("api/[controller]")]
-    public class EntrantController : ControllerBase
+    public class EntrantsController : ControllerBase
     {
         private readonly IMediator mediator;
 
-        public EntrantController(IMediator mediator)
+        public EntrantsController(IMediator mediator)
         {
             this.mediator = mediator;
         }
 
         [Authorize(policy: Policies.Admin)]
-        [HttpGet]
+        [HttpGet("{eventId}")]
         public Task<IEnumerable<Entrant>> GetEntrants(ulong eventId, CancellationToken cancellationToken) => this.mediator.Send(new GetEntrants(eventId), cancellationToken);
 
     }

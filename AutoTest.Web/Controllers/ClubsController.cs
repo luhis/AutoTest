@@ -31,7 +31,7 @@
 
         [Authorize(policy: Policies.Admin)]
         [HttpPut]
-        public Task<ulong> Create(ulong clubId, Club club, CancellationToken cancellationToken) => this.mediator.Send(new UpdateClub(club), cancellationToken);
+        public Task<ulong> Update(ulong clubId, Club club, CancellationToken cancellationToken) => this.mediator.Send(new UpdateClub(club), cancellationToken);
 
         [Authorize(policy: Policies.Admin)]
         [HttpDelete]

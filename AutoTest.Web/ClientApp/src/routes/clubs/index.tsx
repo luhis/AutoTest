@@ -1,10 +1,13 @@
 import { FunctionalComponent, h } from "preact";
 import { useEffect, useState } from "preact/hooks";
+import { Link } from "preact-router/match";
+import { Column, Title } from "rbx";
 
 import { getClubs } from "../../api/clubs";
 import { useGoogleAuth } from "../../components/app";
 import { getAccessToken } from "../../api/api";
 import { Club, LoadingState } from "../../types/models";
+import ifSome from "../../components/shared/isSome";
 
 const ClubComponent: FunctionalComponent = () => {
     const auth = useGoogleAuth();
@@ -19,11 +22,15 @@ const ClubComponent: FunctionalComponent = () => {
     }, [auth]);
     return (
         <div>
-            <h1>Club</h1>
-            {clubs.tag === "Loaded"
-                ? clubs.value.map((a) => <p key={a.clubId}>{a.clubName}</p>)
-                : null}
-            <p>This is the Club component.</p>
+            <Title>Clubs</Title>
+            {ifSome(clubs, (a) => (
+                <Column.Group key={a.clubId}>
+                    <Column>{a.clubName}</Column>
+                    <Column>
+                        <Link href={`/events?clubId=${a.clubId}`}>Events</Link>
+                    </Column>
+                </Column.Group>
+            ))}
         </div>
     );
 };

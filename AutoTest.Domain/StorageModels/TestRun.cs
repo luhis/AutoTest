@@ -1,13 +1,16 @@
-﻿namespace AutoTest.Domain.StorageModels
+﻿using System;
+
+namespace AutoTest.Domain.StorageModels
 {
     public class TestRun
     {
-        public TestRun(ulong testRunId, ulong testId, ulong timeInMS, ulong entrant)
+        public TestRun(ulong testRunId, ulong testId, ulong timeInMS, ulong entrantId, DateTime created)
         {
             TestRunId = testRunId;
             TestId = testId;
             TimeInMS = timeInMS;
-            this.Entrant = entrant;
+            EntrantId = entrantId;
+            Created = created;
         }
 
         public ulong TestRunId { get; }
@@ -16,6 +19,8 @@
 
         public ulong TimeInMS { get; }
 
-        public ulong Entrant { get; }
+        public DateTime Created { get; }
+
+        public ulong EntrantId { get; }
     }
 }

@@ -33,6 +33,27 @@ export interface Club {
     readonly website: string;
 }
 
+export interface Test {
+    readonly testId: number;
+    readonly ordinal: number;
+}
+
+export interface TestRun {
+    readonly testRunId: number;
+    readonly testId: number;
+    readonly timeInMS: number;
+    readonly entrantId: number;
+}
+
+export type EditableTestRun = Override<
+    Partial<TestRun>,
+    { readonly testRunId: number }
+>;
+
+export interface User {
+    readonly userId: number;
+}
+
 export interface Event {
     readonly eventId: number;
     readonly clubId: number;
@@ -42,6 +63,14 @@ export interface Event {
 
 export interface Entrant {
     readonly entrantId: number;
+    readonly registration: string;
+    readonly class: string;
+    readonly givenName: string;
+    readonly familyName: string;
+}
+
+export interface Result {
+    readonly totalTime: number;
 }
 
 export type EditableClub = Override<

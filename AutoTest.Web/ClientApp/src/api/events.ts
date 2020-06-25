@@ -5,7 +5,7 @@ import { throwIfNotOk } from "./api";
 
 export const getEvents = async (): Promise<ApiResponse<readonly Event[]>> =>
     toApiResponse(async () => {
-        const response = await fetch("api/events");
+        const response = await fetch("/api/events");
         throwIfNotOk(response);
         type ApiEvent = Override<Event, { startTime: string }>;
         const events = (await response.json()) as ApiEvent[];
