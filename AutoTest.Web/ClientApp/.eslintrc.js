@@ -26,7 +26,8 @@ module.exports = {
         "react/prop-types": ["off"],
         "@typescript-eslint/explicit-function-return-type": "off",
         "@typescript-eslint/no-unused-vars": ["error", { "argsIgnorePattern": "^_", "varsIgnorePattern": "^_" }],
-        "@typescript-eslint/explicit-module-boundary-types": "off"
+        "@typescript-eslint/explicit-module-boundary-types": "off",
+        "no-duplicate-imports": "error"
     },
     settings: {
         react: {

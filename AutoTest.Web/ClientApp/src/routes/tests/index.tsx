@@ -6,7 +6,7 @@ import { Link } from "preact-router";
 import { getEvents } from "../../api/events";
 import { LoadingState, Event } from "../../types/models";
 
-const Events: FunctionalComponent = () => {
+const Tests: FunctionalComponent = () => {
     const [events, setEvents] = useState<LoadingState<readonly Event[]>>({
         tag: "Loading",
     });
@@ -19,7 +19,7 @@ const Events: FunctionalComponent = () => {
     }, []);
     return (
         <div>
-            <Title>Events</Title>
+            <Title>Tests</Title>
             {events.tag === "Loaded"
                 ? events.value.map((a) => (
                       <Column.Group key={a.eventId}>
@@ -27,7 +27,7 @@ const Events: FunctionalComponent = () => {
                               <p key={a.eventId}>{a.location}</p>
                           </Column>
                           <Column>
-                              <Link href={`/entrants?eventId=${a.eventId}`}>
+                              <Link href={`/entrants/${a.eventId}`}>
                                   Entrants
                               </Link>
                               <Link href={`/tests/${a.eventId}`}>Tests</Link>
@@ -43,4 +43,4 @@ const Events: FunctionalComponent = () => {
     );
 };
 
-export default Events;
+export default Tests;

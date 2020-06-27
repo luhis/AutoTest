@@ -7,18 +7,22 @@ import { LoadingState, Entrant } from "../../types/models";
 import { useGoogleAuth } from "../../components/app";
 import { getAccessToken } from "../../api/api";
 
-const Events: FunctionalComponent = () => {
+interface Props {
+    eventId: number;
+}
+
+const Events: FunctionalComponent<Readonly<Props>> = ({ eventId }) => {
     const [events, setEvents] = useState<LoadingState<readonly Entrant[]>>({
         tag: "Loading",
     });
     const auth = useGoogleAuth();
     useEffect(() => {
         const fetchData = async () => {
-            const events = await getEntrants(getAccessToken(auth));
+            const events = await getEntrants(eventId, getAccessToken(auth));
             setEvents(events);
         };
         void fetchData();
-    }, [auth]);
+    }, [auth, eventId]);
 
     return (
         <div>
