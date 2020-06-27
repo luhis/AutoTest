@@ -1,11 +1,11 @@
 import { FunctionalComponent, h } from "preact";
 import { useEffect, useState } from "preact/hooks";
 import { Title, Column } from "rbx";
+import { Link } from "preact-router";
 
 import { getEvents } from "../../api/events";
 import { LoadingState } from "../../types/models";
 import { Event } from "../../types/models";
-import { Link } from "preact-router";
 
 const Events: FunctionalComponent = () => {
     const [events, setEvents] = useState<LoadingState<readonly Event[]>>({
@@ -23,14 +23,18 @@ const Events: FunctionalComponent = () => {
             <Title>Events</Title>
             {events.tag === "Loaded"
                 ? events.value.map((a) => (
-                      <Column.Group key={a.clubId}>
+                      <Column.Group key={a.eventId}>
                           <Column>
-                              <p key={a.clubId}>{a.location}</p>
+                              <p key={a.eventId}>{a.location}</p>
                           </Column>
                           <Column>
-                              <Link href={`/entrants?eventId=${a.clubId}`}>
+                              <Link href={`/entrants?eventId=${a.eventId}`}>
                                   Entrants
                               </Link>
+                              <Link href={`/marshal/${a.eventId}`}>
+                                  Marshal
+                              </Link>
+                              <Link href={`results/${a.eventId}`}>Results</Link>
                           </Column>
                       </Column.Group>
                   ))

@@ -7,7 +7,7 @@
             UserId = userId;
             GivenName = givenName;
             FamilyName = familyName;
-            this.MsaLicense = msaLicense;
+            MsaLicense = msaLicense;
         }
 
         public ulong UserId { get; }

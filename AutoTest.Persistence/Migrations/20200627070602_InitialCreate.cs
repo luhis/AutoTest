@@ -22,6 +22,20 @@ namespace AutoTest.Persistence.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "User",
+                columns: table => new
+                {
+                    UserId = table.Column<ulong>(nullable: false),
+                    GivenName = table.Column<string>(nullable: false),
+                    FamilyName = table.Column<string>(nullable: false),
+                    MsaLicense = table.Column<string>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_User", x => x.UserId);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "AdminEmail",
                 columns: table => new
                 {
@@ -65,8 +79,10 @@ namespace AutoTest.Persistence.Migrations
                 columns: table => new
                 {
                     EntrantId = table.Column<ulong>(nullable: false),
+                    GivenName = table.Column<string>(nullable: false),
+                    FamilyName = table.Column<string>(nullable: false),
                     Registration = table.Column<string>(nullable: false),
-                    Category = table.Column<string>(nullable: false),
+                    Class = table.Column<string>(nullable: false),
                     EventId = table.Column<ulong>(nullable: false),
                     IsPaid = table.Column<bool>(nullable: false)
                 },
@@ -108,6 +124,7 @@ namespace AutoTest.Persistence.Migrations
                     TestRunId = table.Column<ulong>(nullable: false),
                     TestId = table.Column<ulong>(nullable: false),
                     TimeInMS = table.Column<ulong>(nullable: false),
+                    Created = table.Column<DateTime>(nullable: false, defaultValueSql: "(getdate())"),
                     Entrant = table.Column<ulong>(nullable: false)
                 },
                 constraints: table =>
@@ -165,6 +182,9 @@ namespace AutoTest.Persistence.Migrations
 
             migrationBuilder.DropTable(
                 name: "TestRun");
+
+            migrationBuilder.DropTable(
+                name: "User");
 
             migrationBuilder.DropTable(
                 name: "Entrant");

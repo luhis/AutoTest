@@ -62,12 +62,20 @@ namespace AutoTest.Persistence.Migrations
                     b.Property<ulong>("EntrantId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("Category")
+                    b.Property<string>("Class")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<ulong>("EventId")
                         .HasColumnType("INTEGER");
+
+                    b.Property<string>("FamilyName")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("GivenName")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
 
                     b.Property<bool>("IsPaid")
                         .HasColumnType("INTEGER");
@@ -131,6 +139,11 @@ namespace AutoTest.Persistence.Migrations
                     b.Property<ulong>("TestRunId")
                         .HasColumnType("INTEGER");
 
+                    b.Property<DateTime>("Created")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT")
+                        .HasDefaultValueSql("(getdate())");
+
                     b.Property<ulong>("Entrant")
                         .HasColumnType("INTEGER");
 
@@ -147,6 +160,28 @@ namespace AutoTest.Persistence.Migrations
                     b.HasIndex("TestId");
 
                     b.ToTable("TestRun");
+                });
+
+            modelBuilder.Entity("AutoTest.Domain.StorageModels.User", b =>
+                {
+                    b.Property<ulong>("UserId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("FamilyName")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("GivenName")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("MsaLicense")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("UserId");
+
+                    b.ToTable("User");
                 });
 
             modelBuilder.Entity("AutoTest.Domain.StorageModels.AdminEmail", b =>

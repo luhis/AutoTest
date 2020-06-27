@@ -33,6 +33,14 @@ export interface Club {
     readonly website: string;
 }
 
+export interface TestRun {
+    readonly testRunId: number;
+}
+
+export interface User {
+    readonly userId: number;
+}
+
 export interface Event {
     readonly eventId: number;
     readonly clubId: number;
@@ -42,6 +50,8 @@ export interface Event {
 
 export interface Entrant {
     readonly entrantId: number;
+    readonly registration: string;
+    readonly class: string;
 }
 
 export type EditableClub = Override<

@@ -1,11 +1,12 @@
 ﻿using System.Collections.Generic;
 using AutoTest.Domain.StorageModels;
 using MediatR;
+
 namespace AutoTest.Service.Messages
 {
-    public class GetEntrants : IRequest<IEnumerable<Entrant>>
+    public class GetTestRuns : IRequest<IEnumerable<TestRun>>
     {
-        public GetEntrants(ulong eventId)
+        public GetTestRuns(ulong eventId)
         {
             EventId = eventId;
         }

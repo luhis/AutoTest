@@ -23,6 +23,7 @@
             SetupEvent.Setup(modelBuilder.Entity<Event>());
             SetupTest.Setup(modelBuilder.Entity<Test>());
             SetupTestRun.Setup(modelBuilder.Entity<TestRun>());
+            SetupUser.Setup(modelBuilder.Entity<User>());
         }
     }
 }
