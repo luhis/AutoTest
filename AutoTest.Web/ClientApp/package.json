@@ -28,11 +28,11 @@
         "preact-render-to-string": "5.1.9",
         "preact-router": "3.2.1",
         "rbx": "2.2.0",
-        "react-redux": "^7.2.0",
+        "react-redux": "7.2.0",
         "react-use-googlelogin": "0.12.5",
         "redux-persist": "6.0.0",
         "ts-date": "3.0.1",
-        "uuid-int": "^3.0.3"
+        "uuid-int": "3.0.3"
     },
     "devDependencies": {
         "@types/jest": "26.0.3",
