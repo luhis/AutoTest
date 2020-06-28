@@ -3,9 +3,9 @@
     using AutoTest.Domain.StorageModels;
     using MediatR;
 
-    public class CreateClub : IRequest<ulong>
+    public class SaveClub : IRequest<ulong>
     {
-        public CreateClub(Club club)
+        public SaveClub(Club club)
         {
             this.Club = club;
         }

@@ -1,4 +1,7 @@
-﻿namespace AutoTest.Web.Controllers
+﻿using AutoTest.Web.Mapping;
+using AutoTest.Web.Models;
+
+namespace AutoTest.Web.Controllers
 {
     using System.Collections.Generic;
     using System.Threading;
@@ -26,12 +29,9 @@
         public Task<IEnumerable<Club>> GetClubs(CancellationToken cancellationToken) => this.mediator.Send(new GetClubs(), cancellationToken);
 
         [Authorize(policy: Policies.Admin)]
-        [HttpPost]
-        public Task<ulong> Create(Club club, CancellationToken cancellationToken) => this.mediator.Send(new CreateClub(club), cancellationToken);
-
-        [Authorize(policy: Policies.Admin)]
-        [HttpPut]
-        public Task<ulong> Update(ulong clubId, Club club, CancellationToken cancellationToken) => this.mediator.Send(new UpdateClub(club), cancellationToken);
+        [HttpPut("{clubId}")]
+        public Task<ulong> Save(ulong clubId, ClubSaveModel club, CancellationToken cancellationToken) =>
+            this.mediator.Send(new SaveClub(MapClub.Map(clubId, club)), cancellationToken);
 
         [Authorize(policy: Policies.Admin)]
         [HttpDelete]

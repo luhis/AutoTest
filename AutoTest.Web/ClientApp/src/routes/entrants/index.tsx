@@ -1,6 +1,6 @@
 import { FunctionalComponent, h } from "preact";
 import { useEffect, useState } from "preact/hooks";
-import { Title } from "rbx";
+import { Title, Column } from "rbx";
 
 import { getEntrants } from "../../api/entrants";
 import { LoadingState, Entrant } from "../../types/models";
@@ -29,7 +29,10 @@ const Events: FunctionalComponent<Readonly<Props>> = ({ eventId }) => {
         <div>
             <Title>Entrants</Title>
             {ifSome(events, (a) => (
-                <p key={a.entrantId}>{a.entrantId}</p>
+                <Column.Group>
+                    <Column>{a.registration}</Column>
+                    <Column>{`${a.givenName} ${a.familyName}`}</Column>
+                </Column.Group>
             ))}
         </div>
     );

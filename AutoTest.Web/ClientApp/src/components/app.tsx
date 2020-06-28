@@ -16,6 +16,7 @@ import Tests from "../routes/tests";
 import Marshal from "../routes/marshal";
 
 import "rbx/index.css";
+import { Content } from "rbx";
 
 interface Module {
     hot: unknown | undefined;
@@ -51,22 +52,34 @@ const App: FunctionalComponent = () => {
         <div id="app">
             <AccessContext.Provider value={access}>
                 <GoogleAuthContext.Provider value={googleAuth as GoogleAuth}>
-                    <Header />
-                    <Router>
-                        <Route path="/" component={Home} />
-                        <Route path="/profile/" component={Profile} user="me" />
-                        <Route path="/profile/:user" component={Profile} />
-                        <Route path="/clubs/" component={Club} />
-                        <Route path="/events/" component={Events} />
-                        <Route path="/entrants/:eventId" component={Entrant} />
-                        <Route path="/results/:eventId" component={Results} />
-                        <Route path="/tests/:eventId" component={Tests} />
-                        <Route
-                            path="/marshal/:eventId/:testId"
-                            component={Marshal}
-                        />
-                        <NotFoundPage default />
-                    </Router>
+                    <Content>
+                        <Header />
+                        <Router>
+                            <Route path="/" component={Home} />
+                            <Route
+                                path="/profile/"
+                                component={Profile}
+                                user="me"
+                            />
+                            <Route path="/profile/:user" component={Profile} />
+                            <Route path="/clubs/" component={Club} />
+                            <Route path="/events/" component={Events} />
+                            <Route
+                                path="/entrants/:eventId"
+                                component={Entrant}
+                            />
+                            <Route
+                                path="/results/:eventId"
+                                component={Results}
+                            />
+                            <Route path="/tests/:eventId" component={Tests} />
+                            <Route
+                                path="/marshal/:eventId/:testId"
+                                component={Marshal}
+                            />
+                            <NotFoundPage default />
+                        </Router>
+                    </Content>
                 </GoogleAuthContext.Provider>
             </AccessContext.Provider>
         </div>

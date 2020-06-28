@@ -20,7 +20,7 @@ interface Props {
     testId: number;
 }
 
-const uid = UUID(42);
+const uid = UUID(Number.parseInt(process.env.PREACT_APP_KEY_SEED as string));
 
 const Marshal: FunctionalComponent<Readonly<Props>> = ({ eventId, testId }) => {
     const [entrants, setEntrants] = useState<LoadingState<readonly Entrant[]>>({
@@ -73,22 +73,23 @@ const Marshal: FunctionalComponent<Readonly<Props>> = ({ eventId, testId }) => {
             </Field>
             <Field>
                 <Label>Penalties</Label>
+                <Button
+                    onClick={() => {
+                        if (
+                            editing.testId !== undefined &&
+                            editing.timeInMS !== undefined
+                        ) {
+                            void addTestRun(
+                                { ...editing } as TestRun,
+                                getAccessToken(auth)
+                            );
+                        }
+                    }}
+                >
+                    Add
+                </Button>
             </Field>
-            <Button
-                onClick={() => {
-                    if (
-                        editing.testId !== undefined &&
-                        editing.timeInMS !== undefined
-                    ) {
-                        void addTestRun(
-                            { ...editing } as TestRun,
-                            getAccessToken(auth)
-                        );
-                    }
-                }}
-            >
-                Add
-            </Button>
+            <Button>Save</Button>
         </div>
     );
 };

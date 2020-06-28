@@ -11,3 +11,19 @@ export const getClubs = async (
         throwIfNotOk(response);
         return (await response.json()) as Club[];
     });
+
+export const addClub = async (
+    club: Club,
+    token: string | undefined
+): Promise<void> => {
+    const { clubId, ...rest } = club;
+    const response = await fetch(`/api/clubs/${clubId}`, {
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: token ? `Bearer ${token}` : "",
+        },
+        method: "PUT",
+        body: JSON.stringify(rest),
+    });
+    throwIfNotOk(response);
+};

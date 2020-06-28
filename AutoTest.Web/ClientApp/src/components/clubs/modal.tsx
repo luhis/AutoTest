@@ -1,14 +1,14 @@
 import { h, FunctionComponent } from "preact";
 import { Modal, Button, Label, Input, Field } from "rbx";
 
-import { EditableClub } from "../../types/models";
+import { Club } from "../../types/models";
 import { OnChange } from "../../types/inputs";
 
 interface Props {
-    club: EditableClub;
+    club: Club;
     save: () => Promise<void>;
     cancel: () => void;
-    setField: (k: Partial<EditableClub>) => void;
+    setField: (k: Partial<Club>) => void;
 }
 
 const ModalX: FunctionComponent<Props> = ({ save, cancel, club, setField }) => {

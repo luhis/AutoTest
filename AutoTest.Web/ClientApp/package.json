@@ -17,7 +17,7 @@
     },
     "lint-staged": {
         "*.{css,md,scss}": "prettier --write",
-        "*.{js,jsx,ts,tsx}": "eslint --fix"
+        "*.{js,jsx,ts,tsx}": ["replace '\\r\\n' '\n'", "eslint --fix"]
     },
     "eslintIgnore": [
         "build/*"

@@ -78,9 +78,4 @@ export interface Result {
     readonly totalTime: number;
 }
 
-export type EditableClub = Override<
-    Club,
-    { readonly clubId: number | undefined }
->;
-
 export type Override<T, P> = P & Omit<T, keyof P>;

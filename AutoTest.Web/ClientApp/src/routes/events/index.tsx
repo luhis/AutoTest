@@ -1,7 +1,7 @@
 import { FunctionalComponent, h } from "preact";
 import { useEffect, useState } from "preact/hooks";
-import { Title, Column } from "rbx";
-import { Link } from "preact-router";
+import { Title, Column, Button } from "rbx";
+import { route } from "preact-router";
 
 import { getEvents } from "../../api/events";
 import { LoadingState, Event } from "../../types/models";
@@ -26,14 +26,28 @@ const Events: FunctionalComponent<Props> = () => {
         <div>
             <Title>Events</Title>
             {ifSome(events, (a) => (
-                <Column.Group key={a.eventId}>
+                <Column.Group>
                     <Column>
                         <p key={a.eventId}>{a.location}</p>
                     </Column>
                     <Column>
-                        <Link href={`/entrants/${a.eventId}`}>Entrants</Link>
-                        <Link href={`/tests/${a.eventId}`}>Tests</Link>
-                        <Link href={`/results/${a.eventId}`}>Results</Link>
+                        <Button.Group>
+                            <Button
+                                onClick={() => route(`/entrants/${a.eventId}`)}
+                            >
+                                Entrants
+                            </Button>
+                            <Button
+                                onClick={() => route(`/tests/${a.eventId}`)}
+                            >
+                                Tests
+                            </Button>
+                            <Button
+                                onClick={() => route(`/results/${a.eventId}`)}
+                            >
+                                Results
+                            </Button>
+                        </Button.Group>
                     </Column>
                 </Column.Group>
             ))}
