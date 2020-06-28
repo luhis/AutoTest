@@ -1,7 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata;
-
-namespace AutoTest.Persistence.Setup
+﻿namespace AutoTest.Persistence.Setup
 {
     using AutoTest.Domain.StorageModels;
     using Microsoft.EntityFrameworkCore.Metadata.Builders;
@@ -13,7 +10,7 @@ namespace AutoTest.Persistence.Setup
             entity.HasKey(e => e.TestRunId);
             entity.Property(e => e.TestRunId).ValueGeneratedNever().IsRequired();
             entity.Property(e => e.TimeInMS).IsRequired();
-            entity.Property(e => e.Created).HasDefaultValueSql("(getdate())").Metadata.SetAfterSaveBehavior(PropertySaveBehavior.Throw);
+            entity.Property(e => e.Created).IsRequired();
             entity.HasOne<Test>().WithMany().HasForeignKey(p => p.TestId);
             entity.HasOne<Entrant>().WithMany().HasForeignKey(p => p.EntrantId);
         }

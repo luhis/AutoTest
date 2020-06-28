@@ -1,4 +1,4 @@
-namespace AutoTest.Web
+﻿namespace AutoTest.Web
 {
     using System;
     using AutoTest.Persistence;
@@ -13,10 +13,13 @@ namespace AutoTest.Web
         {
             //collection.AddScoped<IAuthorizationHandler, RealtorOrAdminRequirementHandler>();
             //collection.AddScoped<ISimpleRequirements, SimpleRequirements>();
-            collection.AddSingleton(GetDbOptions);
+            ///collection.AddSingleton(GetDbOptions);
         }
 
-        private static DbContextOptions<AutoTestContext> GetDbOptions(IServiceProvider a) => new DbContextOptionsBuilder<AutoTestContext>()
-            .UseSqlite(a.GetService<IConfiguration>().GetSection("DbPath").Get<string>()).Options;
+        private static DbContextOptionsBuilder GetDbOptions(IServiceProvider a) => new DbContextOptionsBuilder<AutoTestContext>()
+            .UseCosmos(
+                "https://localhost:8081",
+                "C2y6yDjf5/R+ob0N8A7Cgv30VRDJIWEHLM+4QDU5DE2nQ9nDuVTqobD4b8mGGyPMbIZnqyMsEcaGQy67XIw/Jw==",
+                databaseName: "AutoTest");
     }
 }

@@ -15,6 +15,12 @@ namespace AutoTest.Persistence
             this.ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
         }
 
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+            => optionsBuilder.UseCosmos(
+                "https://localhost:8081",
+                "C2y6yDjf5/R+ob0N8A7Cgv30VRDJIWEHLM+4QDU5DE2nQ9nDuVTqobD4b8mGGyPMbIZnqyMsEcaGQy67XIw/Jw==",
+                databaseName: "AutoTestDB");
+
         public DbSet<Club>? Clubs { get; private set; }
         public DbSet<Event>? Events { get; private set; }
         public DbSet<Entrant>? Entrants { get; private set; }
@@ -38,20 +44,20 @@ namespace AutoTest.Persistence
         {
             if (this.Database.ProviderName != "Microsoft.EntityFrameworkCore.InMemory")
             {
-                this.Database.Migrate();
-                if (this.Clubs != null && !this.Clubs.Any())
+                this.Database.EnsureCreated();
+                if (this.Clubs != null && this.Clubs.SingleOrDefault(a => a.ClubId == 1) == null)
                 {
                     this.Clubs.Add(new Club(1, "BRMC", "brmc@paypal.com", "https://www.bognor-regis-mc.co.uk"));
                 }
-                if (this.Events != null && !this.Events.Any())
+                if (this.Events != null && this.Events.SingleOrDefault(a => a.EventId == 1) == null)
                 {
                     this.Events.Add(new Event(1, 1, "Kestrel Farm", new DateTime(2000, 1, 1)));
                 }
-                if (this.Tests != null && !this.Tests.Any())
+                if (this.Tests != null && this.Tests.SingleOrDefault(a => a.TestId == 1) == null)
                 {
                     this.Tests.Add(new Test(1, 1, 1, null));
                 }
-                if (this.Entrants != null && !this.Entrants.Any())
+                if (this.Entrants != null && this.Entrants.SingleOrDefault(a => a.EntrantId == 1) == null)
                 {
                     this.Entrants.Add(new Entrant(1, "Matt", "McCorry", "AA05AAA", "A", 1, true));
                 }
