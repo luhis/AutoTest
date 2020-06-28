@@ -17,5 +17,12 @@ namespace AutoTest.Persistence.Setup
             entity.HasOne<Test>().WithMany().HasForeignKey(p => p.TestId);
             entity.HasOne<Entrant>().WithMany().HasForeignKey(p => p.EntrantId);
         }
+        public static void Setup(EntityTypeBuilder<Penalty> entity)
+        {
+            entity.HasKey(e => e.PenaltyId);
+            entity.Property(e => e.PenaltyId).ValueGeneratedNever().IsRequired();
+            entity.Property(e => e.TestRunId).IsRequired();
+            entity.Property(e => e.PenaltyType).IsRequired();
+        }
     }
 }

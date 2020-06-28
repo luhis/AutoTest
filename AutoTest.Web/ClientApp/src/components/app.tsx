@@ -61,7 +61,10 @@ const App: FunctionalComponent = () => {
                         <Route path="/entrants/:eventId" component={Entrant} />
                         <Route path="/results/:eventId" component={Results} />
                         <Route path="/tests/:eventId" component={Tests} />
-                        <Route path="/marshal/:eventId" component={Marshal} />
+                        <Route
+                            path="/marshal/:eventId/:testId"
+                            component={Marshal}
+                        />
                         <NotFoundPage default />
                     </Router>
                 </GoogleAuthContext.Provider>

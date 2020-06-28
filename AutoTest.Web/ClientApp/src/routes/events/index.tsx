@@ -33,7 +33,6 @@ const Events: FunctionalComponent<Props> = () => {
                     <Column>
                         <Link href={`/entrants/${a.eventId}`}>Entrants</Link>
                         <Link href={`/tests/${a.eventId}`}>Tests</Link>
-                        <Link href={`/marshal/${a.eventId}`}>Marshal</Link>
                         <Link href={`/results/${a.eventId}`}>Results</Link>
                     </Column>
                 </Column.Group>

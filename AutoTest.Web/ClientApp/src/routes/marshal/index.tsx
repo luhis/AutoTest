@@ -5,12 +5,10 @@ import UUID from "uuid-int";
 
 import {
     LoadingState,
-    Test,
     Entrant,
     TestRun,
     EditableTestRun,
 } from "../../types/models";
-import { getTests } from "../../api/tests";
 import ifSome from "../../components/shared/isSome";
 import { getEntrants } from "../../api/entrants";
 import { getAccessToken } from "../../api/api";
@@ -19,14 +17,12 @@ import { addTestRun } from "../../api/testRuns";
 
 interface Props {
     eventId: number;
+    testId: number;
 }
 
 const uid = UUID(42);
 
-const Marshal: FunctionalComponent<Readonly<Props>> = ({ eventId }) => {
-    const [tests, setTests] = useState<LoadingState<readonly Test[]>>({
-        tag: "Loading",
-    });
+const Marshal: FunctionalComponent<Readonly<Props>> = ({ eventId, testId }) => {
     const [entrants, setEntrants] = useState<LoadingState<readonly Entrant[]>>({
         tag: "Loading",
     });
@@ -35,16 +31,15 @@ const Marshal: FunctionalComponent<Readonly<Props>> = ({ eventId }) => {
     // });
     const [editing, setEditing] = useState<EditableTestRun>({
         testRunId: uid.uuid(),
-        testId: undefined,
+        testId: testId,
         timeInMS: undefined,
+        penalties: [],
     });
     const auth = useGoogleAuth();
     useEffect(() => {
         const fetchData = async () => {
-            const tests = await getTests(eventId, getAccessToken(auth));
             const entrants = await getEntrants(eventId, getAccessToken(auth));
             //const testRuns = await getTestRuns(eventId, getAccessToken(auth));
-            setTests(tests);
             setEntrants(entrants);
             //setTestRuns(testRuns);
         };
@@ -53,27 +48,6 @@ const Marshal: FunctionalComponent<Readonly<Props>> = ({ eventId }) => {
     return (
         <div>
             <Title>Marshal</Title>
-            <Field>
-                <Label>Test</Label>
-                <Select.Container>
-                    <Select
-                        onChange={(event: { target: { value: number } }) =>
-                            setEditing((e) => ({
-                                ...e,
-                                testId: event.target.value,
-                            }))
-                        }
-                    >
-                        {ifSome(tests, (a) => (
-                            <Select.Option
-                                selected={a.testId === editing.testId}
-                            >
-                                {a.ordinal}
-                            </Select.Option>
-                        ))}
-                    </Select>
-                </Select.Container>
-            </Field>
             <Field>
                 <Label>Entrant</Label>
                 <Select.Container>

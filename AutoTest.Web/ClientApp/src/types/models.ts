@@ -43,11 +43,16 @@ export interface TestRun {
     readonly testId: number;
     readonly timeInMS: number;
     readonly entrantId: number;
+    readonly penalties: readonly Penalty[];
+}
+
+export interface Penalty {
+    readonly penaltyType: number;
 }
 
 export type EditableTestRun = Override<
     Partial<TestRun>,
-    { readonly testRunId: number }
+    { readonly testRunId: number; readonly penalties: readonly Penalty[] }
 >;
 
 export interface User {
