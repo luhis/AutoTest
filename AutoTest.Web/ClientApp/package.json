@@ -30,7 +30,7 @@
         "preact-render-to-string": "5.1.9",
         "preact-router": "3.2.1",
         "rbx": "2.2.0",
-        "react-icons": "^3.10.0",
+        "react-icons": "3.10.0",
         "react-redux": "7.2.0",
         "react-use-googlelogin": "0.12.5",
         "redux-persist": "6.0.0",
