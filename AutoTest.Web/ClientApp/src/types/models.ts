@@ -46,8 +46,17 @@ export interface TestRun {
     readonly penalties: readonly Penalty[];
 }
 
+export enum PenaltyType {
+    Late = 0,
+    NoAttendance = 1,
+    WrongTest = 2,
+    HitBarrier = 3,
+    FailToStop = 4,
+}
+
 export interface Penalty {
-    readonly penaltyType: number;
+    readonly penaltyType: PenaltyType;
+    readonly instanceCount: number;
 }
 
 export type EditableTestRun = Override<

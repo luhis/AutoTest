@@ -1,17 +1,11 @@
 import { FunctionalComponent, h } from "preact";
 import { useEffect, useState } from "preact/hooks";
-import { Column, Title, Button } from "rbx";
-import { route } from "preact-router";
-import UUID from "uuid-int";
 
 import { getClubs, addClub } from "../../api/clubs";
 import { useGoogleAuth } from "../../components/app";
 import { getAccessToken } from "../../api/api";
 import { Club, LoadingState } from "../../types/models";
-import ifSome from "../../components/shared/isSome";
-import Modal from "../../components/clubs/Modal";
-
-const uid = UUID(Number.parseInt(process.env.PREACT_APP_KEY_SEED as string));
+import Clubs from "../../components/clubs";
 
 const ClubComponent: FunctionalComponent = () => {
     const auth = useGoogleAuth();
@@ -34,56 +28,12 @@ const ClubComponent: FunctionalComponent = () => {
         }
     };
     return (
-        <div>
-            <Title>Clubs</Title>
-            {ifSome(clubs, (a) => (
-                <Column.Group key={a.clubId}>
-                    <Column>
-                        {a.clubName}
-                        &nbsp;
-                        {a.website !== "" ? (
-                            <a href={a.website}>Homepage</a>
-                        ) : null}
-                    </Column>
-                    <Column>
-                        <Button.Group>
-                            <Button
-                                onClick={() =>
-                                    route(`/events?clubId=${a.clubId}`)
-                                }
-                            >
-                                Events
-                            </Button>
-                            <Button onClick={() => setEditingClub(a)}>
-                                Edit
-                            </Button>
-                        </Button.Group>
-                    </Column>
-                </Column.Group>
-            ))}
-            <Button
-                onClick={() =>
-                    setEditingClub({
-                        clubId: uid.uuid(),
-                        clubName: "",
-                        website: "",
-                        clubPaymentAddress: "",
-                    })
-                }
-            >
-                Add Club
-            </Button>
-            {editingClub ? (
-                <Modal
-                    club={editingClub}
-                    setField={(a: Partial<Club>) =>
-                        setEditingClub((b) => ({ ...b, ...a } as Club))
-                    }
-                    cancel={() => setEditingClub(undefined)}
-                    save={save}
-                />
-            ) : null}
-        </div>
+        <Clubs
+            clubs={clubs}
+            editingClub={editingClub}
+            save={save}
+            setEditingClub={setEditingClub}
+        />
     );
 };
 
