@@ -1,7 +1,7 @@
 import { FunctionalComponent, h } from "preact";
 import { useEffect, useState } from "preact/hooks";
-import { Title, Column } from "rbx";
-import { Link } from "preact-router";
+import { Title, Column, Button } from "rbx";
+import { route } from "preact-router";
 
 import { LoadingState, Test } from "../../types/models";
 import { getTests } from "../../api/tests";
@@ -31,9 +31,15 @@ const Tests: FunctionalComponent<Readonly<Props>> = ({ eventId }) => {
                         <p>{a.ordinal}</p>
                     </Column>
                     <Column>
-                        <Link href={`/marshal/${eventId}/${a.testId}`}>
-                            Marshal
-                        </Link>
+                        <Button.Group>
+                            <Button
+                                onClick={() =>
+                                    route(`/marshal/${eventId}/${a.testId}`)
+                                }
+                            >
+                                Marshal
+                            </Button>
+                        </Button.Group>
                     </Column>
                 </Column.Group>
             ))}
