@@ -1,4 +1,9 @@
-﻿namespace AutoTest.Web.Controllers
+﻿using AutoTest.Web.Authorization;
+using AutoTest.Web.Mapping;
+using AutoTest.Web.Models;
+using Microsoft.AspNetCore.Authorization;
+
+namespace AutoTest.Web.Controllers
 {
     using System.Collections.Generic;
     using System.Threading;
@@ -24,5 +29,10 @@
         {
             return this.mediator.Send(new GetAllEvents(), cancellationToken);
         }
+
+        [Authorize(policy: Policies.Admin)]
+        [HttpPut("{eventId}")]
+        public Task<ulong> Save(ulong eventId, EventSaveModel @event, CancellationToken cancellationToken) =>
+            this.mediator.Send(new SaveEvent(MapClub.Map(eventId, @event)), cancellationToken);
     }
 }

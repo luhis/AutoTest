@@ -73,6 +73,7 @@ export interface Event {
     readonly clubId: number;
     readonly location: string;
     readonly startTime: ValidDate;
+    readonly testCount: number;
 }
 
 export interface Entrant {
