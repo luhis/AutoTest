@@ -78,6 +78,7 @@ export interface Event {
 
 export interface Entrant {
     readonly entrantId: number;
+    readonly eventId: number;
     readonly registration: string;
     readonly class: string;
     readonly givenName: string;

@@ -1,16 +1,15 @@
 import { FunctionalComponent, h } from "preact";
 import { useEffect, useState } from "preact/hooks";
-import { Title, Column, Button } from "rbx";
-import { route } from "preact-router";
+import { Title, Button } from "rbx";
 import UUID from "uuid-int";
 import { fromDateOrThrow } from "ts-date";
 
 import { getEvents, addEvent } from "../../api/events";
 import { LoadingState, Event } from "../../types/models";
-import ifSome from "../../components/shared/isSome";
 import Modal from "../../components/events/Modal";
 import { getAccessToken } from "../../api/api";
 import { useGoogleAuth } from "../../components/app";
+import List from "../../components/events/List";
 
 interface Props {
     clubId: number | undefined;
@@ -42,35 +41,7 @@ const Events: FunctionalComponent<Props> = () => {
     return (
         <div>
             <Title>Events</Title>
-            {ifSome(events, (a) => (
-                <Column.Group>
-                    <Column>
-                        <p key={a.eventId}>{a.location}</p>
-                    </Column>
-                    <Column>
-                        <Button.Group>
-                            <Button onClick={() => setEditingEvent(a)}>
-                                Edit
-                            </Button>
-                            <Button
-                                onClick={() => route(`/entrants/${a.eventId}`)}
-                            >
-                                Entrants
-                            </Button>
-                            <Button
-                                onClick={() => route(`/tests/${a.eventId}`)}
-                            >
-                                Tests
-                            </Button>
-                            <Button
-                                onClick={() => route(`/results/${a.eventId}`)}
-                            >
-                                Results
-                            </Button>
-                        </Button.Group>
-                    </Column>
-                </Column.Group>
-            ))}
+            <List events={events} setEditingEvent={setEditingEvent} />
             <Button
                 onClick={() =>
                     setEditingEvent({

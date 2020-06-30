@@ -1,4 +1,4 @@
-import { FunctionalComponent, h } from "preact";
+import { FunctionalComponent, h, Fragment } from "preact";
 import { LoadingState } from "../../types/models";
 
 const ifSome = <T,>(
@@ -9,7 +9,13 @@ const ifSome = <T,>(
         case "Loaded": {
             if (arr.value.length) {
                 // bad idea maybe, maybe inject in a keyMap function
-                return arr.value.map((a, i) => <IfIs key={i} {...a} />);
+                return (
+                    <Fragment>
+                        {arr.value.map((a, i) => (
+                            <IfIs key={i} {...a} />
+                        ))}
+                    </Fragment>
+                );
             } else {
                 return <span>No Data</span>;
             }

@@ -12,3 +12,19 @@ export const getEntrants = async (
         throwIfNotOk(response);
         return (await response.json()) as Entrant[];
     });
+
+export const addEntrant = async (
+    entrant: Entrant,
+    token: string | undefined
+): Promise<void> => {
+    const { entrantId, ...rest } = entrant;
+    const response = await fetch(`/api/entrant/${entrantId}`, {
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: token ? `Bearer ${token}` : "",
+        },
+        method: "PUT",
+        body: JSON.stringify(rest),
+    });
+    throwIfNotOk(response);
+};

@@ -1,26 +1,38 @@
 import { FunctionalComponent, h } from "preact";
 import { useEffect, useState } from "preact/hooks";
-import { Title, Column } from "rbx";
+import { Title, Button } from "rbx";
+import UUID from "uuid-int";
 
-import { getEntrants } from "../../api/entrants";
+import { getEntrants, addEntrant } from "../../api/entrants";
 import { LoadingState, Entrant } from "../../types/models";
 import { useGoogleAuth } from "../../components/app";
 import { getAccessToken } from "../../api/api";
-import ifSome from "../../components/shared/isSome";
+import List from "../../components/entrants/List";
+import EntrantsModal from "../../components/entrants/Modal";
 
 interface Props {
     eventId: number;
 }
+const uid = UUID(Number.parseInt(process.env.PREACT_APP_KEY_SEED as string));
 
 const Events: FunctionalComponent<Readonly<Props>> = ({ eventId }) => {
-    const [events, setEvents] = useState<LoadingState<readonly Entrant[]>>({
+    const [entrants, setEntrants] = useState<LoadingState<readonly Entrant[]>>({
         tag: "Loading",
     });
+    const [editingEntrant, setEditingEntrant] = useState<Entrant | undefined>(
+        undefined
+    );
     const auth = useGoogleAuth();
+    const save = async () => {
+        if (editingEntrant) {
+            await addEntrant(editingEntrant, getAccessToken(auth));
+            setEditingEntrant(undefined);
+            setEntrants(await getEntrants(eventId, getAccessToken(auth)));
+        }
+    };
     useEffect(() => {
         const fetchData = async () => {
-            const events = await getEntrants(eventId, getAccessToken(auth));
-            setEvents(events);
+            setEntrants(await getEntrants(eventId, getAccessToken(auth)));
         };
         void fetchData();
     }, [auth, eventId]);
@@ -28,12 +40,31 @@ const Events: FunctionalComponent<Readonly<Props>> = ({ eventId }) => {
     return (
         <div>
             <Title>Entrants</Title>
-            {ifSome(events, (a) => (
-                <Column.Group>
-                    <Column>{a.registration}</Column>
-                    <Column>{`${a.givenName} ${a.familyName}`}</Column>
-                </Column.Group>
-            ))}
+            <List entrants={entrants} setEditingEntrant={setEditingEntrant} />
+            <Button
+                onClick={() =>
+                    setEditingEntrant({
+                        entrantId: uid.uuid(),
+                        eventId: eventId,
+                        registration: "",
+                        class: "",
+                        givenName: "",
+                        familyName: "",
+                    })
+                }
+            >
+                Add Club
+            </Button>
+            {editingEntrant ? (
+                <EntrantsModal
+                    entrant={editingEntrant}
+                    setField={(a: Partial<Entrant>) =>
+                        setEditingEntrant((b) => ({ ...b, ...a } as Entrant))
+                    }
+                    cancel={() => setEditingEntrant(undefined)}
+                    save={save}
+                />
+            ) : null}
         </div>
     );
 };
