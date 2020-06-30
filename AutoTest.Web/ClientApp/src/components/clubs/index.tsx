@@ -1,11 +1,12 @@
 import { FunctionComponent, h } from "preact";
-import { Title, Column, Button, Modal } from "rbx";
+import { Title, Column, Button } from "rbx";
 import { route } from "preact-router";
 import UUID from "uuid-int";
 
 import { LoadingState, Club } from "../../types/models";
 import ifSome from "../shared/isSome";
 import { StateUpdater } from "preact/hooks";
+import Modal from "./Modal";
 
 const uid = UUID(Number.parseInt(process.env.PREACT_APP_KEY_SEED as string));
 

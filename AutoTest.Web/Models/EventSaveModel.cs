@@ -4,8 +4,6 @@ namespace AutoTest.Web.Models
 {
     public class EventSaveModel
     {
-        public ulong EventId { get; set; }
-
         public ulong ClubId { get; set; }
 
         public string Location { get; set; } = string.Empty;

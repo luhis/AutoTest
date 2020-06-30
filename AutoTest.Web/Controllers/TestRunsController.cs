@@ -28,8 +28,8 @@ namespace AutoTest.Web.Controllers
         }
 
         [Authorize(Policies.Marshal)]
-        [HttpPost]
-        public Task Create(TestRun testRun, CancellationToken cancellationToken)
+        [HttpPut("{testRunId}")]
+        public Task Create(ulong testRunId, TestRun testRun, CancellationToken cancellationToken)
         {
             return mediator.Send(new AddTestRun(testRun), cancellationToken);
         }

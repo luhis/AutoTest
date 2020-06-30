@@ -6,11 +6,11 @@ using MediatR;
 
 namespace AutoTest.Service.Handlers
 {
-    public class AddTestRunsHandler : IRequestHandler<AddTestRun>
+    public class AddTestRunHandler : IRequestHandler<AddTestRun>
     {
         private readonly AutoTestContext autoTestContext;
 
-        public AddTestRunsHandler(AutoTestContext autoTestContext)
+        public AddTestRunHandler(AutoTestContext autoTestContext)
         {
             this.autoTestContext = autoTestContext;
         }

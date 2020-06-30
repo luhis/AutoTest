@@ -18,9 +18,10 @@ export const addTestRun = async (
     token: string | undefined
 ): Promise<ApiResponse<readonly TestRun[]>> =>
     toApiResponse(async () => {
-        const response = await fetch(`/api/testRuns/`, {
-            method: "POST",
-            body: JSON.stringify(testRun),
+        const { testRunId, ...rest } = testRun;
+        const response = await fetch(`/api/testRuns/${testRunId}`, {
+            method: "PUT",
+            body: JSON.stringify(rest),
             headers: { Authorization: token ? `Bearer ${token}` : "" },
         });
         throwIfNotOk(response);

@@ -1,4 +1,7 @@
-﻿namespace AutoTest.Web.Controllers
+﻿using AutoTest.Web.Mapping;
+using AutoTest.Web.Models;
+
+namespace AutoTest.Web.Controllers
 {
     using System.Collections.Generic;
     using System.Threading;
@@ -25,5 +28,8 @@
         [HttpGet("{eventId}")]
         public Task<IEnumerable<Entrant>> GetEntrants(ulong eventId, CancellationToken cancellationToken) => this.mediator.Send(new GetEntrants(eventId), cancellationToken);
 
+        [Authorize(policy: Policies.Admin)]
+        [HttpPut("{eventId}")]
+        public Task PutEntrant(ulong eventId, EntrantSaveModel entrantSaveModel, CancellationToken cancellationToken) => this.mediator.Send(new SaveEntrant(MapClub.Map(eventId, entrantSaveModel)), cancellationToken);
     }
 }

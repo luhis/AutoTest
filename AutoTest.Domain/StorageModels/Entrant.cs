@@ -15,7 +15,9 @@
         }
 
         public ulong EntrantId { get; }
+
         public string GivenName { get; }
+
         public string FamilyName { get; }
 
         public string Registration { get; }
