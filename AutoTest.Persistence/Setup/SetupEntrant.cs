@@ -12,8 +12,8 @@
             entity.Property(e => e.Class).IsRequired();
             entity.Property(e => e.GivenName).IsRequired();
             entity.Property(e => e.FamilyName).IsRequired();
-            entity.Property(e => e.Registration).IsRequired();
             entity.Property(e => e.IsPaid).IsRequired();
+            entity.Property(e => e.Vehicle).IsRequired();
             entity.HasOne<Event>().WithMany().HasForeignKey(p => p.EventId);
         }
     }
