@@ -1,8 +1,7 @@
 import { FunctionalComponent, h } from "preact";
 import { useEffect, useState } from "preact/hooks";
-import { Title, Select, Label, Field, Input, Button, List } from "rbx";
+import { Title, Select, Label, Field, Input, Button } from "rbx";
 import UUID from "uuid-int";
-import { FaPlus, FaMinus } from "react-icons/fa";
 
 import {
     LoadingState,
@@ -16,10 +15,11 @@ import { getEntrants } from "../../api/entrants";
 import { getAccessToken } from "../../api/api";
 import { useGoogleAuth } from "../../components/app";
 import { addTestRun } from "../../api/testRuns";
+import Penalties from "../../components/marshal/Penalties";
 
 interface Props {
-    eventId: number;
-    testId: number;
+    eventId: string;
+    testId: string;
 }
 
 const uid = UUID(Number.parseInt(process.env.PREACT_APP_KEY_SEED as string));
@@ -34,7 +34,7 @@ const Marshal: FunctionalComponent<Readonly<Props>> = ({ eventId, testId }) => {
 
     const getNewEditableTest = () => ({
         testRunId: uid.uuid(),
-        testId: testId,
+        testId: Number.parseInt(testId),
         timeInMS: undefined,
         penalties: [],
     });
@@ -44,24 +44,16 @@ const Marshal: FunctionalComponent<Readonly<Props>> = ({ eventId, testId }) => {
     const auth = useGoogleAuth();
     useEffect(() => {
         const fetchData = async () => {
-            const entrants = await getEntrants(eventId, getAccessToken(auth));
+            const entrants = await getEntrants(
+                Number.parseInt(eventId),
+                getAccessToken(auth)
+            );
             //const testRuns = await getTestRuns(eventId, getAccessToken(auth));
             setEntrants(entrants);
             //setTestRuns(testRuns);
         };
         void fetchData();
     }, [auth, eventId]);
-
-    const getCount = (penaltyType: PenaltyType) => {
-        const found = editing.penalties.find(
-            (a) => a.penaltyType === penaltyType
-        );
-        if (found === undefined) {
-            return 0;
-        } else {
-            return found.instanceCount;
-        }
-    };
 
     const increase = (penaltyType: PenaltyType) => {
         setEditing((a) => {
@@ -133,49 +125,28 @@ const Marshal: FunctionalComponent<Readonly<Props>> = ({ eventId, testId }) => {
                 <Input type="number" />
             </Field>
             <Field>
-                <Label>Penalties</Label>
-                <List>
-                    {Object.keys(PenaltyType)
-                        .filter((key) => !isNaN(Number(key)))
-                        .map((key) => (
-                            <List.Item key={key}>
-                                {PenaltyType[Number(key)]}{" "}
-                                {getCount(Number(key) as PenaltyType)}
-                                <Button
-                                    onClick={() =>
-                                        increase(Number(key) as PenaltyType)
-                                    }
-                                >
-                                    <FaPlus />
-                                </Button>
-                                <Button
-                                    onClick={() =>
-                                        decrease(Number(key) as PenaltyType)
-                                    }
-                                >
-                                    <FaMinus />
-                                </Button>
-                            </List.Item>
-                        ))}
-                </List>
-                <Button
-                    onClick={() => {
-                        if (
-                            editing.testId !== undefined &&
-                            editing.timeInMS !== undefined
-                        ) {
-                            void addTestRun(
-                                { ...editing } as TestRun,
-                                getAccessToken(auth)
-                            );
-                            setEditing(getNewEditableTest());
-                        }
-                    }}
-                >
-                    Add
-                </Button>
+                <Penalties
+                    penalties={editing.penalties}
+                    increase={increase}
+                    decrease={decrease}
+                />
             </Field>
-            <Button>Save</Button>
+            <Button
+                onClick={() => {
+                    if (
+                        editing.testId !== undefined &&
+                        editing.timeInMS !== undefined
+                    ) {
+                        void addTestRun(
+                            { ...editing } as TestRun,
+                            getAccessToken(auth)
+                        );
+                        setEditing(getNewEditableTest());
+                    }
+                }}
+            >
+                Add
+            </Button>
         </div>
     );
 };
