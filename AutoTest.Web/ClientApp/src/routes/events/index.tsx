@@ -12,11 +12,11 @@ import { useGoogleAuth } from "../../components/app";
 import List from "../../components/events/List";
 
 interface Props {
-    clubId: number | undefined;
+    clubId: string | undefined;
 }
 const uid = UUID(Number.parseInt(process.env.PREACT_APP_KEY_SEED as string));
 
-const Events: FunctionalComponent<Props> = () => {
+const Events: FunctionalComponent<Props> = ({ clubId }) => {
     const auth = useGoogleAuth();
     const [events, setEvents] = useState<LoadingState<readonly Event[]>>({
         tag: "Loading",
@@ -45,7 +45,8 @@ const Events: FunctionalComponent<Props> = () => {
             <Button
                 onClick={() =>
                     setEditingEvent({
-                        clubId: 1, // todo
+                        clubId:
+                            clubId === undefined ? 0 : Number.parseInt(clubId), // todo
                         eventId: uid.uuid(),
                         location: "",
                         startTime: fromDateOrThrow(new Date()),

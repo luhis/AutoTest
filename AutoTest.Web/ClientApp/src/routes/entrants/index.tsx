@@ -12,11 +12,12 @@ import List from "../../components/entrants/List";
 import EntrantsModal from "../../components/entrants/Modal";
 
 interface Props {
-    eventId: number;
+    eventId: string;
 }
 const uid = UUID(Number.parseInt(process.env.PREACT_APP_KEY_SEED as string));
 
 const Events: FunctionalComponent<Readonly<Props>> = ({ eventId }) => {
+    const eventIdNum = Number.parseInt(eventId);
     const [entrants, setEntrants] = useState<LoadingState<readonly Entrant[]>>({
         tag: "Loading",
     });
@@ -28,15 +29,15 @@ const Events: FunctionalComponent<Readonly<Props>> = ({ eventId }) => {
         if (editingEntrant) {
             await addEntrant(editingEntrant, getAccessToken(auth));
             setEditingEntrant(undefined);
-            setEntrants(await getEntrants(eventId, getAccessToken(auth)));
+            setEntrants(await getEntrants(eventIdNum, getAccessToken(auth)));
         }
     };
     useEffect(() => {
         const fetchData = async () => {
-            setEntrants(await getEntrants(eventId, getAccessToken(auth)));
+            setEntrants(await getEntrants(eventIdNum, getAccessToken(auth)));
         };
         void fetchData();
-    }, [auth, eventId]);
+    }, [auth, eventIdNum]);
 
     return (
         <div>
@@ -46,7 +47,7 @@ const Events: FunctionalComponent<Readonly<Props>> = ({ eventId }) => {
                 onClick={() =>
                     setEditingEntrant({
                         entrantId: uid.uuid(),
-                        eventId: eventId,
+                        eventId: eventIdNum,
                         class: "",
                         givenName: "",
                         familyName: "",
