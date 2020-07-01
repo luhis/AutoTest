@@ -16,6 +16,7 @@ import { getAccessToken } from "../../api/api";
 import { useGoogleAuth } from "../../components/app";
 import { addTestRun } from "../../api/testRuns";
 import Penalties from "../../components/marshal/Penalties";
+import { OnChange, OnSelectChange } from "../../types/inputs";
 
 interface Props {
     eventId: string;
@@ -105,7 +106,7 @@ const Marshal: FunctionalComponent<Readonly<Props>> = ({ eventId, testId }) => {
                 <Label>Entrant</Label>
                 <Select.Container>
                     <Select
-                        onChange={(event: { target: { value: number } }) =>
+                        onChange={(event: OnSelectChange) =>
                             setEditing((e) => ({
                                 ...e,
                                 entrantId: event.target.value,
@@ -113,16 +114,25 @@ const Marshal: FunctionalComponent<Readonly<Props>> = ({ eventId, testId }) => {
                         }
                     >
                         {ifSome(entrants, (a) => (
-                            <Select.Option>
-                                {a.registration} - {a.givenName} {a.familyName}
+                            <Select.Option value={a.entrantId}>
+                                {a.vehicle.registration} - {a.givenName}{" "}
+                                {a.familyName}
                             </Select.Option>
                         ))}
                     </Select>
                 </Select.Container>
             </Field>
             <Field>
-                <Label>Time</Label>
-                <Input type="number" />
+                <Label>Time (Secs)</Label>
+                <Input
+                    type="number"
+                    onChange={(e: OnChange) =>
+                        setEditing((a) => ({
+                            ...a,
+                            timeInMS: Number.parseFloat(e.target.value) * 1000,
+                        }))
+                    }
+                />
             </Field>
             <Field>
                 <Penalties

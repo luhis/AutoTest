@@ -15,7 +15,7 @@ const List: FunctionalComponent<Readonly<Props>> = ({
 }) =>
     ifSome(entrants, (a) => (
         <Column.Group>
-            <Column>{a.registration}</Column>
+            <Column>{a.vehicle.registration}</Column>
             <Column>{`${a.givenName} ${a.familyName}`}</Column>
             <Column>
                 <Button.Group>

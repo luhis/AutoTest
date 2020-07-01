@@ -1,5 +1,6 @@
 import { h, FunctionComponent } from "preact";
 import { Modal, Button, Label, Input, Field } from "rbx";
+import { DeepPartial } from "tsdef";
 
 import { Entrant } from "../../types/models";
 import { OnChange } from "../../types/inputs";
@@ -8,7 +9,7 @@ interface Props {
     entrant: Entrant;
     save: () => Promise<void>;
     cancel: () => void;
-    setField: (k: Partial<Entrant>) => void;
+    setField: (k: DeepPartial<Entrant>) => void;
 }
 
 const EntrantsModal: FunctionComponent<Props> = ({
@@ -22,7 +23,7 @@ const EntrantsModal: FunctionComponent<Props> = ({
             <Modal.Background />
             <Modal.Card>
                 <Modal.Card.Head>
-                    {entrant.entrantId === undefined ? "Add" : "Edit"} Club
+                    {entrant.entrantId === undefined ? "Add" : "Edit"} Entrant
                 </Modal.Card.Head>
                 <Modal.Card.Body>
                     <Field>
@@ -50,6 +51,17 @@ const EntrantsModal: FunctionComponent<Props> = ({
                             onChange={(e: OnChange): void =>
                                 setField({
                                     class: e.target.value,
+                                })
+                            }
+                        />
+                    </Field>
+                    <Field>
+                        <Label>Registration</Label>
+                        <Input
+                            value={entrant.vehicle.registration}
+                            onChange={(e: OnChange): void =>
+                                setField({
+                                    vehicle: { registration: e.target.value },
                                 })
                             }
                         />

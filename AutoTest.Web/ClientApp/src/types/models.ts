@@ -79,10 +79,18 @@ export interface Event {
 export interface Entrant {
     readonly entrantId: number;
     readonly eventId: number;
-    readonly registration: string;
     readonly class: string;
     readonly givenName: string;
     readonly familyName: string;
+    readonly vehicle: Vehicle;
+}
+
+export interface Vehicle {
+    readonly make: string;
+    readonly model: string;
+    readonly year: number;
+    readonly registration: string;
+    readonly displacement: number;
 }
 
 export interface Result {

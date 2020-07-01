@@ -2,6 +2,7 @@ import { FunctionalComponent, h } from "preact";
 import { useEffect, useState } from "preact/hooks";
 import { Title, Button } from "rbx";
 import UUID from "uuid-int";
+import { DeepPartial } from "tsdef";
 
 import { getEntrants, addEntrant } from "../../api/entrants";
 import { LoadingState, Entrant } from "../../types/models";
@@ -46,19 +47,25 @@ const Events: FunctionalComponent<Readonly<Props>> = ({ eventId }) => {
                     setEditingEntrant({
                         entrantId: uid.uuid(),
                         eventId: eventId,
-                        registration: "",
                         class: "",
                         givenName: "",
                         familyName: "",
+                        vehicle: {
+                            make: "",
+                            model: "",
+                            year: 0,
+                            displacement: 0,
+                            registration: "",
+                        },
                     })
                 }
             >
-                Add Club
+                Add Entrant
             </Button>
             {editingEntrant ? (
                 <EntrantsModal
                     entrant={editingEntrant}
-                    setField={(a: Partial<Entrant>) =>
+                    setField={(a: DeepPartial<Entrant>) =>
                         setEditingEntrant((b) => ({ ...b, ...a } as Entrant))
                     }
                     cancel={() => setEditingEntrant(undefined)}

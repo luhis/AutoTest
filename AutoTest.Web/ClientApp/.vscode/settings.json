@@ -1,7 +1,8 @@
 {
   "cSpell.words": [
     "googlelogin",
-    "preact"
+    "preact",
+    "tsdef"
   ],
   "files.eol": "\n",
   "typescript.tsdk": "node_modules\\typescript\\lib"

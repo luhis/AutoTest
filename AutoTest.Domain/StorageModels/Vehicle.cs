@@ -2,25 +2,22 @@
 {
     public class Vehicle
     {
-        public Vehicle(ulong vehicleId, string @class, string make, string model, int year, int displacement)
+        public Vehicle(string make, string model, int year, int displacement, string registration)
         {
-            VehicleId = vehicleId;
-            Class = @class;
             Make = make;
             Model = model;
             Year = year;
             Displacement = displacement;
+            Registration = registration;
         }
-
-        public ulong VehicleId { get; }
-
-        public string Class { get; }
 
         public string Make { get; }
 
         public string Model { get; }
 
         public int Year { get; }
+
+        public string Registration { get; }
 
         public int Displacement { get; }
     }
