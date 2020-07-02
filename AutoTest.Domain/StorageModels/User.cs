@@ -2,13 +2,13 @@
 {
     public class User
     {
-        public User(ulong userId, string givenName, string familyName, string msaLicense, Vehicle vehicle)
+        public User(ulong userId, string givenName, string familyName, string msaLicense)
         {
             UserId = userId;
             GivenName = givenName;
             FamilyName = familyName;
             MsaLicense = msaLicense;
-            Vehicle = vehicle;
+            //Vehicle = vehicle;
         }
 
         public ulong UserId { get; }
@@ -19,6 +19,6 @@
 
         public string MsaLicense { get; }
 
-        public Vehicle Vehicle { get; }
+        public Vehicle Vehicle { get; set; } = new Vehicle();
     }
 }

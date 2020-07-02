@@ -11,6 +11,6 @@ namespace AutoTest.Web.Mapping
         public static Event Map(ulong eventId, EventSaveModel @event) => new Event(eventId, @event.ClubId, @event.Location, @event.StartTime, @event.TestCount);
         public static TestRun Map(ulong eventId, TestRunSaveModel test) => new TestRun(eventId, test.TestId, test.TimeInMS, test.EntrantId, test.Created);
 
-        public static Entrant Map(ulong entrantId, EntrantSaveModel entrant) => new Entrant(entrantId, entrant.GivenName, entrant.FamilyName, entrant.Class, entrant.EventId, entrant.IsPaid, new Vehicle(entrant.Vehicle.Make, entrant.Vehicle.Model, entrant.Vehicle.Year, entrant.Vehicle.Displacement, entrant.Vehicle.Registration));
+        public static Entrant Map(ulong entrantId, EntrantSaveModel entrant) => new Entrant(entrantId, entrant.GivenName, entrant.FamilyName, entrant.Class, entrant.EventId, entrant.IsPaid);//, new Vehicle(entrant.Vehicle.VehicleId, entrant.Vehicle.Make, entrant.Vehicle.Model, entrant.Vehicle.Year, entrant.Vehicle.Displacement, entrant.Vehicle.Registration));
     }
 }

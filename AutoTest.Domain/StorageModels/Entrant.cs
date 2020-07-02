@@ -3,7 +3,7 @@
     public class Entrant
     {
 
-        public Entrant(ulong entrantId, string givenName, string familyName, string @class, ulong eventId, bool isPaid, Vehicle vehicle)
+        public Entrant(ulong entrantId, string givenName, string familyName, string @class, ulong eventId, bool isPaid)
         {
             GivenName = givenName;
             FamilyName = familyName;
@@ -11,7 +11,7 @@
             Class = @class;
             EventId = eventId;
             IsPaid = isPaid;
-            Vehicle = vehicle;
+            //Vehicle = vehicle;
         }
 
         public ulong EntrantId { get; }
@@ -26,6 +26,6 @@
 
         public bool IsPaid { get; }
 
-        public Vehicle Vehicle { get; }
+        public Vehicle Vehicle { get; } = new Vehicle();
     }
 }
