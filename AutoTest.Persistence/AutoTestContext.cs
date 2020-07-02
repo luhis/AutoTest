@@ -15,12 +15,6 @@ namespace AutoTest.Persistence
             this.ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
         }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-            => optionsBuilder.UseCosmos(
-                "https://localhost:8081",
-                "C2y6yDjf5/R+ob0N8A7Cgv30VRDJIWEHLM+4QDU5DE2nQ9nDuVTqobD4b8mGGyPMbIZnqyMsEcaGQy67XIw/Jw==",
-                databaseName: "AutoTestDB");
-
         public DbSet<Club>? Clubs { get; private set; }
         public DbSet<Event>? Events { get; private set; }
         public DbSet<Entrant>? Entrants { get; private set; }

@@ -17,7 +17,7 @@ namespace AutoTest.Integration.Test.Fixtures
     {
         private static readonly IReadOnlyList<Type> ToRemove = new Type[]
         {
-            // typeof(DbContextOptions<AutoTestContext>)
+            typeof(DbContextOptions<AutoTestContext>)
         };
 
         public HttpClient GetUnAuthorisedClient()
@@ -38,10 +38,10 @@ namespace AutoTest.Integration.Test.Fixtures
                 }
 
                 // Add ApplicationDbContext using an in-memory database for testing.
-                //services.AddDbContext<AutoTestContext>(options =>
-                //{
-                //    options.UseInMemoryDatabase("InMemoryDbForTesting");
-                //});
+                services.AddDbContext<AutoTestContext>(options =>
+                {
+                    options.UseInMemoryDatabase("InMemoryDbForTesting");
+                });
 
                 // Build the service provider.
                 var sp = services.BuildServiceProvider();

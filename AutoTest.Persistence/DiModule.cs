@@ -8,7 +8,7 @@ namespace AutoTest.Persistence
     {
         public static void AddPersistence(this IServiceCollection services)
         {
-            services.AddDbContext<AutoTestContext>();
+
         }
     }
 }

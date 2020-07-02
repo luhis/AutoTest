@@ -13,13 +13,10 @@
         {
             //collection.AddScoped<IAuthorizationHandler, RealtorOrAdminRequirementHandler>();
             //collection.AddScoped<ISimpleRequirements, SimpleRequirements>();
-            collection.AddSingleton(GetDbOptions);
-        }
-
-        private static DbContextOptionsBuilder<AutoTestContext> GetDbOptions(IServiceProvider a) => new DbContextOptionsBuilder<AutoTestContext>()
-            .UseCosmos(
+            collection.AddDbContext<AutoTestContext>(o => o.UseCosmos(
                 "https://localhost:8081",
                 "C2y6yDjf5/R+ob0N8A7Cgv30VRDJIWEHLM+4QDU5DE2nQ9nDuVTqobD4b8mGGyPMbIZnqyMsEcaGQy67XIw/Jw==",
-                databaseName: "AutoTestDB");
+                databaseName: "AutoTestDB"));
+        }
     }
 }
