@@ -20,6 +20,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AutoTest.Persistence", "Aut
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AutoTest.Unit.Test", "Test\AutoTest.Test.Unit\AutoTest.Unit.Test.csproj", "{36193CE1-3FB0-4F19-B33F-4E238B206E4A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutoTest.Integration.Test", "Test\AutoTest.Integration.Test\AutoTest.Integration.Test.csproj", "{530F3D10-0BAD-46B3-A0FD-C709FC38F3E2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -46,12 +48,17 @@ Global
 		{36193CE1-3FB0-4F19-B33F-4E238B206E4A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{36193CE1-3FB0-4F19-B33F-4E238B206E4A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{36193CE1-3FB0-4F19-B33F-4E238B206E4A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{530F3D10-0BAD-46B3-A0FD-C709FC38F3E2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{530F3D10-0BAD-46B3-A0FD-C709FC38F3E2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{530F3D10-0BAD-46B3-A0FD-C709FC38F3E2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{530F3D10-0BAD-46B3-A0FD-C709FC38F3E2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{36193CE1-3FB0-4F19-B33F-4E238B206E4A} = {63F2152B-6D47-4B78-8F87-BB890BAB45A9}
+		{530F3D10-0BAD-46B3-A0FD-C709FC38F3E2} = {63F2152B-6D47-4B78-8F87-BB890BAB45A9}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {14510910-B7E2-49EA-81B6-677605C1589E}
