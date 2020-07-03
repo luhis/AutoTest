@@ -57,7 +57,12 @@
         "noEmitOnError": true,
         "forceConsistentCasingInFileNames": true,
         "strictPropertyInitialization": true,
-        "strictFunctionTypes": true
+        "strictFunctionTypes": true,
+        "baseUrl": ".",
+        "paths": {
+          "react": ["node_modules/preact/compat"],
+          "react-dom": ["node_modules/preact/compat"]
+        }
     },
-    "include": ["src/**/*.tsx", "src/**/*.ts"]
+    "include": ["src/**/*.tsx", "src/**/*.ts", "src/types/redux.d.ts.XXX"]
 }

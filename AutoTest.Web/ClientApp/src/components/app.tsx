@@ -2,6 +2,9 @@ import { FunctionalComponent, h, createContext } from "preact";
 import { Route, Router } from "preact-router";
 import { useGoogleLogin } from "react-use-googlelogin";
 import { useContext, useState, StateUpdater } from "preact/hooks";
+import { createStore } from "redux";
+import { Provider } from "react-redux";
+import { Content } from "rbx";
 
 import Home from "../routes/home";
 import Profile from "../routes/profile";
@@ -14,9 +17,9 @@ import { GoogleAuth, Access } from "../types/models";
 import Results from "../routes/results";
 import Tests from "../routes/tests";
 import Marshal from "../routes/marshal";
+import rootReducer from "../store";
 
 import "rbx/index.css";
-import { Content } from "rbx";
 
 interface Module {
     hot: unknown | undefined;
@@ -25,6 +28,8 @@ interface Module {
 if ((module as Module).hot) {
     require("preact/debug");
 }
+
+const store = createStore(rootReducer);
 
 const GoogleAuthContext = createContext<GoogleAuth>({
     signIn: () => {
@@ -50,38 +55,48 @@ const App: FunctionalComponent = () => {
 
     return (
         <div id="app">
-            <AccessContext.Provider value={access}>
-                <GoogleAuthContext.Provider value={googleAuth as GoogleAuth}>
-                    <Content>
-                        <Header />
-                        <Router>
-                            <Route path="/" component={Home} />
-                            <Route
-                                path="/profile/"
-                                component={Profile}
-                                user="me"
-                            />
-                            <Route path="/profile/:user" component={Profile} />
-                            <Route path="/clubs/" component={Club} />
-                            <Route path="/events/" component={Events} />
-                            <Route
-                                path="/entrants/:eventId"
-                                component={Entrant}
-                            />
-                            <Route
-                                path="/results/:eventId"
-                                component={Results}
-                            />
-                            <Route path="/tests/:eventId" component={Tests} />
-                            <Route
-                                path="/marshal/:eventId/:testId"
-                                component={Marshal}
-                            />
-                            <NotFoundPage default />
-                        </Router>
-                    </Content>
-                </GoogleAuthContext.Provider>
-            </AccessContext.Provider>
+            <Provider store={store}>
+                <AccessContext.Provider value={access}>
+                    <GoogleAuthContext.Provider
+                        value={googleAuth as GoogleAuth}
+                    >
+                        <Content>
+                            <Header />
+                            <Router>
+                                <Route path="/" component={Home} />
+                                <Route
+                                    path="/profile/"
+                                    component={Profile}
+                                    user="me"
+                                />
+                                <Route
+                                    path="/profile/:user"
+                                    component={Profile}
+                                />
+                                <Route path="/clubs/" component={Club} />
+                                <Route path="/events/" component={Events} />
+                                <Route
+                                    path="/entrants/:eventId"
+                                    component={Entrant}
+                                />
+                                <Route
+                                    path="/results/:eventId"
+                                    component={Results}
+                                />
+                                <Route
+                                    path="/tests/:eventId"
+                                    component={Tests}
+                                />
+                                <Route
+                                    path="/marshal/:eventId/:testId"
+                                    component={Marshal}
+                                />
+                                <NotFoundPage default />
+                            </Router>
+                        </Content>
+                    </GoogleAuthContext.Provider>
+                </AccessContext.Provider>
+            </Provider>
         </div>
     );
 };
