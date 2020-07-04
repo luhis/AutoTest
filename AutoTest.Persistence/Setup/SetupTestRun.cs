@@ -17,8 +17,6 @@
         }
         public static void SetupPenalty(OwnedNavigationBuilder<TestRun, Penalty> entity)
         {
-            entity.WithOwner().HasForeignKey(e => e.TestRunId);
-            //entity.Property(e => e.PenaltyId).ValueGeneratedNever().IsRequired();
             entity.Property(e => e.InstanceCount).IsRequired();
             entity.Property(e => e.PenaltyType).IsRequired();
         }
