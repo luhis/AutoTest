@@ -21,5 +21,7 @@ jobs:
       run: dotnet restore
     - name: Build
       run: dotnet build ./AutoTest.Web
-    - name: Test
-      run: dotnet test ./Test/AutoTest.Test.Unit
+    - name: Test Unit
+      run: dotnet test ./Test/AutoTest.Unit.Test
+    - name: Test Integration
+      run: dotnet test ./Test/AutoTest.Integration.Test
