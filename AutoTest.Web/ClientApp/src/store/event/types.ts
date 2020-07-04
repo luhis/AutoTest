@@ -5,6 +5,7 @@ export interface EventState {
 }
 
 export const GET_ENTRANTS = "GET_ENTRANTS";
+export const ADD_TEST_RUN = "ADD_TEST_RUN";
 
 interface GetEntrants {
     type: typeof GET_ENTRANTS;

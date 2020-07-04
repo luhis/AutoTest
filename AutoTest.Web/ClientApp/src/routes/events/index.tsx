@@ -28,13 +28,13 @@ const Events: FunctionalComponent<Props> = ({ clubId }) => {
         undefined
     );
     useEffect(() => {
-        dispatch(GetEntrants())
+        dispatch(GetEntrants());
         const fetchData = async () => {
             const events = await getEvents();
             setEvents(events);
         };
         void fetchData();
-    }, []);
+    }, [dispatch]);
     const save = async () => {
         if (editingEvent) {
             await addEvent(editingEvent, getAccessToken(auth));
