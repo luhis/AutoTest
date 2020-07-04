@@ -60,8 +60,11 @@ export interface Penalty {
 }
 
 export type EditableTestRun = Override<
-    Partial<TestRun>,
-    { readonly testRunId: number; readonly penalties: readonly Penalty[] }
+    Partial<Omit<TestRun, "created">>,
+    {
+        readonly testRunId: number;
+        readonly penalties: readonly Penalty[];
+    }
 >;
 
 export interface User {

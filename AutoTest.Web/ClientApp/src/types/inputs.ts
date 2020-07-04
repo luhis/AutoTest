@@ -3,7 +3,7 @@ export interface OnChange {
 }
 
 export interface OnSelectChange {
-    readonly target: { value: number };
+    readonly target: { value: string };
 }
 
 export interface OnChangeCheck {

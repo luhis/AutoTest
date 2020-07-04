@@ -17,6 +17,7 @@ import { useGoogleAuth } from "../../components/app";
 import { addTestRun } from "../../api/testRuns";
 import Penalties from "../../components/marshal/Penalties";
 import { OnChange, OnSelectChange } from "../../types/inputs";
+import { fromDateOrThrow } from "ts-date";
 
 interface Props {
     eventId: string;
@@ -33,11 +34,12 @@ const Marshal: FunctionalComponent<Readonly<Props>> = ({ eventId, testId }) => {
     //     tag: "Loading",
     // });
 
-    const getNewEditableTest = () => ({
+    const getNewEditableTest = (): EditableTestRun => ({
         testRunId: uid.uuid(),
         testId: Number.parseInt(testId),
         timeInMS: undefined,
         penalties: [],
+        entrantId: undefined,
     });
     const [editing, setEditing] = useState<EditableTestRun>(
         getNewEditableTest()
@@ -109,10 +111,14 @@ const Marshal: FunctionalComponent<Readonly<Props>> = ({ eventId, testId }) => {
                         onChange={(event: OnSelectChange) =>
                             setEditing((e) => ({
                                 ...e,
-                                entrantId: event.target.value,
+                                entrantId: Number.parseInt(event.target.value),
                             }))
                         }
+                        value={editing.entrantId}
                     >
+                        <Select.Option value={undefined}>
+                            - Please Select -
+                        </Select.Option>
                         {ifSome(entrants, (a) => (
                             <Select.Option value={a.entrantId}>
                                 {a.vehicle.registration} - {a.givenName}{" "}
@@ -148,7 +154,10 @@ const Marshal: FunctionalComponent<Readonly<Props>> = ({ eventId, testId }) => {
                         editing.timeInMS !== undefined
                     ) {
                         void addTestRun(
-                            { ...editing } as TestRun,
+                            {
+                                ...editing,
+                                created: fromDateOrThrow(new Date()),
+                            } as TestRun,
                             getAccessToken(auth)
                         );
                         setEditing(getNewEditableTest());
