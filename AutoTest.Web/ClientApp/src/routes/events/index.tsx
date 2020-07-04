@@ -55,6 +55,7 @@ const Events: FunctionalComponent<Props> = ({ clubId }) => {
                         location: "",
                         startTime: fromDateOrThrow(new Date()),
                         testCount: 12,
+                        maxAttemptsPerTest: 2,
                     })
                 }
             >

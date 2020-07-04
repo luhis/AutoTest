@@ -74,6 +74,7 @@ export interface Event {
     readonly location: string;
     readonly startTime: ValidDate;
     readonly testCount: number;
+    readonly maxAttemptsPerTest: number;
 }
 
 export interface Entrant {

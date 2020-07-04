@@ -12,6 +12,7 @@
             entity.Property(e => e.Location).IsRequired();
             entity.Property(e => e.StartTime).IsRequired();
             entity.Property(e => e.TestCount).IsRequired();
+            entity.Property(e => e.MaxAttemptsPerTest).IsRequired();
             entity.HasOne<Club>().WithMany().HasForeignKey(p => p.ClubId);
         }
     }

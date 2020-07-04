@@ -14,7 +14,9 @@ const List: FunctionComponent<Props> = ({ events, setEditingEvent }) =>
     ifSome(events, (a) => (
         <Column.Group>
             <Column>
-                <p key={a.eventId}>{a.location}</p>
+                <p key={a.eventId}>
+                    {a.startTime.toISOString()} {a.location}
+                </p>
             </Column>
             <Column>
                 <Button.Group>

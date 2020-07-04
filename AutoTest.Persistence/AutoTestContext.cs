@@ -45,7 +45,7 @@ namespace AutoTest.Persistence
                 }
                 if (this.Events != null && this.Events.SingleOrDefault(a => a.EventId == 1) == null)
                 {
-                    this.Events.Add(new Event(1, 1, "Kestrel Farm", new DateTime(2000, 1, 1), 10));
+                    this.Events.Add(new Event(1, 1, "Kestrel Farm", new DateTime(2000, 1, 1), 10, 2));
                 }
                 if (this.Tests != null && this.Tests.SingleOrDefault(a => a.TestId == 1) == null)
                 {

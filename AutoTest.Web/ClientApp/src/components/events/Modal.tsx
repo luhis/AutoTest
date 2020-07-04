@@ -46,6 +46,18 @@ const ModalX: FunctionComponent<Props> = ({
                         />
                     </Field>
                     <Field>
+                        <Label>Attempts</Label>
+                        <Input
+                            type="number"
+                            value={event.maxAttemptsPerTest}
+                            onChange={(e: OnChange): void =>
+                                setField({
+                                    maxAttemptsPerTest: Number(e.target.value),
+                                })
+                            }
+                        />
+                    </Field>
+                    <Field>
                         <Label>Start Time</Label>
                         <Input
                             type="datetime-local"
