@@ -26,6 +26,8 @@
 
         public bool IsPaid { get; }
 
-        public Vehicle Vehicle { get; } = new Vehicle();
+        public Vehicle Vehicle { get; private set; } = new Vehicle();
+
+        public void SetVehicle(Vehicle vehicle) => Vehicle = vehicle;
     }
 }
