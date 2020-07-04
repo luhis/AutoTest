@@ -7,20 +7,21 @@ import { getResults } from "../../api/results";
 import ifSome from "../../components/shared/isSome";
 
 interface Props {
-    eventId: number;
+    eventId: string;
 }
 
 const Results: FunctionalComponent<Readonly<Props>> = ({ eventId }) => {
+    const eventIdAsNum = Number.parseInt(eventId);
     const [results, setResults] = useState<LoadingState<readonly Result[]>>({
         tag: "Loading",
     });
     useEffect(() => {
         const fetchData = async () => {
-            const events = await getResults(eventId, undefined);
+            const events = await getResults(eventIdAsNum, undefined);
             setResults(events);
         };
         void fetchData();
-    }, [eventId]);
+    }, [eventIdAsNum]);
     return (
         <div>
             <Title>Results</Title>

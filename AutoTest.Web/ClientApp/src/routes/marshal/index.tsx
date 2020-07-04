@@ -129,6 +129,10 @@ const Marshal: FunctionalComponent<Readonly<Props>> = ({ eventId, testId }) => {
                 </Select.Container>
             </Field>
             <Field>
+                <Label>Existing Count</Label>
+                <span>0</span>
+            </Field>
+            <Field>
                 <Label>Time (Secs)</Label>
                 <Input
                     type="number"
@@ -147,25 +151,27 @@ const Marshal: FunctionalComponent<Readonly<Props>> = ({ eventId, testId }) => {
                     decrease={decrease}
                 />
             </Field>
-            <Button
-                onClick={() => {
-                    if (
-                        editing.testId !== undefined &&
-                        editing.timeInMS !== undefined
-                    ) {
-                        void addTestRun(
-                            {
-                                ...editing,
-                                created: fromDateOrThrow(new Date()),
-                            } as TestRun,
-                            getAccessToken(auth)
-                        );
-                        setEditing(getNewEditableTest());
-                    }
-                }}
-            >
-                Add
-            </Button>
+            <Button.Group>
+                <Button
+                    onClick={() => {
+                        if (
+                            editing.testId !== undefined &&
+                            editing.timeInMS !== undefined
+                        ) {
+                            void addTestRun(
+                                {
+                                    ...editing,
+                                    created: fromDateOrThrow(new Date()),
+                                } as TestRun,
+                                getAccessToken(auth)
+                            );
+                            setEditing(getNewEditableTest());
+                        }
+                    }}
+                >
+                    Add
+                </Button>
+            </Button.Group>
         </div>
     );
 };

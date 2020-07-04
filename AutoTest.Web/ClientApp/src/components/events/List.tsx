@@ -15,7 +15,7 @@ const List: FunctionComponent<Props> = ({ events, setEditingEvent }) =>
         <Column.Group>
             <Column>
                 <p key={a.eventId}>
-                    {a.startTime.toISOString()} {a.location}
+                    {a.startTime.toLocaleDateString()} {a.location}
                 </p>
             </Column>
             <Column>

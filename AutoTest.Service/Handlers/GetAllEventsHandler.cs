@@ -22,7 +22,7 @@ namespace AutoTest.Service.Handlers
 
         public async Task<IEnumerable<Event>> Handle(GetAllEvents request, CancellationToken cancellationToken)
         {
-            return await this.autoTestContext.Events.ToArrayAsync(cancellationToken);
+            return await this.autoTestContext.Events.OrderBy(a => a.StartTime).ToArrayAsync(cancellationToken);
         }
     }
 }

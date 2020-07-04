@@ -2,7 +2,6 @@ import { FunctionalComponent, h, createContext } from "preact";
 import { Route, Router } from "preact-router";
 import { useGoogleLogin } from "react-use-googlelogin";
 import { useContext, useState, StateUpdater } from "preact/hooks";
-import { createStore } from "redux";
 import { Provider } from "react-redux";
 import { Content } from "rbx";
 
@@ -17,7 +16,7 @@ import { GoogleAuth, Access } from "../types/models";
 import Results from "../routes/results";
 import Tests from "../routes/tests";
 import Marshal from "../routes/marshal";
-import rootReducer from "../store";
+import store from "../store";
 
 import "rbx/index.css";
 
@@ -28,8 +27,6 @@ interface Module {
 if ((module as Module).hot) {
     require("preact/debug");
 }
-
-const store = createStore(rootReducer);
 
 const GoogleAuthContext = createContext<GoogleAuth>({
     signIn: () => {

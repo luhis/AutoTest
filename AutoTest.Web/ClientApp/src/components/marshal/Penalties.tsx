@@ -10,7 +10,7 @@ interface Props {
     decrease: (a: PenaltyType) => void;
 }
 
-const PenaltyItem: FunctionComponent<Props & { penaltyType: number }> = ({
+const PenaltyItem: FunctionComponent<Props & { penaltyType: PenaltyType }> = ({
     penaltyType,
     penalties,
     increase,
@@ -18,13 +18,12 @@ const PenaltyItem: FunctionComponent<Props & { penaltyType: number }> = ({
 }) => {
     return (
         <List.Item>
-            {PenaltyType[penaltyType]}{" "}
-            {getCount(penalties, penaltyType as PenaltyType)}
+            {PenaltyType[penaltyType]} {getCount(penalties, penaltyType)}
             <Button.Group>
-                <Button onClick={() => increase(penaltyType as PenaltyType)}>
+                <Button onClick={() => increase(penaltyType)}>
                     <FaPlus />
                 </Button>
-                <Button onClick={() => decrease(penaltyType as PenaltyType)}>
+                <Button onClick={() => decrease(penaltyType)}>
                     <FaMinus />
                 </Button>
             </Button.Group>

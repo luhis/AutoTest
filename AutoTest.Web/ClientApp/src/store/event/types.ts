@@ -9,6 +9,7 @@ export const ADD_TEST_RUN = "ADD_TEST_RUN";
 
 interface GetEntrants {
     type: typeof GET_ENTRANTS;
+    payload: LoadingState<readonly Entrant[]>;
 }
 
 export type EventActionTypes = GetEntrants;

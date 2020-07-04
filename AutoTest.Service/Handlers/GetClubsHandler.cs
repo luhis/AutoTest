@@ -1,4 +1,6 @@
-﻿namespace AutoTest.Service.Handlers
+﻿using System.Linq;
+
+namespace AutoTest.Service.Handlers
 {
     using System.Collections.Generic;
     using AutoTest.Service.Messages;
@@ -20,7 +22,7 @@
 
         async Task<IEnumerable<Club>> IRequestHandler<GetClubs, IEnumerable<Club>>.Handle(GetClubs request, CancellationToken cancellationToken)
         {
-            return await this.autoTestContext.Clubs.ToArrayAsync(cancellationToken);
+            return await this.autoTestContext.Clubs.OrderBy(a => a.ClubName).ToArrayAsync(cancellationToken);
         }
     }
 }
