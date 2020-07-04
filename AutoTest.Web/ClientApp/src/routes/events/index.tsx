@@ -58,7 +58,7 @@ const Events: FunctionalComponent<Props> = ({ clubId }) => {
                     })
                 }
             >
-                Add Club
+                Add Event
             </Button>
             {editingEvent ? (
                 <Modal

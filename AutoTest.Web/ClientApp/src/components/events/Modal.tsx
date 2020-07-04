@@ -1,9 +1,9 @@
 import { h, FunctionComponent } from "preact";
 import { Modal, Button, Label, Input, Field } from "rbx";
+import { newValidDateOrThrow } from "ts-date";
 
 import { Event } from "../../types/models";
 import { OnChange } from "../../types/inputs";
-import { newValidDateOrThrow } from "ts-date";
 
 interface Props {
     event: Event;
@@ -23,7 +23,7 @@ const ModalX: FunctionComponent<Props> = ({
             <Modal.Background />
             <Modal.Card>
                 <Modal.Card.Head>
-                    {event.clubId === undefined ? "Add" : "Edit"} Club
+                    {event.clubId === undefined ? "Add" : "Edit"} Event
                 </Modal.Card.Head>
                 <Modal.Card.Body>
                     <Field>

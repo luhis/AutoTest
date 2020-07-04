@@ -61,7 +61,9 @@ const EntrantsModal: FunctionComponent<Props> = ({
                             value={entrant.vehicle.registration}
                             onChange={(e: OnChange): void =>
                                 setField({
-                                    vehicle: { registration: e.target.value },
+                                    vehicle: {
+                                        registration: e.target.value.toLocaleUpperCase(),
+                                    },
                                 })
                             }
                         />
