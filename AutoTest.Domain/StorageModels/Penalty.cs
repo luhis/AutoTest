@@ -2,20 +2,17 @@
 {
     public class Penalty
     {
-        public Penalty(ulong penaltyId, PenaltyEnum penaltyType, ulong testRunId, uint instanceCount)
+        public Penalty(ulong testRunId, PenaltyEnum penaltyType, uint instanceCount)
         {
-            PenaltyId = penaltyId;
             PenaltyType = penaltyType;
-            TestRunId = testRunId;
             InstanceCount = instanceCount;
+            TestRunId = testRunId;
         }
-
-        public ulong PenaltyId { get; }
 
         public PenaltyEnum PenaltyType { get; }
 
-        public ulong TestRunId { get; }
+        public uint InstanceCount { get; }
 
-        public uint InstanceCount { get; set; }
+        public ulong TestRunId { get; }
     }
 }

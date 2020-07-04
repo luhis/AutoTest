@@ -25,6 +25,8 @@ namespace AutoTest.Domain.StorageModels
 
         public ulong EntrantId { get; }
 
-        public IEnumerable<Penalty> Penalties { get; private set; } = Enumerable.Empty<Penalty>();
+        public ICollection<Penalty> Penalties { get; private set; } = Array.Empty<Penalty>();
+
+        public void SetPenalties(ICollection<Penalty> penalties) => Penalties = penalties;
     }
 }

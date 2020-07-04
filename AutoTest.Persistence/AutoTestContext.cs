@@ -30,7 +30,7 @@ namespace AutoTest.Persistence
             SetupEvent.Setup(modelBuilder.Entity<Event>());
             SetupTest.Setup(modelBuilder.Entity<Test>());
             SetupTestRun.Setup(modelBuilder.Entity<TestRun>());
-            SetupTestRun.Setup(modelBuilder.Entity<Penalty>());
+            //SetupTestRun.Setup(modelBuilder.Entity<Penalty>());
             SetupUser.Setup(modelBuilder.Entity<User>());
         }
 

@@ -15,6 +15,15 @@ namespace AutoTest.Web.Models
 
         public ulong EntrantId { get; set; }
 
-        public IEnumerable<Penalty> Penalties { get; private set; } = Enumerable.Empty<Penalty>();
+        public IEnumerable<PenaltySaveModel> Penalties { get; set; } = Enumerable.Empty<PenaltySaveModel>();
+    }
+
+    public class PenaltySaveModel
+    {
+        public ulong PenaltyId { get; set; }
+
+        public PenaltyEnum PenaltyType { get; set; }
+
+        public uint InstanceCount { get; set; }
     }
 }

@@ -22,7 +22,10 @@ export const addTestRun = async (
         const response = await fetch(`/api/testRuns/${testRunId}`, {
             method: "PUT",
             body: JSON.stringify(rest),
-            headers: { Authorization: token ? `Bearer ${token}` : "" },
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: token ? `Bearer ${token}` : "",
+            },
         });
         throwIfNotOk(response);
         return (await response.json()) as TestRun[];

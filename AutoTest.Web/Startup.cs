@@ -70,6 +70,11 @@ namespace AutoTest.Web
                     p.RequireAuthenticatedUser();
                     p.RequireClaim(ClaimTypes.Email, this.AdminEmails);
                 });
+                o.AddPolicy(Policies.Marshal, p =>
+                {
+                    p.RequireAuthenticatedUser();
+                    p.AddRequirements(new MarshalRequirement());
+                });
             });
 
             services.AddWebMarkupMin(options =>

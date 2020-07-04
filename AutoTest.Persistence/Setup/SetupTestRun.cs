@@ -13,12 +13,13 @@
             entity.Property(e => e.Created).IsRequired();
             entity.HasOne<Test>().WithMany().HasForeignKey(p => p.TestId);
             entity.HasOne<Entrant>().WithMany().HasForeignKey(p => p.EntrantId);
+            entity.OwnsMany(a => a.Penalties, SetupPenalty);
         }
-        public static void Setup(EntityTypeBuilder<Penalty> entity)
+        public static void SetupPenalty(OwnedNavigationBuilder<TestRun, Penalty> entity)
         {
-            entity.HasKey(e => e.PenaltyId);
-            entity.Property(e => e.PenaltyId).ValueGeneratedNever().IsRequired();
-            entity.Property(e => e.TestRunId).IsRequired();
+            entity.WithOwner().HasForeignKey(e => e.TestRunId);
+            //entity.Property(e => e.PenaltyId).ValueGeneratedNever().IsRequired();
+            entity.Property(e => e.InstanceCount).IsRequired();
             entity.Property(e => e.PenaltyType).IsRequired();
         }
     }
