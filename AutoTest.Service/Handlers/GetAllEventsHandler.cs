@@ -1,4 +1,6 @@
-﻿namespace AutoTest.Service.Handlers
+﻿using System.Linq;
+
+namespace AutoTest.Service.Handlers
 {
     using System.Collections.Generic;
     using System.Threading;

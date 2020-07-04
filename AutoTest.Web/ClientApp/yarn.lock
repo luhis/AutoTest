@@ -7090,6 +7090,11 @@ methods@~1.1.2:
   resolved "https://registry.yarnpkg.com/methods/-/methods-1.1.2.tgz#5529a4d67654134edcc5266656835b0f851afcee"
   integrity sha1-VSmk1nZUE07cxSZmVoNbD4Ua/O4=
 
+microdash@^1.4.1:
+  version "1.4.1"
+  resolved "https://registry.yarnpkg.com/microdash/-/microdash-1.4.1.tgz#f6dcf72eb293e8ad28958525de580536517a64dc"
+  integrity sha512-NJz1FkkTucluPbIzxkuLutzFTI3WWGJ8iOBAJIO49oHK19YkAOR/q8/XASiYS8J8OK8zGpxSD6/j/+M90gqdsQ==
+
 microevent.ts@~0.1.1:
   version "0.1.1"
   resolved "https://registry.yarnpkg.com/microevent.ts/-/microevent.ts-0.1.1.tgz#70b09b83f43df5172d0205a63025bce0f7357fa0"

@@ -14,6 +14,7 @@ namespace AutoTest.Web
         public static void AddWeb(this IServiceCollection collection)
         {
             collection.AddScoped<IAuthorizationHandler, MarshalRequirementHandler>();
+            collection.AddScoped<IAuthorizationHandler, ClubAdminRequirementHandler>();
             //collection.AddScoped<ISimpleRequirements, SimpleRequirements>();
             collection.AddDbContext<AutoTestContext>(o => o.UseCosmos(
                 "https://localhost:8081",

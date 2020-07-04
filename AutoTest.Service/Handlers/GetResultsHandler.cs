@@ -19,7 +19,7 @@ namespace AutoTest.Service.Handlers
 
         Task<IEnumerable<Result>> IRequestHandler<GetResults, IEnumerable<Result>>.Handle(GetResults request, CancellationToken cancellationToken)
         {
-            return Task.FromResult<IEnumerable<Result>>(new[] { new Result() });
+            return Task.FromResult<IEnumerable<Result>>(new[] { new Result("A", new EntrantTimes[] {}) });
         }
     }
 }
