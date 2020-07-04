@@ -24,6 +24,8 @@ const ifSome = <T,>(
             return <span>Loading...</span>;
         case "Error":
             return <span>Error: {arr.value}</span>;
+        case "Idle":
+            return <span>Idle</span>;
     }
 };
 

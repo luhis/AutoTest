@@ -5,7 +5,10 @@ export type ApiResponse<T> =
     | { readonly tag: "Loaded"; readonly value: T }
     | { readonly tag: "Error"; readonly value: string };
 
-export type LoadingState<T> = ApiResponse<T> | { tag: "Loading" };
+export type LoadingState<T> =
+    | ApiResponse<T>
+    | { tag: "Loading" }
+    | { tag: "Idle" };
 
 export const toApiResponse = async <T>(
     f: () => Promise<T>

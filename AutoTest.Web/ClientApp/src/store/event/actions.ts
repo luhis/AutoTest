@@ -13,10 +13,10 @@ export const GetEntrants = (
         payload: { tag: "Loading" },
     });
     const entrants = await getEntrants(eventId, token);
-    return {
+    dispatch({
         type: GET_ENTRANTS,
         payload: entrants,
-    };
+    });
 };
 
 export const AddTestRun = (testRun: TestRun) => ({

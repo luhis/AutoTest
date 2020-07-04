@@ -1,7 +1,7 @@
 import { EventState, EventActionTypes, GET_ENTRANTS } from "./types";
 
 const initialState: EventState = {
-    entrants: { tag: "Loading" },
+    entrants: { tag: "Idle" },
 };
 
 export function eventReducer(
@@ -12,7 +12,7 @@ export function eventReducer(
         case GET_ENTRANTS:
             return {
                 ...state,
-                entrants: { tag: "Loaded", value: [] },
+                entrants: action.payload,
             };
         default:
             return state;

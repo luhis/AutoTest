@@ -2,6 +2,8 @@ import { FunctionalComponent, h } from "preact";
 import { useEffect, useState } from "preact/hooks";
 import { Title, Select, Label, Field, Input, Button } from "rbx";
 import UUID from "uuid-int";
+import { useSelector, useDispatch } from "react-redux";
+import { fromDateOrThrow } from "ts-date";
 
 import {
     LoadingState,
@@ -11,13 +13,13 @@ import {
     PenaltyType,
 } from "../../types/models";
 import ifSome from "../../components/shared/isSome";
-import { getEntrants } from "../../api/entrants";
 import { getAccessToken } from "../../api/api";
 import { useGoogleAuth } from "../../components/app";
 import { addTestRun } from "../../api/testRuns";
 import Penalties from "../../components/marshal/Penalties";
 import { OnChange, OnSelectChange } from "../../types/inputs";
-import { fromDateOrThrow } from "ts-date";
+import { AppState } from "../../store";
+import { GetEntrants } from "../../store/event/actions";
 
 interface Props {
     eventId: string;
@@ -27,9 +29,10 @@ interface Props {
 const uid = UUID(Number.parseInt(process.env.PREACT_APP_KEY_SEED as string));
 
 const Marshal: FunctionalComponent<Readonly<Props>> = ({ eventId, testId }) => {
-    const [entrants, setEntrants] = useState<LoadingState<readonly Entrant[]>>({
-        tag: "Loading",
-    });
+    const dispatch = useDispatch();
+    const entrants = useSelector<AppState, LoadingState<readonly Entrant[]>>(
+        (a) => a.event.entrants
+    );
     // const [testRuns, setTestRuns] = useState<LoadingState<readonly TestRun[]>>({
     //     tag: "Loading",
     // });
@@ -46,17 +49,12 @@ const Marshal: FunctionalComponent<Readonly<Props>> = ({ eventId, testId }) => {
     );
     const auth = useGoogleAuth();
     useEffect(() => {
-        const fetchData = async () => {
-            const entrants = await getEntrants(
-                Number.parseInt(eventId),
-                getAccessToken(auth)
+        if (entrants.tag !== "Loaded" && entrants.tag !== "Error") {
+            dispatch(
+                GetEntrants(Number.parseInt(eventId), getAccessToken(auth))
             );
-            //const testRuns = await getTestRuns(eventId, getAccessToken(auth));
-            setEntrants(entrants);
-            //setTestRuns(testRuns);
-        };
-        void fetchData();
-    }, [auth, eventId]);
+        }
+    }, [auth, dispatch, eventId, entrants.tag]);
 
     const increase = (penaltyType: PenaltyType) => {
         setEditing((a) => {
