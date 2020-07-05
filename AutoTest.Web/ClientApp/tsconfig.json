@@ -60,8 +60,8 @@
         "strictFunctionTypes": true,
         "baseUrl": ".",
         "paths": {
-          "react/*": ["./node_modules/preact/compat/*"],
-          "react-dom/*": ["./node_modules/preact/compat/*"]
+          "react": ["./node_modules/preact/compat"],
+          "react-dom": ["./node_modules/preact/compat"]
         }
     },
     "include": ["src/**/*.tsx", "src/**/*.ts", "src/types/redux.d.ts.XXX", "src/types/react-redux.d.ts.XXX"]
