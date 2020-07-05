@@ -2,7 +2,7 @@ import { FunctionalComponent, h, createContext } from "preact";
 import { Route, Router } from "preact-router";
 import { useGoogleLogin } from "react-use-googlelogin";
 import { useContext, useState, StateUpdater } from "preact/hooks";
-import { Provider } from "react-redux";
+import { Provider, ProviderProps } from "react-redux";
 import { Content } from "rbx";
 
 import Home from "../routes/home";
@@ -17,8 +17,13 @@ import Results from "../routes/results";
 import Tests from "../routes/tests";
 import Marshal from "../routes/marshal";
 import store from "../store";
+import { EventActionTypes } from "../store/event/types";
 
 import "rbx/index.css";
+
+const TypeSafeProvider = (Provider as unknown) as FunctionalComponent<
+    ProviderProps<EventActionTypes>
+>;
 
 interface Module {
     hot: unknown | undefined;
@@ -52,7 +57,7 @@ const App: FunctionalComponent = () => {
 
     return (
         <div id="app">
-            <Provider store={store}>
+            <TypeSafeProvider store={store}>
                 <AccessContext.Provider value={access}>
                     <GoogleAuthContext.Provider
                         value={googleAuth as GoogleAuth}
@@ -93,7 +98,7 @@ const App: FunctionalComponent = () => {
                         </Content>
                     </GoogleAuthContext.Provider>
                 </AccessContext.Provider>
-            </Provider>
+            </TypeSafeProvider>
         </div>
     );
 };
