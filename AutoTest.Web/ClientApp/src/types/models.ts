@@ -57,6 +57,12 @@ export enum PenaltyType {
     FailToStop = 4,
 }
 
+export enum TestRunUploadState {
+    NotSent,
+    Error,
+    Uploaded,
+}
+
 export interface Penalty {
     readonly penaltyType: PenaltyType;
     readonly instanceCount: number;
