@@ -6,11 +6,12 @@ import {
     EventActionTypes,
     UPDATE_TEST_RUN_STATE,
     GET_TESTS,
+    GET_TEST_RUNS,
 } from "./types";
 import { TestRun, TestRunUploadState } from "../../types/models";
 import { getEntrants } from "../../api/entrants";
 import { AppState } from "..";
-import { addTestRun } from "../../api/testRuns";
+import { addTestRun, getTestRuns } from "../../api/testRuns";
 import { getTests } from "../../api/tests";
 
 export const GetEntrants = (
@@ -38,6 +39,21 @@ export const GetTests = (eventId: number, token: string | undefined) => async (
     const tests = await getTests(eventId, token);
     dispatch({
         type: GET_TESTS,
+        payload: tests,
+    });
+};
+
+export const GetTestRuns = (
+    eventId: number,
+    token: string | undefined
+) => async (dispatch: Dispatch<EventActionTypes>) => {
+    dispatch({
+        type: GET_TEST_RUNS,
+        payload: { tag: "Loading" },
+    });
+    const tests = await getTestRuns(eventId, token);
+    dispatch({
+        type: GET_TEST_RUNS,
         payload: tests,
     });
 };

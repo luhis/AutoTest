@@ -12,6 +12,7 @@ const initialState: EventState = {
     entrants: { tag: "Idle" },
     testRuns: [],
     tests: { tag: "Idle" },
+    testRunsFromServer: { tag: "Idle" },
 };
 
 export const eventReducer = (

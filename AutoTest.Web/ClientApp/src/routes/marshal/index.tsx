@@ -9,11 +9,12 @@ import { TestRun, EditableTestRun, PenaltyType } from "../../types/models";
 import ifSome from "../../components/shared/isSome";
 import { getAccessToken } from "../../api/api";
 import { useGoogleAuth } from "../../components/app";
-import { addTestRun } from "../../api/testRuns";
 import Penalties from "../../components/marshal/Penalties";
 import { OnChange, OnSelectChange } from "../../types/inputs";
-import { GetEntrants } from "../../store/event/actions";
+import { GetEntrants, AddTestRun } from "../../store/event/actions";
 import { selectEntrants } from "../../store/event/selectors";
+import { requiresLoading } from "../../types/loadingState";
+import { AppState } from "src/store";
 
 const getNewEditableTest = (testId: number): EditableTestRun => ({
     testRunId: uid.uuid(),
@@ -32,21 +33,20 @@ const uid = UUID(Number.parseInt(process.env.PREACT_APP_KEY_SEED as string));
 const Marshal: FunctionalComponent<Readonly<Props>> = ({ eventId, testId }) => {
     const dispatch = useDispatch();
     const entrants = useSelector(selectEntrants);
-    // const [testRuns, setTestRuns] = useState<LoadingState<readonly TestRun[]>>({
-    //     tag: "Loading",
-    // });
+    const testRuns = useSelector((a: AppState) => a.event.testRuns);
+    const testIdNum = Number.parseInt(testId);
 
     const [editing, setEditing] = useState<EditableTestRun>(
-        getNewEditableTest(Number.parseInt(testId))
+        getNewEditableTest(testIdNum)
     );
     const auth = useGoogleAuth();
     useEffect(() => {
-        if (entrants.tag !== "Loaded" && entrants.tag !== "Error") {
+        if (requiresLoading(entrants)) {
             dispatch(
                 GetEntrants(Number.parseInt(eventId), getAccessToken(auth))
             );
         }
-    }, [auth, dispatch, eventId, entrants.tag]);
+    }, [auth, dispatch, eventId, entrants]);
 
     const increase = (penaltyType: PenaltyType) => {
         setEditing((a) => {
@@ -120,12 +120,25 @@ const Marshal: FunctionalComponent<Readonly<Props>> = ({ eventId, testId }) => {
             </Field>
             <Field>
                 <Label>Existing Count</Label>
-                <span>0</span>
+                <span>
+                    {
+                        testRuns.filter(
+                            (a) =>
+                                a.entrantId === editing.entrantId &&
+                                a.testId === testIdNum
+                        ).length
+                    }
+                </span>
             </Field>
             <Field>
                 <Label>Time (Secs)</Label>
                 <Input
                     type="number"
+                    value={
+                        editing.timeInMS === undefined
+                            ? ""
+                            : editing.timeInMS / 1000
+                    }
                     onChange={(e: OnChange) =>
                         setEditing((a) => ({
                             ...a,
@@ -148,12 +161,11 @@ const Marshal: FunctionalComponent<Readonly<Props>> = ({ eventId, testId }) => {
                             editing.testId !== undefined &&
                             editing.timeInMS !== undefined
                         ) {
-                            void addTestRun(
-                                {
+                            dispatch(
+                                AddTestRun({
                                     ...editing,
                                     created: fromDateOrThrow(new Date()),
-                                } as TestRun,
-                                getAccessToken(auth)
+                                } as TestRun)
                             );
                             setEditing(
                                 getNewEditableTest(Number.parseInt(testId))
