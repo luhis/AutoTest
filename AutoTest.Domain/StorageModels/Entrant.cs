@@ -11,7 +11,6 @@
             Class = @class;
             EventId = eventId;
             IsPaid = isPaid;
-            //Vehicle = vehicle;
         }
 
         public ulong EntrantId { get; }
@@ -27,6 +26,8 @@
         public bool IsPaid { get; }
 
         public Vehicle Vehicle { get; private set; } = new Vehicle();
+
+        public EmergencyContact EmergencyContact { get; private set; } = new EmergencyContact();
 
         public void SetVehicle(Vehicle vehicle) => Vehicle = vehicle;
     }

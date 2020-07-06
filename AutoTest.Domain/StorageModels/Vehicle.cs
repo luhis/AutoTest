@@ -8,9 +8,8 @@ namespace AutoTest.Domain.StorageModels
         {
         }
 
-        public Vehicle(ulong vehicleId, string make, string model, int year, int displacement, string registration)
+        public Vehicle(string make, string model, int year, int displacement, string registration)
         {
-            VehicleId = vehicleId;
             Make = make;
             Model = model;
             Year = year;
@@ -18,16 +17,14 @@ namespace AutoTest.Domain.StorageModels
             Registration = registration;
         }
 
-        public string Make { get; set; } = string.Empty;
+        public string Make { get; } = string.Empty;
 
-        public string Model { get; set; } = string.Empty;
+        public string Model { get; } = string.Empty;
 
         public int Year { get; }
 
-        public string Registration { get; set; } = string.Empty;
+        public string Registration { get; } = string.Empty;
 
         public int Displacement { get; }
-
-        public ulong VehicleId { get; }
     }
 }

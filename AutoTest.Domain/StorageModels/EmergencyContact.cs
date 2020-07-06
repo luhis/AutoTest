@@ -2,17 +2,19 @@
 {
     public class EmergencyContact
     {
-        public EmergencyContact(ulong emergencyContactId, string name, string phone)
+        public EmergencyContact()
         {
-            this.EmergencyContactId = emergencyContactId;
+
+        }
+
+        public EmergencyContact(string name, string phone)
+        {
             this.Name = name;
             this.Phone = phone;
         }
 
-        public ulong EmergencyContactId { get; }
+        public string Name { get; } = string.Empty;
 
-        public string Name { get; }
-
-        public string Phone { get; }
+        public string Phone { get; } = string.Empty;
     }
 }

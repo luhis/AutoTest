@@ -15,6 +15,7 @@
             entity.Property(e => e.IsPaid).IsRequired();
             entity.HasOne<Event>().WithMany().HasForeignKey(p => p.EventId);
             entity.OwnsOne(a => a.Vehicle, SetupVehicle.Setup);
+            entity.OwnsOne(a => a.EmergencyContact, SetupEmergencyContact.Setup);
         }
     }
 }

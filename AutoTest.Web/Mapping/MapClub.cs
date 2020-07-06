@@ -20,7 +20,7 @@ namespace AutoTest.Web.Mapping
         {
             var e = new Entrant(entrantId, entrant.GivenName, entrant.FamilyName, entrant.Class, entrant.EventId,
                 entrant.IsPaid);
-            e.SetVehicle(new Vehicle(entrant.Vehicle.VehicleId, entrant.Vehicle.Make, entrant.Vehicle.Model, entrant.Vehicle.Year, entrant.Vehicle.Displacement, entrant.Vehicle.Registration));
+            e.SetVehicle(new Vehicle(entrant.Vehicle.Make, entrant.Vehicle.Model, entrant.Vehicle.Year, entrant.Vehicle.Displacement, entrant.Vehicle.Registration));
             return e;
         }
     }
