@@ -25,7 +25,7 @@
         "build/*"
     ],
     "dependencies": {
-        "@types/enzyme": "^3.10.5",
+        "@types/enzyme": "3.10.5",
         "@types/react": "file:./src/types/fake-empty",
         "@types/react-redux": "7.1.9",
         "preact": "10.4.5",
