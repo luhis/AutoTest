@@ -4,12 +4,14 @@ import {
     GET_ENTRANTS,
     ADD_TEST_RUN,
     UPDATE_TEST_RUN_STATE,
+    GET_TESTS,
 } from "./types";
 import { TestRunUploadState } from "../../types/models";
 
 const initialState: EventState = {
     entrants: { tag: "Idle" },
     testRuns: [],
+    tests: { tag: "Idle" },
 };
 
 export const eventReducer = (
@@ -21,6 +23,11 @@ export const eventReducer = (
             return {
                 ...state,
                 entrants: action.payload,
+            };
+        case GET_TESTS:
+            return {
+                ...state,
+                tests: action.payload,
             };
         case ADD_TEST_RUN:
             return {

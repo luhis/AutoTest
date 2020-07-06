@@ -1,4 +1,5 @@
-import { Club, ApiResponse, toApiResponse } from "../types/models";
+import { Club } from "../types/models";
+import { ApiResponse, toApiResponse } from "../types/loadingState";
 import { throwIfNotOk } from "./api";
 
 export const getClubs = async (

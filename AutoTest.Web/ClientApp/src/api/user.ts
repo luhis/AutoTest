@@ -1,4 +1,5 @@
-import { User, ApiResponse, toApiResponse } from "../types/models";
+import { User } from "../types/models";
+import { ApiResponse, toApiResponse } from "../types/loadingState";
 import { throwIfNotOk } from "./api";
 
 export const getClubs = async (

@@ -1,5 +1,5 @@
 import { FunctionalComponent, h, Fragment } from "preact";
-import { LoadingState } from "../../types/models";
+import { LoadingState } from "../../types/loadingState";
 
 const ifSome = <T,>(
     arr: LoadingState<readonly T[]>,

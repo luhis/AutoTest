@@ -3,7 +3,8 @@ import { Column, Button } from "rbx";
 import { route } from "preact-router";
 
 import ifSome from "../../components/shared/isSome";
-import { LoadingState, Event } from "../../types/models";
+import { Event } from "../../types/models";
+import { LoadingState } from "../../types/loadingState";
 
 interface Props {
     events: LoadingState<readonly Event[]>;

@@ -2,7 +2,8 @@ import { FunctionComponent, h } from "preact";
 import { Column, Button } from "rbx";
 import { route } from "preact-router";
 
-import { LoadingState, Club } from "../../types/models";
+import { Club } from "../../types/models";
+import { LoadingState } from "../../types/loadingState";
 import ifSome from "../shared/isSome";
 
 interface Props {

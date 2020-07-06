@@ -2,7 +2,8 @@ import { FunctionalComponent, h } from "preact";
 import { useEffect, useState } from "preact/hooks";
 import { Title, Column } from "rbx";
 
-import { LoadingState, Result } from "../../types/models";
+import { Result } from "../../types/models";
+import { LoadingState } from "../../types/loadingState";
 import { getResults } from "../../api/results";
 import ifSome from "../../components/shared/isSome";
 

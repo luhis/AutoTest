@@ -2,7 +2,8 @@ import { FunctionalComponent, h } from "preact";
 import { Column, Button } from "rbx";
 
 import ifSome from "../shared/isSome";
-import { LoadingState, Entrant } from "../../types/models";
+import { Entrant } from "../../types/models";
+import { LoadingState } from "../../types/loadingState";
 
 interface Props {
     entrants: LoadingState<readonly Entrant[]>;

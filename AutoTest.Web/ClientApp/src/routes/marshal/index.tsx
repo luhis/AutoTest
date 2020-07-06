@@ -5,22 +5,23 @@ import UUID from "uuid-int";
 import { useSelector, useDispatch } from "react-redux";
 import { fromDateOrThrow } from "ts-date";
 
-import {
-    LoadingState,
-    Entrant,
-    TestRun,
-    EditableTestRun,
-    PenaltyType,
-} from "../../types/models";
+import { TestRun, EditableTestRun, PenaltyType } from "../../types/models";
 import ifSome from "../../components/shared/isSome";
 import { getAccessToken } from "../../api/api";
 import { useGoogleAuth } from "../../components/app";
 import { addTestRun } from "../../api/testRuns";
 import Penalties from "../../components/marshal/Penalties";
 import { OnChange, OnSelectChange } from "../../types/inputs";
-import { AppState } from "../../store";
 import { GetEntrants } from "../../store/event/actions";
+import { selectEntrants } from "../../store/event/selectors";
 
+const getNewEditableTest = (testId: number): EditableTestRun => ({
+    testRunId: uid.uuid(),
+    testId: testId,
+    timeInMS: undefined,
+    penalties: [],
+    entrantId: undefined,
+});
 interface Props {
     eventId: string;
     testId: string;
@@ -30,22 +31,13 @@ const uid = UUID(Number.parseInt(process.env.PREACT_APP_KEY_SEED as string));
 
 const Marshal: FunctionalComponent<Readonly<Props>> = ({ eventId, testId }) => {
     const dispatch = useDispatch();
-    const entrants = useSelector<AppState, LoadingState<readonly Entrant[]>>(
-        (a) => a.event.entrants
-    );
+    const entrants = useSelector(selectEntrants);
     // const [testRuns, setTestRuns] = useState<LoadingState<readonly TestRun[]>>({
     //     tag: "Loading",
     // });
 
-    const getNewEditableTest = (): EditableTestRun => ({
-        testRunId: uid.uuid(),
-        testId: Number.parseInt(testId),
-        timeInMS: undefined,
-        penalties: [],
-        entrantId: undefined,
-    });
     const [editing, setEditing] = useState<EditableTestRun>(
-        getNewEditableTest()
+        getNewEditableTest(Number.parseInt(testId))
     );
     const auth = useGoogleAuth();
     useEffect(() => {
@@ -163,7 +155,9 @@ const Marshal: FunctionalComponent<Readonly<Props>> = ({ eventId, testId }) => {
                                 } as TestRun,
                                 getAccessToken(auth)
                             );
-                            setEditing(getNewEditableTest());
+                            setEditing(
+                                getNewEditableTest(Number.parseInt(testId))
+                            );
                         }
                     }}
                 >

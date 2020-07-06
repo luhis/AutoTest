@@ -5,7 +5,8 @@ import UUID from "uuid-int";
 import { fromDateOrThrow } from "ts-date";
 
 import { getEvents, addEvent } from "../../api/events";
-import { LoadingState, Event } from "../../types/models";
+import { Event } from "../../types/models";
+import { LoadingState } from "../../types/loadingState";
 import Modal from "../../components/events/Modal";
 import { getAccessToken } from "../../api/api";
 import { useGoogleAuth } from "../../components/app";

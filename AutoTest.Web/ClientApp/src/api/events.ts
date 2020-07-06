@@ -1,6 +1,7 @@
 import { parseIsoOrThrow } from "ts-date";
 
-import { Event, ApiResponse, toApiResponse, Override } from "../types/models";
+import { Event, Override } from "../types/models";
+import { ApiResponse, toApiResponse } from "../types/loadingState";
 import { throwIfNotOk } from "./api";
 
 export const getEvents = async (): Promise<ApiResponse<readonly Event[]>> =>

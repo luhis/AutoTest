@@ -1,4 +1,5 @@
-import { ApiResponse, toApiResponse, Entrant } from "../types/models";
+import { Entrant } from "../types/models";
+import { ApiResponse, toApiResponse } from "../types/loadingState";
 import { throwIfNotOk } from "./api";
 
 export const getEntrants = async (

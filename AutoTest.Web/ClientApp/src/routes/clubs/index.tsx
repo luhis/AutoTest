@@ -6,7 +6,8 @@ import UUID from "uuid-int";
 import { getClubs, addClub } from "../../api/clubs";
 import { useGoogleAuth } from "../../components/app";
 import { getAccessToken } from "../../api/api";
-import { Club, LoadingState } from "../../types/models";
+import { Club } from "../../types/models";
+import { LoadingState } from "../../types/loadingState";
 import List from "../../components/clubs/List";
 import Modal from "../../components/clubs/Modal";
 
