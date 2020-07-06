@@ -1,4 +1,6 @@
-﻿namespace AutoTest.Domain.StorageModels
+﻿using System.Collections.Generic;
+
+namespace AutoTest.Domain.StorageModels
 {
     using System;
 
@@ -25,5 +27,9 @@
         public uint TestCount { get; }
 
         public uint MaxAttemptsPerTest { get; }
+
+        public ICollection<AuthorisationEmail> MarshalEmails { get; private set; } = Array.Empty<AuthorisationEmail>();
+
+        public void SetMarshalEmails(ICollection<AuthorisationEmail> emails) => MarshalEmails = emails;
     }
 }

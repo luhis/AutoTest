@@ -24,13 +24,11 @@ namespace AutoTest.Persistence
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            SetupAdminEmails.Setup(modelBuilder.Entity<AdminEmail>());
             SetupClub.Setup(modelBuilder.Entity<Club>());
             SetupEntrant.Setup(modelBuilder.Entity<Entrant>());
             SetupEvent.Setup(modelBuilder.Entity<Event>());
             SetupTest.Setup(modelBuilder.Entity<Test>());
             SetupTestRun.Setup(modelBuilder.Entity<TestRun>());
-            //SetupTestRun.Setup(modelBuilder.Entity<Penalty>());
             SetupUser.Setup(modelBuilder.Entity<User>());
         }
 

@@ -12,6 +12,7 @@
             entity.Property(e => e.ClubName).IsRequired();
             entity.Property(e => e.ClubPaymentAddress).IsRequired();
             entity.Property(e => e.Website).IsRequired();
+            entity.OwnsMany(a => a.AdminEmails, SetupAuthorisationEmails.Setup);
         }
     }
 }

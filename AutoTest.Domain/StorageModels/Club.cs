@@ -1,4 +1,7 @@
-﻿namespace AutoTest.Domain.StorageModels
+﻿using System;
+using System.Collections.Generic;
+
+namespace AutoTest.Domain.StorageModels
 {
     public class Club
     {
@@ -17,5 +20,9 @@
         public string ClubPaymentAddress { get; }
 
         public string Website { get; }
+
+        public ICollection<AuthorisationEmail> AdminEmails { get; private set; } = Array.Empty<AuthorisationEmail>();
+
+        public void SetMarshalEmails(ICollection<AuthorisationEmail> emails) => AdminEmails = emails;
     }
 }
