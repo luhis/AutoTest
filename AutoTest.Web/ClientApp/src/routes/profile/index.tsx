@@ -5,7 +5,7 @@ interface Props {
     user: string;
 }
 
-const Profile: FunctionalComponent<Props> = (props: Props) => {
+const Profile: FunctionalComponent<Readonly<Props>> = (props: Props) => {
     const { user } = props;
     const [time, setTime] = useState<number>(Date.now());
     const [count, setCount] = useState<number>(0);

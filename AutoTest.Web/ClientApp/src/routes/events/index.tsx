@@ -17,7 +17,7 @@ interface Props {
 }
 const uid = UUID(Number.parseInt(process.env.PREACT_APP_KEY_SEED as string));
 
-const Events: FunctionalComponent<Props> = ({ clubId }) => {
+const Events: FunctionalComponent<Readonly<Props>> = ({ clubId }) => {
     const auth = useGoogleAuth();
     const [events, setEvents] = useState<LoadingState<readonly Event[]>>({
         tag: "Loading",
