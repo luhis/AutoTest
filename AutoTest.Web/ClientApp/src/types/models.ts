@@ -88,7 +88,19 @@ export interface Vehicle {
 }
 
 export interface Result {
+    readonly class: string;
+    readonly entrantTimes: readonly EntrantTime[];
+}
+
+interface EntrantTime {
+    readonly entrant: Entrant;
     readonly totalTime: number;
+    readonly times: readonly TestTime[];
+}
+
+interface TestTime {
+    readonly ordinal: number;
+    readonly timesInMs: readonly number[];
 }
 
 export type Override<T, P> = P & Omit<T, keyof P>;

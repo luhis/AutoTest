@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using AutoTest.Domain.StorageModels;
 using AutoTest.Service.Messages;
 using AutoTest.Service.Models;
 using MediatR;
@@ -21,8 +20,7 @@ namespace AutoTest.Web.Controllers
         }
 
         [HttpGet("{eventId}")]
-        public Task<IEnumerable<Result>> GetClubs(ulong eventId, CancellationToken cancellationToken) => 
+        public Task<IEnumerable<Result>> GetClubs(ulong eventId, CancellationToken cancellationToken) =>
             this.mediator.Send(new GetResults(eventId), cancellationToken);
-
     }
 }

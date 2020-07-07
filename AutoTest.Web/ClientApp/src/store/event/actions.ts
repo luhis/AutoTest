@@ -47,7 +47,7 @@ export const GetTests = (eventId: number, token: string | undefined) => async (
 export const GetTestRuns: ActionCreator<ThunkAction<
     Promise<EventActionTypes>,
     AppState,
-    { eventId: number; token: string | undefined },
+    undefined,
     EventActionTypes
 >> = (eventId: number, token: string | undefined) => async (dispatch) => {
     dispatch({

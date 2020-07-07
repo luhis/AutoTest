@@ -1,4 +1,4 @@
-import { FunctionalComponent, h } from "preact";
+import { FunctionalComponent, h, Fragment } from "preact";
 import { useEffect, useState } from "preact/hooks";
 import { Title, Column } from "rbx";
 
@@ -27,9 +27,22 @@ const Results: FunctionalComponent<Readonly<Props>> = ({ eventId }) => {
         <div>
             <Title>Results</Title>
             {ifSome(results, (a) => (
-                <Column.Group key={a.totalTime}>
+                <Column.Group key={a.class}>
                     <Column>
-                        <p>{a.totalTime}</p>
+                        <p>{a.class}</p>
+                    </Column>
+                    <Column>
+                        {a.entrantTimes.map((a) => (
+                            <Fragment key={a.entrant.entrantId}>
+                                <p
+                                    key={a.entrant.entrantId}
+                                >{`${a.entrant.givenName} ${a.entrant.familyName}`}</p>
+                                {a.times.map((x) => (
+                                    <p key={x.toString()}>{x.ordinal}</p>
+                                ))}
+                                <p></p>
+                            </Fragment>
+                        ))}
                     </Column>
                 </Column.Group>
             ))}
