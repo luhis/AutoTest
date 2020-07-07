@@ -1,4 +1,5 @@
-import { Dispatch } from "redux";
+import { Dispatch, ActionCreator } from "redux";
+import { ThunkAction } from "redux-thunk";
 
 import {
     GET_ENTRANTS,
@@ -43,30 +44,38 @@ export const GetTests = (eventId: number, token: string | undefined) => async (
     });
 };
 
-export const GetTestRuns = (
-    eventId: number,
-    token: string | undefined
-) => async (dispatch: Dispatch<EventActionTypes>) => {
+export const GetTestRuns: ActionCreator<ThunkAction<
+    Promise<EventActionTypes>,
+    AppState,
+    { eventId: number; token: string | undefined },
+    EventActionTypes
+>> = (eventId: number, token: string | undefined) => async (dispatch) => {
     dispatch({
         type: GET_TEST_RUNS,
         payload: { tag: "Loading" },
     });
     const tests = await getTestRuns(eventId, token);
-    dispatch({
+    return dispatch({
         type: GET_TEST_RUNS,
         payload: tests,
     });
 };
 
-export const AddTestRun = (testRun: TestRun): EventActionTypes => ({
-    type: ADD_TEST_RUN,
-    payload: testRun,
-});
+export const AddTestRun = (
+    testRun: TestRun,
+    token: string | undefined
+) => async (dispatch: Dispatch<EventActionTypes>, getState: () => AppState) => {
+    dispatch({
+        type: ADD_TEST_RUN,
+        payload: testRun,
+    });
+    await SyncTestRuns(token)(dispatch, getState);
+};
 
-export const UpdateTestRunState = (
+export const UpdateTestRunState: ActionCreator<EventActionTypes> = (
     testRunId: number,
     state: TestRunUploadState
-): EventActionTypes => ({
+) => ({
     type: UPDATE_TEST_RUN_STATE,
     payload: { testRunId, state },
 });

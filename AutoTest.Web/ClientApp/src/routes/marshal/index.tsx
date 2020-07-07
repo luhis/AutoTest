@@ -162,10 +162,13 @@ const Marshal: FunctionalComponent<Readonly<Props>> = ({ eventId, testId }) => {
                             editing.timeInMS !== undefined
                         ) {
                             dispatch(
-                                AddTestRun({
-                                    ...editing,
-                                    created: fromDateOrThrow(new Date()),
-                                } as TestRun)
+                                AddTestRun(
+                                    {
+                                        ...editing,
+                                        created: fromDateOrThrow(new Date()),
+                                    } as TestRun,
+                                    getAccessToken(auth)
+                                )
                             );
                             setEditing(
                                 getNewEditableTest(Number.parseInt(testId))
