@@ -6,7 +6,7 @@ namespace AutoTest.Service.Models
 {
     public class EntrantTimes
     {
-        public EntrantTimes(Entrant entrant, uint totalTime, IEnumerable<TestTime> times)
+        public EntrantTimes(Entrant entrant, int totalTime, IEnumerable<TestTime> times)
         {
             Entrant = entrant;
             TotalTime = totalTime;
@@ -17,6 +17,6 @@ namespace AutoTest.Service.Models
 
         public IEnumerable<TestTime> Times { get; }
 
-        public uint TotalTime { get; }
+        public int TotalTime { get; }
     }
 }

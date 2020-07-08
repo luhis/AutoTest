@@ -4,7 +4,7 @@ namespace AutoTest.Service.Models
 {
     public class TestTime
     {
-        public TestTime(uint ordinal, IEnumerable<ulong> timesInMs)
+        public TestTime(uint ordinal, IEnumerable<int> timesInMs)
         {
             Ordinal = ordinal;
             TimesInMs = timesInMs;
@@ -12,6 +12,6 @@ namespace AutoTest.Service.Models
 
         public uint Ordinal { get; }
 
-        public IEnumerable<ulong> TimesInMs { get; }
+        public IEnumerable<int> TimesInMs { get; }
     }
 }

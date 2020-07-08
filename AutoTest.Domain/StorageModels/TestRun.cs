@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace AutoTest.Domain.StorageModels
 {
     public class TestRun
     {
-        public TestRun(ulong testRunId, ulong testId, ulong timeInMS, ulong entrantId, DateTime created)
+        public TestRun(ulong testRunId, ulong testId, int timeInMS, ulong entrantId, DateTime created)
         {
             TestRunId = testRunId;
             TestId = testId;
@@ -19,7 +18,7 @@ namespace AutoTest.Domain.StorageModels
 
         public ulong TestId { get; }
 
-        public ulong TimeInMS { get; }
+        public int TimeInMS { get; }
 
         public DateTime Created { get; }
 

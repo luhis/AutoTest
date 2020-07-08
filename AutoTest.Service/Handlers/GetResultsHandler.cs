@@ -7,6 +7,7 @@ using AutoTest.Domain.StorageModels;
 using AutoTest.Persistence;
 using AutoTest.Service.Messages;
 using AutoTest.Service.Models;
+using AutoTest.Service.ResultCalculation;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
@@ -15,10 +16,12 @@ namespace AutoTest.Service.Handlers
     public class GetResultsHandler : IRequestHandler<GetResults, IEnumerable<Result>>
     {
         private readonly AutoTestContext autoTestContext;
+        private readonly ITotalTimeCalculator totalTimeCalculator;
 
         public GetResultsHandler(AutoTestContext autoTestContext)
         {
             this.autoTestContext = autoTestContext;
+            totalTimeCalculator = new AutoTestTotalTimeCalculator();
         }
 
         async Task<IEnumerable<Result>> IRequestHandler<GetResults, IEnumerable<Result>>.Handle(GetResults request, CancellationToken cancellationToken)
@@ -32,7 +35,8 @@ namespace AutoTest.Service.Handlers
             var grouped = entrantAndRuns.GroupBy(a => a.entrant.Class);
             var testDict = tests.ToDictionary(a => a.TestId, a => a);
             return grouped.Select(a => new Result(a.Key, a.Select(x =>
-                new EntrantTimes(x.entrant, 0, x.runs.GroupBy(a => a.TestId).Select(r => new TestTime(testDict[r.Key].Ordinal, r.Select(a => a.TimeInMS)))))));
+                new EntrantTimes(x.entrant, totalTimeCalculator.GetTotalTime(x.runs, testRuns), x.runs.GroupBy(a => a.TestId).Select(r =>
+                    new TestTime(testDict[r.Key].Ordinal, r.Select(a => a.TimeInMS)))))));
         }
     }
 }
