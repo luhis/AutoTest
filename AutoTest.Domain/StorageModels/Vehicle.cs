@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace AutoTest.Domain.StorageModels
+﻿namespace AutoTest.Domain.StorageModels
 {
     public class Vehicle
     {

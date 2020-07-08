@@ -10,7 +10,7 @@ namespace AutoTest.Service.Models
             EntrantTimes = entrantTimes;
         }
 
-        public string @Class { get; }
+        public string Class { get; }
 
         public IEnumerable<EntrantTimes> EntrantTimes { get; }
     }

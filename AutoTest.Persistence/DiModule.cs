@@ -1,6 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-
-namespace AutoTest.Persistence
+﻿namespace AutoTest.Persistence
 {
     using Microsoft.Extensions.DependencyInjection;
 

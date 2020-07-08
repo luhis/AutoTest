@@ -30,5 +30,6 @@
         public EmergencyContact EmergencyContact { get; private set; } = new EmergencyContact();
 
         public void SetVehicle(Vehicle vehicle) => Vehicle = vehicle;
+        public void SetEmergencyContact(EmergencyContact emergencyContact) => EmergencyContact = emergencyContact;
     }
 }

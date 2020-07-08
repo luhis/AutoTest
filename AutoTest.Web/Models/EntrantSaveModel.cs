@@ -1,13 +1,10 @@
-﻿using AutoTest.Domain.StorageModels;
-
-namespace AutoTest.Web.Models
+﻿namespace AutoTest.Web.Models
 {
     public class EntrantSaveModel
     {
         public string GivenName { get; set; } = string.Empty;
 
         public string FamilyName { get; set; } = string.Empty;
-
 
         public string Class { get; set; } = string.Empty;
 

@@ -1,7 +1,6 @@
-using System;
-using Xunit;
+﻿using Xunit;
 
-namespace AutoTest.Test.Unit
+namespace AutoTest.Unit.Test
 {
     public class UnitTest1
     {

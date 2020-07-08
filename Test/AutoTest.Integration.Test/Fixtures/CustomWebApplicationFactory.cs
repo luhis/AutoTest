@@ -15,7 +15,7 @@ namespace AutoTest.Integration.Test.Fixtures
         : WebApplicationFactory<TStartup>
         where TStartup : class
     {
-        private static readonly IReadOnlyList<Type> ToRemove = new Type[]
+        private static readonly IReadOnlyList<Type> ToRemove = new[]
         {
             typeof(DbContextOptions<AutoTestContext>)
         };
