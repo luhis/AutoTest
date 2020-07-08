@@ -5,7 +5,7 @@ import { Title, Column } from "rbx";
 import { Result } from "../../types/models";
 import { LoadingState } from "../../types/loadingState";
 import { getResults } from "../../api/results";
-import ifSome from "../../components/shared/isSome";
+import ifSome from "../../components/shared/ifSome";
 
 interface Props {
     eventId: string;
@@ -26,26 +26,30 @@ const Results: FunctionalComponent<Readonly<Props>> = ({ eventId }) => {
     return (
         <div>
             <Title>Results</Title>
-            {ifSome(results, (a) => (
-                <Column.Group key={a.class}>
-                    <Column>
-                        <p>{a.class}</p>
-                    </Column>
-                    <Column>
-                        {a.entrantTimes.map((a) => (
-                            <Fragment key={a.entrant.entrantId}>
-                                <p
-                                    key={a.entrant.entrantId}
-                                >{`${a.entrant.givenName} ${a.entrant.familyName}`}</p>
-                                {a.times.map((x) => (
-                                    <p key={x.toString()}>{x.ordinal}</p>
-                                ))}
-                                <p></p>
-                            </Fragment>
-                        ))}
-                    </Column>
-                </Column.Group>
-            ))}
+            {ifSome(
+                results,
+                (r) => r.class,
+                (a) => (
+                    <Column.Group>
+                        <Column>
+                            <p>{a.class}</p>
+                        </Column>
+                        <Column>
+                            {a.entrantTimes.map((a) => (
+                                <Fragment key={a.entrant.entrantId}>
+                                    <p
+                                        key={a.entrant.entrantId}
+                                    >{`${a.entrant.givenName} ${a.entrant.familyName}`}</p>
+                                    {a.times.map((x) => (
+                                        <p key={x.toString()}>{x.ordinal}</p>
+                                    ))}
+                                    <p></p>
+                                </Fragment>
+                            ))}
+                        </Column>
+                    </Column.Group>
+                )
+            )}
         </div>
     );
 };

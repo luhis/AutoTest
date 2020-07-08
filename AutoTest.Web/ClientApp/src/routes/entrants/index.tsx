@@ -36,10 +36,10 @@ const Events: FunctionalComponent<Readonly<Props>> = ({ eventId }) => {
     };
     const dispatch = useDispatch();
     useEffect(() => {
-        if (requiresLoading(entrants)) {
+        if (requiresLoading(entrants.tag)) {
             dispatch(GetEntrants(eventIdNum, getAccessToken(auth)));
         }
-    }, [eventIdNum, dispatch, auth, entrants]);
+    }, [eventIdNum, dispatch, auth, entrants.tag]);
 
     return (
         <div>

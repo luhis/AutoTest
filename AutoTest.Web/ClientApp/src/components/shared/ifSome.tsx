@@ -3,6 +3,7 @@ import { LoadingState } from "../../types/loadingState";
 
 const ifSome = <T,>(
     arr: LoadingState<readonly T[]>,
+    getKey: (t: T) => string | number,
     IfIs: FunctionalComponent<T>
 ) => {
     switch (arr.tag) {
@@ -11,8 +12,8 @@ const ifSome = <T,>(
                 // bad idea maybe, maybe inject in a keyMap function
                 return (
                     <Fragment>
-                        {arr.value.map((a, i) => (
-                            <IfIs key={i} {...a} />
+                        {arr.value.map((a) => (
+                            <IfIs key={getKey(a)} {...a} />
                         ))}
                     </Fragment>
                 );

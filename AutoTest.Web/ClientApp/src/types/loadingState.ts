@@ -17,8 +17,8 @@ export const toApiResponse = async <T>(
     }
 };
 
-export const requiresLoading = <T>(state: LoadingState<T>) => {
-    if (state.tag === "Error" || state.tag === "Idle") {
+export const requiresLoading = <T>(tag: LoadingState<T>["tag"]) => {
+    if (tag === "Error" || tag === "Idle") {
         return true;
     }
     return false;

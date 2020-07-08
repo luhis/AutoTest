@@ -6,7 +6,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { fromDateOrThrow } from "ts-date";
 
 import { TestRun, EditableTestRun, PenaltyType } from "../../types/models";
-import ifSome from "../../components/shared/isSome";
+import ifSome from "../../components/shared/ifSome";
 import { getAccessToken } from "../../api/api";
 import { useGoogleAuth } from "../../components/app";
 import Penalties from "../../components/marshal/Penalties";
@@ -41,12 +41,12 @@ const Marshal: FunctionalComponent<Readonly<Props>> = ({ eventId, testId }) => {
     );
     const auth = useGoogleAuth();
     useEffect(() => {
-        if (requiresLoading(entrants)) {
+        if (requiresLoading(entrants.tag)) {
             dispatch(
                 GetEntrants(Number.parseInt(eventId), getAccessToken(auth))
             );
         }
-    }, [auth, dispatch, eventId, entrants]);
+    }, [auth, dispatch, eventId, entrants.tag]);
 
     const increase = (penaltyType: PenaltyType) => {
         setEditing((a) => {
@@ -109,12 +109,16 @@ const Marshal: FunctionalComponent<Readonly<Props>> = ({ eventId, testId }) => {
                         <Select.Option value={undefined}>
                             - Please Select -
                         </Select.Option>
-                        {ifSome(entrants, (a) => (
-                            <Select.Option value={a.entrantId}>
-                                {a.vehicle.registration} - {a.givenName}{" "}
-                                {a.familyName}
-                            </Select.Option>
-                        ))}
+                        {ifSome(
+                            entrants,
+                            (a) => a.entrantId,
+                            (a) => (
+                                <Select.Option value={a.entrantId}>
+                                    {a.vehicle.registration} - {a.givenName}{" "}
+                                    {a.familyName}
+                                </Select.Option>
+                            )
+                        )}
                     </Select>
                 </Select.Container>
             </Field>
