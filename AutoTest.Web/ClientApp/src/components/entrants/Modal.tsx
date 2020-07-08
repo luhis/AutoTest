@@ -1,9 +1,12 @@
 import { h, FunctionComponent } from "preact";
-import { Modal, Button, Label, Input, Field } from "rbx";
+import { Modal, Button, Label, Input, Field, Menu } from "rbx";
 import { DeepPartial } from "tsdef";
+import { useState } from "preact/hooks";
 
 import { Entrant } from "../../types/models";
 import { OnChange } from "../../types/inputs";
+import { useSelector } from "react-redux";
+import { selectClassOptions } from "../../store/event/selectors";
 
 interface Props {
     entrant: Entrant;
@@ -18,6 +21,8 @@ const EntrantsModal: FunctionComponent<Props> = ({
     entrant,
     setField,
 }) => {
+    const [showClasses, setShowClasses] = useState(false);
+    const classesInUse = useSelector(selectClassOptions);
     return (
         <Modal active={true}>
             <Modal.Background />
@@ -48,12 +53,33 @@ const EntrantsModal: FunctionComponent<Props> = ({
                         <Label>Class</Label>
                         <Input
                             value={entrant.class}
-                            onChange={(e: OnChange): void =>
+                            onChange={(e: OnChange): void => {
                                 setField({
                                     class: e.target.value,
-                                })
-                            }
+                                });
+                                setShowClasses(false);
+                            }}
+                            onFocus={() => setShowClasses(true)}
                         />
+                        {showClasses ? (
+                            <Menu>
+                                <Menu.List>
+                                    {classesInUse.map((a) => (
+                                        <Menu.List.Item
+                                            key={a}
+                                            onClick={() => {
+                                                setField({
+                                                    class: a,
+                                                });
+                                                setShowClasses(false);
+                                            }}
+                                        >
+                                            {a}
+                                        </Menu.List.Item>
+                                    ))}
+                                </Menu.List>
+                            </Menu>
+                        ) : null}
                     </Field>
                     <Field>
                         <Label>Registration</Label>
