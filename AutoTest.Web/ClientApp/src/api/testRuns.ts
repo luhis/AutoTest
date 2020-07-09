@@ -17,7 +17,7 @@ export const getTestRuns = async (
 export const addTestRun = async (
     testRun: TestRun,
     token: string | undefined
-): Promise<ApiResponse<readonly TestRun[]>> =>
+): Promise<ApiResponse<undefined>> =>
     toApiResponse(async () => {
         const { testRunId, ...rest } = testRun;
         const response = await fetch(`/api/testRuns/${testRunId}`, {
@@ -29,5 +29,5 @@ export const addTestRun = async (
             },
         });
         throwIfNotOk(response);
-        return (await response.json()) as TestRun[];
+        return undefined;
     });

@@ -11,8 +11,15 @@ import { getAccessToken } from "../../api/api";
 import { useGoogleAuth } from "../../components/app";
 import Penalties from "../../components/marshal/Penalties";
 import { OnChange, OnSelectChange } from "../../types/inputs";
-import { GetEntrants, AddTestRun } from "../../store/event/actions";
-import { selectEntrants } from "../../store/event/selectors";
+import {
+    GetEntrants,
+    AddTestRun,
+    SyncTestRuns,
+} from "../../store/event/actions";
+import {
+    selectEntrants,
+    selectRequiresSync,
+} from "../../store/event/selectors";
 import { requiresLoading } from "../../types/loadingState";
 import { AppState } from "src/store";
 
@@ -34,6 +41,7 @@ const Marshal: FunctionalComponent<Readonly<Props>> = ({ eventId, testId }) => {
     const dispatch = useDispatch();
     const entrants = useSelector(selectEntrants);
     const testRuns = useSelector((a: AppState) => a.event.testRuns);
+    const requiresSync = useSelector(selectRequiresSync);
     const testIdNum = Number.parseInt(testId);
 
     const [editing, setEditing] = useState<EditableTestRun>(
@@ -182,6 +190,15 @@ const Marshal: FunctionalComponent<Readonly<Props>> = ({ eventId, testId }) => {
                 >
                     Add
                 </Button>
+                {requiresSync ? (
+                    <Button
+                        onClick={() =>
+                            dispatch(SyncTestRuns(getAccessToken(auth)))
+                        }
+                    >
+                        Sync
+                    </Button>
+                ) : null}
             </Button.Group>
         </div>
     );

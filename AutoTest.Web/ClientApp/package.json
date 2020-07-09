@@ -28,6 +28,7 @@
         "@types/enzyme": "3.10.5",
         "@types/react": "file:./src/types/fake-empty",
         "@types/react-redux": "7.1.9",
+        "micro-dash": "7.3.0",
         "preact": "10.4.5",
         "preact-markup": "2.0.0",
         "preact-render-to-string": "5.1.9",
