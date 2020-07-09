@@ -26,13 +26,13 @@ namespace AutoTest.Service.Handlers
         {
             var tests = autoTestContext.Tests.Where(a => a.EventId == request.EventId);
             var testIds = await tests.Select(a => a.TestId).ToArrayAsync(cancellationToken);
-            var entrants = await this.autoTestContext.Entrants.Where(a => a.EventId == request.EventId).ToArrayAsync(cancellationToken);
-            var testRuns = await autoTestContext.TestRuns.Where(r => testIds.Any(x => x == r.TestId)).ToArrayAsync(cancellationToken);
+            var entrants = await this.autoTestContext.Entrants.Where(entrant => entrant.EventId == request.EventId).ToArrayAsync(cancellationToken);
+            var testRuns = await autoTestContext.TestRuns.Where(testRun => testIds.Any(x => x == testRun.TestId)).ToArrayAsync(cancellationToken);
 
-            var entrantAndRuns = entrants.Select(a => new { entrant = a, runs = testRuns.Where(r => r.EntrantId == a.EntrantId) });
-            var grouped = entrantAndRuns.GroupBy(a => a.entrant.Class);
+            var entrantsAndRuns = entrants.Select(entrant => new { entrant, runs = testRuns.Where(r => r.EntrantId == entrant.EntrantId) });
+            var grouped = entrantsAndRuns.GroupBy(entrantAndRuns => entrantAndRuns.entrant.Class);
             var testDict = tests.ToDictionary(a => a.TestId, a => a);
-            return grouped.Select(a => new Result(a.Key, a.Select(x =>
+            return grouped.Select(entrantsByClass => new Result(entrantsByClass.Key, entrantsByClass.Select(x =>
                 new EntrantTimes(x.entrant, totalTimeCalculator.GetTotalTime(x.runs, testRuns), x.runs.GroupBy(a => a.TestId).Select(r =>
                     new TestTime(testDict[r.Key].Ordinal, r.Select(a => a.TimeInMS)))))));
         }
