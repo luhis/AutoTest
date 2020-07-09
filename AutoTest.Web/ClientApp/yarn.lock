@@ -7063,11 +7063,12 @@ methods@~1.1.2:
   resolved "https://registry.yarnpkg.com/methods/-/methods-1.1.2.tgz#5529a4d67654134edcc5266656835b0f851afcee"
   integrity sha1-VSmk1nZUE07cxSZmVoNbD4Ua/O4=
 
-micro-dash@7.3.0:
-  version "7.3.0"
-  resolved "https://registry.yarnpkg.com/micro-dash/-/micro-dash-7.3.0.tgz#3e852f39e4752903e83196ead4bcd297d6edcebb"
-  integrity sha512-kzx2R6UMPD7ahwjr7AVnSODOWECom5uxt9Wc9FZUZ39bYnbwnjdytbUKK2xRjq4TpWCk6T6/udlaesbM4GB36Q==
+micro-dash@8.0.0:
+  version "8.0.0"
+  resolved "https://registry.yarnpkg.com/micro-dash/-/micro-dash-8.0.0.tgz#37c5fb3cc076a765e2dd5710e779a7be8d253b7d"
+  integrity sha512-tdRp4SwIpBtZBLP9qIdjn1KP4bhzLM6MRv6HlZy8X0tIsEjcpIPubX52pAMC1BglGt2ot9+6oXiYbdBJTSLx9w==
   dependencies:
+    tslib "^2.0.0"
     utility-types "~3.10.0"
 
 microevent.ts@~0.1.1:
@@ -10554,6 +10555,11 @@ tslib@^1.8.1, tslib@^1.9.0:
   version "1.13.0"
   resolved "https://registry.yarnpkg.com/tslib/-/tslib-1.13.0.tgz#c881e13cc7015894ed914862d276436fa9a47043"
   integrity sha512-i/6DQjL8Xf3be4K/E6Wgpekn5Qasl1usyw++dAA35Ue5orEn65VIxOA+YvNNl9HV3qv70T7CNwjODHZrLwvd1Q==
+
+tslib@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/tslib/-/tslib-2.0.0.tgz#18d13fc2dce04051e20f074cc8387fd8089ce4f3"
+  integrity sha512-lTqkx847PI7xEDYJntxZH89L2/aXInsyF2luSafe/+0fHOMjlBNXdH6th7f70qxLDhul7KZK0zC8V5ZIyHl0/g==
 
 tsutils@^3.17.1:
   version "3.17.1"
