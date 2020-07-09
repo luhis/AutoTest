@@ -22,7 +22,9 @@ const EntrantsModal: FunctionComponent<Props> = ({
     setField,
 }) => {
     const [showClasses, setShowClasses] = useState(false);
-    const classesInUse = useSelector(selectClassOptions);
+    const classesInUse = useSelector(selectClassOptions).filter(
+        (c) => c.startsWith(entrant.class) && c !== entrant.class
+    );
     return (
         <Modal active={true}>
             <Modal.Background />
@@ -55,7 +57,7 @@ const EntrantsModal: FunctionComponent<Props> = ({
                             value={entrant.class}
                             onChange={(e: OnChange): void => {
                                 setField({
-                                    class: e.target.value,
+                                    class: e.target.value.toLocaleUpperCase(),
                                 });
                                 setShowClasses(false);
                             }}

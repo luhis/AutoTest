@@ -4,6 +4,7 @@ import { useGoogleLogin } from "react-use-googlelogin";
 import { useContext, useState, StateUpdater } from "preact/hooks";
 import { Provider } from "react-redux";
 import { Content } from "rbx";
+//import { PersistGate } from "redux-persist/integration/react";
 
 import Home from "../routes/home";
 import Profile from "../routes/profile";
@@ -53,6 +54,7 @@ const App: FunctionalComponent = () => {
     return (
         <div id="app">
             <Provider store={store}>
+                {/* <PersistGate loading={null} persistor={persistor}> */}
                 <AccessContext.Provider value={access}>
                     <GoogleAuthContext.Provider
                         value={googleAuth as GoogleAuth}
@@ -93,6 +95,7 @@ const App: FunctionalComponent = () => {
                         </Content>
                     </GoogleAuthContext.Provider>
                 </AccessContext.Provider>
+                {/* </PersistGate> */}
             </Provider>
         </div>
     );
