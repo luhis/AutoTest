@@ -2,7 +2,7 @@
 {
     public class Test
     {
-        public Test(ulong testId, ulong eventId, uint ordinal, string? mapLocation)
+        public Test(ulong testId, ulong eventId, int ordinal, string? mapLocation)
         {
             TestId = testId;
             EventId = eventId;
@@ -14,7 +14,7 @@
 
         public ulong EventId { get; }
 
-        public uint Ordinal { get; }
+        public int Ordinal { get; }
 
         public string? MapLocation { get; }
     }

@@ -6,7 +6,7 @@ namespace AutoTest.Domain.StorageModels
 
     public class Event
     {
-        public Event(ulong eventId, ulong clubId, string location, DateTime startTime, uint testCount, uint maxAttemptsPerTest)
+        public Event(ulong eventId, ulong clubId, string location, DateTime startTime, int testCount, int maxAttemptsPerTest)
         {
             EventId = eventId;
             ClubId = clubId;
@@ -24,9 +24,9 @@ namespace AutoTest.Domain.StorageModels
 
         public DateTime StartTime { get; }
 
-        public uint TestCount { get; }
+        public int TestCount { get; }
 
-        public uint MaxAttemptsPerTest { get; }
+        public int MaxAttemptsPerTest { get; }
 
         public ICollection<AuthorisationEmail> MarshalEmails { get; private set; } = Array.Empty<AuthorisationEmail>();
 

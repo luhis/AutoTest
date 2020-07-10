@@ -10,7 +10,7 @@ namespace AutoTest.Service
     {
         public static async Task Upsert<T>(this DbSet<T> set, T toSave, Expression<Func<T, bool>> search, CancellationToken cancellationToken) where T : class
         {
-            if ((await set.SingleOrDefaultAsync(search, cancellationToken)) == null)
+            if (await set.SingleOrDefaultAsync(search, cancellationToken) == null)
             {
                 set.Add(toSave);
             }

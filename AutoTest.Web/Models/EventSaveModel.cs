@@ -10,8 +10,8 @@ namespace AutoTest.Web.Models
 
         public DateTime StartTime { get; set; }
 
-        public uint TestCount { get; set; }
+        public int TestCount { get; set; }
 
-        public uint MaxAttemptsPerTest { get; set; }
+        public int MaxAttemptsPerTest { get; set; }
     }
 }
