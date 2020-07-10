@@ -61,6 +61,16 @@ export const GetTestRuns: ActionCreator<ThunkAction<
     });
 };
 
+export const SetTestsIdle: ActionCreator<EventActionTypes> = () => ({
+    type: GET_TESTS,
+    payload: { tag: "Idle" },
+});
+
+export const SetEntrantsIdle: ActionCreator<EventActionTypes> = () => ({
+    type: GET_ENTRANTS,
+    payload: { tag: "Idle" },
+});
+
 export const AddTestRun = (
     testRun: TestRun,
     token: string | undefined

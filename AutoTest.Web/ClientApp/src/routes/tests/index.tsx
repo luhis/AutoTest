@@ -7,7 +7,12 @@ import { useDispatch, useSelector } from "react-redux";
 import ifSome from "../../components/shared/ifSome";
 import { useGoogleAuth } from "../../components/app";
 import { getAccessToken } from "../../api/api";
-import { GetEntrants, GetTests } from "../../store/event/actions";
+import {
+    GetEntrants,
+    GetTests,
+    SetTestsIdle,
+    SetEntrantsIdle,
+} from "../../store/event/actions";
 import { selectTests, selectEntrants } from "../../store/event/selectors";
 import { requiresLoading } from "../../types/loadingState";
 
@@ -21,6 +26,10 @@ const Tests: FunctionalComponent<Readonly<Props>> = ({ eventId }) => {
     const tests = useSelector(selectTests);
     const entrants = useSelector(selectEntrants);
     const eventIdAsNum = Number.parseInt(eventId);
+    useEffect(() => {
+        dispatch(SetTestsIdle());
+        dispatch(SetEntrantsIdle());
+    }, [eventIdAsNum, dispatch]);
     useEffect(() => {
         if (requiresLoading(entrants.tag)) {
             dispatch(GetEntrants(eventIdAsNum, getAccessToken(auth)));

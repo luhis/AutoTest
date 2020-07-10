@@ -21,7 +21,7 @@ namespace AutoTest.Service.Handlers
 
         async Task<IEnumerable<Test>> IRequestHandler<GetTests, IEnumerable<Test>>.Handle(GetTests request, CancellationToken cancellationToken)
         {
-            return await this.autoTestContext.Tests.Where(b => b.EventId == request.EventId).ToArrayAsync(cancellationToken);
+            return await this.autoTestContext.Tests.Where(b => b.EventId == request.EventId).OrderBy(a => a.Ordinal).ToArrayAsync(cancellationToken);
         }
     }
 }

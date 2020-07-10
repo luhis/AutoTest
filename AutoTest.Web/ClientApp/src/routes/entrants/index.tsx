@@ -11,7 +11,7 @@ import { useGoogleAuth } from "../../components/app";
 import { getAccessToken } from "../../api/api";
 import List from "../../components/entrants/List";
 import EntrantsModal from "../../components/entrants/Modal";
-import { GetEntrants } from "../../store/event/actions";
+import { GetEntrants, SetEntrantsIdle } from "../../store/event/actions";
 import { useDispatch, useSelector } from "react-redux";
 import { selectEntrants } from "../../store/event/selectors";
 
@@ -27,6 +27,10 @@ const Events: FunctionalComponent<Readonly<Props>> = ({ eventId }) => {
         undefined
     );
     const auth = useGoogleAuth();
+    const dispatch = useDispatch();
+    useEffect(() => {
+        dispatch(SetEntrantsIdle());
+    }, [eventIdNum, dispatch]);
     const save = async () => {
         if (editingEntrant) {
             await addEntrant(editingEntrant, getAccessToken(auth));
@@ -34,7 +38,6 @@ const Events: FunctionalComponent<Readonly<Props>> = ({ eventId }) => {
             dispatch(GetEntrants(eventIdNum, getAccessToken(auth))); // might not need this
         }
     };
-    const dispatch = useDispatch();
     useEffect(() => {
         if (requiresLoading(entrants.tag)) {
             dispatch(GetEntrants(eventIdNum, getAccessToken(auth)));

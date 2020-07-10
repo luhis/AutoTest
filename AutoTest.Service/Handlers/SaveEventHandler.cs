@@ -37,7 +37,7 @@ namespace AutoTest.Service.Handlers
         private void SyncTests(Event @event)
         {
             var tests = this.autoTestContext.Tests.Where(a => a.EventId == @event.EventId);
-            var expectedOrdinals = Enumerable.Range(0, @event.TestCount);
+            var expectedOrdinals = Enumerable.Range(1, @event.TestCount);
             var toAddOrdinals = expectedOrdinals.Except(tests.Select(a => a.Ordinal));
 
             this.autoTestContext.Tests.AddRange(toAddOrdinals.Select(a => new Test(Generator.NextLong(), @event.EventId, a, null)));
