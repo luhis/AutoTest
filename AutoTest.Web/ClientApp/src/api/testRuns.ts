@@ -12,7 +12,7 @@ export const getTestRuns = async (
         });
         throwIfNotOk(response);
         return (await response.json()) as TestRun[];
-    });
+    }, testId);
 
 export const addTestRun = async (
     testRun: TestRun,

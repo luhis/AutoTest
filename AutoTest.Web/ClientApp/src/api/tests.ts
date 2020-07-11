@@ -12,4 +12,4 @@ export const getTests = async (
         });
         throwIfNotOk(response);
         return (await response.json()) as Test[];
-    });
+    }, eventId);

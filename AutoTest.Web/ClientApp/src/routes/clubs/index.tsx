@@ -17,6 +17,7 @@ const ClubComponent: FunctionalComponent = () => {
     const auth = useGoogleAuth();
     const [clubs, setClubs] = useState<LoadingState<readonly Club[]>>({
         tag: "Loading",
+        id: undefined,
     });
     const [editingClub, setEditingClub] = useState<Club | undefined>(undefined);
     useEffect(() => {

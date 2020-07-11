@@ -3,16 +3,15 @@ import { useEffect, useState } from "preact/hooks";
 import { Title, Button } from "rbx";
 import UUID from "uuid-int";
 import { DeepPartial } from "tsdef";
+import { useDispatch, useSelector } from "react-redux";
 
 import { addEntrant } from "../../api/entrants";
 import { Entrant } from "../../types/models";
-import { requiresLoading } from "../../types/loadingState";
 import { useGoogleAuth } from "../../components/app";
 import { getAccessToken } from "../../api/api";
 import List from "../../components/entrants/List";
 import EntrantsModal from "../../components/entrants/Modal";
 import { GetEntrants, SetEntrantsIdle } from "../../store/event/actions";
-import { useDispatch, useSelector } from "react-redux";
 import { selectEntrants } from "../../store/event/selectors";
 
 interface Props {
@@ -35,14 +34,12 @@ const Events: FunctionalComponent<Readonly<Props>> = ({ eventId }) => {
         if (editingEntrant) {
             await addEntrant(editingEntrant, getAccessToken(auth));
             setEditingEntrant(undefined);
-            dispatch(GetEntrants(eventIdNum, getAccessToken(auth))); // might not need this
+            dispatch(GetEntrants(eventIdNum, getAccessToken(auth))); // todo, this will not do anything
         }
     };
     useEffect(() => {
-        if (requiresLoading(entrants.tag)) {
-            dispatch(GetEntrants(eventIdNum, getAccessToken(auth)));
-        }
-    }, [eventIdNum, dispatch, auth, entrants.tag]);
+        dispatch(GetEntrants(eventIdNum, getAccessToken(auth)));
+    }, [eventIdNum, dispatch, auth]);
 
     return (
         <div>

@@ -1,5 +1,4 @@
 import { Dispatch, ActionCreator } from "redux";
-import { ThunkAction } from "redux-thunk";
 
 import {
     GET_ENTRANTS,
@@ -14,51 +13,60 @@ import { getEntrants } from "../../api/entrants";
 import { AppState } from "..";
 import { addTestRun, getTestRuns } from "../../api/testRuns";
 import { getTests } from "../../api/tests";
+import { requiresLoading, idsMatch } from "../../types/loadingState";
 
 export const GetEntrants = (
     eventId: number,
     token: string | undefined
-) => async (dispatch: Dispatch<EventActionTypes>) => {
-    dispatch({
-        type: GET_ENTRANTS,
-        payload: { tag: "Loading" },
-    });
-    const entrants = await getEntrants(eventId, token);
-    dispatch({
-        type: GET_ENTRANTS,
-        payload: entrants,
-    });
+) => async (dispatch: Dispatch<EventActionTypes>, getState: () => AppState) => {
+    const entrants = getState().event.entrants;
+    if (requiresLoading(entrants.tag) || !idsMatch(entrants, eventId)) {
+        dispatch({
+            type: GET_ENTRANTS,
+            payload: { tag: "Loading", id: eventId },
+        });
+        const entrants = await getEntrants(eventId, token);
+        dispatch({
+            type: GET_ENTRANTS,
+            payload: entrants,
+        });
+    }
 };
 
 export const GetTests = (eventId: number, token: string | undefined) => async (
-    dispatch: Dispatch<EventActionTypes>
+    dispatch: Dispatch<EventActionTypes>,
+    getState: () => AppState
 ) => {
-    dispatch({
-        type: GET_TESTS,
-        payload: { tag: "Loading" },
-    });
-    const tests = await getTests(eventId, token);
-    dispatch({
-        type: GET_TESTS,
-        payload: tests,
-    });
+    const tests = getState().event.tests;
+    if (requiresLoading(tests.tag) || !idsMatch(tests, eventId)) {
+        dispatch({
+            type: GET_TESTS,
+            payload: { tag: "Loading", id: eventId },
+        });
+        const tests = await getTests(eventId, token);
+        dispatch({
+            type: GET_TESTS,
+            payload: tests,
+        });
+    }
 };
 
-export const GetTestRuns: ActionCreator<ThunkAction<
-    Promise<EventActionTypes>,
-    AppState,
-    undefined,
-    EventActionTypes
->> = (eventId: number, token: string | undefined) => async (dispatch) => {
-    dispatch({
-        type: GET_TEST_RUNS,
-        payload: { tag: "Loading" },
-    });
-    const tests = await getTestRuns(eventId, token);
-    return dispatch({
-        type: GET_TEST_RUNS,
-        payload: tests,
-    });
+export const GetTestRuns = (
+    eventId: number,
+    token: string | undefined
+) => async (dispatch: Dispatch<EventActionTypes>, getState: () => AppState) => {
+    const tests = getState().event.testRunsFromServer;
+    if (requiresLoading(tests.tag) || !idsMatch(tests, eventId)) {
+        dispatch({
+            type: GET_TEST_RUNS,
+            payload: { tag: "Loading", id: eventId },
+        });
+        const tests = await getTestRuns(eventId, token);
+        dispatch({
+            type: GET_TEST_RUNS,
+            payload: tests,
+        });
+    }
 };
 
 export const SetTestsIdle: ActionCreator<EventActionTypes> = () => ({

@@ -12,7 +12,7 @@ export const getEntrants = async (
         });
         throwIfNotOk(response);
         return (await response.json()) as Entrant[];
-    });
+    }, eventId);
 
 export const addEntrant = async (
     entrant: Entrant,

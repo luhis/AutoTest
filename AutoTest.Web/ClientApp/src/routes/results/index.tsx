@@ -4,7 +4,7 @@ import { Title, Column } from "rbx";
 import { flatten } from "micro-dash";
 
 import { Result } from "../../types/models";
-import { LoadingState, requiresLoading } from "../../types/loadingState";
+import { LoadingState } from "../../types/loadingState";
 import { getResults } from "../../api/results";
 import ifSome from "../../components/shared/ifSome";
 import { useDispatch, useSelector } from "react-redux";
@@ -29,19 +29,18 @@ const Results: FunctionalComponent<Readonly<Props>> = ({ eventId }) => {
     const tests = useSelector(selectTests);
     const [results, setResults] = useState<LoadingState<readonly Result[]>>({
         tag: "Loading",
+        id: eventIdAsNum,
     });
     useEffect(() => {
         const fetchData = async () => {
-            const events = await getResults(eventIdAsNum, undefined);
+            const events = await getResults(eventIdAsNum, getAccessToken(auth));
             setResults(events);
         };
         void fetchData();
-    }, [eventIdAsNum]);
+    }, [auth, eventIdAsNum]);
     useEffect(() => {
-        if (requiresLoading(tests.tag)) {
-            dispatch(GetTests(eventIdAsNum, getAccessToken(auth)));
-        }
-    }, [eventIdAsNum, dispatch, auth, tests.tag]);
+        dispatch(GetTests(eventIdAsNum, getAccessToken(auth)));
+    }, [eventIdAsNum, dispatch, auth]);
 
     const getLen = (a: readonly Result[]) => {
         const x = flatten(

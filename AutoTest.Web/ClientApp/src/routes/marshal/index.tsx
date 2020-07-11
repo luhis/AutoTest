@@ -20,7 +20,6 @@ import {
     selectEntrants,
     selectRequiresSync,
 } from "../../store/event/selectors";
-import { requiresLoading } from "../../types/loadingState";
 import { AppState } from "src/store";
 
 const getNewEditableTest = (testId: number): EditableTestRun => ({
@@ -43,18 +42,15 @@ const Marshal: FunctionalComponent<Readonly<Props>> = ({ eventId, testId }) => {
     const testRuns = useSelector((a: AppState) => a.event.testRuns);
     const requiresSync = useSelector(selectRequiresSync);
     const testIdNum = Number.parseInt(testId);
+    const eventIdNum = Number.parseInt(eventId);
 
     const [editing, setEditing] = useState<EditableTestRun>(
         getNewEditableTest(testIdNum)
     );
     const auth = useGoogleAuth();
     useEffect(() => {
-        if (requiresLoading(entrants.tag)) {
-            dispatch(
-                GetEntrants(Number.parseInt(eventId), getAccessToken(auth))
-            );
-        }
-    }, [auth, dispatch, eventId, entrants.tag]);
+        dispatch(GetEntrants(eventIdNum, getAccessToken(auth)));
+    }, [auth, dispatch, eventIdNum]);
 
     const increase = (penaltyType: PenaltyType) => {
         setEditing((a) => {

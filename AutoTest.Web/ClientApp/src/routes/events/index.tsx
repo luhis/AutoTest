@@ -21,6 +21,7 @@ const Events: FunctionalComponent<Readonly<Props>> = ({ clubId }) => {
     const auth = useGoogleAuth();
     const [events, setEvents] = useState<LoadingState<readonly Event[]>>({
         tag: "Loading",
+        id: undefined,
     });
     const [editingEvent, setEditingEvent] = useState<Event | undefined>(
         undefined
