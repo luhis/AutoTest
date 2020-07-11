@@ -45,8 +45,8 @@ const Results: FunctionalComponent<Readonly<Props>> = ({ eventId }) => {
     const getLen = (a: readonly Result[]) => {
         const x = flatten(
             flatten(
-                a.map((a) =>
-                    a.entrantTimes.map((b) =>
+                a.map((result) =>
+                    result.entrantTimes.map((b) =>
                         b.times.map((c) => c.timesInMs.length)
                     )
                 )
@@ -73,12 +73,12 @@ const Results: FunctionalComponent<Readonly<Props>> = ({ eventId }) => {
             {ifSome(
                 results,
                 (r) => r.class,
-                (a) => (
+                (result) => (
                     <Column.Group>
                         <Column>
-                            <p>{a.class}</p>
+                            <p>{result.class}</p>
                         </Column>
-                        {a.entrantTimes.map((a) => (
+                        {result.entrantTimes.map((a) => (
                             <Fragment key={a.entrant.entrantId}>
                                 <Column>{`${a.entrant.givenName} ${a.entrant.familyName}`}</Column>
                                 <Column>{a.totalTime / 1000}</Column>
@@ -91,8 +91,8 @@ const Results: FunctionalComponent<Readonly<Props>> = ({ eventId }) => {
                                 )}
                                 {numToRange(
                                     timeColumnCount - a.times.length
-                                ).map((a) => (
-                                    <Column key={a}></Column>
+                                ).map((test) => (
+                                    <Column key={test}></Column>
                                 ))}
                             </Fragment>
                         ))}

@@ -25,10 +25,9 @@ export const GetEntrants = (
             type: GET_ENTRANTS,
             payload: { tag: "Loading", id: eventId },
         });
-        const entrants = await getEntrants(eventId, token);
         dispatch({
             type: GET_ENTRANTS,
-            payload: entrants,
+            payload: await getEntrants(eventId, token),
         });
     }
 };
@@ -43,10 +42,9 @@ export const GetTests = (eventId: number, token: string | undefined) => async (
             type: GET_TESTS,
             payload: { tag: "Loading", id: eventId },
         });
-        const tests = await getTests(eventId, token);
         dispatch({
             type: GET_TESTS,
-            payload: tests,
+            payload: await getTests(eventId, token),
         });
     }
 };
@@ -61,10 +59,9 @@ export const GetTestRuns = (
             type: GET_TEST_RUNS,
             payload: { tag: "Loading", id: eventId },
         });
-        const tests = await getTestRuns(eventId, token);
         dispatch({
             type: GET_TEST_RUNS,
-            payload: tests,
+            payload: await getTestRuns(eventId, token),
         });
     }
 };

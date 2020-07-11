@@ -7,9 +7,11 @@ export const selectRequiresSync = (a: AppState) =>
 
 export const selectEntrants = (a: AppState) => a.event.entrants;
 
-export const selectClassOptions = (a: AppState): readonly string[] =>
-    a.event.entrants.tag === "Loaded"
-        ? Array.from(new Set(a.event.entrants.value.map((a) => a.class).sort()))
+export const selectClassOptions = (state: AppState): readonly string[] =>
+    state.event.entrants.tag === "Loaded"
+        ? Array.from(
+              new Set(state.event.entrants.value.map((a) => a.class).sort())
+          )
         : [];
 
 export const selectTests = (a: AppState) => a.event.tests;

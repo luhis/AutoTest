@@ -28,8 +28,7 @@ const Events: FunctionalComponent<Readonly<Props>> = ({ clubId }) => {
     );
     useEffect(() => {
         const fetchData = async () => {
-            const events = await getEvents();
-            setEvents(events);
+            setEvents(await getEvents());
         };
         void fetchData();
     }, []);

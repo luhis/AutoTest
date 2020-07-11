@@ -55,12 +55,12 @@ const Marshal: FunctionalComponent<Readonly<Props>> = ({ eventId, testId }) => {
     const increase = (penaltyType: PenaltyType) => {
         setEditing((a) => {
             const found = a.penalties.find(
-                (a) => a.penaltyType === penaltyType
+                (penalty) => penalty.penaltyType === penaltyType
             );
             return {
                 ...a,
                 penalties: a.penalties
-                    .filter((a) => a.penaltyType !== penaltyType)
+                    .filter((penalty) => penalty.penaltyType !== penaltyType)
                     .concat(
                         found !== undefined
                             ? {
@@ -78,12 +78,12 @@ const Marshal: FunctionalComponent<Readonly<Props>> = ({ eventId, testId }) => {
     const decrease = (penaltyType: PenaltyType) => {
         setEditing((a) => {
             const found = a.penalties.find(
-                (a) => a.penaltyType === penaltyType
+                (penalty) => penalty.penaltyType === penaltyType
             );
             return {
                 ...a,
                 penalties: a.penalties
-                    .filter((a) => a.penaltyType !== penaltyType)
+                    .filter((penalty) => penalty.penaltyType !== penaltyType)
                     .concat(
                         found !== undefined && found.instanceCount > 2
                             ? {
