@@ -2,7 +2,7 @@
 {
     public class EntrantSaveModel
     {
-        public  int DriverNumber { get; set; }
+        public ushort DriverNumber { get; set; }
 
         public string GivenName { get; set; } = string.Empty;
 
