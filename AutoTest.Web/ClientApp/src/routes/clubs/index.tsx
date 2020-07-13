@@ -41,7 +41,7 @@ const ClubComponent: FunctionalComponent = () => {
             <Title>Clubs</Title>
             <List
                 clubs={clubs}
-                setEditingClub={(a) => setEditingClub({ ...a, isNew: true })}
+                setEditingClub={(a) => setEditingClub({ ...a, isNew: false })}
             />
             <Button
                 onClick={() =>
@@ -61,12 +61,7 @@ const ClubComponent: FunctionalComponent = () => {
                 <Modal
                     club={editingClub}
                     setField={(a: Partial<Club>) =>
-                        setEditingClub(
-                            (b) =>
-                                ({ ...b, ...a } as Club & {
-                                    readonly isNew: boolean;
-                                })
-                        )
+                        setEditingClub((b) => ({ ...b, ...a } as EditingClub))
                     }
                     cancel={() => setEditingClub(undefined)}
                     save={save}

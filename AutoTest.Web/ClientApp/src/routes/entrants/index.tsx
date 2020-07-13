@@ -58,7 +58,7 @@ const Events: FunctionalComponent<Readonly<Props>> = ({ eventId }) => {
             <List
                 entrants={entrants}
                 setEditingEntrant={(a) =>
-                    setEditingEntrant({ ...a, isNew: true })
+                    setEditingEntrant({ ...a, isNew: false })
                 }
             />
             <Button

@@ -44,7 +44,7 @@ const Events: FunctionalComponent<Readonly<Props>> = ({ clubId }) => {
             <Title>Events</Title>
             <List
                 events={events}
-                setEditingEvent={(a) => setEditingEvent({ ...a, isNew: true })}
+                setEditingEvent={(a) => setEditingEvent({ ...a, isNew: false })}
             />
             <Button
                 onClick={() =>
