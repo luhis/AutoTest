@@ -3,19 +3,19 @@ import { Modal, Button, Label, Input, Field, Menu } from "rbx";
 import { DeepPartial } from "tsdef";
 import { useState } from "preact/hooks";
 
-import { Entrant } from "../../types/models";
+import { Entrant, EditingEntrant } from "../../types/models";
 import { OnChange } from "../../types/inputs";
 import { useSelector } from "react-redux";
 import { selectClassOptions } from "../../store/event/selectors";
 
 interface Props {
-    entrant: Omit<Entrant, "driverNumber">;
+    entrant: EditingEntrant;
     save: () => Promise<void>;
     cancel: () => void;
     setField: (k: DeepPartial<Omit<Entrant, "driverNumber">>) => void;
 }
 
-const EntrantsModal: FunctionComponent<Props> = ({
+const EntrantsModal: FunctionComponent<Readonly<Props>> = ({
     save,
     cancel,
     entrant,
@@ -30,7 +30,7 @@ const EntrantsModal: FunctionComponent<Props> = ({
             <Modal.Background />
             <Modal.Card>
                 <Modal.Card.Head>
-                    {entrant.entrantId === undefined ? "Add" : "Edit"} Entrant
+                    {entrant.isNew ? "Add" : "Edit"} Entrant
                 </Modal.Card.Head>
                 <Modal.Card.Body>
                     <Field>

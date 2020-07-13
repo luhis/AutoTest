@@ -2,18 +2,18 @@ import { h, FunctionComponent } from "preact";
 import { Modal, Button, Label, Input, Field } from "rbx";
 import { newValidDateOrThrow } from "ts-date";
 
-import { Event } from "../../types/models";
+import { Event, EditingEvent } from "../../types/models";
 import { OnChange } from "../../types/inputs";
 import EmailList from "../shared/EmailList";
 
 interface Props {
-    event: Event;
+    event: EditingEvent;
     save: () => Promise<void>;
     cancel: () => void;
     setField: (k: Partial<Event>) => void;
 }
 
-const ModalX: FunctionComponent<Props> = ({
+const ModalX: FunctionComponent<Readonly<Props>> = ({
     save,
     cancel,
     event,
@@ -24,7 +24,7 @@ const ModalX: FunctionComponent<Props> = ({
             <Modal.Background />
             <Modal.Card>
                 <Modal.Card.Head>
-                    {event.clubId === undefined ? "Add" : "Edit"} Event
+                    {event.isNew ? "Add" : "Edit"} Event
                 </Modal.Card.Head>
                 <Modal.Card.Body>
                     <Field>

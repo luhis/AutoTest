@@ -18,6 +18,8 @@ export interface Club {
     readonly adminEmails: readonly string[];
 }
 
+export type EditingClub = Club & { readonly isNew: boolean };
+
 export interface Test {
     readonly testId: number;
     readonly ordinal: number;
@@ -72,6 +74,8 @@ export interface Event {
     readonly marshalEmails: readonly string[];
 }
 
+export type EditingEvent = Event & { readonly isNew: boolean };
+
 export interface Entrant {
     readonly entrantId: number;
     readonly eventId: number;
@@ -81,6 +85,10 @@ export interface Entrant {
     readonly familyName: string;
     readonly vehicle: Vehicle;
 }
+
+export type EditingEntrant = Omit<Entrant, "driverNumber"> & {
+    readonly isNew: boolean;
+};
 
 export interface Vehicle {
     readonly make: string;

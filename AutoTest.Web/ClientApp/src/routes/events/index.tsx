@@ -5,7 +5,7 @@ import UUID from "uuid-int";
 import { fromDateOrThrow } from "ts-date";
 
 import { getEvents, addEvent } from "../../api/events";
-import { Event } from "../../types/models";
+import { Event, EditingEvent } from "../../types/models";
 import { LoadingState } from "../../types/loadingState";
 import Modal from "../../components/events/Modal";
 import { getAccessToken } from "../../api/api";
@@ -23,7 +23,7 @@ const Events: FunctionalComponent<Readonly<Props>> = ({ clubId }) => {
         tag: "Loading",
         id: undefined,
     });
-    const [editingEvent, setEditingEvent] = useState<Event | undefined>(
+    const [editingEvent, setEditingEvent] = useState<EditingEvent | undefined>(
         undefined
     );
     useEffect(() => {
@@ -42,7 +42,10 @@ const Events: FunctionalComponent<Readonly<Props>> = ({ clubId }) => {
     return (
         <div>
             <Title>Events</Title>
-            <List events={events} setEditingEvent={setEditingEvent} />
+            <List
+                events={events}
+                setEditingEvent={(a) => setEditingEvent({ ...a, isNew: true })}
+            />
             <Button
                 onClick={() =>
                     setEditingEvent({
@@ -54,6 +57,7 @@ const Events: FunctionalComponent<Readonly<Props>> = ({ clubId }) => {
                         testCount: 12,
                         maxAttemptsPerTest: 2,
                         marshalEmails: [],
+                        isNew: true,
                     })
                 }
             >
@@ -63,7 +67,7 @@ const Events: FunctionalComponent<Readonly<Props>> = ({ clubId }) => {
                 <Modal
                     event={editingEvent}
                     setField={(a: Partial<Event>) =>
-                        setEditingEvent((b) => ({ ...b, ...a } as Event))
+                        setEditingEvent((b) => ({ ...b, ...a } as EditingEvent))
                     }
                     cancel={() => setEditingEvent(undefined)}
                     save={save}

@@ -1,24 +1,29 @@
 import { h, FunctionComponent } from "preact";
 import { Modal, Button, Label, Input, Field } from "rbx";
 
-import { Club } from "../../types/models";
+import { Club, EditingClub } from "../../types/models";
 import { OnChange } from "../../types/inputs";
 import EmailList from "../shared/EmailList";
 
 interface Props {
-    club: Club;
+    club: EditingClub;
     save: () => Promise<void>;
     cancel: () => void;
     setField: (k: Partial<Club>) => void;
 }
 
-const ModalX: FunctionComponent<Props> = ({ save, cancel, club, setField }) => {
+const ModalX: FunctionComponent<Readonly<Props>> = ({
+    save,
+    cancel,
+    club,
+    setField,
+}) => {
     return (
         <Modal active={true}>
             <Modal.Background />
             <Modal.Card>
                 <Modal.Card.Head>
-                    {club.clubId === undefined ? "Add" : "Edit"} Club
+                    {club.isNew ? "Add" : "Edit"} Club
                 </Modal.Card.Head>
                 <Modal.Card.Body>
                     <Field>

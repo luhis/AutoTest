@@ -6,7 +6,7 @@ import UUID from "uuid-int";
 import { getClubs, addClub } from "../../api/clubs";
 import { useGoogleAuth } from "../../components/app";
 import { getAccessToken } from "../../api/api";
-import { Club } from "../../types/models";
+import { Club, EditingClub } from "../../types/models";
 import { LoadingState } from "../../types/loadingState";
 import List from "../../components/clubs/List";
 import Modal from "../../components/clubs/Modal";
@@ -19,7 +19,9 @@ const ClubComponent: FunctionalComponent = () => {
         tag: "Loading",
         id: undefined,
     });
-    const [editingClub, setEditingClub] = useState<Club | undefined>(undefined);
+    const [editingClub, setEditingClub] = useState<EditingClub | undefined>(
+        undefined
+    );
     useEffect(() => {
         const fetchData = async () => {
             setClubs(await getClubs(getAccessToken(auth)));
@@ -37,7 +39,10 @@ const ClubComponent: FunctionalComponent = () => {
     return (
         <div>
             <Title>Clubs</Title>
-            <List clubs={clubs} setEditingClub={setEditingClub} />
+            <List
+                clubs={clubs}
+                setEditingClub={(a) => setEditingClub({ ...a, isNew: true })}
+            />
             <Button
                 onClick={() =>
                     setEditingClub({
@@ -46,6 +51,7 @@ const ClubComponent: FunctionalComponent = () => {
                         website: "",
                         clubPaymentAddress: "",
                         adminEmails: [],
+                        isNew: true,
                     })
                 }
             >
@@ -55,7 +61,12 @@ const ClubComponent: FunctionalComponent = () => {
                 <Modal
                     club={editingClub}
                     setField={(a: Partial<Club>) =>
-                        setEditingClub((b) => ({ ...b, ...a } as Club))
+                        setEditingClub(
+                            (b) =>
+                                ({ ...b, ...a } as Club & {
+                                    readonly isNew: boolean;
+                                })
+                        )
                     }
                     cancel={() => setEditingClub(undefined)}
                     save={save}

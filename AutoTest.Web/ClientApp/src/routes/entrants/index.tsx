@@ -6,7 +6,7 @@ import { DeepPartial } from "tsdef";
 import { useDispatch, useSelector } from "react-redux";
 
 import { addEntrant } from "../../api/entrants";
-import { Entrant } from "../../types/models";
+import { Entrant, EditingEntrant } from "../../types/models";
 import { useGoogleAuth } from "../../components/app";
 import { getAccessToken } from "../../api/api";
 import List from "../../components/entrants/List";
@@ -23,7 +23,7 @@ const Events: FunctionalComponent<Readonly<Props>> = ({ eventId }) => {
     const eventIdNum = Number.parseInt(eventId);
     const entrants = useSelector(selectEntrants);
     const [editingEntrant, setEditingEntrant] = useState<
-        Omit<Entrant, "driverNumber"> | undefined
+        EditingEntrant | undefined
     >(undefined);
     const auth = useGoogleAuth();
     const dispatch = useDispatch();
@@ -55,7 +55,12 @@ const Events: FunctionalComponent<Readonly<Props>> = ({ eventId }) => {
     return (
         <div>
             <Title>Entrants</Title>
-            <List entrants={entrants} setEditingEntrant={setEditingEntrant} />
+            <List
+                entrants={entrants}
+                setEditingEntrant={(a) =>
+                    setEditingEntrant({ ...a, isNew: true })
+                }
+            />
             <Button
                 onClick={() =>
                     setEditingEntrant({
@@ -71,6 +76,7 @@ const Events: FunctionalComponent<Readonly<Props>> = ({ eventId }) => {
                             displacement: 0,
                             registration: "",
                         },
+                        isNew: true,
                     })
                 }
             >
@@ -80,7 +86,9 @@ const Events: FunctionalComponent<Readonly<Props>> = ({ eventId }) => {
                 <EntrantsModal
                     entrant={editingEntrant}
                     setField={(a: DeepPartial<Entrant>) =>
-                        setEditingEntrant((b) => ({ ...b, ...a } as Entrant))
+                        setEditingEntrant(
+                            (b) => ({ ...b, ...a } as EditingEntrant)
+                        )
                     }
                     cancel={() => setEditingEntrant(undefined)}
                     save={save}
