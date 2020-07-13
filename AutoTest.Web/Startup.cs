@@ -116,11 +116,11 @@ namespace AutoTest.Web
                 c.OperationFilter<OAuth2OperationFilter>();
             });
 
-            //services.AddResponseCompression(options =>
-            //{
-            //    options.Providers.Add<GzipCompressionProvider>();
-            //    options.EnableForHttps = true;
-            //});
+            services.AddResponseCompression(options =>
+            {
+                options.Providers.Add<GzipCompressionProvider>();
+                options.EnableForHttps = true;
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -138,7 +138,7 @@ namespace AutoTest.Web
             }
 
             app.UseHttpsRedirection();
-            //app.UseResponseCompression();
+            app.UseResponseCompression();
             app.UseSpaStaticFileCaching();
 
             app.UseRouting();
