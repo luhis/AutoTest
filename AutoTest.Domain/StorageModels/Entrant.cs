@@ -3,7 +3,7 @@
     public class Entrant
     {
 
-        public Entrant(ulong entrantId, int driverNumber, string givenName, string familyName, string @class, ulong eventId, bool isPaid)
+        public Entrant(ulong entrantId, ushort driverNumber, string givenName, string familyName, string @class, ulong eventId, bool isPaid)
         {
             EntrantId = entrantId;
             GivenName = givenName;
@@ -16,7 +16,7 @@
 
         public ulong EntrantId { get; }
 
-        public int DriverNumber { get; }
+        public ushort DriverNumber { get; }
 
         public string GivenName { get; }
 

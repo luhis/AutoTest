@@ -9,10 +9,10 @@ import { useSelector } from "react-redux";
 import { selectClassOptions } from "../../store/event/selectors";
 
 interface Props {
-    entrant: Entrant;
+    entrant: Omit<Entrant, "driverNumber">;
     save: () => Promise<void>;
     cancel: () => void;
-    setField: (k: DeepPartial<Entrant>) => void;
+    setField: (k: DeepPartial<Omit<Entrant, "driverNumber">>) => void;
 }
 
 const EntrantsModal: FunctionComponent<Props> = ({

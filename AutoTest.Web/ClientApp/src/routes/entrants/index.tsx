@@ -22,9 +22,9 @@ const uid = UUID(Number.parseInt(process.env.PREACT_APP_KEY_SEED as string));
 const Events: FunctionalComponent<Readonly<Props>> = ({ eventId }) => {
     const eventIdNum = Number.parseInt(eventId);
     const entrants = useSelector(selectEntrants);
-    const [editingEntrant, setEditingEntrant] = useState<Entrant | undefined>(
-        undefined
-    );
+    const [editingEntrant, setEditingEntrant] = useState<
+        Omit<Entrant, "driverNumber"> | undefined
+    >(undefined);
     const auth = useGoogleAuth();
     const dispatch = useDispatch();
     useEffect(() => {
@@ -32,7 +32,18 @@ const Events: FunctionalComponent<Readonly<Props>> = ({ eventId }) => {
     }, [eventIdNum, dispatch]);
     const save = async () => {
         if (editingEntrant) {
-            await addEntrant(editingEntrant, getAccessToken(auth));
+            await addEntrant(
+                {
+                    ...editingEntrant,
+                    driverNumber:
+                        entrants.tag === "Loaded"
+                            ? Math.max(
+                                  ...entrants.value.map((a) => a.driverNumber)
+                              ) + 1
+                            : -1,
+                },
+                getAccessToken(auth)
+            );
             setEditingEntrant(undefined);
             dispatch(GetEntrants(eventIdNum, getAccessToken(auth))); // todo, this will not do anything
         }
