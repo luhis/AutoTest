@@ -4,6 +4,7 @@ import { newValidDateOrThrow } from "ts-date";
 
 import { Event } from "../../types/models";
 import { OnChange } from "../../types/inputs";
+import EmailList from "../shared/EmailList";
 
 interface Props {
     event: Event;
@@ -68,6 +69,26 @@ const ModalX: FunctionComponent<Props> = ({
                                 setField({
                                     startTime: newValidDateOrThrow(
                                         e.target.value
+                                    ),
+                                })
+                            }
+                        />
+                    </Field>
+                    <Field>
+                        <Label>Marshal Emails</Label>
+                        <EmailList
+                            emails={event.marshalEmails}
+                            addNew={(s) =>
+                                setField({
+                                    marshalEmails: event.marshalEmails.concat(
+                                        s
+                                    ),
+                                })
+                            }
+                            remove={(removeIndex) =>
+                                setField({
+                                    marshalEmails: event.marshalEmails.filter(
+                                        (_, i) => i !== removeIndex
                                     ),
                                 })
                             }

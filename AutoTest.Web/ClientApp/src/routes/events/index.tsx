@@ -53,6 +53,7 @@ const Events: FunctionalComponent<Readonly<Props>> = ({ clubId }) => {
                         startTime: fromDateOrThrow(new Date()),
                         testCount: 12,
                         maxAttemptsPerTest: 2,
+                        marshalEmails: [],
                     })
                 }
             >
