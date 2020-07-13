@@ -21,7 +21,7 @@ namespace AutoTest.Service.Handlers
 
         async Task<IEnumerable<Entrant>> IRequestHandler<GetEntrants, IEnumerable<Entrant>>.Handle(GetEntrants request, CancellationToken cancellationToken)
         {
-            return await this.autoTestContext.Entrants.Where(a => a.EventId == request.EventId).OrderBy(a => a.Vehicle.Registration).ToArrayAsync(cancellationToken);
+            return await this.autoTestContext.Entrants.Where(a => a.EventId == request.EventId).OrderBy(a => a.DriverNumber).ToArrayAsync(cancellationToken);
         }
     }
 }

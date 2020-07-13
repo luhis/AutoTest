@@ -73,6 +73,7 @@ export interface Event {
 export interface Entrant {
     readonly entrantId: number;
     readonly eventId: number;
+    readonly driverNumber: number;
     readonly class: string;
     readonly givenName: string;
     readonly familyName: string;

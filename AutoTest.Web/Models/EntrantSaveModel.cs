@@ -2,6 +2,8 @@
 {
     public class EntrantSaveModel
     {
+        public  int DriverNumber { get; set; }
+
         public string GivenName { get; set; } = string.Empty;
 
         public string FamilyName { get; set; } = string.Empty;

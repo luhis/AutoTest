@@ -19,6 +19,7 @@ const List: FunctionalComponent<Readonly<Props>> = ({
         (a) => a.entrantId,
         (a) => (
             <Column.Group>
+                <Column>{a.driverNumber}</Column>
                 <Column>{a.vehicle.registration}</Column>
                 <Column>{`${a.givenName} ${a.familyName}`}</Column>
                 <Column>

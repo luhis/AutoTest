@@ -3,17 +3,20 @@
     public class Entrant
     {
 
-        public Entrant(ulong entrantId, string givenName, string familyName, string @class, ulong eventId, bool isPaid)
+        public Entrant(ulong entrantId, int driverNumber, string givenName, string familyName, string @class, ulong eventId, bool isPaid)
         {
+            EntrantId = entrantId;
             GivenName = givenName;
             FamilyName = familyName;
-            EntrantId = entrantId;
             Class = @class;
             EventId = eventId;
             IsPaid = isPaid;
+            DriverNumber = driverNumber;
         }
 
         public ulong EntrantId { get; }
+
+        public int DriverNumber { get; }
 
         public string GivenName { get; }
 
