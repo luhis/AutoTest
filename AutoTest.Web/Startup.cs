@@ -1,4 +1,6 @@
 ﻿using System;
+using AutoTest.Web.Extensions;
+using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.OpenApi.Models;
 
 namespace AutoTest.Web
@@ -113,6 +115,12 @@ namespace AutoTest.Web
                 });
                 c.OperationFilter<OAuth2OperationFilter>();
             });
+
+            //services.AddResponseCompression(options =>
+            //{
+            //    options.Providers.Add<GzipCompressionProvider>();
+            //    options.EnableForHttps = true;
+            //});
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -130,8 +138,8 @@ namespace AutoTest.Web
             }
 
             app.UseHttpsRedirection();
-            app.UseStaticFiles();
-            app.UseSpaStaticFiles();
+            //app.UseResponseCompression();
+            app.UseSpaStaticFileCaching();
 
             app.UseRouting();
             app.UseAuthentication().UseAuthorization();
@@ -155,7 +163,6 @@ namespace AutoTest.Web
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
                 c.OAuthConfigObject.ClientId = ClientId;
             });
-
             app.UseSpa(spa =>
             {
                 spa.Options.SourcePath = "ClientApp/build/";
