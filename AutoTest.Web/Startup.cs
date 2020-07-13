@@ -158,7 +158,7 @@ namespace AutoTest.Web
 
             app.UseSpa(spa =>
             {
-                spa.Options.SourcePath = "ClientApp";
+                spa.Options.SourcePath = "ClientApp/build/";
 
                 if (env.IsDevelopment())
                 {

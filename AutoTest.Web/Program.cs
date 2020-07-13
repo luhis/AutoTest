@@ -1,4 +1,4 @@
-namespace AutoTest.Web
+﻿namespace AutoTest.Web
 {
     using System.Threading.Tasks;
     using Microsoft.AspNetCore.Hosting;
@@ -11,7 +11,7 @@ namespace AutoTest.Web
         private static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder =>
-                { 
+                {
                     webBuilder.UseStartup<Startup>();
                     webBuilder.ConfigureKestrel(serverOptions => serverOptions.AddServerHeader = false);
                 });

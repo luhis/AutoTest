@@ -1,5 +1,4 @@
-﻿using System.Diagnostics;
-using AutoTest.Web.Authorization;
+﻿using AutoTest.Web.Authorization;
 using Microsoft.Extensions.Configuration;
 
 namespace AutoTest.Web
@@ -16,7 +15,7 @@ namespace AutoTest.Web
             var config = configuration.GetSection("Cosmos");
             var endpoint = config.GetValue<string>("Endpoint");
             var key = config.GetValue<string>("Key");
-            Debug.WriteLine($"Cosmos config, endpoint: {endpoint} key: {key}");
+            System.Diagnostics.Trace.TraceInformation($"Cosmos config, endpoint: {endpoint} key: {key}");
             collection.AddScoped<IAuthorizationHandler, MarshalRequirementHandler>();
             collection.AddScoped<IAuthorizationHandler, ClubAdminRequirementHandler>();
             collection.AddDbContext<AutoTestContext>(o => o.UseCosmos(
