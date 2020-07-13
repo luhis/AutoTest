@@ -1,4 +1,7 @@
-﻿namespace AutoTest.Web.Models
+﻿using System.Collections.Generic;
+using System.Linq;
+
+namespace AutoTest.Web.Models
 {
     public class ClubSaveModel
     {
@@ -7,5 +10,7 @@
         public string ClubPaymentAddress { get; set; } = string.Empty;
 
         public string Website { get; set; } = string.Empty;
+
+        public IEnumerable<string> AdminEmails { get; set; } = Enumerable.Empty<string>();
     }
 }

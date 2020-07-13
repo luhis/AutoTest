@@ -6,9 +6,21 @@ namespace AutoTest.Web.Mapping
 {
     public static class MapClub
     {
-        public static Club Map(ulong clubId, ClubSaveModel model) => new Club(clubId, model.ClubName, model.ClubPaymentAddress, model.Website);
+        public static Club Map(ulong clubId, ClubSaveModel model)
+        {
+            var c = new Club(clubId, model.ClubName, model.ClubPaymentAddress, model.Website);
+            c.SetAdminEmails(model.AdminEmails.Select(a => new AuthorisationEmail(a)).ToArray());
+            return c;
+        }
 
-        public static Event Map(ulong eventId, EventSaveModel @event) => new Event(eventId, @event.ClubId, @event.Location, @event.StartTime, @event.TestCount, @event.MaxAttemptsPerTest);
+        public static Event Map(ulong eventId, EventSaveModel @event)
+        {
+            var e = new Event(eventId, @event.ClubId, @event.Location, @event.StartTime, @event.TestCount,
+                @event.MaxAttemptsPerTest);
+            e.SetMarshalEmails(@event.MarshalEmails.Select(a => new AuthorisationEmail(a)).ToArray());
+            return e;
+        }
+
         public static TestRun Map(ulong testRunId, TestRunSaveModel test)
         {
             var run = new TestRun(testRunId, test.TestId, test.TimeInMS, test.EntrantId, test.Created);
