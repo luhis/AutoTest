@@ -1,4 +1,6 @@
-﻿using AutoTest.Web.Authorization;
+﻿using System.Diagnostics;
+using AutoTest.Web.Authorization;
+using Microsoft.Extensions.Configuration;
 
 namespace AutoTest.Web
 {
@@ -9,13 +11,17 @@ namespace AutoTest.Web
 
     public static class DiModule
     {
-        public static void AddWeb(this IServiceCollection collection)
+        public static void AddWeb(this IServiceCollection collection, IConfiguration configuration)
         {
+            var config = configuration.GetSection("Cosmos");
+            var endpoint = config.GetValue<string>("Endpoint");
+            var key = config.GetValue<string>("Key");
+            Debug.WriteLine($"Cosmos config, endpoint: {endpoint} key: {key}");
             collection.AddScoped<IAuthorizationHandler, MarshalRequirementHandler>();
             collection.AddScoped<IAuthorizationHandler, ClubAdminRequirementHandler>();
             collection.AddDbContext<AutoTestContext>(o => o.UseCosmos(
-                "https://localhost:8081",
-                "C2y6yDjf5/R+ob0N8A7Cgv30VRDJIWEHLM+4QDU5DE2nQ9nDuVTqobD4b8mGGyPMbIZnqyMsEcaGQy67XIw/Jw==",
+                endpoint,
+                key,
                 databaseName: "AutoTestDB"));
         }
     }

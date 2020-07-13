@@ -40,4 +40,8 @@
     <ProjectReference Include="..\AutoTest.Service\AutoTest.Service.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Properties\PublishProfiles\" />
+  </ItemGroup>
+
 </Project>

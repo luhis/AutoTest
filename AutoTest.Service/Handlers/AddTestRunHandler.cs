@@ -4,6 +4,8 @@ using AutoTest.Persistence;
 using AutoTest.Service.Messages;
 using MediatR;
 
+using static AutoTest.Service.NonNuller;
+
 namespace AutoTest.Service.Handlers
 {
     public class AddTestRunHandler : IRequestHandler<AddTestRun>
@@ -17,7 +19,7 @@ namespace AutoTest.Service.Handlers
 
         async Task<Unit> IRequestHandler<AddTestRun, Unit>.Handle(AddTestRun request, CancellationToken cancellationToken)
         {
-            this.autoTestContext.TestRuns.Add(request.TestRun);
+            ThrowIfNull(this.autoTestContext.TestRuns).Add(request.TestRun);
             await this.autoTestContext.SaveChangesAsync(cancellationToken);
             return Unit.Value;
         }

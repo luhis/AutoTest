@@ -9,6 +9,8 @@ using AutoTest.Service.Messages;
 using MediatR;
 using UniqueIdGenerator.Net;
 
+using static AutoTest.Service.NonNuller;
+
 namespace AutoTest.Service.Handlers
 {
     public class SaveEventHandler : IRequestHandler<SaveEvent, ulong>
@@ -40,12 +42,12 @@ namespace AutoTest.Service.Handlers
             var expectedOrdinals = Enumerable.Range(1, @event.TestCount);
             var toAddOrdinals = expectedOrdinals.Except(tests.Select(a => a.Ordinal));
 
-            this.autoTestContext.Tests.AddRange(toAddOrdinals.Select(a => new Test(Generator.NextLong(), @event.EventId, a, null)));
+            ThrowIfNull(this.autoTestContext.Tests).AddRange(toAddOrdinals.Select(a => new Test(Generator.NextLong(), @event.EventId, a, null)));
             var toRemove = tests.Where(a => !expectedOrdinals.Contains(a.Ordinal));
             foreach (var test in toRemove)
             {
                 this.autoTestContext.Add(test);
-                this.autoTestContext.Tests.Remove(test).State = Microsoft.EntityFrameworkCore.EntityState.Deleted;
+                ThrowIfNull(this.autoTestContext.Tests).Remove(test).State = Microsoft.EntityFrameworkCore.EntityState.Deleted;
             }
         }
     }
