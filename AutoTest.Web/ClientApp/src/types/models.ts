@@ -15,6 +15,7 @@ export interface Club {
     readonly clubName: string;
     readonly clubPaymentAddress: string;
     readonly website: string;
+    readonly adminEmails: readonly string[];
 }
 
 export interface Test {
@@ -68,6 +69,7 @@ export interface Event {
     readonly startTime: ValidDate;
     readonly testCount: number;
     readonly maxAttemptsPerTest: number;
+    readonly marshalEmails: readonly string[];
 }
 
 export interface Entrant {

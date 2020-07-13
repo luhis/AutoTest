@@ -45,6 +45,7 @@ const ClubComponent: FunctionalComponent = () => {
                         clubName: "",
                         website: "",
                         clubPaymentAddress: "",
+                        adminEmails: [],
                     })
                 }
             >

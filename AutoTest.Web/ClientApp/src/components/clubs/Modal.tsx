@@ -3,6 +3,7 @@ import { Modal, Button, Label, Input, Field } from "rbx";
 
 import { Club } from "../../types/models";
 import { OnChange } from "../../types/inputs";
+import EmailList from "../shared/EmailList";
 
 interface Props {
     club: Club;
@@ -45,6 +46,24 @@ const ModalX: FunctionComponent<Props> = ({ save, cancel, club, setField }) => {
                             onChange={(e: OnChange): void =>
                                 setField({
                                     website: e.target.value,
+                                })
+                            }
+                        />
+                    </Field>
+                    <Field>
+                        <Label>Admin Emails</Label>
+                        <EmailList
+                            emails={club.adminEmails}
+                            addNew={(s) =>
+                                setField({
+                                    adminEmails: club.adminEmails.concat(s),
+                                })
+                            }
+                            remove={(removeIndex) =>
+                                setField({
+                                    adminEmails: club.adminEmails.filter(
+                                        (_, i) => i !== removeIndex
+                                    ),
                                 })
                             }
                         />
