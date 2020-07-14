@@ -10,8 +10,9 @@ import { Club, EditingClub } from "../../types/models";
 import { LoadingState } from "../../types/loadingState";
 import List from "../../components/clubs/List";
 import Modal from "../../components/clubs/Modal";
+import { keySeed } from "../../settings";
 
-const uid = UUID(Number.parseInt(process.env.PREACT_APP_KEY_SEED as string));
+const uid = UUID(keySeed);
 
 const ClubComponent: FunctionalComponent = () => {
     const auth = useGoogleAuth();

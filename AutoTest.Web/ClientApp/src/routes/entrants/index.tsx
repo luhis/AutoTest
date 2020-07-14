@@ -17,11 +17,12 @@ import {
     GetEntrants,
 } from "../../store/event/actions";
 import { selectEntrants } from "../../store/event/selectors";
+import { keySeed } from "../../settings";
 
 interface Props {
     eventId: string;
 }
-const uid = UUID(Number.parseInt(process.env.PREACT_APP_KEY_SEED as string));
+const uid = UUID(keySeed);
 
 const Events: FunctionalComponent<Readonly<Props>> = ({ eventId }) => {
     const eventIdNum = Number.parseInt(eventId);

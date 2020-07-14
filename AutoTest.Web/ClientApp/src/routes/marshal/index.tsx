@@ -23,6 +23,7 @@ import {
     selectTestRuns,
     selectEvents,
 } from "../../store/event/selectors";
+import { keySeed } from "../../settings";
 
 const getNewEditableTest = (testId: number): EditableTestRun => ({
     testRunId: uid.uuid(),
@@ -36,7 +37,7 @@ interface Props {
     testId: string;
 }
 
-const uid = UUID(Number.parseInt(process.env.PREACT_APP_KEY_SEED as string));
+const uid = UUID(keySeed);
 
 const Marshal: FunctionalComponent<Readonly<Props>> = ({ eventId, testId }) => {
     const dispatch = useDispatch();

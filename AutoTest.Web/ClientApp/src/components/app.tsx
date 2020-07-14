@@ -18,6 +18,7 @@ import Results from "../routes/results";
 import Tests from "../routes/tests";
 import Marshal from "../routes/marshal";
 import store from "../store";
+import { googleKey } from "../settings";
 
 import "rbx/index.css";
 
@@ -47,7 +48,7 @@ const AccessContext = createContext<[Access, StateUpdater<Access>]>([
 
 const App: FunctionalComponent = () => {
     const googleAuth = useGoogleLogin({
-        clientId: process.env.PREACT_APP_GOOGLE_CLIENT_ID as string, // Your clientID from Google.
+        clientId: googleKey, // Your clientID from Google.
     });
     const access = useState<Access>(defaultAccess);
 

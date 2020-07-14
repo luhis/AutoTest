@@ -13,11 +13,12 @@ import { useGoogleAuth } from "../../components/app";
 import List from "../../components/events/List";
 import { GetEventsIfRequired, GetEvents } from "../../store/event/actions";
 import { selectEvents } from "../../store/event/selectors";
+import { keySeed } from "../../settings";
 
 interface Props {
     clubId: string | undefined;
 }
-const uid = UUID(Number.parseInt(process.env.PREACT_APP_KEY_SEED as string));
+const uid = UUID(keySeed);
 
 const Events: FunctionalComponent<Readonly<Props>> = ({ clubId }) => {
     const dispatch = useDispatch();
