@@ -24,6 +24,11 @@ namespace AutoTest.Web
 
     public class Startup
     {
+        const string swaggerHash = "hQoyAYxxdlQX6mYg//3SgDUdhiDx4sZq5ThHlCL8Ssg=";
+        const string swagger2Hash = "ip2mafwm8g4hzTmJd0ltVOzuizPeY1roJ3pkMwGXm8E=";
+        const string googleCom = "https://*.google.com";
+        const string googleAnal = "https://www.google-analytics.com";
+
         public Startup(IConfiguration configuration)
         {
             this.Configuration = configuration;
@@ -147,7 +152,35 @@ namespace AutoTest.Web
             app.UseSecurityHeaders(
                 policies => policies.AddDefaultSecurityHeaders()
                     .AddStrictTransportSecurityMaxAgeIncludeSubDomains(maxAgeInSeconds: 63072000)
-                    .RemoveServerHeader());
+                    .RemoveServerHeader().AddContentSecurityPolicy(builder =>
+                    {
+                        builder.AddDefaultSrc().Self();
+                        var scripts = builder.AddScriptSrc().Self()
+                            .From(googleCom)
+                            .From("https://www.gstatic.com")
+                            .From(googleAnal)
+                            .WithHash256(swaggerHash)
+                            .WithHash256(swagger2Hash);
+                        if (env.IsDevelopment())
+                        {
+                            scripts.UnsafeEval();
+                        }
+
+                        builder.AddFrameSource().Self().From(googleCom);
+                        var style = builder.AddStyleSrc().Self();
+                        if (env.IsDevelopment())
+                        {
+                            style.UnsafeInline();
+                        }
+
+                        var connect = builder.AddConnectSrc().Self();
+                        if (env.IsDevelopment())
+                        {
+                            connect.From("https://localhost:*");
+                        }
+
+                        builder.AddUpgradeInsecureRequests();
+                    }));
 
 
             app.UseEndpoints(endpoints =>

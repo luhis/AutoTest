@@ -15,21 +15,28 @@ import { addTestRun, getTestRuns } from "../../api/testRuns";
 import { getTests } from "../../api/tests";
 import { requiresLoading, idsMatch } from "../../types/loadingState";
 
-export const GetEntrants = (
+export const GetEntrantsIfRequired = (
     eventId: number,
     token: string | undefined
 ) => async (dispatch: Dispatch<EventActionTypes>, getState: () => AppState) => {
     const entrants = getState().event.entrants;
     if (requiresLoading(entrants.tag) || !idsMatch(entrants, eventId)) {
-        dispatch({
-            type: GET_ENTRANTS,
-            payload: { tag: "Loading", id: eventId },
-        });
-        dispatch({
-            type: GET_ENTRANTS,
-            payload: await getEntrants(eventId, token),
-        });
+        await GetEntrants(eventId, token)(dispatch);
     }
+};
+
+export const GetEntrants = (
+    eventId: number,
+    token: string | undefined
+) => async (dispatch: Dispatch<EventActionTypes>) => {
+    dispatch({
+        type: GET_ENTRANTS,
+        payload: { tag: "Loading", id: eventId },
+    });
+    dispatch({
+        type: GET_ENTRANTS,
+        payload: await getEntrants(eventId, token),
+    });
 };
 
 export const GetTests = (eventId: number, token: string | undefined) => async (

@@ -10,12 +10,16 @@ export interface Access {
     readonly canViewClubs: boolean;
 }
 
+export interface AuthorisationEmail {
+    readonly email: string;
+}
+
 export interface Club {
     readonly clubId: number;
     readonly clubName: string;
     readonly clubPaymentAddress: string;
     readonly website: string;
-    readonly adminEmails: readonly string[];
+    readonly adminEmails: readonly AuthorisationEmail[];
 }
 
 export type EditingClub = Club & { readonly isNew: boolean };
@@ -71,7 +75,7 @@ export interface Event {
     readonly startTime: ValidDate;
     readonly testCount: number;
     readonly maxAttemptsPerTest: number;
-    readonly marshalEmails: readonly string[];
+    readonly marshalEmails: readonly AuthorisationEmail[];
 }
 
 export type EditingEvent = Event & { readonly isNew: boolean };

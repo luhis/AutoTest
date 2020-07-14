@@ -28,7 +28,7 @@ namespace AutoTest.Domain.StorageModels
 
         public int MaxAttemptsPerTest { get; }
 
-        public ICollection<AuthorisationEmail> MarshalEmails { get; private set; } = Array.Empty<AuthorisationEmail>();
+        public ICollection<AuthorisationEmail> MarshalEmails { get; private set; } = new List<AuthorisationEmail>();
 
         public void SetMarshalEmails(ICollection<AuthorisationEmail> emails) => MarshalEmails = emails;
     }

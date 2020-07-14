@@ -3,10 +3,11 @@ import { Menu, Button, Input, Control, Delete, Field } from "rbx";
 import { useState } from "preact/hooks";
 
 import { OnChange } from "../../types/inputs";
+import { AuthorisationEmail } from "../../types/models";
 
 interface Props {
-    emails: readonly string[];
-    addNew: (_: string) => void;
+    emails: readonly AuthorisationEmail[];
+    addNew: (_: AuthorisationEmail) => void;
     remove: (_: number) => void;
 }
 
@@ -16,7 +17,7 @@ const EmailList: FunctionComponent<Props> = ({ emails, addNew, remove }) => {
         <Menu.List>
             {emails.map((a, i) => (
                 <Menu.List.Item key={a}>
-                    {a}
+                    {a.email}
                     <Delete onClick={() => remove(i)} />
                 </Menu.List.Item>
             ))}
@@ -34,7 +35,7 @@ const EmailList: FunctionComponent<Props> = ({ emails, addNew, remove }) => {
                     <Control>
                         <Button
                             onClick={() => {
-                                addNew(newEmail);
+                                addNew({ email: newEmail });
                                 setNewEmail("");
                             }}
                         >

@@ -11,7 +11,11 @@ import { useGoogleAuth } from "../../components/app";
 import { getAccessToken } from "../../api/api";
 import List from "../../components/entrants/List";
 import EntrantsModal from "../../components/entrants/Modal";
-import { GetEntrants, SetEntrantsIdle } from "../../store/event/actions";
+import {
+    GetEntrantsIfRequired,
+    SetEntrantsIdle,
+    GetEntrants,
+} from "../../store/event/actions";
 import { selectEntrants } from "../../store/event/selectors";
 
 interface Props {
@@ -45,11 +49,11 @@ const Events: FunctionalComponent<Readonly<Props>> = ({ eventId }) => {
                 getAccessToken(auth)
             );
             setEditingEntrant(undefined);
-            dispatch(GetEntrants(eventIdNum, getAccessToken(auth))); // todo, this will not do anything
+            dispatch(GetEntrants(eventIdNum, getAccessToken(auth)));
         }
     };
     useEffect(() => {
-        dispatch(GetEntrants(eventIdNum, getAccessToken(auth)));
+        dispatch(GetEntrantsIfRequired(eventIdNum, getAccessToken(auth)));
     }, [eventIdNum, dispatch, auth]);
 
     return (
