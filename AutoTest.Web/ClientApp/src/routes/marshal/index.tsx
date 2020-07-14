@@ -157,6 +157,7 @@ const Marshal: FunctionalComponent<Readonly<Props>> = ({ eventId, testId }) => {
                 <Label>Time (Secs)</Label>
                 <Input
                     type="number"
+                    min="0"
                     value={
                         editing.timeInMS === undefined
                             ? ""

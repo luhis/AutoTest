@@ -40,9 +40,12 @@ const ModalX: FunctionComponent<Readonly<Props>> = ({
                         <Label>Test Count</Label>
                         <Input
                             type="number"
+                            min="1"
                             value={event.testCount}
                             onChange={(e: OnChange): void =>
-                                setField({ testCount: Number(e.target.value) })
+                                setField({
+                                    testCount: Number.parseInt(e.target.value),
+                                })
                             }
                         />
                     </Field>
@@ -50,10 +53,13 @@ const ModalX: FunctionComponent<Readonly<Props>> = ({
                         <Label>Attempts</Label>
                         <Input
                             type="number"
+                            min="1"
                             value={event.maxAttemptsPerTest}
                             onChange={(e: OnChange): void =>
                                 setField({
-                                    maxAttemptsPerTest: Number(e.target.value),
+                                    maxAttemptsPerTest: Number.parseInt(
+                                        e.target.value
+                                    ),
                                 })
                             }
                         />

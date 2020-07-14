@@ -1,5 +1,5 @@
-import { h, FunctionComponent } from "preact";
-import { Menu, Button, Input, Control, Delete, Field } from "rbx";
+import { h, FunctionComponent, Fragment } from "preact";
+import { Button, Input, Control, Delete, Field, Level } from "rbx";
 import { useState } from "preact/hooks";
 
 import { OnChange } from "../../types/inputs";
@@ -14,37 +14,39 @@ interface Props {
 const EmailList: FunctionComponent<Props> = ({ emails, addNew, remove }) => {
     const [newEmail, setNewEmail] = useState("");
     return (
-        <Menu.List>
+        <Fragment>
             {emails.map((a, i) => (
-                <Menu.List.Item key={a}>
-                    {a.email}
-                    <Delete onClick={() => remove(i)} />
-                </Menu.List.Item>
+                <Level key={a}>
+                    <Level.Item align="left">{a.email}</Level.Item>
+                    <Level.Item align="right">
+                        <Delete onClick={() => remove(i)} />
+                    </Level.Item>
+                </Level>
             ))}
-            <Menu.List.Item>
-                <Field kind="addons">
-                    <Control>
-                        <Input
-                            type="email"
-                            value={newEmail}
-                            onChange={(e: OnChange): void =>
-                                setNewEmail(e.target.value)
-                            }
-                        />
-                    </Control>
-                    <Control>
-                        <Button
-                            onClick={() => {
+            <Field kind="addons">
+                <Control expanded>
+                    <Input
+                        type="email"
+                        value={newEmail}
+                        onChange={(e: OnChange): void =>
+                            setNewEmail(e.target.value)
+                        }
+                    />
+                </Control>
+                <Control>
+                    <Button
+                        onClick={() => {
+                            if (newEmail !== "") {
                                 addNew({ email: newEmail });
                                 setNewEmail("");
-                            }}
-                        >
-                            Add
-                        </Button>
-                    </Control>
-                </Field>
-            </Menu.List.Item>
-        </Menu.List>
+                            }
+                        }}
+                    >
+                        Add
+                    </Button>
+                </Control>
+            </Field>
+        </Fragment>
     );
 };
 
