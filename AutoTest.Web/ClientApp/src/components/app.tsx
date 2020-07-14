@@ -4,7 +4,7 @@ import { useGoogleLogin } from "react-use-googlelogin";
 import { useContext, useState, StateUpdater } from "preact/hooks";
 import { Provider } from "react-redux";
 import { Content, Loader } from "rbx";
-import { PersistGate } from "redux-persist/es/integration/react";
+import { PersistGate } from "redux-persist/integration/react";
 
 import Home from "../routes/home";
 import Profile from "../routes/profile";
