@@ -1,5 +1,6 @@
 import { FunctionalComponent, h, Fragment } from "preact";
 import { LoadingState } from "../../types/loadingState";
+import { Loader } from "rbx";
 
 const ifSome = <T,>(
     arr: LoadingState<readonly T[]>,
@@ -22,7 +23,11 @@ const ifSome = <T,>(
             }
         }
         case "Loading":
-            return <span>Loading...</span>;
+            return (
+                <span>
+                    Loading... <Loader />
+                </span>
+            );
         case "Error":
             return <span>Error: {arr.value}</span>;
         case "Idle":
