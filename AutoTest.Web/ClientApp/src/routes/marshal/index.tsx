@@ -15,7 +15,7 @@ import {
     GetEntrants,
     AddTestRun,
     SyncTestRuns,
-    GetEvents,
+    GetEventsIfRequired,
 } from "../../store/event/actions";
 import {
     selectEntrants,
@@ -59,7 +59,7 @@ const Marshal: FunctionalComponent<Readonly<Props>> = ({ eventId, testId }) => {
     useEffect(() => {
         const token = getAccessToken(auth);
         dispatch(GetEntrants(eventIdNum, token));
-        dispatch(GetEvents());
+        dispatch(GetEventsIfRequired());
     }, [auth, dispatch, eventIdNum]);
 
     const increase = (penaltyType: PenaltyType) => {

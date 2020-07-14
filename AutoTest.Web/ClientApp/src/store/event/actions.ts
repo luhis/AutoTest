@@ -41,20 +41,24 @@ export const GetEntrants = (
     });
 };
 
-export const GetEvents = () => async (
+export const GetEventsIfRequired = () => async (
     dispatch: Dispatch<EventActionTypes>,
     getState: () => AppState
 ) => {
     if (requiresLoading(getState().event.events.tag)) {
-        dispatch({
-            type: GET_EVENTS,
-            payload: { tag: "Loading", id: undefined },
-        });
-        dispatch({
-            type: GET_EVENTS,
-            payload: await getEvents(),
-        });
+        await GetEvents()(dispatch);
     }
+};
+
+export const GetEvents = () => async (dispatch: Dispatch<EventActionTypes>) => {
+    dispatch({
+        type: GET_EVENTS,
+        payload: { tag: "Loading", id: undefined },
+    });
+    dispatch({
+        type: GET_EVENTS,
+        payload: await getEvents(),
+    });
 };
 
 export const GetTests = (eventId: number, token: string | undefined) => async (

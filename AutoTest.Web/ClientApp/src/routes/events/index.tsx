@@ -3,14 +3,16 @@ import { useEffect, useState } from "preact/hooks";
 import { Title, Button } from "rbx";
 import UUID from "uuid-int";
 import { fromDateOrThrow } from "ts-date";
+import { useDispatch, useSelector } from "react-redux";
 
-import { getEvents, addEvent } from "../../api/events";
+import { addEvent } from "../../api/events";
 import { Event, EditingEvent } from "../../types/models";
-import { LoadingState } from "../../types/loadingState";
 import Modal from "../../components/events/Modal";
 import { getAccessToken } from "../../api/api";
 import { useGoogleAuth } from "../../components/app";
 import List from "../../components/events/List";
+import { GetEventsIfRequired, GetEvents } from "../../store/event/actions";
+import { selectEvents } from "../../store/event/selectors";
 
 interface Props {
     clubId: string | undefined;
@@ -18,25 +20,20 @@ interface Props {
 const uid = UUID(Number.parseInt(process.env.PREACT_APP_KEY_SEED as string));
 
 const Events: FunctionalComponent<Readonly<Props>> = ({ clubId }) => {
+    const dispatch = useDispatch();
     const auth = useGoogleAuth();
-    const [events, setEvents] = useState<LoadingState<readonly Event[]>>({
-        tag: "Loading",
-        id: undefined,
-    });
+    const events = useSelector(selectEvents);
     const [editingEvent, setEditingEvent] = useState<EditingEvent | undefined>(
         undefined
     );
     useEffect(() => {
-        const fetchData = async () => {
-            setEvents(await getEvents());
-        };
-        void fetchData();
-    }, []);
+        dispatch(GetEventsIfRequired());
+    }, [dispatch]);
     const save = async () => {
         if (editingEvent) {
             await addEvent(editingEvent, getAccessToken(auth));
             setEditingEvent(undefined);
-            setEvents(await getEvents());
+            dispatch(GetEvents());
         }
     };
     return (
