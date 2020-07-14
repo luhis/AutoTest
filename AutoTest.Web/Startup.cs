@@ -77,6 +77,11 @@ namespace AutoTest.Web
                     p.RequireAuthenticatedUser();
                     p.RequireClaim(ClaimTypes.Email, this.AdminEmails);
                 });
+                o.AddPolicy(Policies.ClubAdmin, p =>
+                {
+                    p.RequireAuthenticatedUser();
+                    p.AddRequirements(new ClubAdminRequirement());
+                });
                 o.AddPolicy(Policies.Marshal, p =>
                 {
                     p.RequireAuthenticatedUser();
@@ -198,11 +203,14 @@ namespace AutoTest.Web
             });
             app.UseSpa(spa =>
             {
-                spa.Options.SourcePath = "ClientApp/build/";
-
                 if (env.IsDevelopment())
                 {
+                    spa.Options.SourcePath = "ClientApp/";
                     spa.UseReactDevelopmentServer(npmScript: "dev");
+                }
+                else
+                {
+                    spa.Options.SourcePath = "ClientApp/build/";
                 }
             });
             autoTestContext.SeedDatabase();

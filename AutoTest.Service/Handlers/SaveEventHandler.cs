@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Data;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -25,11 +24,7 @@ namespace AutoTest.Service.Handlers
 
         async Task<ulong> IRequestHandler<SaveEvent, ulong>.Handle(SaveEvent request, CancellationToken cancellationToken)
         {
-            if (this.autoTestContext.Events == null)
-            {
-                throw new NoNullAllowedException(nameof(this.autoTestContext.Clubs));
-            }
-            await this.autoTestContext.Events.Upsert(request.Event, a => a.EventId == request.Event.EventId, cancellationToken);
+            await ThrowIfNull(this.autoTestContext.Events).Upsert(request.Event, a => a.EventId == request.Event.EventId, cancellationToken);
             SyncTests(request.Event);
 
             await this.autoTestContext.SaveChangesAsync(cancellationToken);

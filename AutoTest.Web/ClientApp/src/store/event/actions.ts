@@ -7,6 +7,7 @@ import {
     UPDATE_TEST_RUN_STATE,
     GET_TESTS,
     GET_TEST_RUNS,
+    GET_EVENTS,
 } from "./types";
 import { TestRun, TestRunUploadState } from "../../types/models";
 import { getEntrants } from "../../api/entrants";
@@ -14,6 +15,7 @@ import { AppState } from "..";
 import { addTestRun, getTestRuns } from "../../api/testRuns";
 import { getTests } from "../../api/tests";
 import { requiresLoading, idsMatch } from "../../types/loadingState";
+import { getEvents } from "../../api/events";
 
 export const GetEntrantsIfRequired = (
     eventId: number,
@@ -37,6 +39,22 @@ export const GetEntrants = (
         type: GET_ENTRANTS,
         payload: await getEntrants(eventId, token),
     });
+};
+
+export const GetEvents = () => async (
+    dispatch: Dispatch<EventActionTypes>,
+    getState: () => AppState
+) => {
+    if (requiresLoading(getState().event.events.tag)) {
+        dispatch({
+            type: GET_EVENTS,
+            payload: { tag: "Loading", id: undefined },
+        });
+        dispatch({
+            type: GET_EVENTS,
+            payload: await getEvents(),
+        });
+    }
 };
 
 export const GetTests = (eventId: number, token: string | undefined) => async (

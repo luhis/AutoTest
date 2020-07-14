@@ -15,12 +15,14 @@ import {
     GetEntrants,
     AddTestRun,
     SyncTestRuns,
+    GetEvents,
 } from "../../store/event/actions";
 import {
     selectEntrants,
     selectRequiresSync,
+    selectTestRuns,
+    selectEvents,
 } from "../../store/event/selectors";
-import { AppState } from "src/store";
 
 const getNewEditableTest = (testId: number): EditableTestRun => ({
     testRunId: uid.uuid(),
@@ -39,17 +41,25 @@ const uid = UUID(Number.parseInt(process.env.PREACT_APP_KEY_SEED as string));
 const Marshal: FunctionalComponent<Readonly<Props>> = ({ eventId, testId }) => {
     const dispatch = useDispatch();
     const entrants = useSelector(selectEntrants);
-    const testRuns = useSelector((a: AppState) => a.event.testRuns);
+    const testRuns = useSelector(selectTestRuns);
     const requiresSync = useSelector(selectRequiresSync);
+    const events = useSelector(selectEvents);
     const testIdNum = Number.parseInt(testId);
     const eventIdNum = Number.parseInt(eventId);
+
+    const currentEvent =
+        events.tag === "Loaded"
+            ? events.value.find((a) => a.eventId === eventIdNum)
+            : undefined;
 
     const [editing, setEditing] = useState<EditableTestRun>(
         getNewEditableTest(testIdNum)
     );
     const auth = useGoogleAuth();
     useEffect(() => {
-        dispatch(GetEntrants(eventIdNum, getAccessToken(auth)));
+        const token = getAccessToken(auth);
+        dispatch(GetEntrants(eventIdNum, token));
+        dispatch(GetEvents());
     }, [auth, dispatch, eventIdNum]);
 
     const increase = (penaltyType: PenaltyType) => {
@@ -118,8 +128,8 @@ const Marshal: FunctionalComponent<Readonly<Props>> = ({ eventId, testId }) => {
                             (a) => a.entrantId,
                             (a) => (
                                 <Select.Option value={a.entrantId}>
-                                    {a.vehicle.registration} - {a.givenName}{" "}
-                                    {a.familyName}
+                                    {a.driverNumber}. {a.vehicle.registration} -{" "}
+                                    {a.givenName} {a.familyName}
                                 </Select.Option>
                             )
                         )}
@@ -135,7 +145,11 @@ const Marshal: FunctionalComponent<Readonly<Props>> = ({ eventId, testId }) => {
                                 a.entrantId === editing.entrantId &&
                                 a.testId === testIdNum
                         ).length
-                    }
+                    }{" "}
+                    of{" "}
+                    {currentEvent !== undefined
+                        ? currentEvent.maxAttemptsPerTest
+                        : "unknown"}
                 </span>
             </Field>
             <Field>
