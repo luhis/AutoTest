@@ -51,6 +51,7 @@ namespace AutoTest.Web
             services.AddMediatR(typeof(GetClubs).Assembly);
             services.AddPersistence();
             services.AddWeb(this.Configuration);
+            services.AddHttpContextAccessor();
 
             services.AddAuthentication(x =>
             {

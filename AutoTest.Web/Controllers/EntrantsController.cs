@@ -24,12 +24,11 @@ namespace AutoTest.Web.Controllers
             this.mediator = mediator;
         }
 
-        [Authorize(policy: Policies.Admin)]
         [HttpGet("{eventId}")]
         public Task<IEnumerable<Entrant>> GetEntrants(ulong eventId, CancellationToken cancellationToken) => this.mediator.Send(new GetEntrants(eventId), cancellationToken);
 
-        [Authorize(policy: Policies.Admin)]
-        [HttpPut("{eventId}")]
-        public Task PutEntrant(ulong eventId, EntrantSaveModel entrantSaveModel, CancellationToken cancellationToken) => this.mediator.Send(new SaveEntrant(MapClub.Map(eventId, entrantSaveModel)), cancellationToken);
+        [Authorize(policy: Policies.ClubAdmin)]
+        [HttpPut("{entrantId}")]
+        public Task PutEntrant(ulong entrantId, EntrantSaveModel entrantSaveModel, CancellationToken cancellationToken) => this.mediator.Send(new SaveEntrant(MapClub.Map(entrantId, entrantSaveModel)), cancellationToken);
     }
 }

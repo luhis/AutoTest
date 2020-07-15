@@ -18,7 +18,7 @@ namespace AutoTest.Service.Handlers
 
         async Task<ulong> IRequestHandler<SaveEntrant, ulong>.Handle(SaveEntrant request, CancellationToken cancellationToken)
         {
-            await ThrowIfNull(this.autoTestContext.Entrants).Upsert(request.Entrant, a => a.EventId == request.Entrant.EntrantId, cancellationToken);
+            await ThrowIfNull(this.autoTestContext.Entrants).Upsert(request.Entrant, a => a.EntrantId == request.Entrant.EntrantId, cancellationToken);
             await this.autoTestContext.SaveChangesAsync(cancellationToken);
             return request.Entrant.EntrantId;
         }
