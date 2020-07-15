@@ -9,7 +9,7 @@ import {
     GET_TEST_RUNS,
     GET_EVENTS,
 } from "./types";
-import { TestRun, TestRunUploadState } from "../../types/models";
+import { TestRunUploadState, TestRunTemp } from "../../types/models";
 import { getEntrants } from "../../api/entrants";
 import { AppState } from "..";
 import { addTestRun, getTestRuns } from "../../api/testRuns";
@@ -106,7 +106,7 @@ export const SetEntrantsIdle: ActionCreator<EventActionTypes> = () => ({
 });
 
 export const AddTestRun = (
-    testRun: TestRun,
+    testRun: TestRunTemp,
     token: string | undefined
 ) => async (dispatch: Dispatch<EventActionTypes>, getState: () => AppState) => {
     dispatch({
@@ -134,7 +134,12 @@ export const SyncTestRuns = (token: string | undefined) => async (
     );
     await Promise.all(
         toUpload.map(async (element) => {
-            const res = await addTestRun(element, token);
+            const res = await addTestRun(
+                element.eventId,
+                element.testId,
+                element,
+                token
+            );
             if (res.tag === "Loaded") {
                 dispatch(
                     UpdateTestRunState(

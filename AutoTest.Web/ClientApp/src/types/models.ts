@@ -37,6 +37,8 @@ export interface TestRun {
     readonly penalties: readonly Penalty[];
 }
 
+export type TestRunTemp = TestRun & { readonly eventId: number };
+
 export enum PenaltyType {
     Late = 0,
     NoAttendance = 1,

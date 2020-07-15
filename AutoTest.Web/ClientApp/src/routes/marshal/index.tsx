@@ -5,7 +5,7 @@ import UUID from "uuid-int";
 import { useSelector, useDispatch } from "react-redux";
 import { fromDateOrThrow } from "ts-date";
 
-import { TestRun, EditableTestRun, PenaltyType } from "../../types/models";
+import { EditableTestRun, PenaltyType, TestRunTemp } from "../../types/models";
 import ifSome from "../../components/shared/ifSome";
 import { getAccessToken } from "../../api/api";
 import { useGoogleAuth } from "../../components/app";
@@ -24,6 +24,7 @@ import {
     selectEvents,
 } from "../../store/event/selectors";
 import { keySeed } from "../../settings";
+import ExistingCount from "../../components/marshal/ExistingCount";
 
 const getNewEditableTest = (testId: number): EditableTestRun => ({
     testRunId: uid.uuid(),
@@ -139,19 +140,12 @@ const Marshal: FunctionalComponent<Readonly<Props>> = ({ eventId, testId }) => {
             </Field>
             <Field>
                 <Label>Existing Count</Label>
-                <span>
-                    {
-                        testRuns.filter(
-                            (a) =>
-                                a.entrantId === editing.entrantId &&
-                                a.testId === testIdNum
-                        ).length
-                    }{" "}
-                    of{" "}
-                    {currentEvent !== undefined
-                        ? currentEvent.maxAttemptsPerTest
-                        : "unknown"}
-                </span>
+                <ExistingCount
+                    entrantId={editing.entrantId}
+                    testId={testIdNum}
+                    currentEvent={currentEvent}
+                    testRuns={testRuns}
+                />
             </Field>
             <Field>
                 <Label>Time (Secs)</Label>
@@ -190,7 +184,8 @@ const Marshal: FunctionalComponent<Readonly<Props>> = ({ eventId, testId }) => {
                                     {
                                         ...editing,
                                         created: fromDateOrThrow(new Date()),
-                                    } as TestRun,
+                                        eventId: eventIdNum,
+                                    } as TestRunTemp,
                                     getAccessToken(auth)
                                 )
                             );

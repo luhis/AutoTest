@@ -25,8 +25,7 @@ namespace AutoTest.Web.Authorization
             var routeData = _httpContextAccessor.HttpContext.GetRouteData();
             if (routeData != null)
             {
-                var e = (string)routeData.Values["eventId"];
-                var eventId = ulong.Parse(e);
+                var eventId = ulong.Parse((string)routeData.Values["eventId"]);
                 var @event = await _autoTestContext.Events.SingleOrDefaultAsync(a => a.EventId == eventId);
                 var emails = @event.MarshalEmails.Select(a => a.Email);
                 var email = context.User.GetEmailAddress();

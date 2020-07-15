@@ -13,7 +13,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace AutoTest.Web.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("api/events/{eventId}/tests/{testId}/testRuns")]
     public class TestRunsController : ControllerBase
     {
         private readonly IMediator mediator;
@@ -31,10 +31,7 @@ namespace AutoTest.Web.Controllers
 
         [Authorize(Policies.Marshal)]
         [HttpPut("{testRunId}")]
-        public Task Create(ulong testRunId, TestRunSaveModel testRun, CancellationToken cancellationToken)
-        {
-            //todo, consider refactoring route to make authorisation easier
-            return mediator.Send(new AddTestRun(MapClub.Map(testRunId, testRun)), cancellationToken);
-        }
+        public Task Create(ulong testRunId, TestRunSaveModel testRun, CancellationToken cancellationToken) =>
+            mediator.Send(new AddTestRun(MapClub.Map(testRunId, testRun)), cancellationToken);
     }
 }

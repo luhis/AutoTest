@@ -4,13 +4,17 @@ import {
     TestRun,
     TestRunUploadState,
     Test,
+    TestRunTemp,
 } from "../../types/models";
 import { LoadingState } from "../../types/loadingState";
 
 export interface EventState {
     readonly events: LoadingState<readonly Event[]>;
     readonly entrants: LoadingState<readonly Entrant[]>;
-    readonly testRuns: readonly (TestRun & { state: TestRunUploadState })[];
+    readonly testRuns: readonly (TestRun & {
+        state: TestRunUploadState;
+        eventId: number;
+    })[];
     readonly tests: LoadingState<readonly Test[]>;
     readonly testRunsFromServer: LoadingState<readonly TestRun[]>;
 }
@@ -44,7 +48,7 @@ interface GetTestRuns {
 
 interface AddTestRun {
     type: typeof ADD_TEST_RUN;
-    payload: TestRun;
+    payload: TestRunTemp;
 }
 
 interface UpdateTestRunState {

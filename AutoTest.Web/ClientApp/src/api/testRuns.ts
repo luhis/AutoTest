@@ -15,19 +15,24 @@ export const getTestRuns = async (
     }, testId);
 
 export const addTestRun = async (
+    eventId: number,
+    testId: number,
     testRun: TestRun,
     token: string | undefined
 ): Promise<ApiResponse<undefined>> =>
     toApiResponse(async () => {
         const { testRunId, ...rest } = testRun;
-        const response = await fetch(`/api/testRuns/${testRunId}`, {
-            method: "PUT",
-            body: JSON.stringify(rest),
-            headers: {
-                "Content-Type": "application/json",
-                Authorization: token ? `Bearer ${token}` : "",
-            },
-        });
+        const response = await fetch(
+            `/api/events/${eventId}/tests/${testId}/testRuns/${testRunId}`,
+            {
+                method: "PUT",
+                body: JSON.stringify(rest),
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: token ? `Bearer ${token}` : "",
+                },
+            }
+        );
         throwIfNotOk(response);
         return undefined;
     });

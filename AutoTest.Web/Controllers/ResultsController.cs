@@ -20,7 +20,7 @@ namespace AutoTest.Web.Controllers
         }
 
         [HttpGet("{eventId}")]
-        public Task<IEnumerable<Result>> GetClubs(ulong eventId, CancellationToken cancellationToken) =>
+        public Task<IEnumerable<Result>> GetResults(ulong eventId, CancellationToken cancellationToken) =>
             this.mediator.Send(new GetResults(eventId), cancellationToken);
     }
 }
