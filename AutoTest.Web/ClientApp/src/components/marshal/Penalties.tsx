@@ -1,5 +1,5 @@
 import { h, FunctionComponent, Fragment } from "preact";
-import { Label, Button, List } from "rbx";
+import { Label, Button, Level } from "rbx";
 import { FaPlus, FaMinus } from "react-icons/fa";
 
 import { PenaltyType, Penalty } from "../../types/models";
@@ -10,24 +10,26 @@ interface Props {
     decrease: (a: PenaltyType) => void;
 }
 
-const PenaltyItem: FunctionComponent<Props & { penaltyType: PenaltyType }> = ({
-    penaltyType,
-    penalties,
-    increase,
-    decrease,
-}) => {
+const startCase = (s: string) => s.replace(/([A-Z]+)*([A-Z][a-z])/g, "$1 $2");
+
+const PenaltyItem: FunctionComponent<Readonly<
+    Props & { penaltyType: PenaltyType }
+>> = ({ penaltyType, penalties, increase, decrease }) => {
     return (
-        <List.Item>
-            {PenaltyType[penaltyType]} {getCount(penalties, penaltyType)}
-            <Button.Group>
-                <Button onClick={() => increase(penaltyType)}>
-                    <FaPlus />
-                </Button>
-                <Button onClick={() => decrease(penaltyType)}>
-                    <FaMinus />
-                </Button>
-            </Button.Group>
-        </List.Item>
+        <Level>
+            <Level.Item align="left">
+                <Button.Group>
+                    <Button onClick={() => decrease(penaltyType)}>
+                        <FaMinus />
+                    </Button>
+                    <Button onClick={() => increase(penaltyType)}>
+                        <FaPlus />
+                    </Button>
+                </Button.Group>
+                {startCase(PenaltyType[penaltyType])}:{" "}
+                {getCount(penalties, penaltyType)}
+            </Level.Item>
+        </Level>
     );
 };
 
@@ -47,19 +49,17 @@ const Penalties: FunctionComponent<Readonly<Props>> = ({
     return (
         <Fragment>
             <Label>Penalties</Label>
-            <List>
-                {Object.keys(PenaltyType)
-                    .filter((key) => !isNaN(Number(key)))
-                    .map((key) => (
-                        <PenaltyItem
-                            key={key}
-                            penaltyType={Number(key)}
-                            increase={increase}
-                            decrease={decrease}
-                            penalties={penalties}
-                        />
-                    ))}
-            </List>
+            {Object.keys(PenaltyType)
+                .filter((key) => !isNaN(Number(key)))
+                .map((key) => (
+                    <PenaltyItem
+                        key={key}
+                        penaltyType={Number(key)}
+                        increase={increase}
+                        decrease={decrease}
+                        penalties={penalties}
+                    />
+                ))}
         </Fragment>
     );
 };
