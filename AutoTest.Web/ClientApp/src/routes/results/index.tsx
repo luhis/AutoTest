@@ -10,7 +10,7 @@ import ifSome from "../../components/shared/ifSome";
 import { useDispatch, useSelector } from "react-redux";
 import { getAccessToken } from "../../api/api";
 import { GetTests } from "../../store/event/actions";
-import { selectTests } from "../../store/event/selectors";
+import { selectTests, selectEvents } from "../../store/event/selectors";
 import { useGoogleAuth } from "../../components/app";
 
 interface Props {
@@ -27,14 +27,25 @@ const Results: FunctionalComponent<Readonly<Props>> = ({ eventId }) => {
     const auth = useGoogleAuth();
     const eventIdAsNum = Number.parseInt(eventId);
     const tests = useSelector(selectTests);
+    const events = useSelector(selectEvents);
+    const currentEvent =
+        events.tag === "Loaded"
+            ? events.value.find((a) => a.eventId === eventIdAsNum)
+            : undefined;
+    const testRuns = numToRange(
+        currentEvent !== undefined ? currentEvent.maxAttemptsPerTest : 0
+    );
     const [results, setResults] = useState<LoadingState<readonly Result[]>>({
         tag: "Loading",
         id: eventIdAsNum,
     });
     useEffect(() => {
         const fetchData = async () => {
-            const events = await getResults(eventIdAsNum, getAccessToken(auth));
-            setResults(events);
+            const resultsData = await getResults(
+                eventIdAsNum,
+                getAccessToken(auth)
+            );
+            setResults(resultsData);
         };
         void fetchData();
     }, [auth, eventIdAsNum]);
@@ -65,9 +76,13 @@ const Results: FunctionalComponent<Readonly<Props>> = ({ eventId }) => {
                 <Column>Name</Column>
                 <Column>Total Time</Column>
                 {tests.tag === "Loaded"
-                    ? tests.value.map((i) => (
-                          <Column key={i.testId}>{i.ordinal}</Column>
-                      ))
+                    ? tests.value.map((test) =>
+                          testRuns.map((run) => (
+                              <Column key={`${test.testId}.${run}`}>
+                                  {test.ordinal}.{run}
+                              </Column>
+                          ))
+                      )
                     : null}
             </Column.Group>
             {ifSome(
