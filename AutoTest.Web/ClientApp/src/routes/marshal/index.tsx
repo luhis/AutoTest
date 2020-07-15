@@ -40,6 +40,12 @@ interface Props {
 
 const uid = UUID(keySeed);
 
+const SyncButton: FunctionalComponent<Readonly<{
+    requiresSync: boolean;
+    sync: () => void;
+}>> = ({ requiresSync, sync }) =>
+    requiresSync ? <Button onClick={sync}>Sync</Button> : null;
+
 const Marshal: FunctionalComponent<Readonly<Props>> = ({ eventId, testId }) => {
     const dispatch = useDispatch();
     const entrants = useSelector(selectEntrants);
@@ -197,15 +203,10 @@ const Marshal: FunctionalComponent<Readonly<Props>> = ({ eventId, testId }) => {
                 >
                     Add
                 </Button>
-                {requiresSync ? (
-                    <Button
-                        onClick={() =>
-                            dispatch(SyncTestRuns(getAccessToken(auth)))
-                        }
-                    >
-                        Sync
-                    </Button>
-                ) : null}
+                <SyncButton
+                    requiresSync={requiresSync}
+                    sync={() => dispatch(SyncTestRuns(getAccessToken(auth)))}
+                />
             </Button.Group>
         </div>
     );
