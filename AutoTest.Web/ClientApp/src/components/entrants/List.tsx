@@ -1,5 +1,5 @@
 import { FunctionalComponent, h } from "preact";
-import { Column, Button } from "rbx";
+import { Column, Button, Numeric } from "rbx";
 
 import ifSome from "../shared/ifSome";
 import { Entrant } from "../../types/models";
@@ -19,7 +19,9 @@ const List: FunctionalComponent<Readonly<Props>> = ({
         (a) => a.entrantId,
         (a) => (
             <Column.Group>
-                <Column>{a.driverNumber}</Column>
+                <Column>
+                    <Numeric>{a.driverNumber}</Numeric>
+                </Column>
                 <Column>{a.vehicle.registration}</Column>
                 <Column>{`${a.givenName} ${a.familyName}`}</Column>
                 <Column>

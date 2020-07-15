@@ -9,7 +9,7 @@ namespace AutoTest.Web.Mapping
         public static Club Map(ulong clubId, ClubSaveModel model)
         {
             var c = new Club(clubId, model.ClubName, model.ClubPaymentAddress, model.Website);
-            c.SetAdminEmails(model.AdminEmails.Select(a => new AuthorisationEmail(a)).ToArray());
+            c.SetAdminEmails(model.AdminEmails.Select(a => new AuthorisationEmail(a.Email)).ToArray());
             return c;
         }
 
@@ -17,7 +17,7 @@ namespace AutoTest.Web.Mapping
         {
             var e = new Event(eventId, @event.ClubId, @event.Location, @event.StartTime, @event.TestCount,
                 @event.MaxAttemptsPerTest);
-            e.SetMarshalEmails(@event.MarshalEmails.Select(a => new AuthorisationEmail(a)).ToArray());
+            e.SetMarshalEmails(@event.MarshalEmails.Select(a => new AuthorisationEmail(a.Email)).ToArray());
             return e;
         }
 

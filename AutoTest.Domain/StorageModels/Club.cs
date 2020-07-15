@@ -21,7 +21,7 @@ namespace AutoTest.Domain.StorageModels
 
         public string Website { get; }
 
-        public ICollection<AuthorisationEmail> AdminEmails { get; private set; } = Array.Empty<AuthorisationEmail>();
+        public ICollection<AuthorisationEmail> AdminEmails { get; private set; } = new List<AuthorisationEmail>();
 
         public void SetAdminEmails(ICollection<AuthorisationEmail> emails) => AdminEmails = emails;
     }

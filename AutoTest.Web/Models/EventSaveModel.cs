@@ -16,6 +16,6 @@ namespace AutoTest.Web.Models
 
         public int MaxAttemptsPerTest { get; set; }
 
-        public IEnumerable<string> MarshalEmails { get; set; } = Enumerable.Empty<string>();
+        public IEnumerable<AuthorisationEmailSaveModel> MarshalEmails { get; set; } = Enumerable.Empty<AuthorisationEmailSaveModel>();
     }
 }

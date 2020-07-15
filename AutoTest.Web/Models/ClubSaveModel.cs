@@ -11,6 +11,6 @@ namespace AutoTest.Web.Models
 
         public string Website { get; set; } = string.Empty;
 
-        public IEnumerable<string> AdminEmails { get; set; } = Enumerable.Empty<string>();
+        public IEnumerable<AuthorisationEmailSaveModel> AdminEmails { get; set; } = Enumerable.Empty<AuthorisationEmailSaveModel>();
     }
 }
