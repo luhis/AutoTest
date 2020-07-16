@@ -1,9 +1,8 @@
 import { FunctionalComponent, h, Fragment } from "preact";
 import { useEffect, useState } from "preact/hooks";
 import { Title, Table } from "rbx";
-import { flatten } from "micro-dash";
 
-import { Result } from "../../types/models";
+import { Result, EntrantTime } from "../../types/models";
 import { LoadingState } from "../../types/loadingState";
 import { getResults } from "../../api/results";
 import ifSome from "../../components/shared/ifSome";
@@ -19,8 +18,20 @@ interface Props {
 
 const numToRange = (length: number) =>
     Array<number>(length)
-        .fill(1)
+        .fill(0)
         .map((_, i) => i);
+
+const numberToChar = (n: number) => "abcdefghijklmnopqrstuvwxyz".charAt(n);
+
+const getTime = (a: EntrantTime, test: number, run: number) => {
+    const testValues = a.times[test];
+    const noneReturn = "X";
+    if (testValues) {
+        const runValue = testValues.timesInMs[run];
+        return runValue ? (runValue / 1000).toFixed(2) : noneReturn;
+    }
+    return noneReturn;
+};
 
 const Results: FunctionalComponent<Readonly<Props>> = ({ eventId }) => {
     const dispatch = useDispatch();
@@ -53,21 +64,6 @@ const Results: FunctionalComponent<Readonly<Props>> = ({ eventId }) => {
         dispatch(GetTests(eventIdAsNum, getAccessToken(auth)));
     }, [eventIdAsNum, dispatch, auth]);
 
-    const getLen = (a: readonly Result[]) => {
-        const x = flatten(
-            flatten(
-                a.map((result) =>
-                    result.entrantTimes.map((b) =>
-                        b.times.map((c) => c.timesInMs.length)
-                    )
-                )
-            )
-        );
-        return Math.max(...x);
-    };
-
-    const timeColumnCount: number =
-        results.tag === "Loaded" ? getLen(results.value) : 0;
     return (
         <div>
             <Title>Results</Title>
@@ -83,7 +79,7 @@ const Results: FunctionalComponent<Readonly<Props>> = ({ eventId }) => {
                                       <Table.Heading
                                           key={`${test.testId}.${run}`}
                                       >
-                                          {test.ordinal}.{run}
+                                          {test.ordinal + 1}.{numberToChar(run)}
                                       </Table.Heading>
                                   ))
                               )
@@ -102,20 +98,23 @@ const Results: FunctionalComponent<Readonly<Props>> = ({ eventId }) => {
                                     </Table.Cell>
                                     <Table.Cell>{`${a.entrant.givenName} ${a.entrant.familyName}`}</Table.Cell>
                                     <Table.Cell>
-                                        {a.totalTime / 1000}
+                                        {(a.totalTime / 1000).toFixed(2)}
                                     </Table.Cell>
-                                    {a.times.map((x) =>
-                                        x.timesInMs.map((z) => (
-                                            <Table.Cell key={z.toString()}>
-                                                {z / 1000}
-                                            </Table.Cell>
-                                        ))
-                                    )}
-                                    {numToRange(
-                                        timeColumnCount - a.times.length
-                                    ).map((test) => (
-                                        <Table.Cell key={test}></Table.Cell>
-                                    ))}
+                                    {tests.tag === "Loaded"
+                                        ? tests.value.map((test) =>
+                                              testRuns.map((run) => (
+                                                  <Table.Cell
+                                                      key={`${test.testId}.${run}`}
+                                                  >
+                                                      {getTime(
+                                                          a,
+                                                          test.ordinal,
+                                                          run
+                                                      )}
+                                                  </Table.Cell>
+                                              ))
+                                          )
+                                        : null}
                                 </Table.Row>
                             ))}
                         </Fragment>

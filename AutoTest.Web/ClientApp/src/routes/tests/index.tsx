@@ -1,7 +1,7 @@
 import { FunctionalComponent, h } from "preact";
 import { useEffect } from "preact/hooks";
 import { route } from "preact-router";
-import { Title, Column, Button } from "rbx";
+import { Title, Column, Button, Numeric } from "rbx";
 import { useDispatch, useSelector } from "react-redux";
 
 import ifSome from "../../components/shared/ifSome";
@@ -34,7 +34,7 @@ const Tests: FunctionalComponent<Readonly<Props>> = ({ eventId }) => {
                 (a) => (
                     <Column.Group>
                         <Column>
-                            <p>{a.ordinal}</p>
+                            <Numeric>{a.ordinal + 1}</Numeric>
                         </Column>
                         <Column>
                             <Button.Group>

@@ -158,15 +158,19 @@ const Marshal: FunctionalComponent<Readonly<Props>> = ({ eventId, testId }) => {
                 <Input
                     type="number"
                     min="0"
+                    step="0.01"
                     value={
                         editing.timeInMS === undefined
                             ? ""
-                            : editing.timeInMS / 1000
+                            : (editing.timeInMS / 1000).toFixed(2)
                     }
                     onChange={(e: OnChange) =>
                         setEditing((a) => ({
                             ...a,
-                            timeInMS: Number.parseFloat(e.target.value) * 1000,
+                            timeInMS:
+                                Number.parseFloat(
+                                    Number.parseFloat(e.target.value).toFixed(2)
+                                ) * 1000,
                         }))
                     }
                 />

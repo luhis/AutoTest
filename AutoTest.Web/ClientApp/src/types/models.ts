@@ -109,7 +109,7 @@ export interface Result {
     readonly entrantTimes: readonly EntrantTime[];
 }
 
-interface EntrantTime {
+export interface EntrantTime {
     readonly entrant: Entrant;
     readonly totalTime: number;
     readonly times: readonly TestTime[];
