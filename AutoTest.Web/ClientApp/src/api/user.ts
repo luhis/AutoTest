@@ -2,7 +2,7 @@ import { User } from "../types/models";
 import { ApiResponse, toApiResponse } from "../types/loadingState";
 import { throwIfNotOk } from "./api";
 
-export const getClubs = async (
+export const getUsers = async (
     token: string | undefined
 ): Promise<ApiResponse<readonly User[]>> =>
     toApiResponse(async () => {

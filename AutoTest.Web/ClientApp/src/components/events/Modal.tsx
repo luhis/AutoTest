@@ -1,22 +1,26 @@
 import { h, FunctionComponent } from "preact";
-import { Modal, Button, Label, Input, Field } from "rbx";
+import { Modal, Button, Label, Input, Field, Select } from "rbx";
 import { newValidDateOrThrow } from "ts-date";
 
-import { Event, EditingEvent } from "../../types/models";
-import { OnChange } from "../../types/inputs";
+import { Event, EditingEvent, Club } from "../../types/models";
+import { OnChange, OnSelectChange } from "../../types/inputs";
 import EmailList from "../shared/EmailList";
+import { LoadingState } from "../../types/loadingState";
+import ifSome from "../shared/ifSome";
 
 interface Props {
     event: EditingEvent;
+    clubs: LoadingState<readonly Club[]>;
     save: () => Promise<void>;
     cancel: () => void;
     setField: (k: Partial<Event>) => void;
 }
 
 const ModalX: FunctionComponent<Readonly<Props>> = ({
+    event,
+    clubs,
     save,
     cancel,
-    event,
     setField,
 }) => {
     return (
@@ -36,6 +40,36 @@ const ModalX: FunctionComponent<Readonly<Props>> = ({
                             }
                         />
                     </Field>
+                    {event.isClubEditable ? (
+                        <Field>
+                            <Label>Club</Label>
+                            <Select.Container fullwidth>
+                                <Select
+                                    onChange={(evt: OnSelectChange) =>
+                                        setField({
+                                            clubId: Number.parseInt(
+                                                evt.target.value
+                                            ),
+                                        })
+                                    }
+                                    value={event.clubId}
+                                >
+                                    <Select.Option value={-1}>
+                                        - Please Select -
+                                    </Select.Option>
+                                    {ifSome(
+                                        clubs,
+                                        (a) => a.clubId,
+                                        (a) => (
+                                            <Select.Option value={a.clubId}>
+                                                {a.clubName}
+                                            </Select.Option>
+                                        )
+                                    )}
+                                </Select>
+                            </Select.Container>
+                        </Field>
+                    ) : null}
                     <Field>
                         <Label>Test Count</Label>
                         <Input

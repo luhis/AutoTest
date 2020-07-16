@@ -8,6 +8,7 @@ import {
     GET_TESTS,
     GET_TEST_RUNS,
     GET_EVENTS,
+    GET_CLUBS,
 } from "./types";
 import { TestRunUploadState, TestRunTemp } from "../../types/models";
 import { getEntrants } from "../../api/entrants";
@@ -16,6 +17,30 @@ import { addTestRun, getTestRuns } from "../../api/testRuns";
 import { getTests } from "../../api/tests";
 import { requiresLoading, idsMatch } from "../../types/loadingState";
 import { getEvents } from "../../api/events";
+import { getClubs } from "../../api/clubs";
+
+export const GetClubsIfRequired = (token: string | undefined) => async (
+    dispatch: Dispatch<EventActionTypes>,
+    getState: () => AppState
+) => {
+    const entrants = getState().event.entrants;
+    if (requiresLoading(entrants.tag)) {
+        await GetClubs(token)(dispatch);
+    }
+};
+
+export const GetClubs = (token: string | undefined) => async (
+    dispatch: Dispatch<EventActionTypes>
+) => {
+    dispatch({
+        type: GET_CLUBS,
+        payload: { tag: "Loading", id: undefined },
+    });
+    dispatch({
+        type: GET_CLUBS,
+        payload: await getClubs(token),
+    });
+};
 
 export const GetEntrantsIfRequired = (
     eventId: number,

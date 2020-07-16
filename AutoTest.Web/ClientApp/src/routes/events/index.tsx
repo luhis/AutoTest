@@ -11,8 +11,12 @@ import Modal from "../../components/events/Modal";
 import { getAccessToken } from "../../api/api";
 import { useGoogleAuth } from "../../components/app";
 import List from "../../components/events/List";
-import { GetEventsIfRequired, GetEvents } from "../../store/event/actions";
-import { selectEvents } from "../../store/event/selectors";
+import {
+    GetEventsIfRequired,
+    GetEvents,
+    GetClubsIfRequired,
+} from "../../store/event/actions";
+import { selectEvents, selectClubs } from "../../store/event/selectors";
 import { keySeed } from "../../settings";
 
 interface Props {
@@ -24,15 +28,20 @@ const Events: FunctionalComponent<Readonly<Props>> = ({ clubId }) => {
     const dispatch = useDispatch();
     const auth = useGoogleAuth();
     const events = useSelector(selectEvents);
+    const clubs = useSelector(selectClubs);
     const [editingEvent, setEditingEvent] = useState<EditingEvent | undefined>(
         undefined
     );
     useEffect(() => {
         dispatch(GetEventsIfRequired());
-    }, [dispatch]);
+        dispatch(GetClubsIfRequired(getAccessToken(auth)));
+    }, [auth, dispatch]);
     const save = async () => {
-        if (editingEvent) {
-            await addEvent(editingEvent, getAccessToken(auth));
+        if (editingEvent && editingEvent.clubId) {
+            await addEvent(
+                { ...editingEvent, clubId: editingEvent.clubId },
+                getAccessToken(auth)
+            );
             setEditingEvent(undefined);
             dispatch(GetEvents());
         }
@@ -42,13 +51,21 @@ const Events: FunctionalComponent<Readonly<Props>> = ({ clubId }) => {
             <Title>Events</Title>
             <List
                 events={events}
-                setEditingEvent={(a) => setEditingEvent({ ...a, isNew: false })}
+                setEditingEvent={(a) =>
+                    setEditingEvent({
+                        ...a,
+                        isNew: false,
+                        isClubEditable: clubId === undefined,
+                    })
+                }
             />
             <Button
                 onClick={() =>
                     setEditingEvent({
                         clubId:
-                            clubId === undefined ? 0 : Number.parseInt(clubId), // todo
+                            clubId === undefined
+                                ? undefined
+                                : Number.parseInt(clubId), // todo
                         eventId: uid.uuid(),
                         location: "",
                         startTime: fromDateOrThrow(new Date()),
@@ -56,6 +73,7 @@ const Events: FunctionalComponent<Readonly<Props>> = ({ clubId }) => {
                         maxAttemptsPerTest: 2,
                         marshalEmails: [],
                         isNew: true,
+                        isClubEditable: clubId === undefined,
                     })
                 }
             >
@@ -64,6 +82,7 @@ const Events: FunctionalComponent<Readonly<Props>> = ({ clubId }) => {
             {editingEvent ? (
                 <Modal
                     event={editingEvent}
+                    clubs={clubs}
                     setField={(a: Partial<Event>) =>
                         setEditingEvent((b) => ({ ...b, ...a } as EditingEvent))
                     }

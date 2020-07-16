@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using AutoTest.Persistence;
 using AutoTest.Web.Authorization.Tooling;
@@ -25,10 +26,8 @@ namespace AutoTest.Web.Authorization
             var routeData = _httpContextAccessor.HttpContext.GetRouteData();
             if (routeData != null)
             {
-                var e = (string)routeData.Values["entrantId"];
-                var entrantId = ulong.Parse(e);
-                var eventIds = await _autoTestContext.Entrants.Where(a => a.EntrantId == entrantId).Select(a => a.EventId).ToArrayAsync();
-                var clubIds = await _autoTestContext.Events.Where(a => eventIds.Contains(a.EventId)).Select(a => a.ClubId).ToArrayAsync();
+                var eventId = await GetEventId(routeData);
+                var clubIds = await _autoTestContext.Events.Where(a => eventId ==a.EventId).Select(a => a.ClubId).ToArrayAsync();
                 var emails = await _autoTestContext.Clubs.Where(a => clubIds.Contains(a.ClubId)).Select(a => a.AdminEmails.Select(b => b.Email)).SingleOrDefaultAsync();
                 var email = context.User.GetEmailAddress();
                 if (emails.Contains(email))
@@ -44,6 +43,20 @@ namespace AutoTest.Web.Authorization
             {
                 context.Fail();
             }
+        }
+
+        private async Task<ulong> GetEventId(RouteData routeData)
+        {
+            if (routeData.Values.ContainsKey("eventId"))
+            {
+                return ulong.Parse((string)routeData.Values["eventId"]);
+            }
+            else if (routeData.Values.ContainsKey("entrantId"))
+            {
+                var entrantId = ulong.Parse((string)routeData.Values["entrantId"]);
+                return await _autoTestContext.Entrants.Where(a => a.EntrantId == entrantId).Select(a => a.EventId).SingleAsync();
+            }
+            throw new Exception("Don't know how to get EventId from this request");
         }
     }
 }

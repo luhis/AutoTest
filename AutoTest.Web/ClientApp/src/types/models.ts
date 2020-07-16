@@ -80,7 +80,13 @@ export interface Event {
     readonly marshalEmails: readonly AuthorisationEmail[];
 }
 
-export type EditingEvent = Event & { readonly isNew: boolean };
+export type EditingEvent = Override<
+    Event,
+    { readonly clubId: number | undefined }
+> & {
+    readonly isNew: boolean;
+    readonly isClubEditable: boolean;
+};
 
 export interface Entrant {
     readonly entrantId: number;
