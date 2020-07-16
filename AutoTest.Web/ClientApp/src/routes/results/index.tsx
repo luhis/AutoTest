@@ -1,6 +1,6 @@
 import { FunctionalComponent, h, Fragment } from "preact";
 import { useEffect, useState } from "preact/hooks";
-import { Title, Column } from "rbx";
+import { Title, Table } from "rbx";
 import { flatten } from "micro-dash";
 
 import { Result } from "../../types/models";
@@ -71,49 +71,57 @@ const Results: FunctionalComponent<Readonly<Props>> = ({ eventId }) => {
     return (
         <div>
             <Title>Results</Title>
-            <Column.Group>
-                <Column>Class</Column>
-                <Column>Name</Column>
-                <Column>Total Time</Column>
-                {tests.tag === "Loaded"
-                    ? tests.value.map((test) =>
-                          testRuns.map((run) => (
-                              <Column key={`${test.testId}.${run}`}>
-                                  {test.ordinal}.{run}
-                              </Column>
-                          ))
-                      )
-                    : null}
-            </Column.Group>
-            {ifSome(
-                results,
-                (r) => r.class,
-                (result) => (
-                    <Column.Group>
-                        <Column>
-                            <p>{result.class}</p>
-                        </Column>
-                        {result.entrantTimes.map((a) => (
-                            <Fragment key={a.entrant.entrantId}>
-                                <Column>{`${a.entrant.givenName} ${a.entrant.familyName}`}</Column>
-                                <Column>{a.totalTime / 1000}</Column>
-                                {a.times.map((x) =>
-                                    x.timesInMs.map((z) => (
-                                        <Column key={z.toString()}>
-                                            {z / 1000}
-                                        </Column>
-                                    ))
-                                )}
-                                {numToRange(
-                                    timeColumnCount - a.times.length
-                                ).map((test) => (
-                                    <Column key={test}></Column>
-                                ))}
-                            </Fragment>
-                        ))}
-                    </Column.Group>
-                )
-            )}
+            <Table>
+                <Table.Head>
+                    <Table.Row>
+                        <Table.Heading>Class</Table.Heading>
+                        <Table.Heading>Name</Table.Heading>
+                        <Table.Heading>Total Time</Table.Heading>
+                        {tests.tag === "Loaded"
+                            ? tests.value.map((test) =>
+                                  testRuns.map((run) => (
+                                      <Table.Heading
+                                          key={`${test.testId}.${run}`}
+                                      >
+                                          {test.ordinal}.{run}
+                                      </Table.Heading>
+                                  ))
+                              )
+                            : null}
+                    </Table.Row>
+                </Table.Head>
+                {ifSome(
+                    results,
+                    (r) => r.class,
+                    (result) => (
+                        <Fragment>
+                            {result.entrantTimes.map((a) => (
+                                <Table.Row key={a.entrant.entrantId}>
+                                    <Table.Cell>
+                                        <p>{result.class}</p>
+                                    </Table.Cell>
+                                    <Table.Cell>{`${a.entrant.givenName} ${a.entrant.familyName}`}</Table.Cell>
+                                    <Table.Cell>
+                                        {a.totalTime / 1000}
+                                    </Table.Cell>
+                                    {a.times.map((x) =>
+                                        x.timesInMs.map((z) => (
+                                            <Table.Cell key={z.toString()}>
+                                                {z / 1000}
+                                            </Table.Cell>
+                                        ))
+                                    )}
+                                    {numToRange(
+                                        timeColumnCount - a.times.length
+                                    ).map((test) => (
+                                        <Table.Cell key={test}></Table.Cell>
+                                    ))}
+                                </Table.Row>
+                            ))}
+                        </Fragment>
+                    )
+                )}
+            </Table>
         </div>
     );
 };
