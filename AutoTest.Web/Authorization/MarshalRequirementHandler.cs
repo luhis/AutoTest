@@ -1,11 +1,12 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
+using AutoTest.Domain.Repositories;
 using AutoTest.Persistence;
 using AutoTest.Web.Authorization.Tooling;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
-using Microsoft.EntityFrameworkCore;
 
 namespace AutoTest.Web.Authorization
 {
@@ -13,11 +14,13 @@ namespace AutoTest.Web.Authorization
     {
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly AutoTestContext _autoTestContext;
+        private readonly IEventsRepository _eventsRepository;
 
-        public MarshalRequirementHandler(IHttpContextAccessor httpContextAccessor, AutoTestContext autoTestContext)
+        public MarshalRequirementHandler(IHttpContextAccessor httpContextAccessor, AutoTestContext autoTestContext, IEventsRepository eventsRepository)
         {
             _httpContextAccessor = httpContextAccessor;
             _autoTestContext = autoTestContext;
+            _eventsRepository = eventsRepository;
         }
 
         protected override async Task HandleRequirementAsync(AuthorizationHandlerContext context, MarshalRequirement requirement)
@@ -26,7 +29,11 @@ namespace AutoTest.Web.Authorization
             if (routeData != null)
             {
                 var eventId = ulong.Parse((string)routeData.Values["eventId"]);
-                var @event = await _autoTestContext.Events.SingleOrDefaultAsync(a => a.EventId == eventId);
+                var @event = await _eventsRepository.GetById(eventId);
+                if (@event == null)
+                {
+                    throw new Exception("Cannot find event");
+                }
                 var emails = @event.MarshalEmails.Select(a => a.Email);
                 var email = context.User.GetEmailAddress();
                 if (emails.Contains(email))

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoTest.Domain.Repositories;
 using AutoTest.Persistence;
 using AutoTest.Web.Authorization.Tooling;
 using Microsoft.AspNetCore.Authorization;
@@ -12,13 +13,17 @@ namespace AutoTest.Web.Authorization
 {
     public class ClubAdminRequirementHandler : AuthorizationHandler<ClubAdminRequirement>
     {
-        private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly AutoTestContext _autoTestContext;
+        private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly IEntrantsRepository _entrantsRepository;
+        private readonly IEventsRepository _eventsRepository;
 
-        public ClubAdminRequirementHandler(IHttpContextAccessor httpContextAccessor, AutoTestContext autoTestContext)
+        public ClubAdminRequirementHandler(IHttpContextAccessor httpContextAccessor, AutoTestContext autoTestContext, IEntrantsRepository entrantsRepository, IEventsRepository eventsRepository)
         {
             _httpContextAccessor = httpContextAccessor;
             _autoTestContext = autoTestContext;
+            _entrantsRepository = entrantsRepository;
+            _eventsRepository = eventsRepository;
         }
 
         protected override async Task HandleRequirementAsync(AuthorizationHandlerContext context, ClubAdminRequirement requirement)
@@ -27,8 +32,12 @@ namespace AutoTest.Web.Authorization
             if (routeData != null)
             {
                 var eventId = await GetEventId(routeData);
-                var clubIds = await _autoTestContext.Events.Where(a => eventId ==a.EventId).Select(a => a.ClubId).ToArrayAsync();
-                var emails = await _autoTestContext.Clubs.Where(a => clubIds.Contains(a.ClubId)).Select(a => a.AdminEmails.Select(b => b.Email)).SingleOrDefaultAsync();
+                var @event = await _eventsRepository.GetById(eventId);
+                if (@event == null)
+                {
+                    throw new Exception("Cannot find event");
+                }
+                var emails = await _autoTestContext.Clubs.Where(a => @event.ClubId == a.ClubId).Select(a => a.AdminEmails.Select(b => b.Email)).SingleOrDefaultAsync();
                 var email = context.User.GetEmailAddress();
                 if (emails.Contains(email))
                 {
@@ -54,7 +63,12 @@ namespace AutoTest.Web.Authorization
             else if (routeData.Values.ContainsKey("entrantId"))
             {
                 var entrantId = ulong.Parse((string)routeData.Values["entrantId"]);
-                return await _autoTestContext.Entrants.Where(a => a.EntrantId == entrantId).Select(a => a.EventId).SingleAsync();
+                var entrant = await _entrantsRepository.GetById(entrantId);
+                if (entrant == null)
+                {
+                    throw new Exception("Cannot find entrant");
+                }
+                return entrant.EventId;
             }
             throw new Exception("Don't know how to get EventId from this request");
         }

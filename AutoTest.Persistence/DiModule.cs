@@ -1,4 +1,7 @@
-﻿namespace AutoTest.Persistence
+﻿using AutoTest.Domain.Repositories;
+using AutoTest.Persistence.Repositories;
+
+namespace AutoTest.Persistence
 {
     using Microsoft.Extensions.DependencyInjection;
 
@@ -6,7 +9,8 @@
     {
         public static void AddPersistence(this IServiceCollection services)
         {
-
+            services.AddScoped<IEntrantsRepository, EntrantsRepository>();
+            services.AddScoped<IEventsRepository, EventsRepository>();
         }
     }
 }
