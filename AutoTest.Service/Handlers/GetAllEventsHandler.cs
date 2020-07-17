@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using AutoTest.Domain.Repositories;
 
 namespace AutoTest.Service.Handlers
 {
@@ -6,23 +7,21 @@ namespace AutoTest.Service.Handlers
     using System.Threading;
     using System.Threading.Tasks;
     using AutoTest.Domain.StorageModels;
-    using AutoTest.Persistence;
     using AutoTest.Service.Messages;
     using MediatR;
-    using Microsoft.EntityFrameworkCore;
 
     public class GetAllEventsHandler : IRequestHandler<GetAllEvents, IEnumerable<Event>>
     {
-        private readonly AutoTestContext autoTestContext;
+        private readonly IEventsRepository _eventsRepository;
 
-        public GetAllEventsHandler(AutoTestContext autoTestContext)
+        public GetAllEventsHandler(IEventsRepository eventsRepository)
         {
-            this.autoTestContext = autoTestContext;
+            _eventsRepository = eventsRepository;
         }
 
         async Task<IEnumerable<Event>> IRequestHandler<GetAllEvents, IEnumerable<Event>>.Handle(GetAllEvents request, CancellationToken cancellationToken)
         {
-            return await this.autoTestContext.Events.OrderBy(a => a.StartTime).ToArrayAsync(cancellationToken);
+            return await this._eventsRepository.GetAll(cancellationToken);
         }
     }
 }
