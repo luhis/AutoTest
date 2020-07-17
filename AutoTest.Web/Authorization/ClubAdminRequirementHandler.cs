@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using AutoTest.Domain.Repositories;
 using AutoTest.Persistence;
@@ -32,7 +33,7 @@ namespace AutoTest.Web.Authorization
             if (routeData != null)
             {
                 var eventId = await GetEventId(routeData);
-                var @event = await _eventsRepository.GetById(eventId);
+                var @event = await _eventsRepository.GetById(eventId, CancellationToken.None);
                 if (@event == null)
                 {
                     throw new Exception("Cannot find event");
