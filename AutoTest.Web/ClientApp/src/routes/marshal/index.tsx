@@ -128,7 +128,7 @@ const Marshal: FunctionalComponent<Readonly<Props>> = ({ eventId, testId }) => {
                         }
                         value={editing.entrantId}
                     >
-                        <Select.Option value={undefined}>
+                        <Select.Option value={-1}>
                             - Please Select -
                         </Select.Option>
                         {ifSome(
