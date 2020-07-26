@@ -1,25 +1,24 @@
-﻿namespace AutoTest.Service.Handlers
+﻿using AutoTest.Domain.Repositories;
+
+namespace AutoTest.Service.Handlers
 {
     using System.Threading;
     using System.Threading.Tasks;
-    using AutoTest.Persistence;
     using AutoTest.Service.Messages;
     using MediatR;
 
-    using static AutoTest.Service.NonNuller;
     public class SaveClubHandler : IRequestHandler<SaveClub, ulong>
     {
-        private readonly AutoTestContext autoTestContext;
+        private readonly IClubRepository clubRepository;
 
-        public SaveClubHandler(AutoTestContext autoTestContext)
+        public SaveClubHandler(IClubRepository clubRepository)
         {
-            this.autoTestContext = autoTestContext;
+            this.clubRepository = clubRepository;
         }
 
         async Task<ulong> IRequestHandler<SaveClub, ulong>.Handle(SaveClub request, CancellationToken cancellationToken)
         {
-            await ThrowIfNull(this.autoTestContext.Clubs).Upsert(request.Club, a => a.ClubId == request.Club.ClubId, cancellationToken);
-            await this.autoTestContext.SaveChangesAsync(cancellationToken);
+            await clubRepository.Upsert(request.Club, cancellationToken);
             return request.Club.ClubId;
         }
     }

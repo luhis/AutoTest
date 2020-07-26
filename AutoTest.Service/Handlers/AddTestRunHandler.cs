@@ -1,26 +1,23 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
-using AutoTest.Persistence;
+using AutoTest.Domain.Repositories;
 using AutoTest.Service.Messages;
 using MediatR;
-
-using static AutoTest.Service.NonNuller;
 
 namespace AutoTest.Service.Handlers
 {
     public class AddTestRunHandler : IRequestHandler<AddTestRun>
     {
-        private readonly AutoTestContext autoTestContext;
+        private readonly ITestRunsRepository testRunsRepository;
 
-        public AddTestRunHandler(AutoTestContext autoTestContext)
+        public AddTestRunHandler(ITestRunsRepository testRunsRepository)
         {
-            this.autoTestContext = autoTestContext;
+            this.testRunsRepository = testRunsRepository;
         }
 
         async Task<Unit> IRequestHandler<AddTestRun, Unit>.Handle(AddTestRun request, CancellationToken cancellationToken)
         {
-            ThrowIfNull(this.autoTestContext.TestRuns).Add(request.TestRun);
-            await this.autoTestContext.SaveChangesAsync(cancellationToken);
+            await testRunsRepository.AddTestRun(request.TestRun, cancellationToken);
             return Unit.Value;
         }
     }

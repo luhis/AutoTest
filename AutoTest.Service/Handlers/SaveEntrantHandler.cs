@@ -1,25 +1,23 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
-using AutoTest.Persistence;
+using AutoTest.Domain.Repositories;
 using AutoTest.Service.Messages;
 using MediatR;
 
-using static AutoTest.Service.NonNuller;
 namespace AutoTest.Service.Handlers
 {
     public class SaveEntrantHandler : IRequestHandler<SaveEntrant, ulong>
     {
-        private readonly AutoTestContext autoTestContext;
+        private readonly IEntrantsRepository entrantsRepository;
 
-        public SaveEntrantHandler(AutoTestContext autoTestContext)
+        public SaveEntrantHandler(IEntrantsRepository entrantsRepository)
         {
-            this.autoTestContext = autoTestContext;
+            this.entrantsRepository = entrantsRepository;
         }
 
         async Task<ulong> IRequestHandler<SaveEntrant, ulong>.Handle(SaveEntrant request, CancellationToken cancellationToken)
         {
-            await ThrowIfNull(this.autoTestContext.Entrants).Upsert(request.Entrant, a => a.EntrantId == request.Entrant.EntrantId, cancellationToken);
-            await this.autoTestContext.SaveChangesAsync(cancellationToken);
+            await entrantsRepository.Upsert(request.Entrant, cancellationToken);
             return request.Entrant.EntrantId;
         }
     }

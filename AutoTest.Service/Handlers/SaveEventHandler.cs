@@ -1,49 +1,24 @@
-﻿using System;
-using System.Linq;
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
-using AutoTest.Domain.StorageModels;
-using AutoTest.Persistence;
+using AutoTest.Domain.Repositories;
 using AutoTest.Service.Messages;
 using MediatR;
-using UniqueIdGenerator.Net;
-
-using static AutoTest.Service.NonNuller;
 
 namespace AutoTest.Service.Handlers
 {
     public class SaveEventHandler : IRequestHandler<SaveEvent, ulong>
     {
-        private readonly AutoTestContext autoTestContext;
-        private static readonly Generator Generator = new Generator(0, new DateTime(2020, 04, 17));
+        private readonly IEventsRepository eventsRepository;
 
-        public SaveEventHandler(AutoTestContext autoTestContext)
+        public SaveEventHandler(IEventsRepository eventsRepository)
         {
-            this.autoTestContext = autoTestContext;
+            this.eventsRepository = eventsRepository;
         }
-
+        
         async Task<ulong> IRequestHandler<SaveEvent, ulong>.Handle(SaveEvent request, CancellationToken cancellationToken)
         {
-            await ThrowIfNull(this.autoTestContext.Events).Upsert(request.Event, a => a.EventId == request.Event.EventId, cancellationToken);
-            SyncTests(request.Event);
-
-            await this.autoTestContext.SaveChangesAsync(cancellationToken);
+            await eventsRepository.Upsert(request.Event, cancellationToken);
             return request.Event.ClubId;
-        }
-
-        private void SyncTests(Event @event)
-        {
-            var tests = this.autoTestContext.Tests.Where(a => a.EventId == @event.EventId);
-            var expectedOrdinals = Enumerable.Range(0, @event.TestCount);
-            var toAddOrdinals = expectedOrdinals.Except(tests.Select(a => a.Ordinal));
-
-            ThrowIfNull(this.autoTestContext.Tests).AddRange(toAddOrdinals.Select(a => new Test(Generator.NextLong(), @event.EventId, a, null)));
-            var toRemove = tests.Where(a => !expectedOrdinals.Contains(a.Ordinal));
-            foreach (var test in toRemove)
-            {
-                this.autoTestContext.Add(test);
-                ThrowIfNull(this.autoTestContext.Tests).Remove(test).State = Microsoft.EntityFrameworkCore.EntityState.Deleted;
-            }
         }
     }
 }

@@ -10,5 +10,7 @@ namespace AutoTest.Domain.Repositories
         Task<Event?> GetById(ulong eventId, CancellationToken cancellationToken);
 
         Task<IEnumerable<Event>> GetAll(CancellationToken cancellationToken);
+
+        Task Upsert(Event @event, CancellationToken cancellationToken);
     }
 }

@@ -3,7 +3,6 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoTest.Domain.Repositories;
-using AutoTest.Persistence;
 using AutoTest.Web.Authorization.Tooling;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -14,13 +13,11 @@ namespace AutoTest.Web.Authorization
     public class MarshalRequirementHandler : AuthorizationHandler<MarshalRequirement>
     {
         private readonly IHttpContextAccessor _httpContextAccessor;
-        private readonly AutoTestContext _autoTestContext;
         private readonly IEventsRepository _eventsRepository;
 
-        public MarshalRequirementHandler(IHttpContextAccessor httpContextAccessor, AutoTestContext autoTestContext, IEventsRepository eventsRepository)
+        public MarshalRequirementHandler(IHttpContextAccessor httpContextAccessor, IEventsRepository eventsRepository)
         {
             _httpContextAccessor = httpContextAccessor;
-            _autoTestContext = autoTestContext;
             _eventsRepository = eventsRepository;
         }
 

@@ -3,28 +3,26 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoTest.Domain.Repositories;
-using AutoTest.Persistence;
 using AutoTest.Web.Authorization.Tooling;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
-using Microsoft.EntityFrameworkCore;
 
 namespace AutoTest.Web.Authorization
 {
     public class ClubAdminRequirementHandler : AuthorizationHandler<ClubAdminRequirement>
     {
-        private readonly AutoTestContext _autoTestContext;
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IEntrantsRepository _entrantsRepository;
         private readonly IEventsRepository _eventsRepository;
+        private readonly IClubRepository _clubRepository;
 
-        public ClubAdminRequirementHandler(IHttpContextAccessor httpContextAccessor, AutoTestContext autoTestContext, IEntrantsRepository entrantsRepository, IEventsRepository eventsRepository)
+        public ClubAdminRequirementHandler(IHttpContextAccessor httpContextAccessor, IEntrantsRepository entrantsRepository, IEventsRepository eventsRepository, IClubRepository clubRepository)
         {
             _httpContextAccessor = httpContextAccessor;
-            _autoTestContext = autoTestContext;
             _entrantsRepository = entrantsRepository;
             _eventsRepository = eventsRepository;
+            _clubRepository = clubRepository;
         }
 
         protected override async Task HandleRequirementAsync(AuthorizationHandlerContext context, ClubAdminRequirement requirement)
@@ -38,7 +36,13 @@ namespace AutoTest.Web.Authorization
                 {
                     throw new Exception("Cannot find event");
                 }
-                var emails = await _autoTestContext.Clubs.Where(a => @event.ClubId == a.ClubId).Select(a => a.AdminEmails.Select(b => b.Email)).SingleOrDefaultAsync();
+
+                var club = await _clubRepository.GetById(@event.ClubId, CancellationToken.None);
+                if (club == null)
+                {
+                    throw new NullReferenceException(nameof(club));
+                }
+                var emails = club.AdminEmails.Select(b => b.Email);
                 var email = context.User.GetEmailAddress();
                 if (emails.Contains(email))
                 {
@@ -64,7 +68,7 @@ namespace AutoTest.Web.Authorization
             else if (routeData.Values.ContainsKey("entrantId"))
             {
                 var entrantId = ulong.Parse((string)routeData.Values["entrantId"]);
-                var entrant = await _entrantsRepository.GetById(entrantId);
+                var entrant = await _entrantsRepository.GetById(entrantId, CancellationToken.None);
                 if (entrant == null)
                 {
                     throw new Exception("Cannot find entrant");

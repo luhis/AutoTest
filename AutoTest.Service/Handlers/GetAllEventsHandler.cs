@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using AutoTest.Domain.Repositories;
+﻿using AutoTest.Domain.Repositories;
 
 namespace AutoTest.Service.Handlers
 {
@@ -19,9 +18,9 @@ namespace AutoTest.Service.Handlers
             _eventsRepository = eventsRepository;
         }
 
-        async Task<IEnumerable<Event>> IRequestHandler<GetAllEvents, IEnumerable<Event>>.Handle(GetAllEvents request, CancellationToken cancellationToken)
+        Task<IEnumerable<Event>> IRequestHandler<GetAllEvents, IEnumerable<Event>>.Handle(GetAllEvents request, CancellationToken cancellationToken)
         {
-            return await this._eventsRepository.GetAll(cancellationToken);
+            return this._eventsRepository.GetAll(cancellationToken);
         }
     }
 }

@@ -1,29 +1,25 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using AutoTest.Domain.Repositories;
 using AutoTest.Domain.StorageModels;
-using AutoTest.Persistence;
 using AutoTest.Service.Messages;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
 
 namespace AutoTest.Service.Handlers
 {
     public class GetTestRunsHandler : IRequestHandler<GetTestRuns, IEnumerable<TestRun>>
     {
-        private readonly AutoTestContext autoTestContext;
+        private readonly ITestRunsRepository testRunsRepository;
 
-        public GetTestRunsHandler(AutoTestContext autoTestContext)
+        public GetTestRunsHandler(ITestRunsRepository testRunsRepository)
         {
-            this.autoTestContext = autoTestContext;
+            this.testRunsRepository = testRunsRepository;
         }
 
-        async Task<IEnumerable<TestRun>> IRequestHandler<GetTestRuns, IEnumerable<TestRun>>.Handle(GetTestRuns request, CancellationToken cancellationToken)
+        Task<IEnumerable<TestRun>> IRequestHandler<GetTestRuns, IEnumerable<TestRun>>.Handle(GetTestRuns request, CancellationToken cancellationToken)
         {
-            return await this.autoTestContext.TestRuns.Where(
-                a => this.autoTestContext.Tests.Where(b => b.EventId == request.TestId).Select(b => b.TestId).Contains(a.TestId)).ToArrayAsync(cancellationToken);
+            return testRunsRepository.GetAll(request.TestId, cancellationToken);
         }
     }
 }
