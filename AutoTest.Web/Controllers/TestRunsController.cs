@@ -24,9 +24,9 @@ namespace AutoTest.Web.Controllers
         }
 
         [HttpGet]
-        public Task<IEnumerable<TestRun>> GetRuns(ulong testId, CancellationToken cancellationToken)
+        public Task<IEnumerable<TestRun>> GetRuns(ulong testId, int ordinal, CancellationToken cancellationToken)
         {
-            return mediator.Send(new GetTestRuns(testId), cancellationToken);
+            return mediator.Send(new GetTestRuns(testId, ordinal), cancellationToken);
         }
 
         [Authorize(Policies.Marshal)]

@@ -34,7 +34,7 @@ namespace AutoTest.Persistence
 
     public static class QueryableExtensions
     {
-        public static async Task<IEnumerable<T>> ToEnumerableAsync<T>(this IOrderedQueryable<T> q, CancellationToken cancellationToken)
+        public static async Task<IEnumerable<T>> ToEnumerableAsync<T>(this IQueryable<T> q, CancellationToken cancellationToken)
         {
             return await q.ToArrayAsync(cancellationToken);
         }

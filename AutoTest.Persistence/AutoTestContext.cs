@@ -19,7 +19,6 @@ namespace AutoTest.Persistence
         public DbSet<Event>? Events { get; private set; }
         public DbSet<Entrant>? Entrants { get; private set; }
         public DbSet<TestRun>? TestRuns { get; private set; }
-        public DbSet<Test>? Tests { get; private set; }
         public DbSet<User>? Users { get; private set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -27,7 +26,6 @@ namespace AutoTest.Persistence
             SetupClub.Setup(modelBuilder.Entity<Club>());
             SetupEntrant.Setup(modelBuilder.Entity<Entrant>());
             SetupEvent.Setup(modelBuilder.Entity<Event>());
-            SetupTest.Setup(modelBuilder.Entity<Test>());
             SetupTestRun.Setup(modelBuilder.Entity<TestRun>());
             SetupUser.Setup(modelBuilder.Entity<User>());
         }
@@ -43,11 +41,9 @@ namespace AutoTest.Persistence
                 }
                 if (this.Events != null && this.Events.SingleOrDefault(a => a.EventId == 1) == null)
                 {
-                    this.Events.Add(new Event(1, 1, "Kestrel Farm", new DateTime(2000, 1, 1), 10, 2));
-                }
-                if (this.Tests != null && this.Tests.SingleOrDefault(a => a.TestId == 1) == null)
-                {
-                    this.Tests.Add(new Test(1, 1, 1, null));
+                    var e = new Event(1, 1, "Kestrel Farm", new DateTime(2000, 1, 1), 10, 2);
+                    e.SetTests(new[] { new Test(1, "") });
+                    this.Events.Add(e);
                 }
                 if (this.Entrants != null && this.Entrants.SingleOrDefault(a => a.EntrantId == 1) == null)
                 {

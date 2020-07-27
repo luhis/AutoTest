@@ -6,11 +6,14 @@ namespace AutoTest.Service.Messages
 {
     public class GetTestRuns : IRequest<IEnumerable<TestRun>>
     {
-        public GetTestRuns(ulong testId)
+        public GetTestRuns(ulong eventId, int ordinal)
         {
-            TestId = testId;
+            EventId = eventId;
+            Ordinal = ordinal;
         }
 
-        public ulong TestId { get; }
+        public int Ordinal { get; }
+
+        public ulong EventId { get; }
     }
 }

@@ -22,6 +22,11 @@ namespace AutoTest.Persistence.Repositories
             return await _autoTestContext.Entrants.Where(a => a.EntrantId == entrantId).SingleOrDefaultAsync(cancellationToken);
         }
 
+        Task<IEnumerable<Entrant>> IEntrantsRepository.GetByEventId(ulong eventId, CancellationToken cancellationToken)
+        {
+            return _autoTestContext.Entrants.Where(a => a.EventId == eventId).ToEnumerableAsync(cancellationToken);
+        }
+
         Task<IEnumerable<Entrant>> IEntrantsRepository.GetAll(ulong eventId, CancellationToken cancellationToken)
         {
             return _autoTestContext.Entrants.Where(a => a.EventId == eventId).OrderBy(a => a.DriverNumber).ToEnumerableAsync(cancellationToken);

@@ -1,27 +1,32 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using AutoTest.Domain.Repositories;
 using AutoTest.Domain.StorageModels;
-using AutoTest.Persistence;
 using AutoTest.Service.Messages;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
 
 namespace AutoTest.Service.Handlers
 {
     public class GetTestsHandler : IRequestHandler<GetTests, IEnumerable<Test>>
     {
-        private readonly AutoTestContext autoTestContext;
+        private readonly IEventsRepository eventsRepository;
 
-        public GetTestsHandler(AutoTestContext autoTestContext)
+        public GetTestsHandler(IEventsRepository eventsRepository)
         {
-            this.autoTestContext = autoTestContext;
+            this.eventsRepository = eventsRepository;
         }
 
         async Task<IEnumerable<Test>> IRequestHandler<GetTests, IEnumerable<Test>>.Handle(GetTests request, CancellationToken cancellationToken)
         {
-            return await this.autoTestContext.Tests.Where(b => b.EventId == request.EventId).OrderBy(a => a.Ordinal).ToArrayAsync(cancellationToken);
+            var @event = await this.eventsRepository.GetById(request.EventId, cancellationToken);
+            if (@event == null)
+            {
+                throw new Exception("cannot find event");
+            }
+            return @event.Tests.OrderBy(a => a.Ordinal);
         }
     }
 }

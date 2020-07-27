@@ -11,7 +11,8 @@
             entity.Property(e => e.TestRunId).ValueGeneratedNever().IsRequired();
             entity.Property(e => e.TimeInMS).IsRequired();
             entity.Property(e => e.Created).IsRequired();
-            entity.HasOne<Test>().WithMany().HasForeignKey(p => p.TestId);
+            entity.Property(e => e.Ordinal).IsRequired();
+            entity.HasOne<Event>().WithMany().HasForeignKey(p => p.EventId);
             entity.HasOne<Entrant>().WithMany().HasForeignKey(p => p.EntrantId);
             entity.OwnsMany(a => a.Penalties, SetupPenalty);
         }

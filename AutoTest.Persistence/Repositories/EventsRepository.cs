@@ -40,17 +40,17 @@ namespace AutoTest.Persistence.Repositories
 
         private void SyncTests(Event @event)
         {
-            var tests = this._autoTestContext.Tests.Where(a => a.EventId == @event.EventId);
-            var expectedOrdinals = Enumerable.Range(0, @event.TestCount);
-            var toAddOrdinals = expectedOrdinals.Except(tests.Select(a => a.Ordinal));
+            //var tests = this._autoTestContext.Tests.Where(a => a.EventId == @event.EventId);
+            //var expectedOrdinals = Enumerable.Range(0, @event.TestCount);
+            //var toAddOrdinals = expectedOrdinals.Except(tests.Select(a => a.Ordinal));
 
-            this._autoTestContext.Tests.ThrowIfNull().AddRange(toAddOrdinals.Select(a => new Test(Generator.NextLong(), @event.EventId, a, null)));
-            var toRemove = tests.Where(a => !expectedOrdinals.Contains(a.Ordinal));
-            foreach (var test in toRemove)
-            {
-                this._autoTestContext.Add(test);
-                this._autoTestContext.Tests.ThrowIfNull().Remove(test).State = Microsoft.EntityFrameworkCore.EntityState.Deleted;
-            }
+            //this._autoTestContext.Tests.ThrowIfNull().AddRange(toAddOrdinals.Select(a => new Test(Generator.NextLong(), @event.EventId, a, null)));
+            //var toRemove = tests.Where(a => !expectedOrdinals.Contains(a.Ordinal));
+            //foreach (var test in toRemove)
+            //{
+            //    this._autoTestContext.Add(test);
+            //    this._autoTestContext.Tests.ThrowIfNull().Remove(test).State = Microsoft.EntityFrameworkCore.EntityState.Deleted;
+            //}
         }
     }
 }

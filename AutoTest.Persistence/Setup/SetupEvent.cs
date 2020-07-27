@@ -15,6 +15,7 @@
             entity.Property(e => e.MaxAttemptsPerTest).IsRequired();
             entity.HasOne<Club>().WithMany().HasForeignKey(p => p.ClubId);
             entity.OwnsMany(a => a.MarshalEmails, SetupAuthorisationEmails.Setup);
+            entity.OwnsMany(a => a.Tests, SetupTest.Setup);
         }
     }
 }

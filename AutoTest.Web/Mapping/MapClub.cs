@@ -23,7 +23,7 @@ namespace AutoTest.Web.Mapping
 
         public static TestRun Map(ulong testRunId, TestRunSaveModel test)
         {
-            var run = new TestRun(testRunId, test.TestId, test.TimeInMS, test.EntrantId, test.Created);
+            var run = new TestRun(testRunId, test.EventId, test.Ordinal, test.TimeInMS, test.EntrantId, test.Created);
             run.SetPenalties(test.Penalties.Select(a => new Penalty(a.PenaltyType, a.InstanceCount)).ToArray());
             return run;
         }

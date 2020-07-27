@@ -8,7 +8,7 @@ namespace AutoTest.Service.ResultCalculation
     {
         int ITotalTimeCalculator.GetTotalTime(IEnumerable<TestRun> testRuns, IEnumerable<TestRun> allTestRuns)
         {
-            return testRuns.GroupBy(a => a.TestId).Select(a => GetTime(a, allTestRuns.Where(b => b.TestId == a.Key))).Sum();
+            return testRuns.GroupBy(a => a.Ordinal).Select(a => GetTime(a, allTestRuns.Where(b => b.Ordinal == a.Key))).Sum();
         }
 
         private const int FiveSecs = 5_000;

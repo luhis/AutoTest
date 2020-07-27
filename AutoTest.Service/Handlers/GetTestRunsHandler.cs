@@ -19,7 +19,7 @@ namespace AutoTest.Service.Handlers
 
         Task<IEnumerable<TestRun>> IRequestHandler<GetTestRuns, IEnumerable<TestRun>>.Handle(GetTestRuns request, CancellationToken cancellationToken)
         {
-            return testRunsRepository.GetAll(request.TestId, cancellationToken);
+            return testRunsRepository.GetAll(request.EventId, request.Ordinal, cancellationToken);
         }
     }
 }

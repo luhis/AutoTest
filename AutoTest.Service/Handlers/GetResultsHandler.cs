@@ -1,7 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using AutoTest.Domain.Repositories;
 using AutoTest.Persistence;
 using AutoTest.Service.Messages;
 using AutoTest.Service.Models;
@@ -15,25 +17,33 @@ namespace AutoTest.Service.Handlers
     {
         private readonly AutoTestContext autoTestContext;
         private readonly ITotalTimeCalculator totalTimeCalculator;
+        private readonly IEventsRepository eventsRepository;
+        private readonly IEntrantsRepository entrantsRepository;
 
-        public GetResultsHandler(AutoTestContext autoTestContext)
+        public GetResultsHandler(AutoTestContext autoTestContext, IEventsRepository eventsRepository, IEntrantsRepository entrantsRepository)
         {
             this.autoTestContext = autoTestContext;
+            this.eventsRepository = eventsRepository;
+            this.entrantsRepository = entrantsRepository;
             totalTimeCalculator = new AutoTestTotalTimeCalculator();
         }
 
         async Task<IEnumerable<Result>> IRequestHandler<GetResults, IEnumerable<Result>>.Handle(GetResults request, CancellationToken cancellationToken)
         {
-            var tests = autoTestContext.Tests.Where(a => a.EventId == request.EventId);
-            var testIds = await tests.Select(a => a.TestId).ToArrayAsync(cancellationToken);
-            var entrants = await this.autoTestContext.Entrants.Where(entrant => entrant.EventId == request.EventId).ToArrayAsync(cancellationToken);
-            var testRuns = await autoTestContext.TestRuns.Where(testRun => testIds.Any(x => x == testRun.TestId)).ToArrayAsync(cancellationToken);
+            var @event = await eventsRepository.GetById(request.EventId, cancellationToken);
+            if (@event == null)
+            {
+                throw new Exception("Cannot find event");
+            }
+            var tests = @event.Tests;
+            var entrants = await entrantsRepository.GetByEventId(request.EventId, cancellationToken);
+            var testRuns = await autoTestContext.TestRuns.Where(testRun => request.EventId == testRun.EventId).ToArrayAsync(cancellationToken);
 
             var entrantsAndRuns = entrants.Select(entrant => new { entrant, runs = testRuns.Where(r => r.EntrantId == entrant.EntrantId) });
             var grouped = entrantsAndRuns.GroupBy(entrantAndRuns => entrantAndRuns.entrant.Class);
-            var testDict = tests.ToDictionary(a => a.TestId, a => a);
+            var testDict = tests.ToDictionary(a => a.Ordinal, a => a);
             return grouped.Select(entrantsByClass => new Result(entrantsByClass.Key, entrantsByClass.Select(x =>
-                new EntrantTimes(x.entrant, totalTimeCalculator.GetTotalTime(x.runs, testRuns), x.runs.GroupBy(a => a.TestId).Select(r =>
+                new EntrantTimes(x.entrant, totalTimeCalculator.GetTotalTime(x.runs, testRuns), x.runs.GroupBy(a => a.Ordinal).Select(r =>
                     new TestTime(testDict[r.Key].Ordinal, r.Select(a => a.TimeInMS)))))));
         }
     }
