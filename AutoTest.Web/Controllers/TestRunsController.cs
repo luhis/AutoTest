@@ -13,7 +13,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace AutoTest.Web.Controllers
 {
     [ApiController]
-    [Route("api/events/{eventId}/tests/{testId}/testRuns")]
+    [Route("api/events/{eventId}/tests/{ordinal}/testRuns")]
     public class TestRunsController : ControllerBase
     {
         private readonly IMediator mediator;

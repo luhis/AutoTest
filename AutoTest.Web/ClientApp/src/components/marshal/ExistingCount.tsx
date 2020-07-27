@@ -4,21 +4,21 @@ import { TestRun, Event } from "../../types/models";
 
 interface Props {
     entrantId: number | undefined;
-    testId: number;
+    ordinal: number;
     testRuns: readonly TestRun[];
     currentEvent: Event | undefined;
 }
 
 const ExportCount: FunctionalComponent<Props> = ({
     entrantId,
-    testId,
+    ordinal,
     testRuns,
     currentEvent,
 }) => (
     <span>
         {
             testRuns.filter(
-                (a) => a.entrantId === entrantId && a.testId === testId
+                (a) => a.entrantId === entrantId && a.ordinal === ordinal
             ).length
         }{" "}
         of{" "}

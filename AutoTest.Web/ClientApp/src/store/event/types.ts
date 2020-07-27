@@ -3,7 +3,6 @@ import {
     Event,
     TestRun,
     TestRunUploadState,
-    Test,
     TestRunTemp,
     Club,
 } from "../../types/models";
@@ -16,7 +15,6 @@ export interface EventState {
         state: TestRunUploadState;
         eventId: number;
     })[];
-    readonly tests: LoadingState<readonly Test[]>;
     readonly testRunsFromServer: LoadingState<readonly TestRun[]>;
     readonly clubs: LoadingState<readonly Club[]>;
 }
@@ -24,7 +22,6 @@ export interface EventState {
 export const GET_CLUBS = "GET_CLUBS";
 export const GET_ENTRANTS = "GET_ENTRANTS";
 export const GET_EVENTS = "GET_EVENTS";
-export const GET_TESTS = "GET_TESTS";
 export const GET_TEST_RUNS = "GET_TEST_RUNS";
 export const ADD_TEST_RUN = "ADD_TEST_RUN";
 export const UPDATE_TEST_RUN_STATE = "UPDATE_TEST_RUN_STATE";
@@ -42,11 +39,6 @@ interface GetEntrants {
 interface GetEvents {
     type: typeof GET_EVENTS;
     payload: LoadingState<readonly Event[]>;
-}
-
-interface GetTests {
-    type: typeof GET_TESTS;
-    payload: LoadingState<readonly Test[]>;
 }
 
 interface GetTestRuns {
@@ -67,7 +59,6 @@ interface UpdateTestRunState {
 export type EventActionTypes =
     | GetClubs
     | GetEntrants
-    | GetTests
     | GetTestRuns
     | GetEvents
     | AddTestRun

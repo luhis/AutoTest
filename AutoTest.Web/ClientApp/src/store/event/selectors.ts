@@ -14,8 +14,6 @@ export const selectClassOptions = (state: AppState): readonly string[] =>
           )
         : [];
 
-export const selectTests = (a: AppState) => a.event.tests;
-
 export const selectTestRuns = (a: AppState) => a.event.testRuns;
 
 export const selectEvents = (a: AppState) => a.event.events;

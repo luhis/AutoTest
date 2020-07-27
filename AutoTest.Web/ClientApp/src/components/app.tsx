@@ -89,7 +89,7 @@ const App: FunctionalComponent = () => {
                                         component={Tests}
                                     />
                                     <Route
-                                        path="/marshal/:eventId/:testId"
+                                        path="/marshal/:eventId/:ordinal"
                                         component={Marshal}
                                     />
                                     <NotFoundPage default />

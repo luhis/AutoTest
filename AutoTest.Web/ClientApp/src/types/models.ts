@@ -25,13 +25,13 @@ export interface Club {
 export type EditingClub = Club & { readonly isNew: boolean };
 
 export interface Test {
-    readonly testId: number;
     readonly ordinal: number;
+    readonly mapLocation: string;
 }
 
 export interface TestRun {
     readonly testRunId: number;
-    readonly testId: number;
+    readonly ordinal: number;
     readonly timeInMS: number;
     readonly entrantId: number;
     readonly penalties: readonly Penalty[];
@@ -78,6 +78,7 @@ export interface Event {
     readonly testCount: number;
     readonly maxAttemptsPerTest: number;
     readonly marshalEmails: readonly AuthorisationEmail[];
+    readonly tests: readonly Test[];
 }
 
 export type EditingEvent = Override<

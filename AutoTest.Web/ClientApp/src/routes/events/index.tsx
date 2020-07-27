@@ -74,6 +74,7 @@ const Events: FunctionalComponent<Readonly<Props>> = ({ clubId }) => {
                         marshalEmails: [],
                         isNew: true,
                         isClubEditable: clubId === undefined,
+                        tests: [],
                     })
                 }
             >

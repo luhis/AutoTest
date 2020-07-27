@@ -1,14 +1,13 @@
 import { FunctionalComponent, h } from "preact";
 import { useEffect } from "preact/hooks";
 import { route } from "preact-router";
-import { Title, Column, Button, Numeric } from "rbx";
+import { Title, Column, Button, Numeric, Loader } from "rbx";
 import { useDispatch, useSelector } from "react-redux";
 
-import ifSome from "../../components/shared/ifSome";
 import { useGoogleAuth } from "../../components/app";
 import { getAccessToken } from "../../api/api";
-import { GetEntrants, GetTests } from "../../store/event/actions";
-import { selectTests } from "../../store/event/selectors";
+import { GetEntrants, GetEventsIfRequired } from "../../store/event/actions";
+import { selectEvents } from "../../store/event/selectors";
 
 interface Props {
     eventId: string;
@@ -17,22 +16,24 @@ interface Props {
 const Tests: FunctionalComponent<Readonly<Props>> = ({ eventId }) => {
     const dispatch = useDispatch();
     const auth = useGoogleAuth();
-    const tests = useSelector(selectTests);
+    const events = useSelector(selectEvents);
     const eventIdAsNum = Number.parseInt(eventId);
+    const currentEvent =
+        events.tag === "Loaded"
+            ? events.value.find((a) => a.eventId == eventIdAsNum)
+            : undefined;
     useEffect(() => {
         dispatch(GetEntrants(eventIdAsNum, getAccessToken(auth)));
     }, [eventIdAsNum, dispatch, auth]);
     useEffect(() => {
-        dispatch(GetTests(eventIdAsNum, getAccessToken(auth)));
+        dispatch(GetEventsIfRequired());
     }, [eventIdAsNum, dispatch, auth]);
     return (
         <div>
             <Title>Tests</Title>
-            {ifSome(
-                tests,
-                (r) => r.testId,
-                (a) => (
-                    <Column.Group>
+            {currentEvent ? (
+                currentEvent.tests.map((a) => (
+                    <Column.Group key={a.ordinal}>
                         <Column>
                             <Numeric>{a.ordinal + 1}</Numeric>
                         </Column>
@@ -40,7 +41,9 @@ const Tests: FunctionalComponent<Readonly<Props>> = ({ eventId }) => {
                             <Button.Group>
                                 <Button
                                     onClick={() =>
-                                        route(`/marshal/${eventId}/${a.testId}`)
+                                        route(
+                                            `/marshal/${eventId}/${a.ordinal}`
+                                        )
                                     }
                                 >
                                     Marshal
@@ -48,7 +51,11 @@ const Tests: FunctionalComponent<Readonly<Props>> = ({ eventId }) => {
                             </Button.Group>
                         </Column>
                     </Column.Group>
-                )
+                ))
+            ) : (
+                <span>
+                    Loading... <Loader />
+                </span>
             )}
         </div>
     );

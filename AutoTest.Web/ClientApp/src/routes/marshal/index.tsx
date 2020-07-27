@@ -12,10 +12,11 @@ import { useGoogleAuth } from "../../components/app";
 import Penalties from "../../components/marshal/Penalties";
 import { OnChange, OnSelectChange } from "../../types/inputs";
 import {
-    GetEntrants,
     AddTestRun,
     SyncTestRuns,
     GetEventsIfRequired,
+    GetEntrantsIfRequired,
+    GetTestRuns,
 } from "../../store/event/actions";
 import {
     selectEntrants,
@@ -26,16 +27,16 @@ import {
 import { keySeed } from "../../settings";
 import ExistingCount from "../../components/marshal/ExistingCount";
 
-const getNewEditableTest = (testId: number): EditableTestRun => ({
+const getNewEditableTest = (ordinal: number): EditableTestRun => ({
     testRunId: uid.uuid(),
-    testId: testId,
+    ordinal: ordinal,
     timeInMS: undefined,
     penalties: [],
     entrantId: undefined,
 });
 interface Props {
     eventId: string;
-    testId: string;
+    ordinal: string;
 }
 
 const uid = UUID(keySeed);
@@ -46,13 +47,16 @@ const SyncButton: FunctionalComponent<Readonly<{
 }>> = ({ requiresSync, sync }) =>
     requiresSync ? <Button onClick={sync}>Sync</Button> : null;
 
-const Marshal: FunctionalComponent<Readonly<Props>> = ({ eventId, testId }) => {
+const Marshal: FunctionalComponent<Readonly<Props>> = ({
+    eventId,
+    ordinal,
+}) => {
     const dispatch = useDispatch();
     const entrants = useSelector(selectEntrants);
     const testRuns = useSelector(selectTestRuns);
     const requiresSync = useSelector(selectRequiresSync);
     const events = useSelector(selectEvents);
-    const testIdNum = Number.parseInt(testId);
+    const ordinalNum = Number.parseInt(ordinal);
     const eventIdNum = Number.parseInt(eventId);
 
     const currentEvent =
@@ -61,13 +65,14 @@ const Marshal: FunctionalComponent<Readonly<Props>> = ({ eventId, testId }) => {
             : undefined;
 
     const [editing, setEditing] = useState<EditableTestRun>(
-        getNewEditableTest(testIdNum)
+        getNewEditableTest(ordinalNum)
     );
     const auth = useGoogleAuth();
     useEffect(() => {
         const token = getAccessToken(auth);
-        dispatch(GetEntrants(eventIdNum, token));
+        dispatch(GetEntrantsIfRequired(eventIdNum, token));
         dispatch(GetEventsIfRequired());
+        dispatch(GetTestRuns(eventIdNum, token));
     }, [auth, dispatch, eventIdNum]);
 
     const increase = (penaltyType: PenaltyType) => {
@@ -148,7 +153,7 @@ const Marshal: FunctionalComponent<Readonly<Props>> = ({ eventId, testId }) => {
                 <Label>Existing Count</Label>
                 <ExistingCount
                     entrantId={editing.entrantId}
-                    testId={testIdNum}
+                    ordinal={ordinalNum}
                     currentEvent={currentEvent}
                     testRuns={testRuns}
                 />
@@ -186,7 +191,7 @@ const Marshal: FunctionalComponent<Readonly<Props>> = ({ eventId, testId }) => {
                 <Button
                     onClick={() => {
                         if (
-                            editing.testId !== undefined &&
+                            editing.ordinal !== undefined &&
                             editing.timeInMS !== undefined
                         ) {
                             dispatch(
@@ -199,9 +204,7 @@ const Marshal: FunctionalComponent<Readonly<Props>> = ({ eventId, testId }) => {
                                     getAccessToken(auth)
                                 )
                             );
-                            setEditing(
-                                getNewEditableTest(Number.parseInt(testId))
-                            );
+                            setEditing(getNewEditableTest(ordinalNum));
                         }
                     }}
                 >

@@ -5,7 +5,6 @@ import {
     ADD_TEST_RUN,
     EventActionTypes,
     UPDATE_TEST_RUN_STATE,
-    GET_TESTS,
     GET_TEST_RUNS,
     GET_EVENTS,
     GET_CLUBS,
@@ -14,7 +13,6 @@ import { TestRunUploadState, TestRunTemp } from "../../types/models";
 import { getEntrants } from "../../api/entrants";
 import { AppState } from "..";
 import { addTestRun, getTestRuns } from "../../api/testRuns";
-import { getTests } from "../../api/tests";
 import { requiresLoading, idsMatch } from "../../types/loadingState";
 import { getEvents } from "../../api/events";
 import { getClubs } from "../../api/clubs";
@@ -86,23 +84,6 @@ export const GetEvents = () => async (dispatch: Dispatch<EventActionTypes>) => {
     });
 };
 
-export const GetTests = (eventId: number, token: string | undefined) => async (
-    dispatch: Dispatch<EventActionTypes>,
-    getState: () => AppState
-) => {
-    const tests = getState().event.tests;
-    if (requiresLoading(tests.tag) || !idsMatch(tests, eventId)) {
-        dispatch({
-            type: GET_TESTS,
-            payload: { tag: "Loading", id: eventId },
-        });
-        dispatch({
-            type: GET_TESTS,
-            payload: await getTests(eventId, token),
-        });
-    }
-};
-
 export const GetTestRuns = (
     eventId: number,
     token: string | undefined
@@ -119,16 +100,6 @@ export const GetTestRuns = (
         });
     }
 };
-
-export const SetTestsIdle: ActionCreator<EventActionTypes> = () => ({
-    type: GET_TESTS,
-    payload: { tag: "Idle" },
-});
-
-export const SetEntrantsIdle: ActionCreator<EventActionTypes> = () => ({
-    type: GET_ENTRANTS,
-    payload: { tag: "Idle" },
-});
 
 export const AddTestRun = (
     testRun: TestRunTemp,
@@ -161,7 +132,7 @@ export const SyncTestRuns = (token: string | undefined) => async (
         toUpload.map(async (element) => {
             const res = await addTestRun(
                 element.eventId,
-                element.testId,
+                element.ordinal,
                 element,
                 token
             );

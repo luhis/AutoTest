@@ -11,11 +11,7 @@ import { useGoogleAuth } from "../../components/app";
 import { getAccessToken } from "../../api/api";
 import List from "../../components/entrants/List";
 import EntrantsModal from "../../components/entrants/Modal";
-import {
-    GetEntrantsIfRequired,
-    SetEntrantsIdle,
-    GetEntrants,
-} from "../../store/event/actions";
+import { GetEntrantsIfRequired, GetEntrants } from "../../store/event/actions";
 import { selectEntrants } from "../../store/event/selectors";
 import { keySeed } from "../../settings";
 
@@ -32,9 +28,6 @@ const Events: FunctionalComponent<Readonly<Props>> = ({ eventId }) => {
     >(undefined);
     const auth = useGoogleAuth();
     const dispatch = useDispatch();
-    useEffect(() => {
-        dispatch(SetEntrantsIdle());
-    }, [eventIdNum, dispatch]);
     const save = async () => {
         if (editingEntrant) {
             await addEntrant(

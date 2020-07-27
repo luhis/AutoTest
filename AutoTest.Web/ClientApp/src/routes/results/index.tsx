@@ -1,16 +1,16 @@
 import { FunctionalComponent, h, Fragment } from "preact";
 import { useEffect, useState } from "preact/hooks";
 import { Title, Table } from "rbx";
+import { useDispatch, useSelector } from "react-redux";
 
 import { Result, EntrantTime } from "../../types/models";
 import { LoadingState } from "../../types/loadingState";
 import { getResults } from "../../api/results";
 import ifSome from "../../components/shared/ifSome";
-import { useDispatch, useSelector } from "react-redux";
 import { getAccessToken } from "../../api/api";
-import { GetTests } from "../../store/event/actions";
-import { selectTests, selectEvents } from "../../store/event/selectors";
+import { selectEvents } from "../../store/event/selectors";
 import { useGoogleAuth } from "../../components/app";
+import { GetEventsIfRequired } from "../../store/event/actions";
 
 interface Props {
     eventId: string;
@@ -37,7 +37,6 @@ const Results: FunctionalComponent<Readonly<Props>> = ({ eventId }) => {
     const dispatch = useDispatch();
     const auth = useGoogleAuth();
     const eventIdAsNum = Number.parseInt(eventId);
-    const tests = useSelector(selectTests);
     const events = useSelector(selectEvents);
     const currentEvent =
         events.tag === "Loaded"
@@ -61,7 +60,7 @@ const Results: FunctionalComponent<Readonly<Props>> = ({ eventId }) => {
         void fetchData();
     }, [auth, eventIdAsNum]);
     useEffect(() => {
-        dispatch(GetTests(eventIdAsNum, getAccessToken(auth)));
+        dispatch(GetEventsIfRequired());
     }, [eventIdAsNum, dispatch, auth]);
 
     return (
@@ -73,11 +72,11 @@ const Results: FunctionalComponent<Readonly<Props>> = ({ eventId }) => {
                         <Table.Heading>Class</Table.Heading>
                         <Table.Heading>Name</Table.Heading>
                         <Table.Heading>Total Time</Table.Heading>
-                        {tests.tag === "Loaded"
-                            ? tests.value.map((test) =>
+                        {currentEvent
+                            ? currentEvent.tests.map((test) =>
                                   testRuns.map((run) => (
                                       <Table.Heading
-                                          key={`${test.testId}.${run}`}
+                                          key={`${test.ordinal}.${run}`}
                                       >
                                           {test.ordinal + 1}.{numberToChar(run)}
                                       </Table.Heading>
@@ -100,11 +99,11 @@ const Results: FunctionalComponent<Readonly<Props>> = ({ eventId }) => {
                                     <Table.Cell>
                                         {(a.totalTime / 1000).toFixed(2)}
                                     </Table.Cell>
-                                    {tests.tag === "Loaded"
-                                        ? tests.value.map((test) =>
+                                    {currentEvent
+                                        ? currentEvent.tests.map((test) =>
                                               testRuns.map((run) => (
                                                   <Table.Cell
-                                                      key={`${test.testId}.${run}`}
+                                                      key={`${test.ordinal}.${run}`}
                                                   >
                                                       {getTime(
                                                           a,
