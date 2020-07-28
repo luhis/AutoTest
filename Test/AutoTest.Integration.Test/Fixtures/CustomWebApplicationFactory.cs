@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
+using AutoTest.Integration.Test.Tooling;
 using AutoTest.Persistence;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
@@ -61,7 +62,7 @@ namespace AutoTest.Integration.Test.Fixtures
                     try
                     {
                         // Seed the database with test data.
-                        //DbInitialiser.InitializeDbForTests(db);
+                        DbInitialiser.InitializeDbForTests(db);
                     }
                     catch (Exception ex)
                     {

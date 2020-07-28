@@ -19,7 +19,7 @@ namespace AutoTest.Integration.Test.Controllers
         [Fact]
         public async Task GetResults()
         {
-            var res = await unAuthorisedClient.GetAsync("/api/results/1");
+            var res = await unAuthorisedClient.GetAsync("/api/results/22");
             var content = await res.Content.ReadAsStringAsync();
             res.StatusCode.Should().Be(200);
         }
