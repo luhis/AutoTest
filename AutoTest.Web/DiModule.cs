@@ -1,4 +1,6 @@
-﻿using AutoTest.Web.Authorization;
+﻿using AutoTest.Service.Interfaces;
+using AutoTest.Web.Authorization;
+using AutoTest.Web.Hubs;
 using Microsoft.Extensions.Configuration;
 
 namespace AutoTest.Web
@@ -18,6 +20,7 @@ namespace AutoTest.Web
             System.Diagnostics.Trace.TraceInformation($"Cosmos config, endpoint: {endpoint} key: {key}");
             collection.AddScoped<IAuthorizationHandler, MarshalRequirementHandler>();
             collection.AddScoped<IAuthorizationHandler, ClubAdminRequirementHandler>();
+            collection.AddScoped<ISignalRNotifier, SignalRNotifier>();
             collection.AddDbContext<AutoTestContext>(o => o.UseCosmos(
                 endpoint,
                 key,

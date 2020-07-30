@@ -1,5 +1,6 @@
 ﻿using System;
 using AutoTest.Web.Extensions;
+using AutoTest.Web.Hubs;
 using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.OpenApi.Models;
 
@@ -132,6 +133,9 @@ namespace AutoTest.Web
                 options.Providers.Add<GzipCompressionProvider>();
                 options.EnableForHttps = true;
             });
+
+            services.AddSignalR()
+                .AddMessagePackProtocol();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -191,6 +195,7 @@ namespace AutoTest.Web
 
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapHub<ResultsHub>("/resultsHub");
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller}/{action=Index}/{id?}");

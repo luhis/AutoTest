@@ -2,6 +2,7 @@ import { FunctionalComponent, h, Fragment } from "preact";
 import { useEffect, useState } from "preact/hooks";
 import { Title, Table } from "rbx";
 import { useDispatch, useSelector } from "react-redux";
+import { HubConnectionBuilder, LogLevel } from "@microsoft/signalr";
 
 import { Result, EntrantTime } from "../../types/models";
 import { LoadingState } from "../../types/loadingState";
@@ -23,8 +24,8 @@ const numToRange = (length: number) =>
 
 const numberToChar = (n: number) => "abcdefghijklmnopqrstuvwxyz".charAt(n);
 
-const getTime = (a: EntrantTime, test: number, run: number) => {
-    const testValues = a.times[test];
+const getTime = (times: EntrantTime, ordinal: number, run: number) => {
+    const testValues = times.times.find((t) => t.ordinal === ordinal);
     const noneReturn = "X";
     if (testValues) {
         const runValue = testValues.timesInMs[run];
@@ -62,6 +63,26 @@ const Results: FunctionalComponent<Readonly<Props>> = ({ eventId }) => {
     useEffect(() => {
         dispatch(GetEventsIfRequired());
     }, [eventIdAsNum, dispatch, auth]);
+
+    const connection = new HubConnectionBuilder()
+        .withUrl(`/resultsHub`)
+        .withAutomaticReconnect()
+        .configureLogging(LogLevel.Error)
+        .build();
+    useEffect(() => {
+        const subscribe = async () => {
+            await connection.start().catch(console.error);
+            await connection.invoke("ListenToEvent", eventIdAsNum);
+        };
+        void subscribe();
+        return () => {
+            const tidy = async () => {
+                await connection.invoke("LeaveEvent", eventIdAsNum);
+                await connection.stop();
+            };
+            void tidy();
+        };
+    }, [connection, eventIdAsNum]);
 
     return (
         <div>
