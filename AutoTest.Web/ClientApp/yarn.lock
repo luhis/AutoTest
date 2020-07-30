@@ -1188,7 +1188,7 @@
     "@types/yargs" "^15.0.0"
     chalk "^4.0.0"
 
-"@microsoft/signalr-protocol-msgpack@^3.1.6":
+"@microsoft/signalr-protocol-msgpack@3.1.6":
   version "3.1.6"
   resolved "https://registry.yarnpkg.com/@microsoft/signalr-protocol-msgpack/-/signalr-protocol-msgpack-3.1.6.tgz#37f16b79e74dc402576ac02bc9910a22d15bf84f"
   integrity sha512-rruN2vgVUVmFzDdEeOHbGpdiy9KCY6AggRA9At9XqdNWiBNjW8jlEPEPE8ZbDcFrbyPyiDNsNcBcFD6nYBpncw==
