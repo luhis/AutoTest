@@ -4,25 +4,23 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoTest.Domain.Repositories;
-using AutoTest.Persistence;
 using AutoTest.Service.Messages;
 using AutoTest.Service.Models;
 using AutoTest.Service.ResultCalculation;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
 
 namespace AutoTest.Service.Handlers
 {
     public class GetResultsHandler : IRequestHandler<GetResults, IEnumerable<Result>>
     {
-        private readonly AutoTestContext autoTestContext;
+        private readonly ITestRunsRepository testRunsRepository;
         private readonly ITotalTimeCalculator totalTimeCalculator;
         private readonly IEventsRepository eventsRepository;
         private readonly IEntrantsRepository entrantsRepository;
 
-        public GetResultsHandler(AutoTestContext autoTestContext, IEventsRepository eventsRepository, IEntrantsRepository entrantsRepository)
+        public GetResultsHandler(ITestRunsRepository testRunsRepository, IEventsRepository eventsRepository, IEntrantsRepository entrantsRepository)
         {
-            this.autoTestContext = autoTestContext;
+            this.testRunsRepository = testRunsRepository;
             this.eventsRepository = eventsRepository;
             this.entrantsRepository = entrantsRepository;
             totalTimeCalculator = new AutoTestTotalTimeCalculator();
@@ -37,7 +35,7 @@ namespace AutoTest.Service.Handlers
             }
             var tests = @event.Tests;
             var entrants = await entrantsRepository.GetByEventId(request.EventId, cancellationToken);
-            var testRuns = await autoTestContext.TestRuns.Where(testRun => request.EventId == testRun.EventId).ToArrayAsync(cancellationToken);
+            var testRuns = await testRunsRepository.GetAll(request.EventId, cancellationToken);
 
             var entrantsAndRuns = entrants.Select(entrant => new { entrant, runs = testRuns.Where(r => r.EntrantId == entrant.EntrantId) });
             var grouped = entrantsAndRuns.GroupBy(entrantAndRuns => entrantAndRuns.entrant.Class);
