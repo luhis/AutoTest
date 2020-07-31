@@ -73,6 +73,13 @@ const Results: FunctionalComponent<Readonly<Props>> = ({ eventId }) => {
         void (async () => {
             await connection.start().catch(console.error);
             await connection.invoke("ListenToEvent", eventIdAsNum);
+            connection.on("NewTestRun", (newResults: readonly Result[]) => {
+                setResults({
+                    tag: "Loaded",
+                    value: newResults,
+                    id: eventIdAsNum,
+                });
+            });
         })();
         return async () => {
             await connection.invoke("LeaveEvent", eventIdAsNum);

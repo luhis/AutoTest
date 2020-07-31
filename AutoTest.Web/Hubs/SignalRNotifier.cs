@@ -21,7 +21,7 @@ namespace AutoTest.Web.Hubs
         async Task ISignalRNotifier.NewTestRun(ulong eventId, CancellationToken cancellationToken)
         {
             var results = await mediator.Send(new GetResults(eventId), cancellationToken);
-            await this.hub.Clients.Group(eventId.ToString()).SendAsync("newTestRun", results, cancellationToken);
+            await this.hub.Clients.Group(eventId.ToString()).SendAsync("NewTestRun", results, cancellationToken);
         }
     }
 }

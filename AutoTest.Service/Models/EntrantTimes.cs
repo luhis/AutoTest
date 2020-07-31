@@ -17,5 +17,9 @@ namespace AutoTest.Service.Models
         public IEnumerable<TestTime> Times { get; }
 
         public int TotalTime { get; }
+
+        public int Position { get; }
+
+        public int ClassPosition { get; }
     }
 }
