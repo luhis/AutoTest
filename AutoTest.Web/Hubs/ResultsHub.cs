@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.SignalR;
-using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace AutoTest.Web.Hubs
 {
@@ -12,6 +8,10 @@ namespace AutoTest.Web.Hubs
         public Task ListenToEvent(ulong eventId)
         {
             return Groups.AddToGroupAsync(Context.ConnectionId, eventId.ToString());
+        }
+        public Task LeaveEvent(ulong eventId)
+        {
+            return Groups.RemoveFromGroupAsync(Context.ConnectionId, eventId.ToString());
         }
     }
 }

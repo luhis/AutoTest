@@ -70,17 +70,13 @@ const Results: FunctionalComponent<Readonly<Props>> = ({ eventId }) => {
         .configureLogging(LogLevel.Error)
         .build();
     useEffect(() => {
-        const subscribe = async () => {
+        void (async () => {
             await connection.start().catch(console.error);
             await connection.invoke("ListenToEvent", eventIdAsNum);
-        };
-        void subscribe();
-        return () => {
-            const tidy = async () => {
-                await connection.invoke("LeaveEvent", eventIdAsNum);
-                await connection.stop();
-            };
-            void tidy();
+        })();
+        return async () => {
+            await connection.invoke("LeaveEvent", eventIdAsNum);
+            await connection.stop();
         };
     }, [connection, eventIdAsNum]);
 
