@@ -42,7 +42,7 @@ namespace AutoTest.Service.Handlers
             var testDict = tests.ToDictionary(a => a.Ordinal, a => a);
             return grouped.Select(entrantsByClass => new Result(entrantsByClass.Key, entrantsByClass.Select(x =>
                 new EntrantTimes(x.entrant, totalTimeCalculator.GetTotalTime(x.runs, testRuns), x.runs.GroupBy(a => a.Ordinal).Select(r =>
-                    new TestTime(testDict[r.Key].Ordinal, r.Select(a => a.TimeInMS)))))));
+                    new TestTime(testDict[r.Key].Ordinal, r))))));
         }
     }
 }

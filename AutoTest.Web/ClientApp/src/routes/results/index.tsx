@@ -4,13 +4,14 @@ import { Title, Table } from "rbx";
 import { useDispatch, useSelector } from "react-redux";
 import { HubConnectionBuilder, LogLevel } from "@microsoft/signalr";
 
-import { Result, EntrantTime } from "../../types/models";
+import { Result } from "../../types/models";
 import { LoadingState } from "../../types/loadingState";
 import { getResults } from "../../api/results";
 import ifSome from "../../components/shared/ifSome";
+import { useGoogleAuth } from "../../components/app";
+import Time from "../../components/results/Time";
 import { getAccessToken } from "../../api/api";
 import { selectEvents } from "../../store/event/selectors";
-import { useGoogleAuth } from "../../components/app";
 import { GetEventsIfRequired } from "../../store/event/actions";
 
 interface Props {
@@ -23,16 +24,6 @@ const numToRange = (length: number) =>
         .map((_, i) => i);
 
 const numberToChar = (n: number) => "abcdefghijklmnopqrstuvwxyz".charAt(n);
-
-const getTime = (times: EntrantTime, ordinal: number, run: number) => {
-    const testValues = times.times.find((t) => t.ordinal === ordinal);
-    const noneReturn = "X";
-    if (testValues) {
-        const runValue = testValues.timesInMs[run];
-        return runValue ? (runValue / 1000).toFixed(2) : noneReturn;
-    }
-    return noneReturn;
-};
 
 const Results: FunctionalComponent<Readonly<Props>> = ({ eventId }) => {
     const dispatch = useDispatch();
@@ -129,11 +120,11 @@ const Results: FunctionalComponent<Readonly<Props>> = ({ eventId }) => {
                                                   <Table.Cell
                                                       key={`${test.ordinal}.${run}`}
                                                   >
-                                                      {getTime(
-                                                          a,
-                                                          test.ordinal,
-                                                          run
-                                                      )}
+                                                      <Time
+                                                          times={a}
+                                                          ordinal={test.ordinal}
+                                                          run={run}
+                                                      />
                                                   </Table.Cell>
                                               ))
                                           )

@@ -124,7 +124,7 @@ export interface EntrantTime {
 
 interface TestTime {
     readonly ordinal: number;
-    readonly timesInMs: readonly number[];
+    readonly testRuns: readonly TestRun[];
 }
 
 export type Override<T, P> = P & Omit<T, keyof P>;
