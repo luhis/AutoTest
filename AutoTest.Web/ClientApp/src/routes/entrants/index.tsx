@@ -12,8 +12,9 @@ import { getAccessToken } from "../../api/api";
 import List from "../../components/entrants/List";
 import EntrantsModal from "../../components/entrants/Modal";
 import { GetEntrantsIfRequired, GetEntrants } from "../../store/event/actions";
-import { selectEntrants } from "../../store/event/selectors";
+import { selectEntrants, selectEvents } from "../../store/event/selectors";
 import { keySeed } from "../../settings";
+import EventTitle from "../../components/shared/EventTitle";
 
 interface Props {
     eventId: string;
@@ -23,6 +24,11 @@ const uid = UUID(keySeed);
 const Events: FunctionalComponent<Readonly<Props>> = ({ eventId }) => {
     const eventIdNum = Number.parseInt(eventId);
     const entrants = useSelector(selectEntrants);
+    const events = useSelector(selectEvents);
+    const currentEvent =
+        events.tag === "Loaded"
+            ? events.value.find((a) => a.eventId == eventIdNum)
+            : undefined;
     const [editingEntrant, setEditingEntrant] = useState<
         EditingEntrant | undefined
     >(undefined);
@@ -52,7 +58,9 @@ const Events: FunctionalComponent<Readonly<Props>> = ({ eventId }) => {
 
     return (
         <div>
-            <Title>Entrants</Title>
+            <Title>
+                Entrants - <EventTitle currentEvent={currentEvent} />
+            </Title>
             <List
                 entrants={entrants}
                 setEditingEntrant={(a) =>

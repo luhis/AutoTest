@@ -8,6 +8,7 @@ import { useGoogleAuth } from "../../components/app";
 import { getAccessToken } from "../../api/api";
 import { GetEntrants, GetEventsIfRequired } from "../../store/event/actions";
 import { selectEvents } from "../../store/event/selectors";
+import EventTitle from "../../components/shared/EventTitle";
 
 interface Props {
     eventId: string;
@@ -30,7 +31,9 @@ const Tests: FunctionalComponent<Readonly<Props>> = ({ eventId }) => {
     }, [eventIdAsNum, dispatch, auth]);
     return (
         <div>
-            <Title>Tests</Title>
+            <Title>
+                Tests - <EventTitle currentEvent={currentEvent} />
+            </Title>
             {currentEvent ? (
                 currentEvent.tests.map((a) => (
                     <Column.Group key={a.ordinal}>

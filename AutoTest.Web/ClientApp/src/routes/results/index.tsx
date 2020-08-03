@@ -13,6 +13,7 @@ import Time from "../../components/results/Time";
 import { getAccessToken } from "../../api/api";
 import { selectEvents } from "../../store/event/selectors";
 import { GetEventsIfRequired } from "../../store/event/actions";
+import EventTitle from "../../components/shared/EventTitle";
 
 interface Props {
     eventId: string;
@@ -80,7 +81,9 @@ const Results: FunctionalComponent<Readonly<Props>> = ({ eventId }) => {
 
     return (
         <div>
-            <Title>Results</Title>
+            <Title>
+                Results - <EventTitle currentEvent={currentEvent} />
+            </Title>
             <Table>
                 <Table.Head>
                     <Table.Row>

@@ -120,7 +120,7 @@ const Marshal: FunctionalComponent<Readonly<Props>> = ({
     };
     return (
         <div>
-            <Title>Marshal - Test No. {ordinalNum}</Title>
+            <Title>Marshal - Test No. {ordinalNum + 1}</Title>
             <Field>
                 <Label>Entrant</Label>
                 <Select.Container>

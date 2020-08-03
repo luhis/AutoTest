@@ -1,7 +1,6 @@
 import { h, FunctionComponent } from "preact";
-import { Modal, Button, Label, Input, Field, Menu } from "rbx";
+import { Modal, Button, Label, Input, Field } from "rbx";
 import { DeepPartial } from "tsdef";
-import { useState } from "preact/hooks";
 
 import { Entrant, EditingEntrant } from "../../types/models";
 import { OnChange } from "../../types/inputs";
@@ -21,7 +20,6 @@ const EntrantsModal: FunctionComponent<Readonly<Props>> = ({
     entrant,
     setField,
 }) => {
-    const [showClasses, setShowClasses] = useState(false);
     const classesInUse = useSelector(selectClassOptions).filter(
         (c) => c.startsWith(entrant.class) && c !== entrant.class
     );
@@ -54,34 +52,28 @@ const EntrantsModal: FunctionComponent<Readonly<Props>> = ({
                     <Field>
                         <Label>Class</Label>
                         <Input
+                            list="classes"
                             value={entrant.class}
                             onChange={(e: OnChange): void => {
                                 setField({
                                     class: e.target.value.toLocaleUpperCase(),
                                 });
-                                setShowClasses(false);
                             }}
-                            onFocus={() => setShowClasses(true)}
-                        />
-                        {showClasses ? (
-                            <Menu>
-                                <Menu.List>
-                                    {classesInUse.map((a) => (
-                                        <Menu.List.Item
-                                            key={a}
-                                            onClick={() => {
-                                                setField({
-                                                    class: a,
-                                                });
-                                                setShowClasses(false);
-                                            }}
-                                        >
-                                            {a}
-                                        </Menu.List.Item>
-                                    ))}
-                                </Menu.List>
-                            </Menu>
-                        ) : null}
+                        >
+                            <datalist id="classes">
+                                {classesInUse.map((a) => (
+                                    <option
+                                        key={a}
+                                        value={a}
+                                        onClick={() => {
+                                            setField({
+                                                class: a,
+                                            });
+                                        }}
+                                    />
+                                ))}
+                            </datalist>
+                        </Input>
                     </Field>
                     <Field>
                         <Label>Registration</Label>
