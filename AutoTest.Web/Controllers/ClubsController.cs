@@ -24,7 +24,6 @@ namespace AutoTest.Web.Controllers
             this.mediator = mediator;
         }
 
-        [Authorize(policy: Policies.Admin)]
         [HttpGet]
         public Task<IEnumerable<Club>> GetClubs(CancellationToken cancellationToken) => this.mediator.Send(new GetClubs(), cancellationToken);
 

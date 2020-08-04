@@ -1,6 +1,6 @@
 import { FunctionalComponent, h } from "preact";
 import { useEffect, useState } from "preact/hooks";
-import { Title, Button } from "rbx";
+import { Title, Button, Breadcrumb } from "rbx";
 import UUID from "uuid-int";
 import { DeepPartial } from "tsdef";
 import { useDispatch, useSelector } from "react-redux";
@@ -11,10 +11,18 @@ import { useGoogleAuth } from "../../components/app";
 import { getAccessToken } from "../../api/api";
 import List from "../../components/entrants/List";
 import EntrantsModal from "../../components/entrants/Modal";
-import { GetEntrantsIfRequired, GetEntrants } from "../../store/event/actions";
-import { selectEntrants, selectEvents } from "../../store/event/selectors";
+import {
+    GetEntrantsIfRequired,
+    GetEntrants,
+    GetClubsIfRequired,
+} from "../../store/event/actions";
+import {
+    selectEntrants,
+    selectEvents,
+    selectClubs,
+} from "../../store/event/selectors";
 import { keySeed } from "../../settings";
-import EventTitle from "../../components/shared/EventTitle";
+import { findIfLoaded } from "../../types/loadingState";
 
 interface Props {
     eventId: string;
@@ -24,11 +32,14 @@ const uid = UUID(keySeed);
 const Events: FunctionalComponent<Readonly<Props>> = ({ eventId }) => {
     const eventIdNum = Number.parseInt(eventId);
     const entrants = useSelector(selectEntrants);
-    const events = useSelector(selectEvents);
-    const currentEvent =
-        events.tag === "Loaded"
-            ? events.value.find((a) => a.eventId == eventIdNum)
-            : undefined;
+    const currentEvent = findIfLoaded(
+        useSelector(selectEvents),
+        (a) => a.eventId === eventIdNum
+    );
+    const currentClub = findIfLoaded(
+        useSelector(selectClubs),
+        (a) => a.clubId === currentEvent?.clubId
+    );
     const [editingEntrant, setEditingEntrant] = useState<
         EditingEntrant | undefined
     >(undefined);
@@ -53,14 +64,21 @@ const Events: FunctionalComponent<Readonly<Props>> = ({ eventId }) => {
         }
     };
     useEffect(() => {
+        dispatch(GetClubsIfRequired(getAccessToken(auth)));
         dispatch(GetEntrantsIfRequired(eventIdNum, getAccessToken(auth)));
     }, [eventIdNum, dispatch, auth]);
 
     return (
         <div>
-            <Title>
-                Entrants - <EventTitle currentEvent={currentEvent} />
-            </Title>
+            <Breadcrumb>
+                <Breadcrumb.Item
+                    href={`/events?clubId=${currentClub?.clubId || 0}`}
+                >
+                    {currentClub?.clubName}
+                </Breadcrumb.Item>
+                <Breadcrumb.Item>{currentEvent?.location}</Breadcrumb.Item>
+            </Breadcrumb>
+            <Title>Entrants</Title>
             <List
                 entrants={entrants}
                 setEditingEntrant={(a) =>

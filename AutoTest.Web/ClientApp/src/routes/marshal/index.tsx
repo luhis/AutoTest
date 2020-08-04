@@ -26,6 +26,7 @@ import {
 } from "../../store/event/selectors";
 import { keySeed } from "../../settings";
 import ExistingCount from "../../components/marshal/ExistingCount";
+import { findIfLoaded } from "src/types/loadingState";
 
 const getNewEditableTest = (ordinal: number): EditableTestRun => ({
     testRunId: uid.uuid(),
@@ -59,10 +60,7 @@ const Marshal: FunctionalComponent<Readonly<Props>> = ({
     const ordinalNum = Number.parseInt(ordinal);
     const eventIdNum = Number.parseInt(eventId);
 
-    const currentEvent =
-        events.tag === "Loaded"
-            ? events.value.find((a) => a.eventId === eventIdNum)
-            : undefined;
+    const currentEvent = findIfLoaded(events, (a) => a.eventId === eventIdNum);
 
     const [editing, setEditing] = useState<EditableTestRun>(
         getNewEditableTest(ordinalNum)

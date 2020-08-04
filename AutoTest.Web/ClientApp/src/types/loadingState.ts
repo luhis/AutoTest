@@ -36,3 +36,14 @@ export const idsMatch = <T>(loading: LoadingState<T>, id: number) => {
         return true;
     }
 };
+
+export const findIfLoaded = <T>(
+    loading: LoadingState<readonly T[]>,
+    find: (t: T) => boolean
+) => {
+    if (loading.tag === "Loaded") {
+        return loading.value.find(find);
+    } else {
+        return undefined;
+    }
+};

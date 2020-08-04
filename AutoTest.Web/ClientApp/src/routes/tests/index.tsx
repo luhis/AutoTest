@@ -1,14 +1,14 @@
 import { FunctionalComponent, h } from "preact";
 import { useEffect } from "preact/hooks";
 import { route } from "preact-router";
-import { Title, Column, Button, Numeric, Loader } from "rbx";
+import { Title, Column, Button, Numeric, Loader, Breadcrumb } from "rbx";
 import { useDispatch, useSelector } from "react-redux";
 
 import { useGoogleAuth } from "../../components/app";
 import { getAccessToken } from "../../api/api";
 import { GetEntrants, GetEventsIfRequired } from "../../store/event/actions";
-import { selectEvents } from "../../store/event/selectors";
-import EventTitle from "../../components/shared/EventTitle";
+import { selectEvents, selectClubs } from "../../store/event/selectors";
+import { findIfLoaded } from "../../types/loadingState";
 
 interface Props {
     eventId: string;
@@ -17,12 +17,15 @@ interface Props {
 const Tests: FunctionalComponent<Readonly<Props>> = ({ eventId }) => {
     const dispatch = useDispatch();
     const auth = useGoogleAuth();
-    const events = useSelector(selectEvents);
     const eventIdAsNum = Number.parseInt(eventId);
-    const currentEvent =
-        events.tag === "Loaded"
-            ? events.value.find((a) => a.eventId == eventIdAsNum)
-            : undefined;
+    const currentEvent = findIfLoaded(
+        useSelector(selectEvents),
+        (a) => a.eventId === eventIdAsNum
+    );
+    const currentClub = findIfLoaded(
+        useSelector(selectClubs),
+        (a) => a.clubId === currentEvent?.clubId
+    );
     useEffect(() => {
         dispatch(GetEntrants(eventIdAsNum, getAccessToken(auth)));
     }, [eventIdAsNum, dispatch, auth]);
@@ -31,9 +34,15 @@ const Tests: FunctionalComponent<Readonly<Props>> = ({ eventId }) => {
     }, [eventIdAsNum, dispatch, auth]);
     return (
         <div>
-            <Title>
-                Tests - <EventTitle currentEvent={currentEvent} />
-            </Title>
+            <Breadcrumb>
+                <Breadcrumb.Item
+                    href={`/events?clubId=${currentClub?.clubId || 0}`}
+                >
+                    {currentClub?.clubName}
+                </Breadcrumb.Item>
+                <Breadcrumb.Item>{currentEvent?.location}</Breadcrumb.Item>
+            </Breadcrumb>
+            <Title>Tests</Title>
             {currentEvent ? (
                 currentEvent.tests.map((a) => (
                     <Column.Group key={a.ordinal}>

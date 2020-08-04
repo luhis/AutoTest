@@ -1,19 +1,18 @@
 import { FunctionalComponent, h, Fragment } from "preact";
 import { useEffect, useState } from "preact/hooks";
-import { Title, Table } from "rbx";
+import { Title, Table, Breadcrumb } from "rbx";
 import { useDispatch, useSelector } from "react-redux";
 import { HubConnectionBuilder, LogLevel } from "@microsoft/signalr";
 
 import { Result } from "../../types/models";
-import { LoadingState } from "../../types/loadingState";
+import { LoadingState, findIfLoaded } from "../../types/loadingState";
 import { getResults } from "../../api/results";
 import ifSome from "../../components/shared/ifSome";
 import { useGoogleAuth } from "../../components/app";
 import Time from "../../components/results/Time";
 import { getAccessToken } from "../../api/api";
-import { selectEvents } from "../../store/event/selectors";
+import { selectEvents, selectClubs } from "../../store/event/selectors";
 import { GetEventsIfRequired } from "../../store/event/actions";
-import EventTitle from "../../components/shared/EventTitle";
 
 interface Props {
     eventId: string;
@@ -30,11 +29,14 @@ const Results: FunctionalComponent<Readonly<Props>> = ({ eventId }) => {
     const dispatch = useDispatch();
     const auth = useGoogleAuth();
     const eventIdAsNum = Number.parseInt(eventId);
-    const events = useSelector(selectEvents);
-    const currentEvent =
-        events.tag === "Loaded"
-            ? events.value.find((a) => a.eventId === eventIdAsNum)
-            : undefined;
+    const currentEvent = findIfLoaded(
+        useSelector(selectEvents),
+        (a) => a.eventId === eventIdAsNum
+    );
+    const currentClub = findIfLoaded(
+        useSelector(selectClubs),
+        (a) => a.clubId === currentEvent?.clubId
+    );
     const testRuns = numToRange(
         currentEvent !== undefined ? currentEvent.maxAttemptsPerTest : 0
     );
@@ -81,9 +83,15 @@ const Results: FunctionalComponent<Readonly<Props>> = ({ eventId }) => {
 
     return (
         <div>
-            <Title>
-                Results - <EventTitle currentEvent={currentEvent} />
-            </Title>
+            <Breadcrumb>
+                <Breadcrumb.Item
+                    href={`/events?clubId=${currentClub?.clubId || 0}`}
+                >
+                    {currentClub?.clubName}
+                </Breadcrumb.Item>
+                <Breadcrumb.Item>{currentEvent?.location}</Breadcrumb.Item>
+            </Breadcrumb>
+            <Title>Results</Title>
             <Table>
                 <Table.Head>
                     <Table.Row>
