@@ -26,7 +26,7 @@ import {
 } from "../../store/event/selectors";
 import { keySeed } from "../../settings";
 import ExistingCount from "../../components/marshal/ExistingCount";
-import { findIfLoaded } from "src/types/loadingState";
+import { findIfLoaded } from "../../types/loadingState";
 
 const getNewEditableTest = (ordinal: number): EditableTestRun => ({
     testRunId: uid.uuid(),
