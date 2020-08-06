@@ -21,8 +21,8 @@ export const GetClubsIfRequired = (token: string | undefined) => async (
     dispatch: Dispatch<EventActionTypes>,
     getState: () => AppState
 ) => {
-    const entrants = getState().event.entrants;
-    if (requiresLoading(entrants.tag)) {
+    const clubs = getState().event.clubs;
+    if (requiresLoading(clubs.tag)) {
         await GetClubs(token)(dispatch);
     }
 };

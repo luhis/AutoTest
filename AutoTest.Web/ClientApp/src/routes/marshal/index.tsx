@@ -1,6 +1,6 @@
 import { FunctionalComponent, h } from "preact";
 import { useEffect, useState } from "preact/hooks";
-import { Title, Select, Label, Field, Input, Button } from "rbx";
+import { Title, Select, Label, Field, Input, Button, Breadcrumb } from "rbx";
 import UUID from "uuid-int";
 import { useSelector, useDispatch } from "react-redux";
 import { fromDateOrThrow } from "ts-date";
@@ -17,12 +17,14 @@ import {
     GetEventsIfRequired,
     GetEntrantsIfRequired,
     GetTestRuns,
+    GetClubsIfRequired,
 } from "../../store/event/actions";
 import {
     selectEntrants,
     selectRequiresSync,
     selectTestRuns,
     selectEvents,
+    selectClubs,
 } from "../../store/event/selectors";
 import { keySeed } from "../../settings";
 import ExistingCount from "../../components/marshal/ExistingCount";
@@ -56,11 +58,17 @@ const Marshal: FunctionalComponent<Readonly<Props>> = ({
     const entrants = useSelector(selectEntrants);
     const testRuns = useSelector(selectTestRuns);
     const requiresSync = useSelector(selectRequiresSync);
-    const events = useSelector(selectEvents);
     const ordinalNum = Number.parseInt(ordinal);
     const eventIdNum = Number.parseInt(eventId);
 
-    const currentEvent = findIfLoaded(events, (a) => a.eventId === eventIdNum);
+    const currentEvent = findIfLoaded(
+        useSelector(selectEvents),
+        (a) => a.eventId === eventIdNum
+    );
+    const currentClub = findIfLoaded(
+        useSelector(selectClubs),
+        (a) => a.clubId === currentEvent?.clubId
+    );
 
     const [editing, setEditing] = useState<EditableTestRun>(
         getNewEditableTest(ordinalNum)
@@ -70,6 +78,7 @@ const Marshal: FunctionalComponent<Readonly<Props>> = ({
         const token = getAccessToken(auth);
         dispatch(GetEntrantsIfRequired(eventIdNum, token));
         dispatch(GetEventsIfRequired());
+        dispatch(GetClubsIfRequired(token));
         dispatch(GetTestRuns(eventIdNum, token));
     }, [auth, dispatch, eventIdNum]);
 
@@ -118,7 +127,18 @@ const Marshal: FunctionalComponent<Readonly<Props>> = ({
     };
     return (
         <div>
-            <Title>Marshal - Test No. {ordinalNum + 1}</Title>
+            <Breadcrumb>
+                <Breadcrumb.Item
+                    href={`/events?clubId=${currentClub?.clubId || 0}`}
+                >
+                    {currentClub?.clubName}
+                </Breadcrumb.Item>
+                <Breadcrumb.Item href={`/tests/${currentEvent?.eventId || 0}`}>
+                    {currentEvent?.location}
+                </Breadcrumb.Item>
+                <Breadcrumb.Item>Test No. {ordinalNum + 1}</Breadcrumb.Item>
+            </Breadcrumb>
+            <Title>Marshal</Title>
             <Field>
                 <Label>Entrant</Label>
                 <Select.Container>
