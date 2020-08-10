@@ -37,12 +37,12 @@ namespace AutoTest.Service.Handlers
             var entrants = await entrantsRepository.GetByEventId(request.EventId, cancellationToken);
             var testRuns = await testRunsRepository.GetAll(request.EventId, cancellationToken);
 
-            var entrantsAndRuns = entrants.Select(entrant => new { entrant, runs = testRuns.Where(r => r.EntrantId == entrant.EntrantId) });
-            var grouped = entrantsAndRuns.GroupBy(entrantAndRuns => entrantAndRuns.entrant.Class);
-            var testDict = tests.ToDictionary(a => a.Ordinal, a => a);
-            return grouped.Select(entrantsByClass => new Result(entrantsByClass.Key, entrantsByClass.Select(x =>
+            var entrantsAndRuns = entrants.Select(entrant => new { entrant, runs = testRuns.Where(r => r.EntrantId == entrant.EntrantId).GroupBy(a => a.Ordinal).SelectMany(a => a.OrderBy(a => a.Created).Take(2)) });
+            var groupedByClass = entrantsAndRuns.GroupBy(entrantAndRuns => entrantAndRuns.entrant.Class);
+            var testsDict = tests.ToDictionary(a => a.Ordinal, a => a);
+            return groupedByClass.Select(entrantsByClass => new Result(entrantsByClass.Key, entrantsByClass.Select(x =>
                 new EntrantTimes(x.entrant, totalTimeCalculator.GetTotalTime(x.runs, testRuns), x.runs.GroupBy(a => a.Ordinal).Select(r =>
-                    new TestTime(testDict[r.Key].Ordinal, r))))));
+                    new TestTime(testsDict[r.Key].Ordinal, r))))));
         }
     }
 }

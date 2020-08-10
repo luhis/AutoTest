@@ -19,7 +19,8 @@ namespace AutoTest.Service.ResultCalculation
         {
             if (IsInCorrectRun(testRun))
             {
-                return GetFastestCorrectRun(allTestRuns).TimeInMS + 20_000;
+                var fastest = GetFastestCorrectRun(allTestRuns);
+                return (fastest?.TimeInMS ?? 0) + 20_000;
             }
 
             return testRun.TimeInMS + GetInstanceCount(testRun.Penalties, PenaltyEnum.FailToStop) * FiveSecs + GetInstanceCount(testRun.Penalties, PenaltyEnum.HitBarrier) * FiveSecs + GetInstanceCount(testRun.Penalties, PenaltyEnum.Late) * FiveSecs;
@@ -28,7 +29,7 @@ namespace AutoTest.Service.ResultCalculation
         private static int GetInstanceCount(IEnumerable<Penalty> penalties, PenaltyEnum type) =>
             penalties.Where(a => a.PenaltyType == type).Select(a => a.InstanceCount).Sum();
 
-        private static TestRun GetFastestCorrectRun(IEnumerable<TestRun> allTestRuns) => allTestRuns.Where(a => !IsInCorrectRun(a)).OrderBy(a => GetFinalTime(a, Enumerable.Empty<TestRun>())).First();
+        private static TestRun? GetFastestCorrectRun(IEnumerable<TestRun> allTestRuns) => allTestRuns.Where(a => !IsInCorrectRun(a)).OrderBy(a => GetFinalTime(a, Enumerable.Empty<TestRun>())).FirstOrDefault();
 
         private static bool IsInCorrectRun(TestRun tr) => tr.Penalties.Any(a =>
             (a.PenaltyType == PenaltyEnum.WrongTest || a.PenaltyType == PenaltyEnum.NoAttendance) &&
