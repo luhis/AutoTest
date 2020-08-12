@@ -1200,18 +1200,18 @@
     "@types/yargs" "^15.0.0"
     chalk "^4.0.0"
 
-"@microsoft/signalr-protocol-msgpack@3.1.6":
-  version "3.1.6"
-  resolved "https://registry.yarnpkg.com/@microsoft/signalr-protocol-msgpack/-/signalr-protocol-msgpack-3.1.6.tgz#37f16b79e74dc402576ac02bc9910a22d15bf84f"
-  integrity sha512-rruN2vgVUVmFzDdEeOHbGpdiy9KCY6AggRA9At9XqdNWiBNjW8jlEPEPE8ZbDcFrbyPyiDNsNcBcFD6nYBpncw==
+"@microsoft/signalr-protocol-msgpack@3.1.7":
+  version "3.1.7"
+  resolved "https://registry.yarnpkg.com/@microsoft/signalr-protocol-msgpack/-/signalr-protocol-msgpack-3.1.7.tgz#2f5d194b8b1b4d8e3310c043c9c2886a6c40e8d7"
+  integrity sha512-K5ubWFWwUoGe8cfnGCMfuQChpfv6tlzXkaeFxJfyBWPA71PwkIe5ztJwkKRlwsFj9SuCzyDvqqQYxLELzuma5A==
   dependencies:
-    "@microsoft/signalr" ">=3.1.6"
+    "@microsoft/signalr" ">=3.1.7"
     msgpack5 "^4.0.2"
 
-"@microsoft/signalr@>=3.1.6":
-  version "3.1.6"
-  resolved "https://registry.yarnpkg.com/@microsoft/signalr/-/signalr-3.1.6.tgz#c4d7e3abf634ee817e501f65c0517f966ff2bade"
-  integrity sha512-beVfxZW7RQ+p0t88TCBbfnvOe1e05f3/BsB8MqXl8k7AecuoNP9ocu6ZhaXOm8eJva096QBoWOPfMomG8L6zLA==
+"@microsoft/signalr@>=3.1.7":
+  version "3.1.7"
+  resolved "https://registry.yarnpkg.com/@microsoft/signalr/-/signalr-3.1.7.tgz#ff547388a05d44421c03f60a0f86aee057b7588e"
+  integrity sha512-CC0sQom5SanAy7K6ueAmuWfsWcIv+mIoqUO3qXguPK7YUGx1O2geHgv567Gb4T52yWEXo5UQ1TCeDJecEnbSEg==
   dependencies:
     eventsource "^1.0.7"
     request "^2.88.0"
