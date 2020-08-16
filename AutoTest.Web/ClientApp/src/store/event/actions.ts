@@ -16,6 +16,7 @@ import { addTestRun, getTestRuns } from "../../api/testRuns";
 import { requiresLoading, idsMatch } from "../../types/loadingState";
 import { getEvents } from "../../api/events";
 import { getClubs } from "../../api/clubs";
+import { distinct } from "../../lib/array";
 
 export const GetClubsIfRequired = (token: string | undefined) => async (
     dispatch: Dispatch<EventActionTypes>,
@@ -84,21 +85,27 @@ export const GetEvents = () => async (dispatch: Dispatch<EventActionTypes>) => {
     });
 };
 
-export const GetTestRuns = (
+export const GetTestRunsIfRequired = (
     eventId: number,
     token: string | undefined
 ) => async (dispatch: Dispatch<EventActionTypes>, getState: () => AppState) => {
     const tests = getState().event.testRunsFromServer;
     if (requiresLoading(tests.tag) || !idsMatch(tests, eventId)) {
-        dispatch({
-            type: GET_TEST_RUNS,
-            payload: { tag: "Loading", id: eventId },
-        });
-        dispatch({
-            type: GET_TEST_RUNS,
-            payload: await getTestRuns(eventId, token),
-        });
+        await GetTestRuns(eventId, token)(dispatch);
     }
+};
+
+const GetTestRuns = (eventId: number, token: string | undefined) => async (
+    dispatch: Dispatch<EventActionTypes>
+) => {
+    dispatch({
+        type: GET_TEST_RUNS,
+        payload: { tag: "Loading", id: eventId },
+    });
+    dispatch({
+        type: GET_TEST_RUNS,
+        payload: await getTestRuns(eventId, token),
+    });
 };
 
 export const AddTestRun = (
@@ -128,6 +135,7 @@ export const SyncTestRuns = (token: string | undefined) => async (
     const toUpload = runs.filter(
         (a) => a.state !== TestRunUploadState.Uploaded
     );
+    const eventIds = distinct(runs.map((a) => a.eventId));
     await Promise.all(
         toUpload.map(async (element) => {
             const res = await addTestRun(
@@ -146,4 +154,5 @@ export const SyncTestRuns = (token: string | undefined) => async (
             }
         })
     );
+    await Promise.all(eventIds.map((a) => GetTestRuns(a, token)));
 };

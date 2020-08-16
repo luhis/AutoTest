@@ -1,5 +1,6 @@
 import { AppState } from "..";
 import { TestRunUploadState } from "../../types/models";
+import { distinct } from "../../lib/array";
 
 export const selectRequiresSync = (a: AppState) =>
     a.event.testRuns.filter((r) => r.state !== TestRunUploadState.Uploaded)
@@ -9,9 +10,7 @@ export const selectEntrants = (a: AppState) => a.event.entrants;
 
 export const selectClassOptions = (state: AppState): readonly string[] =>
     state.event.entrants.tag === "Loaded"
-        ? Array.from(
-              new Set(state.event.entrants.value.map((a) => a.class).sort())
-          )
+        ? distinct(state.event.entrants.value.map((a) => a.class).sort())
         : [];
 
 export const selectTestRuns = (a: AppState) => a.event.testRuns;

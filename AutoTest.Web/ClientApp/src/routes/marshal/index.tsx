@@ -16,7 +16,7 @@ import {
     SyncTestRuns,
     GetEventsIfRequired,
     GetEntrantsIfRequired,
-    GetTestRuns,
+    GetTestRunsIfRequired,
     GetClubsIfRequired,
 } from "../../store/event/actions";
 import {
@@ -79,7 +79,7 @@ const Marshal: FunctionalComponent<Readonly<Props>> = ({
         dispatch(GetEntrantsIfRequired(eventIdNum, token));
         dispatch(GetEventsIfRequired());
         dispatch(GetClubsIfRequired(token));
-        dispatch(GetTestRuns(eventIdNum, token));
+        dispatch(GetTestRunsIfRequired(eventIdNum, token));
     }, [auth, dispatch, eventIdNum]);
 
     const increase = (penaltyType: PenaltyType) => {
