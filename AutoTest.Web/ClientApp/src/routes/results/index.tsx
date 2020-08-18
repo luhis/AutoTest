@@ -13,6 +13,7 @@ import Time from "../../components/results/Time";
 import { getAccessToken } from "../../api/api";
 import { selectEvents, selectClubs } from "../../store/event/selectors";
 import { GetEventsIfRequired } from "../../store/event/actions";
+import { getNow } from "../../lib/date";
 
 interface Props {
     eventId: string;
@@ -72,6 +73,7 @@ const Results: FunctionalComponent<Readonly<Props>> = ({ eventId }) => {
                     tag: "Loaded",
                     value: newResults,
                     id: eventIdAsNum,
+                    loaded: getNow(),
                 });
             });
         })();

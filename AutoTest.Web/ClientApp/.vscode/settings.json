@@ -5,6 +5,7 @@
     "googlelogin",
     "persistor",
     "preact",
+    "signalr",
     "tsdef"
   ],
   "files.eol": "\n",

@@ -13,7 +13,7 @@ import { TestRunUploadState, TestRunTemp } from "../../types/models";
 import { getEntrants } from "../../api/entrants";
 import { AppState } from "..";
 import { addTestRun, getTestRuns } from "../../api/testRuns";
-import { requiresLoading, idsMatch } from "../../types/loadingState";
+import { requiresLoading, idsMatch, isStale } from "../../types/loadingState";
 import { getEvents } from "../../api/events";
 import { getClubs } from "../../api/clubs";
 import { distinct } from "../../lib/array";
@@ -69,7 +69,8 @@ export const GetEventsIfRequired = () => async (
     dispatch: Dispatch<EventActionTypes>,
     getState: () => AppState
 ) => {
-    if (requiresLoading(getState().event.events.tag)) {
+    const events = getState().event.events;
+    if (requiresLoading(events.tag) || isStale(events)) {
         await GetEvents()(dispatch);
     }
 };
