@@ -46,7 +46,7 @@
         "uuid-int": "3.0.3"
     },
     "devDependencies": {
-        "@teamsupercell/typings-for-css-modules-loader": "2.2.1",
+        "@teamsupercell/typings-for-css-modules-loader": "2.3.0",
         "@types/jest": "26.0.10",
         "@types/webpack-env": "1.15.2",
         "@typescript-eslint/eslint-plugin": "3.9.1",
