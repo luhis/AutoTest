@@ -1,6 +1,6 @@
 {
-  "name": "AutoTest",
-  "short_name": "AutoTest",
+  "name": "ClientApp",
+  "short_name": "ClientApp",
   "start_url": "/",
   "display": "standalone",
   "orientation": "portrait",
