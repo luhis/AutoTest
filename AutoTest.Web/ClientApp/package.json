@@ -7,7 +7,7 @@
     "build": "preact build --no-esm",
     "serve": "sirv build --port 8080 --cors --single",
     "dev": "yarn install && preact watch --no-esm && echo Starting the development server",
-    "lint": "eslint 'src/**/*.{js,jsx,ts,tsx}'",
+    "lint": "eslint src/**/*.{js,jsx,ts,tsx}",
     "test": "jest ./tests"
   },
   "husky": {
