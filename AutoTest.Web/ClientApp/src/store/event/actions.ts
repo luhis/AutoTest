@@ -46,7 +46,11 @@ export const GetEntrantsIfRequired = (
     token: string | undefined
 ) => async (dispatch: Dispatch<EventActionTypes>, getState: () => AppState) => {
     const entrants = getState().event.entrants;
-    if (requiresLoading(entrants.tag) || !idsMatch(entrants, eventId)) {
+    if (
+        requiresLoading(entrants.tag) ||
+        !idsMatch(entrants, eventId) ||
+        isStale(entrants)
+    ) {
         await GetEntrants(eventId, token)(dispatch);
     }
 };
@@ -90,8 +94,12 @@ export const GetTestRunsIfRequired = (
     eventId: number,
     token: string | undefined
 ) => async (dispatch: Dispatch<EventActionTypes>, getState: () => AppState) => {
-    const tests = getState().event.testRunsFromServer;
-    if (requiresLoading(tests.tag) || !idsMatch(tests, eventId)) {
+    const testRuns = getState().event.testRunsFromServer;
+    if (
+        requiresLoading(testRuns.tag) ||
+        !idsMatch(testRuns, eventId) ||
+        isStale(testRuns)
+    ) {
         await GetTestRuns(eventId, token)(dispatch);
     }
 };
