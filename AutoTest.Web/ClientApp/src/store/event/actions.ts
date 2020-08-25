@@ -23,7 +23,7 @@ export const GetClubsIfRequired = (token: string | undefined) => async (
     getState: () => AppState
 ) => {
     const clubs = getState().event.clubs;
-    if (requiresLoading(clubs.tag)) {
+    if (requiresLoading(clubs.tag) || isStale(clubs)) {
         await GetClubs(token)(dispatch);
     }
 };
