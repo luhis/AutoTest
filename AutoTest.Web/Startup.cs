@@ -30,13 +30,14 @@ namespace AutoTest.Web
         const string googleCom = "https://*.google.com";
         const string googleAnal = "https://www.google-analytics.com";
 
-        public Startup(IConfiguration configuration)
+        public Startup(IConfiguration configuration, IWebHostEnvironment webHostEnvironment)
         {
             this.Configuration = configuration;
             this.AdminEmails = new HashSet<string>(configuration.GetSection("RootAdminIds").Get<IEnumerable<string>>());
             var authSection = configuration.GetSection("Authentication");
             this.ClientSecret = authSection["ClientSecret"];
             this.ClientId = authSection["ClientId"];
+            this.env = webHostEnvironment;
         }
 
         public IConfiguration Configuration { get; }
@@ -44,6 +45,7 @@ namespace AutoTest.Web
         private const string Authority = "https://accounts.google.com";
         private readonly string ClientSecret;
         private readonly string ClientId;
+        private readonly IWebHostEnvironment env;
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
@@ -134,8 +136,13 @@ namespace AutoTest.Web
                 options.EnableForHttps = true;
             });
 
-            services.AddSignalR()
-                .AddMessagePackProtocol();
+            services.AddSignalR(options =>
+                {
+                    if (env.IsDevelopment())
+                    {
+                        options.EnableDetailedErrors = true;
+                    }
+                }).AddMessagePackProtocol();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

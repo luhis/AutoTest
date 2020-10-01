@@ -14,7 +14,6 @@
                 {
                     webBuilder.UseStartup<Startup>();
                     webBuilder.ConfigureKestrel(serverOptions => serverOptions.AddServerHeader = false);
-                    webBuilder.UseSetting(WebHostDefaults.DetailedErrorsKey, "true"); //todo temp only
                 });
     }
 }
