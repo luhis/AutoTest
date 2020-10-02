@@ -62,7 +62,7 @@
     "jest": "26.4.2",
     "jest-preset-preact": "4.0.2",
     "lint-staged": "10.4.0",
-    "preact-cli": "3.0.1",
+    "preact-cli": "3.0.3",
     "preact-cli-plugin-env-vars": "1.2.1",
     "prettier": "2.1.2",
     "sirv-cli": "1.0.6",
