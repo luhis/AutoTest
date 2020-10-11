@@ -59,7 +59,7 @@
     "eslint-plugin-react": "7.21.4",
     "eslint-plugin-react-hooks": "4.1.2",
     "husky": "4.3.0",
-    "jest": "26.5.2",
+    "jest": "26.5.3",
     "jest-preset-preact": "4.0.2",
     "lint-staged": "10.4.0",
     "preact-cli": "3.0.3",
