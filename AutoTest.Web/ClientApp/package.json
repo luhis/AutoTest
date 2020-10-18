@@ -61,7 +61,7 @@
     "husky": "4.3.0",
     "jest": "26.5.3",
     "jest-preset-preact": "4.0.2",
-    "lint-staged": "10.4.1",
+    "lint-staged": "10.4.2",
     "preact-cli": "3.0.3",
     "preact-cli-plugin-env-vars": "1.2.1",
     "prettier": "2.1.2",
