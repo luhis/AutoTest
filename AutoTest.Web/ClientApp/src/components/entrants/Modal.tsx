@@ -88,6 +88,22 @@ const EntrantsModal: FunctionComponent<Readonly<Props>> = ({
                             }
                         />
                     </Field>
+                    <Field>
+                        <Label>Displacement</Label>
+                        <Input
+                            type="number"
+                            value={entrant.vehicle.displacement}
+                            onChange={(e: OnChange): void =>
+                                setField({
+                                    vehicle: {
+                                        displacement: Number.parseInt(
+                                            e.target.value
+                                        ),
+                                    },
+                                })
+                            }
+                        />
+                    </Field>
                 </Modal.Card.Body>
                 <Modal.Card.Foot>
                     <Button color="primary" onClick={save}>

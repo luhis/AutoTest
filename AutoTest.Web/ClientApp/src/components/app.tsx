@@ -3,7 +3,7 @@ import { Route, Router } from "preact-router";
 import { useGoogleLogin } from "react-use-googlelogin";
 import { useContext, useState, StateUpdater } from "preact/hooks";
 import { Provider } from "react-redux";
-import { Content, Loader } from "rbx";
+import { Container, Loader } from "rbx";
 import { PersistGate } from "redux-persist/integration/react";
 
 import Home from "../routes/home";
@@ -61,8 +61,8 @@ const App: FunctionalComponent = () => {
                         <GoogleAuthContext.Provider
                             value={googleAuth as GoogleAuth}
                         >
-                            <Content>
-                                <Header />
+                            <Header />
+                            <Container fluid>
                                 <Router>
                                     <Route path="/" component={Home} />
                                     <Route
@@ -94,7 +94,7 @@ const App: FunctionalComponent = () => {
                                     />
                                     <NotFoundPage default />
                                 </Router>
-                            </Content>
+                            </Container>
                         </GoogleAuthContext.Provider>
                     </AccessContext.Provider>
                 </PersistGate>
