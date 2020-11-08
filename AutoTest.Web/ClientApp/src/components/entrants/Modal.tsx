@@ -89,7 +89,7 @@ const EntrantsModal: FunctionComponent<Readonly<Props>> = ({
                         />
                     </Field>
                     <Field>
-                        <Label>Displacement</Label>
+                        <Label>Displacement (CC)</Label>
                         <Input
                             type="number"
                             value={entrant.vehicle.displacement}

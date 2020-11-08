@@ -34,7 +34,9 @@ namespace AutoTest.Web.Authorization
                 var @event = await _eventsRepository.GetById(eventId, CancellationToken.None);
                 if (@event == null)
                 {
-                    throw new Exception("Cannot find event");
+                    // new event
+                    context.Succeed(requirement);
+                    return;
                 }
 
                 var club = await _clubRepository.GetById(@event.ClubId, CancellationToken.None);
