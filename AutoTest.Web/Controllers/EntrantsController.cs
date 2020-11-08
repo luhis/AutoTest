@@ -28,7 +28,7 @@ namespace AutoTest.Web.Controllers
         public Task<IEnumerable<Entrant>> GetEntrants(ulong eventId, CancellationToken cancellationToken) => this.mediator.Send(new GetEntrants(eventId), cancellationToken);
 
         [Authorize(policy: Policies.ClubAdmin)]
-        [HttpPut("{entrantId}")]
-        public Task PutEntrant(ulong entrantId, EntrantSaveModel entrantSaveModel, CancellationToken cancellationToken) => this.mediator.Send(new SaveEntrant(MapClub.Map(entrantId, entrantSaveModel)), cancellationToken);
+        [HttpPut("{eventId}/{entrantId}")]
+        public Task PutEntrant(ulong eventId, ulong entrantId, EntrantSaveModel entrantSaveModel, CancellationToken cancellationToken) => this.mediator.Send(new SaveEntrant(MapClub.Map(entrantId, eventId, entrantSaveModel)), cancellationToken);
     }
 }

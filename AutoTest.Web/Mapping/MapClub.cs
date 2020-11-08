@@ -28,9 +28,9 @@ namespace AutoTest.Web.Mapping
             return run;
         }
 
-        public static Entrant Map(ulong entrantId, EntrantSaveModel entrant)
+        public static Entrant Map(ulong entrantId, ulong eventId, EntrantSaveModel entrant)
         {
-            var e = new Entrant(entrantId, entrant.DriverNumber, entrant.GivenName, entrant.FamilyName, entrant.Class, entrant.EventId,
+            var e = new Entrant(entrantId, entrant.DriverNumber, entrant.GivenName, entrant.FamilyName, entrant.Class, eventId,
                 entrant.IsPaid);
             e.SetVehicle(new Vehicle(entrant.Vehicle.Make, entrant.Vehicle.Model, entrant.Vehicle.Year, entrant.Vehicle.Displacement, entrant.Vehicle.Registration));
             return e;

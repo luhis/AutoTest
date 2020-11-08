@@ -18,8 +18,8 @@ export const addEntrant = async (
     entrant: Entrant,
     token: string | undefined
 ): Promise<void> => {
-    const { entrantId, ...rest } = entrant;
-    const response = await fetch(`/api/entrants/${entrantId}`, {
+    const { entrantId, eventId, ...rest } = entrant;
+    const response = await fetch(`/api/entrants/${eventId}/${entrantId}`, {
         headers: {
             "Content-Type": "application/json",
             Authorization: token ? `Bearer ${token}` : "",

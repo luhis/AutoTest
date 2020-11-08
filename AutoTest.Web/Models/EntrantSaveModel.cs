@@ -10,8 +10,6 @@
 
         public string Class { get; set; } = string.Empty;
 
-        public ulong EventId { get; set; }
-
         public bool IsPaid { get; set; }
 
         public VehicleSaveModel Vehicle { get; set; } = new VehicleSaveModel();
