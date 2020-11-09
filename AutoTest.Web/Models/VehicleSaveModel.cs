@@ -10,7 +10,6 @@
 
         public string Registration { get; set; } = string.Empty;
 
-
         public int Displacement { get; set; }
     }
 }

@@ -4,6 +4,7 @@ import { Title, Button, Breadcrumb } from "rbx";
 import UUID from "uuid-int";
 import { DeepPartial } from "tsdef";
 import { useDispatch, useSelector } from "react-redux";
+import { merge } from "micro-dash";
 
 import { addEntrant } from "../../api/entrants";
 import { Entrant, EditingEntrant } from "../../types/models";
@@ -101,6 +102,10 @@ const Events: FunctionalComponent<Readonly<Props>> = ({ eventId }) => {
                             registration: "",
                         },
                         isNew: true,
+                        emergencyContact: {
+                            name: "",
+                            phone: "",
+                        },
                     })
                 }
             >
@@ -109,11 +114,15 @@ const Events: FunctionalComponent<Readonly<Props>> = ({ eventId }) => {
             {editingEntrant ? (
                 <EntrantsModal
                     entrant={editingEntrant}
-                    setField={(a: DeepPartial<Entrant>) =>
-                        setEditingEntrant(
-                            (b) => ({ ...b, ...a } as EditingEntrant)
-                        )
-                    }
+                    setField={(a: DeepPartial<Entrant>) => {
+                        setEditingEntrant((b) => {
+                            if (b !== undefined) {
+                                return merge(b, a);
+                            } else {
+                                return b;
+                            }
+                        });
+                    }}
                     cancel={() => setEditingEntrant(undefined)}
                     save={save}
                 />

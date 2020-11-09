@@ -13,5 +13,7 @@
         public bool IsPaid { get; set; }
 
         public VehicleSaveModel Vehicle { get; set; } = new VehicleSaveModel();
+
+        public EmergencyContactSaveModel EmergencyContact { get; set; } = new EmergencyContactSaveModel();
     }
 }

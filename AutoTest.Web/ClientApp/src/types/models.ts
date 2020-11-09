@@ -97,11 +97,17 @@ export interface Entrant {
     readonly givenName: string;
     readonly familyName: string;
     readonly vehicle: Vehicle;
+    readonly emergencyContact: EmergencyContact;
 }
 
 export type EditingEntrant = Omit<Entrant, "driverNumber"> & {
     readonly isNew: boolean;
 };
+
+export interface EmergencyContact {
+    readonly name: string;
+    readonly phone: string;
+}
 
 export interface Vehicle {
     readonly make: string;

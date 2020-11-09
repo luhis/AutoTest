@@ -102,6 +102,34 @@ const EntrantsModal: FunctionComponent<Readonly<Props>> = ({
                                     },
                                 })
                             }
+                            min={0}
+                        />
+                    </Field>
+                    <Field>
+                        <Label>Emergency Contact Name</Label>
+                        <Input
+                            value={entrant.emergencyContact.name}
+                            onChange={(e: OnChange): void => {
+                                setField({
+                                    emergencyContact: {
+                                        name: e.target.value,
+                                    },
+                                });
+                            }}
+                        />
+                    </Field>
+                    <Field>
+                        <Label>Emergency Contact Number</Label>
+                        <Input
+                            type="tel"
+                            value={entrant.emergencyContact.phone}
+                            onChange={(e: OnChange): void =>
+                                setField({
+                                    emergencyContact: {
+                                        phone: e.target.value,
+                                    },
+                                })
+                            }
                         />
                     </Field>
                 </Modal.Card.Body>
