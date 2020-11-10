@@ -4,7 +4,7 @@ import { distinct } from "../../lib/array";
 
 export const selectRequiresSync = (a: AppState) =>
     a.event.testRuns.filter((r) => r.state !== TestRunUploadState.Uploaded)
-        .length > 0;
+        .length;
 
 export const selectEntrants = (a: AppState) => a.event.entrants;
 

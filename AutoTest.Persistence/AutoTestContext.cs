@@ -12,7 +12,7 @@ namespace AutoTest.Persistence
         public AutoTestContext(DbContextOptions<AutoTestContext> options)
             : base(options)
         {
-            this.ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
+            this.ChangeTracker!.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
         }
 
         public DbSet<Club>? Clubs { get; private set; }
@@ -37,7 +37,9 @@ namespace AutoTest.Persistence
                 this.Database.EnsureCreated();
                 if (this.Clubs != null && this.Clubs.SingleOrDefault(a => a.ClubId == 1) == null)
                 {
-                    this.Clubs.Add(new Club(1, "BRMC", "brmc@paypal.com", "https://www.bognor-regis-mc.co.uk"));
+                    var brmc = new Club(1, "BRMC", "brmc@paypal.com", "https://www.bognor-regis-mc.co.uk");
+                    brmc.SetAdminEmails(new[] { new AuthorisationEmail("mccorry@gmail.com") });
+                    this.Clubs.Add(brmc);
                 }
                 if (this.Events != null && this.Events.SingleOrDefault(a => a.EventId == 1) == null)
                 {

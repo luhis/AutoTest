@@ -1,9 +1,8 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
+using System;
 
 namespace AutoTest.Domain.StorageModels
 {
-    using System;
 
     public class Event
     {

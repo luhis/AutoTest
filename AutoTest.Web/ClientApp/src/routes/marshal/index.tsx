@@ -1,6 +1,15 @@
 import { FunctionalComponent, h } from "preact";
 import { useEffect, useState } from "preact/hooks";
-import { Title, Select, Label, Field, Input, Button, Breadcrumb } from "rbx";
+import {
+    Title,
+    Select,
+    Label,
+    Field,
+    Input,
+    Button,
+    Breadcrumb,
+    Tag,
+} from "rbx";
 import UUID from "uuid-int";
 import { useSelector, useDispatch } from "react-redux";
 import { fromDateOrThrow } from "ts-date";
@@ -45,10 +54,15 @@ interface Props {
 const uid = UUID(keySeed);
 
 const SyncButton: FunctionalComponent<Readonly<{
+    unSyncedCount: number;
     requiresSync: boolean;
     sync: () => void;
-}>> = ({ requiresSync, sync }) =>
-    requiresSync ? <Button onClick={sync}>Sync</Button> : null;
+}>> = ({ unSyncedCount, requiresSync, sync }) =>
+    requiresSync ? (
+        <Button onClick={sync}>
+            Sync <Tag color="danger">({unSyncedCount})</Tag>
+        </Button>
+    ) : null;
 
 const Marshal: FunctionalComponent<Readonly<Props>> = ({
     eventId,
@@ -229,7 +243,8 @@ const Marshal: FunctionalComponent<Readonly<Props>> = ({
                     Add
                 </Button>
                 <SyncButton
-                    requiresSync={requiresSync}
+                    unSyncedCount={requiresSync}
+                    requiresSync={requiresSync > 0}
                     sync={() => dispatch(SyncTestRuns(getAccessToken(auth)))}
                 />
             </Button.Group>

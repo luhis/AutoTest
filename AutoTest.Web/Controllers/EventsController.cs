@@ -2,16 +2,16 @@
 using AutoTest.Web.Mapping;
 using AutoTest.Web.Models;
 using Microsoft.AspNetCore.Authorization;
+using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
+using AutoTest.Domain.StorageModels;
+using AutoTest.Service.Messages;
+using MediatR;
+using Microsoft.AspNetCore.Mvc;
 
 namespace AutoTest.Web.Controllers
 {
-    using System.Collections.Generic;
-    using System.Threading;
-    using System.Threading.Tasks;
-    using AutoTest.Domain.StorageModels;
-    using AutoTest.Service.Messages;
-    using MediatR;
-    using Microsoft.AspNetCore.Mvc;
 
     [ApiController]
     [Route("api/[controller]")]
