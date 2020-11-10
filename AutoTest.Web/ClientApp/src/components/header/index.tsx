@@ -5,7 +5,7 @@ import { useGoogleAuth, useAccess } from "../app";
 import { getAccess } from "../../api/access";
 
 const Header: FunctionalComponent = () => {
-    const { signIn } = useGoogleAuth();
+    const { signIn, signOut } = useGoogleAuth();
     const [access, setAccess] = useAccess();
     return (
         <Navbar>
@@ -28,19 +28,28 @@ const Header: FunctionalComponent = () => {
                         <Navbar.Item href="/clubs">Clubs</Navbar.Item>
                     ) : null}
                     <Navbar.Item href="/events">Events</Navbar.Item>
+                    {access.canViewProfile ? (
+                        <Navbar.Item href="/profile">Profile</Navbar.Item>
+                    ) : null}
                     <Navbar.Item>
-                        <Button
-                            onClick={async (): Promise<void> => {
-                                const user = await signIn();
-                                if (user) {
-                                    setAccess(await getAccess(user.tokenId));
-                                } else {
-                                    console.log(user);
-                                }
-                            }}
-                        >
-                            Sign in with Google
-                        </Button>
+                        {!access.isLoggedIn ? (
+                            <Button
+                                onClick={async (): Promise<void> => {
+                                    const user = await signIn();
+                                    if (user) {
+                                        setAccess(
+                                            await getAccess(user.tokenId)
+                                        );
+                                    } else {
+                                        console.log(user);
+                                    }
+                                }}
+                            >
+                                Sign in with Google
+                            </Button>
+                        ) : (
+                            <Button onClick={signOut}>Sign out</Button>
+                        )}
                     </Navbar.Item>
                 </Navbar.Segment>
             </Navbar.Menu>

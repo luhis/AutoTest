@@ -19,7 +19,7 @@ namespace AutoTest.Persistence
         public DbSet<Event>? Events { get; private set; }
         public DbSet<Entrant>? Entrants { get; private set; }
         public DbSet<TestRun>? TestRuns { get; private set; }
-        public DbSet<User>? Users { get; private set; }
+        public DbSet<Profile>? Users { get; private set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -27,7 +27,7 @@ namespace AutoTest.Persistence
             SetupEntrant.Setup(modelBuilder.Entity<Entrant>());
             SetupEvent.Setup(modelBuilder.Entity<Event>());
             SetupTestRun.Setup(modelBuilder.Entity<TestRun>());
-            SetupUser.Setup(modelBuilder.Entity<User>());
+            SetupUser.Setup(modelBuilder.Entity<Profile>());
         }
 
         public void SeedDatabase()

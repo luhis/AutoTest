@@ -21,7 +21,7 @@
         [HttpGet]
         public AccessModel GetAccess()
         {
-            return new AccessModel(true);
+            return new AccessModel(true, true, true);
         }
     }
 }

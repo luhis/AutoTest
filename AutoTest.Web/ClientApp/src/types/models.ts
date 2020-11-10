@@ -3,11 +3,14 @@ import { ValidDate } from "ts-date/locale/en";
 
 export interface GoogleAuth {
     readonly signIn: () => Promise<GoogleUser>;
+    readonly signOut: () => Promise<boolean>;
     readonly googleUser: GoogleUser | null;
 }
 
 export interface Access {
+    readonly isLoggedIn: boolean;
     readonly canViewClubs: boolean;
+    readonly canViewProfile: boolean;
 }
 
 export interface AuthorisationEmail {
@@ -66,10 +69,6 @@ export type EditableTestRun = Override<
     }
 >;
 
-export interface User {
-    readonly userId: number;
-}
-
 export interface Event {
     readonly eventId: number;
     readonly clubId: number;
@@ -89,6 +88,15 @@ export type EditingEvent = Override<
     readonly isClubEditable: boolean;
 };
 
+export interface Profile {
+    readonly profileId: number;
+    readonly givenName: string;
+    readonly familyName: string;
+    readonly msaLicense: string;
+    readonly vehicle: Vehicle;
+    readonly emergencyContact: EmergencyContact;
+}
+
 export interface Entrant {
     readonly entrantId: number;
     readonly eventId: number;
@@ -96,6 +104,7 @@ export interface Entrant {
     readonly class: string;
     readonly givenName: string;
     readonly familyName: string;
+    readonly msaLicense: string;
     readonly vehicle: Vehicle;
     readonly emergencyContact: EmergencyContact;
 }

@@ -2,7 +2,7 @@ import { GoogleAuth } from "../types/models";
 
 export const throwIfNotOk = (response: Response): void => {
     if (!response.ok) {
-        throw new Error("Network response was not ok");
+        throw new Error(`Network response was not ok ${response.status}`);
     }
 };
 

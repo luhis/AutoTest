@@ -94,6 +94,7 @@ const Events: FunctionalComponent<Readonly<Props>> = ({ eventId }) => {
                         class: "",
                         givenName: "",
                         familyName: "",
+                        msaLicense: "",
                         vehicle: {
                             make: "",
                             model: "",

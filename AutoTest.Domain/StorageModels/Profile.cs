@@ -1,32 +1,22 @@
 ﻿namespace AutoTest.Domain.StorageModels
 {
-    public class Entrant
+    public class Profile
     {
-
-        public Entrant(ulong entrantId, ushort driverNumber, string givenName, string familyName, string @class, ulong eventId, bool isPaid)
+        public Profile(string emailAddress, string givenName, string familyName, string msaLicense)
         {
-            EntrantId = entrantId;
+            EmailAddress = emailAddress;
             GivenName = givenName;
             FamilyName = familyName;
-            Class = @class;
-            EventId = eventId;
-            IsPaid = isPaid;
-            DriverNumber = driverNumber;
+            MsaLicense = msaLicense;
         }
 
-        public ulong EntrantId { get; }
-
-        public ushort DriverNumber { get; }
+        public string EmailAddress { get; }
 
         public string GivenName { get; }
 
         public string FamilyName { get; }
 
-        public string Class { get; }
-
-        public ulong EventId { get; }
-
-        public bool IsPaid { get; }
+        public string MsaLicense { get; }
 
         public Vehicle Vehicle { get; private set; } = new Vehicle();
 

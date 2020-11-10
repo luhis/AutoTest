@@ -1,14 +1,14 @@
-import { User } from "../types/models";
+import { Profile } from "../types/models";
 import { ApiResponse, toApiResponse } from "../types/loadingState";
 import { throwIfNotOk } from "./api";
 
-export const getUsers = async (
+export const getProfile = async (
     token: string | undefined
-): Promise<ApiResponse<readonly User[]>> =>
+): Promise<ApiResponse<Profile>> =>
     toApiResponse(async () => {
-        const response = await fetch("/api/user", {
+        const response = await fetch("/api/profile", {
             headers: { Authorization: token ? `Bearer ${token}` : "" },
         });
         throwIfNotOk(response);
-        return (await response.json()) as User[];
+        return (await response.json()) as Profile;
     });

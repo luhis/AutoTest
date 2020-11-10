@@ -1,40 +1,33 @@
 import { h, FunctionComponent } from "preact";
 import { Modal, Button, Label, Input, Field } from "rbx";
 import { DeepPartial } from "tsdef";
-import { useSelector } from "react-redux";
 
-import { Entrant, EditingEntrant } from "../../types/models";
+import { Profile } from "../../types/models";
 import { OnChange } from "../../types/inputs";
-import { selectClassOptions } from "../../store/event/selectors";
 
 interface Props {
-    entrant: EditingEntrant;
+    profile: Profile;
     save: () => Promise<void>;
     cancel: () => void;
-    setField: (k: DeepPartial<Omit<Entrant, "driverNumber">>) => void;
+    setField: (k: DeepPartial<Omit<Profile, "driverNumber">>) => void;
 }
 
-const EntrantsModal: FunctionComponent<Readonly<Props>> = ({
+const ProfileModal: FunctionComponent<Readonly<Props>> = ({
     save,
     cancel,
-    entrant,
+    profile,
     setField,
 }) => {
-    const classesInUse = useSelector(selectClassOptions).filter(
-        (c) => c.startsWith(entrant.class) && c !== entrant.class
-    );
     return (
         <Modal active={true}>
             <Modal.Background />
             <Modal.Card>
-                <Modal.Card.Head>
-                    {entrant.isNew ? "Add" : "Edit"} Entrant
-                </Modal.Card.Head>
+                <Modal.Card.Head>Profile</Modal.Card.Head>
                 <Modal.Card.Body>
                     <Field>
                         <Label>Given Name</Label>
                         <Input
-                            value={entrant.givenName}
+                            value={profile.givenName}
                             onChange={(e: OnChange): void =>
                                 setField({ givenName: e.target.value })
                             }
@@ -43,7 +36,7 @@ const EntrantsModal: FunctionComponent<Readonly<Props>> = ({
                     <Field>
                         <Label>Family Name</Label>
                         <Input
-                            value={entrant.familyName}
+                            value={profile.familyName}
                             onChange={(e: OnChange): void =>
                                 setField({ familyName: e.target.value })
                             }
@@ -52,42 +45,16 @@ const EntrantsModal: FunctionComponent<Readonly<Props>> = ({
                     <Field>
                         <Label>MSA License</Label>
                         <Input
-                            value={entrant.msaLicense}
+                            value={profile.msaLicense}
                             onChange={(e: OnChange): void =>
                                 setField({ msaLicense: e.target.value })
                             }
                         />
                     </Field>
                     <Field>
-                        <Label>Class</Label>
-                        <Input
-                            list="classes"
-                            value={entrant.class}
-                            onChange={(e: OnChange): void => {
-                                setField({
-                                    class: e.target.value.toLocaleUpperCase(),
-                                });
-                            }}
-                        >
-                            <datalist id="classes">
-                                {classesInUse.map((a) => (
-                                    <option
-                                        key={a}
-                                        value={a}
-                                        onClick={() => {
-                                            setField({
-                                                class: a,
-                                            });
-                                        }}
-                                    />
-                                ))}
-                            </datalist>
-                        </Input>
-                    </Field>
-                    <Field>
                         <Label>Registration</Label>
                         <Input
-                            value={entrant.vehicle.registration}
+                            value={profile.vehicle.registration}
                             onChange={(e: OnChange): void =>
                                 setField({
                                     vehicle: {
@@ -101,7 +68,7 @@ const EntrantsModal: FunctionComponent<Readonly<Props>> = ({
                         <Label>Displacement (CC)</Label>
                         <Input
                             type="number"
-                            value={entrant.vehicle.displacement}
+                            value={profile.vehicle.displacement}
                             onChange={(e: OnChange): void =>
                                 setField({
                                     vehicle: {
@@ -117,7 +84,7 @@ const EntrantsModal: FunctionComponent<Readonly<Props>> = ({
                     <Field>
                         <Label>Emergency Contact Name</Label>
                         <Input
-                            value={entrant.emergencyContact.name}
+                            value={profile.emergencyContact.name}
                             onChange={(e: OnChange): void => {
                                 setField({
                                     emergencyContact: {
@@ -131,7 +98,7 @@ const EntrantsModal: FunctionComponent<Readonly<Props>> = ({
                         <Label>Emergency Contact Number</Label>
                         <Input
                             type="tel"
-                            value={entrant.emergencyContact.phone}
+                            value={profile.emergencyContact.phone}
                             onChange={(e: OnChange): void =>
                                 setField({
                                     emergencyContact: {
@@ -155,4 +122,4 @@ const EntrantsModal: FunctionComponent<Readonly<Props>> = ({
     );
 };
 
-export default EntrantsModal;
+export default ProfileModal;

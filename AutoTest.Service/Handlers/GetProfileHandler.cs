@@ -1,4 +1,5 @@
-﻿using System.Threading;
+﻿using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using AutoTest.Domain.StorageModels;
 using AutoTest.Persistence;
@@ -8,7 +9,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace AutoTest.Service.Handlers
 {
-    public class GetProfileHandler : IRequestHandler<GetProfile, User>
+    public class GetProfileHandler : IRequestHandler<GetProfile, Profile>
     {
         private readonly AutoTestContext autoTestContext;
 
@@ -17,9 +18,10 @@ namespace AutoTest.Service.Handlers
             this.autoTestContext = autoTestContext;
         }
 
-        async Task<User> IRequestHandler<GetProfile, User>.Handle(GetProfile request, CancellationToken cancellationToken)
+        async Task<Profile> IRequestHandler<GetProfile, Profile>.Handle(GetProfile request, CancellationToken cancellationToken)
         {
-            return await this.autoTestContext.Users.FirstAsync(cancellationToken);
+            var found = await this.autoTestContext.Users.Where(a => a.EmailAddress == request.EmailAddress).SingleOrDefaultAsync(cancellationToken);
+            return found == null ? new Profile(request.EmailAddress, "", "", "") : found;
         }
     }
 }

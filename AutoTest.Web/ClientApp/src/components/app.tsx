@@ -34,11 +34,16 @@ const GoogleAuthContext = createContext<GoogleAuth>({
     signIn: () => {
         throw new Error();
     },
+    signOut: () => {
+        throw new Error();
+    },
     googleUser: null,
 }); // Not necessary, but recommended.
 
 const defaultAccess: Access = {
+    isLoggedIn: false,
     canViewClubs: false,
+    canViewProfile: false,
 };
 
 const AccessContext = createContext<[Access, StateUpdater<Access>]>([

@@ -6,6 +6,7 @@ import { persistStore, persistReducer, createTransform } from "redux-persist";
 import { parseIsoOrThrow } from "ts-date";
 
 import { eventReducer } from "./event/reducers";
+import { profileReducer } from "./profile/reducers";
 
 const persistConfig = {
     key: "root",
@@ -26,6 +27,7 @@ const persistConfig = {
 
 const rootReducer = combineReducers({
     event: eventReducer,
+    profile: profileReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

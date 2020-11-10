@@ -1,43 +1,32 @@
 import { FunctionalComponent, h } from "preact";
-import { useEffect, useState } from "preact/hooks";
+import { useEffect } from "preact/hooks";
+import { useDispatch, useSelector } from "react-redux";
+
+import { getAccessToken } from "../../api/api";
+import { GetProfile } from "../../store/profile/actions";
+import { useGoogleAuth } from "../../components/app";
+import ProfileModal from "../../components/profile/index";
+import { selectProfile } from "../../store/profile/selectors";
 
 interface Props {
     user: string;
 }
 
-const Profile: FunctionalComponent<Readonly<Props>> = (props: Props) => {
-    const { user } = props;
-    const [time, setTime] = useState<number>(Date.now());
-    const [count, setCount] = useState<number>(0);
-
-    // gets called when this route is navigated to
+const Profile: FunctionalComponent<Readonly<Props>> = () => {
+    const auth = useGoogleAuth();
+    const dispatch = useDispatch();
+    const profile = useSelector(selectProfile);
     useEffect(() => {
-        const timer = window.setInterval(() => setTime(Date.now()), 1000);
-
-        // gets called just before navigating away from the route
-        return () => {
-            clearInterval(timer);
-        };
-    }, []);
-
-    // update the current time
-    const increment = () => {
-        setCount(count + 1);
-    };
-
-    return (
-        <div>
-            <h1>Profile: {user}</h1>
-            <p>This is the user profile for a user named {user}.</p>
-
-            <div>Current time: {new Date(time).toLocaleString()}</div>
-
-            <p>
-                <button onClick={increment}>Click Me</button> Clicked {count}{" "}
-                times.
-            </p>
-        </div>
-    );
+        dispatch(GetProfile(getAccessToken(auth)));
+    }, [dispatch, auth]);
+    return profile.tag === "Loaded" ? (
+        <ProfileModal
+            profile={profile.value}
+            save={() => Promise.resolve()}
+            cancel={() => undefined}
+            setField={() => undefined}
+        />
+    ) : null;
 };
 
 export default Profile;
