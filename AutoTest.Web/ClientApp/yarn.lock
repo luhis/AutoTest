@@ -8510,10 +8510,10 @@ preact-markup@2.0.0:
   resolved "https://registry.yarnpkg.com/preact-markup/-/preact-markup-2.0.0.tgz#4889d1cc4340abf80155bf4d9c89cddecc53d4a6"
   integrity sha512-1yPS+IuqJI6k9CoOLDj5x68W9rYp6cY4UqRNCXKt2QSRFcWhGrAZhv3fyz8i8urMu2zLuOrMJIxV4lhpVHHF/w==
 
-preact-render-to-string@5.1.11:
-  version "5.1.11"
-  resolved "https://registry.yarnpkg.com/preact-render-to-string/-/preact-render-to-string-5.1.11.tgz#7d8d77c23ef40ae6abc3d390b7430b3cb6206020"
-  integrity sha512-8DXkx8WzeUexYyh9ZjlBSsqcJVOndidw10t1MK1gLx6at4QxQE3RfqaObPgy5WOnw2piyh9kanNB7w7+dmaq4g==
+preact-render-to-string@5.1.12:
+  version "5.1.12"
+  resolved "https://registry.yarnpkg.com/preact-render-to-string/-/preact-render-to-string-5.1.12.tgz#3d258a177ef8947f768dd0f2c56629e7fda2dc39"
+  integrity sha512-nXVCOpvepSk9AfPwqS08rf9NDOCs8eeYYlG+7tE85iP5jVyjz+aYb1BYaP5SPdfVWVrzI9L5NzxozUvKaD96tA==
   dependencies:
     pretty-format "^3.8.0"
 
