@@ -34,7 +34,7 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore.Cosmos" Version="3.1.10" />
     <PackageReference Include="Microsoft.VisualStudio.Threading.Analyzers" Version="16.8.55" />
     <PackageReference Include="NetEscapades.AspNetCore.SecurityHeaders" Version="0.12.1" />
-    <PackageReference Include="WebMarkupMin.AspNetCore3" Version="2.8.14" />
+    <PackageReference Include="WebMarkupMin.AspNetCore3" Version="2.8.15" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="5.6.3" />
   </ItemGroup>
 
