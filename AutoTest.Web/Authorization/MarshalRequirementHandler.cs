@@ -23,10 +23,10 @@ namespace AutoTest.Web.Authorization
 
         protected override async Task HandleRequirementAsync(AuthorizationHandlerContext context, MarshalRequirement requirement)
         {
-            var routeData = _httpContextAccessor.HttpContext.GetRouteData();
+            var routeData = _httpContextAccessor.HttpContext!.GetRouteData();
             if (routeData != null)
             {
-                var eventId = ulong.Parse((string)routeData.Values["eventId"]);
+                var eventId = ulong.Parse((string)routeData.Values["eventId"]!);
                 var @event = await _eventsRepository.GetById(eventId, CancellationToken.None);
                 if (@event == null)
                 {

@@ -27,7 +27,7 @@ namespace AutoTest.Web.Authorization
 
         protected override async Task HandleRequirementAsync(AuthorizationHandlerContext context, ClubAdminRequirement requirement)
         {
-            var routeData = _httpContextAccessor.HttpContext.GetRouteData();
+            var routeData = _httpContextAccessor.HttpContext!.GetRouteData();
             if (routeData != null)
             {
                 var eventId = await GetEventId(routeData);
@@ -63,13 +63,13 @@ namespace AutoTest.Web.Authorization
 
         private async Task<ulong> GetEventId(RouteData routeData)
         {
-            if (routeData.Values.ContainsKey("eventId"))
+            if (routeData.Values.TryGetValue("eventId", out var eventIdString) && eventIdString != null)
             {
-                return ulong.Parse((string)routeData.Values["eventId"]);
+                return ulong.Parse((string)eventIdString);
             }
-            else if (routeData.Values.ContainsKey("entrantId"))
+            else if (routeData.Values.TryGetValue("entrantId", out var entrantIdString) && entrantIdString != null)
             {
-                var entrantId = ulong.Parse((string)routeData.Values["entrantId"]);
+                var entrantId = ulong.Parse((string)entrantIdString);
                 var entrant = await _entrantsRepository.GetById(entrantId, CancellationToken.None);
                 if (entrant == null)
                 {
