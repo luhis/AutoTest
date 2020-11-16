@@ -2,7 +2,7 @@ import { FunctionalComponent, h } from "preact";
 import { useEffect, useState } from "preact/hooks";
 import { Title, Button } from "rbx";
 import UUID from "uuid-int";
-import { fromDateOrThrow } from "ts-date";
+import { newValidDate } from "ts-date";
 import { useDispatch, useSelector } from "react-redux";
 
 import { addEvent } from "../../api/events";
@@ -68,7 +68,7 @@ const Events: FunctionalComponent<Readonly<Props>> = ({ clubId }) => {
                                 : Number.parseInt(clubId), // todo
                         eventId: uid.uuid(),
                         location: "",
-                        startTime: fromDateOrThrow(new Date()),
+                        startTime: newValidDate(),
                         testCount: 12,
                         maxAttemptsPerTest: 2,
                         marshalEmails: [],

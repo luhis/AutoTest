@@ -12,7 +12,7 @@ import {
 } from "rbx";
 import UUID from "uuid-int";
 import { useSelector, useDispatch } from "react-redux";
-import { fromDateOrThrow } from "ts-date";
+import { newValidDate } from "ts-date";
 
 import { EditableTestRun, PenaltyType, TestRunTemp } from "../../types/models";
 import ifSome from "../../components/shared/ifSome";
@@ -230,7 +230,7 @@ const Marshal: FunctionalComponent<Readonly<Props>> = ({
                                 AddTestRun(
                                     {
                                         ...editing,
-                                        created: fromDateOrThrow(new Date()),
+                                        created: newValidDate(),
                                         eventId: eventIdNum,
                                     } as TestRunTemp,
                                     getAccessToken(auth)

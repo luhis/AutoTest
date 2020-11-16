@@ -1,4 +1,4 @@
-import { GoogleAuth } from "../types/models";
+import { HookReturnValue } from "react-use-googlelogin/dist/types";
 
 export const throwIfNotOk = (response: Response): void => {
     if (!response.ok) {
@@ -6,6 +6,6 @@ export const throwIfNotOk = (response: Response): void => {
     }
 };
 
-export const getAccessToken = (auth: GoogleAuth): string | undefined => {
+export const getAccessToken = (auth: HookReturnValue): string | undefined => {
     return auth.googleUser ? auth.googleUser.tokenId : undefined;
 };

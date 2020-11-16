@@ -5,6 +5,7 @@ import { useContext, useState, StateUpdater } from "preact/hooks";
 import { Provider } from "react-redux";
 import { Container, Loader } from "rbx";
 import { PersistGate } from "redux-persist/integration/react";
+import { HookReturnValue } from "react-use-googlelogin/dist/types";
 
 import Home from "../routes/home";
 import Profile from "../routes/profile";
@@ -13,7 +14,7 @@ import NotFoundPage from "../routes/notfound";
 import Events from "../routes/events";
 import Entrant from "../routes/entrants";
 import Header from "./header";
-import { GoogleAuth, Access } from "../types/models";
+import { Access } from "../types/models";
 import Results from "../routes/results";
 import Tests from "../routes/tests";
 import Marshal from "../routes/marshal";
@@ -30,14 +31,22 @@ if ((module as Module).hot) {
     require("preact/debug");
 }
 
-const GoogleAuthContext = createContext<GoogleAuth>({
+const GoogleAuthContext = createContext<HookReturnValue>({
     signIn: () => {
         throw new Error();
     },
     signOut: () => {
         throw new Error();
     },
-    googleUser: null,
+    googleUser: undefined,
+    refreshUser: () => {
+        throw new Error();
+    },
+    isSignedIn: false,
+    isInitialized: false,
+    grantOfflineAccess: () => {
+        throw new Error();
+    },
 }); // Not necessary, but recommended.
 
 const defaultAccess: Access = {
@@ -63,9 +72,7 @@ const App: FunctionalComponent = () => {
             <Provider store={storeX}>
                 <PersistGate loading={<Loader />} persistor={persistor}>
                     <AccessContext.Provider value={access}>
-                        <GoogleAuthContext.Provider
-                            value={googleAuth as GoogleAuth}
-                        >
+                        <GoogleAuthContext.Provider value={googleAuth}>
                             <Header />
                             <Container fluid>
                                 <Router>

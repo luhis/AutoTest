@@ -1,3 +1,3 @@
-import { newValidDateOrThrow } from "ts-date";
+import { newValidDate } from "ts-date";
 
-export const getNow = () => newValidDateOrThrow(Date.now());
+export const getNow = () => newValidDate();

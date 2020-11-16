@@ -1,11 +1,4 @@
-import { GoogleUser } from "react-use-googlelogin/dist/types";
 import { ValidDate } from "ts-date/locale/en";
-
-export interface GoogleAuth {
-    readonly signIn: () => Promise<GoogleUser>;
-    readonly signOut: () => Promise<boolean>;
-    readonly googleUser: GoogleUser | null;
-}
 
 export interface Access {
     readonly isLoggedIn: boolean;
