@@ -9,7 +9,7 @@ interface Props {
     profile: Profile;
     save: () => Promise<void>;
     cancel: () => void;
-    setField: (k: DeepPartial<Omit<Profile, "driverNumber">>) => void;
+    setField: (k: DeepPartial<Profile>) => void;
 }
 
 const ProfileModal: FunctionComponent<Readonly<Props>> = ({

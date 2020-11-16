@@ -12,3 +12,18 @@ export const getProfile = async (
         throwIfNotOk(response);
         return (await response.json()) as Profile;
     });
+
+export const saveProfile = async (
+    profile: Profile,
+    token: string | undefined
+): Promise<void> => {
+    const response = await fetch(`/api/profile/`, {
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: token ? `Bearer ${token}` : "",
+        },
+        method: "PUT",
+        body: JSON.stringify(profile),
+    });
+    throwIfNotOk(response);
+};

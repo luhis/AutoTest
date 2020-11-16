@@ -14,7 +14,7 @@ namespace AutoTest.Service.Handlers
         {
             this.eventsRepository = eventsRepository;
         }
-        
+
         async Task<ulong> IRequestHandler<SaveEvent, ulong>.Handle(SaveEvent request, CancellationToken cancellationToken)
         {
             await eventsRepository.Upsert(request.Event, cancellationToken);

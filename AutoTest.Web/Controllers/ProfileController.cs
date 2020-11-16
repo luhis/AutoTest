@@ -27,8 +27,8 @@ namespace AutoTest.Web.Controllers
             return mediator.Send(new GetProfile(this.User.GetEmailAddress()), cancellationToken);
         }
 
-        //[HttpPut]
-        //public Task<ulong> Save(ulong clubId, Profile club, CancellationToken cancellationToken) =>
-        //    this.mediator.Send(new SaveClub(MapClub.Map(clubId, club)), cancellationToken);
+        [HttpPut]
+        public Task<string> Save(Profile profile, CancellationToken cancellationToken) =>
+            this.mediator.Send(new SaveProfile(this.User.GetEmailAddress(), profile), cancellationToken);
     }
 }
