@@ -73,11 +73,6 @@ const App: FunctionalComponent = () => {
                                     <Route
                                         path="/profile/"
                                         component={Profile}
-                                        user="me"
-                                    />
-                                    <Route
-                                        path="/profile/:user"
-                                        component={Profile}
                                     />
                                     <Route path="/clubs/" component={Club} />
                                     <Route path="/events/" component={Events} />
