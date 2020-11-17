@@ -55,10 +55,9 @@ const uid = UUID(keySeed);
 
 const SyncButton: FunctionalComponent<Readonly<{
     unSyncedCount: number;
-    requiresSync: boolean;
     sync: () => void;
-}>> = ({ unSyncedCount, requiresSync, sync }) =>
-    requiresSync ? (
+}>> = ({ unSyncedCount, sync }) =>
+    unSyncedCount > 0 ? (
         <Button onClick={sync}>
             Sync <Tag color="danger">({unSyncedCount})</Tag>
         </Button>
@@ -244,7 +243,6 @@ const Marshal: FunctionalComponent<Readonly<Props>> = ({
                 </Button>
                 <SyncButton
                     unSyncedCount={requiresSync}
-                    requiresSync={requiresSync > 0}
                     sync={() => dispatch(SyncTestRuns(getAccessToken(auth)))}
                 />
             </Button.Group>

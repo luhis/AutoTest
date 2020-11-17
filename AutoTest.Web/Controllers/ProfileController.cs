@@ -3,6 +3,8 @@ using System.Threading.Tasks;
 using AutoTest.Domain.StorageModels;
 using AutoTest.Service.Messages;
 using AutoTest.Web.Authorization.Tooling;
+using AutoTest.Web.Mapping;
+using AutoTest.Web.Models;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -28,7 +30,7 @@ namespace AutoTest.Web.Controllers
         }
 
         [HttpPut]
-        public Task<string> Save(Profile profile, CancellationToken cancellationToken) =>
-            this.mediator.Send(new SaveProfile(this.User.GetEmailAddress(), profile), cancellationToken);
+        public Task<string> Save(ProfileSaveModel profile, CancellationToken cancellationToken) =>
+            this.mediator.Send(new SaveProfile(this.User.GetEmailAddress(), MapClub.Map(profile)), cancellationToken);
     }
 }

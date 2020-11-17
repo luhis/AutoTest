@@ -21,6 +21,17 @@ namespace AutoTest.Web.Mapping
             return e;
         }
 
+        private static EmergencyContact Map(EmergencyContactSaveModel emergencyContact)
+        {
+            return new EmergencyContact(emergencyContact.Name, emergencyContact.Phone);
+        }
+
+        public static Vehicle Map(VehicleSaveModel vehicle)
+        {
+            return new Vehicle(vehicle.Make, vehicle.Model, vehicle.Year,
+                vehicle.Displacement, vehicle.Registration);
+        }
+
         public static TestRun Map(ulong testRunId, TestRunSaveModel test)
         {
             var run = new TestRun(testRunId, test.EventId, test.Ordinal, test.TimeInMS, test.EntrantId, test.Created);
@@ -32,9 +43,17 @@ namespace AutoTest.Web.Mapping
         {
             var e = new Entrant(entrantId, entrant.DriverNumber, entrant.GivenName, entrant.FamilyName, entrant.Class, eventId,
                 entrant.IsPaid);
-            e.SetVehicle(new Vehicle(entrant.Vehicle.Make, entrant.Vehicle.Model, entrant.Vehicle.Year, entrant.Vehicle.Displacement, entrant.Vehicle.Registration));
-            e.SetEmergencyContact(new EmergencyContact(entrant.EmergencyContact.Name, entrant.EmergencyContact.Phone));
+            e.SetVehicle(Map(entrant.Vehicle));
+            e.SetEmergencyContact(Map(entrant.EmergencyContact));
             return e;
+        }
+
+        public static Profile Map(ProfileSaveModel profile)
+        {
+            var p = new Profile(profile.EmailAddress, profile.GivenName, profile.FamilyName, profile.MsaLicense);
+            p.SetVehicle(Map(profile.Vehicle));
+            p.SetEmergencyContact(Map(profile.EmergencyContact));
+            return p;
         }
     }
 }
