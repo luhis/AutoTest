@@ -27,7 +27,7 @@ namespace AutoTest.Persistence
             SetupEntrant.Setup(modelBuilder.Entity<Entrant>());
             SetupEvent.Setup(modelBuilder.Entity<Event>());
             SetupTestRun.Setup(modelBuilder.Entity<TestRun>());
-            SetupUser.Setup(modelBuilder.Entity<Profile>());
+            SetupProfile.Setup(modelBuilder.Entity<Profile>());
         }
 
         public void SeedDatabase()

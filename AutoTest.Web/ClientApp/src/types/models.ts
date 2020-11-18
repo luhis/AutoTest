@@ -1,10 +1,6 @@
-import { ValidDate } from "ts-date/locale/en";
+import { ValidDate } from "ts-date";
 
-export interface Access {
-    readonly isLoggedIn: boolean;
-    readonly canViewClubs: boolean;
-    readonly canViewProfile: boolean;
-}
+import { EmergencyContact, Vehicle } from "./shared";
 
 export interface AuthorisationEmail {
     readonly email: string;
@@ -81,15 +77,6 @@ export type EditingEvent = Override<
     readonly isClubEditable: boolean;
 };
 
-export interface Profile {
-    readonly profileId: number;
-    readonly givenName: string;
-    readonly familyName: string;
-    readonly msaLicense: string;
-    readonly vehicle: Vehicle;
-    readonly emergencyContact: EmergencyContact;
-}
-
 export interface Entrant {
     readonly entrantId: number;
     readonly eventId: number;
@@ -105,19 +92,6 @@ export interface Entrant {
 export type EditingEntrant = Omit<Entrant, "driverNumber"> & {
     readonly isNew: boolean;
 };
-
-export interface EmergencyContact {
-    readonly name: string;
-    readonly phone: string;
-}
-
-export interface Vehicle {
-    readonly make: string;
-    readonly model: string;
-    readonly year: number;
-    readonly registration: string;
-    readonly displacement: number;
-}
 
 export interface Result {
     readonly class: string;

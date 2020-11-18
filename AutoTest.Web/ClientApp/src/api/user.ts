@@ -1,4 +1,4 @@
-import { Profile } from "../types/models";
+import { Profile } from "../types/profileModels";
 import { ApiResponse, toApiResponse } from "../types/loadingState";
 import { throwIfNotOk } from "./api";
 

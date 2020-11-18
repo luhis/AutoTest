@@ -2,7 +2,7 @@ import { h, FunctionComponent } from "preact";
 import { Modal, Button, Label, Input, Field } from "rbx";
 import { DeepPartial } from "tsdef";
 
-import { Profile } from "../../types/models";
+import { Profile } from "../../types/profileModels";
 import { OnChange } from "../../types/inputs";
 
 interface Props {

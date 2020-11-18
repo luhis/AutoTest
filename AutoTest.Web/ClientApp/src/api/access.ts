@@ -1,4 +1,4 @@
-import { Access } from "../types/models";
+import { Access } from "../types/profileModels";
 import { throwIfNotOk } from "./api";
 
 export const getAccess = async (token: string | undefined): Promise<Access> => {

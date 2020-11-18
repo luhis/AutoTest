@@ -10,7 +10,7 @@ import { useGoogleAuth } from "../../components/app";
 import ProfileModal from "../../components/profile/index";
 import { selectProfile } from "../../store/profile/selectors";
 import { saveProfile } from "../../api/user";
-import { Profile } from "../../types/models";
+import { Profile } from "../../types/profileModels";
 
 interface Props {
     profile: Profile;

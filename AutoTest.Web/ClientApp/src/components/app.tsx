@@ -14,7 +14,7 @@ import NotFoundPage from "../routes/notfound";
 import Events from "../routes/events";
 import Entrant from "../routes/entrants";
 import Header from "./header";
-import { Access } from "../types/models";
+import { Access } from "../types/profileModels";
 import Results from "../routes/results";
 import Tests from "../routes/tests";
 import Marshal from "../routes/marshal";

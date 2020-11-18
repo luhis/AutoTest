@@ -1,4 +1,4 @@
-import { Profile } from "../../types/models";
+import { Profile } from "../../types/profileModels";
 import { LoadingState } from "../../types/loadingState";
 
 export const GET_PROFILE = "GET_PROFILE";

@@ -1,4 +1,6 @@
-﻿namespace AutoTest.Domain.StorageModels
+﻿using System.Collections.Generic;
+
+namespace AutoTest.Domain.StorageModels
 {
     public class Profile
     {
@@ -21,6 +23,8 @@
         public Vehicle Vehicle { get; private set; } = new Vehicle();
 
         public EmergencyContact EmergencyContact { get; private set; } = new EmergencyContact();
+
+        public ICollection<ClubMembership> ClubMemberships { get; private set; } = new List<ClubMembership>();
 
         public void SetVehicle(Vehicle vehicle) => Vehicle = vehicle;
 

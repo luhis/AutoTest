@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace AutoTest.Persistence.Setup
 {
-    public static class SetupUser
+    public static class SetupProfile
     {
         public static void Setup(EntityTypeBuilder<Profile> entity)
         {
@@ -14,6 +14,7 @@ namespace AutoTest.Persistence.Setup
             entity.Property(e => e.MsaLicense).IsRequired();
             entity.OwnsOne(a => a.Vehicle, SetupVehicle.Setup);
             entity.OwnsOne(a => a.EmergencyContact, SetupEmergencyContact.Setup);
+            entity.OwnsMany(a => a.ClubMemberships, SetupClubMembership.Setup);
         }
     }
 }
