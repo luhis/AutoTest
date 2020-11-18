@@ -29,5 +29,7 @@ namespace AutoTest.Domain.StorageModels
         public void SetVehicle(Vehicle vehicle) => Vehicle = vehicle;
 
         public void SetEmergencyContact(EmergencyContact emergencyContact) => EmergencyContact = emergencyContact;
+
+        public void SetClubMemberships(ICollection<ClubMembership> clubMemberships) => ClubMemberships = clubMemberships;
     }
 }

@@ -7,6 +7,7 @@ import { OnChange, OnSelectChange } from "../../types/inputs";
 import EmailList from "../shared/EmailList";
 import { LoadingState } from "../../types/loadingState";
 import ifSome from "../shared/ifSome";
+import { getDateTimeString } from "../../lib/date";
 
 interface Props {
     event: EditingEvent;
@@ -102,9 +103,7 @@ const ModalX: FunctionComponent<Readonly<Props>> = ({
                         <Label>Start Time</Label>
                         <Input
                             type="datetime-local"
-                            value={event.startTime
-                                .toISOString()
-                                .substring(0, 16)}
+                            value={getDateTimeString(event.startTime)}
                             onChange={(e: OnChange): void =>
                                 setField({
                                     startTime: newValidDateOrThrow(

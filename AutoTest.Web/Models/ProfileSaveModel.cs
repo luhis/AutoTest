@@ -1,4 +1,6 @@
-﻿namespace AutoTest.Web.Models
+﻿using System.Collections.Generic;
+
+namespace AutoTest.Web.Models
 {
     public class ProfileSaveModel
     {
@@ -13,6 +15,8 @@
         public VehicleSaveModel Vehicle { get; set; } = new VehicleSaveModel();
 
         public EmergencyContactSaveModel EmergencyContact { get; set; } = new EmergencyContactSaveModel();
+
+        public ICollection<ClubMembershipSaveModel> ClubMemberships { get; set; } = new List<ClubMembershipSaveModel>();
 
     }
 }

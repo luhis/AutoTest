@@ -32,6 +32,11 @@ namespace AutoTest.Web.Mapping
                 vehicle.Displacement, vehicle.Registration);
         }
 
+        public static ClubMembership Map(ClubMembershipSaveModel vehicle)
+        {
+            return new ClubMembership(vehicle.ClubName, vehicle.MembershipNumber, vehicle.Expiry);
+        }
+
         public static TestRun Map(ulong testRunId, TestRunSaveModel test)
         {
             var run = new TestRun(testRunId, test.EventId, test.Ordinal, test.TimeInMS, test.EntrantId, test.Created);
@@ -53,6 +58,7 @@ namespace AutoTest.Web.Mapping
             var p = new Profile(profile.EmailAddress, profile.GivenName, profile.FamilyName, profile.MsaLicense);
             p.SetVehicle(Map(profile.Vehicle));
             p.SetEmergencyContact(Map(profile.EmergencyContact));
+            p.SetClubMemberships(profile.ClubMemberships.Select(Map).ToArray());
             return p;
         }
     }

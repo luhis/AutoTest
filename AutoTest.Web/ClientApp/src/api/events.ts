@@ -11,9 +11,9 @@ export const getEvents = async (): Promise<ApiResponse<readonly Event[]>> =>
         type ApiEvent = Override<Event, { startTime: string }>;
         const events = (await response.json()) as ApiEvent[];
 
-        return events.map((a) => ({
-            ...a,
-            startTime: parseIsoOrThrow(a.startTime),
+        return events.map(({ startTime, ...rest }) => ({
+            ...rest,
+            startTime: parseIsoOrThrow(startTime),
         }));
     });
 

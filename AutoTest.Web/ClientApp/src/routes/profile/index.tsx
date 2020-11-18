@@ -1,8 +1,6 @@
 import { FunctionalComponent, h } from "preact";
 import { useEffect, useState } from "preact/hooks";
 import { useDispatch, useSelector } from "react-redux";
-import { DeepPartial } from "redux";
-import { merge } from "micro-dash";
 
 import { getAccessToken } from "../../api/api";
 import { GetProfile } from "../../store/profile/actions";
@@ -32,8 +30,10 @@ const ProfileEditor: FunctionalComponent<Readonly<Props>> = ({ profile }) => {
             profile={editingProfile}
             save={save}
             cancel={() => undefined}
-            setField={(a: DeepPartial<Profile>) => {
-                setEditingProfile((b) => merge(b, a));
+            setField={(a: Partial<Profile>) => {
+                setEditingProfile((b) => {
+                    return { ...b, ...a };
+                });
             }}
         />
     );

@@ -6,6 +6,9 @@ import { useSelector } from "react-redux";
 import { Entrant, EditingEntrant } from "../../types/models";
 import { OnChange } from "../../types/inputs";
 import { selectClassOptions } from "../../store/event/selectors";
+import { EmergencyContact, Vehicle } from "src/types/shared";
+import EmergencyContactEditor from "../shared/EmergencyContactEditor";
+import VehicleEditor from "../shared/VehicleEditor";
 
 interface Props {
     entrant: EditingEntrant;
@@ -84,63 +87,22 @@ const EntrantsModal: FunctionComponent<Readonly<Props>> = ({
                             </datalist>
                         </Input>
                     </Field>
-                    <Field>
-                        <Label>Registration</Label>
-                        <Input
-                            value={entrant.vehicle.registration}
-                            onChange={(e: OnChange): void =>
-                                setField({
-                                    vehicle: {
-                                        registration: e.target.value.toLocaleUpperCase(),
-                                    },
-                                })
-                            }
-                        />
-                    </Field>
-                    <Field>
-                        <Label>Displacement (CC)</Label>
-                        <Input
-                            type="number"
-                            value={entrant.vehicle.displacement}
-                            onChange={(e: OnChange): void =>
-                                setField({
-                                    vehicle: {
-                                        displacement: Number.parseInt(
-                                            e.target.value
-                                        ),
-                                    },
-                                })
-                            }
-                            min={0}
-                        />
-                    </Field>
-                    <Field>
-                        <Label>Emergency Contact Name</Label>
-                        <Input
-                            value={entrant.emergencyContact.name}
-                            onChange={(e: OnChange): void => {
-                                setField({
-                                    emergencyContact: {
-                                        name: e.target.value,
-                                    },
-                                });
-                            }}
-                        />
-                    </Field>
-                    <Field>
-                        <Label>Emergency Contact Number</Label>
-                        <Input
-                            type="tel"
-                            value={entrant.emergencyContact.phone}
-                            onChange={(e: OnChange): void =>
-                                setField({
-                                    emergencyContact: {
-                                        phone: e.target.value,
-                                    },
-                                })
-                            }
-                        />
-                    </Field>
+                    <VehicleEditor
+                        vehicle={entrant.vehicle}
+                        setField={(e: Partial<Vehicle>): void =>
+                            setField({
+                                vehicle: e,
+                            })
+                        }
+                    />
+                    <EmergencyContactEditor
+                        emergencyContact={entrant.emergencyContact}
+                        setField={(e: Partial<EmergencyContact>): void =>
+                            setField({
+                                emergencyContact: e,
+                            })
+                        }
+                    />
                 </Modal.Card.Body>
                 <Modal.Card.Foot>
                     <Button color="primary" onClick={save}>
