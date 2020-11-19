@@ -10,14 +10,14 @@ import ifSome from "../shared/ifSome";
 import { getDateTimeString } from "../../lib/date";
 
 interface Props {
-    event: EditingEvent;
-    clubs: LoadingState<readonly Club[]>;
-    save: () => Promise<void>;
-    cancel: () => void;
-    setField: (k: Partial<Event>) => void;
+    readonly event: EditingEvent;
+    readonly clubs: LoadingState<readonly Club[]>;
+    readonly save: () => Promise<void>;
+    readonly cancel: () => void;
+    readonly setField: (k: Partial<Event>) => void;
 }
 
-const ModalX: FunctionComponent<Readonly<Props>> = ({
+const ModalX: FunctionComponent<Props> = ({
     event,
     clubs,
     save,
@@ -111,6 +111,19 @@ const ModalX: FunctionComponent<Readonly<Props>> = ({
                                     ),
                                 })
                             }
+                        />
+                    </Field>
+                    <Field>
+                        <Label>Regulations</Label>
+                        <Input
+                            type="file"
+                            onChange={(e: OnChange): void => {
+                                setField({
+                                    regulations: e.target.files
+                                        ? e.target.files[0]
+                                        : null,
+                                });
+                            }}
                         />
                     </Field>
                     <Field>

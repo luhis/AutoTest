@@ -47,15 +47,15 @@ const getNewEditableTest = (ordinal: number): EditableTestRun => ({
     entrantId: undefined,
 });
 interface Props {
-    eventId: string;
-    ordinal: string;
+    readonly eventId: string;
+    readonly ordinal: string;
 }
 
 const uid = UUID(keySeed);
 
 const SyncButton: FunctionalComponent<Readonly<{
-    unSyncedCount: number;
-    sync: () => void;
+    readonly unSyncedCount: number;
+    readonly sync: () => void;
 }>> = ({ unSyncedCount, sync }) =>
     unSyncedCount > 0 ? (
         <Button onClick={sync}>

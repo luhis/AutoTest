@@ -11,7 +11,7 @@ import { saveProfile } from "../../api/user";
 import { Profile } from "../../types/profileModels";
 
 interface Props {
-    profile: Profile;
+    readonly profile: Profile;
 }
 
 const ProfileEditor: FunctionalComponent<Readonly<Props>> = ({ profile }) => {

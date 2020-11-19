@@ -10,7 +10,7 @@ export const getClubs = async (
             headers: { Authorization: token ? `Bearer ${token}` : "" },
         });
         throwIfNotOk(response);
-        return (await response.json()) as Club[];
+        return (await response.json()) as readonly Club[];
     });
 
 export const addClub = async (

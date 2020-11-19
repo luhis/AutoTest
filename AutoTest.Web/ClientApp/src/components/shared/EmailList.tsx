@@ -6,9 +6,9 @@ import { OnChange } from "../../types/inputs";
 import { AuthorisationEmail } from "../../types/models";
 
 interface Props {
-    emails: readonly AuthorisationEmail[];
-    addNew: (_: AuthorisationEmail) => void;
-    remove: (_: number) => void;
+    readonly emails: readonly AuthorisationEmail[];
+    readonly addNew: (_: AuthorisationEmail) => void;
+    readonly remove: (_: number) => void;
 }
 
 const EmailList: FunctionComponent<Props> = ({ emails, addNew, remove }) => {

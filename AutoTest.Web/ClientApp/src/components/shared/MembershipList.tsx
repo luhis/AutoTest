@@ -8,9 +8,9 @@ import { ClubMembership } from "../../types/profileModels";
 import { getDateString } from "../../lib/date";
 
 interface Props {
-    memberships: readonly ClubMembership[];
-    addNew: (_: ClubMembership) => void;
-    remove: (_: number) => void;
+    readonly memberships: readonly ClubMembership[];
+    readonly addNew: (_: ClubMembership) => void;
+    readonly remove: (_: number) => void;
 }
 
 const blankState = {

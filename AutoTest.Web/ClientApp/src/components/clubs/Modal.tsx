@@ -6,18 +6,13 @@ import { OnChange } from "../../types/inputs";
 import EmailList from "../shared/EmailList";
 
 interface Props {
-    club: EditingClub;
-    save: () => Promise<void>;
-    cancel: () => void;
-    setField: (k: Partial<Club>) => void;
+    readonly club: EditingClub;
+    readonly save: () => Promise<void>;
+    readonly cancel: () => void;
+    readonly setField: (k: Partial<Club>) => void;
 }
 
-const ModalX: FunctionComponent<Readonly<Props>> = ({
-    save,
-    cancel,
-    club,
-    setField,
-}) => {
+const ModalX: FunctionComponent<Props> = ({ save, cancel, club, setField }) => {
     return (
         <Modal active={true}>
             <Modal.Background />

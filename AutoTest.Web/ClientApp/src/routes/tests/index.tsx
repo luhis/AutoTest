@@ -11,7 +11,7 @@ import { selectEvents, selectClubs } from "../../store/event/selectors";
 import { findIfLoaded } from "../../types/loadingState";
 
 interface Props {
-    eventId: string;
+    readonly eventId: string;
 }
 
 const Tests: FunctionalComponent<Readonly<Props>> = ({ eventId }) => {

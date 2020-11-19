@@ -20,11 +20,11 @@ import { selectEvents, selectClubs } from "../../store/event/selectors";
 import { keySeed } from "../../settings";
 
 interface Props {
-    clubId: string | undefined;
+    readonly clubId: string | undefined;
 }
 const uid = UUID(keySeed);
 
-const Events: FunctionalComponent<Readonly<Props>> = ({ clubId }) => {
+const Events: FunctionalComponent<Props> = ({ clubId }) => {
     const dispatch = useDispatch();
     const auth = useGoogleAuth();
     const events = useSelector(selectEvents);
@@ -75,6 +75,7 @@ const Events: FunctionalComponent<Readonly<Props>> = ({ clubId }) => {
                         isNew: true,
                         isClubEditable: clubId === undefined,
                         tests: [],
+                        regulations: null,
                     })
                 }
             >
@@ -84,9 +85,12 @@ const Events: FunctionalComponent<Readonly<Props>> = ({ clubId }) => {
                 <Modal
                     event={editingEvent}
                     clubs={clubs}
-                    setField={(a: Partial<Event>) =>
-                        setEditingEvent((b) => ({ ...b, ...a } as EditingEvent))
-                    }
+                    setField={(a: Partial<Event>) => {
+                        setEditingEvent((b) => {
+                            const x = { ...b, ...a } as EditingEvent;
+                            return x;
+                        });
+                    }}
                     cancel={() => setEditingEvent(undefined)}
                     save={save}
                 />

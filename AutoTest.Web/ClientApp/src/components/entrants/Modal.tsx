@@ -11,13 +11,13 @@ import EmergencyContactEditor from "../shared/EmergencyContactEditor";
 import VehicleEditor from "../shared/VehicleEditor";
 
 interface Props {
-    entrant: EditingEntrant;
-    save: () => Promise<void>;
-    cancel: () => void;
-    setField: (k: DeepPartial<Omit<Entrant, "driverNumber">>) => void;
+    readonly entrant: EditingEntrant;
+    readonly save: () => Promise<void>;
+    readonly cancel: () => void;
+    readonly setField: (k: DeepPartial<Omit<Entrant, "driverNumber">>) => void;
 }
 
-const EntrantsModal: FunctionComponent<Readonly<Props>> = ({
+const EntrantsModal: FunctionComponent<Props> = ({
     save,
     cancel,
     entrant,

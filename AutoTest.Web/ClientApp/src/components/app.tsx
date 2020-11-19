@@ -24,7 +24,7 @@ import { googleKey } from "../settings";
 import "rbx/index.css";
 
 interface Module {
-    hot: unknown | undefined;
+    readonly hot: unknown | undefined;
 }
 
 if ((module as Module).hot) {
@@ -55,7 +55,7 @@ const defaultAccess: Access = {
     canViewProfile: false,
 };
 
-const AccessContext = createContext<[Access, StateUpdater<Access>]>([
+const AccessContext = createContext<readonly [Access, StateUpdater<Access>]>([
     defaultAccess,
     (_) => undefined,
 ]);

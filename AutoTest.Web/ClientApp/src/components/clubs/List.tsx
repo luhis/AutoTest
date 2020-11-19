@@ -7,8 +7,8 @@ import { LoadingState } from "../../types/loadingState";
 import ifSome from "../shared/ifSome";
 
 interface Props {
-    clubs: LoadingState<readonly Club[]>;
-    setEditingClub: (club: Club) => void;
+    readonly clubs: LoadingState<readonly Club[]>;
+    readonly setEditingClub: (club: Club) => void;
 }
 
 const ClubsList: FunctionComponent<Props> = ({ clubs, setEditingClub }) =>

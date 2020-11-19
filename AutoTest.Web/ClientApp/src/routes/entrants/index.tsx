@@ -26,7 +26,7 @@ import { keySeed } from "../../settings";
 import { findIfLoaded } from "../../types/loadingState";
 
 interface Props {
-    eventId: string;
+    readonly eventId: string;
 }
 const uid = UUID(keySeed);
 

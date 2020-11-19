@@ -16,7 +16,7 @@ namespace AutoTest.Web.Mapping
         public static Event Map(ulong eventId, EventSaveModel @event)
         {
             var e = new Event(eventId, @event.ClubId, @event.Location, @event.StartTime, @event.TestCount,
-                @event.MaxAttemptsPerTest);
+                @event.MaxAttemptsPerTest, @event.Regulations);
             e.SetMarshalEmails(@event.MarshalEmails.Select(a => new AuthorisationEmail(a.Email)).ToArray());
             return e;
         }
@@ -53,9 +53,9 @@ namespace AutoTest.Web.Mapping
             return e;
         }
 
-        public static Profile Map(ProfileSaveModel profile)
+        public static Profile Map(string emailAddress, ProfileSaveModel profile)
         {
-            var p = new Profile(profile.EmailAddress, profile.GivenName, profile.FamilyName, profile.MsaLicense);
+            var p = new Profile(emailAddress, profile.GivenName, profile.FamilyName, profile.MsaLicense);
             p.SetVehicle(Map(profile.Vehicle));
             p.SetEmergencyContact(Map(profile.EmergencyContact));
             p.SetClubMemberships(profile.ClubMemberships.Select(Map).ToArray());

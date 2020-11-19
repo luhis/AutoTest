@@ -8,8 +8,8 @@ export const getEvents = async (): Promise<ApiResponse<readonly Event[]>> =>
     toApiResponse(async () => {
         const response = await fetch("/api/events");
         throwIfNotOk(response);
-        type ApiEvent = Override<Event, { startTime: string }>;
-        const events = (await response.json()) as ApiEvent[];
+        type ApiEvent = Override<Event, { readonly startTime: string }>;
+        const events = (await response.json()) as readonly ApiEvent[];
 
         return events.map(({ startTime, ...rest }) => ({
             ...rest,
@@ -22,6 +22,7 @@ export const addEvent = async (
     token: string | undefined
 ): Promise<void> => {
     const { eventId, ...rest } = event;
+    debugger;
     const response = await fetch(`/api/events/${eventId}`, {
         headers: {
             "Content-Type": "application/json",

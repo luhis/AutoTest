@@ -2,7 +2,7 @@ module.exports = {
     env: {
         browser: true
     },
-    plugins: ["@typescript-eslint"],
+    plugins: ["@typescript-eslint", "ts-immutable"],
     extends: [
         "eslint:recommended",
         "plugin:@typescript-eslint/eslint-recommended",
@@ -12,7 +12,8 @@ module.exports = {
         "plugin:react-hooks/recommended",
         "plugin:prettier/recommended",
         "prettier/@typescript-eslint",
-        "prettier/react"
+        "prettier/react",
+        "plugin:ts-immutable/recommended"
     ],
     parser: "@typescript-eslint/parser",
     parserOptions: {

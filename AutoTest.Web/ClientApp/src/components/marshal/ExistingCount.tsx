@@ -3,10 +3,10 @@ import { FunctionalComponent, h } from "preact";
 import { TestRun, Event } from "../../types/models";
 
 interface Props {
-    entrantId: number | undefined;
-    ordinal: number;
-    testRuns: readonly TestRun[];
-    currentEvent: Event | undefined;
+    readonly entrantId: number | undefined;
+    readonly ordinal: number;
+    readonly testRuns: readonly TestRun[];
+    readonly currentEvent: Event | undefined;
 }
 
 const ExportCount: FunctionalComponent<Props> = ({

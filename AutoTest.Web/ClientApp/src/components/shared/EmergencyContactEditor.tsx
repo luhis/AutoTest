@@ -5,8 +5,8 @@ import { EmergencyContact } from "../../types/shared";
 import { OnChange } from "../../types/inputs";
 
 interface Props {
-    emergencyContact: EmergencyContact;
-    setField: (k: EmergencyContact) => void;
+    readonly emergencyContact: EmergencyContact;
+    readonly setField: (k: EmergencyContact) => void;
 }
 
 const EmergencyContactEditor: FunctionComponent<Props> = ({

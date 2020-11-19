@@ -5,15 +5,15 @@ import { FaPlus, FaMinus } from "react-icons/fa";
 import { PenaltyType, Penalty } from "../../types/models";
 
 interface Props {
-    penalties: readonly Penalty[];
-    increase: (a: PenaltyType) => void;
-    decrease: (a: PenaltyType) => void;
+    readonly penalties: readonly Penalty[];
+    readonly increase: (a: PenaltyType) => void;
+    readonly decrease: (a: PenaltyType) => void;
 }
 
 const startCase = (s: string) => s.replace(/([A-Z]+)*([A-Z][a-z])/g, "$1 $2");
 
 const PenaltyItem: FunctionComponent<Readonly<
-    Props & { penaltyType: PenaltyType }
+    Props & { readonly penaltyType: PenaltyType }
 >> = ({ penaltyType, penalties, increase, decrease }) => {
     return (
         <Level>

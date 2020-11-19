@@ -16,13 +16,10 @@ import { GetEventsIfRequired } from "../../store/event/actions";
 import { getNow } from "../../lib/date";
 
 interface Props {
-    eventId: string;
+    readonly eventId: string;
 }
 
-const numToRange = (length: number) =>
-    Array<number>(length)
-        .fill(0)
-        .map((_, i) => i);
+const numToRange = (length: number) => Array<number>(length).map((_, i) => i);
 
 const numberToChar = (n: number) => "abcdefghijklmnopqrstuvwxyz".charAt(n);
 

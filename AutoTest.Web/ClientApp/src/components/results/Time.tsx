@@ -7,9 +7,9 @@ const None: FunctionComponent = () => <span>X</span>;
 
 const startCase = (s: string) => s.replace(/([A-Z]+)*([A-Z][a-z])/g, "$1 $2");
 
-const Penalties: FunctionComponent<{ penalties: readonly Penalty[] }> = ({
-    penalties,
-}) =>
+const Penalties: FunctionComponent<{
+    readonly penalties: readonly Penalty[];
+}> = ({ penalties }) =>
     penalties.length > 0 ? (
         <FaExclamation
             title={penalties
@@ -24,9 +24,9 @@ const Penalties: FunctionComponent<{ penalties: readonly Penalty[] }> = ({
     ) : null;
 
 const Time: FunctionComponent<{
-    times: EntrantTime;
-    ordinal: number;
-    run: number;
+    readonly times: EntrantTime;
+    readonly ordinal: number;
+    readonly run: number;
 }> = ({ times, ordinal, run }) => {
     const testValues = times.times.find((t) => t.ordinal === ordinal);
     if (testValues) {

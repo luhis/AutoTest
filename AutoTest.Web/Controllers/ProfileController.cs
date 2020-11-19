@@ -30,7 +30,11 @@ namespace AutoTest.Web.Controllers
         }
 
         [HttpPut]
-        public Task<string> Save(ProfileSaveModel profile, CancellationToken cancellationToken) =>
-            this.mediator.Send(new SaveProfile(this.User.GetEmailAddress(), MapClub.Map(profile)), cancellationToken);
+        public Task<string> Save(ProfileSaveModel profile, CancellationToken cancellationToken)
+        {
+            var email = this.User.GetEmailAddress();
+            return this.mediator.Send(new SaveProfile(email, MapClub.Map(email, profile)),
+                cancellationToken);
+        }
     }
 }

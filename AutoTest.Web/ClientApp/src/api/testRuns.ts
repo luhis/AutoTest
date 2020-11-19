@@ -11,7 +11,7 @@ export const getTestRuns = async (
             headers: { Authorization: token ? `Bearer ${token}` : "" },
         });
         throwIfNotOk(response);
-        return (await response.json()) as TestRun[];
+        return (await response.json()) as readonly TestRun[];
     }, testId);
 
 export const addTestRun = async (

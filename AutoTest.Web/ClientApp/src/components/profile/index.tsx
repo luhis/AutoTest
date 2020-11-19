@@ -9,13 +9,13 @@ import VehicleEditor from "../shared/VehicleEditor";
 import MembershipList from "../shared/MembershipList";
 
 interface Props {
-    profile: Profile;
-    save: () => Promise<void>;
-    cancel: () => void;
-    setField: (k: Partial<Profile>) => void;
+    readonly profile: Profile;
+    readonly save: () => Promise<void>;
+    readonly cancel: () => void;
+    readonly setField: (k: Partial<Profile>) => void;
 }
 
-const ProfileModal: FunctionComponent<Readonly<Props>> = ({
+const ProfileModal: FunctionComponent<Props> = ({
     save,
     cancel,
     profile,

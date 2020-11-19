@@ -11,7 +11,7 @@ export const getEntrants = async (
             headers: { Authorization: token ? `Bearer ${token}` : "" },
         });
         throwIfNotOk(response);
-        return (await response.json()) as Entrant[];
+        return (await response.json()) as readonly Entrant[];
     }, eventId);
 
 export const addEntrant = async (

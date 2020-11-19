@@ -17,8 +17,8 @@ export type ApiResponse<T> =
 
 export type LoadingState<T> =
     | ApiResponse<T>
-    | { tag: "Loading"; readonly id: number | undefined }
-    | { tag: "Idle" };
+    | { readonly tag: "Loading"; readonly id: number | undefined }
+    | { readonly tag: "Idle" };
 
 export const toApiResponse = async <T>(
     f: () => Promise<T>,

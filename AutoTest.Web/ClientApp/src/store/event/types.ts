@@ -12,8 +12,8 @@ export interface EventState {
     readonly events: LoadingState<readonly Event[]>;
     readonly entrants: LoadingState<readonly Entrant[]>;
     readonly testRuns: readonly (TestRun & {
-        state: TestRunUploadState;
-        eventId: number;
+        readonly state: TestRunUploadState;
+        readonly eventId: number;
     })[];
     readonly testRunsFromServer: LoadingState<readonly TestRun[]>;
     readonly clubs: LoadingState<readonly Club[]>;
@@ -27,33 +27,36 @@ export const ADD_TEST_RUN = "ADD_TEST_RUN";
 export const UPDATE_TEST_RUN_STATE = "UPDATE_TEST_RUN_STATE";
 
 interface GetClubs {
-    type: typeof GET_CLUBS;
-    payload: LoadingState<readonly Club[]>;
+    readonly type: typeof GET_CLUBS;
+    readonly payload: LoadingState<readonly Club[]>;
 }
 
 interface GetEntrants {
-    type: typeof GET_ENTRANTS;
-    payload: LoadingState<readonly Entrant[]>;
+    readonly type: typeof GET_ENTRANTS;
+    readonly payload: LoadingState<readonly Entrant[]>;
 }
 
 interface GetEvents {
-    type: typeof GET_EVENTS;
-    payload: LoadingState<readonly Event[]>;
+    readonly type: typeof GET_EVENTS;
+    readonly payload: LoadingState<readonly Event[]>;
 }
 
 interface GetTestRuns {
-    type: typeof GET_TEST_RUNS;
-    payload: LoadingState<readonly TestRun[]>;
+    readonly type: typeof GET_TEST_RUNS;
+    readonly payload: LoadingState<readonly TestRun[]>;
 }
 
 interface AddTestRun {
-    type: typeof ADD_TEST_RUN;
-    payload: TestRunTemp;
+    readonly type: typeof ADD_TEST_RUN;
+    readonly payload: TestRunTemp;
 }
 
 interface UpdateTestRunState {
-    type: typeof UPDATE_TEST_RUN_STATE;
-    payload: { testRunId: number; state: TestRunUploadState };
+    readonly type: typeof UPDATE_TEST_RUN_STATE;
+    readonly payload: {
+        readonly testRunId: number;
+        readonly state: TestRunUploadState;
+    };
 }
 
 export type EventActionTypes =

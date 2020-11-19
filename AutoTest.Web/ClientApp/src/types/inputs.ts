@@ -3,9 +3,9 @@ export interface OnChange {
 }
 
 export interface OnSelectChange {
-    readonly target: { value: string };
+    readonly target: { readonly value: string };
 }
 
 export interface OnChangeCheck {
-    readonly target: { checked: boolean };
+    readonly target: { readonly checked: boolean };
 }

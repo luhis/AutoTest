@@ -5,8 +5,8 @@ import { Vehicle } from "../../types/shared";
 import { OnChange } from "../../types/inputs";
 
 interface Props {
-    vehicle: Vehicle;
-    setField: (k: Vehicle) => void;
+    readonly vehicle: Vehicle;
+    readonly setField: (k: Vehicle) => void;
 }
 
 const VehicleEditor: FunctionComponent<Props> = ({ vehicle, setField }) => {

@@ -7,8 +7,8 @@ import { Event } from "../../types/models";
 import { LoadingState } from "../../types/loadingState";
 
 interface Props {
-    events: LoadingState<readonly Event[]>;
-    setEditingEvent: (event: Event) => void;
+    readonly events: LoadingState<readonly Event[]>;
+    readonly setEditingEvent: (event: Event) => void;
 }
 
 const List: FunctionComponent<Props> = ({ events, setEditingEvent }) =>

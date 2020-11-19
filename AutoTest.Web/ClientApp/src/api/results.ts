@@ -11,5 +11,5 @@ export const getResults = async (
             headers: { Authorization: token ? `Bearer ${token}` : "" },
         });
         throwIfNotOk(response);
-        return (await response.json()) as Result[];
+        return (await response.json()) as readonly Result[];
     }, eventId);

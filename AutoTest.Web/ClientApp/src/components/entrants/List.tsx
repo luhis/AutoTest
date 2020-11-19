@@ -6,14 +6,11 @@ import { Entrant } from "../../types/models";
 import { LoadingState } from "../../types/loadingState";
 
 interface Props {
-    entrants: LoadingState<readonly Entrant[]>;
-    setEditingEntrant: (entrant: Entrant) => void;
+    readonly entrants: LoadingState<readonly Entrant[]>;
+    readonly setEditingEntrant: (entrant: Entrant) => void;
 }
 
-const List: FunctionalComponent<Readonly<Props>> = ({
-    entrants,
-    setEditingEntrant,
-}) =>
+const List: FunctionalComponent<Props> = ({ entrants, setEditingEntrant }) =>
     ifSome(
         entrants,
         (a) => a.entrantId,

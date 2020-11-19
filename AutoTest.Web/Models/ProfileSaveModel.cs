@@ -4,8 +4,6 @@ namespace AutoTest.Web.Models
 {
     public class ProfileSaveModel
     {
-        public string EmailAddress { get; set; } = string.Empty;
-
         public string GivenName { get; set; } = string.Empty;
 
         public string FamilyName { get; set; } = string.Empty;

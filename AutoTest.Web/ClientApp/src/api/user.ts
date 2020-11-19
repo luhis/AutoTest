@@ -15,9 +15,9 @@ export const getProfile = async (
         type ApiProfile = Override<
             Profile,
             {
-                clubMemberships: readonly Override<
+                readonly clubMemberships: readonly Override<
                     ClubMembership,
-                    { expiry: string }
+                    { readonly expiry: string }
                 >[];
             }
         >;

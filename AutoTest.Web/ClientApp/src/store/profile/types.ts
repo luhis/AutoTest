@@ -8,8 +8,8 @@ export interface ProfileState {
 }
 
 interface GetProfile {
-    type: typeof GET_PROFILE;
-    payload: LoadingState<Profile>;
+    readonly type: typeof GET_PROFILE;
+    readonly payload: LoadingState<Profile>;
 }
 
 export type ProfileActionTypes = GetProfile;
