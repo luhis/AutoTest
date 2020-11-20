@@ -4259,7 +4259,7 @@ eslint-plugin-react@7.21.5:
     resolve "^1.18.1"
     string.prototype.matchall "^4.0.2"
 
-eslint-plugin-ts-immutable@^0.3.0:
+eslint-plugin-ts-immutable@0.3.0:
   version "0.3.0"
   resolved "https://registry.yarnpkg.com/eslint-plugin-ts-immutable/-/eslint-plugin-ts-immutable-0.3.0.tgz#73aae1c6445dc55c644eb7264b8e54815736dcc3"
   integrity sha512-7+A3mpN1w9lrqU/TtVXF33OwANjzsfZxw167KUHS9UsbCBwjUQfCI5ztC0QHsc5vxvwNuy7qscSkhE+Byr7axA==
