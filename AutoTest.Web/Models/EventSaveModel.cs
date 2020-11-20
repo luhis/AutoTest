@@ -18,6 +18,6 @@ namespace AutoTest.Web.Models
 
         public IEnumerable<AuthorisationEmailSaveModel> MarshalEmails { get; set; } = Enumerable.Empty<AuthorisationEmailSaveModel>();
 
-        public byte[] Regulations { get; set; } = Array.Empty<byte>();
+        public string Regulations { get; set; } = string.Empty;
     }
 }

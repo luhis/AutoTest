@@ -3,6 +3,7 @@ import { useEffect, useState } from "preact/hooks";
 import { Title, Table, Breadcrumb } from "rbx";
 import { useDispatch, useSelector } from "react-redux";
 import { HubConnectionBuilder, LogLevel } from "@microsoft/signalr";
+import { range } from "micro-dash";
 
 import { Result } from "../../types/models";
 import { LoadingState, findIfLoaded } from "../../types/loadingState";
@@ -19,11 +20,9 @@ interface Props {
     readonly eventId: string;
 }
 
-const numToRange = (length: number) => Array<number>(length).map((_, i) => i);
-
 const numberToChar = (n: number) => "abcdefghijklmnopqrstuvwxyz".charAt(n);
 
-const Results: FunctionalComponent<Readonly<Props>> = ({ eventId }) => {
+const Results: FunctionalComponent<Props> = ({ eventId }) => {
     const dispatch = useDispatch();
     const auth = useGoogleAuth();
     const eventIdAsNum = Number.parseInt(eventId);
@@ -35,7 +34,7 @@ const Results: FunctionalComponent<Readonly<Props>> = ({ eventId }) => {
         useSelector(selectClubs),
         (a) => a.clubId === currentEvent?.clubId
     );
-    const testRuns = numToRange(
+    const testRuns = range(
         currentEvent !== undefined ? currentEvent.maxAttemptsPerTest : 0
     );
     const [results, setResults] = useState<LoadingState<readonly Result[]>>({

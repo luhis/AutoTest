@@ -124,6 +124,7 @@ const ModalX: FunctionComponent<Props> = ({
                                         : null,
                                 });
                             }}
+                            accept=".pdf"
                         />
                     </Field>
                     <Field>
