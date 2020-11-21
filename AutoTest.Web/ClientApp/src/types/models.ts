@@ -67,7 +67,7 @@ export interface Event {
     readonly maxAttemptsPerTest: number;
     readonly marshalEmails: readonly AuthorisationEmail[];
     readonly tests: readonly Test[];
-    readonly regulations: File | null;
+    readonly regulations: string | null;
 }
 
 export type EditingEvent = Override<

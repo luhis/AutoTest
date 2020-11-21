@@ -16,7 +16,7 @@ namespace AutoTest.Web.Mapping
         public static Event Map(ulong eventId, EventSaveModel @event)
         {
             var e = new Event(eventId, @event.ClubId, @event.Location, @event.StartTime, @event.TestCount,
-                @event.MaxAttemptsPerTest, System.Convert.FromBase64String(@event.Regulations));
+                @event.MaxAttemptsPerTest, @event.Regulations);
             e.SetMarshalEmails(@event.MarshalEmails.Select(a => new AuthorisationEmail(a.Email)).ToArray());
             return e;
         }

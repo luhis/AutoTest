@@ -18,6 +18,7 @@ import {
 } from "../../store/event/actions";
 import { selectEvents, selectClubs } from "../../store/event/selectors";
 import { keySeed } from "../../settings";
+import RegsModal from "../../components/events/RegsModal";
 
 interface Props {
     readonly clubId: string | undefined;
@@ -32,6 +33,7 @@ const Events: FunctionalComponent<Props> = ({ clubId }) => {
     const [editingEvent, setEditingEvent] = useState<EditingEvent | undefined>(
         undefined
     );
+    const [regsId, setRegsId] = useState<Event | undefined>(undefined);
     useEffect(() => {
         dispatch(GetEventsIfRequired());
         dispatch(GetClubsIfRequired(getAccessToken(auth)));
@@ -58,6 +60,7 @@ const Events: FunctionalComponent<Props> = ({ clubId }) => {
                         isClubEditable: clubId === undefined,
                     })
                 }
+                setRegsModal={(a) => setRegsId(a)}
             />
             <Button
                 onClick={() =>
@@ -87,13 +90,15 @@ const Events: FunctionalComponent<Props> = ({ clubId }) => {
                     clubs={clubs}
                     setField={(a: Partial<Event>) => {
                         setEditingEvent((b) => {
-                            const x = { ...b, ...a } as EditingEvent;
-                            return x;
+                            return { ...b, ...a } as EditingEvent;
                         });
                     }}
                     cancel={() => setEditingEvent(undefined)}
                     save={save}
                 />
+            ) : null}
+            {regsId ? (
+                <RegsModal event={regsId} cancel={() => setRegsId(undefined)} />
             ) : null}
         </div>
     );

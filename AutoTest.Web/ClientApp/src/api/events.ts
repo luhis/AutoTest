@@ -1,5 +1,4 @@
 import { parseIsoOrThrow } from "ts-date";
-import PromiseFileReader from "promise-file-reader";
 
 import { Event, Override } from "../types/models";
 import { ApiResponse, toApiResponse } from "../types/loadingState";
@@ -18,20 +17,6 @@ export const getEvents = async (): Promise<ApiResponse<readonly Event[]>> =>
         }));
     });
 
-const extractFileContent = async (file: Blob | null) => {
-    if (file) {
-        const ab = await PromiseFileReader.readAsArrayBuffer(file);
-        return btoa(
-            new Uint8Array(ab).reduce(
-                (data, byte) => data + String.fromCharCode(byte),
-                ""
-            )
-        );
-    } else {
-        return [];
-    }
-};
-
 export const addEvent = async (
     event: Event,
     token: string | undefined
@@ -45,7 +30,7 @@ export const addEvent = async (
         method: "PUT",
         body: JSON.stringify({
             ...rest,
-            regulations: await extractFileContent(regulations),
+            regulations: regulations,
         }),
     });
     throwIfNotOk(response);

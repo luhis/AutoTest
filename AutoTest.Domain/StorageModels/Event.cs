@@ -6,7 +6,7 @@ namespace AutoTest.Domain.StorageModels
 
     public class Event
     {
-        public Event(ulong eventId, ulong clubId, string location, DateTime startTime, int testCount, int maxAttemptsPerTest, byte[] regulations)
+        public Event(ulong eventId, ulong clubId, string location, DateTime startTime, int testCount, int maxAttemptsPerTest, string regulations)
         {
             EventId = eventId;
             ClubId = clubId;
@@ -37,6 +37,6 @@ namespace AutoTest.Domain.StorageModels
 
         public void SetTests(ICollection<Test> tests) => Tests = tests;
 
-        public byte[] Regulations { get; }
+        public string Regulations { get; }
     }
 }

@@ -1,8 +1,9 @@
 import { h, FunctionComponent } from "preact";
 import { Modal, Button, Label, Input, Field, Select } from "rbx";
 import { newValidDateOrThrow } from "ts-date";
+import PromiseFileReader from "promise-file-reader";
 
-import { Event, EditingEvent, Club } from "../../types/models";
+import { EditingEvent, Club } from "../../types/models";
 import { OnChange, OnSelectChange } from "../../types/inputs";
 import EmailList from "../shared/EmailList";
 import { LoadingState } from "../../types/loadingState";
@@ -14,7 +15,7 @@ interface Props {
     readonly clubs: LoadingState<readonly Club[]>;
     readonly save: () => Promise<void>;
     readonly cancel: () => void;
-    readonly setField: (k: Partial<Event>) => void;
+    readonly setField: (k: Partial<EditingEvent>) => void;
 }
 
 const ModalX: FunctionComponent<Props> = ({
@@ -117,10 +118,12 @@ const ModalX: FunctionComponent<Props> = ({
                         <Label>Regulations</Label>
                         <Input
                             type="file"
-                            onChange={(e: OnChange): void => {
+                            onChange={async (e: OnChange): Promise<void> => {
                                 setField({
                                     regulations: e.target.files
-                                        ? e.target.files[0]
+                                        ? await PromiseFileReader.readAsDataURL(
+                                              e.target.files[0]
+                                          )
                                         : null,
                                 });
                             }}

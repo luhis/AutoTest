@@ -9,9 +9,14 @@ import { LoadingState } from "../../types/loadingState";
 interface Props {
     readonly events: LoadingState<readonly Event[]>;
     readonly setEditingEvent: (event: Event) => void;
+    readonly setRegsModal: (event: Event) => void;
 }
 
-const List: FunctionComponent<Props> = ({ events, setEditingEvent }) =>
+const List: FunctionComponent<Props> = ({
+    events,
+    setEditingEvent,
+    setRegsModal,
+}) =>
     ifSome(
         events,
         (a) => a.eventId,
@@ -34,6 +39,7 @@ const List: FunctionComponent<Props> = ({ events, setEditingEvent }) =>
                         <Button onClick={() => route(`/results/${a.eventId}`)}>
                             Results
                         </Button>
+                        <Button onClick={() => setRegsModal(a)}>Regs</Button>
                     </Button.Group>
                 </Column>
             </Column.Group>

@@ -6,6 +6,8 @@ export const throwIfNotOk = (response: Response): void => {
     }
 };
 
-export const getAccessToken = (auth: HookReturnValue): string | undefined => {
-    return auth.googleUser ? auth.googleUser.tokenId : undefined;
+export const getAccessToken = ({
+    googleUser,
+}: HookReturnValue): string | undefined => {
+    return googleUser ? googleUser.tokenId : undefined;
 };

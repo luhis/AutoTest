@@ -190,7 +190,7 @@ namespace AutoTest.Web
                             style.UnsafeInline();
                         }
 
-                        var connect = builder.AddConnectSrc().Self();
+                        var connect = builder.AddConnectSrc().Self().Data();
                         if (env.IsDevelopment())
                         {
                             connect.From("https://localhost:*");
