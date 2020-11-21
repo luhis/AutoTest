@@ -68,7 +68,7 @@
     "lint-staged": "10.5.1",
     "preact-cli": "3.0.3",
     "preact-cli-plugin-env-vars": "1.2.1",
-    "prettier": "2.1.2",
+    "prettier": "2.2.0",
     "sirv-cli": "1.0.8",
     "typescript": "4.1.2"
   }
