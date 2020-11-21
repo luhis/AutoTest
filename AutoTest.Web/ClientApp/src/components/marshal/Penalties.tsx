@@ -12,9 +12,9 @@ interface Props {
 
 const startCase = (s: string) => s.replace(/([A-Z]+)*([A-Z][a-z])/g, "$1 $2");
 
-const PenaltyItem: FunctionComponent<Readonly<
+const PenaltyItem: FunctionComponent<
     Props & { readonly penaltyType: PenaltyType }
->> = ({ penaltyType, penalties, increase, decrease }) => {
+> = ({ penaltyType, penalties, increase, decrease }) => {
     return (
         <Level>
             <Level.Item align="left">

@@ -53,10 +53,10 @@ interface Props {
 
 const uid = UUID(keySeed);
 
-const SyncButton: FunctionalComponent<Readonly<{
+const SyncButton: FunctionalComponent<{
     readonly unSyncedCount: number;
     readonly sync: () => void;
-}>> = ({ unSyncedCount, sync }) =>
+}> = ({ unSyncedCount, sync }) =>
     unSyncedCount > 0 ? (
         <Button onClick={sync}>
             Sync <Tag color="danger">({unSyncedCount})</Tag>
