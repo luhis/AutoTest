@@ -21,13 +21,13 @@ interface Props {
 }
 
 const numberToChar = (n: number) => "abcdefghijklmnopqrstuvwxyz".charAt(n);
-const connection = new HubConnectionBuilder()
-    .withUrl("/resultsHub")
-    .withAutomaticReconnect()
-    .configureLogging(LogLevel.Error)
-    .build();
 
 const Results: FunctionalComponent<Props> = ({ eventId }) => {
+    const connection = new HubConnectionBuilder()
+        .withUrl("/resultsHub")
+        .withAutomaticReconnect()
+        .configureLogging(LogLevel.Error)
+        .build();
     const dispatch = useDispatch();
     const auth = useGoogleAuth();
     const eventIdAsNum = Number.parseInt(eventId);
