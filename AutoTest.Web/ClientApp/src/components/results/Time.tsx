@@ -1,11 +1,10 @@
 import { FunctionComponent, h } from "preact";
 import { FaExclamation } from "react-icons/fa";
 
+import { startCase } from "../../lib/string";
 import { EntrantTime, Penalty, PenaltyType } from "../../types/models";
 
 const None: FunctionComponent = () => <span>X</span>;
-
-const startCase = (s: string) => s.replace(/([A-Z]+)*([A-Z][a-z])/g, "$1 $2");
 
 const Penalties: FunctionComponent<{
     readonly penalties: readonly Penalty[];

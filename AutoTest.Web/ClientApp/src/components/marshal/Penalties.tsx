@@ -2,6 +2,7 @@ import { h, FunctionComponent, Fragment } from "preact";
 import { Label, Button, Level } from "rbx";
 import { FaPlus, FaMinus } from "react-icons/fa";
 
+import { startCase } from "../../lib/string";
 import { PenaltyType, Penalty } from "../../types/models";
 
 interface Props {
@@ -9,8 +10,6 @@ interface Props {
     readonly increase: (a: PenaltyType) => void;
     readonly decrease: (a: PenaltyType) => void;
 }
-
-const startCase = (s: string) => s.replace(/([A-Z]+)*([A-Z][a-z])/g, "$1 $2");
 
 const PenaltyItem: FunctionComponent<
     Props & { readonly penaltyType: PenaltyType }
@@ -50,11 +49,12 @@ const Penalties: FunctionComponent<Readonly<Props>> = ({
         <Fragment>
             <Label>Penalties</Label>
             {Object.keys(PenaltyType)
-                .filter((key) => !isNaN(Number(key)))
+                .map(Number.parseInt)
+                .filter((key) => !isNaN(key))
                 .map((key) => (
                     <PenaltyItem
                         key={key}
-                        penaltyType={Number(key)}
+                        penaltyType={key}
                         increase={increase}
                         decrease={decrease}
                         penalties={penalties}
