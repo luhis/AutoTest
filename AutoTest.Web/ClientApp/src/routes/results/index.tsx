@@ -4,6 +4,7 @@ import { Title, Table, Breadcrumb } from "rbx";
 import { useDispatch, useSelector } from "react-redux";
 import { HubConnectionBuilder, LogLevel } from "@microsoft/signalr";
 import { range } from "micro-dash";
+import { newValidDate } from "ts-date";
 
 import { Result } from "../../types/models";
 import { LoadingState, findIfLoaded } from "../../types/loadingState";
@@ -14,7 +15,6 @@ import Time from "../../components/results/Time";
 import { getAccessToken } from "../../api/api";
 import { selectEvents, selectClubs } from "../../store/event/selectors";
 import { GetEventsIfRequired } from "../../store/event/actions";
-import { getNow } from "../../lib/date";
 
 interface Props {
     readonly eventId: string;
@@ -69,7 +69,7 @@ const Results: FunctionalComponent<Props> = ({ eventId }) => {
                     tag: "Loaded",
                     value: newResults,
                     id: eventIdAsNum,
-                    loaded: getNow(),
+                    loaded: newValidDate(),
                 });
             });
         })();

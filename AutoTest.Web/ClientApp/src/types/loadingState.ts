@@ -1,9 +1,8 @@
-import { ValidDate, addMinutes } from "ts-date";
-import { getNow } from "../lib/date";
+import { ValidDate, addMinutes, newValidDate } from "ts-date";
 
 export const isStale = <T>(response: LoadingState<T>) =>
     response.tag === "Loaded"
-        ? response.loaded < addMinutes(getNow(), -5)
+        ? response.loaded < addMinutes(newValidDate(), -5)
         : false;
 
 export type ApiResponse<T> =
@@ -29,7 +28,7 @@ export const toApiResponse = async <T>(
             tag: "Loaded",
             value: await f(),
             id,
-            loaded: getNow(),
+            loaded: newValidDate(),
         };
     } catch (e) {
         return { tag: "Error", value: "API error" };

@@ -15,9 +15,9 @@ const EmailList: FunctionComponent<Props> = ({ emails, addNew, remove }) => {
     const [newEmail, setNewEmail] = useState("");
     return (
         <Fragment>
-            {emails.map((a, i) => (
-                <Level key={a}>
-                    <Level.Item align="left">{a.email}</Level.Item>
+            {emails.map(({ email }, i) => (
+                <Level key={email}>
+                    <Level.Item align="left">{email}</Level.Item>
                     <Level.Item align="right">
                         <Delete onClick={() => remove(i)} />
                     </Level.Item>

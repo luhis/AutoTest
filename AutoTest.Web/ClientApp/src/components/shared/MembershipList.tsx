@@ -1,7 +1,7 @@
 import { h, FunctionComponent, Fragment } from "preact";
 import { Button, Input, Control, Delete, Field, Level, Label } from "rbx";
 import { useState } from "preact/hooks";
-import { newValidDate, parseIsoOrThrow } from "ts-date";
+import { addYear, newValidDate, parseIsoOrThrow } from "ts-date";
 
 import { OnChange } from "../../types/inputs";
 import { ClubMembership } from "../../types/profileModels";
@@ -13,11 +13,11 @@ interface Props {
     readonly remove: (_: number) => void;
 }
 
-const blankState = {
+const blankState = () => ({
     clubName: "",
     membershipNumber: "",
-    expiry: newValidDate(), //todo maybe
-};
+    expiry: addYear(newValidDate(), 1),
+});
 
 const MembershipList: FunctionComponent<Props> = ({
     memberships,
