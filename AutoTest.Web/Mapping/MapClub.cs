@@ -47,7 +47,7 @@ namespace AutoTest.Web.Mapping
         public static Entrant Map(ulong entrantId, ulong eventId, EntrantSaveModel entrant)
         {
             var e = new Entrant(entrantId, entrant.DriverNumber, entrant.GivenName, entrant.FamilyName, entrant.Class, eventId,
-                entrant.IsPaid);
+                entrant.IsPaid, entrant.Club);
             e.SetVehicle(Map(entrant.Vehicle));
             e.SetEmergencyContact(Map(entrant.EmergencyContact));
             return e;

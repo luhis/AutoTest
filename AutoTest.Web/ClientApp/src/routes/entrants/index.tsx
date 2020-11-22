@@ -4,7 +4,7 @@ import { Title, Button, Breadcrumb } from "rbx";
 import UUID from "uuid-int";
 import { DeepPartial } from "tsdef";
 import { useDispatch, useSelector } from "react-redux";
-import { merge } from "micro-dash";
+import { merge } from "@s-libs/micro-dash";
 
 import { addEntrant } from "../../api/entrants";
 import { Entrant, EditingEntrant } from "../../types/models";
@@ -24,6 +24,7 @@ import {
 } from "../../store/event/selectors";
 import { keySeed } from "../../settings";
 import { findIfLoaded } from "../../types/loadingState";
+import { selectProfile } from "../../store/profile/selectors";
 
 interface Props {
     readonly eventId: string;
@@ -33,6 +34,7 @@ const uid = UUID(keySeed);
 const Events: FunctionalComponent<Readonly<Props>> = ({ eventId }) => {
     const eventIdNum = Number.parseInt(eventId);
     const entrants = useSelector(selectEntrants);
+    const profile = useSelector(selectProfile);
     const currentEvent = findIfLoaded(
         useSelector(selectEvents),
         (a) => a.eventId === eventIdNum
@@ -62,6 +64,34 @@ const Events: FunctionalComponent<Readonly<Props>> = ({ eventId }) => {
             );
             setEditingEntrant(undefined);
             dispatch(GetEntrants(eventIdNum, getAccessToken(auth)));
+        }
+    };
+    const fillFromProfile = () => {
+        if (profile.tag === "Loaded") {
+            const {
+                familyName,
+                givenName,
+                msaLicense,
+                emergencyContact,
+                vehicle,
+                clubMemberships,
+            } = profile.value;
+            const club = clubMemberships.length
+                ? clubMemberships[0].clubName
+                : "";
+            setEditingEntrant((e) =>
+                e
+                    ? {
+                          ...e,
+                          familyName,
+                          givenName,
+                          msaLicense,
+                          emergencyContact,
+                          vehicle,
+                          club,
+                      }
+                    : undefined
+            );
         }
     };
     useEffect(() => {
@@ -107,6 +137,7 @@ const Events: FunctionalComponent<Readonly<Props>> = ({ eventId }) => {
                             name: "",
                             phone: "",
                         },
+                        club: "",
                     })
                 }
             >
@@ -126,6 +157,7 @@ const Events: FunctionalComponent<Readonly<Props>> = ({ eventId }) => {
                     }}
                     cancel={() => setEditingEntrant(undefined)}
                     save={save}
+                    fillFromProfile={fillFromProfile}
                 />
             ) : null}
         </div>

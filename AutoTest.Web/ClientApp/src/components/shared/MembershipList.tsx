@@ -4,8 +4,8 @@ import { useState } from "preact/hooks";
 import { addYear, newValidDate, parseIsoOrThrow } from "ts-date";
 
 import { OnChange } from "../../types/inputs";
-import { ClubMembership } from "../../types/profileModels";
 import { getDateString } from "../../lib/date";
+import { ClubMembership } from "../../types/shared";
 
 interface Props {
     readonly memberships: readonly ClubMembership[];

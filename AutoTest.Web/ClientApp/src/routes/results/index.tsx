@@ -3,7 +3,7 @@ import { useEffect, useState } from "preact/hooks";
 import { Title, Table, Breadcrumb } from "rbx";
 import { useDispatch, useSelector } from "react-redux";
 import { HubConnectionBuilder, LogLevel } from "@microsoft/signalr";
-import { range } from "micro-dash";
+import { range } from "@s-libs/micro-dash";
 import { newValidDate } from "ts-date";
 
 import { Result } from "../../types/models";
@@ -77,7 +77,7 @@ const Results: FunctionalComponent<Props> = ({ eventId }) => {
             await connection.invoke("LeaveEvent", eventIdAsNum);
             await connection.stop();
         };
-    }, [eventIdAsNum]);
+    }, [connection, eventIdAsNum]);
 
     return (
         <div>

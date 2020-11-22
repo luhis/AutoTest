@@ -1277,6 +1277,14 @@
     estree-walker "^1.0.1"
     picomatch "^2.2.2"
 
+"@s-libs/micro-dash@^11.0.0-next.0":
+  version "11.0.0-next.0"
+  resolved "https://registry.yarnpkg.com/@s-libs/micro-dash/-/micro-dash-11.0.0-next.0.tgz#0f6c6a183725b30bb463d5535bcb916acfb54c8d"
+  integrity sha512-KBycXRW864FHxYuTeGIH1u9eErmdJPHuBtr+B/tdYiT239C2CMgCXAQ5TTPUuqV9xA8Be788U8YqsNC66TglBw==
+  dependencies:
+    tslib "^2.0.0"
+    utility-types "^3.10.0"
+
 "@sindresorhus/is@^0.14.0":
   version "0.14.0"
   resolved "https://registry.yarnpkg.com/@sindresorhus/is/-/is-0.14.0.tgz#9fb3a3cf3132328151f353de4632e01e52102bea"
@@ -7173,14 +7181,6 @@ methods@~1.1.2:
   resolved "https://registry.yarnpkg.com/methods/-/methods-1.1.2.tgz#5529a4d67654134edcc5266656835b0f851afcee"
   integrity sha1-VSmk1nZUE07cxSZmVoNbD4Ua/O4=
 
-micro-dash@8.1.0:
-  version "8.1.0"
-  resolved "https://registry.yarnpkg.com/micro-dash/-/micro-dash-8.1.0.tgz#df83796224c10456c5c44bca80329908b645058d"
-  integrity sha512-FieSaCyErxoYCN12fYcat+y6E9s/s/ZChdtZi9iHAhqasaYHRq6yvQ1waSfHbS0A+Vsy82ABIoQmmzS3rwi3XA==
-  dependencies:
-    tslib "^2.0.0"
-    utility-types "~3.10.0"
-
 microevent.ts@~0.1.1:
   version "0.1.1"
   resolved "https://registry.yarnpkg.com/microevent.ts/-/microevent.ts-0.1.1.tgz#70b09b83f43df5172d0205a63025bce0f7357fa0"
@@ -10997,7 +10997,7 @@ utila@^0.4.0, utila@~0.4:
   resolved "https://registry.yarnpkg.com/utila/-/utila-0.4.0.tgz#8a16a05d445657a3aea5eecc5b12a4fa5379772c"
   integrity sha1-ihagXURWV6Oupe7MWxKk+lN5dyw=
 
-utility-types@~3.10.0:
+utility-types@^3.10.0:
   version "3.10.0"
   resolved "https://registry.yarnpkg.com/utility-types/-/utility-types-3.10.0.tgz#ea4148f9a741015f05ed74fd615e1d20e6bed82b"
   integrity sha512-O11mqxmi7wMKCo6HKFt5AhO4BwY3VV68YU07tgxfz8zJTIxr4BpsezN49Ffwy9j3ZpwwJp4fkRwjRzq3uWE6Rg==

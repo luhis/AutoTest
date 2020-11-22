@@ -1,8 +1,10 @@
-import { ClubMembership, Profile } from "../types/profileModels";
+import { parseIsoOrThrow } from "ts-date";
+
+import { Profile } from "../types/profileModels";
 import { ApiResponse, toApiResponse } from "../types/loadingState";
+import { ClubMembership } from "../types/shared";
 import { throwIfNotOk } from "./api";
 import { Override } from "../types/models";
-import { parseIsoOrThrow } from "ts-date";
 
 export const getProfile = async (
     token: string | undefined

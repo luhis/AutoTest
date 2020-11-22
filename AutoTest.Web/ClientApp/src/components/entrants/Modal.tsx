@@ -15,6 +15,7 @@ interface Props {
     readonly save: () => Promise<void>;
     readonly cancel: () => void;
     readonly setField: (k: DeepPartial<Omit<Entrant, "driverNumber">>) => void;
+    readonly fillFromProfile: () => void;
 }
 
 const EntrantsModal: FunctionComponent<Props> = ({
@@ -22,6 +23,7 @@ const EntrantsModal: FunctionComponent<Props> = ({
     cancel,
     entrant,
     setField,
+    fillFromProfile,
 }) => {
     const classesInUse = useSelector(selectClassOptions).filter(
         (c) => c.startsWith(entrant.class) && c !== entrant.class
@@ -108,6 +110,11 @@ const EntrantsModal: FunctionComponent<Props> = ({
                     <Button color="primary" onClick={save}>
                         Save changes
                     </Button>
+                    {entrant.isNew ? (
+                        <Button color="secondary" onClick={fillFromProfile}>
+                            Fill from Profile
+                        </Button>
+                    ) : null}
                     <Button color="secondary" onClick={cancel}>
                         Close
                     </Button>

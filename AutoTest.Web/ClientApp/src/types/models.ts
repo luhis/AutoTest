@@ -88,6 +88,7 @@ export interface Entrant {
     readonly msaLicense: string;
     readonly vehicle: Vehicle;
     readonly emergencyContact: EmergencyContact;
+    readonly club: string;
 }
 
 export type EditingEntrant = Omit<Entrant, "driverNumber"> & {

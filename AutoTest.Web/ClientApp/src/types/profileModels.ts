@@ -1,6 +1,4 @@
-import { ValidDate } from "ts-date";
-
-import { EmergencyContact, Vehicle } from "./shared";
+import { ClubMembership, EmergencyContact, Vehicle } from "./shared";
 
 export interface Profile {
     readonly profileId: number;
@@ -10,12 +8,6 @@ export interface Profile {
     readonly vehicle: Vehicle;
     readonly emergencyContact: EmergencyContact;
     readonly clubMemberships: readonly ClubMembership[];
-}
-
-export interface ClubMembership {
-    readonly clubName: string;
-    readonly membershipNumber: string;
-    readonly expiry: ValidDate;
 }
 
 export interface Access {
