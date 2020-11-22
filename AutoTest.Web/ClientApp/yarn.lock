@@ -1277,7 +1277,7 @@
     estree-walker "^1.0.1"
     picomatch "^2.2.2"
 
-"@s-libs/micro-dash@^11.0.0-next.0":
+"@s-libs/micro-dash@11.0.0-next.0":
   version "11.0.0-next.0"
   resolved "https://registry.yarnpkg.com/@s-libs/micro-dash/-/micro-dash-11.0.0-next.0.tgz#0f6c6a183725b30bb463d5535bcb916acfb54c8d"
   integrity sha512-KBycXRW864FHxYuTeGIH1u9eErmdJPHuBtr+B/tdYiT239C2CMgCXAQ5TTPUuqV9xA8Be788U8YqsNC66TglBw==
@@ -8720,12 +8720,7 @@ prettier-linter-helpers@^1.0.0:
   dependencies:
     fast-diff "^1.1.2"
 
-prettier@*:
-  version "2.1.2"
-  resolved "https://registry.yarnpkg.com/prettier/-/prettier-2.1.2.tgz#3050700dae2e4c8b67c4c3f666cdb8af405e1ce5"
-  integrity sha512-16c7K+x4qVlJg9rEbXl7HEGmQyZlG4R9AgP+oHKRMsMsuk8s+ATStlf1NpDqyBI1HpVyfjLOeMhH2LvuNvV5Vg==
-
-prettier@2.2.0:
+prettier@*, prettier@2.2.0:
   version "2.2.0"
   resolved "https://registry.yarnpkg.com/prettier/-/prettier-2.2.0.tgz#8a03c7777883b29b37fb2c4348c66a78e980418b"
   integrity sha512-yYerpkvseM4iKD/BXLYUkQV5aKt4tQPqaGW6EsZjzyu0r7sVZZNPJW4Y8MyKmicp6t42XUPcBVA+H6sB3gqndw==
