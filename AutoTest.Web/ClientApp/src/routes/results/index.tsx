@@ -21,6 +21,11 @@ interface Props {
 }
 
 const numberToChar = (n: number) => "abcdefghijklmnopqrstuvwxyz".charAt(n);
+const connection = new HubConnectionBuilder()
+    .withUrl("/resultsHub")
+    .withAutomaticReconnect()
+    .configureLogging(LogLevel.Error)
+    .build();
 
 const Results: FunctionalComponent<Props> = ({ eventId }) => {
     const dispatch = useDispatch();
@@ -55,11 +60,6 @@ const Results: FunctionalComponent<Props> = ({ eventId }) => {
         dispatch(GetEventsIfRequired());
     }, [eventIdAsNum, dispatch, auth]);
 
-    const connection = new HubConnectionBuilder()
-        .withUrl(`/resultsHub`)
-        .withAutomaticReconnect()
-        .configureLogging(LogLevel.Error)
-        .build();
     useEffect(() => {
         void (async () => {
             await connection.start().catch(console.error);
@@ -77,7 +77,7 @@ const Results: FunctionalComponent<Props> = ({ eventId }) => {
             await connection.invoke("LeaveEvent", eventIdAsNum);
             await connection.stop();
         };
-    }, [connection, eventIdAsNum]);
+    }, [eventIdAsNum]);
 
     return (
         <div>
