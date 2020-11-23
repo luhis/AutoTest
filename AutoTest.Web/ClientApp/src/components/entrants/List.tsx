@@ -8,9 +8,14 @@ import { LoadingState } from "../../types/loadingState";
 interface Props {
     readonly entrants: LoadingState<readonly Entrant[]>;
     readonly setEditingEntrant: (entrant: Entrant) => void;
+    readonly markPaid: (entrantId: number, isPaid: boolean) => Promise<void>;
 }
 
-const List: FunctionalComponent<Props> = ({ entrants, setEditingEntrant }) =>
+const List: FunctionalComponent<Props> = ({
+    entrants,
+    setEditingEntrant,
+    markPaid,
+}) =>
     ifSome(
         entrants,
         (a) => a.entrantId,
@@ -21,8 +26,20 @@ const List: FunctionalComponent<Props> = ({ entrants, setEditingEntrant }) =>
                 </Column>
                 <Column>{a.vehicle.registration}</Column>
                 <Column>{`${a.givenName} ${a.familyName}`}</Column>
+                <Column>{a.isPaid ? "Paid" : "Unpaid"}</Column>
                 <Column>
                     <Button.Group>
+                        {a.isPaid ? (
+                            <Button
+                                onClick={() => markPaid(a.entrantId, false)}
+                            >
+                                Mark Unpaid
+                            </Button>
+                        ) : (
+                            <Button onClick={() => markPaid(a.entrantId, true)}>
+                                Mark Paid
+                            </Button>
+                        )}
                         <Button onClick={() => setEditingEntrant(a)}>
                             Edit
                         </Button>

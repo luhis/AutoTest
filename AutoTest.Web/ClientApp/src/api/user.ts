@@ -5,13 +5,14 @@ import { ApiResponse, toApiResponse } from "../types/loadingState";
 import { ClubMembership } from "../types/shared";
 import { throwIfNotOk } from "./api";
 import { Override } from "../types/models";
+import { getBearerHeader, getHeaders } from "./headers";
 
 export const getProfile = async (
     token: string | undefined
 ): Promise<ApiResponse<Profile>> =>
     toApiResponse(async () => {
         const response = await fetch("/api/profile", {
-            headers: { Authorization: token ? `Bearer ${token}` : "" },
+            headers: getBearerHeader(token),
         });
         throwIfNotOk(response);
         type ApiProfile = Override<
@@ -40,10 +41,7 @@ export const saveProfile = async (
     token: string | undefined
 ): Promise<void> => {
     const response = await fetch(`/api/profile/`, {
-        headers: {
-            "Content-Type": "application/json",
-            Authorization: token ? `Bearer ${token}` : "",
-        },
+        headers: getHeaders(token),
         method: "PUT",
         body: JSON.stringify(profile),
     });

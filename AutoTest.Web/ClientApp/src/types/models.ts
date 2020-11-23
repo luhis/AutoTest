@@ -89,6 +89,7 @@ export interface Entrant {
     readonly vehicle: Vehicle;
     readonly emergencyContact: EmergencyContact;
     readonly club: string;
+    readonly isPaid: boolean;
 }
 
 export type EditingEntrant = Omit<Entrant, "driverNumber"> & {

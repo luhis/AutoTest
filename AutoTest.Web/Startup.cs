@@ -190,7 +190,7 @@ namespace AutoTest.Web
                             style.UnsafeInline();
                         }
 
-                        var connect = builder.AddConnectSrc().Self().Data();
+                        var connect = builder.AddConnectSrc().Self().From(googleCom);
                         if (env.IsDevelopment())
                         {
                             connect.From("https://localhost:*");

@@ -3,6 +3,7 @@ import { parseIsoOrThrow } from "ts-date";
 import { Event, Override } from "../types/models";
 import { ApiResponse, toApiResponse } from "../types/loadingState";
 import { throwIfNotOk } from "./api";
+import { getHeaders } from "./headers";
 
 export const getEvents = async (): Promise<ApiResponse<readonly Event[]>> =>
     toApiResponse(async () => {
@@ -21,17 +22,11 @@ export const addEvent = async (
     event: Event,
     token: string | undefined
 ): Promise<void> => {
-    const { eventId, regulations, ...rest } = event;
+    const { eventId, ...rest } = event;
     const response = await fetch(`/api/events/${eventId}`, {
-        headers: {
-            "Content-Type": "application/json",
-            Authorization: token ? `Bearer ${token}` : "",
-        },
+        headers: getHeaders(token),
         method: "PUT",
-        body: JSON.stringify({
-            ...rest,
-            regulations: regulations,
-        }),
+        body: JSON.stringify(rest),
     });
     throwIfNotOk(response);
 };

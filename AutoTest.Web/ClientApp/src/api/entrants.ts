@@ -1,6 +1,7 @@
 import { Entrant } from "../types/models";
 import { ApiResponse, toApiResponse } from "../types/loadingState";
 import { throwIfNotOk } from "./api";
+import { getBearerHeader, getHeaders } from "./headers";
 
 export const getEntrants = async (
     eventId: number,
@@ -8,7 +9,7 @@ export const getEntrants = async (
 ): Promise<ApiResponse<readonly Entrant[]>> =>
     toApiResponse(async () => {
         const response = await fetch(`/api/entrants/${eventId}`, {
-            headers: { Authorization: token ? `Bearer ${token}` : "" },
+            headers: getBearerHeader(token),
         });
         throwIfNotOk(response);
         return (await response.json()) as readonly Entrant[];
@@ -20,12 +21,26 @@ export const addEntrant = async (
 ): Promise<void> => {
     const { entrantId, eventId, ...rest } = entrant;
     const response = await fetch(`/api/entrants/${eventId}/${entrantId}`, {
-        headers: {
-            "Content-Type": "application/json",
-            Authorization: token ? `Bearer ${token}` : "",
-        },
+        headers: getHeaders(token),
         method: "PUT",
         body: JSON.stringify(rest),
     });
+    throwIfNotOk(response);
+};
+
+export const markPaid = async (
+    eventId: number,
+    entrantId: number,
+    isPaid: boolean,
+    token: string | undefined
+): Promise<void> => {
+    const response = await fetch(
+        `/api/entrants/${eventId}/${entrantId}/markPaid`,
+        {
+            headers: getHeaders(token),
+            method: "PUT",
+            body: JSON.stringify(isPaid),
+        }
+    );
     throwIfNotOk(response);
 };

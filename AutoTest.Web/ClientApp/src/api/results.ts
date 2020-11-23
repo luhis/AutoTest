@@ -1,6 +1,7 @@
 import { Result } from "../types/models";
 import { ApiResponse, toApiResponse } from "../types/loadingState";
 import { throwIfNotOk } from "./api";
+import { getBearerHeader } from "./headers";
 
 export const getResults = async (
     eventId: number,
@@ -8,7 +9,7 @@ export const getResults = async (
 ): Promise<ApiResponse<readonly Result[]>> =>
     toApiResponse(async () => {
         const response = await fetch(`/api/results/${eventId}`, {
-            headers: { Authorization: token ? `Bearer ${token}` : "" },
+            headers: getBearerHeader(token),
         });
         throwIfNotOk(response);
         return (await response.json()) as readonly Result[];

@@ -2,6 +2,7 @@ import { h, FunctionComponent } from "preact";
 import { Modal, Button } from "rbx";
 import save from "save-file";
 
+import { getDateString } from "../../lib/date";
 import { Event } from "../../types/models";
 
 interface Props {
@@ -18,7 +19,14 @@ const RegsModal: FunctionComponent<Props> = ({ event, cancel }) => {
                 <Modal.Card.Body>
                     {event.regulations ? (
                         <Button
-                            onClick={() => save(event.regulations, "regs.pdf")}
+                            onClick={() =>
+                                save(
+                                    event.regulations,
+                                    `${event.location}-${getDateString(
+                                        event.startTime
+                                    )}-regs.pdf`
+                                )
+                            }
                         >
                             Download
                         </Button>

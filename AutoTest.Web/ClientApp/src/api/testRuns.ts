@@ -1,6 +1,7 @@
 import { TestRun } from "../types/models";
 import { ApiResponse, toApiResponse } from "../types/loadingState";
 import { throwIfNotOk } from "./api";
+import { getBearerHeader, getHeaders } from "./headers";
 
 export const getTestRuns = async (
     testId: number,
@@ -8,7 +9,7 @@ export const getTestRuns = async (
 ): Promise<ApiResponse<readonly TestRun[]>> =>
     toApiResponse(async () => {
         const response = await fetch(`/api/testRuns/${testId}`, {
-            headers: { Authorization: token ? `Bearer ${token}` : "" },
+            headers: getBearerHeader(token),
         });
         throwIfNotOk(response);
         return (await response.json()) as readonly TestRun[];
@@ -27,10 +28,7 @@ export const addTestRun = async (
             {
                 method: "PUT",
                 body: JSON.stringify(rest),
-                headers: {
-                    "Content-Type": "application/json",
-                    Authorization: token ? `Bearer ${token}` : "",
-                },
+                headers: getHeaders(token),
             }
         );
         throwIfNotOk(response);
