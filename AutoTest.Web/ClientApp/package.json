@@ -24,7 +24,7 @@
   ],
   "dependencies": {
     "@microsoft/signalr-protocol-msgpack": "5.0.0",
-    "@s-libs/micro-dash": "11.0.0-next.0",
+    "@s-libs/micro-dash": "11.0.0",
     "@types/enzyme": "3.10.8",
     "@types/react": "file:./src/types/fake-empty",
     "@types/react-redux": "7.1.11",
