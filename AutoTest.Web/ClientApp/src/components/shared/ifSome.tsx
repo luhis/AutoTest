@@ -19,7 +19,7 @@ const ifSome = <T,>(
                     </Fragment>
                 );
             } else {
-                return <span>No Data</span>;
+                return <div>No Data</div>;
             }
         }
         case "Loading":

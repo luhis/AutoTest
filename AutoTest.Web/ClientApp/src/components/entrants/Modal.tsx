@@ -55,6 +55,15 @@ const EntrantsModal: FunctionComponent<Props> = ({
                         />
                     </Field>
                     <Field>
+                        <Label>Club</Label>
+                        <Input
+                            value={entrant.club}
+                            onChange={(e: OnChange): void =>
+                                setField({ club: e.target.value })
+                            }
+                        />
+                    </Field>
+                    <Field>
                         <Label>MSA License</Label>
                         <Input
                             value={entrant.msaLicense}

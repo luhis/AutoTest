@@ -7,6 +7,7 @@ import {
     GET_EVENTS,
     GET_CLUBS,
     SET_PAID,
+    DELETE_ENTRANT,
 } from "./types";
 import { Entrant, TestRunUploadState } from "../../types/models";
 import { LoadingState } from "src/types/loadingState";
@@ -19,21 +20,28 @@ const initialState: EventState = {
     clubs: { tag: "Idle" },
 };
 
+const ifLoaded = (
+    entrants: LoadingState<readonly Entrant[]>,
+    f: (_: readonly Entrant[]) => readonly Entrant[]
+) => {
+    if (entrants.tag === "Loaded") {
+        return {
+            tag: "Loaded",
+            value: f(entrants.value),
+        } as LoadingState<readonly Entrant[]>;
+    } else {
+        return entrants;
+    }
+};
+
 const setPaid = (
     entrants: LoadingState<readonly Entrant[]>,
     entrantId: number,
     isPaid: boolean
 ): LoadingState<readonly Entrant[]> => {
-    if (entrants.tag === "Loaded") {
-        return {
-            tag: "Loaded",
-            value: entrants.value.map((e) =>
-                e.entrantId === entrantId ? { ...e, isPaid: isPaid } : e
-            ) as readonly Entrant[],
-        } as LoadingState<readonly Entrant[]>;
-    } else {
-        return entrants;
-    }
+    return ifLoaded(entrants, (v) =>
+        v.map((e) => (e.entrantId === entrantId ? { ...e, isPaid: isPaid } : e))
+    );
 };
 
 export const eventReducer = (
@@ -58,6 +66,16 @@ export const eventReducer = (
                     state.entrants,
                     action.payload.entrantId,
                     action.payload.isPaid
+                ),
+            };
+        case DELETE_ENTRANT:
+            return {
+                ...state,
+                entrants: ifLoaded(state.entrants, (v) =>
+                    v.filter(
+                        ({ entrantId }) =>
+                            entrantId !== action.payload.entrantId
+                    )
                 ),
             };
         case GET_EVENTS:

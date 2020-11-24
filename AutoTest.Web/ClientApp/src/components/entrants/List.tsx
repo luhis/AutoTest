@@ -9,12 +9,14 @@ interface Props {
     readonly entrants: LoadingState<readonly Entrant[]>;
     readonly setEditingEntrant: (entrant: Entrant) => void;
     readonly markPaid: (entrant: Entrant, isPaid: boolean) => void;
+    readonly deleteEntrant: (entrant: Entrant) => void;
 }
 
 const List: FunctionalComponent<Props> = ({
     entrants,
     setEditingEntrant,
     markPaid,
+    deleteEntrant,
 }) =>
     ifSome(
         entrants,
@@ -41,6 +43,7 @@ const List: FunctionalComponent<Props> = ({
                         <Button onClick={() => setEditingEntrant(a)}>
                             Edit
                         </Button>
+                        <Button onClick={() => deleteEntrant(a)}>Delete</Button>
                     </Button.Group>
                 </Column>
             </Column.Group>

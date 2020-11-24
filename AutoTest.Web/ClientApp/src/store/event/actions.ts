@@ -9,9 +9,10 @@ import {
     GET_EVENTS,
     GET_CLUBS,
     SET_PAID,
+    DELETE_ENTRANT,
 } from "./types";
 import { TestRunUploadState, TestRunTemp, Entrant } from "../../types/models";
-import { getEntrants, markPaid } from "../../api/entrants";
+import { deleteEntrant, getEntrants, markPaid } from "../../api/entrants";
 import { AppState } from "..";
 import { addTestRun, getTestRuns } from "../../api/testRuns";
 import { requiresLoading, idsMatch, isStale } from "../../types/loadingState";
@@ -138,6 +139,17 @@ export const SetPaid = (
     dispatch({
         type: SET_PAID,
         payload: { entrantId, isPaid },
+    });
+};
+
+export const DeleteEntrant = (
+    { eventId, entrantId }: Entrant,
+    token: string | undefined
+) => async (dispatch: Dispatch<EventActionTypes>) => {
+    await deleteEntrant(eventId, entrantId, token);
+    dispatch({
+        type: DELETE_ENTRANT,
+        payload: { entrantId },
     });
 };
 

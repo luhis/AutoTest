@@ -44,3 +44,15 @@ export const markPaid = async (
     );
     throwIfNotOk(response);
 };
+
+export const deleteEntrant = async (
+    eventId: number,
+    entrantId: number,
+    token: string | undefined
+): Promise<void> => {
+    const response = await fetch(`/api/entrants/${eventId}/${entrantId}/`, {
+        headers: getBearerHeader(token),
+        method: "DELETE",
+    });
+    throwIfNotOk(response);
+};

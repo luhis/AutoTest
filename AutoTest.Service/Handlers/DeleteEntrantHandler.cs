@@ -7,20 +7,20 @@ using Microsoft.EntityFrameworkCore;
 
 namespace AutoTest.Service.Handlers
 {
-    public class MarkPaidHandler : IRequestHandler<MarkPaid>
+    public class DeleteEntrantHandler : IRequestHandler<DeleteEntrant>
     {
         private readonly AutoTestContext _autoTestContext;
 
-        public MarkPaidHandler(AutoTestContext autoTestContext)
+        public DeleteEntrantHandler(AutoTestContext autoTestContext)
         {
             _autoTestContext = autoTestContext;
         }
 
 
-        async Task<Unit> IRequestHandler<MarkPaid, Unit>.Handle(MarkPaid request, CancellationToken cancellationToken)
+        async Task<Unit> IRequestHandler<DeleteEntrant, Unit>.Handle(DeleteEntrant request, CancellationToken cancellationToken)
         {
             var found = await this._autoTestContext.Entrants!.SingleAsync(a => a.EntrantId == request.EntrantId, cancellationToken);
-            this._autoTestContext.Entrants!.Update(found);
+            this._autoTestContext.Entrants!.Remove(found);
             await this._autoTestContext.SaveChangesAsync(cancellationToken);
             return Unit.Value;
         }

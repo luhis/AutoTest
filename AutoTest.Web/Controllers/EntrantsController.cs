@@ -34,5 +34,9 @@ namespace AutoTest.Web.Controllers
         [Authorize(policy: Policies.ClubAdmin)]
         [HttpPut("{eventId}/{entrantId}/markPaid")]
         public Task MarkPaid(ulong entrantId, bool isPaid) => this.mediator.Send(new MarkPaid(entrantId, isPaid));
+
+        [Authorize(policy: Policies.ClubAdmin)]
+        [HttpDelete("{eventId}/{entrantId}")]
+        public Task Delete(ulong entrantId) => this.mediator.Send(new DeleteEntrant(entrantId));
     }
 }

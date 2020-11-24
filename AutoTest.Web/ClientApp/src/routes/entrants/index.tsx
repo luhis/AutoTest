@@ -17,6 +17,7 @@ import {
     GetEntrants,
     GetClubsIfRequired,
     SetPaid,
+    DeleteEntrant,
 } from "../../store/event/actions";
 import {
     selectEntrants,
@@ -57,7 +58,9 @@ const Events: FunctionalComponent<Readonly<Props>> = ({ eventId }) => {
                     driverNumber:
                         entrants.tag === "Loaded"
                             ? Math.max(
-                                  ...entrants.value.map((a) => a.driverNumber)
+                                  ...entrants.value
+                                      .map((a) => a.driverNumber)
+                                      .concat(0)
                               ) + 1
                             : -1,
                 },
@@ -98,6 +101,9 @@ const Events: FunctionalComponent<Readonly<Props>> = ({ eventId }) => {
     const setPaid = (entrant: Entrant, isPaid: boolean) => {
         dispatch(SetPaid(entrant, isPaid, getAccessToken(auth)));
     };
+    const deleteEntrant = (entrant: Entrant) => {
+        dispatch(DeleteEntrant(entrant, getAccessToken(auth)));
+    };
     useEffect(() => {
         dispatch(GetClubsIfRequired(getAccessToken(auth)));
         dispatch(GetEntrantsIfRequired(eventIdNum, getAccessToken(auth)));
@@ -120,6 +126,7 @@ const Events: FunctionalComponent<Readonly<Props>> = ({ eventId }) => {
                     setEditingEntrant({ ...a, isNew: false })
                 }
                 markPaid={setPaid}
+                deleteEntrant={deleteEntrant}
             />
             <Button
                 onClick={() =>
@@ -155,7 +162,7 @@ const Events: FunctionalComponent<Readonly<Props>> = ({ eventId }) => {
                     setField={(a: DeepPartial<Entrant>) => {
                         setEditingEntrant((b) => {
                             if (b !== undefined) {
-                                return merge(b, a);
+                                return merge({ ...b }, a);
                             } else {
                                 return b;
                             }
