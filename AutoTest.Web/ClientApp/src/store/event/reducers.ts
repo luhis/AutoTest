@@ -6,8 +6,10 @@ import {
     UPDATE_TEST_RUN_STATE,
     GET_EVENTS,
     GET_CLUBS,
+    SET_PAID,
 } from "./types";
-import { TestRunUploadState } from "../../types/models";
+import { Entrant, TestRunUploadState } from "../../types/models";
+import { LoadingState } from "src/types/loadingState";
 
 const initialState: EventState = {
     entrants: { tag: "Idle" },
@@ -15,6 +17,23 @@ const initialState: EventState = {
     testRunsFromServer: { tag: "Idle" },
     events: { tag: "Idle" },
     clubs: { tag: "Idle" },
+};
+
+const setPaid = (
+    entrants: LoadingState<readonly Entrant[]>,
+    entrantId: number,
+    isPaid: boolean
+): LoadingState<readonly Entrant[]> => {
+    if (entrants.tag === "Loaded") {
+        return {
+            tag: "Loaded",
+            value: entrants.value.map((e) =>
+                e.entrantId === entrantId ? { ...e, isPaid: isPaid } : e
+            ) as readonly Entrant[],
+        } as LoadingState<readonly Entrant[]>;
+    } else {
+        return entrants;
+    }
 };
 
 export const eventReducer = (
@@ -31,6 +50,15 @@ export const eventReducer = (
             return {
                 ...state,
                 entrants: action.payload,
+            };
+        case SET_PAID:
+            return {
+                ...state,
+                entrants: setPaid(
+                    state.entrants,
+                    action.payload.entrantId,
+                    action.payload.isPaid
+                ),
             };
         case GET_EVENTS:
             return {

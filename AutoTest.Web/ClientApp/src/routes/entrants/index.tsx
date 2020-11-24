@@ -6,7 +6,7 @@ import { DeepPartial } from "tsdef";
 import { useDispatch, useSelector } from "react-redux";
 import { merge } from "@s-libs/micro-dash";
 
-import { addEntrant, markPaid } from "../../api/entrants";
+import { addEntrant } from "../../api/entrants";
 import { Entrant, EditingEntrant } from "../../types/models";
 import { useGoogleAuth } from "../../components/app";
 import { getAccessToken } from "../../api/api";
@@ -16,6 +16,7 @@ import {
     GetEntrantsIfRequired,
     GetEntrants,
     GetClubsIfRequired,
+    SetPaid,
 } from "../../store/event/actions";
 import {
     selectEntrants,
@@ -94,8 +95,8 @@ const Events: FunctionalComponent<Readonly<Props>> = ({ eventId }) => {
             );
         }
     };
-    const setPaid = (entrantId: number, isPaid: boolean) => {
-        return markPaid(eventIdNum, entrantId, isPaid, getAccessToken(auth));
+    const setPaid = (entrant: Entrant, isPaid: boolean) => {
+        dispatch(SetPaid(entrant, isPaid, getAccessToken(auth)));
     };
     useEffect(() => {
         dispatch(GetClubsIfRequired(getAccessToken(auth)));

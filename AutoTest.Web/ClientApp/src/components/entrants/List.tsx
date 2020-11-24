@@ -8,7 +8,7 @@ import { LoadingState } from "../../types/loadingState";
 interface Props {
     readonly entrants: LoadingState<readonly Entrant[]>;
     readonly setEditingEntrant: (entrant: Entrant) => void;
-    readonly markPaid: (entrantId: number, isPaid: boolean) => Promise<void>;
+    readonly markPaid: (entrant: Entrant, isPaid: boolean) => void;
 }
 
 const List: FunctionalComponent<Props> = ({
@@ -30,13 +30,11 @@ const List: FunctionalComponent<Props> = ({
                 <Column>
                     <Button.Group>
                         {a.isPaid ? (
-                            <Button
-                                onClick={() => markPaid(a.entrantId, false)}
-                            >
+                            <Button onClick={() => markPaid(a, false)}>
                                 Mark Unpaid
                             </Button>
                         ) : (
-                            <Button onClick={() => markPaid(a.entrantId, true)}>
+                            <Button onClick={() => markPaid(a, true)}>
                                 Mark Paid
                             </Button>
                         )}

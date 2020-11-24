@@ -8,9 +8,10 @@ import {
     GET_TEST_RUNS,
     GET_EVENTS,
     GET_CLUBS,
+    SET_PAID,
 } from "./types";
-import { TestRunUploadState, TestRunTemp } from "../../types/models";
-import { getEntrants } from "../../api/entrants";
+import { TestRunUploadState, TestRunTemp, Entrant } from "../../types/models";
+import { getEntrants, markPaid } from "../../api/entrants";
 import { AppState } from "..";
 import { addTestRun, getTestRuns } from "../../api/testRuns";
 import { requiresLoading, idsMatch, isStale } from "../../types/loadingState";
@@ -126,6 +127,18 @@ export const AddTestRun = (
         payload: testRun,
     });
     await SyncTestRuns(token)(dispatch, getState);
+};
+
+export const SetPaid = (
+    { eventId, entrantId }: Entrant,
+    isPaid: boolean,
+    token: string | undefined
+) => async (dispatch: Dispatch<EventActionTypes>) => {
+    await markPaid(eventId, entrantId, isPaid, token);
+    dispatch({
+        type: SET_PAID,
+        payload: { entrantId, isPaid },
+    });
 };
 
 export const UpdateTestRunState: ActionCreator<EventActionTypes> = (

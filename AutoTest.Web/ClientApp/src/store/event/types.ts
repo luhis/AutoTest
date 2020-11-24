@@ -21,6 +21,7 @@ export interface EventState {
 
 export const GET_CLUBS = "GET_CLUBS";
 export const GET_ENTRANTS = "GET_ENTRANTS";
+export const SET_PAID = "SET_PAID";
 export const GET_EVENTS = "GET_EVENTS";
 export const GET_TEST_RUNS = "GET_TEST_RUNS";
 export const ADD_TEST_RUN = "ADD_TEST_RUN";
@@ -34,6 +35,11 @@ interface GetClubs {
 interface GetEntrants {
     readonly type: typeof GET_ENTRANTS;
     readonly payload: LoadingState<readonly Entrant[]>;
+}
+
+interface SetPaid {
+    readonly type: typeof SET_PAID;
+    readonly payload: { readonly entrantId: number; readonly isPaid: boolean };
 }
 
 interface GetEvents {
@@ -62,6 +68,7 @@ interface UpdateTestRunState {
 export type EventActionTypes =
     | GetClubs
     | GetEntrants
+    | SetPaid
     | GetTestRuns
     | GetEvents
     | AddTestRun
