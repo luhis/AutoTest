@@ -5,8 +5,7 @@
     "googlelogin",
     "persistor",
     "preact",
-    "signalr",
-    "tsdef"
+    "signalr"
   ],
   "files.eol": "\n",
   "typescript.tsdk": "node_modules\\typescript\\lib"

@@ -2,9 +2,7 @@ import { FunctionalComponent, h } from "preact";
 import { useEffect, useState } from "preact/hooks";
 import { Title, Button, Breadcrumb } from "rbx";
 import UUID from "uuid-int";
-import { DeepPartial } from "tsdef";
 import { useDispatch, useSelector } from "react-redux";
-import { merge } from "@s-libs/micro-dash";
 
 import { addEntrant } from "../../api/entrants";
 import { Entrant, EditingEntrant } from "../../types/models";
@@ -159,10 +157,10 @@ const Events: FunctionalComponent<Readonly<Props>> = ({ eventId }) => {
             {editingEntrant ? (
                 <EntrantsModal
                     entrant={editingEntrant}
-                    setField={(a: DeepPartial<Entrant>) => {
+                    setField={(a: Partial<Entrant>) => {
                         setEditingEntrant((b) => {
                             if (b !== undefined) {
-                                return merge({ ...b }, a);
+                                return { ...b, ...a };
                             } else {
                                 return b;
                             }

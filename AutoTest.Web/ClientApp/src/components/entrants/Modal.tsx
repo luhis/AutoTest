@@ -1,6 +1,5 @@
 import { h, FunctionComponent } from "preact";
 import { Modal, Button, Label, Input, Field } from "rbx";
-import { DeepPartial } from "tsdef";
 import { useSelector } from "react-redux";
 
 import { Entrant, EditingEntrant } from "../../types/models";
@@ -14,7 +13,7 @@ interface Props {
     readonly entrant: EditingEntrant;
     readonly save: () => Promise<void>;
     readonly cancel: () => void;
-    readonly setField: (k: DeepPartial<Omit<Entrant, "driverNumber">>) => void;
+    readonly setField: (k: Partial<Omit<Entrant, "driverNumber">>) => void;
     readonly fillFromProfile: () => void;
 }
 
@@ -100,7 +99,7 @@ const EntrantsModal: FunctionComponent<Props> = ({
                     </Field>
                     <VehicleEditor
                         vehicle={entrant.vehicle}
-                        setField={(e: Partial<Vehicle>): void =>
+                        setField={(e: Vehicle): void =>
                             setField({
                                 vehicle: e,
                             })
@@ -108,7 +107,7 @@ const EntrantsModal: FunctionComponent<Props> = ({
                     />
                     <EmergencyContactEditor
                         emergencyContact={entrant.emergencyContact}
-                        setField={(e: Partial<EmergencyContact>): void =>
+                        setField={(e: EmergencyContact): void =>
                             setField({
                                 emergencyContact: e,
                             })
