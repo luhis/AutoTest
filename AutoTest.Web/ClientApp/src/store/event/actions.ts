@@ -11,13 +11,18 @@ import {
     SET_PAID,
     DELETE_ENTRANT,
 } from "./types";
-import { TestRunUploadState, TestRunTemp, Entrant } from "../../types/models";
+import {
+    TestRunUploadState,
+    TestRunTemp,
+    Entrant,
+    EditingClub,
+} from "../../types/models";
 import { deleteEntrant, getEntrants, markPaid } from "../../api/entrants";
 import { AppState } from "..";
 import { addTestRun, getTestRuns } from "../../api/testRuns";
 import { requiresLoading, idsMatch, isStale } from "../../types/loadingState";
 import { getEvents } from "../../api/events";
-import { getClubs } from "../../api/clubs";
+import { getClubs, addClub } from "../../api/clubs";
 import { distinct } from "../../lib/array";
 
 export const GetClubsIfRequired = (token: string | undefined) => async (
@@ -30,7 +35,24 @@ export const GetClubsIfRequired = (token: string | undefined) => async (
     }
 };
 
-export const GetClubs = (token: string | undefined) => async (
+export const AddClub = (
+    club: EditingClub,
+    token: string | undefined,
+    onSuccess: () => void
+) => async (dispatch: Dispatch<EventActionTypes>) => {
+    await addClub(club, token);
+    dispatch({
+        type: GET_CLUBS,
+        payload: { tag: "Loading", id: undefined },
+    });
+    dispatch({
+        type: GET_CLUBS,
+        payload: await getClubs(token),
+    });
+    onSuccess();
+};
+
+const GetClubs = (token: string | undefined) => async (
     dispatch: Dispatch<EventActionTypes>
 ) => {
     dispatch({

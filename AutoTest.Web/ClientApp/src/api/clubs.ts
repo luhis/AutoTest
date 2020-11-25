@@ -26,3 +26,14 @@ export const addClub = async (
     });
     throwIfNotOk(response);
 };
+
+export const deleteClub = async (
+    clubId: number,
+    token: string | undefined
+): Promise<void> => {
+    const response = await fetch(`/api/clubs/${clubId}/`, {
+        headers: getBearerHeader(token),
+        method: "DELETE",
+    });
+    throwIfNotOk(response);
+};

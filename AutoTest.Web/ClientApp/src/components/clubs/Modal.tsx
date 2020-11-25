@@ -7,7 +7,7 @@ import EmailList from "../shared/EmailList";
 
 interface Props {
     readonly club: EditingClub;
-    readonly save: () => Promise<void>;
+    readonly save: () => void;
     readonly cancel: () => void;
     readonly setField: (k: Partial<Club>) => void;
 }

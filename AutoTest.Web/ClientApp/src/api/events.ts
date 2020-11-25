@@ -3,7 +3,7 @@ import { parseIsoOrThrow } from "ts-date";
 import { Event, Override } from "../types/models";
 import { ApiResponse, toApiResponse } from "../types/loadingState";
 import { throwIfNotOk } from "./api";
-import { getHeaders } from "./headers";
+import { getBearerHeader, getHeaders } from "./headers";
 
 export const getEvents = async (): Promise<ApiResponse<readonly Event[]>> =>
     toApiResponse(async () => {
@@ -27,6 +27,17 @@ export const addEvent = async (
         headers: getHeaders(token),
         method: "PUT",
         body: JSON.stringify(rest),
+    });
+    throwIfNotOk(response);
+};
+
+export const deleteClub = async (
+    eventId: number,
+    token: string | undefined
+): Promise<void> => {
+    const response = await fetch(`/api/events/${eventId}/`, {
+        headers: getBearerHeader(token),
+        method: "DELETE",
     });
     throwIfNotOk(response);
 };

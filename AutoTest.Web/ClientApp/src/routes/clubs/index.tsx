@@ -4,14 +4,13 @@ import { Button, Title } from "rbx";
 import UUID from "uuid-int";
 import { useDispatch, useSelector } from "react-redux";
 
-import { addClub } from "../../api/clubs";
 import { useGoogleAuth } from "../../components/app";
 import { getAccessToken } from "../../api/api";
 import { Club, EditingClub } from "../../types/models";
 import List from "../../components/clubs/List";
 import Modal from "../../components/clubs/Modal";
 import { keySeed } from "../../settings";
-import { GetClubs, GetClubsIfRequired } from "../../store/event/actions";
+import { AddClub, GetClubsIfRequired } from "../../store/event/actions";
 import { selectClubs } from "../../store/event/selectors";
 
 const uid = UUID(keySeed);
@@ -27,11 +26,13 @@ const ClubComponent: FunctionalComponent = () => {
         dispatch(GetClubsIfRequired(getAccessToken(auth)));
     }, [auth, dispatch]);
 
-    const save = async () => {
+    const save = () => {
         if (editingClub) {
-            await addClub(editingClub, getAccessToken(auth));
-            setEditingClub(undefined);
-            dispatch(GetClubs(getAccessToken(auth)));
+            dispatch(
+                AddClub(editingClub, getAccessToken(auth), () =>
+                    setEditingClub(undefined)
+                )
+            );
         }
     };
     return (

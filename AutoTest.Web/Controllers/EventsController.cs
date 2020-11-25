@@ -25,14 +25,15 @@ namespace AutoTest.Web.Controllers
         }
 
         [HttpGet]
-        public Task<IEnumerable<Event>> GetAll(CancellationToken cancellationToken)
-        {
-            return this.mediator.Send(new GetAllEvents(), cancellationToken);
-        }
+        public Task<IEnumerable<Event>> GetAll(CancellationToken cancellationToken) => this.mediator.Send(new GetAllEvents(), cancellationToken);
 
         [Authorize(policy: Policies.ClubAdmin)]
         [HttpPut("{eventId}")]
         public Task<ulong> Save(ulong eventId, EventSaveModel @event, CancellationToken cancellationToken) =>
             this.mediator.Send(new SaveEvent(MapClub.Map(eventId, @event)), cancellationToken);
+
+        [Authorize(policy: Policies.ClubAdmin)]
+        [HttpDelete("{eventId}")]
+        public Task Delete(ulong eventId, CancellationToken cancellationToken) => this.mediator.Send(new DeleteEvent(eventId), cancellationToken);
     }
 }
