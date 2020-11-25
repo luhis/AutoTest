@@ -11,7 +11,7 @@ import VehicleEditor from "../shared/VehicleEditor";
 
 interface Props {
     readonly entrant: EditingEntrant;
-    readonly save: () => Promise<void>;
+    readonly save: () => void;
     readonly cancel: () => void;
     readonly setField: (k: Partial<Omit<Entrant, "driverNumber">>) => void;
     readonly fillFromProfile: () => void;

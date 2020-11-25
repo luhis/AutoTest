@@ -14,7 +14,6 @@ export const profileReducer = (
                 ...state,
                 profile: action.payload,
             };
-        default:
-            return state;
     }
+    return state;
 };

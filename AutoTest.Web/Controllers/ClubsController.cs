@@ -33,7 +33,7 @@ namespace AutoTest.Web.Controllers
             this.mediator.Send(new SaveClub(MapClub.Map(clubId, club)), cancellationToken);
 
         [Authorize(policy: Policies.Admin)]
-        [HttpDelete]
+        [HttpDelete("{clubId}")]
         public Task Delete(ulong clubId, CancellationToken cancellationToken) => this.mediator.Send(new DeleteClub(clubId), cancellationToken);
     }
 }

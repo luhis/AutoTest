@@ -111,7 +111,6 @@ export const eventReducer = (
                               }),
             };
         }
-        default:
-            return state;
     }
+    return state;
 };

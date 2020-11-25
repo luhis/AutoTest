@@ -31,7 +31,7 @@ namespace AutoTest.Web.Controllers
 
         [Authorize(Policies.Marshal)]
         [HttpPut("{testRunId}")]
-        public Task Create(ulong testRunId, TestRunSaveModel testRun, CancellationToken cancellationToken) =>
-            mediator.Send(new AddTestRun(MapClub.Map(testRunId, testRun)), cancellationToken);
+        public Task Create(ulong eventId, int ordinal, ulong testRunId, TestRunSaveModel testRun, CancellationToken cancellationToken) =>
+            mediator.Send(new AddTestRun(MapClub.Map(eventId, ordinal, testRunId, testRun)), cancellationToken);
     }
 }

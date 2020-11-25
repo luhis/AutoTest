@@ -4,7 +4,6 @@ import { Title, Button, Breadcrumb } from "rbx";
 import UUID from "uuid-int";
 import { useDispatch, useSelector } from "react-redux";
 
-import { addEntrant } from "../../api/entrants";
 import { Entrant, EditingEntrant } from "../../types/models";
 import { useGoogleAuth } from "../../components/app";
 import { getAccessToken } from "../../api/api";
@@ -12,10 +11,10 @@ import List from "../../components/entrants/List";
 import EntrantsModal from "../../components/entrants/Modal";
 import {
     GetEntrantsIfRequired,
-    GetEntrants,
     GetClubsIfRequired,
     SetPaid,
     DeleteEntrant,
+    AddEntrant,
 } from "../../store/event/actions";
 import {
     selectEntrants,
@@ -48,24 +47,25 @@ const Events: FunctionalComponent<Readonly<Props>> = ({ eventId }) => {
     >(undefined);
     const auth = useGoogleAuth();
     const dispatch = useDispatch();
-    const save = async () => {
+    const save = () => {
         if (editingEntrant) {
-            await addEntrant(
-                {
-                    ...editingEntrant,
-                    driverNumber:
-                        entrants.tag === "Loaded"
-                            ? Math.max(
-                                  ...entrants.value
-                                      .map((a) => a.driverNumber)
-                                      .concat(0)
-                              ) + 1
-                            : -1,
-                },
-                getAccessToken(auth)
+            dispatch(
+                AddEntrant(
+                    {
+                        ...editingEntrant,
+                        driverNumber:
+                            entrants.tag === "Loaded"
+                                ? Math.max(
+                                      ...entrants.value
+                                          .map((a) => a.driverNumber)
+                                          .concat(0)
+                                  ) + 1
+                                : -1,
+                    },
+                    getAccessToken(auth),
+                    () => setEditingEntrant(undefined)
+                )
             );
-            setEditingEntrant(undefined);
-            dispatch(GetEntrants(eventIdNum, getAccessToken(auth)));
         }
     };
     const fillFromProfile = () => {

@@ -17,12 +17,11 @@ export const getTestRuns = async (
 
 export const addTestRun = async (
     eventId: number,
-    ordinal: number,
     testRun: TestRun,
     token: string | undefined
 ): Promise<ApiResponse<undefined>> =>
     toApiResponse(async () => {
-        const { testRunId, ...rest } = testRun;
+        const { testRunId, ordinal, ...rest } = testRun;
         const response = await fetch(
             `/api/events/${eventId}/tests/${ordinal}/testRuns/${testRunId}`,
             {

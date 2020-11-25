@@ -13,7 +13,7 @@ import { getDateTimeString } from "../../lib/date";
 interface Props {
     readonly event: EditingEvent;
     readonly clubs: LoadingState<readonly Club[]>;
-    readonly save: () => Promise<void>;
+    readonly save: () => void;
     readonly cancel: () => void;
     readonly setField: (k: Partial<EditingEvent>) => void;
 }

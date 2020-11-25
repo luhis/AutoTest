@@ -16,12 +16,18 @@ import {
     TestRunTemp,
     Entrant,
     EditingClub,
+    Event,
 } from "../../types/models";
-import { deleteEntrant, getEntrants, markPaid } from "../../api/entrants";
+import {
+    addEntrant,
+    deleteEntrant,
+    getEntrants,
+    markPaid,
+} from "../../api/entrants";
 import { AppState } from "..";
 import { addTestRun, getTestRuns } from "../../api/testRuns";
 import { requiresLoading, idsMatch, isStale } from "../../types/loadingState";
-import { getEvents } from "../../api/events";
+import { addEvent, getEvents } from "../../api/events";
 import { getClubs, addClub } from "../../api/clubs";
 import { distinct } from "../../lib/array";
 
@@ -79,6 +85,16 @@ export const GetEntrantsIfRequired = (
     }
 };
 
+export const AddEntrant = (
+    entrant: Entrant,
+    token: string | undefined,
+    onSuccess: () => void
+) => async (dispatch: Dispatch<EventActionTypes>) => {
+    await addEntrant(entrant, token);
+    await GetEntrants(entrant.eventId, token)(dispatch);
+    onSuccess();
+};
+
 export const GetEntrants = (
     eventId: number,
     token: string | undefined
@@ -103,7 +119,17 @@ export const GetEventsIfRequired = () => async (
     }
 };
 
-export const GetEvents = () => async (dispatch: Dispatch<EventActionTypes>) => {
+export const AddEvent = (
+    event: Event,
+    token: string | undefined,
+    onSuccess: () => void
+) => async (dispatch: Dispatch<EventActionTypes>) => {
+    await addEvent(event, token);
+    await GetEvents()(dispatch);
+    onSuccess();
+};
+
+const GetEvents = () => async (dispatch: Dispatch<EventActionTypes>) => {
     dispatch({
         type: GET_EVENTS,
         payload: { tag: "Loading", id: undefined },
@@ -175,7 +201,7 @@ export const DeleteEntrant = (
     });
 };
 
-export const UpdateTestRunState: ActionCreator<EventActionTypes> = (
+const UpdateTestRunState: ActionCreator<EventActionTypes> = (
     testRunId: number,
     state: TestRunUploadState
 ) => ({
@@ -194,12 +220,7 @@ export const SyncTestRuns = (token: string | undefined) => async (
     const eventIds = distinct(runs.map((a) => a.eventId));
     await Promise.all(
         toUpload.map(async (element) => {
-            const res = await addTestRun(
-                element.eventId,
-                element.ordinal,
-                element,
-                token
-            );
+            const res = await addTestRun(element.eventId, element, token);
             if (res.tag === "Loaded") {
                 dispatch(
                     UpdateTestRunState(

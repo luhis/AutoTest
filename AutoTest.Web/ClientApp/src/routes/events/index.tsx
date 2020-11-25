@@ -5,7 +5,6 @@ import UUID from "uuid-int";
 import { newValidDate } from "ts-date";
 import { useDispatch, useSelector } from "react-redux";
 
-import { addEvent } from "../../api/events";
 import { Event, EditingEvent } from "../../types/models";
 import Modal from "../../components/events/Modal";
 import { getAccessToken } from "../../api/api";
@@ -13,8 +12,8 @@ import { useGoogleAuth } from "../../components/app";
 import List from "../../components/events/List";
 import {
     GetEventsIfRequired,
-    GetEvents,
     GetClubsIfRequired,
+    AddEvent,
 } from "../../store/event/actions";
 import { selectEvents, selectClubs } from "../../store/event/selectors";
 import { keySeed } from "../../settings";
@@ -38,14 +37,15 @@ const Events: FunctionalComponent<Props> = ({ clubId }) => {
         dispatch(GetEventsIfRequired());
         dispatch(GetClubsIfRequired(getAccessToken(auth)));
     }, [auth, dispatch]);
-    const save = async () => {
+    const save = () => {
         if (editingEvent && editingEvent.clubId) {
-            await addEvent(
-                { ...editingEvent, clubId: editingEvent.clubId },
-                getAccessToken(auth)
+            dispatch(
+                AddEvent(
+                    { ...editingEvent, clubId: editingEvent.clubId },
+                    getAccessToken(auth),
+                    () => setEditingEvent(undefined)
+                )
             );
-            setEditingEvent(undefined);
-            dispatch(GetEvents());
         }
     };
     return (
