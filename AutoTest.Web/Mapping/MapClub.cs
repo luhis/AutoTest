@@ -37,9 +37,9 @@ namespace AutoTest.Web.Mapping
             return new ClubMembership(vehicle.ClubName, vehicle.MembershipNumber, vehicle.Expiry);
         }
 
-        public static TestRun Map(ulong testRunId, TestRunSaveModel test)
+        public static TestRun Map(ulong eventId, int ordinal, ulong testRunId, TestRunSaveModel test)
         {
-            var run = new TestRun(testRunId, test.EventId, test.Ordinal, test.TimeInMS, test.EntrantId, test.Created);
+            var run = new TestRun(testRunId, eventId, ordinal, test.TimeInMS, test.EntrantId, test.Created);
             run.SetPenalties(test.Penalties.Select(a => new Penalty(a.PenaltyType, a.InstanceCount)).ToArray());
             return run;
         }

@@ -6,7 +6,10 @@ import { useDispatch, useSelector } from "react-redux";
 
 import { useGoogleAuth } from "../../components/app";
 import { getAccessToken } from "../../api/api";
-import { GetEntrants, GetEventsIfRequired } from "../../store/event/actions";
+import {
+    GetEntrantsIfRequired,
+    GetEventsIfRequired,
+} from "../../store/event/actions";
 import { selectEvents, selectClubs } from "../../store/event/selectors";
 import { findIfLoaded } from "../../types/loadingState";
 
@@ -27,7 +30,7 @@ const Tests: FunctionalComponent<Readonly<Props>> = ({ eventId }) => {
         (a) => a.clubId === currentEvent?.clubId
     );
     useEffect(() => {
-        dispatch(GetEntrants(eventIdAsNum, getAccessToken(auth)));
+        dispatch(GetEntrantsIfRequired(eventIdAsNum, getAccessToken(auth)));
     }, [eventIdAsNum, dispatch, auth]);
     useEffect(() => {
         dispatch(GetEventsIfRequired());
@@ -65,9 +68,9 @@ const Tests: FunctionalComponent<Readonly<Props>> = ({ eventId }) => {
                     </Column.Group>
                 ))
             ) : (
-                <span>
+                <div>
                     Loading... <Loader />
-                </span>
+                </div>
             )}
         </div>
     );

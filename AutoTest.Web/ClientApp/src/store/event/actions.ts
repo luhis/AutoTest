@@ -95,10 +95,9 @@ export const AddEntrant = (
     onSuccess();
 };
 
-export const GetEntrants = (
-    eventId: number,
-    token: string | undefined
-) => async (dispatch: Dispatch<EventActionTypes>) => {
+const GetEntrants = (eventId: number, token: string | undefined) => async (
+    dispatch: Dispatch<EventActionTypes>
+) => {
     dispatch({
         type: GET_ENTRANTS,
         payload: { tag: "Loading", id: eventId },
