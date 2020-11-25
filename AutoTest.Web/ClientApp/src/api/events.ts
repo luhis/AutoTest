@@ -31,7 +31,7 @@ export const addEvent = async (
     throwIfNotOk(response);
 };
 
-export const deleteClub = async (
+export const deleteEvent = async (
     eventId: number,
     token: string | undefined
 ): Promise<void> => {

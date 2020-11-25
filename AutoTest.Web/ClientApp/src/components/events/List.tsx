@@ -10,12 +10,14 @@ interface Props {
     readonly events: LoadingState<readonly Event[]>;
     readonly setEditingEvent: (event: Event) => void;
     readonly setRegsModal: (event: Event) => void;
+    readonly deleteEvent: (event: Event) => void;
 }
 
 const List: FunctionComponent<Props> = ({
     events,
     setEditingEvent,
     setRegsModal,
+    deleteEvent,
 }) =>
     ifSome(
         events,
@@ -40,6 +42,7 @@ const List: FunctionComponent<Props> = ({
                             Results
                         </Button>
                         <Button onClick={() => setRegsModal(a)}>Regs</Button>
+                        <Button onClick={() => deleteEvent(a)}>Delete</Button>
                     </Button.Group>
                 </Column>
             </Column.Group>

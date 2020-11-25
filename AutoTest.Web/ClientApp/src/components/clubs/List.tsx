@@ -9,9 +9,14 @@ import ifSome from "../shared/ifSome";
 interface Props {
     readonly clubs: LoadingState<readonly Club[]>;
     readonly setEditingClub: (club: Club) => void;
+    readonly deleteClub: (club: Club) => void;
 }
 
-const ClubsList: FunctionComponent<Props> = ({ clubs, setEditingClub }) =>
+const ClubsList: FunctionComponent<Props> = ({
+    clubs,
+    setEditingClub,
+    deleteClub,
+}) =>
     ifSome(
         clubs,
         (a) => a.clubId,
@@ -30,6 +35,7 @@ const ClubsList: FunctionComponent<Props> = ({ clubs, setEditingClub }) =>
                             Events
                         </Button>
                         <Button onClick={() => setEditingClub(a)}>Edit</Button>
+                        <Button onClick={() => deleteClub(a)}>Delete</Button>
                     </Button.Group>
                 </Column>
             </Column.Group>

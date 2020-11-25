@@ -27,8 +27,8 @@ import {
 import { AppState } from "..";
 import { addTestRun, getTestRuns } from "../../api/testRuns";
 import { requiresLoading, idsMatch, isStale } from "../../types/loadingState";
-import { addEvent, getEvents } from "../../api/events";
-import { getClubs, addClub } from "../../api/clubs";
+import { addEvent, deleteEvent, getEvents } from "../../api/events";
+import { getClubs, addClub, deleteClub } from "../../api/clubs";
 import { distinct } from "../../lib/array";
 
 export const GetClubsIfRequired = (token: string | undefined) => async (
@@ -56,6 +56,20 @@ export const AddClub = (
         payload: await getClubs(token),
     });
     onSuccess();
+};
+
+export const DeleteClub = (clubId: number, token: string | undefined) => async (
+    dispatch: Dispatch<EventActionTypes>
+) => {
+    await deleteClub(clubId, token);
+    dispatch({
+        type: GET_CLUBS,
+        payload: { tag: "Loading", id: undefined },
+    });
+    dispatch({
+        type: GET_CLUBS,
+        payload: await getClubs(token),
+    });
 };
 
 const GetClubs = (token: string | undefined) => async (
@@ -126,6 +140,14 @@ export const AddEvent = (
     await addEvent(event, token);
     await GetEvents()(dispatch);
     onSuccess();
+};
+
+export const DeleteEvent = (
+    eventId: number,
+    token: string | undefined
+) => async (dispatch: Dispatch<EventActionTypes>) => {
+    await deleteEvent(eventId, token);
+    await GetEvents()(dispatch);
 };
 
 const GetEvents = () => async (dispatch: Dispatch<EventActionTypes>) => {

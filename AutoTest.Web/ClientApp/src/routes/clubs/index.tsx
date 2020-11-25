@@ -10,7 +10,11 @@ import { Club, EditingClub } from "../../types/models";
 import List from "../../components/clubs/List";
 import Modal from "../../components/clubs/Modal";
 import { keySeed } from "../../settings";
-import { AddClub, GetClubsIfRequired } from "../../store/event/actions";
+import {
+    AddClub,
+    DeleteClub,
+    GetClubsIfRequired,
+} from "../../store/event/actions";
 import { selectClubs } from "../../store/event/selectors";
 
 const uid = UUID(keySeed);
@@ -35,12 +39,17 @@ const ClubComponent: FunctionalComponent = () => {
             );
         }
     };
+
+    const deleteClub = (club: Club) => {
+        dispatch(DeleteClub(club.clubId, getAccessToken(auth)));
+    };
     return (
         <div>
             <Title>Clubs</Title>
             <List
                 clubs={clubs}
                 setEditingClub={(a) => setEditingClub({ ...a, isNew: false })}
+                deleteClub={deleteClub}
             />
             <Button
                 onClick={() =>

@@ -14,6 +14,7 @@ import {
     GetEventsIfRequired,
     GetClubsIfRequired,
     AddEvent,
+    DeleteEvent,
 } from "../../store/event/actions";
 import { selectEvents, selectClubs } from "../../store/event/selectors";
 import { keySeed } from "../../settings";
@@ -48,6 +49,9 @@ const Events: FunctionalComponent<Props> = ({ clubId }) => {
             );
         }
     };
+    const deleteEvent = (event: Event) => {
+        dispatch(DeleteEvent(event.eventId, getAccessToken(auth)));
+    };
     return (
         <div>
             <Title>Events</Title>
@@ -61,6 +65,7 @@ const Events: FunctionalComponent<Props> = ({ clubId }) => {
                     })
                 }
                 setRegsModal={(a) => setRegsId(a)}
+                deleteEvent={deleteEvent}
             />
             <Button
                 onClick={() =>
