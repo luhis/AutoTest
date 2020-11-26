@@ -10,7 +10,7 @@ import {
     DELETE_ENTRANT,
 } from "./types";
 import { Entrant, TestRunUploadState } from "../../types/models";
-import { LoadingState } from "src/types/loadingState";
+import { ifLoaded, LoadingState } from "../../types/loadingState";
 
 const initialState: EventState = {
     entrants: { tag: "Idle" },
@@ -20,27 +20,13 @@ const initialState: EventState = {
     clubs: { tag: "Idle" },
 };
 
-const ifLoaded = (
-    entrants: LoadingState<readonly Entrant[], number>,
-    f: (_: readonly Entrant[]) => readonly Entrant[]
-) => {
-    if (entrants.tag === "Loaded") {
-        return {
-            ...entrants,
-            value: f(entrants.value),
-        };
-    } else {
-        return entrants;
-    }
-};
-
 const setPaid = (
     entrants: LoadingState<readonly Entrant[], number>,
     entrantId: number,
     isPaid: boolean
 ): LoadingState<readonly Entrant[], number> => {
     return ifLoaded(entrants, (v) =>
-        v.map((e) => (e.entrantId === entrantId ? { ...e, isPaid: isPaid } : e))
+        v.map((e) => (e.entrantId === entrantId ? { ...e, isPaid } : e))
     );
 };
 

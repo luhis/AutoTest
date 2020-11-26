@@ -26,7 +26,12 @@ import {
 } from "../../api/entrants";
 import { AppState } from "..";
 import { addTestRun, getTestRuns } from "../../api/testRuns";
-import { requiresLoading, idsMatch, isStale } from "../../types/loadingState";
+import {
+    requiresLoading,
+    idsMatch,
+    isStale,
+    ifLoaded,
+} from "../../types/loadingState";
 import { addEvent, deleteEvent, getEvents } from "../../api/events";
 import { getClubs, addClub, deleteClub } from "../../api/clubs";
 import { distinct } from "../../lib/array";
@@ -242,14 +247,14 @@ export const SyncTestRuns = (token: string | undefined) => async (
     await Promise.all(
         toUpload.map(async (element) => {
             const res = await addTestRun(element.eventId, element, token);
-            if (res.tag === "Loaded") {
+            ifLoaded(res, () => {
                 dispatch(
                     UpdateTestRunState(
                         element.testRunId,
                         TestRunUploadState.Uploaded
                     )
                 );
-            }
+            });
         })
     );
     await Promise.all(eventIds.map((a) => GetTestRuns(a, token)));

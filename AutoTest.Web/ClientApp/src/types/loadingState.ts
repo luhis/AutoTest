@@ -65,3 +65,17 @@ export const findIfLoaded = <T, TT>(
         return undefined;
     }
 };
+
+export const ifLoaded = <T, TT>(
+    entrants: LoadingState<T, TT>,
+    f: (_: T) => T
+) => {
+    if (entrants.tag === "Loaded") {
+        return {
+            ...entrants,
+            value: f(entrants.value),
+        };
+    } else {
+        return entrants;
+    }
+};
