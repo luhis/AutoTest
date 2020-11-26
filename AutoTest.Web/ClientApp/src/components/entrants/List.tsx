@@ -6,7 +6,7 @@ import { Entrant } from "../../types/models";
 import { LoadingState } from "../../types/loadingState";
 
 interface Props {
-    readonly entrants: LoadingState<readonly Entrant[]>;
+    readonly entrants: LoadingState<readonly Entrant[], number>;
     readonly setEditingEntrant: (entrant: Entrant) => void;
     readonly markPaid: (entrant: Entrant, isPaid: boolean) => void;
     readonly deleteEntrant: (entrant: Entrant) => void;

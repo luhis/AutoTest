@@ -21,24 +21,24 @@ const initialState: EventState = {
 };
 
 const ifLoaded = (
-    entrants: LoadingState<readonly Entrant[]>,
+    entrants: LoadingState<readonly Entrant[], number>,
     f: (_: readonly Entrant[]) => readonly Entrant[]
 ) => {
     if (entrants.tag === "Loaded") {
         return {
-            tag: "Loaded",
+            ...entrants,
             value: f(entrants.value),
-        } as LoadingState<readonly Entrant[]>;
+        };
     } else {
         return entrants;
     }
 };
 
 const setPaid = (
-    entrants: LoadingState<readonly Entrant[]>,
+    entrants: LoadingState<readonly Entrant[], number>,
     entrantId: number,
     isPaid: boolean
-): LoadingState<readonly Entrant[]> => {
+): LoadingState<readonly Entrant[], number> => {
     return ifLoaded(entrants, (v) =>
         v.map((e) => (e.entrantId === entrantId ? { ...e, isPaid: isPaid } : e))
     );

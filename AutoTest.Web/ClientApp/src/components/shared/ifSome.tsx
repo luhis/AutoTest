@@ -2,8 +2,8 @@ import { FunctionalComponent, h, Fragment } from "preact";
 import { LoadingState } from "../../types/loadingState";
 import { Loader } from "rbx";
 
-const ifSome = <T,>(
-    arr: LoadingState<readonly T[]>,
+const ifSome = <T, TT>(
+    arr: LoadingState<readonly T[], TT>,
     getKey: (t: T) => string | number,
     IfIs: FunctionalComponent<T>
 ) => {

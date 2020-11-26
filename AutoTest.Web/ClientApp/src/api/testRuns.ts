@@ -6,7 +6,7 @@ import { getBearerHeader, getHeaders } from "./headers";
 export const getTestRuns = async (
     testId: number,
     token: string | undefined
-): Promise<ApiResponse<readonly TestRun[]>> =>
+): Promise<ApiResponse<readonly TestRun[], number>> =>
     toApiResponse(async () => {
         const response = await fetch(`/api/testRuns/${testId}`, {
             headers: getBearerHeader(token),
@@ -32,4 +32,4 @@ export const addTestRun = async (
         );
         throwIfNotOk(response);
         return undefined;
-    });
+    }, undefined);

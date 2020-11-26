@@ -16,7 +16,7 @@ export const getEvents = async (): Promise<ApiResponse<readonly Event[]>> =>
             ...rest,
             startTime: parseIsoOrThrow(startTime),
         }));
-    });
+    }, undefined);
 
 export const addEvent = async (
     event: Event,

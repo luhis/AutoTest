@@ -10,7 +10,7 @@ import { LoadingState } from "../../types/loadingState";
 
 export interface EventState {
     readonly events: LoadingState<readonly Event[]>;
-    readonly entrants: LoadingState<readonly Entrant[]>;
+    readonly entrants: LoadingState<readonly Entrant[], number>;
     readonly testRuns: readonly (TestRun & {
         readonly state: TestRunUploadState;
         readonly eventId: number;
@@ -35,7 +35,7 @@ interface GetClubs {
 
 interface GetEntrants {
     readonly type: typeof GET_ENTRANTS;
-    readonly payload: LoadingState<readonly Entrant[]>;
+    readonly payload: LoadingState<readonly Entrant[], number>;
 }
 
 interface SetPaid {
@@ -55,7 +55,7 @@ interface GetEvents {
 
 interface GetTestRuns {
     readonly type: typeof GET_TEST_RUNS;
-    readonly payload: LoadingState<readonly TestRun[]>;
+    readonly payload: LoadingState<readonly TestRun[], number>;
 }
 
 interface AddTestRun {

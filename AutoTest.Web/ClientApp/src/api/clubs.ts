@@ -12,7 +12,7 @@ export const getClubs = async (
         });
         throwIfNotOk(response);
         return (await response.json()) as readonly Club[];
-    });
+    }, undefined);
 
 export const addClub = async (
     club: Club,

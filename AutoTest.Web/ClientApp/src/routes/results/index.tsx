@@ -42,7 +42,9 @@ const Results: FunctionalComponent<Props> = ({ eventId }) => {
     const testRuns = range(
         currentEvent !== undefined ? currentEvent.maxAttemptsPerTest : 0
     );
-    const [results, setResults] = useState<LoadingState<readonly Result[]>>({
+    const [results, setResults] = useState<
+        LoadingState<readonly Result[], number>
+    >({
         tag: "Loading",
         id: eventIdAsNum,
     });

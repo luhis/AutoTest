@@ -6,7 +6,7 @@ import { getBearerHeader } from "./headers";
 export const getResults = async (
     eventId: number,
     token: string | undefined
-): Promise<ApiResponse<readonly Result[]>> =>
+): Promise<ApiResponse<readonly Result[], number>> =>
     toApiResponse(async () => {
         const response = await fetch(`/api/results/${eventId}`, {
             headers: getBearerHeader(token),

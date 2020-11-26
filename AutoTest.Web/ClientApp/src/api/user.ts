@@ -34,7 +34,7 @@ export const getProfile = async (
                 })
             ),
         };
-    });
+    }, undefined);
 
 export const saveProfile = async (
     profile: Profile,
