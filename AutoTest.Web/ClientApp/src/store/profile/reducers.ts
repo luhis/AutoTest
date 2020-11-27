@@ -1,3 +1,4 @@
+// import { neverReached } from "../../types/shared";
 import { ProfileState, ProfileActionTypes, GET_PROFILE } from "./types";
 
 const initialProfileState: ProfileState = {
@@ -14,6 +15,9 @@ export const profileReducer = (
                 ...state,
                 profile: action.payload,
             };
+        default: {
+            // neverReached(action);
+            return state;
+        }
     }
-    return state;
 };

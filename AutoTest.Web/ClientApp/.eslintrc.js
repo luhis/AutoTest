@@ -30,7 +30,8 @@ module.exports = {
         "@typescript-eslint/explicit-module-boundary-types": "off",
         "no-duplicate-imports": "error",
         "no-shadow": "off",
-        "@typescript-eslint/no-shadow": ["error"]
+        "@typescript-eslint/no-shadow": ["error"],
+        "@typescript-eslint/switch-exhaustiveness-check": "error"
     },
     settings: {
         react: {

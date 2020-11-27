@@ -47,7 +47,10 @@ export const requiresLoading = <T, TT>(tag: LoadingState<T, TT>["tag"]) => {
     return false;
 };
 
-export const idsMatch = <T, TT>(loading: LoadingState<T, TT>, id: TT) => {
+export const idsMatch = <T, TT extends unknown>(
+    loading: LoadingState<T, TT>,
+    id: TT
+) => {
     if (loading.tag === "Loading" || loading.tag === "Loaded") {
         return loading.tag ? loading.id === id : true;
     } else {

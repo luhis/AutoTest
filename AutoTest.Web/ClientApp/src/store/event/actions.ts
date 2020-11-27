@@ -10,6 +10,8 @@ import {
     GET_CLUBS,
     SET_PAID,
     DELETE_ENTRANT,
+    DELETE_EVENT,
+    ADD_EVENT,
 } from "./types";
 import {
     TestRunUploadState,
@@ -143,7 +145,10 @@ export const AddEvent = (
     onSuccess: () => void
 ) => async (dispatch: Dispatch<EventActionTypes>) => {
     await addEvent(event, token);
-    await GetEvents()(dispatch);
+    dispatch({
+        type: ADD_EVENT,
+        payload: { event },
+    });
     onSuccess();
 };
 
@@ -152,7 +157,10 @@ export const DeleteEvent = (
     token: string | undefined
 ) => async (dispatch: Dispatch<EventActionTypes>) => {
     await deleteEvent(eventId, token);
-    await GetEvents()(dispatch);
+    dispatch({
+        type: DELETE_EVENT,
+        payload: { eventId },
+    });
 };
 
 const GetEvents = () => async (dispatch: Dispatch<EventActionTypes>) => {

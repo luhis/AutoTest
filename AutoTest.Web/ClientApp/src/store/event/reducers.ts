@@ -8,9 +8,13 @@ import {
     GET_CLUBS,
     SET_PAID,
     DELETE_ENTRANT,
+    DELETE_EVENT,
+    ADD_EVENT,
+    GET_TEST_RUNS,
 } from "./types";
 import { Entrant, TestRunUploadState } from "../../types/models";
 import { ifLoaded, LoadingState } from "../../types/loadingState";
+import { neverReached } from "../../types/shared";
 
 const initialState: EventState = {
     entrants: { tag: "Idle" },
@@ -64,6 +68,22 @@ export const eventReducer = (
                     )
                 ),
             };
+        case ADD_EVENT:
+            return {
+                ...state,
+                events: ifLoaded(state.events, (e) =>
+                    e.concat(action.payload.event)
+                ),
+            };
+        case DELETE_EVENT:
+            return {
+                ...state,
+                events: ifLoaded(state.events, (v) =>
+                    v.filter(
+                        ({ eventId }) => eventId !== action.payload.eventId
+                    )
+                ),
+            };
         case GET_EVENTS:
             return {
                 ...state,
@@ -97,6 +117,21 @@ export const eventReducer = (
                               }),
             };
         }
+        case GET_TEST_RUNS:
+            return {
+                ...state,
+                testRuns:
+                    action.payload.tag === "Loaded"
+                        ? action.payload.value.map((a) => ({
+                              ...a,
+                              state: TestRunUploadState.Uploaded,
+                              eventId: 0, //todo
+                          }))
+                        : [],
+            };
+        default: {
+            neverReached(action);
+            return state;
+        }
     }
-    return state;
 };

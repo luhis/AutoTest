@@ -7,6 +7,7 @@ import {
     Club,
 } from "../../types/models";
 import { LoadingState } from "../../types/loadingState";
+import { AddEvent } from "./actions";
 
 export interface EventState {
     readonly events: LoadingState<readonly Event[]>;
@@ -24,6 +25,8 @@ export const GET_ENTRANTS = "GET_ENTRANTS";
 export const SET_PAID = "SET_PAID";
 export const DELETE_ENTRANT = "DELETE_ENTRANT";
 export const GET_EVENTS = "GET_EVENTS";
+export const DELETE_EVENT = "DELETE_EVENT";
+export const ADD_EVENT = "ADD_EVENT";
 export const GET_TEST_RUNS = "GET_TEST_RUNS";
 export const ADD_TEST_RUN = "ADD_TEST_RUN";
 export const UPDATE_TEST_RUN_STATE = "UPDATE_TEST_RUN_STATE";
@@ -53,6 +56,16 @@ interface GetEvents {
     readonly payload: LoadingState<readonly Event[]>;
 }
 
+interface DeleteEvent {
+    readonly type: typeof DELETE_EVENT;
+    readonly payload: { readonly eventId: number };
+}
+
+interface AddEvent {
+    readonly type: typeof ADD_EVENT;
+    readonly payload: { readonly event: Event };
+}
+
 interface GetTestRuns {
     readonly type: typeof GET_TEST_RUNS;
     readonly payload: LoadingState<readonly TestRun[], number>;
@@ -76,7 +89,9 @@ export type EventActionTypes =
     | GetEntrants
     | SetPaid
     | DeleteEntrant
+    | AddEvent
     | GetTestRuns
     | GetEvents
+    | DeleteEvent
     | AddTestRun
     | UpdateTestRunState;
