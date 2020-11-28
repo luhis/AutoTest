@@ -1,7 +1,6 @@
 import { Entrant } from "../types/models";
 import { ApiResponse, toApiResponse } from "../types/loadingState";
-import { throwIfNotOk } from "./api";
-import { getBearerHeader, getHeaders } from "./headers";
+import { extract, getBearerHeader, getHeaders, throwIfNotOk } from "./api";
 
 export const getEntrants = async (
     eventId: number,
@@ -11,8 +10,7 @@ export const getEntrants = async (
         const response = await fetch(`/api/entrants/${eventId}`, {
             headers: getBearerHeader(token),
         });
-        throwIfNotOk(response);
-        return (await response.json()) as readonly Entrant[];
+        return await extract(response);
     }, eventId);
 
 export const addEntrant = async (

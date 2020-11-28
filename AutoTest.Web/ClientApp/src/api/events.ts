@@ -2,15 +2,13 @@ import { parseIsoOrThrow } from "ts-date";
 
 import { Event, Override } from "../types/models";
 import { ApiResponse, toApiResponse } from "../types/loadingState";
-import { throwIfNotOk } from "./api";
-import { getBearerHeader, getHeaders } from "./headers";
+import { extract, getBearerHeader, getHeaders, throwIfNotOk } from "./api";
 
 export const getEvents = async (): Promise<ApiResponse<readonly Event[]>> =>
     toApiResponse(async () => {
         const response = await fetch("/api/events");
-        throwIfNotOk(response);
         type ApiEvent = Override<Event, { readonly startTime: string }>;
-        const events = (await response.json()) as readonly ApiEvent[];
+        const events = await extract<readonly ApiEvent[]>(response);
 
         return events.map(({ startTime, ...rest }) => ({
             ...rest,

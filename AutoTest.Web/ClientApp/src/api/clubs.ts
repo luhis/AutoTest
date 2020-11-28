@@ -1,7 +1,6 @@
 import { Club } from "../types/models";
 import { ApiResponse, toApiResponse } from "../types/loadingState";
-import { throwIfNotOk } from "./api";
-import { getBearerHeader, getHeaders } from "./headers";
+import { extract, getBearerHeader, getHeaders, throwIfNotOk } from "./api";
 
 export const getClubs = async (
     token: string | undefined
@@ -10,8 +9,7 @@ export const getClubs = async (
         const response = await fetch("/api/clubs", {
             headers: getBearerHeader(token),
         });
-        throwIfNotOk(response);
-        return (await response.json()) as readonly Club[];
+        return await extract(response);
     }, undefined);
 
 export const addClub = async (

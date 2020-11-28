@@ -3,9 +3,8 @@ import { parseIsoOrThrow } from "ts-date";
 import { Profile } from "../types/profileModels";
 import { ApiResponse, toApiResponse } from "../types/loadingState";
 import { ClubMembership } from "../types/shared";
-import { throwIfNotOk } from "./api";
+import { throwIfNotOk, getBearerHeader, getHeaders, extract } from "./api";
 import { Override } from "../types/models";
-import { getBearerHeader, getHeaders } from "./headers";
 
 export const getProfile = async (
     token: string | undefined
@@ -24,7 +23,7 @@ export const getProfile = async (
                 >[];
             }
         >;
-        const received = (await response.json()) as ApiProfile;
+        const received = await extract<ApiProfile>(response);
         return {
             ...received,
             clubMemberships: received.clubMemberships.map(
