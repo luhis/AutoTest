@@ -78,8 +78,13 @@ const Events: FunctionalComponent<Readonly<Props>> = ({ eventId }) => {
                 vehicle,
                 clubMemberships,
             } = profile.value;
-            const club = clubMemberships.length
-                ? clubMemberships[0].clubName
+            const validMemberships = clubMemberships.filter(
+                (a) =>
+                    currentEvent == undefined ||
+                    a.expiry >= currentEvent.startTime
+            );
+            const club = validMemberships.length
+                ? validMemberships[0].clubName
                 : "";
             setEditingEntrant((e) =>
                 e

@@ -49,7 +49,7 @@ const Penalties: FunctionComponent<Readonly<Props>> = ({
         <Fragment>
             <Label>Penalties</Label>
             {Object.keys(PenaltyType)
-                .map(Number.parseInt)
+                .map((a) => Number.parseInt(a))
                 .filter((key) => !isNaN(key))
                 .map((key) => (
                     <PenaltyItem

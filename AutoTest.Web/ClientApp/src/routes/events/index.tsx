@@ -84,6 +84,7 @@ const Events: FunctionalComponent<Props> = ({ clubId }) => {
                         isClubEditable: clubId === undefined,
                         tests: [],
                         regulations: null,
+                        eventType: -1,
                     })
                 }
             >

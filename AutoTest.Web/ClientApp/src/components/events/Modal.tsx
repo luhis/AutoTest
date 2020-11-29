@@ -3,12 +3,13 @@ import { Modal, Button, Label, Input, Field, Select } from "rbx";
 import { newValidDateOrThrow } from "ts-date";
 import PromiseFileReader from "promise-file-reader";
 
-import { EditingEvent, Club } from "../../types/models";
+import { EditingEvent, Club, EventType } from "../../types/models";
 import { OnChange, OnSelectChange } from "../../types/inputs";
 import EmailList from "../shared/EmailList";
 import { LoadingState } from "../../types/loadingState";
 import ifSome from "../shared/ifSome";
 import { getDateTimeString } from "../../lib/date";
+import { startCase } from "../../lib/string";
 
 interface Props {
     readonly event: EditingEvent;
@@ -25,6 +26,9 @@ const ModalX: FunctionComponent<Props> = ({
     cancel,
     setField,
 }) => {
+    const eventTypes = Object.keys(EventType)
+        .map((a) => Number.parseInt(a))
+        .filter((key) => !isNaN(key));
     return (
         <Modal active={true}>
             <Modal.Background />
@@ -41,6 +45,30 @@ const ModalX: FunctionComponent<Props> = ({
                                 setField({ location: e.target.value })
                             }
                         />
+                    </Field>
+                    <Field>
+                        <Label>Event Type</Label>
+                        <Select.Container fullwidth>
+                            <Select
+                                onChange={(evt: OnSelectChange) =>
+                                    setField({
+                                        eventType: Number.parseInt(
+                                            evt.target.value
+                                        ),
+                                    })
+                                }
+                                value={event.eventType}
+                            >
+                                <Select.Option value={-1}>
+                                    - Please Select -
+                                </Select.Option>
+                                {eventTypes.map((key) => (
+                                    <Select.Option key={key} value={key}>
+                                        {startCase(EventType[key])}
+                                    </Select.Option>
+                                ))}
+                            </Select>
+                        </Select.Container>
                     </Field>
                     {event.isClubEditable ? (
                         <Field>

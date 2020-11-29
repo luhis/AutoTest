@@ -39,6 +39,12 @@ export enum PenaltyType {
     FailToStop = 4,
 }
 
+export enum EventType {
+    AutoTest = 0,
+    AutoSolo = 1,
+    PCA = 2,
+}
+
 export enum TestRunUploadState {
     NotSent,
     Error,
@@ -68,6 +74,7 @@ export interface Event {
     readonly marshalEmails: readonly AuthorisationEmail[];
     readonly tests: readonly Test[];
     readonly regulations: string | null;
+    readonly eventType: EventType;
 }
 
 export type EditingEvent = Override<
