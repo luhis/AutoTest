@@ -12,6 +12,7 @@ import {
     DELETE_ENTRANT,
     DELETE_EVENT,
     ADD_EVENT,
+    ADD_CLUB,
 } from "./types";
 import {
     TestRunUploadState,
@@ -55,12 +56,8 @@ export const AddClub = (
 ) => async (dispatch: Dispatch<EventActionTypes>) => {
     await addClub(club, token);
     dispatch({
-        type: GET_CLUBS,
-        payload: { tag: "Loading", id: undefined },
-    });
-    dispatch({
-        type: GET_CLUBS,
-        payload: await getClubs(token),
+        type: ADD_CLUB,
+        payload: club,
     });
     onSuccess();
 };

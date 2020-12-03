@@ -11,6 +11,7 @@ import {
     DELETE_EVENT,
     ADD_EVENT,
     GET_TEST_RUNS,
+    ADD_CLUB,
 } from "./types";
 import { Entrant, TestRunUploadState } from "../../types/models";
 import { ifLoaded, LoadingState } from "../../types/loadingState";
@@ -44,6 +45,17 @@ export const eventReducer = (
                 ...state,
                 clubs: action.payload,
             };
+        case ADD_CLUB:
+            return {
+                ...state,
+                clubs: ifLoaded(state.clubs, (c) =>
+                    c
+                        .filter(
+                            ({ clubId }) => clubId !== action.payload.clubId
+                        )
+                        .concat(action.payload)
+                ),
+            };
         case GET_ENTRANTS:
             return {
                 ...state,
@@ -72,7 +84,12 @@ export const eventReducer = (
             return {
                 ...state,
                 events: ifLoaded(state.events, (e) =>
-                    e.concat(action.payload.event)
+                    e
+                        .filter(
+                            ({ eventId }) =>
+                                eventId != action.payload.event.eventId
+                        )
+                        .concat(action.payload.event)
                 ),
             };
         case DELETE_EVENT:

@@ -18,7 +18,7 @@ namespace AutoTest.Service.Handlers
         async Task<ulong> IRequestHandler<SaveEvent, ulong>.Handle(SaveEvent request, CancellationToken cancellationToken)
         {
             await eventsRepository.Upsert(request.Event, cancellationToken);
-            return request.Event.ClubId;
+            return request.Event.EventId;
         }
     }
 }
