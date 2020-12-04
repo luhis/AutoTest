@@ -12,6 +12,8 @@
 
         public string Club { get; set; } = string.Empty;
 
+        public string MsaLicense { get; set; } = string.Empty;
+
         public bool IsPaid { get; set; }
 
         public VehicleSaveModel Vehicle { get; set; } = new VehicleSaveModel();

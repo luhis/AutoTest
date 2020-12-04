@@ -49,7 +49,7 @@ namespace AutoTest.Persistence
                 }
                 if (this.Entrants != null && this.Entrants.SingleOrDefault(a => a.EntrantId == 1) == null)
                 {
-                    var e = new Entrant(1, 1, "Matt", "McCorry", "A", 1, true, "BRMC");
+                    var e = new Entrant(1, 1, "Matt", "McCorry", "A", 1, true, "BRMC", "msa");
                     e.SetVehicle(new Vehicle("Vauxhall", "Corsa", 2005, 1229, "AA05AAA"));
                     this.Entrants.Add(e);
                 }
