@@ -13,6 +13,30 @@ const VehicleEditor: FunctionComponent<Props> = ({ vehicle, setField }) => {
     return (
         <Fragment>
             <Field>
+                <Label>Make</Label>
+                <Input
+                    value={vehicle.make}
+                    onChange={(e: OnChange): void =>
+                        setField({
+                            ...vehicle,
+                            make: e.target.value,
+                        })
+                    }
+                />
+            </Field>
+            <Field>
+                <Label>Model</Label>
+                <Input
+                    value={vehicle.model}
+                    onChange={(e: OnChange): void =>
+                        setField({
+                            ...vehicle,
+                            model: e.target.value,
+                        })
+                    }
+                />
+            </Field>
+            <Field>
                 <Label>Registration</Label>
                 <Input
                     value={vehicle.registration}
