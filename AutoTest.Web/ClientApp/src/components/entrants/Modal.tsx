@@ -35,23 +35,25 @@ const EntrantsModal: FunctionComponent<Props> = ({
                     {entrant.isNew ? "Add" : "Edit"} Entrant
                 </Modal.Card.Head>
                 <Modal.Card.Body>
-                    <Field>
-                        <Label>Given Name</Label>
-                        <Input
-                            value={entrant.givenName}
-                            onChange={(e: OnChange): void =>
-                                setField({ givenName: e.target.value })
-                            }
-                        />
-                    </Field>
-                    <Field>
-                        <Label>Family Name</Label>
-                        <Input
-                            value={entrant.familyName}
-                            onChange={(e: OnChange): void =>
-                                setField({ familyName: e.target.value })
-                            }
-                        />
+                    <Field horizontal>
+                        <Field>
+                            <Label>Given Name</Label>
+                            <Input
+                                value={entrant.givenName}
+                                onChange={(e: OnChange): void =>
+                                    setField({ givenName: e.target.value })
+                                }
+                            />
+                        </Field>
+                        <Field>
+                            <Label>Family Name</Label>
+                            <Input
+                                value={entrant.familyName}
+                                onChange={(e: OnChange): void =>
+                                    setField({ familyName: e.target.value })
+                                }
+                            />
+                        </Field>
                     </Field>
                     <Field>
                         <Label>Club</Label>

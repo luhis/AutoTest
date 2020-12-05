@@ -12,55 +12,59 @@ interface Props {
 const VehicleEditor: FunctionComponent<Props> = ({ vehicle, setField }) => {
     return (
         <Fragment>
-            <Field>
-                <Label>Make</Label>
-                <Input
-                    value={vehicle.make}
-                    onChange={(e: OnChange): void =>
-                        setField({
-                            ...vehicle,
-                            make: e.target.value,
-                        })
-                    }
-                />
+            <Field horizontal>
+                <Field>
+                    <Label>Make</Label>
+                    <Input
+                        value={vehicle.make}
+                        onChange={(e: OnChange): void =>
+                            setField({
+                                ...vehicle,
+                                make: e.target.value,
+                            })
+                        }
+                    />
+                </Field>
+                <Field>
+                    <Label>Model</Label>
+                    <Input
+                        value={vehicle.model}
+                        onChange={(e: OnChange): void =>
+                            setField({
+                                ...vehicle,
+                                model: e.target.value,
+                            })
+                        }
+                    />
+                </Field>
             </Field>
-            <Field>
-                <Label>Model</Label>
-                <Input
-                    value={vehicle.model}
-                    onChange={(e: OnChange): void =>
-                        setField({
-                            ...vehicle,
-                            model: e.target.value,
-                        })
-                    }
-                />
-            </Field>
-            <Field>
-                <Label>Registration</Label>
-                <Input
-                    value={vehicle.registration}
-                    onChange={(e: OnChange): void =>
-                        setField({
-                            ...vehicle,
-                            registration: e.target.value.toLocaleUpperCase(),
-                        })
-                    }
-                />
-            </Field>
-            <Field>
-                <Label>Displacement (CC)</Label>
-                <Input
-                    type="number"
-                    value={vehicle.displacement}
-                    onChange={(e: OnChange): void =>
-                        setField({
-                            ...vehicle,
-                            displacement: Number.parseInt(e.target.value),
-                        })
-                    }
-                    min={0}
-                />
+            <Field horizontal>
+                <Field>
+                    <Label>Registration</Label>
+                    <Input
+                        value={vehicle.registration}
+                        onChange={(e: OnChange): void =>
+                            setField({
+                                ...vehicle,
+                                registration: e.target.value.toLocaleUpperCase(),
+                            })
+                        }
+                    />
+                </Field>
+                <Field>
+                    <Label>Displacement (CC)</Label>
+                    <Input
+                        type="number"
+                        value={vehicle.displacement}
+                        onChange={(e: OnChange): void =>
+                            setField({
+                                ...vehicle,
+                                displacement: Number.parseInt(e.target.value),
+                            })
+                        }
+                        min={0}
+                    />
+                </Field>
             </Field>
         </Fragment>
     );
