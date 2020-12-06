@@ -32,7 +32,12 @@ const MembershipList: FunctionComponent<Props> = ({
                 <Level key={`${a.clubName}`}>
                     <Level.Item align="left">{a.clubName}</Level.Item>
                     <Level.Item align="left">{a.membershipNumber}</Level.Item>
-                    <Level.Item align="left">
+                    <Level.Item
+                        align="left"
+                        textColor={
+                            a.expiry < newValidDate() ? "danger" : undefined
+                        }
+                    >
                         {a.expiry.toLocaleDateString()}
                     </Level.Item>
                     <Level.Item align="right">
@@ -40,7 +45,7 @@ const MembershipList: FunctionComponent<Props> = ({
                     </Level.Item>
                 </Level>
             ))}
-            <Field kind="addons">
+            <Field horizontal kind="addons">
                 <Label>Club Name</Label>
                 <Control>
                     <Input
@@ -81,8 +86,13 @@ const MembershipList: FunctionComponent<Props> = ({
                 <Control>
                     <Button
                         onClick={() => {
-                            addNew(newMembership);
-                            setNewEmail(blankState);
+                            if (
+                                newMembership.clubName !== "" &&
+                                newMembership.membershipNumber !== ""
+                            ) {
+                                addNew(newMembership);
+                                setNewEmail(blankState);
+                            }
                         }}
                     >
                         Add

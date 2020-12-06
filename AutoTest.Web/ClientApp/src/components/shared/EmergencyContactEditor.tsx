@@ -15,30 +15,32 @@ const EmergencyContactEditor: FunctionComponent<Props> = ({
 }) => {
     return (
         <Fragment>
-            <Field>
-                <Label>Emergency Contact Name</Label>
-                <Input
-                    value={emergencyContact.name}
-                    onChange={({ target }: OnChange): void => {
-                        setField({
-                            ...emergencyContact,
-                            name: target.value,
-                        });
-                    }}
-                />
-            </Field>
-            <Field>
-                <Label>Emergency Contact Number</Label>
-                <Input
-                    type="tel"
-                    value={emergencyContact.phone}
-                    onChange={({ target }: OnChange): void =>
-                        setField({
-                            ...emergencyContact,
-                            phone: target.value,
-                        })
-                    }
-                />
+            <Field horizontal>
+                <Field>
+                    <Label>Emergency Contact Name</Label>
+                    <Input
+                        value={emergencyContact.name}
+                        onChange={({ target }: OnChange): void => {
+                            setField({
+                                ...emergencyContact,
+                                name: target.value,
+                            });
+                        }}
+                    />
+                </Field>
+                <Field>
+                    <Label>Emergency Contact Number</Label>
+                    <Input
+                        type="tel"
+                        value={emergencyContact.phone}
+                        onChange={({ target }: OnChange): void =>
+                            setField({
+                                ...emergencyContact,
+                                phone: target.value,
+                            })
+                        }
+                    />
+                </Field>
             </Field>
         </Fragment>
     );
