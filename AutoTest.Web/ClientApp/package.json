@@ -23,7 +23,7 @@
     "build/*"
   ],
   "dependencies": {
-    "@microsoft/signalr-protocol-msgpack": "5.0.0",
+    "@microsoft/signalr-protocol-msgpack": "5.0.1",
     "@s-libs/micro-dash": "11.1.0",
     "@types/enzyme": "3.10.8",
     "@types/react": "file:./src/types/fake-empty",
