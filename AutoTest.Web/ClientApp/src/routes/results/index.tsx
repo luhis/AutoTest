@@ -1,23 +1,29 @@
 import { FunctionalComponent, h, Fragment } from "preact";
 import { useEffect, useState } from "preact/hooks";
-import { Title, Table, Breadcrumb } from "rbx";
+import { Title, Table, Breadcrumb, Numeric } from "rbx";
 import { useDispatch, useSelector } from "react-redux";
 import { HubConnectionBuilder, LogLevel } from "@microsoft/signalr";
 import { range } from "@s-libs/micro-dash";
 import { newValidDate } from "ts-date";
 
-import { Result } from "../../types/models";
+import { Notification, Result } from "../../types/models";
 import { LoadingState, findIfLoaded } from "../../types/loadingState";
 import { getResults } from "../../api/results";
 import ifSome from "../../components/shared/ifSome";
 import { useGoogleAuth } from "../../components/app";
 import Time from "../../components/results/Time";
 import { getAccessToken } from "../../api/api";
-import { selectEvents, selectClubs } from "../../store/event/selectors";
 import {
+    selectEvents,
+    selectClubs,
+    selectNotifications,
+} from "../../store/event/selectors";
+import {
+    AddNotification,
     GetEventsIfRequired,
     GetNotifications,
 } from "../../store/event/actions";
+import NotificationsModal from "../../components/events/NotificationsModal";
 
 interface Props {
     readonly eventId: string;
@@ -42,6 +48,7 @@ const Results: FunctionalComponent<Props> = ({ eventId }) => {
         useSelector(selectClubs),
         (a) => a.clubId === currentEvent?.clubId
     );
+    const notifications = useSelector(selectNotifications);
     const testRuns = range(
         currentEvent !== undefined ? currentEvent.maxAttemptsPerTest : 0
     );
@@ -70,6 +77,9 @@ const Results: FunctionalComponent<Props> = ({ eventId }) => {
         void (async () => {
             await connection.start().catch(console.error);
             await connection.invoke("ListenToEvent", eventIdAsNum);
+            connection.on("NewNotification", (notification: Notification) => {
+                dispatch(AddNotification(notification));
+            });
             connection.on("NewTestRun", (newResults: readonly Result[]) => {
                 setResults({
                     tag: "Loaded",
@@ -83,7 +93,8 @@ const Results: FunctionalComponent<Props> = ({ eventId }) => {
             await connection.invoke("LeaveEvent", eventIdAsNum);
             await connection.stop();
         };
-    }, [connection, eventIdAsNum]);
+    }, [connection, dispatch, eventIdAsNum]);
+    const [showModal, setShowModal] = useState(false);
 
     return (
         <div>
@@ -96,6 +107,11 @@ const Results: FunctionalComponent<Props> = ({ eventId }) => {
                 <Breadcrumb.Item>{currentEvent?.location}</Breadcrumb.Item>
             </Breadcrumb>
             <Title>Results</Title>
+            <Numeric onClick={() => setShowModal(true)}>
+                {notifications.tag === "Loaded"
+                    ? notifications.value.length
+                    : ""}
+            </Numeric>
             <Table>
                 <Table.Head>
                     <Table.Row>
@@ -150,6 +166,12 @@ const Results: FunctionalComponent<Props> = ({ eventId }) => {
                     )
                 )}
             </Table>
+            {showModal && notifications.tag === "Loaded" ? (
+                <NotificationsModal
+                    cancel={() => setShowModal(false)}
+                    notifications={notifications.value}
+                />
+            ) : null}
         </div>
     );
 };

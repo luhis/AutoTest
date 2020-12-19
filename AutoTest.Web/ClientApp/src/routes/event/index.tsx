@@ -30,8 +30,10 @@ const Events: FunctionalComponent<Props> = ({ eventId }) => {
     useEffect(() => {
         dispatch(GetEventsIfRequired());
         dispatch(GetClubsIfRequired(getAccessToken(auth)));
+    }, [auth, dispatch]);
+    useEffect(() => {
         dispatch(GetNotifications(eventIdNum));
-    }, [auth, dispatch, eventIdNum]);
+    }, [dispatch, eventIdNum]);
     const [showModal, setShowModal] = useState(false);
     return (
         <div>

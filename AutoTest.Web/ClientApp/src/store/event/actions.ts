@@ -14,6 +14,7 @@ import {
     ADD_EVENT,
     ADD_CLUB,
     GET_NOTIFICATIONS,
+    ADD_NOTIFICATION,
 } from "./types";
 import {
     TestRunUploadState,
@@ -21,6 +22,7 @@ import {
     Entrant,
     EditingClub,
     Event,
+    Notification,
 } from "../../types/models";
 import {
     addEntrant,
@@ -148,6 +150,15 @@ export const GetNotifications = (eventId: number) => async (
     dispatch({
         type: GET_NOTIFICATIONS,
         payload: await getNotifications(eventId),
+    });
+};
+
+export const AddNotification = (notification: Notification) => (
+    dispatch: Dispatch<EventActionTypes>
+) => {
+    dispatch({
+        type: ADD_NOTIFICATION,
+        payload: notification,
     });
 };
 

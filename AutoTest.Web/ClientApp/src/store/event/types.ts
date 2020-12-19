@@ -34,6 +34,7 @@ export const GET_TEST_RUNS = "GET_TEST_RUNS";
 export const ADD_TEST_RUN = "ADD_TEST_RUN";
 export const UPDATE_TEST_RUN_STATE = "UPDATE_TEST_RUN_STATE";
 export const GET_NOTIFICATIONS = "GET_NOTIFICATIONS";
+export const ADD_NOTIFICATION = "ADD_NOTIFICATION";
 
 interface GetClubs {
     readonly type: typeof GET_CLUBS;
@@ -98,6 +99,11 @@ interface GetNotifications {
     readonly payload: LoadingState<readonly Notification[], number>;
 }
 
+interface AddNotification {
+    readonly type: typeof ADD_NOTIFICATION;
+    readonly payload: Notification;
+}
+
 export type EventActionTypes =
     | GetClubs
     | AddClub
@@ -110,4 +116,5 @@ export type EventActionTypes =
     | DeleteEvent
     | AddTestRun
     | UpdateTestRunState
-    | GetNotifications;
+    | GetNotifications
+    | AddNotification;

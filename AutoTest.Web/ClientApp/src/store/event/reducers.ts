@@ -13,6 +13,7 @@ import {
     GET_TEST_RUNS,
     ADD_CLUB,
     GET_NOTIFICATIONS,
+    ADD_NOTIFICATION,
 } from "./types";
 import { Entrant, TestRunUploadState } from "../../types/models";
 import { ifLoaded, LoadingState } from "../../types/loadingState";
@@ -152,6 +153,13 @@ export const eventReducer = (
             return {
                 ...state,
                 notifications: action.payload,
+            };
+        case ADD_NOTIFICATION:
+            return {
+                ...state,
+                notifications: ifLoaded(state.notifications, (a) =>
+                    a.concat(action.payload)
+                ),
             };
         default: {
             neverReached(action);
