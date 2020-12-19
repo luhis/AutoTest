@@ -13,6 +13,7 @@ import {
     DELETE_EVENT,
     ADD_EVENT,
     ADD_CLUB,
+    GET_NOTIFICATIONS,
 } from "./types";
 import {
     TestRunUploadState,
@@ -38,6 +39,7 @@ import {
 import { addEvent, deleteEvent, getEvents } from "../../api/events";
 import { getClubs, addClub, deleteClub } from "../../api/clubs";
 import { distinct } from "../../lib/array";
+import { getNotifications } from "../../api/notifications";
 
 export const GetClubsIfRequired = (token: string | undefined) => async (
     dispatch: Dispatch<EventActionTypes>,
@@ -134,6 +136,19 @@ export const GetEventsIfRequired = () => async (
     if (requiresLoading(events.tag) || isStale(events)) {
         await GetEvents()(dispatch);
     }
+};
+
+export const GetNotifications = (eventId: number) => async (
+    dispatch: Dispatch<EventActionTypes>
+) => {
+    dispatch({
+        type: GET_NOTIFICATIONS,
+        payload: { tag: "Loading", id: eventId },
+    });
+    dispatch({
+        type: GET_NOTIFICATIONS,
+        payload: await getNotifications(eventId),
+    });
 };
 
 export const AddEvent = (

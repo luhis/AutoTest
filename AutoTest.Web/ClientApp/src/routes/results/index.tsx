@@ -14,7 +14,10 @@ import { useGoogleAuth } from "../../components/app";
 import Time from "../../components/results/Time";
 import { getAccessToken } from "../../api/api";
 import { selectEvents, selectClubs } from "../../store/event/selectors";
-import { GetEventsIfRequired } from "../../store/event/actions";
+import {
+    GetEventsIfRequired,
+    GetNotifications,
+} from "../../store/event/actions";
 
 interface Props {
     readonly eventId: string;
@@ -60,6 +63,7 @@ const Results: FunctionalComponent<Props> = ({ eventId }) => {
     }, [auth, eventIdAsNum]);
     useEffect(() => {
         dispatch(GetEventsIfRequired());
+        dispatch(GetNotifications(eventIdAsNum));
     }, [eventIdAsNum, dispatch, auth]);
 
     useEffect(() => {

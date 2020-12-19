@@ -13,14 +13,4 @@ namespace AutoTest.Service.Messages
 
         public ulong EventId { get; }
     }
-
-    public class AddNotification
-    {
-        public AddNotification(ulong eventId)
-        {
-            EventId = eventId;
-        }
-
-        public ulong EventId { get; }
-    }
 }

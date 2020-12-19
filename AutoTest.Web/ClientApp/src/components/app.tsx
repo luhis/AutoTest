@@ -12,6 +12,7 @@ import Profile from "../routes/profile";
 import Club from "../routes/clubs";
 import NotFoundPage from "../routes/notfound";
 import Events from "../routes/events";
+import Event from "../routes/event";
 import Entrant from "../routes/entrants";
 import Header from "./header";
 import { Access } from "../types/profileModels";
@@ -83,6 +84,10 @@ const App: FunctionalComponent = () => {
                                     />
                                     <Route path="/clubs/" component={Club} />
                                     <Route path="/events/" component={Events} />
+                                    <Route
+                                        path="/event/:eventId"
+                                        component={Event}
+                                    />
                                     <Route
                                         path="/entrants/:eventId"
                                         component={Entrant}

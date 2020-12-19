@@ -5,6 +5,7 @@ import {
     TestRunUploadState,
     TestRunTemp,
     Club,
+    Notification,
 } from "../../types/models";
 import { LoadingState } from "../../types/loadingState";
 import { AddEvent } from "./actions";
@@ -18,6 +19,7 @@ export interface EventState {
     })[];
     readonly testRunsFromServer: LoadingState<readonly TestRun[]>;
     readonly clubs: LoadingState<readonly Club[]>;
+    readonly notifications: LoadingState<readonly Notification[], number>;
 }
 
 export const GET_CLUBS = "GET_CLUBS";
@@ -31,6 +33,7 @@ export const ADD_EVENT = "ADD_EVENT";
 export const GET_TEST_RUNS = "GET_TEST_RUNS";
 export const ADD_TEST_RUN = "ADD_TEST_RUN";
 export const UPDATE_TEST_RUN_STATE = "UPDATE_TEST_RUN_STATE";
+export const GET_NOTIFICATIONS = "GET_NOTIFICATIONS";
 
 interface GetClubs {
     readonly type: typeof GET_CLUBS;
@@ -90,6 +93,11 @@ interface UpdateTestRunState {
     };
 }
 
+interface GetNotifications {
+    readonly type: typeof GET_NOTIFICATIONS;
+    readonly payload: LoadingState<readonly Notification[], number>;
+}
+
 export type EventActionTypes =
     | GetClubs
     | AddClub
@@ -101,4 +109,5 @@ export type EventActionTypes =
     | GetEvents
     | DeleteEvent
     | AddTestRun
-    | UpdateTestRunState;
+    | UpdateTestRunState
+    | GetNotifications;

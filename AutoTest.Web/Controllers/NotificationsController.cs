@@ -11,23 +11,23 @@ namespace AutoTest.Web.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class NotificationController : ControllerBase
+    public class NotificationsController : ControllerBase
     {
         private readonly IMediator mediator;
 
-        public NotificationController(IMediator mediator)
+        public NotificationsController(IMediator mediator)
         {
             this.mediator = mediator;
         }
 
         [Authorize(policy: Policies.ClubAdmin)]
         [HttpPost]
-        public Task Add(ulong clubId, ulong eventId)
+        public Task Add(ulong clubId, ulong eventId, Notification notification)
         {
-            return mediator.Send(new AddNotification(eventId));
+            return mediator.Send(new AddNotification(notification));
         }
 
-        [HttpGet]
+        [HttpGet("{eventId}")]
         public Task<IEnumerable<Notification>> GetAll(ulong eventId)
         {
             return mediator.Send(new GetNotifications(eventId));

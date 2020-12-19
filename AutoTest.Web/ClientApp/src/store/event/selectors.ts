@@ -18,3 +18,5 @@ export const selectTestRuns = (a: AppState) => a.event.testRuns;
 export const selectEvents = (a: AppState) => a.event.events;
 
 export const selectClubs = (a: AppState) => a.event.clubs;
+
+export const selectNotifications = (a: AppState) => a.event.notifications;

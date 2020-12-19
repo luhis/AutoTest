@@ -20,6 +20,7 @@ namespace AutoTest.Persistence
         public DbSet<Entrant>? Entrants { get; private set; }
         public DbSet<TestRun>? TestRuns { get; private set; }
         public DbSet<Profile>? Users { get; private set; }
+        public DbSet<Notification>? Notifications { get; private set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

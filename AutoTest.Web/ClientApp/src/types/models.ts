@@ -114,6 +114,12 @@ export interface EntrantTime {
     readonly times: readonly TestTime[];
 }
 
+export interface Notification {
+    readonly notificationId: number;
+    readonly message: string;
+    readonly created: ValidDate;
+}
+
 interface TestTime {
     readonly ordinal: number;
     readonly testRuns: readonly TestRun[];

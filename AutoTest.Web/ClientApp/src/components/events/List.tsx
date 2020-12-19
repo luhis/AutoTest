@@ -1,6 +1,6 @@
 import { FunctionComponent, h } from "preact";
 import { Column, Button } from "rbx";
-import { route } from "preact-router";
+import { Link, route } from "preact-router";
 
 import ifSome from "../shared/ifSome";
 import { Event } from "../../types/models";
@@ -31,6 +31,7 @@ const List: FunctionComponent<Props> = ({
                 </Column>
                 <Column>
                     <Button.Group>
+                        <Link href={`/event/${a.eventId}`}>View</Link>
                         <Button onClick={() => setEditingEvent(a)}>Edit</Button>
                         <Button onClick={() => route(`/entrants/${a.eventId}`)}>
                             Entrants

@@ -12,6 +12,7 @@ import {
     ADD_EVENT,
     GET_TEST_RUNS,
     ADD_CLUB,
+    GET_NOTIFICATIONS,
 } from "./types";
 import { Entrant, TestRunUploadState } from "../../types/models";
 import { ifLoaded, LoadingState } from "../../types/loadingState";
@@ -23,6 +24,7 @@ const initialState: EventState = {
     testRunsFromServer: { tag: "Idle" },
     events: { tag: "Idle" },
     clubs: { tag: "Idle" },
+    notifications: { tag: "Idle" },
 };
 
 const setPaid = (
@@ -145,6 +147,11 @@ export const eventReducer = (
                               eventId: 0, //todo
                           }))
                         : [],
+            };
+        case GET_NOTIFICATIONS:
+            return {
+                ...state,
+                notifications: action.payload,
             };
         default: {
             neverReached(action);
