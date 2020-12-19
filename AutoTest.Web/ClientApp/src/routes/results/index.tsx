@@ -37,7 +37,7 @@ const connection =
               .withAutomaticReconnect()
               .configureLogging(LogLevel.Error)
               .build()
-        : new HubConnectionBuilder().build();
+        : undefined;
 
 const Results: FunctionalComponent<Props> = ({ eventId }) => {
     const dispatch = useDispatch();
@@ -77,27 +77,31 @@ const Results: FunctionalComponent<Props> = ({ eventId }) => {
     }, [eventIdAsNum, dispatch, auth]);
 
     useEffect(() => {
-        connection.on("NewNotification", (notification: Notification) => {
-            dispatch(AddNotification(notification));
-        });
-        connection.on("NewTestRun", (newResults: readonly Result[]) => {
-            setResults({
-                tag: "Loaded",
-                value: newResults,
-                id: eventIdAsNum,
-                loaded: newValidDate(),
+        if (connection) {
+            connection.on("NewNotification", (notification: Notification) => {
+                dispatch(AddNotification(notification));
             });
-        });
-        void connection
-            .start()
-            .then(() => {
-                void connection.invoke("ListenToEvent", eventIdAsNum);
-            })
-            .catch(console.error);
-        return async () => {
-            await connection.invoke("LeaveEvent", eventIdAsNum);
-            await connection.stop();
-        };
+            connection.on("NewTestRun", (newResults: readonly Result[]) => {
+                setResults({
+                    tag: "Loaded",
+                    value: newResults,
+                    id: eventIdAsNum,
+                    loaded: newValidDate(),
+                });
+            });
+            void connection
+                .start()
+                .then(() => {
+                    void connection.invoke("ListenToEvent", eventIdAsNum);
+                })
+                .catch(console.error);
+            return async () => {
+                await connection.invoke("LeaveEvent", eventIdAsNum);
+                await connection.stop();
+            };
+        } else {
+            return () => undefined;
+        }
     }, [dispatch, eventIdAsNum]);
     const [showModal, setShowModal] = useState(false);
 
