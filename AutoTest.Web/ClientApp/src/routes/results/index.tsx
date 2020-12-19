@@ -30,13 +30,16 @@ interface Props {
 }
 
 const numberToChar = (n: number) => "abcdefghijklmnopqrstuvwxyz".charAt(n);
+const connection =
+    typeof window !== "undefined"
+        ? new HubConnectionBuilder()
+              .withUrl("/resultsHub")
+              .withAutomaticReconnect()
+              .configureLogging(LogLevel.Error)
+              .build()
+        : new HubConnectionBuilder().build();
 
 const Results: FunctionalComponent<Props> = ({ eventId }) => {
-    const connection = new HubConnectionBuilder()
-        .withUrl("/resultsHub")
-        .withAutomaticReconnect()
-        .configureLogging(LogLevel.Error)
-        .build();
     const dispatch = useDispatch();
     const auth = useGoogleAuth();
     const eventIdAsNum = Number.parseInt(eventId);
@@ -74,26 +77,28 @@ const Results: FunctionalComponent<Props> = ({ eventId }) => {
     }, [eventIdAsNum, dispatch, auth]);
 
     useEffect(() => {
-        void (async () => {
-            await connection.start().catch(console.error);
-            await connection.invoke("ListenToEvent", eventIdAsNum);
-            connection.on("NewNotification", (notification: Notification) => {
-                dispatch(AddNotification(notification));
+        connection.on("NewNotification", (notification: Notification) => {
+            dispatch(AddNotification(notification));
+        });
+        connection.on("NewTestRun", (newResults: readonly Result[]) => {
+            setResults({
+                tag: "Loaded",
+                value: newResults,
+                id: eventIdAsNum,
+                loaded: newValidDate(),
             });
-            connection.on("NewTestRun", (newResults: readonly Result[]) => {
-                setResults({
-                    tag: "Loaded",
-                    value: newResults,
-                    id: eventIdAsNum,
-                    loaded: newValidDate(),
-                });
-            });
-        })();
+        });
+        void connection
+            .start()
+            .then(() => {
+                void connection.invoke("ListenToEvent", eventIdAsNum);
+            })
+            .catch(console.error);
         return async () => {
             await connection.invoke("LeaveEvent", eventIdAsNum);
             await connection.stop();
         };
-    }, [connection, dispatch, eventIdAsNum]);
+    }, [dispatch, eventIdAsNum]);
     const [showModal, setShowModal] = useState(false);
 
     return (
