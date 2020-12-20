@@ -25,11 +25,14 @@ export const addNotification = async (
     notification: Notification,
     token: string | undefined
 ): Promise<void> => {
-    const { notificationId, ...rest } = notification;
-    const response = await fetch(`/api/notifications/${notificationId}`, {
-        headers: getHeaders(token),
-        method: "PUT",
-        body: JSON.stringify(rest),
-    });
+    const { notificationId, eventId, ...rest } = notification;
+    const response = await fetch(
+        `/api/notifications/${eventId}/${notificationId}`,
+        {
+            headers: getHeaders(token),
+            method: "PUT",
+            body: JSON.stringify(rest),
+        }
+    );
     throwIfNotOk(response);
 };

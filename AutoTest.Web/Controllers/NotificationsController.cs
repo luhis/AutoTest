@@ -3,6 +3,9 @@ using System.Threading.Tasks;
 using AutoTest.Domain.StorageModels;
 using AutoTest.Service.Messages;
 using AutoTest.Web.Authorization;
+using AutoTest.Web.Authorization.Tooling;
+using AutoTest.Web.Mapping;
+using AutoTest.Web.Models;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -21,10 +24,11 @@ namespace AutoTest.Web.Controllers
         }
 
         [Authorize(policy: Policies.ClubAdmin)]
-        [HttpPost]
-        public Task Add(ulong clubId, ulong eventId, Notification notification)
+        [HttpPut("{eventId}/{notificationId}")]
+        public Task Add(ulong notificationId, ulong eventId, NotificationSaveModel notification)
         {
-            return mediator.Send(new AddNotification(notification));
+            var email = this.User.GetEmailAddress();
+            return mediator.Send(new AddNotification(MapClub.Map(notificationId, eventId, email, notification)));
         }
 
         [HttpGet("{eventId}")]

@@ -61,5 +61,11 @@ namespace AutoTest.Web.Mapping
             p.SetClubMemberships(profile.ClubMemberships.Select(Map).ToArray());
             return p;
         }
+
+        public static Notification Map(ulong notificationId, ulong eventId, string emailAddress, NotificationSaveModel notification)
+        {
+            var p = new Notification(notificationId, eventId, notification.Message, notification.Created, emailAddress);
+            return p;
+        }
     }
 }

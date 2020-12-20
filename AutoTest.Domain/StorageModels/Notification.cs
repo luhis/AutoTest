@@ -16,7 +16,7 @@ namespace AutoTest.Domain.StorageModels
         public ulong NotificationId { get; }
 
         public string Message { get; }
-        
+
         public DateTime Created { get; }
 
         public string CreatedBy { get; }

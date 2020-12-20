@@ -116,6 +116,7 @@ export interface EntrantTime {
 
 export interface Notification {
     readonly notificationId: number;
+    readonly eventId: number;
     readonly message: string;
     readonly created: ValidDate;
 }
