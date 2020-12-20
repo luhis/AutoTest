@@ -13,18 +13,19 @@ import {
 import { selectEvents, selectNotifications } from "../../store/event/selectors";
 import { findIfLoaded } from "../../types/loadingState";
 import NotificationsModal from "../../components/events/NotificationsModal";
+import RouteParamsParser from "../../components/shared/RouteParamsParser";
+import { Override } from "../../types/models";
 
 interface Props {
-    readonly eventId: string;
+    readonly eventId: number;
 }
 
 const Events: FunctionalComponent<Props> = ({ eventId }) => {
     const dispatch = useDispatch();
-    const eventIdNum = Number.parseInt(eventId);
     const auth = useGoogleAuth();
     const currentEvent = findIfLoaded(
         useSelector(selectEvents),
-        (a) => a.eventId === eventIdNum
+        (a) => a.eventId === eventId
     );
     const notifications = useSelector(selectNotifications);
     useEffect(() => {
@@ -32,8 +33,8 @@ const Events: FunctionalComponent<Props> = ({ eventId }) => {
         dispatch(GetClubsIfRequired(getAccessToken(auth)));
     }, [auth, dispatch]);
     useEffect(() => {
-        dispatch(GetNotifications(eventIdNum));
-    }, [dispatch, eventIdNum]);
+        dispatch(GetNotifications(eventId));
+    }, [dispatch, eventId]);
     const [showModal, setShowModal] = useState(false);
     return (
         <div>
@@ -53,4 +54,14 @@ const Events: FunctionalComponent<Props> = ({ eventId }) => {
     );
 };
 
-export default Events;
+export default RouteParamsParser<
+    Override<
+        Props,
+        {
+            readonly eventId: string;
+        }
+    >,
+    Props
+>(({ eventId, ...props }) => ({ ...props, eventId: Number.parseInt(eventId) }))(
+    Events
+);

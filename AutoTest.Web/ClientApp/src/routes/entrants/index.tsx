@@ -4,7 +4,7 @@ import { Title, Button, Breadcrumb } from "rbx";
 import UUID from "uuid-int";
 import { useDispatch, useSelector } from "react-redux";
 
-import { Entrant, EditingEntrant } from "../../types/models";
+import { Entrant, EditingEntrant, Override } from "../../types/models";
 import { useGoogleAuth } from "../../components/app";
 import { getAccessToken } from "../../api/api";
 import List from "../../components/entrants/List";
@@ -24,19 +24,19 @@ import {
 import { keySeed } from "../../settings";
 import { findIfLoaded } from "../../types/loadingState";
 import { selectProfile } from "../../store/profile/selectors";
+import RouteParamsParser from "../../components/shared/RouteParamsParser";
 
 interface Props {
-    readonly eventId: string;
+    readonly eventId: number;
 }
 const uid = UUID(keySeed);
 
 const Events: FunctionalComponent<Readonly<Props>> = ({ eventId }) => {
-    const eventIdNum = Number.parseInt(eventId);
     const entrants = useSelector(selectEntrants);
     const profile = useSelector(selectProfile);
     const currentEvent = findIfLoaded(
         useSelector(selectEvents),
-        (a) => a.eventId === eventIdNum
+        (a) => a.eventId === eventId
     );
     const currentClub = findIfLoaded(
         useSelector(selectClubs),
@@ -109,8 +109,8 @@ const Events: FunctionalComponent<Readonly<Props>> = ({ eventId }) => {
     };
     useEffect(() => {
         dispatch(GetClubsIfRequired(getAccessToken(auth)));
-        dispatch(GetEntrantsIfRequired(eventIdNum, getAccessToken(auth)));
-    }, [eventIdNum, dispatch, auth]);
+        dispatch(GetEntrantsIfRequired(eventId, getAccessToken(auth)));
+    }, [eventId, dispatch, auth]);
 
     return (
         <div>
@@ -135,7 +135,7 @@ const Events: FunctionalComponent<Readonly<Props>> = ({ eventId }) => {
                 onClick={() =>
                     setEditingEntrant({
                         entrantId: uid.uuid(),
-                        eventId: eventIdNum,
+                        eventId: eventId,
                         class: "",
                         givenName: "",
                         familyName: "",
@@ -180,4 +180,14 @@ const Events: FunctionalComponent<Readonly<Props>> = ({ eventId }) => {
     );
 };
 
-export default Events;
+export default RouteParamsParser<
+    Override<
+        Props,
+        {
+            readonly eventId: string;
+        }
+    >,
+    Props
+>(({ eventId, ...props }) => ({ ...props, eventId: Number.parseInt(eventId) }))(
+    Events
+);
