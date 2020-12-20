@@ -6,7 +6,7 @@ import { HubConnectionBuilder, LogLevel } from "@microsoft/signalr";
 import { range } from "@s-libs/micro-dash";
 import { newValidDate } from "ts-date";
 
-import { Notification, Result } from "../../types/models";
+import { Notification, Override, Result } from "../../types/models";
 import { LoadingState, findIfLoaded } from "../../types/loadingState";
 import { getResults } from "../../api/results";
 import ifSome from "../../components/shared/ifSome";
@@ -24,9 +24,10 @@ import {
     GetNotifications,
 } from "../../store/event/actions";
 import NotificationsModal from "../../components/events/NotificationsModal";
+import RouteParamsParser from "../../components/shared/RouteParamsParser";
 
 interface Props {
-    readonly eventId: string;
+    readonly eventId: number;
 }
 
 const numberToChar = (n: number) => "abcdefghijklmnopqrstuvwxyz".charAt(n);
@@ -42,10 +43,9 @@ const connection =
 const Results: FunctionalComponent<Props> = ({ eventId }) => {
     const dispatch = useDispatch();
     const auth = useGoogleAuth();
-    const eventIdAsNum = Number.parseInt(eventId);
     const currentEvent = findIfLoaded(
         useSelector(selectEvents),
-        (a) => a.eventId === eventIdAsNum
+        (a) => a.eventId === eventId
     );
     const currentClub = findIfLoaded(
         useSelector(selectClubs),
@@ -59,22 +59,19 @@ const Results: FunctionalComponent<Props> = ({ eventId }) => {
         LoadingState<readonly Result[], number>
     >({
         tag: "Loading",
-        id: eventIdAsNum,
+        id: eventId,
     });
     useEffect(() => {
         const fetchData = async () => {
-            const resultsData = await getResults(
-                eventIdAsNum,
-                getAccessToken(auth)
-            );
+            const resultsData = await getResults(eventId, getAccessToken(auth));
             setResults(resultsData);
         };
         void fetchData();
-    }, [auth, eventIdAsNum]);
+    }, [auth, eventId]);
     useEffect(() => {
         dispatch(GetEventsIfRequired());
-        dispatch(GetNotifications(eventIdAsNum));
-    }, [eventIdAsNum, dispatch, auth]);
+        dispatch(GetNotifications(eventId));
+    }, [eventId, dispatch, auth]);
 
     useEffect(() => {
         if (connection) {
@@ -85,24 +82,24 @@ const Results: FunctionalComponent<Props> = ({ eventId }) => {
                 setResults({
                     tag: "Loaded",
                     value: newResults,
-                    id: eventIdAsNum,
+                    id: eventId,
                     loaded: newValidDate(),
                 });
             });
             void connection
                 .start()
                 .then(() => {
-                    void connection.invoke("ListenToEvent", eventIdAsNum);
+                    void connection.invoke("ListenToEvent", eventId);
                 })
                 .catch(console.error);
             return async () => {
-                await connection.invoke("LeaveEvent", eventIdAsNum);
+                await connection.invoke("LeaveEvent", eventId);
                 await connection.stop();
             };
         } else {
             return () => undefined;
         }
-    }, [dispatch, eventIdAsNum]);
+    }, [dispatch, eventId]);
     const [showModal, setShowModal] = useState(false);
 
     return (
@@ -185,4 +182,14 @@ const Results: FunctionalComponent<Props> = ({ eventId }) => {
     );
 };
 
-export default Results;
+export default RouteParamsParser<
+    Override<
+        Props,
+        {
+            readonly eventId: string;
+        }
+    >,
+    Props
+>(({ eventId, ...props }) => ({ ...props, eventId: Number.parseInt(eventId) }))(
+    Results
+);

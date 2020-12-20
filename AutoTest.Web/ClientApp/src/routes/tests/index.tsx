@@ -12,29 +12,30 @@ import {
 } from "../../store/event/actions";
 import { selectEvents, selectClubs } from "../../store/event/selectors";
 import { findIfLoaded } from "../../types/loadingState";
+import RouteParamsParser from "../../components/shared/RouteParamsParser";
+import { Override } from "../../types/models";
 
 interface Props {
-    readonly eventId: string;
+    readonly eventId: number;
 }
 
 const Tests: FunctionalComponent<Readonly<Props>> = ({ eventId }) => {
     const dispatch = useDispatch();
     const auth = useGoogleAuth();
-    const eventIdAsNum = Number.parseInt(eventId);
     const currentEvent = findIfLoaded(
         useSelector(selectEvents),
-        (a) => a.eventId === eventIdAsNum
+        (a) => a.eventId === eventId
     );
     const currentClub = findIfLoaded(
         useSelector(selectClubs),
         (a) => a.clubId === currentEvent?.clubId
     );
     useEffect(() => {
-        dispatch(GetEntrantsIfRequired(eventIdAsNum, getAccessToken(auth)));
-    }, [eventIdAsNum, dispatch, auth]);
+        dispatch(GetEntrantsIfRequired(eventId, getAccessToken(auth)));
+    }, [eventId, dispatch, auth]);
     useEffect(() => {
         dispatch(GetEventsIfRequired());
-    }, [eventIdAsNum, dispatch, auth]);
+    }, [eventId, dispatch, auth]);
     return (
         <div>
             <Breadcrumb>
@@ -76,4 +77,14 @@ const Tests: FunctionalComponent<Readonly<Props>> = ({ eventId }) => {
     );
 };
 
-export default Tests;
+export default RouteParamsParser<
+    Override<
+        Props,
+        {
+            readonly eventId: string;
+        }
+    >,
+    Props
+>(({ eventId, ...props }) => ({ ...props, eventId: Number.parseInt(eventId) }))(
+    Tests
+);

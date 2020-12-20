@@ -14,7 +14,12 @@ import UUID from "uuid-int";
 import { useSelector, useDispatch } from "react-redux";
 import { newValidDate } from "ts-date";
 
-import { EditableTestRun, PenaltyType, TestRunTemp } from "../../types/models";
+import {
+    EditableTestRun,
+    Override,
+    PenaltyType,
+    TestRunTemp,
+} from "../../types/models";
 import ifSome from "../../components/shared/ifSome";
 import { getAccessToken } from "../../api/api";
 import { useGoogleAuth } from "../../components/app";
@@ -38,6 +43,7 @@ import {
 import { keySeed } from "../../settings";
 import ExistingCount from "../../components/marshal/ExistingCount";
 import { findIfLoaded } from "../../types/loadingState";
+import RouteParamsParser from "../../components/shared/RouteParamsParser";
 
 const getNewEditableTest = (ordinal: number): EditableTestRun => ({
     testRunId: uid.uuid(),
@@ -47,8 +53,8 @@ const getNewEditableTest = (ordinal: number): EditableTestRun => ({
     entrantId: undefined,
 });
 interface Props {
-    readonly eventId: string;
-    readonly ordinal: string;
+    readonly eventId: number;
+    readonly ordinal: number;
 }
 
 const uid = UUID(keySeed);
@@ -71,12 +77,10 @@ const Marshal: FunctionalComponent<Readonly<Props>> = ({
     const entrants = useSelector(selectEntrants);
     const testRuns = useSelector(selectTestRuns);
     const requiresSync = useSelector(selectRequiresSync);
-    const ordinalNum = Number.parseInt(ordinal);
-    const eventIdNum = Number.parseInt(eventId);
 
     const currentEvent = findIfLoaded(
         useSelector(selectEvents),
-        (a) => a.eventId === eventIdNum
+        (a) => a.eventId === eventId
     );
     const currentClub = findIfLoaded(
         useSelector(selectClubs),
@@ -84,16 +88,16 @@ const Marshal: FunctionalComponent<Readonly<Props>> = ({
     );
 
     const [editing, setEditing] = useState<EditableTestRun>(
-        getNewEditableTest(ordinalNum)
+        getNewEditableTest(ordinal)
     );
     const auth = useGoogleAuth();
     useEffect(() => {
         const token = getAccessToken(auth);
-        dispatch(GetEntrantsIfRequired(eventIdNum, token));
+        dispatch(GetEntrantsIfRequired(eventId, token));
         dispatch(GetEventsIfRequired());
         dispatch(GetClubsIfRequired(token));
-        dispatch(GetTestRunsIfRequired(eventIdNum, token));
-    }, [auth, dispatch, eventIdNum]);
+        dispatch(GetTestRunsIfRequired(eventId, token));
+    }, [auth, dispatch, eventId]);
 
     const increase = (penaltyType: PenaltyType) => {
         setEditing((a) => {
@@ -149,7 +153,7 @@ const Marshal: FunctionalComponent<Readonly<Props>> = ({
                 <Breadcrumb.Item href={`/tests/${currentEvent?.eventId || 0}`}>
                     {currentEvent?.location}
                 </Breadcrumb.Item>
-                <Breadcrumb.Item>Test No. {ordinalNum + 1}</Breadcrumb.Item>
+                <Breadcrumb.Item>Test No. {ordinal + 1}</Breadcrumb.Item>
             </Breadcrumb>
             <Title>Marshal</Title>
             <Field>
@@ -184,7 +188,7 @@ const Marshal: FunctionalComponent<Readonly<Props>> = ({
                 <Label>Existing Count</Label>
                 <ExistingCount
                     entrantId={editing.entrantId}
-                    ordinal={ordinalNum}
+                    ordinal={ordinal}
                     currentEvent={currentEvent}
                     testRuns={testRuns}
                 />
@@ -230,12 +234,12 @@ const Marshal: FunctionalComponent<Readonly<Props>> = ({
                                     {
                                         ...editing,
                                         created: newValidDate(),
-                                        eventId: eventIdNum,
+                                        eventId: eventId,
                                     } as TestRunTemp,
                                     getAccessToken(auth)
                                 )
                             );
-                            setEditing(getNewEditableTest(ordinalNum));
+                            setEditing(getNewEditableTest(ordinal));
                         }
                     }}
                 >
@@ -249,5 +253,17 @@ const Marshal: FunctionalComponent<Readonly<Props>> = ({
         </div>
     );
 };
-
-export default Marshal;
+export default RouteParamsParser<
+    Override<
+        Props,
+        {
+            readonly ordinal: string;
+            readonly eventId: string;
+        }
+    >,
+    Props
+>(({ eventId, ordinal, ...props }) => ({
+    ...props,
+    eventId: Number.parseInt(eventId),
+    ordinal: Number.parseInt(ordinal),
+}))(Marshal);
