@@ -4,6 +4,7 @@ import { Button, Numeric, Title } from "rbx";
 import { useDispatch, useSelector } from "react-redux";
 import { newValidDate } from "ts-date";
 import UUID from "uuid-int";
+import { FaBell } from "react-icons/fa";
 
 import { getAccessToken } from "../../api/api";
 import { useGoogleAuth } from "../../components/app";
@@ -11,6 +12,7 @@ import {
     GetEventsIfRequired,
     GetClubsIfRequired,
     GetNotifications,
+    CreateNotification,
 } from "../../store/event/actions";
 import { selectEvents, selectNotifications } from "../../store/event/selectors";
 import { findIfLoaded } from "../../types/loadingState";
@@ -19,7 +21,6 @@ import RouteParamsParser from "../../components/shared/RouteParamsParser";
 import { Notification, Override } from "../../types/models";
 import AddNotificationModal from "../../components/events/AddNotificationModal";
 import { keySeed } from "../../settings";
-import { addNotification } from "../../api/notifications";
 
 const uid = UUID(keySeed);
 
@@ -46,11 +47,13 @@ const Events: FunctionalComponent<Props> = ({ eventId }) => {
     const [showAddNotificationModal, setShowAddNotificationModal] = useState<
         Notification | undefined
     >(undefined);
-    const save = async () => {
+    const save = () => {
         if (showAddNotificationModal) {
-            await addNotification(
-                showAddNotificationModal,
-                getAccessToken(auth)
+            dispatch(
+                CreateNotification(
+                    showAddNotificationModal,
+                    getAccessToken(auth)
+                )
             );
             setShowAddNotificationModal(undefined);
         }
@@ -60,6 +63,7 @@ const Events: FunctionalComponent<Props> = ({ eventId }) => {
             <Title>Event {currentEvent?.location}</Title>
 
             <Numeric onClick={() => setShowModal(true)}>
+                <FaBell />
                 {notifications.tag === "Loaded"
                     ? notifications.value.length
                     : ""}

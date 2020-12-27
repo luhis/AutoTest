@@ -41,7 +41,7 @@ import {
 import { addEvent, deleteEvent, getEvents } from "../../api/events";
 import { getClubs, addClub, deleteClub } from "../../api/clubs";
 import { distinct } from "../../lib/array";
-import { getNotifications } from "../../api/notifications";
+import { addNotification, getNotifications } from "../../api/notifications";
 
 export const GetClubsIfRequired = (token: string | undefined) => async (
     dispatch: Dispatch<EventActionTypes>,
@@ -156,6 +156,17 @@ export const GetNotifications = (eventId: number) => async (
 export const AddNotification = (notification: Notification) => (
     dispatch: Dispatch<EventActionTypes>
 ) => {
+    dispatch({
+        type: ADD_NOTIFICATION,
+        payload: notification,
+    });
+};
+
+export const CreateNotification = (
+    notification: Notification,
+    token: string | undefined
+) => async (dispatch: Dispatch<EventActionTypes>) => {
+    await addNotification(notification, token);
     dispatch({
         type: ADD_NOTIFICATION,
         payload: notification,

@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { HubConnectionBuilder, LogLevel } from "@microsoft/signalr";
 import { range } from "@s-libs/micro-dash";
 import { newValidDate } from "ts-date";
+import { FaBell } from "react-icons/fa";
 
 import { Notification, Override, Result } from "../../types/models";
 import { LoadingState, findIfLoaded } from "../../types/loadingState";
@@ -114,6 +115,7 @@ const Results: FunctionalComponent<Props> = ({ eventId }) => {
             </Breadcrumb>
             <Title>Results</Title>
             <Numeric onClick={() => setShowModal(true)}>
+                <FaBell />
                 {notifications.tag === "Loaded"
                     ? notifications.value.length
                     : ""}

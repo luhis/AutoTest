@@ -158,7 +158,7 @@ export const eventReducer = (
             return {
                 ...state,
                 notifications: ifLoaded(state.notifications, (a) =>
-                    a.concat(action.payload)
+                    [action.payload].concat(a)
                 ),
             };
         default: {
