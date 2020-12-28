@@ -67,10 +67,10 @@ const App: FunctionalComponent = () => {
     });
     const access = useState<Access>(defaultAccess);
 
-    const { storeX, persistor } = store();
+    const { appStore, persistor } = store();
     return (
         <div id="app">
-            <Provider store={storeX}>
+            <Provider store={appStore}>
                 <PersistGate loading={<Loader />} persistor={persistor}>
                     <AccessContext.Provider value={access}>
                         <GoogleAuthContext.Provider value={googleAuth}>

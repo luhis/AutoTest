@@ -28,7 +28,7 @@ interface Props {
     readonly eventId: number;
 }
 
-const Events: FunctionalComponent<Props> = ({ eventId }) => {
+const Event: FunctionalComponent<Props> = ({ eventId }) => {
     const dispatch = useDispatch();
     const auth = useGoogleAuth();
     const currentEvent = findIfLoaded(
@@ -115,5 +115,5 @@ export default RouteParamsParser<
     >,
     Props
 >(({ eventId, ...props }) => ({ ...props, eventId: Number.parseInt(eventId) }))(
-    Events
+    Event
 );

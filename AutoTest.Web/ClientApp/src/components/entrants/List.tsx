@@ -1,5 +1,6 @@
 import { FunctionalComponent, h } from "preact";
 import { Column, Button, Numeric } from "rbx";
+import { FaCar } from "react-icons/fa";
 
 import ifSome from "../shared/ifSome";
 import { Entrant } from "../../types/models";
@@ -24,7 +25,11 @@ const List: FunctionalComponent<Props> = ({
         (a) => (
             <Column.Group>
                 <Column>
-                    <Numeric>{a.driverNumber}</Numeric>
+                    <Numeric>
+                        <FaCar />
+                        &nbsp;
+                        {a.driverNumber}
+                    </Numeric>
                 </Column>
                 <Column>{a.vehicle.registration}</Column>
                 <Column>{`${a.givenName} ${a.familyName}`}</Column>

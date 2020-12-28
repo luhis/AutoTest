@@ -1,4 +1,10 @@
-import { createStore, combineReducers, applyMiddleware, Store } from "redux";
+import {
+    createStore,
+    combineReducers,
+    applyMiddleware,
+    Store,
+    AnyAction,
+} from "redux";
 import thunk from "redux-thunk";
 import { composeWithDevTools } from "redux-devtools-extension";
 import storage from "redux-persist/lib/storage";
@@ -35,10 +41,10 @@ const persistedReducer = persistReducer(persistConfig, rootReducer);
 export type AppState = ReturnType<typeof persistedReducer>;
 
 export default () => {
-    const storeX = createStore(
+    const appStore: Store<AppState, AnyAction> = createStore(
         persistedReducer,
         composeWithDevTools(applyMiddleware(thunk))
     );
-    const persistor = persistStore(storeX as Store<unknown, any>);
-    return { storeX, persistor };
+    const persistor = persistStore(appStore);
+    return { appStore, persistor };
 };
