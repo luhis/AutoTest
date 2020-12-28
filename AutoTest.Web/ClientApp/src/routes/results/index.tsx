@@ -1,6 +1,6 @@
 import { FunctionalComponent, h, Fragment } from "preact";
 import { useEffect, useState } from "preact/hooks";
-import { Title, Table, Breadcrumb, Numeric } from "rbx";
+import { Title, Table, Breadcrumb, Button } from "rbx";
 import { useDispatch, useSelector } from "react-redux";
 import { HubConnectionBuilder, LogLevel } from "@microsoft/signalr";
 import { range } from "@s-libs/micro-dash";
@@ -114,12 +114,16 @@ const Results: FunctionalComponent<Props> = ({ eventId }) => {
                 <Breadcrumb.Item>{currentEvent?.location}</Breadcrumb.Item>
             </Breadcrumb>
             <Title>Results</Title>
-            <Numeric onClick={() => setShowModal(true)}>
+            <Button
+                onClick={() => setShowModal(true)}
+                state={notifications.tag === "Loaded" ? null : "loading"}
+            >
                 <FaBell />
+                &nbsp;
                 {notifications.tag === "Loaded"
                     ? notifications.value.length
                     : ""}
-            </Numeric>
+            </Button>
             <Table>
                 <Table.Head>
                     <Table.Row>

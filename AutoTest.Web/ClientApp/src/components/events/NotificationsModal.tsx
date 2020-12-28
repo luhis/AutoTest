@@ -1,5 +1,5 @@
 import { h, FunctionComponent } from "preact";
-import { Modal, Button } from "rbx";
+import { Modal, Button, Title } from "rbx";
 import TimeAgo from "timeago-react";
 
 import { Notification } from "../../types/models";
@@ -22,7 +22,9 @@ const NotificationsModal: FunctionComponent<Props> = ({
                     <ul>
                         {notifications.map((a) => (
                             <li key={a.notificationId}>
-                                <TimeAgo datetime={a.created} />
+                                <Title size={6}>
+                                    <TimeAgo datetime={a.created} />
+                                </Title>
                                 <p>{a.message}</p>
                             </li>
                         ))}

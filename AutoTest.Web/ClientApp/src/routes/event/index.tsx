@@ -1,6 +1,6 @@
 import { FunctionalComponent, h } from "preact";
 import { useEffect, useState } from "preact/hooks";
-import { Button, Numeric, Title } from "rbx";
+import { Button, Title } from "rbx";
 import { useDispatch, useSelector } from "react-redux";
 import { newValidDate } from "ts-date";
 import UUID from "uuid-int";
@@ -62,12 +62,16 @@ const Events: FunctionalComponent<Props> = ({ eventId }) => {
         <div>
             <Title>Event {currentEvent?.location}</Title>
 
-            <Numeric onClick={() => setShowModal(true)}>
+            <Button
+                onClick={() => setShowModal(true)}
+                state={notifications.tag === "Loaded" ? null : "loading"}
+            >
                 <FaBell />
+                &nbsp;
                 {notifications.tag === "Loaded"
                     ? notifications.value.length
                     : ""}
-            </Numeric>
+            </Button>
             <Button
                 onClick={() =>
                     setShowAddNotificationModal({
