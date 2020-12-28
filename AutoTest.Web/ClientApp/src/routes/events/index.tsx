@@ -18,7 +18,6 @@ import {
 } from "../../store/event/actions";
 import { selectEvents, selectClubs } from "../../store/event/selectors";
 import { keySeed } from "../../settings";
-import RegsModal from "../../components/events/RegsModal";
 import RouteParamsParser from "../../components/shared/RouteParamsParser";
 
 interface Props {
@@ -34,7 +33,6 @@ const Events: FunctionalComponent<Props> = ({ clubId }) => {
     const [editingEvent, setEditingEvent] = useState<EditingEvent | undefined>(
         undefined
     );
-    const [regsId, setRegsId] = useState<Event | undefined>(undefined);
     useEffect(() => {
         dispatch(GetEventsIfRequired());
         dispatch(GetClubsIfRequired(getAccessToken(auth)));
@@ -65,7 +63,6 @@ const Events: FunctionalComponent<Props> = ({ clubId }) => {
                         isClubEditable: clubId === undefined,
                     })
                 }
-                setRegsModal={(a) => setRegsId(a)}
                 deleteEvent={deleteEvent}
             />
             <Button
@@ -100,9 +97,6 @@ const Events: FunctionalComponent<Props> = ({ clubId }) => {
                     cancel={() => setEditingEvent(undefined)}
                     save={save}
                 />
-            ) : null}
-            {regsId ? (
-                <RegsModal event={regsId} cancel={() => setRegsId(undefined)} />
             ) : null}
         </div>
     );
