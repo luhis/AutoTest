@@ -1,6 +1,6 @@
 import { FunctionalComponent, h } from "preact";
-import { Column, Button, Numeric } from "rbx";
-import { FaCar } from "react-icons/fa";
+import { Column, Button, Numeric, Tag } from "rbx";
+import { FaCar, FaMoneyBill } from "react-icons/fa";
 
 import ifSome from "../shared/ifSome";
 import { Entrant } from "../../types/models";
@@ -31,18 +31,28 @@ const List: FunctionalComponent<Props> = ({
                         {a.driverNumber}
                     </Numeric>
                 </Column>
-                <Column>{a.vehicle.registration}</Column>
+                <Column>
+                    <Tag
+                        color="warning"
+                        size="medium"
+                        className="has-text-weight-bold"
+                    >
+                        {a.vehicle.registration}
+                    </Tag>
+                </Column>
                 <Column>{`${a.givenName} ${a.familyName}`}</Column>
                 <Column>{a.isPaid ? "Paid" : "Unpaid"}</Column>
                 <Column>
                     <Button.Group>
                         {a.isPaid ? (
                             <Button onClick={() => markPaid(a, false)}>
-                                Mark Unpaid
+                                <FaMoneyBill />
+                                &nbsp; Mark Unpaid
                             </Button>
                         ) : (
                             <Button onClick={() => markPaid(a, true)}>
-                                Mark Paid
+                                <FaMoneyBill />
+                                &nbsp; Mark Paid
                             </Button>
                         )}
                         <Button onClick={() => setEditingEntrant(a)}>
