@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useGoogleAuth } from "../../components/app";
 import { getAccessToken } from "../../api/api";
 import {
+    GetClubsIfRequired,
     GetEntrantsIfRequired,
     GetEventsIfRequired,
 } from "../../store/event/actions";
@@ -34,8 +35,9 @@ const Tests: FunctionalComponent<Readonly<Props>> = ({ eventId }) => {
         dispatch(GetEntrantsIfRequired(eventId, getAccessToken(auth)));
     }, [eventId, dispatch, auth]);
     useEffect(() => {
+        dispatch(GetClubsIfRequired(getAccessToken(auth)));
         dispatch(GetEventsIfRequired());
-    }, [eventId, dispatch, auth]);
+    }, [dispatch, auth]);
     return (
         <div>
             <Breadcrumb>

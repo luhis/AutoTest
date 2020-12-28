@@ -15,6 +15,7 @@ import {
     SetPaid,
     DeleteEntrant,
     AddEntrant,
+    GetEventsIfRequired,
 } from "../../store/event/actions";
 import {
     selectEntrants,
@@ -107,6 +108,9 @@ const Events: FunctionalComponent<Readonly<Props>> = ({ eventId }) => {
     const deleteEntrant = (entrant: Entrant) => {
         dispatch(DeleteEntrant(entrant, getAccessToken(auth)));
     };
+    useEffect(() => {
+        dispatch(GetEventsIfRequired());
+    }, [dispatch]);
     useEffect(() => {
         dispatch(GetClubsIfRequired(getAccessToken(auth)));
         dispatch(GetEntrantsIfRequired(eventId, getAccessToken(auth)));

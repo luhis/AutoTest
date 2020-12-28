@@ -21,6 +21,7 @@ import {
 } from "../../store/event/selectors";
 import {
     AddNotification,
+    GetClubsIfRequired,
     GetEventsIfRequired,
     GetNotifications,
 } from "../../store/event/actions";
@@ -70,9 +71,12 @@ const Results: FunctionalComponent<Props> = ({ eventId }) => {
         void fetchData();
     }, [auth, eventId]);
     useEffect(() => {
+        dispatch(GetClubsIfRequired(getAccessToken(auth)));
         dispatch(GetEventsIfRequired());
+    }, [dispatch, auth]);
+    useEffect(() => {
         dispatch(GetNotifications(eventId));
-    }, [eventId, dispatch, auth]);
+    }, [eventId, dispatch]);
 
     useEffect(() => {
         if (connection) {
