@@ -5,7 +5,7 @@ import UUID from "uuid-int";
 import { newValidDate } from "ts-date";
 import { useDispatch, useSelector } from "react-redux";
 
-import { Event, EditingEvent } from "../../types/models";
+import { Event, EditingEvent, Override } from "../../types/models";
 import Modal from "../../components/events/Modal";
 import { getAccessToken } from "../../api/api";
 import { useGoogleAuth } from "../../components/app";
@@ -19,9 +19,10 @@ import {
 import { selectEvents, selectClubs } from "../../store/event/selectors";
 import { keySeed } from "../../settings";
 import RegsModal from "../../components/events/RegsModal";
+import RouteParamsParser from "../../components/shared/RouteParamsParser";
 
 interface Props {
-    readonly clubId: string | undefined;
+    readonly clubId: number | undefined;
 }
 const uid = UUID(keySeed);
 
@@ -70,10 +71,7 @@ const Events: FunctionalComponent<Props> = ({ clubId }) => {
             <Button
                 onClick={() =>
                     setEditingEvent({
-                        clubId:
-                            clubId === undefined
-                                ? undefined
-                                : Number.parseInt(clubId), // todo
+                        clubId: clubId,
                         eventId: uid.uuid(),
                         location: "",
                         startTime: newValidDate(),
@@ -110,4 +108,15 @@ const Events: FunctionalComponent<Props> = ({ clubId }) => {
     );
 };
 
-export default Events;
+export default RouteParamsParser<
+    Override<
+        Props,
+        {
+            readonly eventId: string | undefined;
+        }
+    >,
+    Props
+>(({ eventId, ...props }) => ({
+    ...props,
+    eventId: eventId ? Number.parseInt(eventId) : undefined,
+}))(Events);
