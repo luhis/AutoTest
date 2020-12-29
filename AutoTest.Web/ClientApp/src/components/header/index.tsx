@@ -2,7 +2,7 @@ import { FunctionalComponent, h } from "preact";
 import { Navbar, Button } from "rbx";
 import { useDispatch } from "react-redux";
 
-import { useGoogleAuth, useAccess } from "../app";
+import { useGoogleAuth, useAccess, defaultAccess } from "../app";
 import { getAccess } from "../../api/access";
 import { ClearCache } from "../../store/event/actions";
 
@@ -12,6 +12,10 @@ const Header: FunctionalComponent = () => {
     const dispatch = useDispatch();
     const clearCache = () => {
         dispatch(ClearCache());
+    };
+    const signOutAndClear = async () => {
+        await signOut();
+        setAccess(defaultAccess);
     };
     return (
         <Navbar>
@@ -40,7 +44,7 @@ const Header: FunctionalComponent = () => {
                     <Navbar.Item>
                         {!access.isLoggedIn ? (
                             <Button
-                                onClick={async (): Promise<void> => {
+                                onClick={async () => {
                                     const user = await signIn();
                                     if (user) {
                                         setAccess(
@@ -54,7 +58,7 @@ const Header: FunctionalComponent = () => {
                                 Sign in with Google
                             </Button>
                         ) : (
-                            <Button onClick={signOut}>Sign out</Button>
+                            <Button onClick={signOutAndClear}>Sign out</Button>
                         )}
                         <Button onClick={clearCache}>Clear Cache</Button>
                     </Navbar.Item>

@@ -50,7 +50,7 @@ const GoogleAuthContext = createContext<HookReturnValue>({
     },
 }); // Not necessary, but recommended.
 
-const defaultAccess: Access = {
+export const defaultAccess: Access = {
     isLoggedIn: false,
     canViewClubs: false,
     canViewProfile: false,
