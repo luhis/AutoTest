@@ -1,22 +1,31 @@
 import { FunctionalComponent, h } from "preact";
 import { Navbar, Button } from "rbx";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { useCallback, useEffect } from "preact/hooks";
 
-import { useGoogleAuth, useAccess, defaultAccess } from "../app";
-import { getAccess } from "../../api/access";
+import { selectAccess } from "../../store/profile/selectors";
 import { ClearCache } from "../../store/event/actions";
+import { GetAccess, ResetAccess } from "../../store/profile/actions";
+import { useGoogleAuth } from "../app";
+import { getAccessToken } from "../../api/api";
 
 const Header: FunctionalComponent = () => {
-    const { signIn, signOut } = useGoogleAuth();
-    const [access, setAccess] = useAccess();
+    const access = useSelector(selectAccess);
+    const auth = useGoogleAuth();
     const dispatch = useDispatch();
+    useEffect(() => {
+        dispatch(GetAccess(getAccessToken(auth)));
+    }, [dispatch, auth]);
     const clearCache = () => {
         dispatch(ClearCache());
     };
-    const signOutAndClear = async () => {
-        await signOut();
-        setAccess(defaultAccess);
-    };
+    const signOutAndClear = useCallback(async () => {
+        await auth.signOut();
+        dispatch(ResetAccess());
+    }, [dispatch, auth]);
+    const signInAndGetAccess = useCallback(async () => {
+        await auth.signIn();
+    }, [auth]);
     return (
         <Navbar>
             <Navbar.Brand>
@@ -44,18 +53,7 @@ const Header: FunctionalComponent = () => {
                     <Navbar.Item>
                         <Button.Group>
                             {!access.isLoggedIn ? (
-                                <Button
-                                    onClick={async () => {
-                                        const user = await signIn();
-                                        if (user) {
-                                            setAccess(
-                                                await getAccess(user.tokenId)
-                                            );
-                                        } else {
-                                            console.log(user);
-                                        }
-                                    }}
-                                >
+                                <Button onClick={signInAndGetAccess}>
                                     Sign in with Google
                                 </Button>
                             ) : (
