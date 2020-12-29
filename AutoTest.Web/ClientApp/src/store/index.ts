@@ -31,7 +31,7 @@ const persistConfig = {
     ],
 };
 
-const rootReducer = combineReducers({
+export const rootReducer = combineReducers({
     event: eventReducer,
     profile: profileReducer,
 });
