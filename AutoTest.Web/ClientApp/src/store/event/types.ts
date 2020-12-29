@@ -22,6 +22,7 @@ export interface EventState {
     readonly notifications: LoadingState<readonly Notification[], number>;
 }
 
+export const CLEAR_CACHE = "CLEAR_CACHE";
 export const GET_CLUBS = "GET_CLUBS";
 export const ADD_CLUB = "ADD_CLUB";
 export const GET_ENTRANTS = "GET_ENTRANTS";
@@ -35,6 +36,10 @@ export const ADD_TEST_RUN = "ADD_TEST_RUN";
 export const UPDATE_TEST_RUN_STATE = "UPDATE_TEST_RUN_STATE";
 export const GET_NOTIFICATIONS = "GET_NOTIFICATIONS";
 export const ADD_NOTIFICATION = "ADD_NOTIFICATION";
+
+interface ClearCache {
+    readonly type: typeof CLEAR_CACHE;
+}
 
 interface GetClubs {
     readonly type: typeof GET_CLUBS;
@@ -105,6 +110,7 @@ interface AddNotification {
 }
 
 export type EventActionTypes =
+    | ClearCache
     | GetClubs
     | AddClub
     | GetEntrants

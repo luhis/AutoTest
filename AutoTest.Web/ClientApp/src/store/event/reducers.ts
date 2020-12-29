@@ -14,6 +14,7 @@ import {
     ADD_CLUB,
     GET_NOTIFICATIONS,
     ADD_NOTIFICATION,
+    CLEAR_CACHE,
 } from "./types";
 import { Entrant, TestRunUploadState } from "../../types/models";
 import { ifLoaded, LoadingState } from "../../types/loadingState";
@@ -43,6 +44,14 @@ export const eventReducer = (
     action: EventActionTypes
 ): EventState => {
     switch (action.type) {
+        case CLEAR_CACHE:
+            return {
+                ...state,
+                entrants: { tag: "Idle" },
+                testRunsFromServer: { tag: "Idle" },
+                events: { tag: "Idle" },
+                clubs: { tag: "Idle" },
+            };
         case GET_CLUBS:
             return {
                 ...state,

@@ -16,11 +16,11 @@ const ExportCount: FunctionalComponent<Props> = ({
     currentEvent,
 }) => (
     <span>
-        {
-            testRuns.filter(
-                (a) => a.entrantId === entrantId && a.ordinal === ordinal
-            ).length
-        }{" "}
+        {entrantId
+            ? testRuns.filter(
+                  (a) => a.entrantId === entrantId && a.ordinal === ordinal
+              ).length
+            : "NA"}{" "}
         of{" "}
         {currentEvent !== undefined
             ? currentEvent.maxAttemptsPerTest

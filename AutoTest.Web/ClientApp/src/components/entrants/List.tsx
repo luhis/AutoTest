@@ -1,10 +1,11 @@
 import { FunctionalComponent, h } from "preact";
-import { Column, Button, Numeric, Tag } from "rbx";
+import { Column, Button, Numeric } from "rbx";
 import { FaCar, FaMoneyBill } from "react-icons/fa";
 
 import ifSome from "../shared/ifSome";
 import { Entrant } from "../../types/models";
 import { LoadingState } from "../../types/loadingState";
+import NumberPlate from "../shared/NumberPlate";
 
 interface Props {
     readonly entrants: LoadingState<readonly Entrant[], number>;
@@ -32,13 +33,7 @@ const List: FunctionalComponent<Props> = ({
                     </Numeric>
                 </Column>
                 <Column>
-                    <Tag
-                        color="warning"
-                        size="medium"
-                        className="has-text-weight-bold"
-                    >
-                        {a.vehicle.registration}
-                    </Tag>
+                    <NumberPlate registration={a.vehicle.registration} />
                 </Column>
                 <Column>{`${a.givenName} ${a.familyName}`}</Column>
                 <Column>{a.isPaid ? "Paid" : "Unpaid"}</Column>

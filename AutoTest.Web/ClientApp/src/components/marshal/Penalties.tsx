@@ -1,6 +1,14 @@
 import { h, FunctionComponent, Fragment } from "preact";
 import { Label, Button, Level } from "rbx";
-import { FaPlus, FaMinus } from "react-icons/fa";
+import {
+    FaPlus,
+    FaMinus,
+    FaClock,
+    FaCarCrash,
+    FaStopCircle,
+    FaDirections,
+    FaUserSlash,
+} from "react-icons/fa";
 
 import { startCase } from "../../lib/string";
 import { PenaltyType, Penalty } from "../../types/models";
@@ -10,6 +18,23 @@ interface Props {
     readonly increase: (a: PenaltyType) => void;
     readonly decrease: (a: PenaltyType) => void;
 }
+
+const TypeIcon: FunctionComponent<{ readonly type: PenaltyType }> = ({
+    type,
+}) => {
+    switch (type) {
+        case PenaltyType.HitBarrier:
+            return <FaCarCrash />;
+        case PenaltyType.Late:
+            return <FaClock />;
+        case PenaltyType.NoAttendance:
+            return <FaUserSlash />;
+        case PenaltyType.WrongTest:
+            return <FaDirections />;
+        case PenaltyType.FailToStop:
+            return <FaStopCircle />;
+    }
+};
 
 const PenaltyItem: FunctionComponent<
     Props & { readonly penaltyType: PenaltyType }
@@ -25,6 +50,8 @@ const PenaltyItem: FunctionComponent<
                         <FaPlus />
                     </Button>
                 </Button.Group>
+                <TypeIcon type={penaltyType} />
+                &nbsp;
                 {startCase(PenaltyType[penaltyType])}:{" "}
                 {getCount(penalties, penaltyType)}
             </Level.Item>

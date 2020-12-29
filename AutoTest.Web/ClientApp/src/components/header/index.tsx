@@ -1,12 +1,18 @@
 import { FunctionalComponent, h } from "preact";
 import { Navbar, Button } from "rbx";
+import { useDispatch } from "react-redux";
 
 import { useGoogleAuth, useAccess } from "../app";
 import { getAccess } from "../../api/access";
+import { ClearCache } from "../../store/event/actions";
 
 const Header: FunctionalComponent = () => {
     const { signIn, signOut } = useGoogleAuth();
     const [access, setAccess] = useAccess();
+    const dispatch = useDispatch();
+    const clearCache = () => {
+        dispatch(ClearCache());
+    };
     return (
         <Navbar>
             <Navbar.Brand>
@@ -50,6 +56,7 @@ const Header: FunctionalComponent = () => {
                         ) : (
                             <Button onClick={signOut}>Sign out</Button>
                         )}
+                        <Button onClick={clearCache}>Clear Cache</Button>
                     </Navbar.Item>
                 </Navbar.Segment>
             </Navbar.Menu>

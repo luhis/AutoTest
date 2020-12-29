@@ -15,6 +15,7 @@ import {
     ADD_CLUB,
     GET_NOTIFICATIONS,
     ADD_NOTIFICATION,
+    CLEAR_CACHE,
 } from "./types";
 import {
     TestRunUploadState,
@@ -78,6 +79,10 @@ export const DeleteClub = (clubId: number, token: string | undefined) => async (
         type: GET_CLUBS,
         payload: await getClubs(token),
     });
+};
+
+export const ClearCache = () => {
+    CLEAR_CACHE;
 };
 
 const GetClubs = (token: string | undefined) => async (
@@ -153,14 +158,10 @@ export const GetNotifications = (eventId: number) => async (
     });
 };
 
-export const AddNotification = (notification: Notification) => (
-    dispatch: Dispatch<EventActionTypes>
-) => {
-    dispatch({
-        type: ADD_NOTIFICATION,
-        payload: notification,
-    });
-};
+export const AddNotification = (notification: Notification) => ({
+    type: ADD_NOTIFICATION,
+    payload: notification,
+});
 
 export const CreateNotification = (
     notification: Notification,
