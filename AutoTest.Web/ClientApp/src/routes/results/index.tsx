@@ -132,6 +132,7 @@ const Results: FunctionalComponent<Props> = ({ eventId }) => {
                 <Table.Head>
                     <Table.Row>
                         <Table.Heading>Class</Table.Heading>
+                        <Table.Heading>Number</Table.Heading>
                         <Table.Heading>Name</Table.Heading>
                         <Table.Heading>Total Time</Table.Heading>
                         {currentEvent
@@ -145,6 +146,8 @@ const Results: FunctionalComponent<Props> = ({ eventId }) => {
                                   ))
                               )
                             : null}
+                        <Table.Heading>Class</Table.Heading>
+                        <Table.Heading>Overall</Table.Heading>
                     </Table.Row>
                 </Table.Head>
                 {ifSome(
@@ -152,10 +155,13 @@ const Results: FunctionalComponent<Props> = ({ eventId }) => {
                     (r) => r.class,
                     (result) => (
                         <Fragment>
-                            {result.entrantTimes.map((a) => (
+                            {result.entrantTimes.map((a, i) => (
                                 <Table.Row key={a.entrant.entrantId}>
                                     <Table.Cell>
                                         <p>{result.class}</p>
+                                    </Table.Cell>
+                                    <Table.Cell>
+                                        {a.entrant.driverNumber}
                                     </Table.Cell>
                                     <Table.Cell>{`${a.entrant.givenName} ${a.entrant.familyName}`}</Table.Cell>
                                     <Table.Cell>
@@ -176,6 +182,8 @@ const Results: FunctionalComponent<Props> = ({ eventId }) => {
                                               ))
                                           )
                                         : null}
+                                    <Table.Cell>{i + 1}</Table.Cell>
+                                    <Table.Cell>Overall Goes here</Table.Cell>
                                 </Table.Row>
                             ))}
                         </Fragment>
