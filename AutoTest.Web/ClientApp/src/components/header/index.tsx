@@ -42,25 +42,29 @@ const Header: FunctionalComponent = () => {
                         <Navbar.Item href="/profile">Profile</Navbar.Item>
                     ) : null}
                     <Navbar.Item>
-                        {!access.isLoggedIn ? (
-                            <Button
-                                onClick={async () => {
-                                    const user = await signIn();
-                                    if (user) {
-                                        setAccess(
-                                            await getAccess(user.tokenId)
-                                        );
-                                    } else {
-                                        console.log(user);
-                                    }
-                                }}
-                            >
-                                Sign in with Google
-                            </Button>
-                        ) : (
-                            <Button onClick={signOutAndClear}>Sign out</Button>
-                        )}
-                        <Button onClick={clearCache}>Clear Cache</Button>
+                        <Button.Group>
+                            {!access.isLoggedIn ? (
+                                <Button
+                                    onClick={async () => {
+                                        const user = await signIn();
+                                        if (user) {
+                                            setAccess(
+                                                await getAccess(user.tokenId)
+                                            );
+                                        } else {
+                                            console.log(user);
+                                        }
+                                    }}
+                                >
+                                    Sign in with Google
+                                </Button>
+                            ) : (
+                                <Button onClick={signOutAndClear}>
+                                    Sign out
+                                </Button>
+                            )}
+                            <Button onClick={clearCache}>Clear Cache</Button>
+                        </Button.Group>
                     </Navbar.Item>
                 </Navbar.Segment>
             </Navbar.Menu>

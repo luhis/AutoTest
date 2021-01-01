@@ -81,9 +81,9 @@ export const DeleteClub = (clubId: number, token: string | undefined) => async (
     });
 };
 
-export const ClearCache = () => {
-    CLEAR_CACHE;
-};
+export const ClearCache = () => ({
+    type: CLEAR_CACHE,
+});
 
 const GetClubs = (token: string | undefined) => async (
     dispatch: Dispatch<EventActionTypes>
