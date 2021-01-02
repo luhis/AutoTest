@@ -155,7 +155,7 @@ const Results: FunctionalComponent<Props> = ({ eventId }) => {
                     (r) => r.class,
                     (result) => (
                         <Fragment>
-                            {result.entrantTimes.map((a, i) => (
+                            {result.entrantTimes.map((a) => (
                                 <Table.Row key={a.entrant.entrantId}>
                                     <Table.Cell>
                                         <p>{result.class}</p>
@@ -182,8 +182,10 @@ const Results: FunctionalComponent<Props> = ({ eventId }) => {
                                               ))
                                           )
                                         : null}
-                                    <Table.Cell>{i + 1}</Table.Cell>
-                                    <Table.Cell>Overall Goes here</Table.Cell>
+                                    <Table.Cell>
+                                        {a.classPosition + 1}
+                                    </Table.Cell>
+                                    <Table.Cell>{a.position + 1}</Table.Cell>
                                 </Table.Row>
                             ))}
                         </Fragment>

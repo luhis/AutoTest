@@ -5,11 +5,13 @@ namespace AutoTest.Service.Models
 {
     public class EntrantTimes
     {
-        public EntrantTimes(Entrant entrant, int totalTime, IEnumerable<TestTime> times)
+        public EntrantTimes(Entrant entrant, int totalTime, IEnumerable<TestTime> times, int position, int classPosition)
         {
             Entrant = entrant;
             TotalTime = totalTime;
             Times = times;
+            Position = position;
+            ClassPosition = classPosition;
         }
 
         public Entrant Entrant { get; }

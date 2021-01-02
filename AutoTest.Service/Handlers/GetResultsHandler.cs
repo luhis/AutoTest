@@ -37,12 +37,25 @@ namespace AutoTest.Service.Handlers
             var entrants = await entrantsRepository.GetByEventId(request.EventId, cancellationToken);
             var testRuns = await testRunsRepository.GetAll(request.EventId, cancellationToken);
 
-            var entrantsAndRuns = entrants.Select(entrant => new { entrant, runs = testRuns.Where(r => r.EntrantId == entrant.EntrantId).GroupBy(a => a.Ordinal).SelectMany(a => a.OrderBy(run => run.Created).Take(2)) });
+            var entrantsAndRuns = entrants.Select(
+                entrant =>
+                {
+                    var runs = testRuns.Where(r => r.EntrantId == entrant.EntrantId).GroupBy(a => a.Ordinal)
+                        .SelectMany(a => a.OrderBy(run => run.Created).Take(2));
+                    return new
+                    {
+                        entrant,
+                        runs,
+                        totalTime = totalTimeCalculator.GetTotalTime(runs, testRuns)
+                    };
+                }).OrderBy(a => a.totalTime).ToArray();
+
             var groupedByClass = entrantsAndRuns.GroupBy(entrantAndRuns => entrantAndRuns.entrant.Class);
             var testsDict = tests.ToDictionary(a => a.Ordinal, a => a);
-            return groupedByClass.Select(entrantsByClass => new Result(entrantsByClass.Key, entrantsByClass.Select(x =>
-                new EntrantTimes(x.entrant, totalTimeCalculator.GetTotalTime(x.runs, testRuns), x.runs.GroupBy(a => a.Ordinal).Select(r =>
-                    new TestTime(testsDict[r.Key].Ordinal, r))))));
+            return groupedByClass.Select(entrantsByClass =>
+                new Result(entrantsByClass.Key, entrantsByClass.Select((x, index) =>
+                new EntrantTimes(x.entrant, x.totalTime, x.runs.GroupBy(a => a.Ordinal).Select(r =>
+                    new TestTime(testsDict[r.Key].Ordinal, r)), Array.IndexOf(entrantsAndRuns, x), index))));
         }
     }
 }

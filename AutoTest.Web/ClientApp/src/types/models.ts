@@ -112,6 +112,8 @@ export interface EntrantTime {
     readonly entrant: Entrant;
     readonly totalTime: number;
     readonly times: readonly TestTime[];
+    readonly position: number;
+    readonly classPosition: number;
 }
 
 export interface Notification {
