@@ -1,13 +1,12 @@
 import { FunctionalComponent, h } from "preact";
-import { useEffect, useState } from "preact/hooks";
+import { useCallback, useEffect, useState } from "preact/hooks";
 import { useDispatch, useSelector } from "react-redux";
 
 import { getAccessToken } from "../../api/api";
-import { GetProfile } from "../../store/profile/actions";
+import { GetProfile, SaveProfile } from "../../store/profile/actions";
 import { useGoogleAuth } from "../../components/app";
 import ProfileModal from "../../components/profile/index";
 import { selectProfile } from "../../store/profile/selectors";
-import { saveProfile } from "../../api/user";
 import { Profile } from "../../types/profileModels";
 
 interface Props {
@@ -18,13 +17,11 @@ const ProfileEditor: FunctionalComponent<Readonly<Props>> = ({ profile }) => {
     const auth = useGoogleAuth();
     const dispatch = useDispatch();
     const [editingProfile, setEditingProfile] = useState<Profile>(profile);
-    const save = async () => {
+    const save = useCallback(() => {
         if (editingProfile) {
-            await saveProfile(editingProfile, getAccessToken(auth));
-            setEditingProfile(editingProfile);
-            dispatch(GetProfile(getAccessToken(auth)));
+            dispatch(SaveProfile(editingProfile, getAccessToken(auth)));
         }
-    };
+    }, [auth, dispatch, editingProfile]);
     return (
         <ProfileModal
             profile={editingProfile}

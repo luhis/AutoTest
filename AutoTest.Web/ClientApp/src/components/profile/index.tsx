@@ -10,12 +10,12 @@ import MembershipList from "../shared/MembershipList";
 
 interface Props {
     readonly profile: Profile;
-    readonly save: () => Promise<void>;
+    readonly save: () => void;
     readonly cancel: () => void;
     readonly setField: (k: Partial<Profile>) => void;
 }
 
-const ProfileModal: FunctionComponent<Props> = ({
+const ProfileComp: FunctionComponent<Props> = ({
     save,
     cancel,
     profile,
@@ -94,4 +94,4 @@ const ProfileModal: FunctionComponent<Props> = ({
     );
 };
 
-export default ProfileModal;
+export default ProfileComp;

@@ -3,7 +3,12 @@ import { Modal, Button, Label, Input, Field, Select } from "rbx";
 import { newValidDateOrThrow } from "ts-date";
 import PromiseFileReader from "promise-file-reader";
 
-import { EditingEvent, Club, EventType } from "../../types/models";
+import {
+    EditingEvent,
+    Club,
+    EventType,
+    AuthorisationEmail,
+} from "../../types/models";
 import { OnChange, OnSelectChange } from "../../types/inputs";
 import EmailList from "../shared/EmailList";
 import { LoadingState } from "../../types/loadingState";
@@ -29,6 +34,16 @@ const ModalX: FunctionComponent<Props> = ({
     const eventTypes = Object.keys(EventType)
         .map((a) => Number.parseInt(a))
         .filter((key) => !isNaN(key));
+    const addEmail = (s: AuthorisationEmail) =>
+        setField({
+            marshalEmails: event.marshalEmails.concat(s),
+        });
+    const removeEmail = (removeIndex: number) =>
+        setField({
+            marshalEmails: event.marshalEmails.filter(
+                (_, i) => i !== removeIndex
+            ),
+        });
     return (
         <Modal active={true}>
             <Modal.Background />
@@ -162,20 +177,8 @@ const ModalX: FunctionComponent<Props> = ({
                         <Label>Marshal Emails</Label>
                         <EmailList
                             emails={event.marshalEmails}
-                            addNew={(s) =>
-                                setField({
-                                    marshalEmails: event.marshalEmails.concat(
-                                        s
-                                    ),
-                                })
-                            }
-                            remove={(removeIndex) =>
-                                setField({
-                                    marshalEmails: event.marshalEmails.filter(
-                                        (_, i) => i !== removeIndex
-                                    ),
-                                })
-                            }
+                            addNew={addEmail}
+                            remove={removeEmail}
                         />
                     </Field>
                 </Modal.Card.Body>

@@ -1,5 +1,5 @@
 import { FunctionalComponent, h } from "preact";
-import { useEffect, useState } from "preact/hooks";
+import { useCallback, useEffect, useState } from "preact/hooks";
 import { Title, Button } from "rbx";
 import UUID from "uuid-int";
 import { newValidDate } from "ts-date";
@@ -37,7 +37,7 @@ const Events: FunctionalComponent<Props> = ({ clubId }) => {
         dispatch(GetEventsIfRequired());
         dispatch(GetClubsIfRequired(getAccessToken(auth)));
     }, [auth, dispatch]);
-    const save = () => {
+    const save = useCallback(() => {
         if (editingEvent && editingEvent.clubId) {
             dispatch(
                 AddEvent(
@@ -47,10 +47,13 @@ const Events: FunctionalComponent<Props> = ({ clubId }) => {
                 )
             );
         }
-    };
-    const deleteEvent = (event: Event) => {
-        dispatch(DeleteEvent(event.eventId, getAccessToken(auth)));
-    };
+    }, [auth, dispatch, editingEvent]);
+    const deleteEvent = useCallback(
+        (event: Event) => {
+            dispatch(DeleteEvent(event.eventId, getAccessToken(auth)));
+        },
+        [auth, dispatch]
+    );
     return (
         <div>
             <Title>Events</Title>
