@@ -1,8 +1,14 @@
 import { Dispatch } from "redux";
 
-import { GET_PROFILE, ProfileActionTypes } from "./types";
 import { getProfile, saveProfile } from "../../api/user";
 import { Profile } from "../../types/profileModels";
+import {
+    GET_ACCESS,
+    GET_PROFILE,
+    ProfileActionTypes,
+    RESET_ACCESS,
+} from "./types";
+import { getAccess } from "../../api/access";
 
 export const GetProfile = (token: string | undefined) => async (
     dispatch: Dispatch<ProfileActionTypes>
@@ -24,3 +30,23 @@ export const SaveProfile = (
     await saveProfile(profile, token);
     await GetProfile(token)(dispatch);
 };
+
+export const GetAccess = (token: string | undefined) => async (
+    dispatch: Dispatch<ProfileActionTypes>
+) => {
+    if (token) {
+        const access = await getAccess(token);
+        dispatch({
+            type: GET_ACCESS,
+            payload: access,
+        });
+    } else {
+        dispatch({
+            type: RESET_ACCESS,
+        });
+    }
+};
+
+export const ResetAccess = () => ({
+    type: RESET_ACCESS,
+});

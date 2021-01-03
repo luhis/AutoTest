@@ -29,6 +29,7 @@ const persistConfig = {
             )
         ) as never,
     ],
+    blacklist: ["profile"],
 };
 
 export const rootReducer = combineReducers({

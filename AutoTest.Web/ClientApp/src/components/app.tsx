@@ -1,7 +1,7 @@
 import { FunctionalComponent, h, createContext } from "preact";
 import { Route, Router } from "preact-router";
 import { useGoogleLogin } from "react-use-googlelogin";
-import { useContext, useState, StateUpdater } from "preact/hooks";
+import { useContext } from "preact/hooks";
 import { Provider } from "react-redux";
 import { Container, Loader } from "rbx";
 import { PersistGate } from "redux-persist/integration/react";
@@ -15,7 +15,6 @@ import Events from "../routes/events";
 import Event from "../routes/event";
 import Entrant from "../routes/entrants";
 import Header from "./header";
-import { Access } from "../types/profileModels";
 import Results from "../routes/results";
 import Tests from "../routes/tests";
 import Marshal from "../routes/marshal";
@@ -50,65 +49,48 @@ const GoogleAuthContext = createContext<HookReturnValue>({
     },
 }); // Not necessary, but recommended.
 
-export const defaultAccess: Access = {
-    isLoggedIn: false,
-    canViewClubs: false,
-    canViewProfile: false,
-};
-
-const AccessContext = createContext<readonly [Access, StateUpdater<Access>]>([
-    defaultAccess,
-    (_) => undefined,
-]);
-
 const App: FunctionalComponent = () => {
     const googleAuth = useGoogleLogin({
         clientId: googleKey, // Your clientID from Google.
     });
-    const access = useState<Access>(defaultAccess);
 
     const { appStore, persistor } = store();
     return (
         <div id="app">
             <Provider store={appStore}>
                 <PersistGate loading={<Loader />} persistor={persistor}>
-                    <AccessContext.Provider value={access}>
-                        <GoogleAuthContext.Provider value={googleAuth}>
-                            <Header />
-                            <Container fluid>
-                                <Router>
-                                    <Route path="/" component={Home} />
-                                    <Route
-                                        path="/profile/"
-                                        component={Profile}
-                                    />
-                                    <Route path="/clubs/" component={Club} />
-                                    <Route path="/events/" component={Events} />
-                                    <Route
-                                        path="/event/:eventId"
-                                        component={Event}
-                                    />
-                                    <Route
-                                        path="/entrants/:eventId"
-                                        component={Entrant}
-                                    />
-                                    <Route
-                                        path="/results/:eventId"
-                                        component={Results}
-                                    />
-                                    <Route
-                                        path="/tests/:eventId"
-                                        component={Tests}
-                                    />
-                                    <Route
-                                        path="/marshal/:eventId/:ordinal"
-                                        component={Marshal}
-                                    />
-                                    <NotFoundPage default />
-                                </Router>
-                            </Container>
-                        </GoogleAuthContext.Provider>
-                    </AccessContext.Provider>
+                    <GoogleAuthContext.Provider value={googleAuth}>
+                        <Header />
+                        <Container fluid>
+                            <Router>
+                                <Route path="/" component={Home} />
+                                <Route path="/profile/" component={Profile} />
+                                <Route path="/clubs/" component={Club} />
+                                <Route path="/events/" component={Events} />
+                                <Route
+                                    path="/event/:eventId"
+                                    component={Event}
+                                />
+                                <Route
+                                    path="/entrants/:eventId"
+                                    component={Entrant}
+                                />
+                                <Route
+                                    path="/results/:eventId"
+                                    component={Results}
+                                />
+                                <Route
+                                    path="/tests/:eventId"
+                                    component={Tests}
+                                />
+                                <Route
+                                    path="/marshal/:eventId/:ordinal"
+                                    component={Marshal}
+                                />
+                                <NotFoundPage default />
+                            </Router>
+                        </Container>
+                    </GoogleAuthContext.Provider>
                 </PersistGate>
             </Provider>
         </div>
@@ -118,4 +100,3 @@ const App: FunctionalComponent = () => {
 export default App;
 
 export const useGoogleAuth = () => useContext(GoogleAuthContext);
-export const useAccess = () => useContext(AccessContext);
