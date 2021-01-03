@@ -1,7 +1,7 @@
 import { FunctionalComponent, h } from "preact";
 import { useEffect } from "preact/hooks";
 import { route } from "preact-router";
-import { Title, Column, Button, Numeric, Loader, Breadcrumb } from "rbx";
+import { Title, Column, Button, Numeric, Loader } from "rbx";
 import { useDispatch, useSelector } from "react-redux";
 
 import { useGoogleAuth } from "../../components/app";
@@ -15,6 +15,7 @@ import { selectEvents, selectClubs } from "../../store/event/selectors";
 import { findIfLoaded } from "../../types/loadingState";
 import RouteParamsParser from "../../components/shared/RouteParamsParser";
 import { Override } from "../../types/models";
+import Breadcrumbs from "../../components/shared/Breadcrumbs";
 
 interface Props {
     readonly eventId: number;
@@ -40,14 +41,7 @@ const Tests: FunctionalComponent<Readonly<Props>> = ({ eventId }) => {
     }, [dispatch, auth]);
     return (
         <div>
-            <Breadcrumb>
-                <Breadcrumb.Item
-                    href={`/events?clubId=${currentClub?.clubId || 0}`}
-                >
-                    {currentClub?.clubName}
-                </Breadcrumb.Item>
-                <Breadcrumb.Item>{currentEvent?.location}</Breadcrumb.Item>
-            </Breadcrumb>
+            <Breadcrumbs club={currentClub} event={currentEvent} />
             <Title>Tests</Title>
             {currentEvent ? (
                 currentEvent.tests.map((a) => (

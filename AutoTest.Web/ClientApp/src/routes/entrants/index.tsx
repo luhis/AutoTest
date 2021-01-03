@@ -1,6 +1,6 @@
 import { FunctionalComponent, h } from "preact";
 import { useCallback, useEffect, useState } from "preact/hooks";
-import { Title, Button, Breadcrumb } from "rbx";
+import { Title, Button } from "rbx";
 import UUID from "uuid-int";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -26,6 +26,7 @@ import { keySeed } from "../../settings";
 import { findIfLoaded } from "../../types/loadingState";
 import { selectProfile } from "../../store/profile/selectors";
 import RouteParamsParser from "../../components/shared/RouteParamsParser";
+import Breadcrumbs from "../../components/shared/Breadcrumbs";
 
 interface Props {
     readonly eventId: number;
@@ -118,14 +119,7 @@ const Events: FunctionalComponent<Readonly<Props>> = ({ eventId }) => {
 
     return (
         <div>
-            <Breadcrumb>
-                <Breadcrumb.Item
-                    href={`/events?clubId=${currentClub?.clubId || 0}`}
-                >
-                    {currentClub?.clubName}
-                </Breadcrumb.Item>
-                <Breadcrumb.Item>{currentEvent?.location}</Breadcrumb.Item>
-            </Breadcrumb>
+            <Breadcrumbs club={currentClub} event={currentEvent} />
             <Title>Entrants</Title>
             <List
                 entrants={entrants}

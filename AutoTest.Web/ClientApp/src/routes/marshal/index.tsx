@@ -1,15 +1,6 @@
 import { FunctionalComponent, h } from "preact";
 import { useEffect, useState } from "preact/hooks";
-import {
-    Title,
-    Select,
-    Label,
-    Field,
-    Input,
-    Button,
-    Breadcrumb,
-    Tag,
-} from "rbx";
+import { Title, Select, Label, Field, Input, Button } from "rbx";
 import UUID from "uuid-int";
 import { useSelector, useDispatch } from "react-redux";
 import { newValidDate } from "ts-date";
@@ -44,6 +35,8 @@ import { keySeed } from "../../settings";
 import ExistingCount from "../../components/marshal/ExistingCount";
 import { findIfLoaded } from "../../types/loadingState";
 import RouteParamsParser from "../../components/shared/RouteParamsParser";
+import Breadcrumbs from "../../components/shared/Breadcrumbs";
+import SyncButton from "../../components/marshal/SyncButton";
 
 const getNewEditableTest = (ordinal: number): EditableTestRun => ({
     testRunId: uid.uuid(),
@@ -58,16 +51,6 @@ interface Props {
 }
 
 const uid = UUID(keySeed);
-
-const SyncButton: FunctionalComponent<{
-    readonly unSyncedCount: number;
-    readonly sync: () => void;
-}> = ({ unSyncedCount, sync }) =>
-    unSyncedCount > 0 ? (
-        <Button onClick={sync}>
-            Sync <Tag color="danger">({unSyncedCount})</Tag>
-        </Button>
-    ) : null;
 
 const Marshal: FunctionalComponent<Readonly<Props>> = ({
     eventId,
@@ -94,10 +77,14 @@ const Marshal: FunctionalComponent<Readonly<Props>> = ({
     useEffect(() => {
         const token = getAccessToken(auth);
         dispatch(GetEntrantsIfRequired(eventId, token));
-        dispatch(GetEventsIfRequired());
-        dispatch(GetClubsIfRequired(token));
         dispatch(GetTestRunsIfRequired(eventId, token));
     }, [auth, dispatch, eventId]);
+    useEffect(() => {
+        dispatch(GetEventsIfRequired());
+    }, [dispatch]);
+    useEffect(() => {
+        dispatch(GetClubsIfRequired(getAccessToken(auth)));
+    }, [auth, dispatch]);
 
     const increase = (penaltyType: PenaltyType) => {
         setEditing((a) => {
@@ -144,17 +131,11 @@ const Marshal: FunctionalComponent<Readonly<Props>> = ({
     };
     return (
         <div>
-            <Breadcrumb>
-                <Breadcrumb.Item
-                    href={`/events?clubId=${currentClub?.clubId || 0}`}
-                >
-                    {currentClub?.clubName}
-                </Breadcrumb.Item>
-                <Breadcrumb.Item href={`/tests/${currentEvent?.eventId || 0}`}>
-                    {currentEvent?.location}
-                </Breadcrumb.Item>
-                <Breadcrumb.Item>Test No. {ordinal + 1}</Breadcrumb.Item>
-            </Breadcrumb>
+            <Breadcrumbs
+                club={currentClub}
+                event={currentEvent}
+                test={ordinal}
+            />
             <Title>Marshal</Title>
             <Field>
                 <Label>Entrant</Label>

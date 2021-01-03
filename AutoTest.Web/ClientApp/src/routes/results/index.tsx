@@ -1,6 +1,6 @@
 import { FunctionalComponent, h, Fragment } from "preact";
 import { useEffect, useState } from "preact/hooks";
-import { Title, Table, Breadcrumb, Button } from "rbx";
+import { Title, Table, Button } from "rbx";
 import { useDispatch, useSelector } from "react-redux";
 import { HubConnectionBuilder, LogLevel } from "@microsoft/signalr";
 import { range } from "@s-libs/micro-dash";
@@ -27,6 +27,7 @@ import {
 } from "../../store/event/actions";
 import NotificationsModal from "../../components/events/NotificationsModal";
 import RouteParamsParser from "../../components/shared/RouteParamsParser";
+import Breadcrumbs from "../../components/shared/Breadcrumbs";
 
 interface Props {
     readonly eventId: number;
@@ -109,14 +110,7 @@ const Results: FunctionalComponent<Props> = ({ eventId }) => {
 
     return (
         <div>
-            <Breadcrumb>
-                <Breadcrumb.Item
-                    href={`/events?clubId=${currentClub?.clubId || 0}`}
-                >
-                    {currentClub?.clubName}
-                </Breadcrumb.Item>
-                <Breadcrumb.Item>{currentEvent?.location}</Breadcrumb.Item>
-            </Breadcrumb>
+            <Breadcrumbs club={currentClub} event={currentEvent} />
             <Title>Results</Title>
             <Button
                 onClick={() => setShowModal(true)}
