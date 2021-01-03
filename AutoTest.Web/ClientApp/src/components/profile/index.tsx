@@ -11,16 +11,10 @@ import MembershipList from "../shared/MembershipList";
 interface Props {
     readonly profile: Profile;
     readonly save: () => void;
-    readonly cancel: () => void;
     readonly setField: (k: Partial<Profile>) => void;
 }
 
-const ProfileComp: FunctionComponent<Props> = ({
-    save,
-    cancel,
-    profile,
-    setField,
-}) => {
+const ProfileComp: FunctionComponent<Props> = ({ save, profile, setField }) => {
     return (
         <Fragment>
             <Title>Profile</Title>
@@ -85,9 +79,6 @@ const ProfileComp: FunctionComponent<Props> = ({
             <Button.Group>
                 <Button color="primary" onClick={save}>
                     Save changes
-                </Button>
-                <Button color="secondary" onClick={cancel}>
-                    Close
                 </Button>
             </Button.Group>
         </Fragment>

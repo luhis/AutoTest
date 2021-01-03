@@ -26,7 +26,6 @@ const ProfileEditor: FunctionalComponent<Readonly<Props>> = ({ profile }) => {
         <ProfileModal
             profile={editingProfile}
             save={save}
-            cancel={() => undefined}
             setField={(a: Partial<Profile>) => {
                 setEditingProfile((b) => {
                     return { ...b, ...a };
