@@ -1,5 +1,5 @@
 import { FunctionalComponent, h } from "preact";
-import { useEffect, useState } from "preact/hooks";
+import { useCallback, useEffect, useState } from "preact/hooks";
 import { Button, Title } from "rbx";
 import UUID from "uuid-int";
 import { useDispatch, useSelector } from "react-redux";
@@ -30,7 +30,7 @@ const ClubComponent: FunctionalComponent = () => {
         dispatch(GetClubsIfRequired(getAccessToken(auth)));
     }, [auth, dispatch]);
 
-    const save = () => {
+    const save = useCallback(() => {
         if (editingClub) {
             dispatch(
                 AddClub(editingClub, getAccessToken(auth), () =>
@@ -38,11 +38,14 @@ const ClubComponent: FunctionalComponent = () => {
                 )
             );
         }
-    };
+    }, [auth, dispatch, editingClub]);
 
-    const deleteClub = (club: Club) => {
-        dispatch(DeleteClub(club.clubId, getAccessToken(auth)));
-    };
+    const deleteClub = useCallback(
+        (club: Club) => {
+            dispatch(DeleteClub(club.clubId, getAccessToken(auth)));
+        },
+        [auth, dispatch]
+    );
     return (
         <div>
             <Title>Clubs</Title>

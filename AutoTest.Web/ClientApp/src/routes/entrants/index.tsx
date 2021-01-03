@@ -1,5 +1,5 @@
 import { FunctionalComponent, h } from "preact";
-import { useEffect, useState } from "preact/hooks";
+import { useCallback, useEffect, useState } from "preact/hooks";
 import { Title, Button, Breadcrumb } from "rbx";
 import UUID from "uuid-int";
 import { useDispatch, useSelector } from "react-redux";
@@ -48,7 +48,7 @@ const Events: FunctionalComponent<Readonly<Props>> = ({ eventId }) => {
     >(undefined);
     const auth = useGoogleAuth();
     const dispatch = useDispatch();
-    const save = () => {
+    const save = useCallback(() => {
         if (editingEntrant) {
             dispatch(
                 AddEntrant(
@@ -68,8 +68,8 @@ const Events: FunctionalComponent<Readonly<Props>> = ({ eventId }) => {
                 )
             );
         }
-    };
-    const fillFromProfile = () => {
+    }, [auth, dispatch, editingEntrant, entrants]);
+    const fillFromProfile = useCallback(() => {
         if (profile.tag === "Loaded") {
             const {
                 familyName,
@@ -101,7 +101,7 @@ const Events: FunctionalComponent<Readonly<Props>> = ({ eventId }) => {
                     : undefined
             );
         }
-    };
+    }, [currentEvent, profile]);
     const setPaid = (entrant: Entrant, isPaid: boolean) => {
         dispatch(SetPaid(entrant, isPaid, getAccessToken(auth)));
     };

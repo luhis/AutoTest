@@ -1,5 +1,5 @@
 import { FunctionalComponent, h } from "preact";
-import { useEffect, useState } from "preact/hooks";
+import { useCallback, useEffect, useState } from "preact/hooks";
 import { Button, Title } from "rbx";
 import { useDispatch, useSelector } from "react-redux";
 import { newValidDate } from "ts-date";
@@ -47,7 +47,7 @@ const Event: FunctionalComponent<Props> = ({ eventId }) => {
     const [showAddNotificationModal, setShowAddNotificationModal] = useState<
         Notification | undefined
     >(undefined);
-    const save = () => {
+    const save = useCallback(() => {
         if (showAddNotificationModal) {
             dispatch(
                 CreateNotification(
@@ -57,7 +57,7 @@ const Event: FunctionalComponent<Props> = ({ eventId }) => {
             );
             setShowAddNotificationModal(undefined);
         }
-    };
+    }, [auth, dispatch, showAddNotificationModal]);
     return (
         <div>
             <Title>Event {currentEvent?.location}</Title>
