@@ -14,13 +14,18 @@ import {
     GetNotifications,
     CreateNotification,
 } from "../../store/event/actions";
-import { selectEvents, selectNotifications } from "../../store/event/selectors";
+import {
+    selectClubs,
+    selectEvents,
+    selectNotifications,
+} from "../../store/event/selectors";
 import { findIfLoaded } from "../../types/loadingState";
 import NotificationsModal from "../../components/events/NotificationsModal";
 import RouteParamsParser from "../../components/shared/RouteParamsParser";
 import { Notification, Override } from "../../types/models";
 import AddNotificationModal from "../../components/events/AddNotificationModal";
 import { keySeed } from "../../settings";
+import Breadcrumbs from "../../components/shared/Breadcrumbs";
 
 const uid = UUID(keySeed);
 
@@ -34,6 +39,10 @@ const Event: FunctionalComponent<Props> = ({ eventId }) => {
     const currentEvent = findIfLoaded(
         useSelector(selectEvents),
         (a) => a.eventId === eventId
+    );
+    const currentClub = findIfLoaded(
+        useSelector(selectClubs),
+        (a) => a.clubId === currentEvent?.clubId
     );
     const notifications = useSelector(selectNotifications);
     useEffect(() => {
@@ -60,6 +69,7 @@ const Event: FunctionalComponent<Props> = ({ eventId }) => {
     }, [auth, dispatch, showAddNotificationModal]);
     return (
         <div>
+            <Breadcrumbs club={currentClub} event={currentEvent} />
             <Title>Event {currentEvent?.location}</Title>
 
             <Button

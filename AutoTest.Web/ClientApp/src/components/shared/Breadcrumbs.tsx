@@ -18,7 +18,7 @@ const Breadcrumbs: FunctionComponent<Props> = ({ club, event, test }) => {
                 </Breadcrumb.Item>
             ) : null}
             {event ? (
-                <Breadcrumb.Item href={`/tests/${event.eventId}`}>
+                <Breadcrumb.Item href={`/event/${event.eventId}`}>
                     {event?.location}
                 </Breadcrumb.Item>
             ) : null}
