@@ -54,6 +54,24 @@ const Events: FunctionalComponent<Props> = ({ clubId }) => {
         },
         [auth, dispatch]
     );
+    const createNewEvent = useCallback(
+        () =>
+            setEditingEvent({
+                clubId: clubId,
+                eventId: uid.uuid(),
+                location: "",
+                startTime: newValidDate(),
+                testCount: 12,
+                maxAttemptsPerTest: 2,
+                marshalEmails: [],
+                isNew: true,
+                isClubEditable: clubId === undefined,
+                tests: [],
+                regulations: null,
+                eventType: -1,
+            }),
+        [clubId]
+    );
     return (
         <div>
             <Title>Events</Title>
@@ -68,26 +86,7 @@ const Events: FunctionalComponent<Props> = ({ clubId }) => {
                 }
                 deleteEvent={deleteEvent}
             />
-            <Button
-                onClick={() =>
-                    setEditingEvent({
-                        clubId: clubId,
-                        eventId: uid.uuid(),
-                        location: "",
-                        startTime: newValidDate(),
-                        testCount: 12,
-                        maxAttemptsPerTest: 2,
-                        marshalEmails: [],
-                        isNew: true,
-                        isClubEditable: clubId === undefined,
-                        tests: [],
-                        regulations: null,
-                        eventType: -1,
-                    })
-                }
-            >
-                Add Event
-            </Button>
+            <Button onClick={createNewEvent}>Add Event</Button>
             {editingEvent ? (
                 <Modal
                     event={editingEvent}

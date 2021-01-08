@@ -1,5 +1,5 @@
 import { FunctionalComponent, h } from "preact";
-import { useEffect, useState } from "preact/hooks";
+import { useCallback, useEffect, useState } from "preact/hooks";
 import { Title, Select, Label, Field, Input, Button } from "rbx";
 import UUID from "uuid-int";
 import { useSelector, useDispatch } from "react-redux";
@@ -129,6 +129,25 @@ const Marshal: FunctionalComponent<Readonly<Props>> = ({
             };
         });
     };
+    const sync = useCallback(
+        () => dispatch(SyncTestRuns(getAccessToken(auth))),
+        [auth, dispatch]
+    );
+    const add = useCallback(() => {
+        if (editing.ordinal !== undefined && editing.timeInMS !== undefined) {
+            dispatch(
+                AddTestRun(
+                    {
+                        ...editing,
+                        created: newValidDate(),
+                        eventId: eventId,
+                    } as TestRunTemp,
+                    getAccessToken(auth)
+                )
+            );
+            setEditing(getNewEditableTest(ordinal));
+        }
+    }, [auth, dispatch, editing, eventId, ordinal]);
     return (
         <div>
             <Breadcrumbs
@@ -204,32 +223,8 @@ const Marshal: FunctionalComponent<Readonly<Props>> = ({
                 />
             </Field>
             <Button.Group>
-                <Button
-                    onClick={() => {
-                        if (
-                            editing.ordinal !== undefined &&
-                            editing.timeInMS !== undefined
-                        ) {
-                            dispatch(
-                                AddTestRun(
-                                    {
-                                        ...editing,
-                                        created: newValidDate(),
-                                        eventId: eventId,
-                                    } as TestRunTemp,
-                                    getAccessToken(auth)
-                                )
-                            );
-                            setEditing(getNewEditableTest(ordinal));
-                        }
-                    }}
-                >
-                    Add
-                </Button>
-                <SyncButton
-                    unSyncedCount={requiresSync}
-                    sync={() => dispatch(SyncTestRuns(getAccessToken(auth)))}
-                />
+                <Button onClick={add}>Add</Button>
+                <SyncButton unSyncedCount={requiresSync} sync={sync} />
             </Button.Group>
         </div>
     );

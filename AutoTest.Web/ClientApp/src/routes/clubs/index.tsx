@@ -46,6 +46,19 @@ const ClubComponent: FunctionalComponent = () => {
         },
         [auth, dispatch]
     );
+    const newClub = useCallback(
+        () =>
+            setEditingClub({
+                clubId: uid.uuid(),
+                clubName: "",
+                website: "",
+                clubPaymentAddress: "",
+                adminEmails: [],
+                isNew: true,
+            }),
+        []
+    );
+    const clearEditingClub = useCallback(() => setEditingClub(undefined), []);
     return (
         <div>
             <Title>Clubs</Title>
@@ -54,27 +67,14 @@ const ClubComponent: FunctionalComponent = () => {
                 setEditingClub={(a) => setEditingClub({ ...a, isNew: false })}
                 deleteClub={deleteClub}
             />
-            <Button
-                onClick={() =>
-                    setEditingClub({
-                        clubId: uid.uuid(),
-                        clubName: "",
-                        website: "",
-                        clubPaymentAddress: "",
-                        adminEmails: [],
-                        isNew: true,
-                    })
-                }
-            >
-                Add Club
-            </Button>
+            <Button onClick={newClub}>Add Club</Button>
             {editingClub ? (
                 <Modal
                     club={editingClub}
                     setField={(a: Partial<Club>) =>
                         setEditingClub((b) => ({ ...b, ...a } as EditingClub))
                     }
-                    cancel={() => setEditingClub(undefined)}
+                    cancel={clearEditingClub}
                     save={save}
                 />
             ) : null}

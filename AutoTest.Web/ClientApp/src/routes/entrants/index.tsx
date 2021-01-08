@@ -116,6 +116,7 @@ const Events: FunctionalComponent<Readonly<Props>> = ({ eventId }) => {
         dispatch(GetClubsIfRequired(getAccessToken(auth)));
         dispatch(GetEntrantsIfRequired(eventId, getAccessToken(auth)));
     }, [eventId, dispatch, auth]);
+    const clearEditingEntrant = () => setEditingEntrant(undefined);
 
     return (
         <div>
@@ -169,7 +170,7 @@ const Events: FunctionalComponent<Readonly<Props>> = ({ eventId }) => {
                             }
                         });
                     }}
-                    cancel={() => setEditingEntrant(undefined)}
+                    cancel={clearEditingEntrant}
                     save={save}
                     fillFromProfile={fillFromProfile}
                 />
