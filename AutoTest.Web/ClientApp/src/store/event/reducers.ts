@@ -154,7 +154,7 @@ export const eventReducer = (
                         ? action.payload.value.map((a) => ({
                               ...a,
                               state: TestRunUploadState.Uploaded,
-                              eventId: 0, //todo
+                              eventId: 0, // action.payload.id as number, // still todo
                           }))
                         : [],
             };

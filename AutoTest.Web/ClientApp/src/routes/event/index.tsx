@@ -19,7 +19,7 @@ import {
     selectEvents,
     selectNotifications,
 } from "../../store/event/selectors";
-import { findIfLoaded } from "../../types/loadingState";
+import { findIfLoaded, mapOrDefault } from "../../types/loadingState";
 import NotificationsModal from "../../components/events/NotificationsModal";
 import RouteParamsParser from "../../components/shared/RouteParamsParser";
 import { Notification, Override } from "../../types/models";
@@ -74,13 +74,16 @@ const Event: FunctionalComponent<Props> = ({ eventId }) => {
 
             <Button
                 onClick={() => setShowModal(true)}
-                state={notifications.tag === "Loaded" ? null : "loading"}
+                state={mapOrDefault(notifications, (_) => null, "loading")}
             >
                 <FaBell />
                 &nbsp;
-                {notifications.tag === "Loaded"
-                    ? notifications.value.length
-                    : ""}
+                {mapOrDefault(
+                    notifications,
+                    (loadedNotifications) =>
+                        loadedNotifications.length.toString(),
+                    ""
+                )}
             </Button>
             <Button
                 onClick={() =>

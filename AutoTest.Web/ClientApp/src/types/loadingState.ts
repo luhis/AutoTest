@@ -82,3 +82,15 @@ export const ifLoaded = <T, TT>(
         return entrants;
     }
 };
+
+export const mapOrDefault = <T, TT, TTT>(
+    entrants: LoadingState<T, TT>,
+    f: (_: T) => TTT,
+    defaultValue: TTT
+) => {
+    if (entrants.tag === "Loaded") {
+        return f(entrants.value);
+    } else {
+        return defaultValue;
+    }
+};

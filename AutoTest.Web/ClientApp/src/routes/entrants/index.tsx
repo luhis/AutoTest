@@ -23,7 +23,7 @@ import {
     selectClubs,
 } from "../../store/event/selectors";
 import { keySeed } from "../../settings";
-import { findIfLoaded } from "../../types/loadingState";
+import { findIfLoaded, mapOrDefault } from "../../types/loadingState";
 import { selectProfile } from "../../store/profile/selectors";
 import RouteParamsParser from "../../components/shared/RouteParamsParser";
 import Breadcrumbs from "../../components/shared/Breadcrumbs";
@@ -55,14 +55,16 @@ const Events: FunctionalComponent<Readonly<Props>> = ({ eventId }) => {
                 AddEntrant(
                     {
                         ...editingEntrant,
-                        driverNumber:
-                            entrants.tag === "Loaded"
-                                ? Math.max(
-                                      ...entrants.value
-                                          .map((a) => a.driverNumber)
-                                          .concat(0)
-                                  ) + 1
-                                : -1,
+                        driverNumber: mapOrDefault(
+                            entrants,
+                            (x) =>
+                                Math.max(
+                                    ...x
+                                        .map((entrant) => entrant.driverNumber)
+                                        .concat(0)
+                                ) + 1,
+                            -1
+                        ),
                     },
                     getAccessToken(auth),
                     () => setEditingEntrant(undefined)
@@ -118,58 +120,63 @@ const Events: FunctionalComponent<Readonly<Props>> = ({ eventId }) => {
     }, [eventId, dispatch, auth]);
     const clearEditingEntrant = () => setEditingEntrant(undefined);
 
+    const newEntrant = useCallback(
+        () =>
+            setEditingEntrant({
+                entrantId: uid.uuid(),
+                eventId: eventId,
+                class: "",
+                givenName: "",
+                familyName: "",
+                msaLicense: "",
+                vehicle: {
+                    make: "",
+                    model: "",
+                    year: 0,
+                    displacement: 0,
+                    registration: "",
+                },
+                isNew: true,
+                emergencyContact: {
+                    name: "",
+                    phone: "",
+                },
+                club: "",
+                isPaid: false,
+            }),
+        [eventId]
+    );
+    const setCurrentEditingEntrant = useCallback(
+        (entrant: Entrant) => setEditingEntrant({ ...entrant, isNew: false }),
+        []
+    );
+    const setField = useCallback(
+        (a: Partial<Entrant>) =>
+            setEditingEntrant((b) => {
+                if (b !== undefined) {
+                    return { ...b, ...a };
+                } else {
+                    return b;
+                }
+            }),
+        []
+    );
+
     return (
         <div>
             <Breadcrumbs club={currentClub} event={currentEvent} />
             <Title>Entrants</Title>
             <List
                 entrants={entrants}
-                setEditingEntrant={(a) =>
-                    setEditingEntrant({ ...a, isNew: false })
-                }
+                setEditingEntrant={setCurrentEditingEntrant}
                 markPaid={setPaid}
                 deleteEntrant={deleteEntrant}
             />
-            <Button
-                onClick={() =>
-                    setEditingEntrant({
-                        entrantId: uid.uuid(),
-                        eventId: eventId,
-                        class: "",
-                        givenName: "",
-                        familyName: "",
-                        msaLicense: "",
-                        vehicle: {
-                            make: "",
-                            model: "",
-                            year: 0,
-                            displacement: 0,
-                            registration: "",
-                        },
-                        isNew: true,
-                        emergencyContact: {
-                            name: "",
-                            phone: "",
-                        },
-                        club: "",
-                        isPaid: false,
-                    })
-                }
-            >
-                Add Entrant
-            </Button>
+            <Button onClick={newEntrant}>Add Entrant</Button>
             {editingEntrant ? (
                 <EntrantsModal
                     entrant={editingEntrant}
-                    setField={(a: Partial<Entrant>) => {
-                        setEditingEntrant((b) => {
-                            if (b !== undefined) {
-                                return { ...b, ...a };
-                            } else {
-                                return b;
-                            }
-                        });
-                    }}
+                    setField={setField}
                     cancel={clearEditingEntrant}
                     save={save}
                     fillFromProfile={fillFromProfile}

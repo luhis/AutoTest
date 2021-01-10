@@ -77,8 +77,8 @@ const Marshal: FunctionalComponent<Readonly<Props>> = ({
     useEffect(() => {
         const token = getAccessToken(auth);
         dispatch(GetEntrantsIfRequired(eventId, token));
-        dispatch(GetTestRunsIfRequired(eventId, token));
-    }, [auth, dispatch, eventId]);
+        dispatch(GetTestRunsIfRequired(eventId, ordinal, token));
+    }, [auth, dispatch, eventId, ordinal]);
     useEffect(() => {
         dispatch(GetEventsIfRequired());
     }, [dispatch]);

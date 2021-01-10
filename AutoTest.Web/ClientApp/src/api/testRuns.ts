@@ -3,15 +3,19 @@ import { ApiResponse, toApiResponse } from "../types/loadingState";
 import { extract, getBearerHeader, getHeaders, throwIfNotOk } from "./api";
 
 export const getTestRuns = async (
-    testId: number,
+    eventId: number,
+    ordinal: number,
     token: string | undefined
 ): Promise<ApiResponse<readonly TestRun[], number>> =>
     toApiResponse(async () => {
-        const response = await fetch(`/api/testRuns/${testId}`, {
-            headers: getBearerHeader(token),
-        });
+        const response = await fetch(
+            `/api/events/${eventId}/tests/${ordinal}/testRuns/`,
+            {
+                headers: getBearerHeader(token),
+            }
+        );
         return await extract(response);
-    }, testId);
+    }, eventId);
 
 export const addTestRun = async (
     eventId: number,

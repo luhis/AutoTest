@@ -211,6 +211,7 @@ const GetEvents = () => async (dispatch: Dispatch<EventActionTypes>) => {
 
 export const GetTestRunsIfRequired = (
     eventId: number,
+    ordinal: number,
     token: string | undefined
 ) => async (dispatch: Dispatch<EventActionTypes>, getState: () => AppState) => {
     const testRuns = getState().event.testRunsFromServer;
@@ -219,20 +220,22 @@ export const GetTestRunsIfRequired = (
         !idsMatch(testRuns, eventId) ||
         isStale(testRuns)
     ) {
-        await GetTestRuns(eventId, token)(dispatch);
+        await GetTestRuns(eventId, ordinal, token)(dispatch);
     }
 };
 
-const GetTestRuns = (eventId: number, token: string | undefined) => async (
-    dispatch: Dispatch<EventActionTypes>
-) => {
+const GetTestRuns = (
+    eventId: number,
+    ordinal: number,
+    token: string | undefined
+) => async (dispatch: Dispatch<EventActionTypes>) => {
     dispatch({
         type: GET_TEST_RUNS,
         payload: { tag: "Loading", id: eventId },
     });
     dispatch({
         type: GET_TEST_RUNS,
-        payload: await getTestRuns(eventId, token),
+        payload: await getTestRuns(eventId, ordinal, token),
     });
 };
 
@@ -286,7 +289,9 @@ export const SyncTestRuns = (token: string | undefined) => async (
     const toUpload = runs.filter(
         (a) => a.state !== TestRunUploadState.Uploaded
     );
-    const eventIds = distinct(runs.map((a) => a.eventId));
+    const eventIds = distinct(
+        runs.map((a) => ({ eventId: a.eventId, ordinal: a.ordinal }))
+    );
     await Promise.all(
         toUpload.map(async (element) => {
             const res = await addTestRun(element.eventId, element, token);
@@ -300,5 +305,7 @@ export const SyncTestRuns = (token: string | undefined) => async (
             });
         })
     );
-    await Promise.all(eventIds.map((a) => GetTestRuns(a, token)));
+    await Promise.all(
+        eventIds.map((a) => GetTestRuns(a.eventId, a.ordinal, token))
+    );
 };

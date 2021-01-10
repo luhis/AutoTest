@@ -59,12 +59,16 @@ const ClubComponent: FunctionalComponent = () => {
         []
     );
     const clearEditingClub = useCallback(() => setEditingClub(undefined), []);
+    const setCurrentEditingClub = useCallback(
+        (a: Club) => setEditingClub({ ...a, isNew: false }),
+        []
+    );
     return (
         <div>
             <Title>Clubs</Title>
             <List
                 clubs={clubs}
-                setEditingClub={(a) => setEditingClub({ ...a, isNew: false })}
+                setEditingClub={setCurrentEditingClub}
                 deleteClub={deleteClub}
             />
             <Button onClick={newClub}>Add Club</Button>
