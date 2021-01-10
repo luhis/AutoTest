@@ -16,7 +16,7 @@ import {
     ADD_NOTIFICATION,
     CLEAR_CACHE,
 } from "./types";
-import { Entrant, TestRunUploadState } from "../../types/models";
+import { Entrant, TestRun, TestRunUploadState } from "../../types/models";
 import { ifLoaded, LoadingState } from "../../types/loadingState";
 import { neverReached } from "../../types/shared";
 
@@ -37,6 +37,20 @@ const setPaid = (
     return ifLoaded(entrants, (v) =>
         v.map((e) => (e.entrantId === entrantId ? { ...e, isPaid } : e))
     );
+};
+
+const createNewTestRuns = (
+    payload: LoadingState<readonly TestRun[], number>
+) => {
+    if (payload.tag === "Loaded") {
+        return payload.value.map((a) => ({
+            ...a,
+            state: TestRunUploadState.Uploaded,
+            eventId: payload.id,
+        }));
+    } else {
+        return [];
+    }
 };
 
 export const eventReducer = (
@@ -149,14 +163,7 @@ export const eventReducer = (
         case GET_TEST_RUNS:
             return {
                 ...state,
-                testRuns:
-                    action.payload.tag === "Loaded"
-                        ? action.payload.value.map((a) => ({
-                              ...a,
-                              state: TestRunUploadState.Uploaded,
-                              eventId: 0, // action.payload.id as number, // still todo
-                          }))
-                        : [],
+                testRuns: createNewTestRuns(action.payload),
             };
         case GET_NOTIFICATIONS:
             return {

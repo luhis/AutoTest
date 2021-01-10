@@ -52,7 +52,7 @@ export const idsMatch = <T, TT extends unknown>(
     id: TT
 ) => {
     if (loading.tag === "Loading" || loading.tag === "Loaded") {
-        return loading.tag ? loading.id === id : true;
+        return loading.id === id;
     } else {
         return true;
     }
