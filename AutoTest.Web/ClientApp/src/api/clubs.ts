@@ -1,13 +1,13 @@
 import { Club } from "../types/models";
 import { ApiResponse, toApiResponse } from "../types/loadingState";
-import { extract, getBearerHeader, getHeaders, throwIfNotOk } from "./api";
+import { extract, getHeaders, throwIfNotOk } from "./api";
 
 export const getClubs = async (
     token: string | undefined
 ): Promise<ApiResponse<readonly Club[]>> =>
     toApiResponse(async () => {
         const response = await fetch("/api/clubs", {
-            headers: getBearerHeader(token),
+            headers: getHeaders(token),
         });
         return await extract(response);
     }, undefined);
@@ -30,7 +30,7 @@ export const deleteClub = async (
     token: string | undefined
 ): Promise<void> => {
     const response = await fetch(`/api/clubs/${clubId}/`, {
-        headers: getBearerHeader(token),
+        headers: getHeaders(token),
         method: "DELETE",
     });
     throwIfNotOk(response);

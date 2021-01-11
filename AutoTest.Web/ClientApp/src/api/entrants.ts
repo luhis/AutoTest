@@ -1,6 +1,6 @@
 import { Entrant } from "../types/models";
 import { ApiResponse, toApiResponse } from "../types/loadingState";
-import { extract, getBearerHeader, getHeaders, throwIfNotOk } from "./api";
+import { extract, getHeaders, throwIfNotOk } from "./api";
 
 export const getEntrants = async (
     eventId: number,
@@ -8,7 +8,7 @@ export const getEntrants = async (
 ): Promise<ApiResponse<readonly Entrant[], number>> =>
     toApiResponse(async () => {
         const response = await fetch(`/api/entrants/${eventId}`, {
-            headers: getBearerHeader(token),
+            headers: getHeaders(token),
         });
         return await extract(response);
     }, eventId);
@@ -49,7 +49,7 @@ export const deleteEntrant = async (
     token: string | undefined
 ): Promise<void> => {
     const response = await fetch(`/api/entrants/${eventId}/${entrantId}/`, {
-        headers: getBearerHeader(token),
+        headers: getHeaders(token),
         method: "DELETE",
     });
     throwIfNotOk(response);

@@ -3,7 +3,7 @@ import { parseIsoOrThrow } from "ts-date";
 import { Profile } from "../types/profileModels";
 import { ApiResponse, toApiResponse } from "../types/loadingState";
 import { ClubMembership } from "../types/shared";
-import { throwIfNotOk, getBearerHeader, getHeaders, extract } from "./api";
+import { throwIfNotOk, getHeaders, extract } from "./api";
 import { Override } from "../types/models";
 
 export const getProfile = async (
@@ -11,7 +11,7 @@ export const getProfile = async (
 ): Promise<ApiResponse<Profile>> =>
     toApiResponse(async () => {
         const response = await fetch("/api/profile", {
-            headers: getBearerHeader(token),
+            headers: getHeaders(token),
         });
         throwIfNotOk(response);
         type ApiProfile = Override<

@@ -1,6 +1,6 @@
 import { TestRun } from "../types/models";
 import { ApiResponse, toApiResponse } from "../types/loadingState";
-import { extract, getBearerHeader, getHeaders, throwIfNotOk } from "./api";
+import { extract, getHeaders, throwIfNotOk } from "./api";
 
 export const getTestRuns = async (
     eventId: number,
@@ -11,7 +11,7 @@ export const getTestRuns = async (
         const response = await fetch(
             `/api/events/${eventId}/tests/${ordinal}/testRuns/`,
             {
-                headers: getBearerHeader(token),
+                headers: getHeaders(token),
             }
         );
         return await extract(response);
