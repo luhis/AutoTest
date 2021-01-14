@@ -6,6 +6,7 @@ import ifSome from "../shared/ifSome";
 import { Entrant } from "../../types/models";
 import { LoadingState } from "../../types/loadingState";
 import NumberPlate from "../shared/NumberPlate";
+import DeleteButton from "../shared/DeleteButton";
 
 interface Props {
     readonly entrants: LoadingState<readonly Entrant[], number>;
@@ -53,9 +54,9 @@ const List: FunctionalComponent<Props> = ({
                         <Button onClick={() => setEditingEntrant(entrant)}>
                             Edit
                         </Button>
-                        <Button onClick={() => deleteEntrant(entrant)}>
+                        <DeleteButton deleteFunc={() => deleteEntrant(entrant)}>
                             Delete
-                        </Button>
+                        </DeleteButton>
                     </Button.Group>
                 </Column>
             </Column.Group>

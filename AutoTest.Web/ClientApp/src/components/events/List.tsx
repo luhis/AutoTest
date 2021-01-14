@@ -7,6 +7,7 @@ import { getDateString } from "../../lib/date";
 import ifSome from "../shared/ifSome";
 import { Event } from "../../types/models";
 import { LoadingState } from "../../types/loadingState";
+import DeleteButton from "../shared/DeleteButton";
 
 interface Props {
     readonly events: LoadingState<readonly Event[]>;
@@ -64,9 +65,9 @@ const List: FunctionComponent<Props> = ({
                                 Results
                             </Button>
                             <Button onClick={saveRegs}>Regs</Button>
-                            <Button onClick={() => deleteEvent(event)}>
-                                Delete
-                            </Button>
+                            <DeleteButton
+                                deleteFunc={() => deleteEvent(event)}
+                            />
                         </Button.Group>
                     </Column>
                 </Column.Group>

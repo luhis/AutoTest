@@ -5,6 +5,7 @@ import { route } from "preact-router";
 import { Club } from "../../types/models";
 import { LoadingState } from "../../types/loadingState";
 import ifSome from "../shared/ifSome";
+import DeleteButton from "../shared/DeleteButton";
 
 interface Props {
     readonly clubs: LoadingState<readonly Club[]>;
@@ -41,7 +42,9 @@ const ClubsList: FunctionComponent<Props> = ({
                         <Button onClick={() => setEditingClub(club)}>
                             Edit
                         </Button>
-                        <Button onClick={() => deleteClub(club)}>Delete</Button>
+                        <DeleteButton deleteFunc={() => deleteClub(club)}>
+                            Delete
+                        </DeleteButton>
                     </Button.Group>
                 </Column>
             </Column.Group>
