@@ -19,23 +19,29 @@ const ClubsList: FunctionComponent<Props> = ({
 }) =>
     ifSome(
         clubs,
-        (a) => a.clubId,
-        (a) => (
+        (club) => club.clubId,
+        (club) => (
             <Column.Group>
                 <Column>
-                    {a.clubName}
+                    {club.clubName}
                     &nbsp;
-                    {a.website !== "" ? <a href={a.website}>Homepage</a> : null}
+                    {club.website !== "" ? (
+                        <a href={club.website}>Homepage</a>
+                    ) : null}
                 </Column>
                 <Column>
                     <Button.Group>
                         <Button
-                            onClick={() => route(`/events?clubId=${a.clubId}`)}
+                            onClick={() =>
+                                route(`/events?clubId=${club.clubId}`)
+                            }
                         >
                             Events
                         </Button>
-                        <Button onClick={() => setEditingClub(a)}>Edit</Button>
-                        <Button onClick={() => deleteClub(a)}>Delete</Button>
+                        <Button onClick={() => setEditingClub(club)}>
+                            Edit
+                        </Button>
+                        <Button onClick={() => deleteClub(club)}>Delete</Button>
                     </Button.Group>
                 </Column>
             </Column.Group>

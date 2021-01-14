@@ -6,6 +6,8 @@ import { EntrantTime, Penalty, PenaltyType } from "../../types/models";
 
 const None: FunctionComponent = () => <span>X</span>;
 
+const penaltyTypeToString = (p: PenaltyType) => startCase(PenaltyType[p]);
+
 const Penalties: FunctionComponent<{
     readonly penalties: readonly Penalty[];
 }> = ({ penalties }) =>
@@ -14,8 +16,8 @@ const Penalties: FunctionComponent<{
             title={penalties
                 .map(
                     (p) =>
-                        `${p.instanceCount}x ${startCase(
-                            PenaltyType[p.penaltyType]
+                        `${p.instanceCount}x ${penaltyTypeToString(
+                            p.penaltyType
                         )}`
                 )
                 .join(", ")}

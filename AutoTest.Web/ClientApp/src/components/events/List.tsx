@@ -21,43 +21,50 @@ const List: FunctionComponent<Props> = ({
 }) =>
     ifSome(
         events,
-        (a) => a.eventId,
-        (a) => {
+        (event) => event.eventId,
+        (event) => {
             const saveRegs = () =>
                 save(
-                    a.regulations,
-                    `${a.location}-${getDateString(a.startTime)}-regs.pdf`
+                    event.regulations,
+                    `${event.location}-${getDateString(
+                        event.startTime
+                    )}-regs.pdf`
                 );
             return (
                 <Column.Group>
                     <Column>
-                        <p key={a.eventId}>
-                            {a.startTime.toLocaleDateString()} {a.location}
+                        <p key={event.eventId}>
+                            {event.startTime.toLocaleDateString()}{" "}
+                            {event.location}
                         </p>
                     </Column>
                     <Column>
                         <Button.Group>
-                            <Link href={`/event/${a.eventId}`}>View</Link>
-                            <Button onClick={() => setEditingEvent(a)}>
+                            <Link href={`/event/${event.eventId}`}>View</Link>
+                            <Button onClick={() => setEditingEvent(event)}>
                                 Edit
                             </Button>
                             <Button
-                                onClick={() => route(`/entrants/${a.eventId}`)}
+                                onClick={() =>
+                                    route(`/entrants/${event.eventId}`)
+                                }
                             >
                                 Entrants
                             </Button>
                             <Button
-                                onClick={() => route(`/tests/${a.eventId}`)}
+                                onClick={() => route(`/tests/${event.eventId}`)}
                             >
                                 Tests
                             </Button>
                             <Button
-                                onClick={() => route(`/results/${a.eventId}`)}
+                                onClick={() =>
+                                    route(`/results/${event.eventId}`)
+                                }
                             >
                                 Results
                             </Button>
                             <Button onClick={saveRegs}>Regs</Button>
-                            <Button onClick={() => deleteEvent(a)}>
+                            <Button onClick={() => deleteEvent(event)}>
                                 Delete
                             </Button>
                         </Button.Group>

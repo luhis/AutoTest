@@ -22,38 +22,40 @@ const List: FunctionalComponent<Props> = ({
 }) =>
     ifSome(
         entrants,
-        (a) => a.entrantId,
-        (a) => (
+        (entrant) => entrant.entrantId,
+        (entrant) => (
             <Column.Group>
                 <Column>
                     <Numeric>
                         <FaCar />
                         &nbsp;
-                        {a.driverNumber}
+                        {entrant.driverNumber}
                     </Numeric>
                 </Column>
                 <Column>
-                    <NumberPlate registration={a.vehicle.registration} />
+                    <NumberPlate registration={entrant.vehicle.registration} />
                 </Column>
-                <Column>{`${a.givenName} ${a.familyName}`}</Column>
-                <Column>{a.isPaid ? "Paid" : "Unpaid"}</Column>
+                <Column>{`${entrant.givenName} ${entrant.familyName}`}</Column>
+                <Column>{entrant.isPaid ? "Paid" : "Unpaid"}</Column>
                 <Column>
                     <Button.Group>
-                        {a.isPaid ? (
-                            <Button onClick={() => markPaid(a, false)}>
+                        {entrant.isPaid ? (
+                            <Button onClick={() => markPaid(entrant, false)}>
                                 <FaMoneyBill />
                                 &nbsp; Mark Unpaid
                             </Button>
                         ) : (
-                            <Button onClick={() => markPaid(a, true)}>
+                            <Button onClick={() => markPaid(entrant, true)}>
                                 <FaMoneyBill />
                                 &nbsp; Mark Paid
                             </Button>
                         )}
-                        <Button onClick={() => setEditingEntrant(a)}>
+                        <Button onClick={() => setEditingEntrant(entrant)}>
                             Edit
                         </Button>
-                        <Button onClick={() => deleteEntrant(a)}>Delete</Button>
+                        <Button onClick={() => deleteEntrant(entrant)}>
+                            Delete
+                        </Button>
                     </Button.Group>
                 </Column>
             </Column.Group>
