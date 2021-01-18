@@ -18,7 +18,8 @@ const ExportCount: FunctionalComponent<Props> = ({
     <span>
         {entrantId
             ? testRuns.filter(
-                  (a) => a.entrantId === entrantId && a.ordinal === ordinal
+                  (run) =>
+                      run.entrantId === entrantId && run.ordinal === ordinal
               ).length
             : "NA"}{" "}
         of{" "}
