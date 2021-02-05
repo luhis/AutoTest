@@ -30,7 +30,7 @@
     "@types/react-redux": "7.1.16",
     "eslint-plugin-ts-immutable": "0.3.0",
     "preact": "10.5.12",
-    "preact-markup": "2.0.0",
+    "preact-markup": "2.1.1",
     "preact-render-to-string": "5.1.12",
     "preact-router": "3.2.1",
     "promise-file-reader": "1.0.3",
