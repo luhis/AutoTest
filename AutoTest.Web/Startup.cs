@@ -25,8 +25,8 @@ namespace AutoTest.Web
 
     public class Startup
     {
-        const string swaggerHash = "hQoyAYxxdlQX6mYg//3SgDUdhiDx4sZq5ThHlCL8Ssg=";
-        const string swagger2Hash = "ip2mafwm8g4hzTmJd0ltVOzuizPeY1roJ3pkMwGXm8E=";
+        const string swaggerHash = "Tui7QoFlnLXkJCSl1/JvEZdIXTmBttnWNxzJpXomQjg=";
+        const string swagger2Hash = "edNyF0T6h+RbJ9Kl1HXk6KaORyz6MmKnkP3XL/kRb4o=";
         const string googleCom = "https://*.google.com";
         const string googleAnal = "https://www.google-analytics.com";
         private const string baseCssHash = "C7pSgOvwamNBfKv77Bqchu7cIbEY9b+iP5BpHSToCZE=";
