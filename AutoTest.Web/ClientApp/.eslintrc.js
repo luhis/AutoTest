@@ -11,8 +11,6 @@ module.exports = {
         "plugin:react/recommended",
         "plugin:react-hooks/recommended",
         "plugin:prettier/recommended",
-        "prettier/@typescript-eslint",
-        "prettier/react",
         "plugin:ts-immutable/recommended"
     ],
     parser: "@typescript-eslint/parser",
