@@ -1170,18 +1170,18 @@
     "@types/yargs" "^15.0.0"
     chalk "^4.0.0"
 
-"@microsoft/signalr-protocol-msgpack@5.0.3":
-  version "5.0.3"
-  resolved "https://registry.yarnpkg.com/@microsoft/signalr-protocol-msgpack/-/signalr-protocol-msgpack-5.0.3.tgz#18e25f4cd440e7aa50b45fc272fe55bcd71b80a7"
-  integrity sha512-JsMdy34zYplAmP1bZLKIoDkSRkmtJeuQOMoR+hNDfq3mM/TKKKShGVkCPlvohx+m1DR6VLkG1f1LoeQQSVt0jQ==
+"@microsoft/signalr-protocol-msgpack@5.0.4":
+  version "5.0.4"
+  resolved "https://registry.yarnpkg.com/@microsoft/signalr-protocol-msgpack/-/signalr-protocol-msgpack-5.0.4.tgz#cc87f4a916528b71a081420b1e52141e6142e122"
+  integrity sha512-IGqJ8R6xP4GauwEHPiJM6XgjnATLJRWXIXNwsG6U9/bNqBo2zyRhwyvnJ8tbktgrl6/rBPfokv5Aq/BgMv7ZIQ==
   dependencies:
-    "@microsoft/signalr" ">=5.0.3"
-    msgpack5 "^4.0.2"
+    "@microsoft/signalr" ">=5.0.4"
+    msgpack5 "^4.5.0"
 
-"@microsoft/signalr@>=5.0.3":
-  version "5.0.3"
-  resolved "https://registry.yarnpkg.com/@microsoft/signalr/-/signalr-5.0.3.tgz#562762d750333c2154951af5db2327365a655003"
-  integrity sha512-/+8DeefKxsz29+OgLBpMH6xs/akEzFrGTCsBhwQV67x0GR+uN03I74vn8X7FunXWO8BApamOjF2DLmLGU83SFw==
+"@microsoft/signalr@>=5.0.4":
+  version "5.0.4"
+  resolved "https://registry.yarnpkg.com/@microsoft/signalr/-/signalr-5.0.4.tgz#8adeb8c2ed37f15fee71194a60a32de0a55db54c"
+  integrity sha512-SZ0yeL3feopNBbLdtpJgiMy+ZIG8MlbR5UDqUa9pHZ+9vdYslQEJM4cvZCurCMM4GXhssiNSRVgqcMxdfhhQiQ==
   dependencies:
     abort-controller "^3.0.0"
     eventsource "^1.0.7"
@@ -7363,10 +7363,10 @@ ms@2.1.2, ms@^2.1.1:
   resolved "https://registry.yarnpkg.com/ms/-/ms-2.1.2.tgz#d09d1f357b443f493382a8eb3ccd183872ae6009"
   integrity sha512-sGkPx+VjMtmA6MX27oA4FBFELFCZZ4S4XqeGOXCv68tT+jb3vk/RyaKWP0PTKyWtmLSM0b+adUTEvbs1PEaH2w==
 
-msgpack5@^4.0.2:
-  version "4.2.1"
-  resolved "https://registry.yarnpkg.com/msgpack5/-/msgpack5-4.2.1.tgz#007233691af34c4168cea9477cb3236aae854f03"
-  integrity sha512-Xo7nE9ZfBVonQi1rSopNAqPdts/QHyuSEUwIEzAkB+V2FtmkkLUbP6MyVqVVQxsZYI65FpvW3Bb8Z9ZWEjbgHQ==
+msgpack5@^4.5.0:
+  version "4.5.1"
+  resolved "https://registry.yarnpkg.com/msgpack5/-/msgpack5-4.5.1.tgz#2da4dba4ea20c09fd4309c9c04f046e38cb4975e"
+  integrity sha512-zC1vkcliryc4JGlL6OfpHumSYUHWFGimSI+OgfRCjTFLmKA2/foR9rMTOhWiqfOrfxJOctrpWPvrppf8XynJxw==
   dependencies:
     bl "^2.0.1"
     inherits "^2.0.3"
