@@ -1276,10 +1276,10 @@
     estree-walker "^1.0.1"
     picomatch "^2.2.2"
 
-"@s-libs/micro-dash@11.2.1":
-  version "11.2.1"
-  resolved "https://registry.yarnpkg.com/@s-libs/micro-dash/-/micro-dash-11.2.1.tgz#3ecfef77c7838038a10a2f0656da2c51d318db8f"
-  integrity sha512-ZUcJu1qxonhuG9DADtS2mwuttGHAxZxiK4KwGVOzv1fC1p1omcEYdCH/elBrv5NeBHbzg+v0xp5bS/faKX7MQA==
+"@s-libs/micro-dash@11.3.0":
+  version "11.3.0"
+  resolved "https://registry.yarnpkg.com/@s-libs/micro-dash/-/micro-dash-11.3.0.tgz#c89d05739bebb55a0a08a08f0124a9480367d32f"
+  integrity sha512-Z0sUxX71x4QZTBnH4JL+XKiJEKd+0LRU34Bp7MxqEQngFge5v5FN6ahzaFvqwIr5nN5ubsRwEGf1FGv3WpnLKg==
   dependencies:
     tslib "^2.0.0"
     utility-types "^3.10.0"
