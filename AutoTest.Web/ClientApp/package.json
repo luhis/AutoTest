@@ -31,7 +31,7 @@
     "@typescript-eslint/eslint-plugin": "4.17.0",
     "@typescript-eslint/parser": "4.17.0",
     "eslint-plugin-ts-immutable": "0.3.0",
-    "preact": "10.5.12",
+    "preact": "10.5.13",
     "preact-markup": "2.1.1",
     "preact-render-to-string": "5.1.16",
     "preact-router": "3.2.1",
