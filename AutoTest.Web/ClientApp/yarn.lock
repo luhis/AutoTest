@@ -4135,10 +4135,10 @@ envinfo@^7.3.1:
   resolved "https://registry.yarnpkg.com/envinfo/-/envinfo-7.7.2.tgz#098f97a0e902f8141f9150553c92dbb282c4cabe"
   integrity sha512-k3Eh5bKuQnZjm49/L7H4cHzs2FlL5QjbTB3JrPxoTI8aJG7hVMe4uKyJxSYH4ahseby2waUwk5OaKX/nAsaYgg==
 
-enzyme-adapter-preact-pure@3.0.0:
-  version "3.0.0"
-  resolved "https://registry.yarnpkg.com/enzyme-adapter-preact-pure/-/enzyme-adapter-preact-pure-3.0.0.tgz#ca696ad106549cfc95eef376e0154fff5591561c"
-  integrity sha512-xFmANLdbTWJ3sSup15Dvl479XS1gPaFYQM6zpDJ6LfGv6PUAP0WOyWx4P5xZJG4DrrVu0ltSiD5JwWrica4J1w==
+enzyme-adapter-preact-pure@3.1.0:
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/enzyme-adapter-preact-pure/-/enzyme-adapter-preact-pure-3.1.0.tgz#594dee3c425eb03ef5c4c30d0fd55a2d6d9799c2"
+  integrity sha512-IyhHVOe4TtgnQX/iF1PGvhNFXZCBJ8amRQ30Atb6actyelMh4tQAXEjj06FaO5c+frChgDw3YxtLxGEs1Mhv2A==
   dependencies:
     array.prototype.flatmap "^1.2.1"
 
