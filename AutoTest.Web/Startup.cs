@@ -184,7 +184,7 @@ namespace AutoTest.Web
                             scripts.UnsafeEval();
                         }
 
-                        builder.AddFrameSource().Self().From(googleCom);
+                        builder.AddFrameSrc().Self().From(googleCom);
                         var style = builder.AddStyleSrc().Self();
                         if (env.IsDevelopment())
                         {
