@@ -2,7 +2,7 @@ import { h, FunctionComponent } from "preact";
 import { Modal, Button, Form } from "react-bulma-components";
 import { newValidDateOrThrow } from "ts-date";
 import PromiseFileReader from "promise-file-reader";
-const { Label, Input, Field, Select, Control } = Form;
+const { Label, Input, Field, Select } = Form;
 
 import {
     EditingEvent,
@@ -159,8 +159,8 @@ const ModalX: FunctionComponent<Props> = ({
                                 setField({
                                     regulations: e.target.files
                                         ? await PromiseFileReader.readAsDataURL(
-                                            e.target.files[0]
-                                        )
+                                              e.target.files[0]
+                                          )
                                         : null,
                                 });
                             }}

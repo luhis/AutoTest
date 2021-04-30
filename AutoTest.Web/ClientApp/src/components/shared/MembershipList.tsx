@@ -62,6 +62,7 @@ const MembershipList: FunctionComponent<Props> = ({
                 <Control fullwidth={true}>
                     <Label>Membership Number</Label>
                     <Input
+                        type="number"
                         value={newMembership.membershipNumber}
                         onChange={({ target }: OnChange): void =>
                             setNewEmail((e) => ({
