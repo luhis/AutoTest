@@ -1,5 +1,5 @@
 import { h, FunctionComponent, Fragment } from "preact";
-import { Label, Button, Level } from "rbx";
+import { Form, Button, Level } from "react-bulma-components";
 import {
     FaPlus,
     FaMinus,
@@ -74,7 +74,7 @@ const Penalties: FunctionComponent<Readonly<Props>> = ({
 }) => {
     return (
         <Fragment>
-            <Label>Penalties</Label>
+            <Form.Label>Penalties</Form.Label>
             {Object.keys(PenaltyType)
                 .map((a) => Number.parseInt(a))
                 .filter((key) => !isNaN(key))

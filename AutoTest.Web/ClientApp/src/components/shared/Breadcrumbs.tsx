@@ -1,5 +1,5 @@
 import { h, FunctionComponent } from "preact";
-import { Breadcrumb } from "rbx";
+import { Breadcrumb } from "react-bulma-components";
 
 import { Club, Event } from "../../types/models";
 

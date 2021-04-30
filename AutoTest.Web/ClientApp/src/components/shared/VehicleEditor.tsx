@@ -1,5 +1,6 @@
 import { h, FunctionComponent, Fragment } from "preact";
-import { Input, Field, Label } from "rbx";
+import { Form } from "react-bulma-components";
+const { Input, Field, Label } = Form;
 
 import { Vehicle } from "../../types/shared";
 import { OnChange } from "../../types/inputs";

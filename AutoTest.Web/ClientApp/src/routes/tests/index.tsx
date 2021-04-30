@@ -1,8 +1,9 @@
 import { FunctionalComponent, h } from "preact";
 import { useEffect } from "preact/hooks";
 import { route } from "preact-router";
-import { Title, Column, Button, Numeric, Loader } from "rbx";
+import { Heading, Columns, Button, Loader } from "react-bulma-components";
 import { useDispatch, useSelector } from "react-redux";
+const { Column } = Columns;
 
 import { useGoogleAuth } from "../../components/app";
 import { getAccessToken } from "../../api/api";
@@ -42,12 +43,12 @@ const Tests: FunctionalComponent<Readonly<Props>> = ({ eventId }) => {
     return (
         <div>
             <Breadcrumbs club={currentClub} event={currentEvent} />
-            <Title>Tests</Title>
+            <Heading>Tests</Heading>
             {currentEvent ? (
                 currentEvent.tests.map((a) => (
-                    <Column.Group key={a.ordinal}>
+                    <Columns key={a.ordinal}>
                         <Column>
-                            <Numeric>{a.ordinal + 1}</Numeric>
+                            <p class="number">{a.ordinal + 1}</p>
                         </Column>
                         <Column>
                             <Button.Group>
@@ -62,7 +63,7 @@ const Tests: FunctionalComponent<Readonly<Props>> = ({ eventId }) => {
                                 </Button>
                             </Button.Group>
                         </Column>
-                    </Column.Group>
+                    </Columns>
                 ))
             ) : (
                 <div>

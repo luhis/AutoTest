@@ -1,5 +1,5 @@
 import { h, FunctionComponent } from "preact";
-import { Modal, Button, Label, Input, Field } from "rbx";
+import { Modal, Button, Form } from "react-bulma-components";
 
 import { Club, EditingClub } from "../../types/models";
 import { OnChange } from "../../types/inputs";
@@ -14,34 +14,33 @@ interface Props {
 
 const ModalX: FunctionComponent<Props> = ({ save, cancel, club, setField }) => {
     return (
-        <Modal active={true}>
-            <Modal.Background />
+        <Modal show={true} showClose={false}>
             <Modal.Card>
-                <Modal.Card.Head>
+                <Modal.Card.Header showClose={false}>
                     {club.isNew ? "Add" : "Edit"} Club
-                </Modal.Card.Head>
+                </Modal.Card.Header>
                 <Modal.Card.Body>
-                    <Field>
-                        <Label>Name</Label>
-                        <Input
+                    <Form.Field>
+                        <Form.Label>Name</Form.Label>
+                        <Form.Input
                             value={club.clubName}
                             onChange={(e: OnChange): void =>
                                 setField({ clubName: e.target.value })
                             }
                         />
-                    </Field>
-                    <Field>
-                        <Label>Payment Address</Label>
-                        <Input
+                    </Form.Field>
+                    <Form.Field>
+                        <Form.Label>Payment Address</Form.Label>
+                        <Form.Input
                             value={club.clubPaymentAddress}
                             onChange={(e: OnChange): void =>
                                 setField({ clubPaymentAddress: e.target.value })
                             }
                         />
-                    </Field>
-                    <Field>
-                        <Label>Website</Label>
-                        <Input
+                    </Form.Field>
+                    <Form.Field>
+                        <Form.Label>Website</Form.Label>
+                        <Form.Input
                             value={club.website}
                             onChange={(e: OnChange): void =>
                                 setField({
@@ -49,9 +48,9 @@ const ModalX: FunctionComponent<Props> = ({ save, cancel, club, setField }) => {
                                 })
                             }
                         />
-                    </Field>
-                    <Field>
-                        <Label>Admin Emails</Label>
+                    </Form.Field>
+                    <Form.Field>
+                        <Form.Label>Admin Emails</Form.Label>
                         <EmailList
                             emails={club.adminEmails}
                             addNew={(s) =>
@@ -67,16 +66,16 @@ const ModalX: FunctionComponent<Props> = ({ save, cancel, club, setField }) => {
                                 })
                             }
                         />
-                    </Field>
+                    </Form.Field>
                 </Modal.Card.Body>
-                <Modal.Card.Foot>
+                <Modal.Card.Footer>
                     <Button color="primary" onClick={save}>
                         Save changes
                     </Button>
                     <Button color="secondary" onClick={cancel}>
                         Close
                     </Button>
-                </Modal.Card.Foot>
+                </Modal.Card.Footer>
             </Modal.Card>
         </Modal>
     );

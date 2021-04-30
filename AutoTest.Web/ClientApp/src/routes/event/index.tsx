@@ -1,6 +1,6 @@
 import { FunctionalComponent, h } from "preact";
 import { useCallback, useEffect, useState } from "preact/hooks";
-import { Button, Title } from "rbx";
+import { Button, Heading } from "react-bulma-components";
 import { useDispatch, useSelector } from "react-redux";
 import { newValidDate } from "ts-date";
 import UUID from "uuid-int";
@@ -70,11 +70,11 @@ const Event: FunctionalComponent<Props> = ({ eventId }) => {
     return (
         <div>
             <Breadcrumbs club={currentClub} event={currentEvent} />
-            <Title>Event {currentEvent?.location}</Title>
+            <Heading>Event {currentEvent?.location}</Heading>
 
             <Button
                 onClick={() => setShowModal(true)}
-                state={mapOrDefault(notifications, (_) => null, "loading")}
+                loading={mapOrDefault(notifications, (_) => false, true)}
             >
                 <FaBell />
                 &nbsp;

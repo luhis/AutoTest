@@ -1,6 +1,6 @@
 import { FunctionalComponent, h, Fragment } from "preact";
 import { useEffect, useState } from "preact/hooks";
-import { Title, Table, Button } from "rbx";
+import { Heading, Table, Button } from "react-bulma-components";
 import { useDispatch, useSelector } from "react-redux";
 import { HubConnectionBuilder, LogLevel } from "@microsoft/signalr";
 import { range } from "@s-libs/micro-dash";
@@ -111,10 +111,10 @@ const Results: FunctionalComponent<Props> = ({ eventId }) => {
     return (
         <div>
             <Breadcrumbs club={currentClub} event={currentEvent} />
-            <Title>Results</Title>
+            <Heading>Results</Heading>
             <Button
                 onClick={() => setShowModal(true)}
-                state={notifications.tag === "Loaded" ? null : "loading"}
+                loading={notifications.tag === "Loaded" ? false : true}
             >
                 <FaBell />
                 &nbsp;
@@ -123,48 +123,42 @@ const Results: FunctionalComponent<Props> = ({ eventId }) => {
                     : ""}
             </Button>
             <Table>
-                <Table.Head>
-                    <Table.Row>
-                        <Table.Heading>Class</Table.Heading>
-                        <Table.Heading>Number</Table.Heading>
-                        <Table.Heading>Name</Table.Heading>
-                        <Table.Heading>Total Time</Table.Heading>
+                <thead>
+                    <tr>
+                        <th>Class</th>
+                        <th>Number</th>
+                        <th>Name</th>
+                        <th>Total Time</th>
                         {currentEvent
                             ? currentEvent.tests.map((test) =>
                                   testRuns.map((run) => (
-                                      <Table.Heading
-                                          key={`${test.ordinal}.${run}`}
-                                      >
+                                      <th key={`${test.ordinal}.${run}`}>
                                           {test.ordinal + 1}.{numberToChar(run)}
-                                      </Table.Heading>
+                                      </th>
                                   ))
                               )
                             : null}
-                        <Table.Heading>Class</Table.Heading>
-                        <Table.Heading>Overall</Table.Heading>
-                    </Table.Row>
-                </Table.Head>
+                        <th>Class</th>
+                        <th>Overall</th>
+                    </tr>
+                </thead>
                 {ifSome(
                     results,
                     (r) => r.class,
                     (result) => (
                         <Fragment>
                             {result.entrantTimes.map((a) => (
-                                <Table.Row key={a.entrant.entrantId}>
-                                    <Table.Cell>
+                                <tr key={a.entrant.entrantId}>
+                                    <td>
                                         <p>{result.class}</p>
-                                    </Table.Cell>
-                                    <Table.Cell>
-                                        {a.entrant.driverNumber}
-                                    </Table.Cell>
-                                    <Table.Cell>{`${a.entrant.givenName} ${a.entrant.familyName}`}</Table.Cell>
-                                    <Table.Cell>
-                                        {(a.totalTime / 1000).toFixed(2)}
-                                    </Table.Cell>
+                                    </td>
+                                    <td>{a.entrant.driverNumber}</td>
+                                    <td>{`${a.entrant.givenName} ${a.entrant.familyName}`}</td>
+                                    <td>{(a.totalTime / 1000).toFixed(2)}</td>
                                     {currentEvent
                                         ? currentEvent.tests.map((test) =>
                                               testRuns.map((run) => (
-                                                  <Table.Cell
+                                                  <td
                                                       key={`${test.ordinal}.${run}`}
                                                   >
                                                       <Time
@@ -172,15 +166,13 @@ const Results: FunctionalComponent<Props> = ({ eventId }) => {
                                                           ordinal={test.ordinal}
                                                           run={run}
                                                       />
-                                                  </Table.Cell>
+                                                  </td>
                                               ))
                                           )
                                         : null}
-                                    <Table.Cell>
-                                        {a.classPosition + 1}
-                                    </Table.Cell>
-                                    <Table.Cell>{a.position + 1}</Table.Cell>
-                                </Table.Row>
+                                    <td>{a.classPosition + 1}</td>
+                                    <td>{a.position + 1}</td>
+                                </tr>
                             ))}
                         </Fragment>
                     )

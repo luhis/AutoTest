@@ -1,10 +1,10 @@
 import { FunctionalComponent, h } from "preact";
-import { Title } from "rbx";
+import { Heading } from "react-bulma-components";
 
 const Home: FunctionalComponent = () => {
     return (
         <div>
-            <Title>Home</Title>
+            <Heading>Home</Heading>
             <p>This is the Home component.</p>
         </div>
     );

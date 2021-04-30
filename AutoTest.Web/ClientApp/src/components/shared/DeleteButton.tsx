@@ -1,24 +1,23 @@
 import { h, FunctionComponent, Fragment } from "preact";
 import { useCallback, useState } from "preact/hooks";
-import { Button, Modal } from "rbx";
+import { Button, Modal } from "react-bulma-components";
 
 const DeleteModal: FunctionComponent<{
     readonly deleteFunc: () => void;
     readonly cancel: () => void;
 }> = ({ deleteFunc, cancel }) => (
-    <Modal active={true}>
-        <Modal.Background />
+    <Modal show={true} showClose={false}>
         <Modal.Card>
-            <Modal.Card.Head>Delete?</Modal.Card.Head>
+            <Modal.Card.Header showClose={false}>Delete?</Modal.Card.Header>
             <Modal.Card.Body>Are you sure you want to delete?</Modal.Card.Body>
-            <Modal.Card.Foot>
+            <Modal.Card.Footer>
                 <Button color="primary" onClick={deleteFunc}>
                     Delete
                 </Button>
                 <Button color="secondary" onClick={cancel}>
                     Cancel
                 </Button>
-            </Modal.Card.Foot>
+            </Modal.Card.Footer>
         </Modal.Card>
     </Modal>
 );

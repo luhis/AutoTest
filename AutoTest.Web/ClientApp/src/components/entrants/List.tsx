@@ -1,5 +1,5 @@
 import { FunctionalComponent, h } from "preact";
-import { Column, Button, Numeric } from "rbx";
+import { Columns, Button } from "react-bulma-components";
 import { FaCar, FaMoneyBill } from "react-icons/fa";
 
 import ifSome from "../shared/ifSome";
@@ -25,20 +25,22 @@ const List: FunctionalComponent<Props> = ({
         entrants,
         (entrant) => entrant.entrantId,
         (entrant) => (
-            <Column.Group>
-                <Column>
-                    <Numeric>
+            <Columns>
+                <Columns.Column>
+                    <p class="number">
                         <FaCar />
                         &nbsp;
                         {entrant.driverNumber}
-                    </Numeric>
-                </Column>
-                <Column>
+                    </p>
+                </Columns.Column>
+                <Columns.Column>
                     <NumberPlate registration={entrant.vehicle.registration} />
-                </Column>
-                <Column>{`${entrant.givenName} ${entrant.familyName}`}</Column>
-                <Column>{entrant.isPaid ? "Paid" : "Unpaid"}</Column>
-                <Column>
+                </Columns.Column>
+                <Columns.Column>{`${entrant.givenName} ${entrant.familyName}`}</Columns.Column>
+                <Columns.Column>
+                    {entrant.isPaid ? "Paid" : "Unpaid"}
+                </Columns.Column>
+                <Columns.Column>
                     <Button.Group>
                         {entrant.isPaid ? (
                             <Button onClick={() => markPaid(entrant, false)}>
@@ -58,8 +60,8 @@ const List: FunctionalComponent<Props> = ({
                             Delete
                         </DeleteButton>
                     </Button.Group>
-                </Column>
-            </Column.Group>
+                </Columns.Column>
+            </Columns>
         )
     );
 

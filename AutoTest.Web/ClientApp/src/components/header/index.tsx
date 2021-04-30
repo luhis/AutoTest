@@ -1,5 +1,5 @@
 import { FunctionalComponent, h } from "preact";
-import { Navbar, Button } from "rbx";
+import { Navbar, Button } from "react-bulma-components";
 import { useDispatch, useSelector } from "react-redux";
 import { useCallback, useEffect } from "preact/hooks";
 
@@ -41,7 +41,7 @@ const Header: FunctionalComponent = () => {
                 <Navbar.Burger />
             </Navbar.Brand>
             <Navbar.Menu>
-                <Navbar.Segment align="start">
+                <Navbar.Container align="right">
                     <Navbar.Item href="/">Home</Navbar.Item>
                     {access.canViewClubs ? (
                         <Navbar.Item href="/clubs">Clubs</Navbar.Item>
@@ -64,7 +64,7 @@ const Header: FunctionalComponent = () => {
                             <Button onClick={clearCache}>Clear Cache</Button>
                         </Button.Group>
                     </Navbar.Item>
-                </Navbar.Segment>
+                </Navbar.Container>
             </Navbar.Menu>
         </Navbar>
     );

@@ -1,6 +1,6 @@
 import { FunctionalComponent, h } from "preact";
 import { useCallback, useEffect, useState } from "preact/hooks";
-import { Title, Button } from "rbx";
+import { Heading, Button } from "react-bulma-components";
 import UUID from "uuid-int";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -165,7 +165,7 @@ const Events: FunctionalComponent<Readonly<Props>> = ({ eventId }) => {
     return (
         <div>
             <Breadcrumbs club={currentClub} event={currentEvent} />
-            <Title>Entrants</Title>
+            <Heading>Entrants</Heading>
             <List
                 entrants={entrants}
                 setEditingEntrant={setCurrentEditingEntrant}

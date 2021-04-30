@@ -1,5 +1,5 @@
 import { h, FunctionComponent } from "preact";
-import { Modal, Button, Field, Input, Label } from "rbx";
+import { Modal, Button, Form } from "react-bulma-components";
 import { OnChange } from "src/types/inputs";
 
 import { Notification } from "../../types/models";
@@ -18,29 +18,30 @@ const AddNotificationModal: FunctionComponent<Props> = ({
     cancel,
 }) => {
     return (
-        <Modal active={true}>
-            <Modal.Background />
+        <Modal show={true} showClose={false}>
             <Modal.Card>
-                <Modal.Card.Head>Notifications</Modal.Card.Head>
+                <Modal.Card.Header showClose={false}>
+                    Notifications
+                </Modal.Card.Header>
                 <Modal.Card.Body>
-                    <Field>
-                        <Label>Notification</Label>
-                        <Input
+                    <Form.Field>
+                        <Form.Label>Notification</Form.Label>
+                        <Form.Input
                             value={notification.message}
                             onChange={(e: OnChange): void =>
                                 setField({ message: e.target.value })
                             }
                         />
-                    </Field>
+                    </Form.Field>
                 </Modal.Card.Body>
-                <Modal.Card.Foot>
+                <Modal.Card.Footer>
                     <Button color="primary" onClick={save}>
                         Save
                     </Button>
                     <Button color="secondary" onClick={cancel}>
                         Close
                     </Button>
-                </Modal.Card.Foot>
+                </Modal.Card.Footer>
             </Modal.Card>
         </Modal>
     );

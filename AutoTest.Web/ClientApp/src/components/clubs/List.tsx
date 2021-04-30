@@ -1,5 +1,5 @@
 import { FunctionComponent, h } from "preact";
-import { Column, Button } from "rbx";
+import { Columns, Button } from "react-bulma-components";
 import { route } from "preact-router";
 
 import { Club } from "../../types/models";
@@ -22,15 +22,15 @@ const ClubsList: FunctionComponent<Props> = ({
         clubs,
         (club) => club.clubId,
         (club) => (
-            <Column.Group>
-                <Column>
+            <Columns>
+                <Columns.Column>
                     {club.clubName}
                     &nbsp;
                     {club.website !== "" ? (
                         <a href={club.website}>Homepage</a>
                     ) : null}
-                </Column>
-                <Column>
+                </Columns.Column>
+                <Columns.Column>
                     <Button.Group>
                         <Button
                             onClick={() =>
@@ -46,8 +46,8 @@ const ClubsList: FunctionComponent<Props> = ({
                             Delete
                         </DeleteButton>
                     </Button.Group>
-                </Column>
-            </Column.Group>
+                </Columns.Column>
+            </Columns>
         )
     );
 

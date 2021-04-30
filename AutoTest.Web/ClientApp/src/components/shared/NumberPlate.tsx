@@ -1,5 +1,5 @@
 import { h, FunctionComponent } from "preact";
-import { Tag } from "rbx";
+import { Tag } from "react-bulma-components";
 
 interface Props {
     readonly registration: string;

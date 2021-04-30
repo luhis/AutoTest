@@ -1,7 +1,8 @@
 import { h, FunctionComponent, Fragment } from "preact";
-import { Button, Input, Control, Delete, Field, Level, Label } from "rbx";
+import { Button, Form, Level } from "react-bulma-components";
 import { useState } from "preact/hooks";
 import { addYear, newValidDate, parseIsoOrThrow } from "ts-date";
+const { Input, Control, Field, Label } = Form;
 
 import { OnChange } from "../../types/inputs";
 import { getDateString } from "../../lib/date";
@@ -41,7 +42,7 @@ const MembershipList: FunctionComponent<Props> = ({
                         {a.expiry.toLocaleDateString()}
                     </Level.Item>
                     <Level.Item align="right">
-                        <Delete onClick={() => remove(i)} />
+                        <Button remove onClick={() => remove(i)} />
                     </Level.Item>
                 </Level>
             ))}

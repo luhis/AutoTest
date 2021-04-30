@@ -1,6 +1,7 @@
 import { h, FunctionComponent, Fragment } from "preact";
-import { Button, Input, Control, Delete, Field, Level } from "rbx";
+import { Button, Level, Form } from "react-bulma-components";
 import { useCallback, useState } from "preact/hooks";
+const { Input, Control, Field } = Form;
 
 import { OnChange } from "../../types/inputs";
 import { AuthorisationEmail } from "../../types/models";
@@ -21,7 +22,7 @@ const ListItem: FunctionComponent<{
         <Level>
             <Level.Item align="left">{email}</Level.Item>
             <Level.Item align="right">
-                <Delete onClick={removeItem} />
+                <Button remove onClick={removeItem} />
             </Level.Item>
         </Level>
     );

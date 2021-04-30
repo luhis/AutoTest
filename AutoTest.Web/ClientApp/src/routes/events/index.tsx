@@ -1,6 +1,6 @@
 import { FunctionalComponent, h } from "preact";
 import { useCallback, useEffect, useState } from "preact/hooks";
-import { Title, Button } from "rbx";
+import { Heading, Button } from "react-bulma-components";
 import UUID from "uuid-int";
 import { newValidDate } from "ts-date";
 import { useDispatch, useSelector } from "react-redux";
@@ -74,7 +74,7 @@ const Events: FunctionalComponent<Props> = ({ clubId }) => {
     );
     return (
         <div>
-            <Title>Events</Title>
+            <Heading>Events</Heading>
             <List
                 events={events}
                 setEditingEvent={(a) =>

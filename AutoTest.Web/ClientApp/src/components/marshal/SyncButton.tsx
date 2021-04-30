@@ -1,5 +1,5 @@
 import { FunctionalComponent, h } from "preact";
-import { Button, Tag } from "rbx";
+import { Button, Tag } from "react-bulma-components";
 
 const SyncButton: FunctionalComponent<{
     readonly unSyncedCount: number;

@@ -1,5 +1,5 @@
 import { h, FunctionComponent } from "preact";
-import { Modal, Button, Title } from "rbx";
+import { Modal, Button, Heading } from "react-bulma-components";
 import TimeAgo from "timeago-react";
 
 import { Notification } from "../../types/models";
@@ -14,27 +14,28 @@ const NotificationsModal: FunctionComponent<Props> = ({
     cancel,
 }) => {
     return (
-        <Modal active={true}>
-            <Modal.Background />
+        <Modal show={true} showClose={false}>
             <Modal.Card>
-                <Modal.Card.Head>Notifications</Modal.Card.Head>
+                <Modal.Card.Header showClose={false}>
+                    Notifications
+                </Modal.Card.Header>
                 <Modal.Card.Body>
                     <ul>
                         {notifications.map((a) => (
                             <li key={a.notificationId}>
-                                <Title size={6}>
+                                <Heading size={6}>
                                     <TimeAgo datetime={a.created} />
-                                </Title>
+                                </Heading>
                                 <p>{a.message}</p>
                             </li>
                         ))}
                     </ul>
                 </Modal.Card.Body>
-                <Modal.Card.Foot>
+                <Modal.Card.Footer>
                     <Button color="secondary" onClick={cancel}>
                         Close
                     </Button>
-                </Modal.Card.Foot>
+                </Modal.Card.Footer>
             </Modal.Card>
         </Modal>
     );

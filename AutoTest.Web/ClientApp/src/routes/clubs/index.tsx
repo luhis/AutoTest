@@ -1,6 +1,6 @@
 import { FunctionalComponent, h } from "preact";
 import { useCallback, useEffect, useState } from "preact/hooks";
-import { Button, Title } from "rbx";
+import { Button, Heading } from "react-bulma-components";
 import UUID from "uuid-int";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -65,7 +65,7 @@ const ClubComponent: FunctionalComponent = () => {
     );
     return (
         <div>
-            <Title>Clubs</Title>
+            <Heading>Clubs</Heading>
             <List
                 clubs={clubs}
                 setEditingClub={setCurrentEditingClub}

@@ -1,7 +1,8 @@
 import { h, FunctionComponent } from "preact";
-import { Modal, Button, Label, Input, Field, Select } from "rbx";
+import { Modal, Button, Form } from "react-bulma-components";
 import { newValidDateOrThrow } from "ts-date";
 import PromiseFileReader from "promise-file-reader";
+const { Label, Input, Field, Select } = Form;
 
 import {
     EditingEvent,
@@ -45,12 +46,11 @@ const ModalX: FunctionComponent<Props> = ({
             ),
         });
     return (
-        <Modal active={true}>
-            <Modal.Background />
+        <Modal show={true} showClose={false}>
             <Modal.Card>
-                <Modal.Card.Head>
+                <Modal.Card.Header showClose={false}>
                     {event.isNew ? "Add" : "Edit"} Event
-                </Modal.Card.Head>
+                </Modal.Card.Header>
                 <Modal.Card.Body>
                     <Field>
                         <Label>Location</Label>
@@ -63,56 +63,48 @@ const ModalX: FunctionComponent<Props> = ({
                     </Field>
                     <Field>
                         <Label>Event Type</Label>
-                        <Select.Container fullwidth>
-                            <Select
-                                onChange={(evt: OnSelectChange) =>
-                                    setField({
-                                        eventType: Number.parseInt(
-                                            evt.target.value
-                                        ),
-                                    })
-                                }
-                                value={event.eventType}
-                            >
-                                <Select.Option value={-1}>
-                                    - Please Select -
-                                </Select.Option>
-                                {eventTypes.map((key) => (
-                                    <Select.Option key={key} value={key}>
-                                        {startCase(EventType[key])}
-                                    </Select.Option>
-                                ))}
-                            </Select>
-                        </Select.Container>
+                        <Select
+                            onChange={(evt: OnSelectChange) =>
+                                setField({
+                                    eventType: Number.parseInt(
+                                        evt.target.value
+                                    ),
+                                })
+                            }
+                            value={event.eventType}
+                        >
+                            <option value={-1}>- Please Select -</option>
+                            {eventTypes.map((key) => (
+                                <option key={key} value={key}>
+                                    {startCase(EventType[key])}
+                                </option>
+                            ))}
+                        </Select>
                     </Field>
                     {event.isClubEditable ? (
                         <Field>
                             <Label>Club</Label>
-                            <Select.Container fullwidth>
-                                <Select
-                                    onChange={(evt: OnSelectChange) =>
-                                        setField({
-                                            clubId: Number.parseInt(
-                                                evt.target.value
-                                            ),
-                                        })
-                                    }
-                                    value={event.clubId}
-                                >
-                                    <Select.Option value={-1}>
-                                        - Please Select -
-                                    </Select.Option>
-                                    {ifSome(
-                                        clubs,
-                                        (a) => a.clubId,
-                                        (a) => (
-                                            <Select.Option value={a.clubId}>
-                                                {a.clubName}
-                                            </Select.Option>
-                                        )
-                                    )}
-                                </Select>
-                            </Select.Container>
+                            <Select
+                                onChange={(evt: OnSelectChange) =>
+                                    setField({
+                                        clubId: Number.parseInt(
+                                            evt.target.value
+                                        ),
+                                    })
+                                }
+                                value={event.clubId}
+                            >
+                                <option value={-1}>- Please Select -</option>
+                                {ifSome(
+                                    clubs,
+                                    (a) => a.clubId,
+                                    (a) => (
+                                        <option value={a.clubId}>
+                                            {a.clubName}
+                                        </option>
+                                    )
+                                )}
+                            </Select>
                         </Field>
                     ) : null}
                     <Field>
@@ -182,14 +174,14 @@ const ModalX: FunctionComponent<Props> = ({
                         />
                     </Field>
                 </Modal.Card.Body>
-                <Modal.Card.Foot>
+                <Modal.Card.Footer>
                     <Button color="primary" onClick={save}>
                         Save changes
                     </Button>
                     <Button color="secondary" onClick={cancel}>
                         Close
                     </Button>
-                </Modal.Card.Foot>
+                </Modal.Card.Footer>
             </Modal.Card>
         </Modal>
     );

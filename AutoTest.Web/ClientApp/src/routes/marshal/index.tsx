@@ -1,9 +1,10 @@
 import { FunctionalComponent, h } from "preact";
 import { useCallback, useEffect, useState } from "preact/hooks";
-import { Title, Select, Label, Field, Input, Button } from "rbx";
+import { Heading, Form, Button } from "react-bulma-components";
 import UUID from "uuid-int";
 import { useSelector, useDispatch } from "react-redux";
 import { newValidDate } from "ts-date";
+const { Select, Label, Field, Input } = Form;
 
 import {
     EditableTestRun,
@@ -155,34 +156,30 @@ const Marshal: FunctionalComponent<Readonly<Props>> = ({
                 event={currentEvent}
                 test={ordinal}
             />
-            <Title>Marshal</Title>
+            <Heading>Marshal</Heading>
             <Field>
                 <Label>Entrant</Label>
-                <Select.Container>
-                    <Select
-                        onChange={(event: OnSelectChange) =>
-                            setEditing((e) => ({
-                                ...e,
-                                entrantId: Number.parseInt(event.target.value),
-                            }))
-                        }
-                        value={editing.entrantId}
-                    >
-                        <Select.Option value={-1}>
-                            - Please Select -
-                        </Select.Option>
-                        {ifSome(
-                            entrants,
-                            (a) => a.entrantId,
-                            (a) => (
-                                <Select.Option value={a.entrantId}>
-                                    {a.driverNumber}. {a.vehicle.registration} -{" "}
-                                    {a.givenName} {a.familyName}
-                                </Select.Option>
-                            )
-                        )}
-                    </Select>
-                </Select.Container>
+                <Select
+                    onChange={(event: OnSelectChange) =>
+                        setEditing((e) => ({
+                            ...e,
+                            entrantId: Number.parseInt(event.target.value),
+                        }))
+                    }
+                    value={editing.entrantId}
+                >
+                    <option value={-1}>- Please Select -</option>
+                    {ifSome(
+                        entrants,
+                        (a) => a.entrantId,
+                        (a) => (
+                            <option value={a.entrantId}>
+                                {a.driverNumber}. {a.vehicle.registration} -{" "}
+                                {a.givenName} {a.familyName}
+                            </option>
+                        )
+                    )}
+                </Select>
             </Field>
             <Field>
                 <Label>Existing Count</Label>

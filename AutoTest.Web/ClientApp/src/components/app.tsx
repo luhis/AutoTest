@@ -3,7 +3,7 @@ import { Route, Router } from "preact-router";
 import { useGoogleLogin } from "react-use-googlelogin";
 import { useContext } from "preact/hooks";
 import { Provider } from "react-redux";
-import { Container, Loader } from "rbx";
+import { Container, Loader } from "react-bulma-components";
 import { PersistGate } from "redux-persist/integration/react";
 import { HookReturnValue } from "react-use-googlelogin/dist/types";
 
@@ -21,7 +21,7 @@ import Marshal from "../routes/marshal";
 import store from "../store";
 import { googleKey } from "../settings";
 
-import "rbx/index.css";
+import "bulma/css/bulma.css";
 
 interface Module {
     readonly hot: unknown | undefined;

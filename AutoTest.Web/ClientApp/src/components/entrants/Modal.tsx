@@ -1,5 +1,5 @@
 import { h, FunctionComponent } from "preact";
-import { Modal, Button, Label, Input, Field } from "rbx";
+import { Modal, Button, Form } from "react-bulma-components";
 import { useSelector } from "react-redux";
 
 import { Entrant, EditingEntrant } from "../../types/models";
@@ -28,54 +28,53 @@ const EntrantsModal: FunctionComponent<Props> = ({
         (c) => c.startsWith(entrant.class) && c !== entrant.class
     );
     return (
-        <Modal active={true}>
-            <Modal.Background />
+        <Modal show={true} showClose={false}>
             <Modal.Card>
-                <Modal.Card.Head>
+                <Modal.Card.Header showClose={false}>
                     {entrant.isNew ? "Add" : "Edit"} Entrant
-                </Modal.Card.Head>
+                </Modal.Card.Header>
                 <Modal.Card.Body>
-                    <Field horizontal>
-                        <Field>
-                            <Label>Given Name</Label>
-                            <Input
+                    <Form.Field horizontal>
+                        <Form.Field>
+                            <Form.Label>Given Name</Form.Label>
+                            <Form.Input
                                 value={entrant.givenName}
                                 onChange={(e: OnChange): void =>
                                     setField({ givenName: e.target.value })
                                 }
                             />
-                        </Field>
-                        <Field>
-                            <Label>Family Name</Label>
-                            <Input
+                        </Form.Field>
+                        <Form.Field>
+                            <Form.Label>Family Name</Form.Label>
+                            <Form.Input
                                 value={entrant.familyName}
                                 onChange={(e: OnChange): void =>
                                     setField({ familyName: e.target.value })
                                 }
                             />
-                        </Field>
-                    </Field>
-                    <Field>
-                        <Label>Club</Label>
-                        <Input
+                        </Form.Field>
+                    </Form.Field>
+                    <Form.Field>
+                        <Form.Label>Club</Form.Label>
+                        <Form.Input
                             value={entrant.club}
                             onChange={(e: OnChange): void =>
                                 setField({ club: e.target.value })
                             }
                         />
-                    </Field>
-                    <Field>
-                        <Label>MSA License</Label>
-                        <Input
+                    </Form.Field>
+                    <Form.Field>
+                        <Form.Label>MSA License</Form.Label>
+                        <Form.Input
                             value={entrant.msaLicense}
                             onChange={(e: OnChange): void =>
                                 setField({ msaLicense: e.target.value })
                             }
                         />
-                    </Field>
-                    <Field>
-                        <Label>Class</Label>
-                        <Input
+                    </Form.Field>
+                    <Form.Field>
+                        <Form.Label>Class</Form.Label>
+                        <Form.Input
                             list="classes"
                             value={entrant.class}
                             onChange={(e: OnChange): void => {
@@ -97,8 +96,8 @@ const EntrantsModal: FunctionComponent<Props> = ({
                                     />
                                 ))}
                             </datalist>
-                        </Input>
-                    </Field>
+                        </Form.Input>
+                    </Form.Field>
                     <VehicleEditor
                         vehicle={entrant.vehicle}
                         setField={(e: Vehicle): void =>
@@ -116,7 +115,7 @@ const EntrantsModal: FunctionComponent<Props> = ({
                         }
                     />
                 </Modal.Card.Body>
-                <Modal.Card.Foot>
+                <Modal.Card.Footer>
                     <Button color="primary" onClick={save}>
                         Save changes
                     </Button>
@@ -128,7 +127,7 @@ const EntrantsModal: FunctionComponent<Props> = ({
                     <Button color="secondary" onClick={cancel}>
                         Close
                     </Button>
-                </Modal.Card.Foot>
+                </Modal.Card.Footer>
             </Modal.Card>
         </Modal>
     );

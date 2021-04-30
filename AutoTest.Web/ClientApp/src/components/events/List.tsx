@@ -1,7 +1,8 @@
 import { FunctionComponent, h } from "preact";
-import { Column, Button } from "rbx";
+import { Columns, Button } from "react-bulma-components";
 import { Link, route } from "preact-router";
 import save from "save-file";
+const { Column } = Columns;
 
 import { getDateString } from "../../lib/date";
 import ifSome from "../shared/ifSome";
@@ -32,7 +33,7 @@ const List: FunctionComponent<Props> = ({
                     )}-regs.pdf`
                 );
             return (
-                <Column.Group>
+                <Columns>
                     <Column>
                         <p key={event.eventId}>
                             {event.startTime.toLocaleDateString()}{" "}
@@ -70,7 +71,7 @@ const List: FunctionComponent<Props> = ({
                             />
                         </Button.Group>
                     </Column>
-                </Column.Group>
+                </Columns>
             );
         }
     );

@@ -1,5 +1,6 @@
 import { h, FunctionComponent, Fragment } from "preact";
-import { Button, Label, Input, Field, Title } from "rbx";
+import { Button, Form, Heading } from "react-bulma-components";
+const { Label, Input, Field } = Form;
 
 import { Profile } from "../../types/profileModels";
 import { OnChange } from "../../types/inputs";
@@ -17,7 +18,7 @@ interface Props {
 const ProfileComp: FunctionComponent<Props> = ({ save, profile, setField }) => {
     return (
         <Fragment>
-            <Title>Profile</Title>
+            <Heading>Profile</Heading>
             <Field>
                 <Label>Given Name</Label>
                 <Input
