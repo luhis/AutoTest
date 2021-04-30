@@ -1,6 +1,7 @@
 import { h, FunctionComponent } from "preact";
 import { Modal, Button, Form } from "react-bulma-components";
 import { useSelector } from "react-redux";
+const { Control } = Form;
 
 import { Entrant, EditingEntrant } from "../../types/models";
 import { OnChange } from "../../types/inputs";
@@ -34,17 +35,19 @@ const EntrantsModal: FunctionComponent<Props> = ({
                     {entrant.isNew ? "Add" : "Edit"} Entrant
                 </Modal.Card.Header>
                 <Modal.Card.Body>
-                    <Form.Field horizontal>
-                        <Form.Field>
+                    <Form.Field kind="group">
+                        <Control fullwidth={true}>
                             <Form.Label>Given Name</Form.Label>
-                            <Form.Input
-                                value={entrant.givenName}
-                                onChange={(e: OnChange): void =>
-                                    setField({ givenName: e.target.value })
-                                }
-                            />
-                        </Form.Field>
-                        <Form.Field>
+                            <Control>
+                                <Form.Input
+                                    value={entrant.givenName}
+                                    onChange={(e: OnChange): void =>
+                                        setField({ givenName: e.target.value })
+                                    }
+                                />
+                            </Control>
+                        </Control>
+                        <Control fullwidth={true}>
                             <Form.Label>Family Name</Form.Label>
                             <Form.Input
                                 value={entrant.familyName}
@@ -52,7 +55,7 @@ const EntrantsModal: FunctionComponent<Props> = ({
                                     setField({ familyName: e.target.value })
                                 }
                             />
-                        </Form.Field>
+                        </Control>
                     </Form.Field>
                     <Form.Field>
                         <Form.Label>Club</Form.Label>

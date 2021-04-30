@@ -2,7 +2,7 @@ import { h, FunctionComponent } from "preact";
 import { Modal, Button, Form } from "react-bulma-components";
 import { newValidDateOrThrow } from "ts-date";
 import PromiseFileReader from "promise-file-reader";
-const { Label, Input, Field, Select } = Form;
+const { Label, Input, Field, Select, Control } = Form;
 
 import {
     EditingEvent,
@@ -63,7 +63,8 @@ const ModalX: FunctionComponent<Props> = ({
                     </Field>
                     <Field>
                         <Label>Event Type</Label>
-                        <Select
+                        <Select<EventType>
+                            class="is-fullwidth"
                             onChange={(evt: OnSelectChange) =>
                                 setField({
                                     eventType: Number.parseInt(
@@ -85,6 +86,7 @@ const ModalX: FunctionComponent<Props> = ({
                         <Field>
                             <Label>Club</Label>
                             <Select
+                                class="is-fullwidth"
                                 onChange={(evt: OnSelectChange) =>
                                     setField({
                                         clubId: Number.parseInt(
@@ -157,8 +159,8 @@ const ModalX: FunctionComponent<Props> = ({
                                 setField({
                                     regulations: e.target.files
                                         ? await PromiseFileReader.readAsDataURL(
-                                              e.target.files[0]
-                                          )
+                                            e.target.files[0]
+                                        )
                                         : null,
                                 });
                             }}

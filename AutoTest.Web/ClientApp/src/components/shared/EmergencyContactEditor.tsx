@@ -1,6 +1,6 @@
 import { h, FunctionComponent, Fragment } from "preact";
 import { Form } from "react-bulma-components";
-const { Input, Field, Label } = Form;
+const { Input, Field, Label, Control } = Form;
 
 import { EmergencyContact } from "../../types/shared";
 import { OnChange } from "../../types/inputs";
@@ -16,8 +16,8 @@ const EmergencyContactEditor: FunctionComponent<Props> = ({
 }) => {
     return (
         <Fragment>
-            <Field horizontal>
-                <Field>
+            <Field kind="group">
+                <Control fullwidth={true}>
                     <Label>Emergency Contact Name</Label>
                     <Input
                         value={emergencyContact.name}
@@ -28,8 +28,8 @@ const EmergencyContactEditor: FunctionComponent<Props> = ({
                             });
                         }}
                     />
-                </Field>
-                <Field>
+                </Control>
+                <Control fullwidth={true}>
                     <Label>Emergency Contact Number</Label>
                     <Input
                         type="tel"
@@ -41,7 +41,7 @@ const EmergencyContactEditor: FunctionComponent<Props> = ({
                             })
                         }
                     />
-                </Field>
+                </Control>
             </Field>
         </Fragment>
     );

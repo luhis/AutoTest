@@ -1,6 +1,6 @@
 import { h, FunctionComponent, Fragment } from "preact";
 import { Form } from "react-bulma-components";
-const { Input, Field, Label } = Form;
+const { Input, Field, Label, Control } = Form;
 
 import { Vehicle } from "../../types/shared";
 import { OnChange } from "../../types/inputs";
@@ -13,8 +13,8 @@ interface Props {
 const VehicleEditor: FunctionComponent<Props> = ({ vehicle, setField }) => {
     return (
         <Fragment>
-            <Field horizontal>
-                <Field>
+            <Field kind="group">
+                <Control fullwidth={true}>
                     <Label>Make</Label>
                     <Input
                         value={vehicle.make}
@@ -25,8 +25,8 @@ const VehicleEditor: FunctionComponent<Props> = ({ vehicle, setField }) => {
                             })
                         }
                     />
-                </Field>
-                <Field>
+                </Control>
+                <Control fullwidth={true}>
                     <Label>Model</Label>
                     <Input
                         value={vehicle.model}
@@ -37,10 +37,10 @@ const VehicleEditor: FunctionComponent<Props> = ({ vehicle, setField }) => {
                             })
                         }
                     />
-                </Field>
+                </Control>
             </Field>
-            <Field horizontal>
-                <Field>
+            <Field kind="group">
+                <Control fullwidth={true}>
                     <Label>Registration</Label>
                     <Input
                         value={vehicle.registration}
@@ -51,8 +51,8 @@ const VehicleEditor: FunctionComponent<Props> = ({ vehicle, setField }) => {
                             })
                         }
                     />
-                </Field>
-                <Field>
+                </Control>
+                <Control fullwidth={true}>
                     <Label>Displacement (CC)</Label>
                     <Input
                         type="number"
@@ -65,7 +65,7 @@ const VehicleEditor: FunctionComponent<Props> = ({ vehicle, setField }) => {
                         }
                         min={0}
                     />
-                </Field>
+                </Control>
             </Field>
         </Fragment>
     );

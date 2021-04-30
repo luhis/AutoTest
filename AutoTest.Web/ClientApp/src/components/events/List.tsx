@@ -1,8 +1,9 @@
 import { FunctionComponent, h } from "preact";
-import { Columns, Button } from "react-bulma-components";
+import { Columns, Button, Form } from "react-bulma-components";
 import { Link, route } from "preact-router";
 import save from "save-file";
 const { Column } = Columns;
+const { Field } = Form;
 
 import { getDateString } from "../../lib/date";
 import ifSome from "../shared/ifSome";
@@ -41,7 +42,7 @@ const List: FunctionComponent<Props> = ({
                         </p>
                     </Column>
                     <Column>
-                        <Button.Group>
+                        <Field kind="group">
                             <Link href={`/event/${event.eventId}`}>View</Link>
                             <Button onClick={() => setEditingEvent(event)}>
                                 Edit
@@ -69,7 +70,7 @@ const List: FunctionComponent<Props> = ({
                             <DeleteButton
                                 deleteFunc={() => deleteEvent(event)}
                             />
-                        </Button.Group>
+                        </Field>
                     </Column>
                 </Columns>
             );

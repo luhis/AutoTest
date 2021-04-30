@@ -46,7 +46,7 @@ const EmailList: FunctionComponent<Props> = ({ emails, addNew, remove }) => {
                 <ListItem email={email} key={email} i={i} remove={remove} />
             ))}
             <Field kind="addons">
-                <Control expanded>
+                <Control fullwidth={true}>
                     <Input type="email" value={newEmail} onChange={setEmail} />
                 </Control>
                 <Control>

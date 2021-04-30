@@ -46,9 +46,9 @@ const MembershipList: FunctionComponent<Props> = ({
                     </Level.Item>
                 </Level>
             ))}
-            <Field horizontal kind="addons">
-                <Label>Club Name</Label>
-                <Control>
+            <Field kind="group">
+                <Control fullwidth={true}>
+                    <Label>Club Name</Label>
                     <Input
                         value={newMembership.clubName}
                         onChange={({ target }: OnChange): void =>
@@ -59,8 +59,8 @@ const MembershipList: FunctionComponent<Props> = ({
                         }
                     />
                 </Control>
-                <Label>Membership Number</Label>
-                <Control>
+                <Control fullwidth={true}>
+                    <Label>Membership Number</Label>
                     <Input
                         value={newMembership.membershipNumber}
                         onChange={({ target }: OnChange): void =>
@@ -71,8 +71,8 @@ const MembershipList: FunctionComponent<Props> = ({
                         }
                     />
                 </Control>
-                <Label>Expiry</Label>
-                <Control>
+                <Control fullwidth={true}>
+                    <Label>Expiry</Label>
                     <Input
                         type="date"
                         value={getDateString(newMembership.expiry)}

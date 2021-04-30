@@ -42,6 +42,7 @@ const ModalX: FunctionComponent<Props> = ({ save, cancel, club, setField }) => {
                         <Form.Label>Website</Form.Label>
                         <Form.Input
                             value={club.website}
+                            type="url"
                             onChange={(e: OnChange): void =>
                                 setField({
                                     website: e.target.value,

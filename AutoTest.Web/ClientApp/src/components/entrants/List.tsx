@@ -1,6 +1,7 @@
 import { FunctionalComponent, h } from "preact";
-import { Columns, Button } from "react-bulma-components";
+import { Columns, Button, Form } from "react-bulma-components";
 import { FaCar, FaMoneyBill } from "react-icons/fa";
+const { Field } = Form;
 
 import ifSome from "../shared/ifSome";
 import { Entrant } from "../../types/models";
@@ -41,7 +42,7 @@ const List: FunctionalComponent<Props> = ({
                     {entrant.isPaid ? "Paid" : "Unpaid"}
                 </Columns.Column>
                 <Columns.Column>
-                    <Button.Group>
+                    <Field kind="group">
                         {entrant.isPaid ? (
                             <Button onClick={() => markPaid(entrant, false)}>
                                 <FaMoneyBill />
@@ -59,7 +60,7 @@ const List: FunctionalComponent<Props> = ({
                         <DeleteButton deleteFunc={() => deleteEntrant(entrant)}>
                             Delete
                         </DeleteButton>
-                    </Button.Group>
+                    </Field>
                 </Columns.Column>
             </Columns>
         )
