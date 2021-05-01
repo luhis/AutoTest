@@ -96,7 +96,9 @@ const ModalX: FunctionComponent<Props> = ({
                                 }
                                 value={event.clubId}
                             >
-                                <option value={-1}>- Please Select -</option>
+                                <option value={undefined}>
+                                    - Please Select -
+                                </option>
                                 {ifSome(
                                     clubs,
                                     (a) => a.clubId,

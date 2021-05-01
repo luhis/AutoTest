@@ -159,7 +159,8 @@ const Marshal: FunctionalComponent<Readonly<Props>> = ({
             <Heading>Marshal</Heading>
             <Field>
                 <Label>Entrant</Label>
-                <Select
+                <Select<number>
+                    class="is-fullwidth"
                     onChange={(event: OnSelectChange) =>
                         setEditing((e) => ({
                             ...e,
@@ -168,7 +169,7 @@ const Marshal: FunctionalComponent<Readonly<Props>> = ({
                     }
                     value={editing.entrantId}
                 >
-                    <option value={-1}>- Please Select -</option>
+                    <option value={undefined}>- Please Select -</option>
                     {ifSome(
                         entrants,
                         (a) => a.entrantId,

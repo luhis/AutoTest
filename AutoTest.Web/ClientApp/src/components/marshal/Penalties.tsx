@@ -9,6 +9,7 @@ import {
     FaDirections,
     FaUserSlash,
 } from "react-icons/fa";
+const { Field, Label } = Form;
 
 import { startCase } from "../../lib/string";
 import { PenaltyType, Penalty } from "../../types/models";
@@ -42,14 +43,14 @@ const PenaltyItem: FunctionComponent<
     return (
         <Level>
             <Level.Item align="left">
-                <Button.Group>
+                <Field kind="group">
                     <Button onClick={() => decrease(penaltyType)}>
                         <FaMinus />
                     </Button>
                     <Button onClick={() => increase(penaltyType)}>
                         <FaPlus />
                     </Button>
-                </Button.Group>
+                </Field>
                 <TypeIcon type={penaltyType} />
                 &nbsp;
                 {startCase(PenaltyType[penaltyType])}:{" "}
@@ -74,7 +75,7 @@ const Penalties: FunctionComponent<Readonly<Props>> = ({
 }) => {
     return (
         <Fragment>
-            <Form.Label>Penalties</Form.Label>
+            <Label>Penalties</Label>
             {Object.keys(PenaltyType)
                 .map((a) => Number.parseInt(a))
                 .filter((key) => !isNaN(key))

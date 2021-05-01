@@ -14,12 +14,14 @@ const Breadcrumbs: FunctionComponent<Props> = ({ club, event, test }) => {
         <Breadcrumb>
             {club ? (
                 <Breadcrumb.Item href={`/events?clubId=${club.clubId}`}>
-                    {club?.clubName}
+                    {club.clubName}
                 </Breadcrumb.Item>
             ) : null}
             {event ? (
                 <Breadcrumb.Item href={`/event/${event.eventId}`}>
-                    {event?.location}
+                    {`${
+                        event.location
+                    } ${event.startTime.toLocaleDateString()}`}
                 </Breadcrumb.Item>
             ) : null}
             {test ? (
