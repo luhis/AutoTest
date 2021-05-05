@@ -6327,10 +6327,10 @@ jest-pnp-resolver@^1.2.2:
   resolved "https://registry.yarnpkg.com/jest-pnp-resolver/-/jest-pnp-resolver-1.2.2.tgz#b704ac0ae028a89108a4d040b3f919dfddc8e33c"
   integrity sha512-olV41bKSMm8BdnuMsewT4jqlZ8+3TCARAXjZGT9jcoSnrfUnRCqnMoF9XEeoWjbzObpqF9dRhHQj0Xb9QdF6/w==
 
-jest-preset-preact@4.0.2:
-  version "4.0.2"
-  resolved "https://registry.yarnpkg.com/jest-preset-preact/-/jest-preset-preact-4.0.2.tgz#08f7fc59cd7c3b628aaf5a275582d10e365c29d0"
-  integrity sha512-Grgu1scmHcNcU9pKOS4FX8pVPxfqmlKCc6SWkOEg17JiBhvYjVdyxsPw22v/P98iYc6Y+357JSoh5f0lyASr1Q==
+jest-preset-preact@4.0.3:
+  version "4.0.3"
+  resolved "https://registry.yarnpkg.com/jest-preset-preact/-/jest-preset-preact-4.0.3.tgz#d18766043133c69bf9bc19a0a74fe0cdff10888d"
+  integrity sha512-520N1zfwmiszgBXBXVUP+ZaBjgzGWXrSA1tY7IWoCXo4F1OgJ8a+QWhc5Z5DGiTqencL3m9WpYhaEiOnciuZTg==
   dependencies:
     "@babel/core" "^7.10.2"
     "@babel/plugin-proposal-class-properties" "^7.10.4"
