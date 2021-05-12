@@ -1,5 +1,5 @@
 import { h, FunctionComponent, Fragment } from "preact";
-import { Form, Button, Level } from "react-bulma-components";
+import { Form, Button, Columns } from "react-bulma-components";
 import {
     FaPlus,
     FaMinus,
@@ -41,9 +41,9 @@ const PenaltyItem: FunctionComponent<
     Props & { readonly penaltyType: PenaltyType }
 > = ({ penaltyType, penalties, increase, decrease }) => {
     return (
-        <Level>
-            <Level.Item align="left">
-                <Field kind="group">
+        <Columns>
+            <Columns.Column>
+                <Field kind="group" class="has-text-left">
                     <Button onClick={() => decrease(penaltyType)}>
                         <FaMinus />
                     </Button>
@@ -51,12 +51,14 @@ const PenaltyItem: FunctionComponent<
                         <FaPlus />
                     </Button>
                 </Field>
+            </Columns.Column>
+            <Columns.Column>
                 <TypeIcon type={penaltyType} />
                 &nbsp;
                 {startCase(PenaltyType[penaltyType])}:{" "}
                 {getCount(penalties, penaltyType)}
-            </Level.Item>
-        </Level>
+            </Columns.Column>
+        </Columns>
     );
 };
 

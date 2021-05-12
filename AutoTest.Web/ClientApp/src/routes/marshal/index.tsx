@@ -149,6 +149,9 @@ const Marshal: FunctionalComponent<Readonly<Props>> = ({
             setEditing(getNewEditableTest(ordinal));
         }
     }, [auth, dispatch, editing, eventId, ordinal]);
+    const clearInputs = () => {
+        setEditing((a) => getNewEditableTest(a.ordinal)); // todo
+    };
     return (
         <div>
             <Breadcrumbs
@@ -221,7 +224,12 @@ const Marshal: FunctionalComponent<Readonly<Props>> = ({
                 />
             </Field>
             <Button.Group>
-                <Button onClick={add}>Add</Button>
+                <Button color="info" onClick={clearInputs}>
+                    Clear
+                </Button>
+                <Button color="primary" onClick={add}>
+                    Add
+                </Button>
                 <SyncButton unSyncedCount={requiresSync} sync={sync} />
             </Button.Group>
         </div>

@@ -60,6 +60,7 @@ export type EditableTestRun = Override<
     Partial<Omit<TestRun, "created">>,
     {
         readonly testRunId: number;
+        readonly ordinal: number;
         readonly penalties: readonly Penalty[];
     }
 >;

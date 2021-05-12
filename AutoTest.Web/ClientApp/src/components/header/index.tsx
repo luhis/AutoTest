@@ -1,7 +1,7 @@
 import { FunctionalComponent, h } from "preact";
 import { Navbar, Button } from "react-bulma-components";
 import { useDispatch, useSelector } from "react-redux";
-import { useCallback, useEffect } from "preact/hooks";
+import { useCallback, useEffect, useState } from "preact/hooks";
 
 import { selectAccess } from "../../store/profile/selectors";
 import { ClearCache } from "../../store/event/actions";
@@ -26,19 +26,12 @@ const Header: FunctionalComponent = () => {
     const signInAndGetAccess = useCallback(async () => {
         await auth.signIn();
     }, [auth]);
+    const [isActive, setIsActive] = useState(false);
+    const toggleActive = () => setIsActive((a) => !a);
     return (
-        <Navbar>
+        <Navbar active={isActive}>
             <Navbar.Brand>
-                <Navbar.Item href="#">
-                    <img
-                        src="https://bulma.io/images/bulma-logo.png"
-                        alt=""
-                        role="presentation"
-                        width="112"
-                        height="28"
-                    />
-                </Navbar.Item>
-                <Navbar.Burger />
+                <Navbar.Burger onClick={toggleActive} />
             </Navbar.Brand>
             <Navbar.Menu>
                 <Navbar.Container align="right">
