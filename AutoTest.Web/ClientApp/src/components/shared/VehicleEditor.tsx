@@ -47,7 +47,8 @@ const VehicleEditor: FunctionComponent<Props> = ({ vehicle, setField }) => {
                         onChange={(e: OnChange): void =>
                             setField({
                                 ...vehicle,
-                                registration: e.target.value.toLocaleUpperCase(),
+                                registration:
+                                    e.target.value.toLocaleUpperCase(),
                             })
                         }
                     />
