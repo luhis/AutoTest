@@ -30,9 +30,8 @@ const Events: FunctionalComponent<Props> = ({ clubId }) => {
     const auth = useGoogleAuth();
     const events = useSelector(selectEvents);
     const clubs = useSelector(selectClubs);
-    const [editingEvent, setEditingEvent] = useState<EditingEvent | undefined>(
-        undefined
-    );
+    const [editingEvent, setEditingEvent] =
+        useState<EditingEvent | undefined>(undefined);
     useEffect(() => {
         dispatch(GetEventsIfRequired());
         dispatch(GetClubsIfRequired(getAccessToken(auth)));

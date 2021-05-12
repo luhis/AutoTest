@@ -23,9 +23,8 @@ const ClubComponent: FunctionalComponent = () => {
     const auth = useGoogleAuth();
     const dispatch = useDispatch();
     const clubs = useSelector(selectClubs);
-    const [editingClub, setEditingClub] = useState<EditingClub | undefined>(
-        undefined
-    );
+    const [editingClub, setEditingClub] =
+        useState<EditingClub | undefined>(undefined);
     useEffect(() => {
         dispatch(GetClubsIfRequired(getAccessToken(auth)));
     }, [auth, dispatch]);

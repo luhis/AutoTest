@@ -44,159 +44,147 @@ import { getClubs, addClub, deleteClub } from "../../api/clubs";
 import { distinct } from "../../lib/array";
 import { addNotification, getNotifications } from "../../api/notifications";
 
-export const GetClubsIfRequired = (token: string | undefined) => async (
-    dispatch: Dispatch<EventActionTypes>,
-    getState: () => AppState
-) => {
-    const clubs = getState().event.clubs;
-    if (requiresLoading(clubs.tag) || isStale(clubs)) {
-        await GetClubs(token)(dispatch);
-    }
-};
+export const GetClubsIfRequired =
+    (token: string | undefined) =>
+    async (dispatch: Dispatch<EventActionTypes>, getState: () => AppState) => {
+        const clubs = getState().event.clubs;
+        if (requiresLoading(clubs.tag) || isStale(clubs)) {
+            await GetClubs(token)(dispatch);
+        }
+    };
 
-export const AddClub = (
-    club: EditingClub,
-    token: string | undefined,
-    onSuccess: () => void
-) => async (dispatch: Dispatch<EventActionTypes>) => {
-    await addClub(club, token);
-    dispatch({
-        type: ADD_CLUB,
-        payload: club,
-    });
-    onSuccess();
-};
+export const AddClub =
+    (club: EditingClub, token: string | undefined, onSuccess: () => void) =>
+    async (dispatch: Dispatch<EventActionTypes>) => {
+        await addClub(club, token);
+        dispatch({
+            type: ADD_CLUB,
+            payload: club,
+        });
+        onSuccess();
+    };
 
-export const DeleteClub = (clubId: number, token: string | undefined) => async (
-    dispatch: Dispatch<EventActionTypes>
-) => {
-    await deleteClub(clubId, token);
-    dispatch({
-        type: GET_CLUBS,
-        payload: { tag: "Loading", id: undefined },
-    });
-    dispatch({
-        type: GET_CLUBS,
-        payload: await getClubs(token),
-    });
-};
+export const DeleteClub =
+    (clubId: number, token: string | undefined) =>
+    async (dispatch: Dispatch<EventActionTypes>) => {
+        await deleteClub(clubId, token);
+        dispatch({
+            type: GET_CLUBS,
+            payload: { tag: "Loading", id: undefined },
+        });
+        dispatch({
+            type: GET_CLUBS,
+            payload: await getClubs(token),
+        });
+    };
 
 export const ClearCache = () => ({
     type: CLEAR_CACHE,
 });
 
-const GetClubs = (token: string | undefined) => async (
-    dispatch: Dispatch<EventActionTypes>
-) => {
-    dispatch({
-        type: GET_CLUBS,
-        payload: { tag: "Loading", id: undefined },
-    });
-    dispatch({
-        type: GET_CLUBS,
-        payload: await getClubs(token),
-    });
-};
+const GetClubs =
+    (token: string | undefined) =>
+    async (dispatch: Dispatch<EventActionTypes>) => {
+        dispatch({
+            type: GET_CLUBS,
+            payload: { tag: "Loading", id: undefined },
+        });
+        dispatch({
+            type: GET_CLUBS,
+            payload: await getClubs(token),
+        });
+    };
 
-export const GetEntrantsIfRequired = (
-    eventId: number,
-    token: string | undefined
-) => async (dispatch: Dispatch<EventActionTypes>, getState: () => AppState) => {
-    const entrants = getState().event.entrants;
-    if (
-        requiresLoading(entrants.tag) ||
-        !idsMatch(entrants, eventId) ||
-        isStale(entrants)
-    ) {
-        await GetEntrants(eventId, token)(dispatch);
-    }
-};
+export const GetEntrantsIfRequired =
+    (eventId: number, token: string | undefined) =>
+    async (dispatch: Dispatch<EventActionTypes>, getState: () => AppState) => {
+        const entrants = getState().event.entrants;
+        if (
+            requiresLoading(entrants.tag) ||
+            !idsMatch(entrants, eventId) ||
+            isStale(entrants)
+        ) {
+            await GetEntrants(eventId, token)(dispatch);
+        }
+    };
 
-export const AddEntrant = (
-    entrant: Entrant,
-    token: string | undefined,
-    onSuccess: () => void
-) => async (dispatch: Dispatch<EventActionTypes>) => {
-    await addEntrant(entrant, token);
-    await GetEntrants(entrant.eventId, token)(dispatch);
-    onSuccess();
-};
+export const AddEntrant =
+    (entrant: Entrant, token: string | undefined, onSuccess: () => void) =>
+    async (dispatch: Dispatch<EventActionTypes>) => {
+        await addEntrant(entrant, token);
+        await GetEntrants(entrant.eventId, token)(dispatch);
+        onSuccess();
+    };
 
-const GetEntrants = (eventId: number, token: string | undefined) => async (
-    dispatch: Dispatch<EventActionTypes>
-) => {
-    dispatch({
-        type: GET_ENTRANTS,
-        payload: { tag: "Loading", id: eventId },
-    });
-    dispatch({
-        type: GET_ENTRANTS,
-        payload: await getEntrants(eventId, token),
-    });
-};
+const GetEntrants =
+    (eventId: number, token: string | undefined) =>
+    async (dispatch: Dispatch<EventActionTypes>) => {
+        dispatch({
+            type: GET_ENTRANTS,
+            payload: { tag: "Loading", id: eventId },
+        });
+        dispatch({
+            type: GET_ENTRANTS,
+            payload: await getEntrants(eventId, token),
+        });
+    };
 
-export const GetEventsIfRequired = () => async (
-    dispatch: Dispatch<EventActionTypes>,
-    getState: () => AppState
-) => {
-    const events = getState().event.events;
-    if (requiresLoading(events.tag) || isStale(events)) {
-        await GetEvents()(dispatch);
-    }
-};
+export const GetEventsIfRequired =
+    () =>
+    async (dispatch: Dispatch<EventActionTypes>, getState: () => AppState) => {
+        const events = getState().event.events;
+        if (requiresLoading(events.tag) || isStale(events)) {
+            await GetEvents()(dispatch);
+        }
+    };
 
-export const GetNotifications = (eventId: number) => async (
-    dispatch: Dispatch<EventActionTypes>
-) => {
-    dispatch({
-        type: GET_NOTIFICATIONS,
-        payload: { tag: "Loading", id: eventId },
-    });
-    dispatch({
-        type: GET_NOTIFICATIONS,
-        payload: await getNotifications(eventId),
-    });
-};
+export const GetNotifications =
+    (eventId: number) => async (dispatch: Dispatch<EventActionTypes>) => {
+        dispatch({
+            type: GET_NOTIFICATIONS,
+            payload: { tag: "Loading", id: eventId },
+        });
+        dispatch({
+            type: GET_NOTIFICATIONS,
+            payload: await getNotifications(eventId),
+        });
+    };
 
 export const AddNotification = (notification: Notification) => ({
     type: ADD_NOTIFICATION,
     payload: notification,
 });
 
-export const CreateNotification = (
-    notification: Notification,
-    token: string | undefined
-) => async (dispatch: Dispatch<EventActionTypes>) => {
-    await addNotification(notification, token);
-    dispatch({
-        type: ADD_NOTIFICATION,
-        payload: notification,
-    });
-};
+export const CreateNotification =
+    (notification: Notification, token: string | undefined) =>
+    async (dispatch: Dispatch<EventActionTypes>) => {
+        await addNotification(notification, token);
+        dispatch({
+            type: ADD_NOTIFICATION,
+            payload: notification,
+        });
+    };
 
-export const AddEvent = (
-    event: Event,
-    token: string | undefined,
-    onSuccess: () => void
-) => async (dispatch: Dispatch<EventActionTypes>) => {
-    await addEvent(event, token);
-    dispatch({
-        type: ADD_EVENT,
-        payload: { event },
-    });
-    onSuccess();
-};
+export const AddEvent =
+    (event: Event, token: string | undefined, onSuccess: () => void) =>
+    async (dispatch: Dispatch<EventActionTypes>) => {
+        await addEvent(event, token);
+        dispatch({
+            type: ADD_EVENT,
+            payload: { event },
+        });
+        onSuccess();
+    };
 
-export const DeleteEvent = (
-    eventId: number,
-    token: string | undefined
-) => async (dispatch: Dispatch<EventActionTypes>) => {
-    await deleteEvent(eventId, token);
-    dispatch({
-        type: DELETE_EVENT,
-        payload: { eventId },
-    });
-};
+export const DeleteEvent =
+    (eventId: number, token: string | undefined) =>
+    async (dispatch: Dispatch<EventActionTypes>) => {
+        await deleteEvent(eventId, token);
+        dispatch({
+            type: DELETE_EVENT,
+            payload: { eventId },
+        });
+    };
 
 const GetEvents = () => async (dispatch: Dispatch<EventActionTypes>) => {
     dispatch({
@@ -209,69 +197,65 @@ const GetEvents = () => async (dispatch: Dispatch<EventActionTypes>) => {
     });
 };
 
-export const GetTestRunsIfRequired = (
-    eventId: number,
-    ordinal: number,
-    token: string | undefined
-) => async (dispatch: Dispatch<EventActionTypes>, getState: () => AppState) => {
-    const testRuns = getState().event.testRunsFromServer;
-    if (
-        requiresLoading(testRuns.tag) ||
-        !idsMatch(testRuns, eventId) ||
-        isStale(testRuns)
-    ) {
-        await GetTestRuns(eventId, ordinal, token)(dispatch);
-    }
-};
+export const GetTestRunsIfRequired =
+    (eventId: number, ordinal: number, token: string | undefined) =>
+    async (dispatch: Dispatch<EventActionTypes>, getState: () => AppState) => {
+        const testRuns = getState().event.testRunsFromServer;
+        if (
+            requiresLoading(testRuns.tag) ||
+            !idsMatch(testRuns, eventId) ||
+            isStale(testRuns)
+        ) {
+            await GetTestRuns(eventId, ordinal, token)(dispatch);
+        }
+    };
 
-const GetTestRuns = (
-    eventId: number,
-    ordinal: number,
-    token: string | undefined
-) => async (dispatch: Dispatch<EventActionTypes>) => {
-    dispatch({
-        type: GET_TEST_RUNS,
-        payload: { tag: "Loading", id: eventId },
-    });
-    dispatch({
-        type: GET_TEST_RUNS,
-        payload: await getTestRuns(eventId, ordinal, token),
-    });
-};
+const GetTestRuns =
+    (eventId: number, ordinal: number, token: string | undefined) =>
+    async (dispatch: Dispatch<EventActionTypes>) => {
+        dispatch({
+            type: GET_TEST_RUNS,
+            payload: { tag: "Loading", id: eventId },
+        });
+        dispatch({
+            type: GET_TEST_RUNS,
+            payload: await getTestRuns(eventId, ordinal, token),
+        });
+    };
 
-export const AddTestRun = (
-    testRun: TestRunTemp,
-    token: string | undefined
-) => async (dispatch: Dispatch<EventActionTypes>, getState: () => AppState) => {
-    dispatch({
-        type: ADD_TEST_RUN,
-        payload: testRun,
-    });
-    await SyncTestRuns(token)(dispatch, getState);
-};
+export const AddTestRun =
+    (testRun: TestRunTemp, token: string | undefined) =>
+    async (dispatch: Dispatch<EventActionTypes>, getState: () => AppState) => {
+        dispatch({
+            type: ADD_TEST_RUN,
+            payload: testRun,
+        });
+        await SyncTestRuns(token)(dispatch, getState);
+    };
 
-export const SetPaid = (
-    { eventId, entrantId }: Entrant,
-    isPaid: boolean,
-    token: string | undefined
-) => async (dispatch: Dispatch<EventActionTypes>) => {
-    await markPaid(eventId, entrantId, isPaid, token);
-    dispatch({
-        type: SET_PAID,
-        payload: { entrantId, isPaid },
-    });
-};
+export const SetPaid =
+    (
+        { eventId, entrantId }: Entrant,
+        isPaid: boolean,
+        token: string | undefined
+    ) =>
+    async (dispatch: Dispatch<EventActionTypes>) => {
+        await markPaid(eventId, entrantId, isPaid, token);
+        dispatch({
+            type: SET_PAID,
+            payload: { entrantId, isPaid },
+        });
+    };
 
-export const DeleteEntrant = (
-    { eventId, entrantId }: Entrant,
-    token: string | undefined
-) => async (dispatch: Dispatch<EventActionTypes>) => {
-    await deleteEntrant(eventId, entrantId, token);
-    dispatch({
-        type: DELETE_ENTRANT,
-        payload: { entrantId },
-    });
-};
+export const DeleteEntrant =
+    ({ eventId, entrantId }: Entrant, token: string | undefined) =>
+    async (dispatch: Dispatch<EventActionTypes>) => {
+        await deleteEntrant(eventId, entrantId, token);
+        dispatch({
+            type: DELETE_ENTRANT,
+            payload: { entrantId },
+        });
+    };
 
 const UpdateTestRunState: ActionCreator<EventActionTypes> = (
     testRunId: number,
@@ -281,31 +265,30 @@ const UpdateTestRunState: ActionCreator<EventActionTypes> = (
     payload: { testRunId, state },
 });
 
-export const SyncTestRuns = (token: string | undefined) => async (
-    dispatch: Dispatch<EventActionTypes>,
-    getState: () => AppState
-) => {
-    const runs = getState().event.testRuns;
-    const toUpload = runs.filter(
-        (a) => a.state !== TestRunUploadState.Uploaded
-    );
-    const eventIds = distinct(
-        runs.map((a) => ({ eventId: a.eventId, ordinal: a.ordinal }))
-    );
-    await Promise.all(
-        toUpload.map(async (element) => {
-            const res = await addTestRun(element.eventId, element, token);
-            ifLoaded(res, () => {
-                dispatch(
-                    UpdateTestRunState(
-                        element.testRunId,
-                        TestRunUploadState.Uploaded
-                    )
-                );
-            });
-        })
-    );
-    await Promise.all(
-        eventIds.map((a) => GetTestRuns(a.eventId, a.ordinal, token))
-    );
-};
+export const SyncTestRuns =
+    (token: string | undefined) =>
+    async (dispatch: Dispatch<EventActionTypes>, getState: () => AppState) => {
+        const runs = getState().event.testRuns;
+        const toUpload = runs.filter(
+            (a) => a.state !== TestRunUploadState.Uploaded
+        );
+        const eventIds = distinct(
+            runs.map((a) => ({ eventId: a.eventId, ordinal: a.ordinal }))
+        );
+        await Promise.all(
+            toUpload.map(async (element) => {
+                const res = await addTestRun(element.eventId, element, token);
+                ifLoaded(res, () => {
+                    dispatch(
+                        UpdateTestRunState(
+                            element.testRunId,
+                            TestRunUploadState.Uploaded
+                        )
+                    );
+                });
+            })
+        );
+        await Promise.all(
+            eventIds.map((a) => GetTestRuns(a.eventId, a.ordinal, token))
+        );
+    };

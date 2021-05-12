@@ -44,9 +44,8 @@ const Events: FunctionalComponent<Readonly<Props>> = ({ eventId }) => {
         useSelector(selectClubs),
         (a) => a.clubId === currentEvent?.clubId
     );
-    const [editingEntrant, setEditingEntrant] = useState<
-        EditingEntrant | undefined
-    >(undefined);
+    const [editingEntrant, setEditingEntrant] =
+        useState<EditingEntrant | undefined>(undefined);
     const auth = useGoogleAuth();
     const dispatch = useDispatch();
     const save = useCallback(() => {
