@@ -1,5 +1,5 @@
 import { h, FunctionComponent, Fragment } from "preact";
-import { Form, Button, Columns } from "react-bulma-components";
+import { Form, Button, Icon } from "react-bulma-components";
 import {
     FaPlus,
     FaMinus,
@@ -25,15 +25,15 @@ const TypeIcon: FunctionComponent<{ readonly type: PenaltyType }> = ({
 }) => {
     switch (type) {
         case PenaltyType.HitBarrier:
-            return <FaCarCrash />;
+            return <FaCarCrash size="medium" />;
         case PenaltyType.Late:
-            return <FaClock />;
+            return <FaClock size="medium" />;
         case PenaltyType.NoAttendance:
-            return <FaUserSlash />;
+            return <FaUserSlash size="medium" />;
         case PenaltyType.WrongTest:
-            return <FaDirections />;
+            return <FaDirections size="medium" />;
         case PenaltyType.FailToStop:
-            return <FaStopCircle />;
+            return <FaStopCircle size="medium" />;
     }
 };
 
@@ -41,24 +41,26 @@ const PenaltyItem: FunctionComponent<
     Props & { readonly penaltyType: PenaltyType }
 > = ({ penaltyType, penalties, increase, decrease }) => {
     return (
-        <Columns>
-            <Columns.Column>
-                <Field kind="group" class="has-text-left">
-                    <Button onClick={() => decrease(penaltyType)}>
-                        <FaMinus />
-                    </Button>
-                    <Button onClick={() => increase(penaltyType)}>
-                        <FaPlus />
-                    </Button>
-                </Field>
-            </Columns.Column>
-            <Columns.Column>
-                <TypeIcon type={penaltyType} />
+        <p class="mb-3">
+            <Field kind="group" class="has-text-left">
+                <Button onClick={() => decrease(penaltyType)}>
+                    <FaMinus />
+                </Button>
+                <Button onClick={() => increase(penaltyType)}>
+                    <FaPlus />
+                </Button>
+                <Icon size="medium">
+                    <TypeIcon type={penaltyType} />
+                </Icon>
                 &nbsp;
-                {startCase(PenaltyType[penaltyType])}:{" "}
-                {getCount(penalties, penaltyType)}
-            </Columns.Column>
-        </Columns>
+                <span class="has-text-medium">
+                    {`${startCase(PenaltyType[penaltyType])} ${getCount(
+                        penalties,
+                        penaltyType
+                    )}`}
+                </span>
+            </Field>
+        </p>
     );
 };
 
