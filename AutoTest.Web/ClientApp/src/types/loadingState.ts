@@ -1,8 +1,10 @@
 import { ValidDate, addMinutes, newValidDate } from "ts-date";
 
+const staleDataMinutes = 1;
+
 export const isStale = <T, TT>(response: LoadingState<T, TT>) =>
     response.tag === "Loaded"
-        ? response.loaded < addMinutes(newValidDate(), -5)
+        ? response.loaded < addMinutes(newValidDate(), -1 * staleDataMinutes)
         : false;
 
 interface Loaded<TValue> {

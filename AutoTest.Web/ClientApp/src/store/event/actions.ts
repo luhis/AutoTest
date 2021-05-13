@@ -38,18 +38,37 @@ import {
     idsMatch,
     isStale,
     ifLoaded,
+    LoadingState,
 } from "../../types/loadingState";
 import { addEvent, deleteEvent, getEvents } from "../../api/events";
 import { getClubs, addClub, deleteClub } from "../../api/clubs";
 import { distinct } from "../../lib/array";
 import { addNotification, getNotifications } from "../../api/notifications";
+import {
+    selectClubs,
+    selectEntrants,
+    selectEvents,
+    selectTestRuns,
+} from "./selectors";
 
 export const GetClubsIfRequired =
     (token: string | undefined) =>
     async (dispatch: Dispatch<EventActionTypes>, getState: () => AppState) => {
-        const clubs = getState().event.clubs;
+        const clubs = selectClubs(getState());
         if (requiresLoading(clubs.tag) || isStale(clubs)) {
-            await GetClubs(token)(dispatch);
+            if (clubs.tag === "Idle") {
+                dispatch({
+                    type: GET_CLUBS,
+                    payload: { tag: "Loading", id: undefined },
+                });
+            }
+            const res = await getClubs(token);
+            if (canUpdate(clubs, res)) {
+                dispatch({
+                    type: GET_CLUBS,
+                    payload: res,
+                });
+            }
         }
     };
 
@@ -82,23 +101,12 @@ export const ClearCache = () => ({
     type: CLEAR_CACHE,
 });
 
-const GetClubs =
-    (token: string | undefined) =>
-    async (dispatch: Dispatch<EventActionTypes>) => {
-        dispatch({
-            type: GET_CLUBS,
-            payload: { tag: "Loading", id: undefined },
-        });
-        dispatch({
-            type: GET_CLUBS,
-            payload: await getClubs(token),
-        });
-    };
+const statesAllowingErrorResult = ["Error", "Loading"];
 
 export const GetEntrantsIfRequired =
     (eventId: number, token: string | undefined) =>
     async (dispatch: Dispatch<EventActionTypes>, getState: () => AppState) => {
-        const entrants = getState().event.entrants;
+        const entrants = selectEntrants(getState());
         if (
             requiresLoading(entrants.tag) ||
             !idsMatch(entrants, eventId) ||
@@ -132,9 +140,21 @@ const GetEntrants =
 export const GetEventsIfRequired =
     () =>
     async (dispatch: Dispatch<EventActionTypes>, getState: () => AppState) => {
-        const events = getState().event.events;
+        const events = selectEvents(getState());
         if (requiresLoading(events.tag) || isStale(events)) {
-            await GetEvents()(dispatch);
+            if (events.tag === "Idle") {
+                dispatch({
+                    type: GET_EVENTS,
+                    payload: { tag: "Loading", id: undefined },
+                });
+            }
+            const res = await getEvents();
+            if (canUpdate(events, res)) {
+                dispatch({
+                    type: GET_EVENTS,
+                    payload: res,
+                });
+            }
         }
     };
 
@@ -186,16 +206,12 @@ export const DeleteEvent =
         });
     };
 
-const GetEvents = () => async (dispatch: Dispatch<EventActionTypes>) => {
-    dispatch({
-        type: GET_EVENTS,
-        payload: { tag: "Loading", id: undefined },
-    });
-    dispatch({
-        type: GET_EVENTS,
-        payload: await getEvents(),
-    });
-};
+const canUpdate = <T, TT>(
+    oldState: LoadingState<T, TT>,
+    newState: LoadingState<T, TT>
+) =>
+    statesAllowingErrorResult.includes(oldState.tag) ||
+    newState.tag === "Loaded";
 
 export const GetTestRunsIfRequired =
     (eventId: number, ordinal: number, token: string | undefined) =>
@@ -268,7 +284,7 @@ const UpdateTestRunState: ActionCreator<EventActionTypes> = (
 export const SyncTestRuns =
     (token: string | undefined) =>
     async (dispatch: Dispatch<EventActionTypes>, getState: () => AppState) => {
-        const runs = getState().event.testRuns;
+        const runs = selectTestRuns(getState());
         const toUpload = runs.filter(
             (a) => a.state !== TestRunUploadState.Uploaded
         );
