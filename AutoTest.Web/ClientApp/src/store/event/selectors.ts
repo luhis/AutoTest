@@ -24,4 +24,5 @@ export const selectClubs = (a: AppState) => a.event.clubs;
 
 export const selectNotifications = (a: AppState) => a.event.notifications;
 
-export const selectTestRunsFromServer = (a: AppState) => a.event.testRunsFromServer;
+export const selectTestRunsFromServer = (a: AppState) =>
+    a.event.testRunsFromServer;
