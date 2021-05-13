@@ -8980,10 +8980,10 @@ rc@^1.2.8:
     minimist "^1.2.0"
     strip-json-comments "~2.0.1"
 
-react-bulma-components@4.0.3:
-  version "4.0.3"
-  resolved "https://registry.yarnpkg.com/react-bulma-components/-/react-bulma-components-4.0.3.tgz#57fdf66d277074f138de6d94506cd5776666b1c2"
-  integrity sha512-WkJ46dFv0BmktfjtcZU+8/soxWBoAY6f9bHC8tkKyMynUKCbfO8Os+hHlZNS6FpFIv33RSbhEO1SLVsYyvdXDw==
+react-bulma-components@4.0.4:
+  version "4.0.4"
+  resolved "https://registry.yarnpkg.com/react-bulma-components/-/react-bulma-components-4.0.4.tgz#c662f9052bd07cf26f857ab0fd47bb720dca61eb"
+  integrity sha512-2/YPGvIZ/s+ZeZI3hpFTFKLZGUmDp83kz6/SXwyaQWqZI5ZltJCauz8F1dTY7lbucExyJ9WjSAXuJNpu8yMp+A==
   dependencies:
     classnames "2.3.1"
 
