@@ -1,6 +1,6 @@
 import { ValidDate, addMinutes, newValidDate } from "ts-date";
 
-const staleDataMinutes = 1;
+const staleDataMinutes = 0.1;
 
 export const isStale = <T, TT>(response: LoadingState<T, TT>) =>
     response.tag === "Loaded"
@@ -38,7 +38,8 @@ export const toApiResponse = async <T, TT>(
             loaded: newValidDate(),
         };
     } catch (e) {
-        return { tag: "Error", value: "API error" };
+        //todo can i split between network and backend errors?
+        return { tag: "Error", value: (e as Error).toString() };
     }
 };
 

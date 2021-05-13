@@ -12,6 +12,10 @@ export default {
      * @param {object} options - this is mainly relevant for plugins (will always be empty in the config), default to an empty object
      **/
     webpack(config, env, helpers, options) {
+        if (!env.production) {
+            config.devServer.public = 'https://localhost:5001/';
+            config.devServer.stats = 'minimal';
+          }
         // Switch css-loader for typings-for-css-modules-loader, which is a wrapper
         // that automatically generates .d.ts files for loaded CSS
         config.module.rules[4].use.splice(1, 0, {
@@ -36,7 +40,7 @@ export default {
             // https://github.com/GoogleChromeLabs/critters#preloadstrategy
             critters.plugin.options.preload = 'default';
         }
-    
+
         envVars(config, env, helpers);
     }
 };

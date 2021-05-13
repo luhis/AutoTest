@@ -304,6 +304,7 @@ export const SyncTestRuns =
                 });
             })
         );
+        // todo this looks suspect
         await Promise.all(
             eventIds.map((a) => GetTestRuns(a.eventId, a.ordinal, token))
         );
