@@ -2,6 +2,7 @@ import {
     EventState,
     EventActionTypes,
     GET_ENTRANTS,
+    ADD_ENTRANT,
     ADD_TEST_RUN,
     UPDATE_TEST_RUN_STATE,
     GET_EVENTS,
@@ -86,6 +87,18 @@ export const eventReducer = (
             return {
                 ...state,
                 entrants: action.payload,
+            };
+        case ADD_ENTRANT:
+            return {
+                ...state,
+                entrants: ifLoaded(state.entrants, (c) =>
+                    c
+                        .filter(
+                            ({ entrantId }) =>
+                                entrantId !== action.payload.entrantId
+                        )
+                        .concat(action.payload)
+                ),
             };
         case SET_PAID:
             return {

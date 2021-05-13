@@ -1,12 +1,13 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
 using AutoTest.Domain.Repositories;
+using AutoTest.Domain.StorageModels;
 using AutoTest.Service.Messages;
 using MediatR;
 
 namespace AutoTest.Service.Handlers
 {
-    public class SaveEntrantHandler : IRequestHandler<SaveEntrant, ulong>
+    public class SaveEntrantHandler : IRequestHandler<SaveEntrant, Entrant>
     {
         private readonly IEntrantsRepository entrantsRepository;
 
@@ -15,10 +16,10 @@ namespace AutoTest.Service.Handlers
             this.entrantsRepository = entrantsRepository;
         }
 
-        async Task<ulong> IRequestHandler<SaveEntrant, ulong>.Handle(SaveEntrant request, CancellationToken cancellationToken)
+        async Task<Entrant> IRequestHandler<SaveEntrant, Entrant>.Handle(SaveEntrant request, CancellationToken cancellationToken)
         {
             await entrantsRepository.Upsert(request.Entrant, cancellationToken);
-            return request.Entrant.EntrantId;
+            return request.Entrant;
         }
     }
 }

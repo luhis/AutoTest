@@ -3,7 +3,7 @@ using MediatR;
 
 namespace AutoTest.Service.Messages
 {
-    public class SaveEntrant : IRequest<ulong>
+    public class SaveEntrant : IRequest<Entrant>
     {
         public SaveEntrant(Entrant entrant)
         {

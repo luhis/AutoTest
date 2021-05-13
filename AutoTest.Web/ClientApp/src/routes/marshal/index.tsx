@@ -131,8 +131,8 @@ const Marshal: FunctionalComponent<Readonly<Props>> = ({
         });
     };
     const sync = useCallback(
-        () => dispatch(SyncTestRuns(getAccessToken(auth))),
-        [auth, dispatch]
+        () => dispatch(SyncTestRuns(eventId, ordinal, getAccessToken(auth))),
+        [auth, dispatch, eventId, ordinal]
     );
     const add = useCallback(() => {
         if (editing.ordinal !== undefined && editing.timeInMS !== undefined) {

@@ -29,7 +29,7 @@ namespace AutoTest.Web.Controllers
 
         [Authorize(policy: Policies.ClubAdmin)]
         [HttpPut("{eventId}/{entrantId}")]
-        public Task PutEntrant(ulong eventId, ulong entrantId, EntrantSaveModel entrantSaveModel, CancellationToken cancellationToken) => this.mediator.Send(new SaveEntrant(MapClub.Map(entrantId, eventId, entrantSaveModel)), cancellationToken);
+        public Task<Entrant> PutEntrant(ulong eventId, ulong entrantId, EntrantSaveModel entrantSaveModel, CancellationToken cancellationToken) => this.mediator.Send(new SaveEntrant(MapClub.Map(entrantId, eventId, entrantSaveModel)), cancellationToken);
 
         [Authorize(policy: Policies.ClubAdmin)]
         [HttpPut("{eventId}/{entrantId}/markPaid")]

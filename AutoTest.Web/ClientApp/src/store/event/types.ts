@@ -26,6 +26,7 @@ export const CLEAR_CACHE = "CLEAR_CACHE";
 export const GET_CLUBS = "GET_CLUBS";
 export const ADD_CLUB = "ADD_CLUB";
 export const GET_ENTRANTS = "GET_ENTRANTS";
+export const ADD_ENTRANT = "ADD_ENTRANT";
 export const SET_PAID = "SET_PAID";
 export const DELETE_ENTRANT = "DELETE_ENTRANT";
 export const GET_EVENTS = "GET_EVENTS";
@@ -54,6 +55,11 @@ interface AddClub {
 interface GetEntrants {
     readonly type: typeof GET_ENTRANTS;
     readonly payload: LoadingState<readonly Entrant[], number>;
+}
+
+interface AddEntrant {
+    readonly type: typeof ADD_ENTRANT;
+    readonly payload: Entrant;
 }
 
 interface SetPaid {
@@ -114,6 +120,7 @@ export type EventActionTypes =
     | GetClubs
     | AddClub
     | GetEntrants
+    | AddEntrant
     | SetPaid
     | DeleteEntrant
     | AddEvent

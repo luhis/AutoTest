@@ -16,14 +16,14 @@ export const getEntrants = async (
 export const addEntrant = async (
     entrant: Entrant,
     token: string | undefined
-): Promise<void> => {
+): Promise<Entrant> => {
     const { entrantId, eventId, ...rest } = entrant;
     const response = await fetch(`/api/entrants/${eventId}/${entrantId}`, {
         headers: getHeaders(token),
         method: "PUT",
         body: JSON.stringify(rest),
     });
-    throwIfNotOk(response);
+    return await extract(response);
 };
 
 export const markPaid = async (
