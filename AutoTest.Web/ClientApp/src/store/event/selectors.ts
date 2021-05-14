@@ -1,5 +1,5 @@
 import { AppState } from "..";
-import { TestRunUploadState } from "../../types/models";
+import { MakeAndModel, TestRunUploadState } from "../../types/models";
 import { distinct } from "../../lib/array";
 import { mapOrDefault } from "../../types/loadingState";
 
@@ -11,8 +11,25 @@ export const selectEntrants = (a: AppState) => a.event.entrants;
 
 export const selectClassOptions = (state: AppState): readonly string[] =>
     mapOrDefault(
-        state.event.entrants,
+        selectEntrants(state),
         (a) => distinct(a.map((entrant) => entrant.class).sort()),
+        []
+    );
+
+export const selectMakeModelOptions = (
+    state: AppState
+): readonly MakeAndModel[] =>
+    mapOrDefault(
+        selectEntrants(state),
+        (a) =>
+            distinct(
+                a
+                    .map(({ vehicle }) => ({
+                        make: vehicle.make,
+                        model: vehicle.model,
+                    }))
+                    .sort()
+            ),
         []
     );
 

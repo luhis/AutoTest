@@ -13,15 +13,19 @@ const Breadcrumbs: FunctionComponent<Props> = ({ club, event, test }) => {
     return (
         <Breadcrumb>
             {club ? (
-                <Breadcrumb.Item href={`/events?clubId=${club.clubId}`}>
-                    {club.clubName}
+                <Breadcrumb.Item>
+                    <a href={`/events?clubId=${club.clubId}`}>
+                        {club.clubName}
+                    </a>
                 </Breadcrumb.Item>
             ) : null}
             {event ? (
-                <Breadcrumb.Item href={`/event/${event.eventId}`}>
-                    {`${
-                        event.location
-                    } ${event.startTime.toLocaleDateString()}`}
+                <Breadcrumb.Item>
+                    <a href={`/event/${event.eventId}`}>
+                        {`${
+                            event.location
+                        } ${event.startTime.toLocaleDateString()}`}
+                    </a>
                 </Breadcrumb.Item>
             ) : null}
             {test ? (

@@ -97,6 +97,7 @@ export interface Entrant {
     readonly vehicle: Vehicle;
     readonly emergencyContact: EmergencyContact;
     readonly club: string;
+    readonly clubNumber: number;
     readonly isPaid: boolean;
 }
 
@@ -130,3 +131,8 @@ interface TestTime {
 }
 
 export type Override<T, P> = P & Omit<T, keyof P>;
+
+export interface MakeAndModel {
+    readonly make: string;
+    readonly model: string;
+}

@@ -1,11 +1,9 @@
 import { FunctionComponent, h } from "preact";
 import { Columns, Button, Form } from "react-bulma-components";
-import { Link, route } from "preact-router";
-import save from "save-file";
+import { Link } from "preact-router";
 const { Column } = Columns;
 const { Field } = Form;
 
-import { getDateString } from "../../lib/date";
 import ifSome from "../shared/ifSome";
 import { Event } from "../../types/models";
 import { LoadingState } from "../../types/loadingState";
@@ -26,13 +24,6 @@ const List: FunctionComponent<Props> = ({
         events,
         (event) => event.eventId,
         (event) => {
-            const saveRegs = () =>
-                save(
-                    event.regulations,
-                    `${event.location}-${getDateString(
-                        event.startTime
-                    )}-regs.pdf`
-                );
             return (
                 <Columns>
                     <Column>
@@ -47,26 +38,6 @@ const List: FunctionComponent<Props> = ({
                             <Button onClick={() => setEditingEvent(event)}>
                                 Edit
                             </Button>
-                            <Button
-                                onClick={() =>
-                                    route(`/entrants/${event.eventId}`)
-                                }
-                            >
-                                Entrants
-                            </Button>
-                            <Button
-                                onClick={() => route(`/tests/${event.eventId}`)}
-                            >
-                                Tests
-                            </Button>
-                            <Button
-                                onClick={() =>
-                                    route(`/results/${event.eventId}`)
-                                }
-                            >
-                                Results
-                            </Button>
-                            <Button onClick={saveRegs}>Regs</Button>
                             <DeleteButton
                                 deleteFunc={() => deleteEvent(event)}
                             />

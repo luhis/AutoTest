@@ -4,7 +4,7 @@ namespace AutoTest.Domain.StorageModels
 {
     public class ClubMembership
     {
-        public ClubMembership(string clubName, string membershipNumber, DateTime expiry)
+        public ClubMembership(string clubName, uint membershipNumber, DateTime expiry)
         {
             ClubName = clubName;
             MembershipNumber = membershipNumber;
@@ -13,7 +13,7 @@ namespace AutoTest.Domain.StorageModels
 
         public string ClubName { get; }
 
-        public string MembershipNumber { get; }
+        public uint MembershipNumber { get; }
 
         public DateTime Expiry { get; }
     }

@@ -27,6 +27,7 @@ import { findIfLoaded, mapOrDefault } from "../../types/loadingState";
 import { selectProfile } from "../../store/profile/selectors";
 import RouteParamsParser from "../../components/shared/RouteParamsParser";
 import Breadcrumbs from "../../components/shared/Breadcrumbs";
+import { nth } from "@s-libs/micro-dash";
 
 interface Props {
     readonly eventId: number;
@@ -86,9 +87,7 @@ const Events: FunctionalComponent<Readonly<Props>> = ({ eventId }) => {
                     currentEvent == undefined ||
                     a.expiry >= currentEvent.startTime
             );
-            const club = validMemberships.length
-                ? validMemberships[0].clubName
-                : "";
+            const club = nth(validMemberships, 0);
             setEditingEntrant((e) =>
                 e
                     ? {
@@ -98,7 +97,8 @@ const Events: FunctionalComponent<Readonly<Props>> = ({ eventId }) => {
                           msaLicense,
                           emergencyContact,
                           vehicle,
-                          club,
+                          club: club.clubName,
+                          clubNumber: club.membershipNumber,
                       }
                     : undefined
             );
@@ -141,6 +141,7 @@ const Events: FunctionalComponent<Readonly<Props>> = ({ eventId }) => {
                     phone: "",
                 },
                 club: "",
+                clubNumber: 0,
                 isPaid: false,
             }),
         [eventId]

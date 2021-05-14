@@ -7,6 +7,7 @@ const { Input, Control, Field, Label } = Form;
 import { OnChange } from "../../types/inputs";
 import { getDateString } from "../../lib/date";
 import { ClubMembership } from "../../types/shared";
+import { Override } from "src/types/models";
 
 interface Props {
     readonly memberships: readonly ClubMembership[];
@@ -14,7 +15,12 @@ interface Props {
     readonly remove: (_: number) => void;
 }
 
-const blankState = () => ({
+type EditingMembership = Override<
+    ClubMembership,
+    { readonly membershipNumber: number | "" }
+>;
+
+const blankState = (): EditingMembership => ({
     clubName: "",
     membershipNumber: "",
     expiry: addYear(newValidDate(), 1),
@@ -25,7 +31,8 @@ const MembershipList: FunctionComponent<Props> = ({
     addNew,
     remove,
 }) => {
-    const [newMembership, setNewEmail] = useState<ClubMembership>(blankState);
+    const [newMembership, setNewEmail] =
+        useState<EditingMembership>(blankState);
     return (
         <Fragment>
             <Label>Memberships</Label>
@@ -67,7 +74,7 @@ const MembershipList: FunctionComponent<Props> = ({
                         onChange={({ target }: OnChange): void =>
                             setNewEmail((e) => ({
                                 ...e,
-                                membershipNumber: target.value,
+                                membershipNumber: Number.parseInt(target.value),
                             }))
                         }
                     />
@@ -88,11 +95,15 @@ const MembershipList: FunctionComponent<Props> = ({
                 <Control>
                     <Button
                         onClick={() => {
-                            if (
-                                newMembership.clubName !== "" &&
-                                newMembership.membershipNumber !== ""
-                            ) {
-                                addNew(newMembership);
+                            if (newMembership.clubName !== "") {
+                                const externalMembership: ClubMembership = {
+                                    ...newMembership,
+                                    membershipNumber:
+                                        newMembership.membershipNumber === ""
+                                            ? 0
+                                            : newMembership.membershipNumber,
+                                };
+                                addNew(externalMembership);
                                 setNewEmail(blankState);
                             }
                         }}

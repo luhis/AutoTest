@@ -3,7 +3,7 @@
     public class Entrant
     {
 
-        public Entrant(ulong entrantId, ushort driverNumber, string givenName, string familyName, string @class, ulong eventId, bool isPaid, string club, string msaLicense)
+        public Entrant(ulong entrantId, ushort driverNumber, string givenName, string familyName, string @class, ulong eventId, bool isPaid, string club, uint clubNumber, string msaLicense)
         {
             EntrantId = entrantId;
             GivenName = givenName;
@@ -12,6 +12,7 @@
             EventId = eventId;
             IsPaid = isPaid;
             Club = club;
+            ClubNumber = clubNumber;
             MsaLicense = msaLicense;
             DriverNumber = driverNumber;
         }
@@ -31,6 +32,9 @@
         public bool IsPaid { get; }
 
         public string Club { get; }
+
+        public uint ClubNumber { get; }
+
         public string MsaLicense { get; }
 
         public Vehicle Vehicle { get; private set; } = new Vehicle();

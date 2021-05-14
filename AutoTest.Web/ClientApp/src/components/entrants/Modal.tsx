@@ -1,11 +1,14 @@
 import { h, FunctionComponent } from "preact";
 import { Modal, Button, Form } from "react-bulma-components";
 import { useSelector } from "react-redux";
-const { Control } = Form;
+const { Control, Field, Label, Input } = Form;
 
 import { Entrant, EditingEntrant } from "../../types/models";
 import { OnChange } from "../../types/inputs";
-import { selectClassOptions } from "../../store/event/selectors";
+import {
+    selectClassOptions,
+    selectMakeModelOptions,
+} from "../../store/event/selectors";
 import { EmergencyContact, Vehicle } from "src/types/shared";
 import EmergencyContactEditor from "../shared/EmergencyContactEditor";
 import VehicleEditor from "../shared/VehicleEditor";
@@ -28,6 +31,8 @@ const EntrantsModal: FunctionComponent<Props> = ({
     const classesInUse = useSelector(selectClassOptions).filter(
         (c) => c.startsWith(entrant.class) && c !== entrant.class
     );
+    const makeAndModels = useSelector(selectMakeModelOptions);
+
     return (
         <Modal show={true} showClose={false}>
             <Modal.Card>
@@ -35,11 +40,11 @@ const EntrantsModal: FunctionComponent<Props> = ({
                     {entrant.isNew ? "Add" : "Edit"} Entrant
                 </Modal.Card.Header>
                 <Modal.Card.Body>
-                    <Form.Field kind="group">
+                    <Field kind="group">
                         <Control fullwidth={true}>
-                            <Form.Label>Given Name</Form.Label>
+                            <Label>Given Name</Label>
                             <Control>
-                                <Form.Input
+                                <Input
                                     value={entrant.givenName}
                                     onChange={(e: OnChange): void =>
                                         setField({ givenName: e.target.value })
@@ -48,36 +53,53 @@ const EntrantsModal: FunctionComponent<Props> = ({
                             </Control>
                         </Control>
                         <Control fullwidth={true}>
-                            <Form.Label>Family Name</Form.Label>
-                            <Form.Input
+                            <Label>Family Name</Label>
+                            <Input
                                 value={entrant.familyName}
                                 onChange={(e: OnChange): void =>
                                     setField({ familyName: e.target.value })
                                 }
                             />
                         </Control>
-                    </Form.Field>
-                    <Form.Field>
-                        <Form.Label>Club</Form.Label>
-                        <Form.Input
-                            value={entrant.club}
-                            onChange={(e: OnChange): void =>
-                                setField({ club: e.target.value })
-                            }
-                        />
-                    </Form.Field>
-                    <Form.Field>
-                        <Form.Label>MSA License</Form.Label>
-                        <Form.Input
+                    </Field>
+                    <Field kind="group">
+                        <Control fullwidth={true}>
+                            <Label>Club</Label>
+                            <Input
+                                value={entrant.club}
+                                onChange={(e: OnChange): void =>
+                                    setField({ club: e.target.value })
+                                }
+                            />
+                        </Control>
+                        <Control fullwidth={true}>
+                            <Label>Club Number</Label>
+                            <Input
+                                type="number"
+                                min={0}
+                                value={entrant.clubNumber}
+                                onChange={(e: OnChange): void =>
+                                    setField({
+                                        clubNumber: Number.parseInt(
+                                            e.target.value
+                                        ),
+                                    })
+                                }
+                            />
+                        </Control>
+                    </Field>
+                    <Field>
+                        <Label>MSA License</Label>
+                        <Input
                             value={entrant.msaLicense}
                             onChange={(e: OnChange): void =>
                                 setField({ msaLicense: e.target.value })
                             }
                         />
-                    </Form.Field>
-                    <Form.Field>
-                        <Form.Label>Class</Form.Label>
-                        <Form.Input
+                    </Field>
+                    <Field>
+                        <Label>Class</Label>
+                        <Input
                             list="classes"
                             value={entrant.class}
                             onChange={(e: OnChange): void => {
@@ -99,8 +121,8 @@ const EntrantsModal: FunctionComponent<Props> = ({
                                     />
                                 ))}
                             </datalist>
-                        </Form.Input>
-                    </Form.Field>
+                        </Input>
+                    </Field>
                     <VehicleEditor
                         vehicle={entrant.vehicle}
                         setField={(e: Vehicle): void =>
@@ -108,6 +130,7 @@ const EntrantsModal: FunctionComponent<Props> = ({
                                 vehicle: e,
                             })
                         }
+                        makeAndModels={makeAndModels}
                     />
                     <EmergencyContactEditor
                         emergencyContact={entrant.emergencyContact}

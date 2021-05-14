@@ -12,6 +12,8 @@
 
         public string Club { get; set; } = string.Empty;
 
+        public uint ClubNumber { get; set; }
+
         public string MsaLicense { get; set; } = string.Empty;
 
         public bool IsPaid { get; set; }

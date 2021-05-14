@@ -6,7 +6,7 @@ namespace AutoTest.Web.Models
     {
         public string ClubName { get; set; } = string.Empty;
 
-        public string MembershipNumber { get; set; } = string.Empty;
+        public uint MembershipNumber { get; set; }
 
         public DateTime Expiry { get; set; }
     }

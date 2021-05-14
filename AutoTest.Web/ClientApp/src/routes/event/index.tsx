@@ -5,6 +5,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { newValidDate } from "ts-date";
 import UUID from "uuid-int";
 import { FaBell } from "react-icons/fa";
+import save from "save-file";
+import { route } from "preact-router";
 
 import { getAccessToken } from "../../api/api";
 import { useGoogleAuth } from "../../components/app";
@@ -26,6 +28,7 @@ import { Notification, Override } from "../../types/models";
 import AddNotificationModal from "../../components/events/AddNotificationModal";
 import { keySeed } from "../../settings";
 import Breadcrumbs from "../../components/shared/Breadcrumbs";
+import { getDateString } from "../../lib/date";
 
 const uid = UUID(keySeed);
 
@@ -55,7 +58,7 @@ const Event: FunctionalComponent<Props> = ({ eventId }) => {
     const [showModal, setShowModal] = useState(false);
     const [showAddNotificationModal, setShowAddNotificationModal] =
         useState<Notification | undefined>(undefined);
-    const save = useCallback(() => {
+    const saveButton = useCallback(() => {
         if (showAddNotificationModal) {
             dispatch(
                 CreateNotification(
@@ -66,6 +69,18 @@ const Event: FunctionalComponent<Props> = ({ eventId }) => {
             setShowAddNotificationModal(undefined);
         }
     }, [auth, dispatch, showAddNotificationModal]);
+    const saveRegs = useCallback(
+        () =>
+            currentEvent
+                ? save(
+                      currentEvent.regulations,
+                      `${currentEvent.location}-${getDateString(
+                          currentEvent.startTime
+                      )}-regs.pdf`
+                  )
+                : Promise.resolve(),
+        [currentEvent]
+    );
     return (
         <div>
             <Breadcrumbs club={currentClub} event={currentEvent} />
@@ -104,7 +119,7 @@ const Event: FunctionalComponent<Props> = ({ eventId }) => {
                             (b) => ({ ...b, ...a } as Notification)
                         )
                     }
-                    save={save}
+                    save={saveButton}
                     notification={showAddNotificationModal}
                 />
             ) : null}
@@ -114,6 +129,15 @@ const Event: FunctionalComponent<Props> = ({ eventId }) => {
                     notifications={notifications.value}
                 />
             ) : null}
+
+            <Button onClick={() => route(`/entrants/${eventId}`)}>
+                Entrants
+            </Button>
+            <Button onClick={() => route(`/tests/${eventId}`)}>Tests</Button>
+            <Button onClick={() => route(`/results/${eventId}`)}>
+                Results
+            </Button>
+            <Button onClick={saveRegs}>Regs</Button>
         </div>
     );
 };
