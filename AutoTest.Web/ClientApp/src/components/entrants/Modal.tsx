@@ -12,6 +12,8 @@ import {
 import { EmergencyContact, Vehicle } from "src/types/shared";
 import EmergencyContactEditor from "../shared/EmergencyContactEditor";
 import VehicleEditor from "../shared/VehicleEditor";
+import DropdownInput from "../shared/DropdownInput";
+import { startsWithIgnoreCase } from "../../lib/string";
 
 interface Props {
     readonly entrant: EditingEntrant;
@@ -29,7 +31,7 @@ const EntrantsModal: FunctionComponent<Props> = ({
     fillFromProfile,
 }) => {
     const classesInUse = useSelector(selectClassOptions).filter(
-        (c) => c.startsWith(entrant.class) && c !== entrant.class
+        (c) => startsWithIgnoreCase(c, entrant.class) && c !== entrant.class
     );
     const makeAndModels = useSelector(selectMakeModelOptions);
 
@@ -99,29 +101,15 @@ const EntrantsModal: FunctionComponent<Props> = ({
                     </Field>
                     <Field>
                         <Label>Class</Label>
-                        <Input
-                            list="classes"
+                        <DropdownInput
                             value={entrant.class}
-                            onChange={(e: OnChange): void => {
+                            options={classesInUse}
+                            setValue={(e) => {
                                 setField({
-                                    class: e.target.value.toLocaleUpperCase(),
+                                    class: e.toLocaleUpperCase(),
                                 });
                             }}
-                        >
-                            <datalist id="classes">
-                                {classesInUse.map((a) => (
-                                    <option
-                                        key={a}
-                                        value={a}
-                                        onClick={() => {
-                                            setField({
-                                                class: a,
-                                            });
-                                        }}
-                                    />
-                                ))}
-                            </datalist>
-                        </Input>
+                        />
                     </Field>
                     <VehicleEditor
                         vehicle={entrant.vehicle}

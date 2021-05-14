@@ -65,6 +65,10 @@ const Events: FunctionalComponent<Readonly<Props>> = ({ eventId }) => {
                                 ) + 1,
                             -1
                         ),
+                        clubNumber:
+                            editingEntrant.clubNumber === ""
+                                ? 0
+                                : editingEntrant.clubNumber,
                     },
                     getAccessToken(auth),
                     () => setEditingEntrant(undefined)
@@ -141,7 +145,7 @@ const Events: FunctionalComponent<Readonly<Props>> = ({ eventId }) => {
                     phone: "",
                 },
                 club: "",
-                clubNumber: 0,
+                clubNumber: "",
                 isPaid: false,
             }),
         [eventId]

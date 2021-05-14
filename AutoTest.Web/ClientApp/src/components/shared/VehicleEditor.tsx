@@ -5,6 +5,8 @@ const { Input, Field, Label, Control } = Form;
 import { Vehicle } from "../../types/shared";
 import { OnChange } from "../../types/inputs";
 import { MakeAndModel } from "src/types/models";
+import DropdownInput from "./DropdownInput";
+import { startsWithIgnoreCase } from "../../lib/string";
 
 interface Props {
     readonly vehicle: Vehicle;
@@ -19,75 +21,50 @@ const VehicleEditor: FunctionComponent<Props> = ({
 }) => {
     const makes = makeAndModels
         .map(({ make }) => make)
-        .filter((c) => c.startsWith(vehicle.make) && c !== vehicle.make);
+        .filter(
+            (c) => startsWithIgnoreCase(c, vehicle.make) && c !== vehicle.make
+        );
     const models = makeAndModels
         .filter(({ make }) => make === vehicle.make)
         .map(({ model }) => model)
-        .filter((c) => c.startsWith(vehicle.model) && c !== vehicle.model);
+        .filter(
+            (c) => startsWithIgnoreCase(c, vehicle.model) && c !== vehicle.model
+        );
     return (
         <Fragment>
             <Field kind="group">
                 <Control fullwidth={true}>
                     <Label>Make</Label>
-                    <Input
-                        list="makes"
+                    <DropdownInput
                         value={vehicle.make}
-                        onChange={(e: OnChange): void =>
+                        options={makes}
+                        setValue={(e) =>
                             setField({
                                 ...vehicle,
-                                make: e.target.value,
+                                make: e,
                             })
                         }
-                    >
-                        <datalist id="makes">
-                            {makes.map((a) => (
-                                <option
-                                    key={a}
-                                    value={a}
-                                    onClick={() => {
-                                        setField({
-                                            ...vehicle,
-                                            make: a,
-                                        });
-                                    }}
-                                />
-                            ))}
-                        </datalist>
-                    </Input>
+                    />
                 </Control>
                 <Control fullwidth={true}>
                     <Label>Model</Label>
-                    <Input
-                        list="models"
+                    <DropdownInput
                         value={vehicle.model}
-                        onChange={(e: OnChange): void =>
+                        options={models}
+                        setValue={(e) =>
                             setField({
                                 ...vehicle,
-                                model: e.target.value,
+                                model: e,
                             })
                         }
-                    >
-                        <datalist id="models">
-                            {models.map((a) => (
-                                <option
-                                    key={a}
-                                    value={a}
-                                    onClick={() => {
-                                        setField({
-                                            ...vehicle,
-                                            model: a,
-                                        });
-                                    }}
-                                />
-                            ))}
-                        </datalist>
-                    </Input>
+                    />
                 </Control>
             </Field>
             <Field kind="group">
                 <Control fullwidth={true}>
                     <Label>Registration</Label>
                     <Input
+                        class="is-warning"
                         value={vehicle.registration}
                         onChange={(e: OnChange): void =>
                             setField({

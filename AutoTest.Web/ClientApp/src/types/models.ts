@@ -101,9 +101,13 @@ export interface Entrant {
     readonly isPaid: boolean;
 }
 
-export type EditingEntrant = Omit<Entrant, "driverNumber"> & {
-    readonly isNew: boolean;
-};
+export type EditingEntrant = Override<
+    Omit<Entrant, "driverNumber">,
+    {
+        readonly isNew: boolean;
+        readonly clubNumber: number | "";
+    }
+>;
 
 export interface Result {
     readonly class: string;
