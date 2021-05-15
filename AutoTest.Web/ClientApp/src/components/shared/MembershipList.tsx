@@ -7,7 +7,6 @@ const { Input, Control, Field, Label } = Form;
 import { OnChange } from "../../types/inputs";
 import { getDateString } from "../../lib/date";
 import { ClubMembership } from "../../types/shared";
-import { Override } from "src/types/models";
 
 interface Props {
     readonly memberships: readonly ClubMembership[];
@@ -15,14 +14,11 @@ interface Props {
     readonly remove: (_: number) => void;
 }
 
-type EditingMembership = Override<
-    ClubMembership,
-    { readonly membershipNumber: number | "" }
->;
+type EditingMembership = ClubMembership;
 
 const blankState = (): EditingMembership => ({
     clubName: "",
-    membershipNumber: "",
+    membershipNumber: Number.NaN,
     expiry: addYear(newValidDate(), 1),
 });
 
@@ -94,14 +90,16 @@ const MembershipList: FunctionComponent<Props> = ({
                 </Control>
                 <Control>
                     <Button
+                        disabled={
+                            newMembership.clubName === "" ||
+                            Number.isNaN(newMembership.membershipNumber)
+                        }
                         onClick={() => {
                             if (newMembership.clubName !== "") {
                                 const externalMembership: ClubMembership = {
                                     ...newMembership,
                                     membershipNumber:
-                                        newMembership.membershipNumber === ""
-                                            ? 0
-                                            : newMembership.membershipNumber,
+                                        newMembership.membershipNumber,
                                 };
                                 addNew(externalMembership);
                                 setNewEmail(blankState);

@@ -3,6 +3,7 @@ import { useCallback, useEffect, useState } from "preact/hooks";
 import { Heading, Button } from "react-bulma-components";
 import UUID from "uuid-int";
 import { useDispatch, useSelector } from "react-redux";
+import { nth } from "@s-libs/micro-dash";
 
 import { Entrant, EditingEntrant, Override } from "../../types/models";
 import { useGoogleAuth } from "../../components/app";
@@ -27,7 +28,6 @@ import { findIfLoaded, mapOrDefault } from "../../types/loadingState";
 import { selectProfile } from "../../store/profile/selectors";
 import RouteParamsParser from "../../components/shared/RouteParamsParser";
 import Breadcrumbs from "../../components/shared/Breadcrumbs";
-import { nth } from "@s-libs/micro-dash";
 
 interface Props {
     readonly eventId: number;
@@ -65,10 +65,6 @@ const Events: FunctionalComponent<Readonly<Props>> = ({ eventId }) => {
                                 ) + 1,
                             -1
                         ),
-                        clubNumber:
-                            editingEntrant.clubNumber === ""
-                                ? 0
-                                : editingEntrant.clubNumber,
                     },
                     getAccessToken(auth),
                     () => setEditingEntrant(undefined)
@@ -81,7 +77,7 @@ const Events: FunctionalComponent<Readonly<Props>> = ({ eventId }) => {
             const {
                 familyName,
                 givenName,
-                msaLicense,
+                msaMembership,
                 emergencyContact,
                 vehicle,
                 clubMemberships,
@@ -98,7 +94,7 @@ const Events: FunctionalComponent<Readonly<Props>> = ({ eventId }) => {
                           ...e,
                           familyName,
                           givenName,
-                          msaLicense,
+                          msaMembership,
                           emergencyContact,
                           vehicle,
                           club: club.clubName,
@@ -131,7 +127,7 @@ const Events: FunctionalComponent<Readonly<Props>> = ({ eventId }) => {
                 class: "",
                 givenName: "",
                 familyName: "",
-                msaLicense: "",
+                msaMembership: { msaLicense: Number.NaN, msaLicenseType: "" },
                 vehicle: {
                     make: "",
                     model: "",
@@ -145,7 +141,7 @@ const Events: FunctionalComponent<Readonly<Props>> = ({ eventId }) => {
                     phone: "",
                 },
                 club: "",
-                clubNumber: "",
+                clubNumber: Number.NaN,
                 isPaid: false,
             }),
         [eventId]
@@ -155,7 +151,7 @@ const Events: FunctionalComponent<Readonly<Props>> = ({ eventId }) => {
         []
     );
     const setField = useCallback(
-        (a: Partial<Entrant>) =>
+        (a: Partial<EditingEntrant>) =>
             setEditingEntrant((b) => {
                 if (b !== undefined) {
                     return { ...b, ...a };

@@ -14,11 +14,11 @@
 
         public uint ClubNumber { get; set; }
 
-        public string MsaLicense { get; set; } = string.Empty;
-
         public bool IsPaid { get; set; }
 
         public VehicleSaveModel Vehicle { get; set; } = new VehicleSaveModel();
+
+        public MsaMembershipSaveModel MsaMembership { get; set; } = new MsaMembershipSaveModel();
 
         public EmergencyContactSaveModel EmergencyContact { get; set; } = new EmergencyContactSaveModel();
     }

@@ -2,8 +2,7 @@
 {
     public class Entrant
     {
-
-        public Entrant(ulong entrantId, ushort driverNumber, string givenName, string familyName, string @class, ulong eventId, bool isPaid, string club, uint clubNumber, string msaLicense)
+        public Entrant(ulong entrantId, ushort driverNumber, string givenName, string familyName, string @class, ulong eventId, bool isPaid, string club, uint clubNumber)
         {
             EntrantId = entrantId;
             GivenName = givenName;
@@ -13,7 +12,6 @@
             IsPaid = isPaid;
             Club = club;
             ClubNumber = clubNumber;
-            MsaLicense = msaLicense;
             DriverNumber = driverNumber;
         }
 
@@ -35,14 +33,16 @@
 
         public uint ClubNumber { get; }
 
-        public string MsaLicense { get; }
-
         public Vehicle Vehicle { get; private set; } = new Vehicle();
 
         public EmergencyContact EmergencyContact { get; private set; } = new EmergencyContact();
 
+        public MsaMembership MsaMembership { get; private set; } = new MsaMembership();
+
         public void SetVehicle(Vehicle vehicle) => Vehicle = vehicle;
 
         public void SetEmergencyContact(EmergencyContact emergencyContact) => EmergencyContact = emergencyContact;
+
+        public void SetMsaMembership(MsaMembership msaMembership) => MsaMembership = msaMembership;
     }
 }

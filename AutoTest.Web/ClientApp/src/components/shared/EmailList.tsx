@@ -1,10 +1,11 @@
-import { h, FunctionComponent, Fragment } from "preact";
+import { h, FunctionComponent } from "preact";
 import { Button, Level, Form } from "react-bulma-components";
 import { useCallback, useState } from "preact/hooks";
 const { Input, Control, Field } = Form;
 
 import { OnChange } from "../../types/inputs";
 import { AuthorisationEmail } from "../../types/models";
+import { addPreventDefault } from "../../lib/form";
 
 interface Props {
     readonly emails: readonly AuthorisationEmail[];
@@ -40,20 +41,28 @@ const EmailList: FunctionComponent<Props> = ({ emails, addNew, remove }) => {
         (e: OnChange): void => setNewEmail(e.target.value),
         []
     );
+    const formSave = addPreventDefault(addNewEmail);
     return (
-        <Fragment>
+        <form onSubmit={formSave}>
             {emails.map(({ email }, i) => (
                 <ListItem email={email} key={email} i={i} remove={remove} />
             ))}
             <Field kind="addons">
                 <Control fullwidth={true}>
-                    <Input type="email" value={newEmail} onChange={setEmail} />
+                    <Input
+                        required
+                        type="email"
+                        value={newEmail}
+                        onChange={setEmail}
+                    />
                 </Control>
                 <Control>
-                    <Button onClick={addNewEmail}>Add</Button>
+                    <Button disabled={newEmail === ""} type="submit">
+                        Add
+                    </Button>
                 </Control>
             </Field>
-        </Fragment>
+        </form>
     );
 };
 

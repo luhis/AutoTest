@@ -20,6 +20,7 @@ const EmergencyContactEditor: FunctionComponent<Props> = ({
                 <Control fullwidth={true}>
                     <Label>Emergency Contact Name</Label>
                     <Input
+                        required
                         value={emergencyContact.name}
                         onChange={({ target }: OnChange): void => {
                             setField({
@@ -32,6 +33,7 @@ const EmergencyContactEditor: FunctionComponent<Props> = ({
                 <Control fullwidth={true}>
                     <Label>Emergency Contact Number</Label>
                     <Input
+                        required
                         type="tel"
                         value={emergencyContact.phone}
                         onChange={({ target }: OnChange): void =>

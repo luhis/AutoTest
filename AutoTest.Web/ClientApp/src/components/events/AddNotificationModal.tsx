@@ -1,7 +1,8 @@
 import { h, FunctionComponent } from "preact";
 import { Modal, Button, Form } from "react-bulma-components";
-import { OnChange } from "src/types/inputs";
+const { Input, Field, Label } = Form;
 
+import { OnChange } from "src/types/inputs";
 import { Notification } from "../../types/models";
 
 interface Props {
@@ -24,15 +25,15 @@ const AddNotificationModal: FunctionComponent<Props> = ({
                     Notifications
                 </Modal.Card.Header>
                 <Modal.Card.Body>
-                    <Form.Field>
-                        <Form.Label>Notification</Form.Label>
-                        <Form.Input
+                    <Field>
+                        <Label>Notification</Label>
+                        <Input
                             value={notification.message}
                             onChange={(e: OnChange): void =>
                                 setField({ message: e.target.value })
                             }
                         />
-                    </Form.Field>
+                    </Field>
                 </Modal.Card.Body>
                 <Modal.Card.Footer>
                     <Button color="primary" onClick={save}>

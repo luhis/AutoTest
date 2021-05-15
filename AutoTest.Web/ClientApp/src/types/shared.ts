@@ -19,4 +19,9 @@ export interface ClubMembership {
     readonly expiry: ValidDate;
 }
 
+export interface MsaMembership {
+    readonly msaLicense: number;
+    readonly msaLicenseType: string;
+}
+
 export const neverReached = (_: never) => undefined;

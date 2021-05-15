@@ -4,12 +4,12 @@ namespace AutoTest.Domain.StorageModels
 {
     public class Profile
     {
-        public Profile(string emailAddress, string givenName, string familyName, string msaLicense)
+
+        public Profile(string emailAddress, string givenName, string familyName)
         {
             EmailAddress = emailAddress;
             GivenName = givenName;
             FamilyName = familyName;
-            MsaLicense = msaLicense;
         }
 
         public string EmailAddress { get; }
@@ -18,11 +18,10 @@ namespace AutoTest.Domain.StorageModels
 
         public string FamilyName { get; }
 
-        public string MsaLicense { get; }
-
         public Vehicle Vehicle { get; private set; } = new Vehicle();
 
         public EmergencyContact EmergencyContact { get; private set; } = new EmergencyContact();
+        public MsaMembership MsaMembership { get; private set; } = new MsaMembership();
 
         public ICollection<ClubMembership> ClubMemberships { get; private set; } = new List<ClubMembership>();
 
@@ -31,5 +30,7 @@ namespace AutoTest.Domain.StorageModels
         public void SetEmergencyContact(EmergencyContact emergencyContact) => EmergencyContact = emergencyContact;
 
         public void SetClubMemberships(ICollection<ClubMembership> clubMemberships) => ClubMemberships = clubMemberships;
+
+        public void SetMsaMembership(MsaMembership msaMembership) => MsaMembership = msaMembership;
     }
 }

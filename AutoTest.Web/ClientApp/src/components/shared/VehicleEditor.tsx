@@ -36,6 +36,7 @@ const VehicleEditor: FunctionComponent<Props> = ({
                 <Control fullwidth={true}>
                     <Label>Make</Label>
                     <DropdownInput
+                        required
                         value={vehicle.make}
                         options={makes}
                         setValue={(e) =>
@@ -49,6 +50,7 @@ const VehicleEditor: FunctionComponent<Props> = ({
                 <Control fullwidth={true}>
                     <Label>Model</Label>
                     <DropdownInput
+                        required
                         value={vehicle.model}
                         options={models}
                         setValue={(e) =>
@@ -64,6 +66,7 @@ const VehicleEditor: FunctionComponent<Props> = ({
                 <Control fullwidth={true}>
                     <Label>Registration</Label>
                     <Input
+                        required
                         class="is-warning"
                         value={vehicle.registration}
                         onChange={(e: OnChange): void =>
@@ -78,6 +81,7 @@ const VehicleEditor: FunctionComponent<Props> = ({
                 <Control fullwidth={true}>
                     <Label>Displacement (CC)</Label>
                     <Input
+                        required
                         type="number"
                         value={vehicle.displacement}
                         onChange={(e: OnChange): void =>

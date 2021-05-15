@@ -1,6 +1,6 @@
 import { ValidDate } from "ts-date";
 
-import { EmergencyContact, Vehicle } from "./shared";
+import { EmergencyContact, MsaMembership, Vehicle } from "./shared";
 
 export interface AuthorisationEmail {
     readonly email: string;
@@ -93,7 +93,7 @@ export interface Entrant {
     readonly class: string;
     readonly givenName: string;
     readonly familyName: string;
-    readonly msaLicense: string;
+    readonly msaMembership: MsaMembership;
     readonly vehicle: Vehicle;
     readonly emergencyContact: EmergencyContact;
     readonly club: string;
@@ -105,7 +105,6 @@ export type EditingEntrant = Override<
     Omit<Entrant, "driverNumber">,
     {
         readonly isNew: boolean;
-        readonly clubNumber: number | "";
     }
 >;
 

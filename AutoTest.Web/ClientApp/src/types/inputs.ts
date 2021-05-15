@@ -9,3 +9,7 @@ export interface OnSelectChange {
 export interface OnChangeCheck {
     readonly target: { readonly checked: boolean };
 }
+
+export interface FormSubmit {
+    readonly preventDefault: () => void;
+}

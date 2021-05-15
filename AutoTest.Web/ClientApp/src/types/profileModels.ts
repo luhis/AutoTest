@@ -1,11 +1,16 @@
-import { ClubMembership, EmergencyContact, Vehicle } from "./shared";
+import {
+    ClubMembership,
+    EmergencyContact,
+    MsaMembership,
+    Vehicle,
+} from "./shared";
 
 export interface Profile {
     readonly profileId: number;
     readonly givenName: string;
     readonly familyName: string;
-    readonly msaLicense: string;
     readonly vehicle: Vehicle;
+    readonly msaMembership: MsaMembership;
     readonly emergencyContact: EmergencyContact;
     readonly clubMemberships: readonly ClubMembership[];
 }

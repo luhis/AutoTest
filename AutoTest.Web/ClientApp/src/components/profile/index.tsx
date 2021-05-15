@@ -1,13 +1,15 @@
-import { h, FunctionComponent, Fragment } from "preact";
+import { h, FunctionComponent } from "preact";
 import { Button, Form, Heading } from "react-bulma-components";
 const { Label, Input, Field } = Form;
 
 import { Profile } from "../../types/profileModels";
 import { OnChange } from "../../types/inputs";
 import EmergencyContactEditor from "../shared/EmergencyContactEditor";
-import { EmergencyContact, Vehicle } from "../../types/shared";
+import { EmergencyContact, MsaMembership, Vehicle } from "../../types/shared";
 import VehicleEditor from "../shared/VehicleEditor";
 import MembershipList from "../shared/MembershipList";
+import MsaMembershipEditor from "../shared/MsaMembershipEditor";
+import { addPreventDefault } from "../../lib/form";
 
 interface Props {
     readonly profile: Profile;
@@ -16,12 +18,14 @@ interface Props {
 }
 
 const ProfileComp: FunctionComponent<Props> = ({ save, profile, setField }) => {
+    const formSave = addPreventDefault(save);
     return (
-        <Fragment>
+        <form onSubmit={formSave}>
             <Heading>Profile</Heading>
             <Field>
                 <Label>Given Name</Label>
                 <Input
+                    required
                     value={profile.givenName}
                     onChange={(e: OnChange): void =>
                         setField({ givenName: e.target.value })
@@ -31,21 +35,22 @@ const ProfileComp: FunctionComponent<Props> = ({ save, profile, setField }) => {
             <Field>
                 <Label>Family Name</Label>
                 <Input
+                    required
                     value={profile.familyName}
                     onChange={(e: OnChange): void =>
                         setField({ familyName: e.target.value })
                     }
                 />
             </Field>
-            <Field>
-                <Label>MSA License</Label>
-                <Input
-                    value={profile.msaLicense}
-                    onChange={(e: OnChange): void =>
-                        setField({ msaLicense: e.target.value })
-                    }
-                />
-            </Field>
+            <MsaMembershipEditor
+                membership={profile.msaMembership}
+                setField={(e: MsaMembership): void =>
+                    setField({
+                        msaMembership: e,
+                    })
+                }
+            />
+
             <VehicleEditor
                 vehicle={profile.vehicle}
                 setField={(e: Vehicle): void =>
@@ -79,11 +84,11 @@ const ProfileComp: FunctionComponent<Props> = ({ save, profile, setField }) => {
                 }}
             />
             <Button.Group>
-                <Button color="primary" onClick={save}>
+                <Button color="primary" type="submit">
                     Save changes
                 </Button>
             </Button.Group>
-        </Fragment>
+        </form>
     );
 };
 

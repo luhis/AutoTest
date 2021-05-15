@@ -26,15 +26,20 @@ namespace AutoTest.Web.Mapping
             return new EmergencyContact(emergencyContact.Name, emergencyContact.Phone);
         }
 
+        private static MsaMembership Map(MsaMembershipSaveModel emergencyContact)
+        {
+            return new MsaMembership(emergencyContact.MsaLicenseType, emergencyContact.MsaLicense);
+        }
+
         public static Vehicle Map(VehicleSaveModel vehicle)
         {
             return new Vehicle(vehicle.Make, vehicle.Model, vehicle.Year,
                 vehicle.Displacement, vehicle.Registration);
         }
 
-        public static ClubMembership Map(ClubMembershipSaveModel vehicle)
+        public static ClubMembership Map(ClubMembershipSaveModel membership)
         {
-            return new ClubMembership(vehicle.ClubName, vehicle.MembershipNumber, vehicle.Expiry);
+            return new ClubMembership(membership.ClubName, membership.MembershipNumber, membership.Expiry);
         }
 
         public static TestRun Map(ulong eventId, int ordinal, ulong testRunId, TestRunSaveModel test)
@@ -47,18 +52,20 @@ namespace AutoTest.Web.Mapping
         public static Entrant Map(ulong entrantId, ulong eventId, EntrantSaveModel entrant)
         {
             var e = new Entrant(entrantId, entrant.DriverNumber, entrant.GivenName, entrant.FamilyName, entrant.Class, eventId,
-                entrant.IsPaid, entrant.Club, entrant.ClubNumber, entrant.MsaLicense);
+                entrant.IsPaid, entrant.Club, entrant.ClubNumber);
             e.SetVehicle(Map(entrant.Vehicle));
             e.SetEmergencyContact(Map(entrant.EmergencyContact));
+            e.SetMsaMembership(Map(entrant.MsaMembership));
             return e;
         }
 
         public static Profile Map(string emailAddress, ProfileSaveModel profile)
         {
-            var p = new Profile(emailAddress, profile.GivenName, profile.FamilyName, profile.MsaLicense);
+            var p = new Profile(emailAddress, profile.GivenName, profile.FamilyName);
             p.SetVehicle(Map(profile.Vehicle));
             p.SetEmergencyContact(Map(profile.EmergencyContact));
             p.SetClubMemberships(profile.ClubMemberships.Select(Map).ToArray());
+            p.SetMsaMembership(Map(profile.MsaMembership));
             return p;
         }
 

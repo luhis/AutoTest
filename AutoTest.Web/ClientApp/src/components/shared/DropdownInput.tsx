@@ -8,10 +8,12 @@ const DropdownInput: FunctionComponent<{
     readonly value: string;
     readonly options: readonly string[];
     readonly setValue: (s: string) => void;
-}> = ({ value, options, setValue }) => {
+    readonly required: boolean;
+}> = ({ value, options, required, setValue }) => {
     const id = uniqueId("DropdownInput-");
     return (
         <Input
+            required={required}
             list={id}
             value={value}
             onChange={(e: OnChange) => setValue(e.target.value)}
