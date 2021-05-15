@@ -67,7 +67,7 @@ const Events: FunctionalComponent<Props> = ({ clubId }) => {
                 isClubEditable: clubId === undefined,
                 tests: [],
                 regulations: null,
-                eventType: -1,
+                eventType: Number.NaN,
             }),
         [clubId]
     );
@@ -107,11 +107,11 @@ export default RouteParamsParser<
     Override<
         Props,
         {
-            readonly eventId: string | undefined;
+            readonly clubId: string | undefined;
         }
     >,
     Props
->(({ eventId, ...props }) => ({
+>(({ clubId, ...props }) => ({
     ...props,
-    eventId: eventId ? Number.parseInt(eventId) : undefined,
+    clubId: clubId ? Number.parseInt(clubId) : undefined,
 }))(Events);

@@ -4,6 +4,7 @@ const { Input, Field, Label } = Form;
 
 import { OnChange } from "src/types/inputs";
 import { Notification } from "../../types/models";
+import { addPreventDefault } from "../../lib/form";
 
 interface Props {
     readonly notification: Notification;
@@ -18,31 +19,35 @@ const AddNotificationModal: FunctionComponent<Props> = ({
     save,
     cancel,
 }) => {
+    const formSave = addPreventDefault(save);
     return (
         <Modal show={true} showClose={false}>
             <Modal.Card>
                 <Modal.Card.Header showClose={false}>
                     Notifications
                 </Modal.Card.Header>
-                <Modal.Card.Body>
-                    <Field>
-                        <Label>Notification</Label>
-                        <Input
-                            value={notification.message}
-                            onChange={(e: OnChange): void =>
-                                setField({ message: e.target.value })
-                            }
-                        />
-                    </Field>
-                </Modal.Card.Body>
-                <Modal.Card.Footer>
-                    <Button color="primary" onClick={save}>
-                        Save
-                    </Button>
-                    <Button color="secondary" onClick={cancel}>
-                        Close
-                    </Button>
-                </Modal.Card.Footer>
+                <form onSubmit={formSave}>
+                    <Modal.Card.Body>
+                        <Field>
+                            <Label>Notification</Label>
+                            <Input
+                                required
+                                value={notification.message}
+                                onChange={(e: OnChange): void =>
+                                    setField({ message: e.target.value })
+                                }
+                            />
+                        </Field>
+                    </Modal.Card.Body>
+                    <Modal.Card.Footer>
+                        <Button color="primary" type="submit">
+                            Save
+                        </Button>
+                        <Button color="secondary" onClick={cancel}>
+                            Close
+                        </Button>
+                    </Modal.Card.Footer>
+                </form>
             </Modal.Card>
         </Modal>
     );

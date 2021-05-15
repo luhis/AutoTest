@@ -147,7 +147,11 @@ const EntrantsModal: FunctionComponent<Props> = ({
                             Save changes
                         </Button>
                         {entrant.isNew ? (
-                            <Button color="secondary" onClick={fillFromProfile}>
+                            <Button
+                                color="secondary"
+                                type="button"
+                                onClick={fillFromProfile}
+                            >
                                 Fill from Profile
                             </Button>
                         ) : null}

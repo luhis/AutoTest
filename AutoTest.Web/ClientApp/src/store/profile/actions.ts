@@ -9,8 +9,22 @@ import {
     RESET_ACCESS,
 } from "./types";
 import { getAccess } from "../../api/access";
+import { selectProfile } from "./selectors";
+import { AppState } from "..";
 
-export const GetProfile =
+export const GetProfileIfRequired =
+    (token: string | undefined) =>
+    async (
+        dispatch: Dispatch<ProfileActionTypes>,
+        getState: () => AppState
+    ) => {
+        const profile = selectProfile(getState());
+        if (profile) {
+            await GetProfile(token)(dispatch);
+        }
+    };
+
+const GetProfile =
     (token: string | undefined) =>
     async (dispatch: Dispatch<ProfileActionTypes>) => {
         dispatch({

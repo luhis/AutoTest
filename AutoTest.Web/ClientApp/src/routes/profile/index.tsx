@@ -3,7 +3,7 @@ import { useCallback, useEffect, useState } from "preact/hooks";
 import { useDispatch, useSelector } from "react-redux";
 
 import { getAccessToken } from "../../api/api";
-import { GetProfile, SaveProfile } from "../../store/profile/actions";
+import { GetProfileIfRequired, SaveProfile } from "../../store/profile/actions";
 import { useGoogleAuth } from "../../components/app";
 import ProfileModal from "../../components/profile/index";
 import { selectProfile } from "../../store/profile/selectors";
@@ -40,7 +40,7 @@ const ProfileRoute: FunctionalComponent = () => {
     const dispatch = useDispatch();
     const profile = useSelector(selectProfile);
     useEffect(() => {
-        dispatch(GetProfile(getAccessToken(auth)));
+        dispatch(GetProfileIfRequired(getAccessToken(auth)));
     }, [dispatch, auth]);
 
     return profile.tag === "Loaded" ? (

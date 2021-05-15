@@ -28,6 +28,7 @@ import { findIfLoaded, mapOrDefault } from "../../types/loadingState";
 import { selectProfile } from "../../store/profile/selectors";
 import RouteParamsParser from "../../components/shared/RouteParamsParser";
 import Breadcrumbs from "../../components/shared/Breadcrumbs";
+import { GetProfileIfRequired } from "../../store/profile/actions";
 
 interface Props {
     readonly eventId: number;
@@ -73,6 +74,7 @@ const Events: FunctionalComponent<Readonly<Props>> = ({ eventId }) => {
         }
     }, [auth, dispatch, editingEntrant, entrants]);
     const fillFromProfile = useCallback(() => {
+        dispatch(GetProfileIfRequired(getAccessToken(auth)));
         if (profile.tag === "Loaded") {
             const {
                 familyName,
@@ -97,13 +99,13 @@ const Events: FunctionalComponent<Readonly<Props>> = ({ eventId }) => {
                           msaMembership,
                           emergencyContact,
                           vehicle,
-                          club: club.clubName,
-                          clubNumber: club.membershipNumber,
+                          club: club?.clubName || "",
+                          clubNumber: club?.membershipNumber || Number.NaN,
                       }
                     : undefined
             );
         }
-    }, [currentEvent, profile]);
+    }, [auth, currentEvent, dispatch, profile]);
     const setPaid = (entrant: Entrant, isPaid: boolean) => {
         dispatch(SetPaid(entrant, isPaid, getAccessToken(auth)));
     };

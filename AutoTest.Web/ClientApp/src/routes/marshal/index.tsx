@@ -172,7 +172,9 @@ const Marshal: FunctionalComponent<Readonly<Props>> = ({
                     }
                     value={editing.entrantId}
                 >
-                    <option value={undefined}>- Please Select -</option>
+                    <option disabled value={undefined}>
+                        - Please Select -
+                    </option>
                     {ifSome(
                         entrants,
                         (a) => a.entrantId,
