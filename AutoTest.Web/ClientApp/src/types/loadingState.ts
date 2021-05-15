@@ -97,3 +97,12 @@ export const mapOrDefault = <T, TT, TTT>(
         return defaultValue;
     }
 };
+
+const statesAllowingErrorResult = ["Error", "Loading"];
+
+export const canUpdate = <T, TT>(
+    oldState: LoadingState<T, TT>,
+    newState: LoadingState<T, TT>
+) =>
+    statesAllowingErrorResult.includes(oldState.tag) ||
+    newState.tag === "Loaded";

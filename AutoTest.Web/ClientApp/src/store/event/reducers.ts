@@ -6,16 +6,13 @@ import {
     ADD_TEST_RUN,
     UPDATE_TEST_RUN_STATE,
     GET_EVENTS,
-    GET_CLUBS,
     SET_PAID,
     DELETE_ENTRANT,
     DELETE_EVENT,
     ADD_EVENT,
     GET_TEST_RUNS,
-    ADD_CLUB,
     GET_NOTIFICATIONS,
     ADD_NOTIFICATION,
-    CLEAR_CACHE,
     GET_MARSHALS,
     ADD_MARSHAL,
     DELETE_MARSHAL,
@@ -23,6 +20,7 @@ import {
 import { Entrant, TestRun, TestRunUploadState } from "../../types/models";
 import { ifLoaded, LoadingState } from "../../types/loadingState";
 import { neverReached } from "../../types/shared";
+import { CLEAR_CACHE } from "../shared/types";
 
 const initialState: EventState = {
     entrants: { tag: "Idle" },
@@ -30,7 +28,6 @@ const initialState: EventState = {
     testRuns: [],
     testRunsFromServer: { tag: "Idle" },
     events: { tag: "Idle" },
-    clubs: { tag: "Idle" },
     notifications: { tag: "Idle" },
 };
 
@@ -70,23 +67,6 @@ export const eventReducer = (
                 marshals: { tag: "Idle" },
                 testRunsFromServer: { tag: "Idle" },
                 events: { tag: "Idle" },
-                clubs: { tag: "Idle" },
-            };
-        case GET_CLUBS:
-            return {
-                ...state,
-                clubs: action.payload,
-            };
-        case ADD_CLUB:
-            return {
-                ...state,
-                clubs: ifLoaded(state.clubs, (c) =>
-                    c
-                        .filter(
-                            ({ clubId }) => clubId !== action.payload.clubId
-                        )
-                        .concat(action.payload)
-                ),
             };
         case GET_ENTRANTS:
             return {

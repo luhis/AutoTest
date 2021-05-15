@@ -23,14 +23,12 @@ import {
     GetEventsIfRequired,
     GetEntrantsIfRequired,
     GetTestRunsIfRequired,
-    GetClubsIfRequired,
 } from "../../store/event/actions";
 import {
     selectEntrants,
     selectRequiresSync,
     selectTestRuns,
     selectEvents,
-    selectClubs,
 } from "../../store/event/selectors";
 import { keySeed } from "../../settings";
 import ExistingCount from "../../components/marshal/ExistingCount";
@@ -38,6 +36,8 @@ import { findIfLoaded } from "../../types/loadingState";
 import RouteParamsParser from "../../components/shared/RouteParamsParser";
 import Breadcrumbs from "../../components/shared/Breadcrumbs";
 import SyncButton from "../../components/marshal/SyncButton";
+import { selectClubs } from "../../store/clubs/selectors";
+import { GetClubsIfRequired } from "../../store/clubs/actions";
 
 const getNewEditableTest = (ordinal: number): EditableTestRun => ({
     testRunId: uid.uuid(),

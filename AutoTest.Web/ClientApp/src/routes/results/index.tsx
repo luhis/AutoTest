@@ -19,14 +19,9 @@ import ifSome from "../../components/shared/ifSome";
 import { useGoogleAuth } from "../../components/app";
 import Time from "../../components/results/Time";
 import { getAccessToken } from "../../api/api";
-import {
-    selectEvents,
-    selectClubs,
-    selectNotifications,
-} from "../../store/event/selectors";
+import { selectEvents, selectNotifications } from "../../store/event/selectors";
 import {
     AddNotification,
-    GetClubsIfRequired,
     GetEventsIfRequired,
     GetNotifications,
 } from "../../store/event/actions";
@@ -35,6 +30,8 @@ import RouteParamsParser from "../../components/shared/RouteParamsParser";
 import Breadcrumbs from "../../components/shared/Breadcrumbs";
 import { OnMultiSelectChange } from "src/types/inputs";
 import DriverNumber from "../../components/shared/DriverNumber";
+import { selectClubs } from "../../store/clubs/selectors";
+import { GetClubsIfRequired } from "../../store/clubs/actions";
 
 interface Props {
     readonly eventId: number;

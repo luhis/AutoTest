@@ -11,22 +11,19 @@ import List from "../../components/marshals/List";
 import EntrantsModal from "../../components/marshals/Modal";
 import {
     GetMarshalsIfRequired,
-    GetClubsIfRequired,
     GetEventsIfRequired,
     DeleteMarshal,
     AddMarshal,
 } from "../../store/event/actions";
-import {
-    selectEvents,
-    selectClubs,
-    selectMarshals,
-} from "../../store/event/selectors";
+import { selectEvents, selectMarshals } from "../../store/event/selectors";
 import { keySeed } from "../../settings";
 import { findIfLoaded } from "../../types/loadingState";
 import { selectProfile } from "../../store/profile/selectors";
 import RouteParamsParser from "../../components/shared/RouteParamsParser";
 import Breadcrumbs from "../../components/shared/Breadcrumbs";
 import { GetProfileIfRequired } from "../../store/profile/actions";
+import { selectClubs } from "../../store/clubs/selectors";
+import { GetClubsIfRequired } from "../../store/clubs/actions";
 
 interface Props {
     readonly eventId: number;

@@ -12,13 +12,14 @@ import { useGoogleAuth } from "../../components/app";
 import List from "../../components/events/List";
 import {
     GetEventsIfRequired,
-    GetClubsIfRequired,
     AddEvent,
     DeleteEvent,
 } from "../../store/event/actions";
-import { selectEvents, selectClubs } from "../../store/event/selectors";
+import { selectEvents } from "../../store/event/selectors";
 import { keySeed } from "../../settings";
 import RouteParamsParser from "../../components/shared/RouteParamsParser";
+import { selectClubs } from "../../store/clubs/selectors";
+import { GetClubsIfRequired } from "../../store/clubs/actions";
 
 interface Props {
     readonly clubId: number | undefined;

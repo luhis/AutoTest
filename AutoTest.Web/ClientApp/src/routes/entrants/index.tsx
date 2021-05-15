@@ -12,23 +12,20 @@ import List from "../../components/entrants/List";
 import EntrantsModal from "../../components/entrants/Modal";
 import {
     GetEntrantsIfRequired,
-    GetClubsIfRequired,
     SetPaid,
     DeleteEntrant,
     AddEntrant,
     GetEventsIfRequired,
 } from "../../store/event/actions";
-import {
-    selectEntrants,
-    selectEvents,
-    selectClubs,
-} from "../../store/event/selectors";
+import { selectEntrants, selectEvents } from "../../store/event/selectors";
 import { keySeed } from "../../settings";
 import { findIfLoaded, mapOrDefault } from "../../types/loadingState";
 import { selectProfile } from "../../store/profile/selectors";
 import RouteParamsParser from "../../components/shared/RouteParamsParser";
 import Breadcrumbs from "../../components/shared/Breadcrumbs";
 import { GetProfileIfRequired } from "../../store/profile/actions";
+import { selectClubs } from "../../store/clubs/selectors";
+import { GetClubsIfRequired } from "../../store/clubs/actions";
 
 interface Props {
     readonly eventId: number;

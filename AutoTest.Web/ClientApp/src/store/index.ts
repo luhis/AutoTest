@@ -13,6 +13,7 @@ import { parseIsoOrThrow } from "ts-date";
 
 import { eventReducer } from "./event/reducers";
 import { profileReducer } from "./profile/reducers";
+import { clubsReducer } from "./clubs/reducers";
 
 const persistConfig = {
     key: "root",
@@ -35,6 +36,7 @@ const persistConfig = {
 export const rootReducer = combineReducers({
     event: eventReducer,
     profile: profileReducer,
+    clubs: clubsReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

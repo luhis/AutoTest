@@ -12,15 +12,10 @@ import { getAccessToken } from "../../api/api";
 import { useGoogleAuth } from "../../components/app";
 import {
     GetEventsIfRequired,
-    GetClubsIfRequired,
     GetNotifications,
     CreateNotification,
 } from "../../store/event/actions";
-import {
-    selectClubs,
-    selectEvents,
-    selectNotifications,
-} from "../../store/event/selectors";
+import { selectEvents, selectNotifications } from "../../store/event/selectors";
 import { findIfLoaded, mapOrDefault } from "../../types/loadingState";
 import NotificationsModal from "../../components/events/NotificationsModal";
 import RouteParamsParser from "../../components/shared/RouteParamsParser";
@@ -29,6 +24,8 @@ import AddNotificationModal from "../../components/events/AddNotificationModal";
 import { keySeed } from "../../settings";
 import Breadcrumbs from "../../components/shared/Breadcrumbs";
 import { getDateString } from "../../lib/date";
+import { selectClubs } from "../../store/clubs/selectors";
+import { GetClubsIfRequired } from "../../store/clubs/actions";
 
 const uid = UUID(keySeed);
 

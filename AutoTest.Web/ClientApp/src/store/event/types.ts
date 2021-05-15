@@ -4,12 +4,12 @@ import {
     TestRun,
     TestRunUploadState,
     TestRunTemp,
-    Club,
     Notification,
     Marshal,
 } from "../../types/models";
 import { LoadingState } from "../../types/loadingState";
 import { AddEvent } from "./actions";
+import { SharedActionTypes } from "../shared/types";
 
 export interface EventState {
     readonly events: LoadingState<readonly Event[]>;
@@ -20,13 +20,9 @@ export interface EventState {
         readonly eventId: number;
     })[];
     readonly testRunsFromServer: LoadingState<readonly TestRun[]>;
-    readonly clubs: LoadingState<readonly Club[]>;
     readonly notifications: LoadingState<readonly Notification[], number>;
 }
 
-export const CLEAR_CACHE = "CLEAR_CACHE";
-export const GET_CLUBS = "GET_CLUBS";
-export const ADD_CLUB = "ADD_CLUB";
 export const GET_ENTRANTS = "GET_ENTRANTS";
 export const ADD_ENTRANT = "ADD_ENTRANT";
 export const ADD_MARSHAL = "ADD_MARSHAL";
@@ -42,20 +38,6 @@ export const ADD_TEST_RUN = "ADD_TEST_RUN";
 export const UPDATE_TEST_RUN_STATE = "UPDATE_TEST_RUN_STATE";
 export const GET_NOTIFICATIONS = "GET_NOTIFICATIONS";
 export const ADD_NOTIFICATION = "ADD_NOTIFICATION";
-
-interface ClearCache {
-    readonly type: typeof CLEAR_CACHE;
-}
-
-interface GetClubs {
-    readonly type: typeof GET_CLUBS;
-    readonly payload: LoadingState<readonly Club[]>;
-}
-
-interface AddClub {
-    readonly type: typeof ADD_CLUB;
-    readonly payload: Club;
-}
 
 interface GetEntrants {
     readonly type: typeof GET_ENTRANTS;
@@ -136,9 +118,6 @@ interface AddNotification {
 }
 
 export type EventActionTypes =
-    | ClearCache
-    | GetClubs
-    | AddClub
     | GetEntrants
     | AddEntrant
     | SetPaid
@@ -153,4 +132,5 @@ export type EventActionTypes =
     | AddNotification
     | GetMarshals
     | AddMarshal
-    | DeleteMarshal;
+    | DeleteMarshal
+    | SharedActionTypes;

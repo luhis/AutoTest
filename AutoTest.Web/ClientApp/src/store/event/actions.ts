@@ -8,15 +8,12 @@ import {
     UPDATE_TEST_RUN_STATE,
     GET_TEST_RUNS,
     GET_EVENTS,
-    GET_CLUBS,
     SET_PAID,
     DELETE_ENTRANT,
     DELETE_EVENT,
     ADD_EVENT,
-    ADD_CLUB,
     GET_NOTIFICATIONS,
     ADD_NOTIFICATION,
-    CLEAR_CACHE,
     ADD_MARSHAL,
     DELETE_MARSHAL,
     GET_MARSHALS,
@@ -25,7 +22,6 @@ import {
     TestRunUploadState,
     TestRunTemp,
     Entrant,
-    EditingClub,
     Event,
     Notification,
     Marshal,
@@ -44,40 +40,18 @@ import {
     idsMatch,
     isStale,
     ifLoaded,
-    LoadingState,
+    canUpdate,
 } from "../../types/loadingState";
 import { addEvent, deleteEvent, getEvents } from "../../api/events";
-import { getClubs, addClub, deleteClub } from "../../api/clubs";
 import { addNotification, getNotifications } from "../../api/notifications";
 import {
-    selectClubs,
     selectEntrants,
     selectEvents,
     selectMarshals,
     selectTestRuns,
     selectTestRunsFromServer,
 } from "./selectors";
-
-export const GetClubsIfRequired =
-    (token: string | undefined) =>
-    async (dispatch: Dispatch<EventActionTypes>, getState: () => AppState) => {
-        const clubs = selectClubs(getState());
-        if (requiresLoading(clubs.tag) || isStale(clubs)) {
-            if (clubs.tag === "Idle") {
-                dispatch({
-                    type: GET_CLUBS,
-                    payload: { tag: "Loading", id: undefined },
-                });
-            }
-            const res = await getClubs(token);
-            if (canUpdate(clubs, res)) {
-                dispatch({
-                    type: GET_CLUBS,
-                    payload: res,
-                });
-            }
-        }
-    };
+import { CLEAR_CACHE } from "../shared/types";
 
 export const GetMarshalsIfRequired =
     (eventId: number, token: string | undefined) =>
@@ -100,36 +74,9 @@ export const GetMarshalsIfRequired =
         }
     };
 
-export const AddClub =
-    (club: EditingClub, token: string | undefined, onSuccess: () => void) =>
-    async (dispatch: Dispatch<EventActionTypes>) => {
-        await addClub(club, token);
-        dispatch({
-            type: ADD_CLUB,
-            payload: club,
-        });
-        onSuccess();
-    };
-
-export const DeleteClub =
-    (clubId: number, token: string | undefined) =>
-    async (dispatch: Dispatch<EventActionTypes>) => {
-        await deleteClub(clubId, token);
-        dispatch({
-            type: GET_CLUBS,
-            payload: { tag: "Loading", id: undefined },
-        });
-        dispatch({
-            type: GET_CLUBS,
-            payload: await getClubs(token),
-        });
-    };
-
 export const ClearCache = () => ({
     type: CLEAR_CACHE,
 });
-
-const statesAllowingErrorResult = ["Error", "Loading"];
 
 export const GetEntrantsIfRequired =
     (eventId: number, token: string | undefined) =>
@@ -242,13 +189,6 @@ export const DeleteEvent =
             payload: { eventId },
         });
     };
-
-const canUpdate = <T, TT>(
-    oldState: LoadingState<T, TT>,
-    newState: LoadingState<T, TT>
-) =>
-    statesAllowingErrorResult.includes(oldState.tag) ||
-    newState.tag === "Loaded";
 
 export const GetTestRunsIfRequired =
     (eventId: number, ordinal: number, token: string | undefined) =>

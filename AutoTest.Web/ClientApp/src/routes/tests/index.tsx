@@ -8,15 +8,16 @@ const { Column } = Columns;
 import { useGoogleAuth } from "../../components/app";
 import { getAccessToken } from "../../api/api";
 import {
-    GetClubsIfRequired,
     GetEntrantsIfRequired,
     GetEventsIfRequired,
 } from "../../store/event/actions";
-import { selectEvents, selectClubs } from "../../store/event/selectors";
+import { selectEvents } from "../../store/event/selectors";
 import { findIfLoaded } from "../../types/loadingState";
 import RouteParamsParser from "../../components/shared/RouteParamsParser";
 import { Override } from "../../types/models";
 import Breadcrumbs from "../../components/shared/Breadcrumbs";
+import { selectClubs } from "../../store/clubs/selectors";
+import { GetClubsIfRequired } from "../../store/clubs/actions";
 
 interface Props {
     readonly eventId: number;
