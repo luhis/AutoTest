@@ -3,28 +3,26 @@ import { useCallback, useEffect, useState } from "preact/hooks";
 import { Heading, Button } from "react-bulma-components";
 import UUID from "uuid-int";
 import { useDispatch, useSelector } from "react-redux";
-import { nth } from "@s-libs/micro-dash";
 
-import { Entrant, EditingEntrant, Override } from "../../types/models";
+import { Override, Marshal, EditingMarshal } from "../../types/models";
 import { useGoogleAuth } from "../../components/app";
 import { getAccessToken } from "../../api/api";
-import List from "../../components/entrants/List";
-import EntrantsModal from "../../components/entrants/Modal";
+import List from "../../components/marshals/List";
+import EntrantsModal from "../../components/marshals/Modal";
 import {
-    GetEntrantsIfRequired,
+    GetMarshalsIfRequired,
     GetClubsIfRequired,
-    SetPaid,
-    DeleteEntrant,
-    AddEntrant,
     GetEventsIfRequired,
+    DeleteMarshal,
+    AddMarshal,
 } from "../../store/event/actions";
 import {
-    selectEntrants,
     selectEvents,
     selectClubs,
+    selectMarshals,
 } from "../../store/event/selectors";
 import { keySeed } from "../../settings";
-import { findIfLoaded, mapOrDefault } from "../../types/loadingState";
+import { findIfLoaded } from "../../types/loadingState";
 import { selectProfile } from "../../store/profile/selectors";
 import RouteParamsParser from "../../components/shared/RouteParamsParser";
 import Breadcrumbs from "../../components/shared/Breadcrumbs";
@@ -35,8 +33,8 @@ interface Props {
 }
 const uid = UUID(keySeed);
 
-const Entrants: FunctionalComponent<Readonly<Props>> = ({ eventId }) => {
-    const entrants = useSelector(selectEntrants);
+const Marshals: FunctionalComponent<Readonly<Props>> = ({ eventId }) => {
+    const marshals = useSelector(selectMarshals);
     const profile = useSelector(selectProfile);
     const currentEvent = findIfLoaded(
         useSelector(selectEvents),
@@ -47,49 +45,28 @@ const Entrants: FunctionalComponent<Readonly<Props>> = ({ eventId }) => {
         (a) => a.clubId === currentEvent?.clubId
     );
     const [editingEntrant, setEditingEntrant] =
-        useState<EditingEntrant | undefined>(undefined);
+        useState<EditingMarshal | undefined>(undefined);
     const auth = useGoogleAuth();
     const dispatch = useDispatch();
     const save = useCallback(() => {
         if (editingEntrant) {
             dispatch(
-                AddEntrant(
+                AddMarshal(
                     {
                         ...editingEntrant,
-                        driverNumber: mapOrDefault(
-                            entrants,
-                            (x) =>
-                                Math.max(
-                                    ...x
-                                        .map((entrant) => entrant.driverNumber)
-                                        .concat(0)
-                                ) + 1,
-                            -1
-                        ),
                     },
                     getAccessToken(auth),
                     () => setEditingEntrant(undefined)
                 )
             );
         }
-    }, [auth, dispatch, editingEntrant, entrants]);
+    }, [auth, dispatch, editingEntrant]);
     const fillFromProfile = useCallback(() => {
         dispatch(GetProfileIfRequired(getAccessToken(auth)));
         if (profile.tag === "Loaded") {
-            const {
-                familyName,
-                givenName,
-                msaMembership,
-                emergencyContact,
-                vehicle,
-                clubMemberships,
-            } = profile.value;
-            const validMemberships = clubMemberships.filter(
-                (a) =>
-                    currentEvent == undefined ||
-                    a.expiry >= currentEvent.startTime
-            );
-            const club = nth(validMemberships, 0);
+            const { familyName, givenName, msaMembership, emergencyContact } =
+                profile.value;
+
             setEditingEntrant((e) =>
                 e
                     ? {
@@ -98,62 +75,46 @@ const Entrants: FunctionalComponent<Readonly<Props>> = ({ eventId }) => {
                           givenName,
                           msaMembership,
                           emergencyContact,
-                          vehicle,
-                          club: club?.clubName || "",
-                          clubNumber: club?.membershipNumber || Number.NaN,
                       }
                     : undefined
             );
         }
-    }, [auth, currentEvent, dispatch, profile]);
-    const setPaid = (entrant: Entrant, isPaid: boolean) => {
-        dispatch(SetPaid(entrant, isPaid, getAccessToken(auth)));
-    };
-    const deleteEntrant = (entrant: Entrant) => {
-        dispatch(DeleteEntrant(entrant, getAccessToken(auth)));
+    }, [auth, dispatch, profile]);
+
+    const deleteEntrant = (entrant: Marshal) => {
+        dispatch(DeleteMarshal(entrant, getAccessToken(auth)));
     };
     useEffect(() => {
         dispatch(GetEventsIfRequired());
     }, [dispatch]);
     useEffect(() => {
         dispatch(GetClubsIfRequired(getAccessToken(auth)));
-        dispatch(GetEntrantsIfRequired(eventId, getAccessToken(auth)));
+        dispatch(GetMarshalsIfRequired(eventId, getAccessToken(auth)));
     }, [eventId, dispatch, auth]);
     const clearEditingEntrant = () => setEditingEntrant(undefined);
 
     const newEntrant = useCallback(
         () =>
             setEditingEntrant({
-                entrantId: uid.uuid(),
+                marshalId: uid.uuid(),
                 eventId: eventId,
-                class: "",
                 givenName: "",
                 familyName: "",
-                msaMembership: { msaLicense: Number.NaN, msaLicenseType: "" },
-                vehicle: {
-                    make: "",
-                    model: "",
-                    year: 0,
-                    displacement: 0,
-                    registration: "",
-                },
                 isNew: true,
                 emergencyContact: {
                     name: "",
                     phone: "",
                 },
-                club: "",
-                clubNumber: Number.NaN,
-                isPaid: false,
+                role: "",
             }),
         [eventId]
     );
     const setCurrentEditingEntrant = useCallback(
-        (entrant: Entrant) => setEditingEntrant({ ...entrant, isNew: false }),
+        (entrant: Marshal) => setEditingEntrant({ ...entrant, isNew: false }),
         []
     );
     const setField = useCallback(
-        (a: Partial<EditingEntrant>) =>
+        (a: Partial<EditingMarshal>) =>
             setEditingEntrant((b) => {
                 if (b !== undefined) {
                     return { ...b, ...a };
@@ -167,14 +128,13 @@ const Entrants: FunctionalComponent<Readonly<Props>> = ({ eventId }) => {
     return (
         <div>
             <Breadcrumbs club={currentClub} event={currentEvent} />
-            <Heading>Entrants</Heading>
+            <Heading>Marshals</Heading>
             <List
-                entrants={entrants}
+                marshals={marshals}
                 setEditingEntrant={setCurrentEditingEntrant}
-                markPaid={setPaid}
                 deleteEntrant={deleteEntrant}
             />
-            <Button onClick={newEntrant}>Add Entrant</Button>
+            <Button onClick={newEntrant}>Add Marshal</Button>
             {editingEntrant ? (
                 <EntrantsModal
                     entrant={editingEntrant}
@@ -197,5 +157,5 @@ export default RouteParamsParser<
     >,
     Props
 >(({ eventId, ...props }) => ({ ...props, eventId: Number.parseInt(eventId) }))(
-    Entrants
+    Marshals
 );

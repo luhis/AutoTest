@@ -6,6 +6,7 @@ import {
     TestRunTemp,
     Club,
     Notification,
+    Marshal,
 } from "../../types/models";
 import { LoadingState } from "../../types/loadingState";
 import { AddEvent } from "./actions";
@@ -13,6 +14,7 @@ import { AddEvent } from "./actions";
 export interface EventState {
     readonly events: LoadingState<readonly Event[]>;
     readonly entrants: LoadingState<readonly Entrant[], number>;
+    readonly marshals: LoadingState<readonly Marshal[], number>;
     readonly testRuns: readonly (TestRun & {
         readonly state: TestRunUploadState;
         readonly eventId: number;
@@ -27,6 +29,9 @@ export const GET_CLUBS = "GET_CLUBS";
 export const ADD_CLUB = "ADD_CLUB";
 export const GET_ENTRANTS = "GET_ENTRANTS";
 export const ADD_ENTRANT = "ADD_ENTRANT";
+export const ADD_MARSHAL = "ADD_MARSHAL";
+export const DELETE_MARSHAL = "DELETE_MARSHAL";
+export const GET_MARSHALS = "GET_MARSHALS";
 export const SET_PAID = "SET_PAID";
 export const DELETE_ENTRANT = "DELETE_ENTRANT";
 export const GET_EVENTS = "GET_EVENTS";
@@ -62,14 +67,29 @@ interface AddEntrant {
     readonly payload: Entrant;
 }
 
+interface DeleteEntrant {
+    readonly type: typeof DELETE_ENTRANT;
+    readonly payload: { readonly entrantId: number };
+}
+
 interface SetPaid {
     readonly type: typeof SET_PAID;
     readonly payload: { readonly entrantId: number; readonly isPaid: boolean };
 }
 
-interface DeleteEntrant {
-    readonly type: typeof DELETE_ENTRANT;
-    readonly payload: { readonly entrantId: number };
+interface GetMarshals {
+    readonly type: typeof GET_MARSHALS;
+    readonly payload: LoadingState<readonly Marshal[], number>;
+}
+
+interface AddMarshal {
+    readonly type: typeof ADD_MARSHAL;
+    readonly payload: Marshal;
+}
+
+interface DeleteMarshal {
+    readonly type: typeof DELETE_MARSHAL;
+    readonly payload: { readonly marshalId: number };
 }
 
 interface GetEvents {
@@ -130,4 +150,7 @@ export type EventActionTypes =
     | AddTestRun
     | UpdateTestRunState
     | GetNotifications
-    | AddNotification;
+    | AddNotification
+    | GetMarshals
+    | AddMarshal
+    | DeleteMarshal;

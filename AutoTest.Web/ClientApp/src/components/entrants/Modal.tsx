@@ -7,13 +7,14 @@ import { EditingEntrant } from "../../types/models";
 import { OnChange } from "../../types/inputs";
 import {
     selectClassOptions,
+    selectClubOptions,
+    selectLicenseTypeOptions,
     selectMakeModelOptions,
 } from "../../store/event/selectors";
 import { MsaMembership, EmergencyContact, Vehicle } from "src/types/shared";
 import EmergencyContactEditor from "../shared/EmergencyContactEditor";
 import VehicleEditor from "../shared/VehicleEditor";
 import DropdownInput from "../shared/DropdownInput";
-import { startsWithIgnoreCase } from "../../lib/string";
 import MsaMembershipEditor from "../shared/MsaMembershipEditor";
 import { addPreventDefault } from "../../lib/form";
 
@@ -21,9 +22,7 @@ interface Props {
     readonly entrant: EditingEntrant;
     readonly save: () => void;
     readonly cancel: () => void;
-    readonly setField: (
-        k: Partial<Omit<EditingEntrant, "driverNumber">>
-    ) => void;
+    readonly setField: (k: Partial<EditingEntrant>) => void;
     readonly fillFromProfile: () => void;
 }
 
@@ -34,10 +33,10 @@ const EntrantsModal: FunctionComponent<Props> = ({
     setField,
     fillFromProfile,
 }) => {
-    const classesInUse = useSelector(selectClassOptions).filter(
-        (c) => startsWithIgnoreCase(c, entrant.class) && c !== entrant.class
-    );
+    const classesInUse = useSelector(selectClassOptions);
     const makeAndModels = useSelector(selectMakeModelOptions);
+    const licenseTypes = useSelector(selectLicenseTypeOptions);
+    const clubOptions = useSelector(selectClubOptions);
 
     const formSave = addPreventDefault(save);
 
@@ -78,11 +77,12 @@ const EntrantsModal: FunctionComponent<Props> = ({
                         <Field kind="group">
                             <Control fullwidth={true}>
                                 <Label>Club</Label>
-                                <Input
+                                <DropdownInput
                                     required
                                     value={entrant.club}
-                                    onChange={(e: OnChange): void =>
-                                        setField({ club: e.target.value })
+                                    options={clubOptions}
+                                    setValue={(e): void =>
+                                        setField({ club: e })
                                     }
                                 />
                             </Control>
@@ -104,6 +104,7 @@ const EntrantsModal: FunctionComponent<Props> = ({
                             </Control>
                         </Field>
                         <MsaMembershipEditor
+                            licenseTypes={licenseTypes}
                             membership={entrant.msaMembership}
                             setField={(e: MsaMembership): void =>
                                 setField({

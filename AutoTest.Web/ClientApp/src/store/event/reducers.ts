@@ -16,6 +16,9 @@ import {
     GET_NOTIFICATIONS,
     ADD_NOTIFICATION,
     CLEAR_CACHE,
+    GET_MARSHALS,
+    ADD_MARSHAL,
+    DELETE_MARSHAL,
 } from "./types";
 import { Entrant, TestRun, TestRunUploadState } from "../../types/models";
 import { ifLoaded, LoadingState } from "../../types/loadingState";
@@ -23,6 +26,7 @@ import { neverReached } from "../../types/shared";
 
 const initialState: EventState = {
     entrants: { tag: "Idle" },
+    marshals: { tag: "Idle" },
     testRuns: [],
     testRunsFromServer: { tag: "Idle" },
     events: { tag: "Idle" },
@@ -63,6 +67,7 @@ export const eventReducer = (
             return {
                 ...state,
                 entrants: { tag: "Idle" },
+                marshals: { tag: "Idle" },
                 testRunsFromServer: { tag: "Idle" },
                 events: { tag: "Idle" },
                 clubs: { tag: "Idle" },
@@ -116,6 +121,33 @@ export const eventReducer = (
                     v.filter(
                         ({ entrantId }) =>
                             entrantId !== action.payload.entrantId
+                    )
+                ),
+            };
+        case GET_MARSHALS:
+            return {
+                ...state,
+                marshals: action.payload,
+            };
+        case ADD_MARSHAL:
+            return {
+                ...state,
+                marshals: ifLoaded(state.marshals, (c) =>
+                    c
+                        .filter(
+                            ({ marshalId }) =>
+                                marshalId !== action.payload.marshalId
+                        )
+                        .concat(action.payload)
+                ),
+            };
+        case DELETE_MARSHAL:
+            return {
+                ...state,
+                marshals: ifLoaded(state.marshals, (v) =>
+                    v.filter(
+                        ({ marshalId }) =>
+                            marshalId !== action.payload.marshalId
                     )
                 ),
             };

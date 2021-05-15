@@ -5,7 +5,8 @@ import { Loader } from "react-bulma-components";
 const ifSome = <T, TT>(
     arr: LoadingState<readonly T[], TT>,
     getKey: (t: T) => string | number,
-    IfIs: FunctionalComponent<T>
+    IfIs: FunctionalComponent<T>,
+    filter: (t: T) => boolean = (_: T) => true
 ) => {
     switch (arr.tag) {
         case "Loaded": {
@@ -13,7 +14,7 @@ const ifSome = <T, TT>(
                 // bad idea maybe, maybe inject in a keyMap function
                 return (
                     <Fragment>
-                        {arr.value.map((a) => (
+                        {arr.value.filter(filter).map((a) => (
                             <IfIs key={getKey(a)} {...a} />
                         ))}
                     </Fragment>

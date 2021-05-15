@@ -43,6 +43,7 @@ const ProfileComp: FunctionComponent<Props> = ({ save, profile, setField }) => {
                 />
             </Field>
             <MsaMembershipEditor
+                licenseTypes={[]}
                 membership={profile.msaMembership}
                 setField={(e: MsaMembership): void =>
                     setField({

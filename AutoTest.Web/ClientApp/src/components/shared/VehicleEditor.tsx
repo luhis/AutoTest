@@ -6,7 +6,6 @@ import { Vehicle } from "../../types/shared";
 import { OnChange } from "../../types/inputs";
 import { MakeAndModel } from "src/types/models";
 import DropdownInput from "./DropdownInput";
-import { startsWithIgnoreCase } from "../../lib/string";
 
 interface Props {
     readonly vehicle: Vehicle;
@@ -19,17 +18,10 @@ const VehicleEditor: FunctionComponent<Props> = ({
     makeAndModels,
     setField,
 }) => {
-    const makes = makeAndModels
-        .map(({ make }) => make)
-        .filter(
-            (c) => startsWithIgnoreCase(c, vehicle.make) && c !== vehicle.make
-        );
+    const makes = makeAndModels.map(({ make }) => make);
     const models = makeAndModels
         .filter(({ make }) => make === vehicle.make)
-        .map(({ model }) => model)
-        .filter(
-            (c) => startsWithIgnoreCase(c, vehicle.model) && c !== vehicle.model
-        );
+        .map((a) => a.model);
     return (
         <Fragment>
             <Field kind="group">

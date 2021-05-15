@@ -8,6 +8,23 @@ export const selectRequiresSync = (a: AppState) =>
         .length;
 
 export const selectEntrants = (a: AppState) => a.event.entrants;
+export const selectMarshals = (a: AppState) => a.event.marshals;
+
+export const selectLicenseTypeOptions = (state: AppState): readonly string[] =>
+    mapOrDefault(
+        selectEntrants(state),
+        (a) =>
+            distinct(
+                a.map((entrant) => entrant.msaMembership.msaLicenseType).sort()
+            ),
+        []
+    );
+export const selectClubOptions = (state: AppState): readonly string[] =>
+    mapOrDefault(
+        selectEntrants(state),
+        (a) => distinct(a.map((entrant) => entrant.club).sort()),
+        []
+    );
 
 export const selectClassOptions = (state: AppState): readonly string[] =>
     mapOrDefault(

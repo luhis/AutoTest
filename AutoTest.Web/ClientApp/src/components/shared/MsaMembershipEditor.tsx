@@ -4,19 +4,36 @@ const { Input, Field, Label, Control } = Form;
 
 import { MsaMembership } from "src/types/shared";
 import { OnChange } from "../../types/inputs";
+import DropdownInput from "./DropdownInput";
 
 interface Props {
     readonly membership: MsaMembership;
+    readonly licenseTypes: readonly string[];
     readonly setField: (k: MsaMembership) => void;
 }
 
 const MsaMembershipEditor: FunctionComponent<Props> = ({
     membership,
+    licenseTypes,
     setField,
 }) => {
     return (
         <Fragment>
             <Field kind="group">
+                <Control fullwidth={true}>
+                    <Label>MSA License Type</Label>
+                    <DropdownInput
+                        required
+                        value={membership.msaLicenseType}
+                        options={licenseTypes}
+                        setValue={(e): void =>
+                            setField({
+                                ...membership,
+                                msaLicenseType: e,
+                            })
+                        }
+                    />
+                </Control>
                 <Control fullwidth={true}>
                     <Label>MSA License</Label>
                     <Input
@@ -28,19 +45,6 @@ const MsaMembershipEditor: FunctionComponent<Props> = ({
                             setField({
                                 ...membership,
                                 msaLicense: Number.parseInt(e.target.value),
-                            })
-                        }
-                    />
-                </Control>
-                <Control fullwidth={true}>
-                    <Label>MSA License Type</Label>
-                    <Input
-                        required
-                        value={membership.msaLicenseType}
-                        onChange={(e: OnChange): void =>
-                            setField({
-                                ...membership,
-                                msaLicenseType: e.target.value,
                             })
                         }
                     />

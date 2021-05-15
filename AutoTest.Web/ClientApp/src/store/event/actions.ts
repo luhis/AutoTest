@@ -17,6 +17,9 @@ import {
     GET_NOTIFICATIONS,
     ADD_NOTIFICATION,
     CLEAR_CACHE,
+    ADD_MARSHAL,
+    DELETE_MARSHAL,
+    GET_MARSHALS,
 } from "./types";
 import {
     TestRunUploadState,
@@ -25,6 +28,7 @@ import {
     EditingClub,
     Event,
     Notification,
+    Marshal,
 } from "../../types/models";
 import {
     addEntrant,
@@ -32,6 +36,7 @@ import {
     getEntrants,
     markPaid,
 } from "../../api/entrants";
+import { addMarshal, deleteMarshal, getMarshals } from "../../api/marshals";
 import { AppState } from "..";
 import { addTestRun, getTestRuns } from "../../api/testRuns";
 import {
@@ -48,6 +53,7 @@ import {
     selectClubs,
     selectEntrants,
     selectEvents,
+    selectMarshals,
     selectTestRuns,
     selectTestRunsFromServer,
 } from "./selectors";
@@ -67,6 +73,27 @@ export const GetClubsIfRequired =
             if (canUpdate(clubs, res)) {
                 dispatch({
                     type: GET_CLUBS,
+                    payload: res,
+                });
+            }
+        }
+    };
+
+export const GetMarshalsIfRequired =
+    (eventId: number, token: string | undefined) =>
+    async (dispatch: Dispatch<EventActionTypes>, getState: () => AppState) => {
+        const clubs = selectMarshals(getState());
+        if (requiresLoading(clubs.tag) || isStale(clubs)) {
+            if (clubs.tag === "Idle") {
+                dispatch({
+                    type: GET_MARSHALS,
+                    payload: { tag: "Loading", id: eventId },
+                });
+            }
+            const res = await getMarshals(eventId, token);
+            if (canUpdate(clubs, res)) {
+                dispatch({
+                    type: GET_MARSHALS,
                     payload: res,
                 });
             }
@@ -131,6 +158,17 @@ export const AddEntrant =
         const newEntrant = await addEntrant(entrant, token);
         dispatch({
             type: ADD_ENTRANT,
+            payload: newEntrant,
+        });
+        onSuccess();
+    };
+
+export const AddMarshal =
+    (marshal: Marshal, token: string | undefined, onSuccess: () => void) =>
+    async (dispatch: Dispatch<EventActionTypes>) => {
+        const newEntrant = await addMarshal(marshal, token);
+        dispatch({
+            type: ADD_MARSHAL,
             payload: newEntrant,
         });
         onSuccess();
@@ -275,6 +313,16 @@ export const DeleteEntrant =
         dispatch({
             type: DELETE_ENTRANT,
             payload: { entrantId },
+        });
+    };
+
+export const DeleteMarshal =
+    ({ eventId, marshalId }: Marshal, token: string | undefined) =>
+    async (dispatch: Dispatch<EventActionTypes>) => {
+        await deleteMarshal(eventId, marshalId, token);
+        dispatch({
+            type: DELETE_MARSHAL,
+            payload: { marshalId },
         });
     };
 

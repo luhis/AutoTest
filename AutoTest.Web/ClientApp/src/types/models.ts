@@ -108,6 +108,22 @@ export type EditingEntrant = Override<
     }
 >;
 
+export interface Marshal {
+    readonly marshalId: number;
+    readonly eventId: number;
+    readonly givenName: string;
+    readonly familyName: string;
+    readonly emergencyContact: EmergencyContact;
+    readonly role: string;
+}
+
+export type EditingMarshal = Override<
+    Marshal,
+    {
+        readonly isNew: boolean;
+    }
+>;
+
 export interface Result {
     readonly class: string;
     readonly entrantTimes: readonly EntrantTime[];

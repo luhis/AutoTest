@@ -1,6 +1,6 @@
 import { FunctionalComponent, h } from "preact";
 import { Columns, Button, Form } from "react-bulma-components";
-import { FaCar, FaMoneyBill } from "react-icons/fa";
+import { FaMoneyBill } from "react-icons/fa";
 const { Field } = Form;
 
 import ifSome from "../shared/ifSome";
@@ -8,6 +8,7 @@ import { Entrant } from "../../types/models";
 import { LoadingState } from "../../types/loadingState";
 import NumberPlate from "../shared/NumberPlate";
 import DeleteButton from "../shared/DeleteButton";
+import DriverNumber from "../shared/DriverNumber";
 
 interface Props {
     readonly entrants: LoadingState<readonly Entrant[], number>;
@@ -28,11 +29,7 @@ const List: FunctionalComponent<Props> = ({
         (entrant) => (
             <Columns>
                 <Columns.Column>
-                    <p class="number">
-                        <FaCar />
-                        &nbsp;
-                        {entrant.driverNumber}
-                    </p>
+                    <DriverNumber driverNumber={entrant.driverNumber} />
                 </Columns.Column>
                 <Columns.Column>
                     <NumberPlate registration={entrant.vehicle.registration} />

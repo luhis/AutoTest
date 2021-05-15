@@ -1,14 +1,19 @@
 import { FunctionalComponent, h, Fragment } from "preact";
 import { useEffect, useState } from "preact/hooks";
-import { Heading, Table, Button } from "react-bulma-components";
+import { Heading, Table, Button, Form } from "react-bulma-components";
 import { useDispatch, useSelector } from "react-redux";
 import { HubConnectionBuilder, LogLevel } from "@microsoft/signalr";
 import { range } from "@s-libs/micro-dash";
 import { newValidDate } from "ts-date";
 import { FaBell } from "react-icons/fa";
+const { Select } = Form;
 
 import { Notification, Override, Result } from "../../types/models";
-import { LoadingState, findIfLoaded } from "../../types/loadingState";
+import {
+    LoadingState,
+    findIfLoaded,
+    mapOrDefault,
+} from "../../types/loadingState";
 import { getResults } from "../../api/results";
 import ifSome from "../../components/shared/ifSome";
 import { useGoogleAuth } from "../../components/app";
@@ -28,6 +33,8 @@ import {
 import NotificationsModal from "../../components/events/NotificationsModal";
 import RouteParamsParser from "../../components/shared/RouteParamsParser";
 import Breadcrumbs from "../../components/shared/Breadcrumbs";
+import { OnMultiSelectChange } from "src/types/inputs";
+import DriverNumber from "../../components/shared/DriverNumber";
 
 interface Props {
     readonly eventId: number;
@@ -107,6 +114,8 @@ const Results: FunctionalComponent<Props> = ({ eventId }) => {
         }
     }, [dispatch, eventId]);
     const [showModal, setShowModal] = useState(false);
+    const [classFilter, setClassFilter] = useState<readonly string[]>([]);
+    const allClasses = mapOrDefault(results, (a) => a.map((b) => b.class), []);
 
     return (
         <div>
@@ -122,6 +131,20 @@ const Results: FunctionalComponent<Props> = ({ eventId }) => {
                     ? notifications.value.length
                     : ""}
             </Button>
+            <Select
+                multiple
+                value={classFilter}
+                onChange={(evt: OnMultiSelectChange) =>
+                    setClassFilter(evt.target.value)
+                }
+            >
+                <option value={[]}>All</option>
+                {allClasses.map((c) => (
+                    <option key={c} value={c}>
+                        {c}
+                    </option>
+                ))}
+            </Select>
             <Table>
                 <thead>
                     <tr>
@@ -152,7 +175,13 @@ const Results: FunctionalComponent<Props> = ({ eventId }) => {
                                     <td>
                                         <p>{result.class}</p>
                                     </td>
-                                    <td>{a.entrant.driverNumber}</td>
+                                    <td>
+                                        <DriverNumber
+                                            driverNumber={
+                                                a.entrant.driverNumber
+                                            }
+                                        />
+                                    </td>
                                     <td>{`${a.entrant.givenName} ${a.entrant.familyName}`}</td>
                                     <td>{(a.totalTime / 1000).toFixed(2)}</td>
                                     {currentEvent
@@ -175,7 +204,10 @@ const Results: FunctionalComponent<Props> = ({ eventId }) => {
                                 </tr>
                             ))}
                         </Fragment>
-                    )
+                    ),
+                    (r: Result) =>
+                        classFilter.length === 0 ||
+                        classFilter.includes(r.class)
                 )}
             </Table>
             {showModal && notifications.tag === "Loaded" ? (
