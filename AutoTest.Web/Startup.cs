@@ -87,6 +87,12 @@ namespace AutoTest.Web
                     p.RequireAuthenticatedUser();
                     p.AddRequirements(new ClubAdminRequirement());
                 });
+                o.AddPolicy(Policies.ClubAdminOrSelf, p =>
+                {
+                    p.RequireAuthenticatedUser();
+                    p.AddRequirements(new ClubAdminRequirement(), 
+                        new SelfRequirement());
+                });
                 o.AddPolicy(Policies.Marshal, p =>
                 {
                     p.RequireAuthenticatedUser();

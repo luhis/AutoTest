@@ -1,7 +1,7 @@
 import { h, FunctionComponent } from "preact";
 import { Modal, Button, Form } from "react-bulma-components";
 import { useSelector } from "react-redux";
-const { Control, Field, Label, Input } = Form;
+const { Control, Field, Label, Input, Help, Checkbox } = Form;
 
 import { EditingEntrant } from "../../types/models";
 import { OnChange } from "../../types/inputs";
@@ -74,6 +74,23 @@ const EntrantsModal: FunctionComponent<Props> = ({
                                 />
                             </Control>
                         </Field>
+                        <Field>
+                            <Label>Email</Label>
+                            <Input
+                                required
+                                value={entrant.email}
+                                type="email"
+                                onChange={(e: OnChange) => {
+                                    setField({
+                                        email: e.target.value,
+                                    });
+                                }}
+                            />
+                            <Help>
+                                This address is used to manage access to the
+                                system, be careful!
+                            </Help>
+                        </Field>
                         <Field kind="group">
                             <Control fullwidth={true}>
                                 <Label>Club</Label>
@@ -92,12 +109,11 @@ const EntrantsModal: FunctionComponent<Props> = ({
                                     required
                                     type="number"
                                     min={0}
+                                    step={1}
                                     value={entrant.clubNumber}
                                     onChange={(e: OnChange): void =>
                                         setField({
-                                            clubNumber: Number.parseInt(
-                                                e.target.value
-                                            ),
+                                            clubNumber: e.target.valueAsNumber,
                                         })
                                     }
                                 />
@@ -142,6 +158,14 @@ const EntrantsModal: FunctionComponent<Props> = ({
                                 })
                             }
                         />
+                        <Field>
+                            <Control>
+                                <Checkbox>
+                                    {"  "}I agree to the{" "}
+                                    <a href="#">terms and conditions</a>
+                                </Checkbox>
+                            </Control>
+                        </Field>
                     </Modal.Card.Body>
                     <Modal.Card.Footer>
                         <Button type="submit" color="primary">

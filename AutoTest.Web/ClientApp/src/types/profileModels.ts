@@ -19,4 +19,6 @@ export interface Access {
     readonly isLoggedIn: boolean;
     readonly canViewClubs: boolean;
     readonly canViewProfile: boolean;
+    readonly adminClubs: readonly number[];
+    readonly marshalEvents: readonly number[];
 }

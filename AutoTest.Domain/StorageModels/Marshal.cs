@@ -2,11 +2,12 @@
 {
     public class Marshal
     {
-        public Marshal(ulong marshalId, string givenName, string familyName, ulong eventId, uint registrationNumber, string role)
+        public Marshal(ulong marshalId, string givenName, string familyName, string email, ulong eventId, uint registrationNumber, string role)
         {
             MarshalId = marshalId;
             GivenName = givenName;
             FamilyName = familyName;
+            Email = email;
             EventId = eventId;
             RegistrationNumber = registrationNumber;
             Role = role;
@@ -23,6 +24,8 @@
 
         public uint RegistrationNumber { get; }
         public string Role { get; }
+
+        public string Email { get; }
         //public AcceptDeclaration AcceptDeclaration { get; private set; } = new AcceptDeclaration();
 
         public EmergencyContact EmergencyContact { get; private set; } = new EmergencyContact();

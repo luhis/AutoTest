@@ -102,5 +102,7 @@ const statesAllowingErrorResult = ["Idle", "Error", "Loading"];
 
 export const canUpdate = <T, TT>(
     oldState: LoadingState<T, TT>,
-    _: LoadingState<T, TT>
-) => statesAllowingErrorResult.includes(oldState.tag);
+    newState: LoadingState<T, TT>
+) =>
+    statesAllowingErrorResult.includes(oldState.tag) ||
+    newState.tag === "Loaded";

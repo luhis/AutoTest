@@ -27,7 +27,7 @@ namespace AutoTest.Web.Controllers
         [HttpGet("{eventId}")]
         public Task<IEnumerable<Entrant>> GetEntrants(ulong eventId, CancellationToken cancellationToken) => this.mediator.Send(new GetEntrants(eventId), cancellationToken);
 
-        [Authorize(policy: Policies.ClubAdmin)]
+        [Authorize(policy: Policies.ClubAdminOrSelf)]
         [HttpPut("{eventId}/{entrantId}")]
         public Task<Entrant> PutEntrant(ulong eventId, ulong entrantId, EntrantSaveModel entrantSaveModel, CancellationToken cancellationToken) => this.mediator.Send(new SaveEntrant(MapClub.Map(entrantId, eventId, entrantSaveModel)), cancellationToken);
 
@@ -35,7 +35,7 @@ namespace AutoTest.Web.Controllers
         [HttpPut("{eventId}/{entrantId}/markPaid")]
         public Task MarkPaid(ulong entrantId, bool isPaid) => this.mediator.Send(new MarkPaid(entrantId, isPaid));
 
-        [Authorize(policy: Policies.ClubAdmin)]
+        [Authorize(policy: Policies.ClubAdminOrSelf)]
         [HttpDelete("{eventId}/{entrantId}")]
         public Task Delete(ulong entrantId) => this.mediator.Send(new DeleteEntrant(entrantId));
     }

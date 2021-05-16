@@ -13,6 +13,7 @@
             entity.Property(e => e.Class).IsRequired();
             entity.Property(e => e.GivenName).IsRequired();
             entity.Property(e => e.FamilyName).IsRequired();
+            entity.Property(e => e.Email).IsRequired();
             entity.Property(e => e.IsPaid).IsRequired();
             entity.Property(e => e.Club).IsRequired();
             entity.Property(e => e.ClubNumber).IsRequired();

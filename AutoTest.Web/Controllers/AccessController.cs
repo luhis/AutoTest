@@ -1,5 +1,9 @@
 ﻿namespace AutoTest.Web.Controllers
 {
+    using System.Linq;
+    using System.Threading.Tasks;
+    using AutoTest.Service.Messages;
+    using AutoTest.Web.Authorization.Tooling;
     using AutoTest.Web.Models;
     using MediatR;
     using Microsoft.AspNetCore.Authorization;
@@ -19,9 +23,14 @@
         }
 
         [HttpGet]
-        public AccessModel GetAccess()
+        public async Task<AccessModel> GetAccessAsync()
         {
-            return new AccessModel(true, true, true);
+            var identity = this.User.Identity;
+            var isAuthenticated = identity != null && identity.IsAuthenticated;
+            var email = User.GetEmailAddress();
+            var adminClubs = await this.mediator.Send(new GetAdminClubs(email));
+            var marshalEvents = await this.mediator.Send(new GetMarshalEvents(email));
+            return new AccessModel(isAuthenticated, isAuthenticated, isAuthenticated, adminClubs, marshalEvents);
         }
     }
 }

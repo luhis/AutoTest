@@ -75,11 +75,12 @@ const VehicleEditor: FunctionComponent<Props> = ({
                     <Input
                         required
                         type="number"
+                        step={1}
                         value={vehicle.displacement}
                         onChange={(e: OnChange): void =>
                             setField({
                                 ...vehicle,
-                                displacement: Number.parseInt(e.target.value),
+                                displacement: e.target.valueAsNumber,
                             })
                         }
                         min={0}

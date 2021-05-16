@@ -47,22 +47,34 @@ const Entrants: FunctionalComponent<Readonly<Props>> = ({ eventId }) => {
         useState<EditingEntrant | undefined>(undefined);
     const auth = useGoogleAuth();
     const dispatch = useDispatch();
+
+    const getDriverNumber = (entrant: EditingEntrant) => {
+        return mapOrDefault(
+            entrants,
+            (x) => {
+                const found = x.find(
+                    ({ entrantId }) => entrantId === entrant.entrantId
+                );
+                if (found) {
+                    return found.driverNumber;
+                }
+                return (
+                    Math.max(
+                        ...x.map(({ driverNumber }) => driverNumber).concat(0)
+                    ) + 1
+                );
+            },
+            -1
+        );
+    };
+
     const save = useCallback(() => {
         if (editingEntrant) {
             dispatch(
                 AddEntrant(
                     {
                         ...editingEntrant,
-                        driverNumber: mapOrDefault(
-                            entrants,
-                            (x) =>
-                                Math.max(
-                                    ...x
-                                        .map((entrant) => entrant.driverNumber)
-                                        .concat(0)
-                                ) + 1,
-                            -1
-                        ),
+                        driverNumber: getDriverNumber(editingEntrant),
                     },
                     getAccessToken(auth),
                     () => setEditingEntrant(undefined)
@@ -126,12 +138,13 @@ const Entrants: FunctionalComponent<Readonly<Props>> = ({ eventId }) => {
                 class: "",
                 givenName: "",
                 familyName: "",
+                email: "",
                 msaMembership: { msaLicense: Number.NaN, msaLicenseType: "" },
                 vehicle: {
                     make: "",
                     model: "",
                     year: 0,
-                    displacement: 0,
+                    displacement: Number.NaN,
                     registration: "",
                 },
                 isNew: true,

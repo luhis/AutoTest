@@ -95,6 +95,7 @@ const Marshals: FunctionalComponent<Readonly<Props>> = ({ eventId }) => {
                 eventId: eventId,
                 givenName: "",
                 familyName: "",
+                email: "",
                 isNew: true,
                 emergencyContact: {
                     name: "",

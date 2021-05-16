@@ -4,14 +4,8 @@ import { newValidDateOrThrow } from "ts-date";
 import PromiseFileReader from "promise-file-reader";
 const { Label, Input, Field, Select } = Form;
 
-import {
-    EditingEvent,
-    Club,
-    EventType,
-    AuthorisationEmail,
-} from "../../types/models";
+import { EditingEvent, Club, EventType } from "../../types/models";
 import { OnChange, OnSelectChange } from "../../types/inputs";
-import EmailList from "../shared/EmailList";
 import { LoadingState } from "../../types/loadingState";
 import ifSome from "../shared/ifSome";
 import { getDateTimeString } from "../../lib/date";
@@ -36,16 +30,7 @@ const ModalX: FunctionComponent<Props> = ({
     const eventTypes = Object.keys(EventType)
         .map((a) => Number.parseInt(a))
         .filter((key) => !isNaN(key));
-    const addEmail = (s: AuthorisationEmail) =>
-        setField({
-            marshalEmails: event.marshalEmails.concat(s),
-        });
-    const removeEmail = (removeIndex: number) =>
-        setField({
-            marshalEmails: event.marshalEmails.filter(
-                (_, i) => i !== removeIndex
-            ),
-        });
+
     const formSave = addPreventDefault(save);
     return (
         <Modal show={true} showClose={false}>
@@ -125,12 +110,11 @@ const ModalX: FunctionComponent<Props> = ({
                                 required
                                 type="number"
                                 min="1"
+                                step={1}
                                 value={event.testCount}
                                 onChange={(e: OnChange): void =>
                                     setField({
-                                        testCount: Number.parseInt(
-                                            e.target.value
-                                        ),
+                                        testCount: e.target.valueAsNumber,
                                     })
                                 }
                             />
@@ -144,9 +128,8 @@ const ModalX: FunctionComponent<Props> = ({
                                 value={event.maxAttemptsPerTest}
                                 onChange={(e: OnChange): void =>
                                     setField({
-                                        maxAttemptsPerTest: Number.parseInt(
-                                            e.target.value
-                                        ),
+                                        maxAttemptsPerTest:
+                                            e.target.valueAsNumber,
                                     })
                                 }
                             />
@@ -183,14 +166,6 @@ const ModalX: FunctionComponent<Props> = ({
                                     });
                                 }}
                                 accept=".pdf"
-                            />
-                        </Field>
-                        <Field>
-                            <Label>Marshal Emails</Label>
-                            <EmailList
-                                emails={event.marshalEmails}
-                                addNew={addEmail}
-                                remove={removeEmail}
                             />
                         </Field>
                     </Modal.Card.Body>

@@ -212,7 +212,7 @@ const Marshal: FunctionalComponent<Readonly<Props>> = ({
                             ...a,
                             timeInMS:
                                 Number.parseFloat(
-                                    Number.parseFloat(e.target.value).toFixed(2)
+                                    e.target.valueAsNumber.toFixed(2)
                                 ) * 1000,
                         }))
                     }

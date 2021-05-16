@@ -13,6 +13,7 @@
             entity.Property(e => e.Role).IsRequired();
             entity.Property(e => e.GivenName).IsRequired();
             entity.Property(e => e.FamilyName).IsRequired();
+            entity.Property(e => e.Email).IsRequired();
             entity.HasOne<Event>().WithMany().HasForeignKey(p => p.EventId);
             entity.OwnsOne(a => a.EmergencyContact, SetupEmergencyContact.Setup);
         }

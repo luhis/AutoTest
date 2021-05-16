@@ -66,11 +66,12 @@ const MembershipList: FunctionComponent<Props> = ({
                     <Label>Membership Number</Label>
                     <Input
                         type="number"
+                        step={1}
                         value={newMembership.membershipNumber}
                         onChange={({ target }: OnChange): void =>
                             setNewEmail((e) => ({
                                 ...e,
-                                membershipNumber: Number.parseInt(target.value),
+                                membershipNumber: target.valueAsNumber,
                             }))
                         }
                     />

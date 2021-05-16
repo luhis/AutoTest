@@ -16,6 +16,8 @@
 
         public bool IsPaid { get; set; }
 
+        public string Email { get; set; } = string.Empty;
+
         public VehicleSaveModel Vehicle { get; set; } = new VehicleSaveModel();
 
         public MsaMembershipSaveModel MsaMembership { get; set; } = new MsaMembershipSaveModel();

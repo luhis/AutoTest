@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoTest.Domain.Repositories;
+using AutoTest.Persistence;
 using AutoTest.Web.Authorization.Tooling;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -14,11 +15,13 @@ namespace AutoTest.Web.Authorization
     {
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IEventsRepository _eventsRepository;
+        private readonly AutoTestContext _autoTestContext;
 
-        public MarshalRequirementHandler(IHttpContextAccessor httpContextAccessor, IEventsRepository eventsRepository)
+        public MarshalRequirementHandler(IHttpContextAccessor httpContextAccessor, IEventsRepository eventsRepository, AutoTestContext autoTestContext)
         {
             _httpContextAccessor = httpContextAccessor;
             _eventsRepository = eventsRepository;
+            _autoTestContext = autoTestContext;
         }
 
         protected override async Task HandleRequirementAsync(AuthorizationHandlerContext context, MarshalRequirement requirement)
@@ -32,7 +35,7 @@ namespace AutoTest.Web.Authorization
                 {
                     throw new Exception("Cannot find event");
                 }
-                var emails = @event.MarshalEmails.Select(a => a.Email);
+                var emails = _autoTestContext.Marshals!.Where(a => a.EventId == eventId).Select(a => a.Email);
                 var email = context.User.GetEmailAddress();
                 if (emails.Contains(email))
                 {

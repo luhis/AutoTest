@@ -40,11 +40,12 @@ const MsaMembershipEditor: FunctionComponent<Props> = ({
                         required
                         type="number"
                         min={0}
+                        step={1}
                         value={membership.msaLicense}
                         onChange={(e: OnChange): void =>
                             setField({
                                 ...membership,
-                                msaLicense: Number.parseInt(e.target.value),
+                                msaLicense: e.target.valueAsNumber,
                             })
                         }
                     />

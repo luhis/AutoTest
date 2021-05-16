@@ -20,6 +20,7 @@ namespace AutoTest.Web
             System.Diagnostics.Trace.TraceInformation($"Cosmos config, endpoint: {endpoint} key: {key}");
             collection.AddScoped<IAuthorizationHandler, MarshalRequirementHandler>();
             collection.AddScoped<IAuthorizationHandler, ClubAdminRequirementHandler>();
+            collection.AddScoped<IAuthorizationHandler, SelfRequirementHandler>();
             collection.AddScoped<ISignalRNotifier, SignalRNotifier>();
             collection.AddDbContext<AutoTestContext>(o => o.UseCosmos(
                 endpoint,

@@ -63,7 +63,6 @@ const Events: FunctionalComponent<Props> = ({ clubId }) => {
                 startTime: newValidDate(),
                 testCount: 12,
                 maxAttemptsPerTest: 2,
-                marshalEmails: [],
                 isNew: true,
                 isClubEditable: clubId === undefined,
                 tests: [],

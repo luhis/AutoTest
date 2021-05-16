@@ -17,7 +17,6 @@ namespace AutoTest.Web.Mapping
         {
             var e = new Event(eventId, @event.ClubId, @event.Location, @event.StartTime, @event.TestCount,
                 @event.MaxAttemptsPerTest, @event.Regulations, @event.EventType);
-            e.SetMarshalEmails(@event.MarshalEmails.Select(a => new AuthorisationEmail(a.Email)).ToArray());
             return e;
         }
 
@@ -51,7 +50,7 @@ namespace AutoTest.Web.Mapping
 
         public static Entrant Map(ulong entrantId, ulong eventId, EntrantSaveModel entrant)
         {
-            var e = new Entrant(entrantId, entrant.DriverNumber, entrant.GivenName, entrant.FamilyName, entrant.Class, eventId,
+            var e = new Entrant(entrantId, entrant.DriverNumber, entrant.GivenName, entrant.FamilyName, entrant.Email, entrant.Class, eventId,
                 entrant.IsPaid, entrant.Club, entrant.ClubNumber);
             e.SetVehicle(Map(entrant.Vehicle));
             e.SetEmergencyContact(Map(entrant.EmergencyContact));
@@ -61,7 +60,7 @@ namespace AutoTest.Web.Mapping
 
         public static Marshal Map(ulong marshalId, ulong eventId, MarshalSaveModel entrant)
         {
-            var e = new Marshal(marshalId, entrant.GivenName, entrant.FamilyName, eventId,
+            var e = new Marshal(marshalId, entrant.GivenName, entrant.FamilyName, entrant.Email, eventId,
                 entrant.RegistrationNumber, entrant.Role);
             e.SetEmergencyContact(Map(entrant.EmergencyContact));
             return e;

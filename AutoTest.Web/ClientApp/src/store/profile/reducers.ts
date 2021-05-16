@@ -1,3 +1,4 @@
+import { Access } from "src/types/profileModels";
 import { neverReached } from "../../types/shared";
 import {
     ProfileState,
@@ -7,10 +8,12 @@ import {
     RESET_ACCESS,
 } from "./types";
 
-const defaultAccess = {
+const defaultAccess: Access = {
     isLoggedIn: false,
     canViewClubs: false,
     canViewProfile: false,
+    adminClubs: [],
+    marshalEvents: [],
 };
 
 const initialProfileState: ProfileState = {

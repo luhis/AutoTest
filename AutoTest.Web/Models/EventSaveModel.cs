@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using AutoTest.Domain.StorageModels;
 
 namespace AutoTest.Web.Models
@@ -16,8 +14,6 @@ namespace AutoTest.Web.Models
         public int TestCount { get; set; }
 
         public int MaxAttemptsPerTest { get; set; }
-
-        public IEnumerable<AuthorisationEmailSaveModel> MarshalEmails { get; set; } = Enumerable.Empty<AuthorisationEmailSaveModel>();
 
         public string Regulations { get; set; } = string.Empty;
 

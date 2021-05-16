@@ -72,7 +72,6 @@ export interface Event {
     readonly startTime: ValidDate;
     readonly testCount: number;
     readonly maxAttemptsPerTest: number;
-    readonly marshalEmails: readonly AuthorisationEmail[];
     readonly tests: readonly Test[];
     readonly regulations: string | null;
     readonly eventType: EventType;
@@ -99,6 +98,7 @@ export interface Entrant {
     readonly club: string;
     readonly clubNumber: number;
     readonly isPaid: boolean;
+    readonly email: string;
 }
 
 export type EditingEntrant = Override<
@@ -116,6 +116,7 @@ export interface Marshal {
     readonly emergencyContact: EmergencyContact;
     readonly role: string;
     readonly registrationNumber: number;
+    readonly email: string;
 }
 
 export type EditingMarshal = Override<
