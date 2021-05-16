@@ -41,36 +41,34 @@ const Marshals: FunctionalComponent<Readonly<Props>> = ({ eventId }) => {
         useSelector(selectClubs),
         (a) => a.clubId === currentEvent?.clubId
     );
-    const [editingEntrant, setEditingEntrant] =
+    const [editingMarshal, setEditingMarshal] =
         useState<EditingMarshal | undefined>(undefined);
     const auth = useGoogleAuth();
     const dispatch = useDispatch();
     const save = useCallback(() => {
-        if (editingEntrant) {
+        if (editingMarshal) {
             dispatch(
                 AddMarshal(
                     {
-                        ...editingEntrant,
+                        ...editingMarshal,
                     },
                     getAccessToken(auth),
-                    () => setEditingEntrant(undefined)
+                    () => setEditingMarshal(undefined)
                 )
             );
         }
-    }, [auth, dispatch, editingEntrant]);
+    }, [auth, dispatch, editingMarshal]);
     const fillFromProfile = useCallback(() => {
         dispatch(GetProfileIfRequired(getAccessToken(auth)));
         if (profile.tag === "Loaded") {
-            const { familyName, givenName, msaMembership, emergencyContact } =
-                profile.value;
+            const { familyName, givenName, emergencyContact } = profile.value;
 
-            setEditingEntrant((e) =>
+            setEditingMarshal((e): EditingMarshal | undefined =>
                 e
                     ? {
                           ...e,
                           familyName,
                           givenName,
-                          msaMembership,
                           emergencyContact,
                       }
                     : undefined
@@ -78,8 +76,8 @@ const Marshals: FunctionalComponent<Readonly<Props>> = ({ eventId }) => {
         }
     }, [auth, dispatch, profile]);
 
-    const deleteEntrant = (entrant: Marshal) => {
-        dispatch(DeleteMarshal(entrant, getAccessToken(auth)));
+    const deleteMarshal = (marshal: Marshal) => {
+        dispatch(DeleteMarshal(marshal, getAccessToken(auth)));
     };
     useEffect(() => {
         dispatch(GetEventsIfRequired());
@@ -88,11 +86,11 @@ const Marshals: FunctionalComponent<Readonly<Props>> = ({ eventId }) => {
         dispatch(GetClubsIfRequired(getAccessToken(auth)));
         dispatch(GetMarshalsIfRequired(eventId, getAccessToken(auth)));
     }, [eventId, dispatch, auth]);
-    const clearEditingEntrant = () => setEditingEntrant(undefined);
+    const clearEditingMarshal = () => setEditingMarshal(undefined);
 
-    const newEntrant = useCallback(
+    const newMarshal = useCallback(
         () =>
-            setEditingEntrant({
+            setEditingMarshal({
                 marshalId: uid.uuid(),
                 eventId: eventId,
                 givenName: "",
@@ -103,16 +101,17 @@ const Marshals: FunctionalComponent<Readonly<Props>> = ({ eventId }) => {
                     phone: "",
                 },
                 role: "",
+                registrationNumber: Number.NaN,
             }),
         [eventId]
     );
-    const setCurrentEditingEntrant = useCallback(
-        (entrant: Marshal) => setEditingEntrant({ ...entrant, isNew: false }),
+    const setCurrentEditingMarshal = useCallback(
+        (marshal: Marshal) => setEditingMarshal({ ...marshal, isNew: false }),
         []
     );
     const setField = useCallback(
         (a: Partial<EditingMarshal>) =>
-            setEditingEntrant((b) => {
+            setEditingMarshal((b) => {
                 if (b !== undefined) {
                     return { ...b, ...a };
                 } else {
@@ -121,22 +120,21 @@ const Marshals: FunctionalComponent<Readonly<Props>> = ({ eventId }) => {
             }),
         []
     );
-
     return (
         <div>
             <Breadcrumbs club={currentClub} event={currentEvent} />
             <Heading>Marshals</Heading>
             <List
                 marshals={marshals}
-                setEditingEntrant={setCurrentEditingEntrant}
-                deleteEntrant={deleteEntrant}
+                setEditingMarshal={setCurrentEditingMarshal}
+                deleteMarshal={deleteMarshal}
             />
-            <Button onClick={newEntrant}>Add Marshal</Button>
-            {editingEntrant ? (
+            <Button onClick={newMarshal}>Add Marshal</Button>
+            {editingMarshal ? (
                 <EntrantsModal
-                    entrant={editingEntrant}
+                    marshal={editingMarshal}
                     setField={setField}
-                    cancel={clearEditingEntrant}
+                    cancel={clearEditingMarshal}
                     save={save}
                     fillFromProfile={fillFromProfile}
                 />

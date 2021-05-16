@@ -9,14 +9,14 @@ import DeleteButton from "../shared/DeleteButton";
 
 interface Props {
     readonly marshals: LoadingState<readonly Marshal[], number>;
-    readonly setEditingEntrant: (entrant: Marshal) => void;
-    readonly deleteEntrant: (entrant: Marshal) => void;
+    readonly setEditingMarshal: (entrant: Marshal) => void;
+    readonly deleteMarshal: (entrant: Marshal) => void;
 }
 
 const List: FunctionalComponent<Props> = ({
     marshals,
-    setEditingEntrant,
-    deleteEntrant,
+    setEditingMarshal,
+    deleteMarshal,
 }) =>
     ifSome(
         marshals,
@@ -26,10 +26,10 @@ const List: FunctionalComponent<Props> = ({
                 <Columns.Column>{`${marshal.givenName} ${marshal.familyName}`}</Columns.Column>
                 <Columns.Column>
                     <Field kind="group">
-                        <Button onClick={() => setEditingEntrant(marshal)}>
+                        <Button onClick={() => setEditingMarshal(marshal)}>
                             Edit
                         </Button>
-                        <DeleteButton deleteFunc={() => deleteEntrant(marshal)}>
+                        <DeleteButton deleteFunc={() => deleteMarshal(marshal)}>
                             Delete
                         </DeleteButton>
                     </Field>

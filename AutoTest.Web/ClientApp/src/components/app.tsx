@@ -14,6 +14,7 @@ import NotFoundPage from "../routes/notfound";
 import Events from "../routes/events";
 import Event from "../routes/event";
 import Entrant from "../routes/entrants";
+import Marshals from "../routes/marshals";
 import Header from "./header";
 import Results from "../routes/results";
 import Tests from "../routes/tests";
@@ -74,6 +75,10 @@ const App: FunctionalComponent = () => {
                                 <Route
                                     path="/entrants/:eventId"
                                     component={Entrant}
+                                />
+                                <Route
+                                    path="/marshals/:eventId"
+                                    component={Marshals}
                                 />
                                 <Route
                                     path="/results/:eventId"

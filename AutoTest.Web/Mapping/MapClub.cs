@@ -59,6 +59,14 @@ namespace AutoTest.Web.Mapping
             return e;
         }
 
+        public static Marshal Map(ulong marshalId, ulong eventId, MarshalSaveModel entrant)
+        {
+            var e = new Marshal(marshalId, entrant.GivenName, entrant.FamilyName, eventId,
+                entrant.RegistrationNumber, entrant.Role);
+            e.SetEmergencyContact(Map(entrant.EmergencyContact));
+            return e;
+        }
+
         public static Profile Map(string emailAddress, ProfileSaveModel profile)
         {
             var p = new Profile(emailAddress, profile.GivenName, profile.FamilyName);

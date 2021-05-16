@@ -3,9 +3,9 @@ using AutoTest.Domain.StorageModels;
 using MediatR;
 namespace AutoTest.Service.Messages
 {
-    public class GetEntrants : IRequest<IEnumerable<Entrant>>
+    public class GetMarshals : IRequest<IEnumerable<Marshal>>
     {
-        public GetEntrants(ulong eventId)
+        public GetMarshals(ulong eventId)
         {
             EventId = eventId;
         }

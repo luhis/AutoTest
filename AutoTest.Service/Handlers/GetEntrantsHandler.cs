@@ -16,7 +16,7 @@ namespace AutoTest.Service.Handlers
         {
             this.entrantsRepository = entrantsRepository;
         }
-        
+
         Task<IEnumerable<Entrant>> IRequestHandler<GetEntrants, IEnumerable<Entrant>>.Handle(GetEntrants request, CancellationToken cancellationToken)
         {
             return this.entrantsRepository.GetAll(request.EventId, cancellationToken);

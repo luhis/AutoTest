@@ -18,6 +18,7 @@ namespace AutoTest.Persistence
         public DbSet<Club>? Clubs { get; private set; }
         public DbSet<Event>? Events { get; private set; }
         public DbSet<Entrant>? Entrants { get; private set; }
+        public DbSet<Marshal>? Marshals { get; private set; }
         public DbSet<TestRun>? TestRuns { get; private set; }
         public DbSet<Profile>? Users { get; private set; }
         public DbSet<Notification>? Notifications { get; private set; }
@@ -26,6 +27,7 @@ namespace AutoTest.Persistence
         {
             SetupClub.Setup(modelBuilder.Entity<Club>());
             SetupEntrant.Setup(modelBuilder.Entity<Entrant>());
+            SetupMarshal.Setup(modelBuilder.Entity<Marshal>());
             SetupEvent.Setup(modelBuilder.Entity<Event>());
             SetupTestRun.Setup(modelBuilder.Entity<TestRun>());
             SetupProfile.Setup(modelBuilder.Entity<Profile>());

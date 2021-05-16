@@ -130,6 +130,9 @@ const Event: FunctionalComponent<Props> = ({ eventId }) => {
             <Button onClick={() => route(`/entrants/${eventId}`)}>
                 Entrants
             </Button>
+            <Button onClick={() => route(`/marshals/${eventId}`)}>
+                Marshals
+            </Button>
             <Button onClick={() => route(`/tests/${eventId}`)}>Tests</Button>
             <Button onClick={() => route(`/results/${eventId}`)}>
                 Results

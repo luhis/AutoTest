@@ -10,17 +10,17 @@ import EmergencyContactEditor from "../shared/EmergencyContactEditor";
 import { addPreventDefault } from "../../lib/form";
 
 interface Props {
-    readonly entrant: EditingMarshal;
+    readonly marshal: EditingMarshal;
     readonly save: () => void;
     readonly cancel: () => void;
     readonly setField: (k: Partial<EditingMarshal>) => void;
     readonly fillFromProfile: () => void;
 }
 
-const EntrantsModal: FunctionComponent<Props> = ({
+const MarshalsModal: FunctionComponent<Props> = ({
     save,
     cancel,
-    entrant,
+    marshal,
     setField,
     fillFromProfile,
 }) => {
@@ -30,7 +30,7 @@ const EntrantsModal: FunctionComponent<Props> = ({
         <Modal show={true} showClose={false}>
             <Modal.Card>
                 <Modal.Card.Header showClose={false}>
-                    {entrant.isNew ? "Add" : "Edit"} Entrant
+                    {marshal.isNew ? "Add" : "Edit"} Marshal
                 </Modal.Card.Header>
                 <form onSubmit={formSave}>
                     <Modal.Card.Body>
@@ -40,7 +40,7 @@ const EntrantsModal: FunctionComponent<Props> = ({
                                 <Control>
                                     <Input
                                         required
-                                        value={entrant.givenName}
+                                        value={marshal.givenName}
                                         onChange={(e: OnChange): void =>
                                             setField({
                                                 givenName: e.target.value,
@@ -53,7 +53,7 @@ const EntrantsModal: FunctionComponent<Props> = ({
                                 <Label>Family Name</Label>
                                 <Input
                                     required
-                                    value={entrant.familyName}
+                                    value={marshal.familyName}
                                     onChange={(e: OnChange): void =>
                                         setField({ familyName: e.target.value })
                                     }
@@ -61,19 +61,48 @@ const EntrantsModal: FunctionComponent<Props> = ({
                             </Control>
                         </Field>
                         <EmergencyContactEditor
-                            emergencyContact={entrant.emergencyContact}
+                            emergencyContact={marshal.emergencyContact}
                             setField={(e: EmergencyContact): void =>
                                 setField({
                                     emergencyContact: e,
                                 })
                             }
                         />
+                        <Field>
+                            <Label>Registration</Label>
+                            <Input
+                                required
+                                type="number"
+                                value={marshal.registrationNumber}
+                                onChange={({ target }: OnChange): void =>
+                                    setField({
+                                        ...marshal,
+                                        registrationNumber: Number.parseInt(
+                                            target.value
+                                        ),
+                                    })
+                                }
+                            />
+                        </Field>
+                        <Field>
+                            <Label>Role</Label>
+                            <Input
+                                required
+                                value={marshal.role}
+                                onChange={({ target }: OnChange): void =>
+                                    setField({
+                                        ...marshal,
+                                        role: target.value,
+                                    })
+                                }
+                            />
+                        </Field>
                     </Modal.Card.Body>
                     <Modal.Card.Footer>
                         <Button type="submit" color="primary">
                             Save changes
                         </Button>
-                        {entrant.isNew ? (
+                        {marshal.isNew ? (
                             <Button
                                 color="secondary"
                                 type="button"
@@ -92,4 +121,4 @@ const EntrantsModal: FunctionComponent<Props> = ({
     );
 };
 
-export default EntrantsModal;
+export default MarshalsModal;

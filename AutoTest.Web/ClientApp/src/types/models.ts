@@ -115,6 +115,7 @@ export interface Marshal {
     readonly familyName: string;
     readonly emergencyContact: EmergencyContact;
     readonly role: string;
+    readonly registrationNumber: number;
 }
 
 export type EditingMarshal = Override<

@@ -7,19 +7,19 @@ using Microsoft.EntityFrameworkCore;
 
 namespace AutoTest.Service.Handlers
 {
-    public class DeleteEntrantHandler : IRequestHandler<DeleteEntrant>
+    public class DeleteMarshalHandler : IRequestHandler<DeleteMarshal>
     {
         private readonly AutoTestContext _autoTestContext;
 
-        public DeleteEntrantHandler(AutoTestContext autoTestContext)
+        public DeleteMarshalHandler(AutoTestContext autoTestContext)
         {
             _autoTestContext = autoTestContext;
         }
 
-        async Task<Unit> IRequestHandler<DeleteEntrant, Unit>.Handle(DeleteEntrant request, CancellationToken cancellationToken)
+        async Task<Unit> IRequestHandler<DeleteMarshal, Unit>.Handle(DeleteMarshal request, CancellationToken cancellationToken)
         {
-            var found = await this._autoTestContext.Entrants!.SingleAsync(a => a.EntrantId == request.EntrantId, cancellationToken);
-            this._autoTestContext.Entrants!.Remove(found);
+            var found = await this._autoTestContext.Marshals!.SingleAsync(a => a.MarshalId == request.MarshalId, cancellationToken);
+            this._autoTestContext.Marshals!.Remove(found);
             await this._autoTestContext.SaveChangesAsync(cancellationToken);
             return Unit.Value;
         }

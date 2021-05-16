@@ -39,6 +39,8 @@
 
         public MsaMembership MsaMembership { get; private set; } = new MsaMembership();
 
+        //public AcceptDeclaration AcceptDeclaration { get; private set; } = new AcceptDeclaration();
+
         public void SetVehicle(Vehicle vehicle) => Vehicle = vehicle;
 
         public void SetEmergencyContact(EmergencyContact emergencyContact) => EmergencyContact = emergencyContact;
