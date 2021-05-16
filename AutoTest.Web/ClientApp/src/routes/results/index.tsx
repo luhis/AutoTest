@@ -1,12 +1,12 @@
 import { FunctionalComponent, h, Fragment } from "preact";
 import { useEffect, useState } from "preact/hooks";
-import { Heading, Table, Button, Form } from "react-bulma-components";
+import { Heading, Table, Button, Dropdown } from "react-bulma-components";
 import { useDispatch, useSelector } from "react-redux";
 import { HubConnectionBuilder, LogLevel } from "@microsoft/signalr";
 import { range } from "@s-libs/micro-dash";
 import { newValidDate } from "ts-date";
 import { FaBell } from "react-icons/fa";
-const { Select } = Form;
+import classNames from "classnames";
 
 import { Notification, Override, Result } from "../../types/models";
 import {
@@ -28,7 +28,6 @@ import {
 import NotificationsModal from "../../components/events/NotificationsModal";
 import RouteParamsParser from "../../components/shared/RouteParamsParser";
 import Breadcrumbs from "../../components/shared/Breadcrumbs";
-import { OnMultiSelectChange } from "src/types/inputs";
 import DriverNumber from "../../components/shared/DriverNumber";
 import { selectClubs } from "../../store/clubs/selectors";
 import { GetClubsIfRequired } from "../../store/clubs/actions";
@@ -128,20 +127,39 @@ const Results: FunctionalComponent<Props> = ({ eventId }) => {
                     ? notifications.value.length
                     : ""}
             </Button>
-            <Select
-                multiple
-                value={classFilter}
-                onChange={(evt: OnMultiSelectChange) =>
-                    setClassFilter(evt.target.value)
-                }
+            <Dropdown
+                label={`Class Filter: ${
+                    classFilter.length === 0 ? "All" : classFilter.join(", ")
+                }`}
             >
-                <option value={[]}>All</option>
+                <a
+                    href="#"
+                    class={classNames("dropdown-item", {
+                        "is-active": classFilter.length === 0,
+                    })}
+                    onClick={() => setClassFilter([])}
+                >
+                    All
+                </a>
                 {allClasses.map((c) => (
-                    <option key={c} value={c}>
+                    <a
+                        key={c}
+                        href="#"
+                        class={classNames("dropdown-item", {
+                            "is-active": classFilter.includes(c),
+                        })}
+                        onClick={() =>
+                            setClassFilter((filter) =>
+                                filter.includes(c)
+                                    ? filter.filter((a) => a != c)
+                                    : filter.concat(c)
+                            )
+                        }
+                    >
                         {c}
-                    </option>
+                    </a>
                 ))}
-            </Select>
+            </Dropdown>
             <Table>
                 <thead>
                     <tr>
