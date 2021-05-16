@@ -6,6 +6,7 @@ import { Vehicle } from "../../types/shared";
 import { OnChange } from "../../types/inputs";
 import { MakeAndModel } from "src/types/models";
 import DropdownInput from "./DropdownInput";
+import { distinct } from "src/lib/array";
 
 interface Props {
     readonly vehicle: Vehicle;
@@ -18,10 +19,12 @@ const VehicleEditor: FunctionComponent<Props> = ({
     makeAndModels,
     setField,
 }) => {
-    const makes = makeAndModels.map(({ make }) => make);
-    const models = makeAndModels
-        .filter(({ make }) => make === vehicle.make)
-        .map((a) => a.model);
+    const makes = distinct(makeAndModels.map(({ make }) => make));
+    const models = distinct(
+        makeAndModels
+            .filter(({ make }) => make === vehicle.make)
+            .map((a) => a.model)
+    );
     return (
         <Fragment>
             <Field kind="group">

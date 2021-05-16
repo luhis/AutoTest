@@ -9,6 +9,12 @@ export const selectRequiresSync = (a: AppState) =>
 
 export const selectEntrants = (a: AppState) => a.event.entrants;
 export const selectMarshals = (a: AppState) => a.event.marshals;
+export const selectAllRoles = (state: AppState): readonly string[] =>
+    mapOrDefault(
+        selectMarshals(state),
+        (a) => distinct(a.map((entrant) => entrant.role).sort()),
+        []
+    );
 
 export const selectLicenseTypeOptions = (state: AppState): readonly string[] =>
     mapOrDefault(

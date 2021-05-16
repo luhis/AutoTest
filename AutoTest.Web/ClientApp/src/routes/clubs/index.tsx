@@ -70,7 +70,9 @@ const ClubComponent: FunctionalComponent = () => {
                 setEditingClub={setCurrentEditingClub}
                 deleteClub={deleteClub}
             />
-            <Button onClick={newClub}>Add Club</Button>
+            <Button color="primary" onClick={newClub}>
+                Add Club
+            </Button>
             {editingClub ? (
                 <Modal
                     club={editingClub}

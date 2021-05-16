@@ -6,7 +6,7 @@ import {
 } from "./shared";
 
 export interface Profile {
-    readonly profileId: number;
+    readonly emailAddress: string;
     readonly givenName: string;
     readonly familyName: string;
     readonly vehicle: Vehicle;

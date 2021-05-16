@@ -1,7 +1,7 @@
 import { FunctionalComponent, h } from "preact";
 import { Columns, Button, Form } from "react-bulma-components";
 import { FaMoneyBill } from "react-icons/fa";
-const { Field } = Form;
+const { Field, Control } = Form;
 
 import ifSome from "../shared/ifSome";
 import { Entrant } from "../../types/models";
@@ -15,6 +15,7 @@ interface Props {
     readonly setEditingEntrant: (entrant: Entrant) => void;
     readonly markPaid: (entrant: Entrant, isPaid: boolean) => void;
     readonly deleteEntrant: (entrant: Entrant) => void;
+    readonly canSetPaid: boolean;
 }
 
 const List: FunctionalComponent<Props> = ({
@@ -22,6 +23,7 @@ const List: FunctionalComponent<Props> = ({
     setEditingEntrant,
     markPaid,
     deleteEntrant,
+    canSetPaid,
 }) =>
     ifSome(
         entrants,
@@ -41,22 +43,38 @@ const List: FunctionalComponent<Props> = ({
                 <Columns.Column>
                     <Field kind="group">
                         {entrant.isPaid ? (
-                            <Button onClick={() => markPaid(entrant, false)}>
-                                <FaMoneyBill />
-                                &nbsp; Mark Unpaid
-                            </Button>
+                            <Control>
+                                <Button
+                                    disabled={!canSetPaid}
+                                    onClick={() => markPaid(entrant, false)}
+                                >
+                                    <FaMoneyBill />
+                                    &nbsp; Mark Unpaid
+                                </Button>
+                            </Control>
                         ) : (
-                            <Button onClick={() => markPaid(entrant, true)}>
-                                <FaMoneyBill />
-                                &nbsp; Mark Paid
-                            </Button>
+                            <Control>
+                                <Button
+                                    disabled={!canSetPaid}
+                                    onClick={() => markPaid(entrant, true)}
+                                >
+                                    <FaMoneyBill />
+                                    &nbsp; Mark Paid
+                                </Button>
+                            </Control>
                         )}
-                        <Button onClick={() => setEditingEntrant(entrant)}>
-                            Edit
-                        </Button>
-                        <DeleteButton deleteFunc={() => deleteEntrant(entrant)}>
-                            Delete
-                        </DeleteButton>
+                        <Control>
+                            <Button onClick={() => setEditingEntrant(entrant)}>
+                                Edit
+                            </Button>
+                        </Control>
+                        <Control>
+                            <DeleteButton
+                                deleteFunc={() => deleteEntrant(entrant)}
+                            >
+                                Delete
+                            </DeleteButton>
+                        </Control>
                     </Field>
                 </Columns.Column>
             </Columns>

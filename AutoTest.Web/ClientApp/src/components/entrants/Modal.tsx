@@ -164,7 +164,13 @@ const EntrantsModal: FunctionComponent<Props> = ({
                             <Control>
                                 <Checkbox>
                                     {"  "}I agree to the{" "}
-                                    <a href="#">terms and conditions</a>
+                                    <a
+                                        target="_blank"
+                                        href="https://www.motorsportuk.org/wp-content/uploads/2020/06/2021-04-26-signing-on-declaration-competitor-pdf.pdf"
+                                        rel="noreferrer"
+                                    >
+                                        Motorsport UK Pre-Event Declaration
+                                    </a>
                                 </Checkbox>
                             </Control>
                         </Field>

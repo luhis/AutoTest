@@ -2,7 +2,7 @@ import { FunctionComponent, h } from "preact";
 import { Columns, Button, Form } from "react-bulma-components";
 import { Link } from "preact-router";
 const { Column } = Columns;
-const { Field } = Form;
+const { Field, Control } = Form;
 
 import ifSome from "../shared/ifSome";
 import { Event } from "../../types/models";
@@ -34,13 +34,22 @@ const List: FunctionComponent<Props> = ({
                     </Column>
                     <Column>
                         <Field kind="group">
-                            <Link href={`/event/${event.eventId}`}>View</Link>
-                            <Button onClick={() => setEditingEvent(event)}>
-                                Edit
-                            </Button>
-                            <DeleteButton
-                                deleteFunc={() => deleteEvent(event)}
-                            />
+                            <Control>
+                                <Link href={`/event/${event.eventId}`}>
+                                    View
+                                </Link>
+                            </Control>
+                            <Control>
+                                <Button onClick={() => setEditingEvent(event)}>
+                                    Edit
+                                </Button>
+                            </Control>
+
+                            <Control>
+                                <DeleteButton
+                                    deleteFunc={() => deleteEvent(event)}
+                                />
+                            </Control>
                         </Field>
                     </Column>
                 </Columns>

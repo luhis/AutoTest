@@ -85,7 +85,9 @@ const Events: FunctionalComponent<Props> = ({ clubId }) => {
                 }
                 deleteEvent={deleteEvent}
             />
-            <Button onClick={createNewEvent}>Add Event</Button>
+            <Button color="primary" onClick={createNewEvent}>
+                Add Event
+            </Button>
             {editingEvent ? (
                 <Modal
                     event={editingEvent}

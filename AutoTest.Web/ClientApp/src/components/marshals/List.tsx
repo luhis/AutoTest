@@ -1,6 +1,6 @@
 import { FunctionalComponent, h } from "preact";
 import { Columns, Button, Form } from "react-bulma-components";
-const { Field } = Form;
+const { Field, Control } = Form;
 
 import ifSome from "../shared/ifSome";
 import { Marshal } from "../../types/models";
@@ -26,12 +26,19 @@ const List: FunctionalComponent<Props> = ({
                 <Columns.Column>{`${marshal.givenName} ${marshal.familyName}`}</Columns.Column>
                 <Columns.Column>
                     <Field kind="group">
-                        <Button onClick={() => setEditingMarshal(marshal)}>
-                            Edit
-                        </Button>
-                        <DeleteButton deleteFunc={() => deleteMarshal(marshal)}>
-                            Delete
-                        </DeleteButton>
+                        <Control>
+                            <Button onClick={() => setEditingMarshal(marshal)}>
+                                Edit
+                            </Button>
+                        </Control>
+
+                        <Control>
+                            <DeleteButton
+                                deleteFunc={() => deleteMarshal(marshal)}
+                            >
+                                Delete
+                            </DeleteButton>
+                        </Control>
                     </Field>
                 </Columns.Column>
             </Columns>

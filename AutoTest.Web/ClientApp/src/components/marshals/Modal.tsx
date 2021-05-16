@@ -8,9 +8,11 @@ import { OnChange } from "../../types/inputs";
 import { EmergencyContact } from "src/types/shared";
 import EmergencyContactEditor from "../shared/EmergencyContactEditor";
 import { addPreventDefault } from "../../lib/form";
+import DropdownInput from "../shared/DropdownInput";
 
 interface Props {
     readonly marshal: EditingMarshal;
+    readonly allRoles: readonly string[];
     readonly save: () => void;
     readonly cancel: () => void;
     readonly setField: (k: Partial<EditingMarshal>) => void;
@@ -21,6 +23,7 @@ const MarshalsModal: FunctionComponent<Props> = ({
     save,
     cancel,
     marshal,
+    allRoles,
     setField,
     fillFromProfile,
 }) => {
@@ -37,17 +40,15 @@ const MarshalsModal: FunctionComponent<Props> = ({
                         <Field kind="group">
                             <Control fullwidth={true}>
                                 <Label>Given Name</Label>
-                                <Control>
-                                    <Input
-                                        required
-                                        value={marshal.givenName}
-                                        onChange={(e: OnChange): void =>
-                                            setField({
-                                                givenName: e.target.value,
-                                            })
-                                        }
-                                    />
-                                </Control>
+                                <Input
+                                    required
+                                    value={marshal.givenName}
+                                    onChange={(e: OnChange): void =>
+                                        setField({
+                                            givenName: e.target.value,
+                                        })
+                                    }
+                                />
                             </Control>
                             <Control fullwidth={true}>
                                 <Label>Family Name</Label>
@@ -103,13 +104,14 @@ const MarshalsModal: FunctionComponent<Props> = ({
                         </Field>
                         <Field>
                             <Label>Role</Label>
-                            <Input
+                            <DropdownInput
                                 required
+                                options={allRoles}
                                 value={marshal.role}
-                                onChange={({ target }: OnChange): void =>
+                                setValue={(e): void =>
                                     setField({
                                         ...marshal,
-                                        role: target.value,
+                                        role: e,
                                     })
                                 }
                             />
@@ -118,7 +120,13 @@ const MarshalsModal: FunctionComponent<Props> = ({
                             <Control>
                                 <Checkbox>
                                     {"  "}I agree to the{" "}
-                                    <a href="#">terms and conditions</a>
+                                    <a
+                                        target="_blank"
+                                        href="https://www.motorsportuk.org/wp-content/uploads/2020/06/2021-04-26-signing-on-declaration-officials-pdf.pdf"
+                                        rel="noreferrer"
+                                    >
+                                        Motorsport UK Pre-Event Declaration Form
+                                    </a>
                                 </Checkbox>
                             </Control>
                         </Field>

@@ -1,7 +1,7 @@
 import { FunctionComponent, h } from "preact";
 import { Columns, Button, Form } from "react-bulma-components";
 import { route } from "preact-router";
-const { Field } = Form;
+const { Field, Control } = Form;
 
 import { Club } from "../../types/models";
 import { LoadingState } from "../../types/loadingState";
@@ -33,19 +33,25 @@ const ClubsList: FunctionComponent<Props> = ({
                 </Columns.Column>
                 <Columns.Column>
                     <Field kind="group">
-                        <Button
-                            onClick={() =>
-                                route(`/events?clubId=${club.clubId}`)
-                            }
-                        >
-                            Events
-                        </Button>
-                        <Button onClick={() => setEditingClub(club)}>
-                            Edit
-                        </Button>
-                        <DeleteButton deleteFunc={() => deleteClub(club)}>
-                            Delete
-                        </DeleteButton>
+                        <Control>
+                            <Button
+                                onClick={() =>
+                                    route(`/events?clubId=${club.clubId}`)
+                                }
+                            >
+                                Events
+                            </Button>
+                        </Control>
+                        <Control>
+                            <Button onClick={() => setEditingClub(club)}>
+                                Edit
+                            </Button>
+                        </Control>
+                        <Control>
+                            <DeleteButton deleteFunc={() => deleteClub(club)}>
+                                Delete
+                            </DeleteButton>
+                        </Control>
                     </Field>
                 </Columns.Column>
             </Columns>
