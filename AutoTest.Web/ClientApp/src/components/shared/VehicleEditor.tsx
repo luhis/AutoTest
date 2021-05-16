@@ -80,10 +80,12 @@ const VehicleEditor: FunctionComponent<Props> = ({
                         onChange={(e: OnChange): void =>
                             setField({
                                 ...vehicle,
-                                displacement: e.target.valueAsNumber,
+                                displacement: Math.floor(
+                                    e.target.valueAsNumber
+                                ),
                             })
                         }
-                        min={0}
+                        min={1}
                     />
                 </Control>
             </Field>

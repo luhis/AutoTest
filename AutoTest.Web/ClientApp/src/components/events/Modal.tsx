@@ -109,12 +109,14 @@ const ModalX: FunctionComponent<Props> = ({
                             <Input
                                 required
                                 type="number"
-                                min="1"
+                                min={1}
                                 step={1}
                                 value={event.testCount}
                                 onChange={(e: OnChange): void =>
                                     setField({
-                                        testCount: e.target.valueAsNumber,
+                                        testCount: Math.floor(
+                                            e.target.valueAsNumber
+                                        ),
                                     })
                                 }
                             />
@@ -124,12 +126,14 @@ const ModalX: FunctionComponent<Props> = ({
                             <Input
                                 required
                                 type="number"
-                                min="1"
+                                min={1}
+                                step={1}
                                 value={event.maxAttemptsPerTest}
                                 onChange={(e: OnChange): void =>
                                     setField({
-                                        maxAttemptsPerTest:
-                                            e.target.valueAsNumber,
+                                        maxAttemptsPerTest: Math.floor(
+                                            e.target.valueAsNumber
+                                        ),
                                     })
                                 }
                             />

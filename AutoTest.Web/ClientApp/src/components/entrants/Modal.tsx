@@ -86,7 +86,7 @@ const EntrantsModal: FunctionComponent<Props> = ({
                                     });
                                 }}
                             />
-                            <Help>
+                            <Help color="danger">
                                 This address is used to manage access to the
                                 system, be careful!
                             </Help>
@@ -113,7 +113,9 @@ const EntrantsModal: FunctionComponent<Props> = ({
                                     value={entrant.clubNumber}
                                     onChange={(e: OnChange): void =>
                                         setField({
-                                            clubNumber: e.target.valueAsNumber,
+                                            clubNumber: Math.floor(
+                                                e.target.valueAsNumber
+                                            ),
                                         })
                                     }
                                 />

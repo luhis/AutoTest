@@ -45,7 +45,7 @@ const MsaMembershipEditor: FunctionComponent<Props> = ({
                         onChange={(e: OnChange): void =>
                             setField({
                                 ...membership,
-                                msaLicense: e.target.valueAsNumber,
+                                msaLicense: Math.floor(e.target.valueAsNumber),
                             })
                         }
                     />

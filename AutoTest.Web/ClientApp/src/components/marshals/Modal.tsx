@@ -72,7 +72,7 @@ const MarshalsModal: FunctionComponent<Props> = ({
                                     });
                                 }}
                             />
-                            <Help>
+                            <Help color="danger">
                                 This address is used to manage access to the
                                 system, be careful!
                             </Help>
@@ -94,8 +94,9 @@ const MarshalsModal: FunctionComponent<Props> = ({
                                 onChange={({ target }: OnChange): void =>
                                     setField({
                                         ...marshal,
-                                        registrationNumber:
-                                            target.valueAsNumber,
+                                        registrationNumber: Math.floor(
+                                            target.valueAsNumber
+                                        ),
                                     })
                                 }
                             />

@@ -71,7 +71,9 @@ const MembershipList: FunctionComponent<Props> = ({
                         onChange={({ target }: OnChange): void =>
                             setNewEmail((e) => ({
                                 ...e,
-                                membershipNumber: target.valueAsNumber,
+                                membershipNumber: Math.floor(
+                                    target.valueAsNumber
+                                ),
                             }))
                         }
                     />

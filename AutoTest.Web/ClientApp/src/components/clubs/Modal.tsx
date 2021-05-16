@@ -1,6 +1,6 @@
 import { h, FunctionComponent } from "preact";
 import { Modal, Button, Form } from "react-bulma-components";
-const { Input, Field, Label } = Form;
+const { Input, Field, Label, Help, Control } = Form;
 
 import { Club, EditingClub } from "../../types/models";
 import { OnChange } from "../../types/inputs";
@@ -27,54 +27,68 @@ const ModalX: FunctionComponent<Props> = ({ save, cancel, club, setField }) => {
                     <Modal.Card.Body>
                         <Field>
                             <Label>Name</Label>
-                            <Input
-                                required
-                                value={club.clubName}
-                                onChange={(e: OnChange): void =>
-                                    setField({ clubName: e.target.value })
-                                }
-                            />
+                            <Control>
+                                <Input
+                                    required
+                                    value={club.clubName}
+                                    onChange={(e: OnChange): void =>
+                                        setField({ clubName: e.target.value })
+                                    }
+                                />
+                            </Control>
                         </Field>
                         <Field>
                             <Label>Payment Address</Label>
-                            <Input
-                                value={club.clubPaymentAddress}
-                                onChange={(e: OnChange): void =>
-                                    setField({
-                                        clubPaymentAddress: e.target.value,
-                                    })
-                                }
-                            />
+                            <Control>
+                                <Input
+                                    value={club.clubPaymentAddress}
+                                    onChange={(e: OnChange): void =>
+                                        setField({
+                                            clubPaymentAddress: e.target.value,
+                                        })
+                                    }
+                                />
+                            </Control>
                         </Field>
                         <Field>
                             <Label>Website</Label>
-                            <Input
-                                value={club.website}
-                                type="url"
-                                onChange={(e: OnChange): void =>
-                                    setField({
-                                        website: e.target.value,
-                                    })
-                                }
-                            />
+                            <Control>
+                                <Input
+                                    value={club.website}
+                                    type="url"
+                                    onChange={(e: OnChange): void =>
+                                        setField({
+                                            website: e.target.value,
+                                        })
+                                    }
+                                />
+                            </Control>
                         </Field>
                         <Field>
                             <Label>Admin Emails</Label>
-                            <EmailList
-                                emails={club.adminEmails}
-                                addNew={(s) =>
-                                    setField({
-                                        adminEmails: club.adminEmails.concat(s),
-                                    })
-                                }
-                                remove={(removeIndex) =>
-                                    setField({
-                                        adminEmails: club.adminEmails.filter(
-                                            (_, i) => i !== removeIndex
-                                        ),
-                                    })
-                                }
-                            />
+                            <Control>
+                                <EmailList
+                                    emails={club.adminEmails}
+                                    addNew={(s) =>
+                                        setField({
+                                            adminEmails:
+                                                club.adminEmails.concat(s),
+                                        })
+                                    }
+                                    remove={(removeIndex) =>
+                                        setField({
+                                            adminEmails:
+                                                club.adminEmails.filter(
+                                                    (_, i) => i !== removeIndex
+                                                ),
+                                        })
+                                    }
+                                />
+                            </Control>
+                            <Help color="danger">
+                                These addresses is used to manage access to the
+                                system, be careful!
+                            </Help>
                         </Field>
                     </Modal.Card.Body>
                     <Modal.Card.Footer>
