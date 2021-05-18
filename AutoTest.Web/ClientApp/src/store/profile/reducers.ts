@@ -12,6 +12,7 @@ const defaultAccess: Access = {
     isLoggedIn: false,
     canViewClubs: false,
     canViewProfile: false,
+    isRootAdmin: false,
     adminClubs: [],
     marshalEvents: [],
 };

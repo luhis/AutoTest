@@ -41,6 +41,7 @@ const ModalX: FunctionComponent<Props> = ({ save, cancel, club, setField }) => {
                             <Label>Payment Address</Label>
                             <Control>
                                 <Input
+                                    type="email"
                                     value={club.clubPaymentAddress}
                                     onChange={(e: OnChange): void =>
                                         setField({
@@ -54,6 +55,7 @@ const ModalX: FunctionComponent<Props> = ({ save, cancel, club, setField }) => {
                             <Label>Website</Label>
                             <Control>
                                 <Input
+                                    placeholder="https://motor-club.co.uk"
                                     value={club.website}
                                     type="url"
                                     onChange={(e: OnChange): void =>
@@ -86,7 +88,7 @@ const ModalX: FunctionComponent<Props> = ({ save, cancel, club, setField }) => {
                                 />
                             </Control>
                             <Help color="danger">
-                                These addresses is used to manage access to the
+                                These addresses are used to manage access to the
                                 system, be careful!
                             </Help>
                         </Field>

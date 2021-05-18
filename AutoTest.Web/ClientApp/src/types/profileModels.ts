@@ -17,6 +17,7 @@ export interface Profile {
 
 export interface Access {
     readonly isLoggedIn: boolean;
+    readonly isRootAdmin: boolean;
     readonly canViewClubs: boolean;
     readonly canViewProfile: boolean;
     readonly adminClubs: readonly number[];

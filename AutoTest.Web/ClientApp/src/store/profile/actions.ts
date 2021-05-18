@@ -11,6 +11,7 @@ import {
 import { getAccess } from "../../api/access";
 import { selectProfile } from "./selectors";
 import { AppState } from "..";
+import { isStale, requiresLoading } from "../../types/loadingState";
 
 export const GetProfileIfRequired =
     (token: string | undefined) =>
@@ -19,7 +20,7 @@ export const GetProfileIfRequired =
         getState: () => AppState
     ) => {
         const profile = selectProfile(getState());
-        if (profile) {
+        if (requiresLoading(profile.tag) || isStale(profile)) {
             await GetProfile(token)(dispatch);
         }
     };

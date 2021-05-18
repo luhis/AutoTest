@@ -6,7 +6,7 @@ import { Vehicle } from "../../types/shared";
 import { OnChange } from "../../types/inputs";
 import { MakeAndModel } from "src/types/models";
 import DropdownInput from "./DropdownInput";
-import { distinct } from "src/lib/array";
+import { distinct } from "../../lib/array";
 
 interface Props {
     readonly vehicle: Vehicle;

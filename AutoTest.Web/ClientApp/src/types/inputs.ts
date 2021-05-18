@@ -13,7 +13,3 @@ export interface OnMultiSelectChange {
 export interface OnChangeCheck {
     readonly target: { readonly checked: boolean };
 }
-
-export interface FormSubmit {
-    readonly preventDefault: () => void;
-}

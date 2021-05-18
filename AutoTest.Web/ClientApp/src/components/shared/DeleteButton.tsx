@@ -23,15 +23,16 @@ const DeleteModal: FunctionComponent<{
 );
 interface Props {
     readonly deleteFunc: () => void;
+    readonly disabled: boolean;
 }
 
-const DeleteButton: FunctionComponent<Props> = ({ deleteFunc }) => {
+const DeleteButton: FunctionComponent<Props> = ({ deleteFunc, disabled }) => {
     const [showModal, setShowModal] = useState(false);
     const show = useCallback(() => setShowModal(true), []);
     const hide = useCallback(() => setShowModal(false), []);
     return (
         <Fragment>
-            <Button color="danger" onClick={show}>
+            <Button disabled={disabled} color="danger" onClick={show}>
                 Delete
             </Button>
             {showModal ? (

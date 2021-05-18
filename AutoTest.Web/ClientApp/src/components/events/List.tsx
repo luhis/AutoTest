@@ -13,12 +13,14 @@ interface Props {
     readonly events: LoadingState<readonly Event[]>;
     readonly setEditingEvent: (event: Event) => void;
     readonly deleteEvent: (event: Event) => void;
+    readonly canAdmin: (clubId: number) => boolean;
 }
 
 const List: FunctionComponent<Props> = ({
     events,
     setEditingEvent,
     deleteEvent,
+    canAdmin,
 }) =>
     ifSome(
         events,
@@ -40,13 +42,17 @@ const List: FunctionComponent<Props> = ({
                                 </Link>
                             </Control>
                             <Control>
-                                <Button onClick={() => setEditingEvent(event)}>
+                                <Button
+                                    disabled={!canAdmin(event.clubId)}
+                                    onClick={() => setEditingEvent(event)}
+                                >
                                     Edit
                                 </Button>
                             </Control>
 
                             <Control>
                                 <DeleteButton
+                                    disabled={!canAdmin(event.clubId)}
                                     deleteFunc={() => deleteEvent(event)}
                                 />
                             </Control>

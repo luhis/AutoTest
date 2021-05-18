@@ -172,6 +172,10 @@ const ModalX: FunctionComponent<Props> = ({
                                 accept=".pdf"
                             />
                         </Field>
+                        <Field>
+                            <Label>Maps</Label>
+                            <Input type="file" accept=".pdf" />
+                        </Field>
                     </Modal.Card.Body>
                     <Modal.Card.Footer>
                         <Button color="primary" type="submit">

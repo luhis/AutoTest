@@ -50,6 +50,7 @@ const EmailList: FunctionComponent<Props> = ({ emails, addNew, remove }) => {
             <Field kind="addons">
                 <Control fullwidth={true}>
                     <Input
+                        placeholder="joe@bloggs.com"
                         required
                         type="email"
                         value={newEmail}

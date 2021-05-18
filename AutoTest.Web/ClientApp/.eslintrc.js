@@ -29,7 +29,8 @@ module.exports = {
         "no-duplicate-imports": "error",
         "no-shadow": "off",
         "@typescript-eslint/no-shadow": ["error"],
-        "@typescript-eslint/switch-exhaustiveness-check": "error"
+        "@typescript-eslint/switch-exhaustiveness-check": "error",
+        "no-implicit-globals": "error"
     },
     settings: {
         react: {

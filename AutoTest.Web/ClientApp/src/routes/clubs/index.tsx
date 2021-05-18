@@ -16,6 +16,7 @@ import {
     DeleteClub,
     GetClubsIfRequired,
 } from "../../store/clubs/actions";
+import { selectAccess } from "src/store/profile/selectors";
 
 const uid = UUID(keySeed);
 
@@ -62,10 +63,16 @@ const ClubComponent: FunctionalComponent = () => {
         (a: Club) => setEditingClub({ ...a, isNew: false }),
         []
     );
+    const { adminClubs, isRootAdmin } = useSelector(selectAccess);
+    const isClubAdmin = useCallback(
+        (club: Club) => adminClubs.includes(club.clubId) || isRootAdmin,
+        [adminClubs, isRootAdmin]
+    );
     return (
         <div>
             <Heading>Clubs</Heading>
             <List
+                isClubAdmin={isClubAdmin}
                 clubs={clubs}
                 setEditingClub={setCurrentEditingClub}
                 deleteClub={deleteClub}

@@ -15,10 +15,14 @@ import {
     DeleteMarshal,
     AddMarshal,
 } from "../../store/event/actions";
-import { selectEvents, selectMarshals } from "../../store/event/selectors";
+import {
+    selectAllRoles,
+    selectEvents,
+    selectMarshals,
+} from "../../store/event/selectors";
 import { keySeed } from "../../settings";
 import { findIfLoaded } from "../../types/loadingState";
-import { selectProfile } from "../../store/profile/selectors";
+import { selectAccess, selectProfile } from "../../store/profile/selectors";
 import RouteParamsParser from "../../components/shared/RouteParamsParser";
 import Breadcrumbs from "../../components/shared/Breadcrumbs";
 import { GetProfileIfRequired } from "../../store/profile/actions";
@@ -33,6 +37,7 @@ const uid = UUID(keySeed);
 const Marshals: FunctionalComponent<Readonly<Props>> = ({ eventId }) => {
     const marshals = useSelector(selectMarshals);
     const profile = useSelector(selectProfile);
+    const allRoles = useSelector(selectAllRoles);
     const currentEvent = findIfLoaded(
         useSelector(selectEvents),
         (a) => a.eventId === eventId
@@ -59,9 +64,9 @@ const Marshals: FunctionalComponent<Readonly<Props>> = ({ eventId }) => {
         }
     }, [auth, dispatch, editingMarshal]);
     const fillFromProfile = useCallback(() => {
-        dispatch(GetProfileIfRequired(getAccessToken(auth)));
         if (profile.tag === "Loaded") {
-            const { familyName, givenName, emergencyContact } = profile.value;
+            const { familyName, givenName, emergencyContact, emailAddress } =
+                profile.value;
 
             setEditingMarshal((e): EditingMarshal | undefined =>
                 e
@@ -70,11 +75,12 @@ const Marshals: FunctionalComponent<Readonly<Props>> = ({ eventId }) => {
                           familyName,
                           givenName,
                           emergencyContact,
+                          email: emailAddress,
                       }
                     : undefined
             );
         }
-    }, [auth, dispatch, profile]);
+    }, [profile]);
 
     const deleteMarshal = (marshal: Marshal) => {
         dispatch(DeleteMarshal(marshal, getAccessToken(auth)));
@@ -88,31 +94,30 @@ const Marshals: FunctionalComponent<Readonly<Props>> = ({ eventId }) => {
     }, [eventId, dispatch, auth]);
     const clearEditingMarshal = () => setEditingMarshal(undefined);
 
-    const newMarshal = useCallback(
-        () =>
-            setEditingMarshal({
-                marshalId: uid.uuid(),
-                eventId: eventId,
-                givenName: "",
-                familyName: "",
-                email: "",
-                isNew: true,
-                emergencyContact: {
-                    name: "",
-                    phone: "",
-                },
-                role: "",
-                registrationNumber: Number.NaN,
-            }),
-        [eventId]
-    );
+    const newMarshal = useCallback(() => {
+        dispatch(GetProfileIfRequired(getAccessToken(auth)));
+        setEditingMarshal({
+            marshalId: uid.uuid(),
+            eventId: eventId,
+            givenName: "",
+            familyName: "",
+            email: "",
+            isNew: true,
+            emergencyContact: {
+                name: "",
+                phone: "",
+            },
+            role: "",
+            registrationNumber: Number.NaN,
+        });
+    }, [auth, dispatch, eventId]);
     const setCurrentEditingMarshal = useCallback(
         (marshal: Marshal) => setEditingMarshal({ ...marshal, isNew: false }),
         []
     );
     const setField = useCallback(
         (a: Partial<EditingMarshal>) =>
-            setEditingMarshal((b) => {
+            setEditingMarshal((b): EditingMarshal | undefined => {
                 if (b !== undefined) {
                     return { ...b, ...a };
                 } else {
@@ -121,18 +126,25 @@ const Marshals: FunctionalComponent<Readonly<Props>> = ({ eventId }) => {
             }),
         []
     );
+    const isClubAdmin = useSelector(selectAccess).adminClubs.includes(
+        currentEvent?.clubId || Number.NaN
+    );
     return (
         <div>
             <Breadcrumbs club={currentClub} event={currentEvent} />
             <Heading>Marshals</Heading>
             <List
+                isClubAdmin={isClubAdmin}
                 marshals={marshals}
                 setEditingMarshal={setCurrentEditingMarshal}
                 deleteMarshal={deleteMarshal}
             />
-            <Button onClick={newMarshal}>Add Marshal</Button>
+            <Button color="primary" onClick={newMarshal}>
+                Add Marshal
+            </Button>
             {editingMarshal ? (
                 <EntrantsModal
+                    allRoles={allRoles}
                     marshal={editingMarshal}
                     setField={setField}
                     cancel={clearEditingMarshal}

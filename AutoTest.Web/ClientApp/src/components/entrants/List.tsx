@@ -70,6 +70,7 @@ const List: FunctionalComponent<Props> = ({
                         </Control>
                         <Control>
                             <DeleteButton
+                                disabled={!canSetPaid}
                                 deleteFunc={() => deleteEntrant(entrant)}
                             >
                                 Delete

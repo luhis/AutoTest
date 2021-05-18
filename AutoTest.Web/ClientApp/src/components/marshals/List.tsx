@@ -11,12 +11,14 @@ interface Props {
     readonly marshals: LoadingState<readonly Marshal[], number>;
     readonly setEditingMarshal: (entrant: Marshal) => void;
     readonly deleteMarshal: (entrant: Marshal) => void;
+    readonly isClubAdmin: boolean;
 }
 
 const List: FunctionalComponent<Props> = ({
     marshals,
     setEditingMarshal,
     deleteMarshal,
+    isClubAdmin,
 }) =>
     ifSome(
         marshals,
@@ -35,6 +37,7 @@ const List: FunctionalComponent<Props> = ({
                         <Control>
                             <DeleteButton
                                 deleteFunc={() => deleteMarshal(marshal)}
+                                disabled={!isClubAdmin}
                             >
                                 Delete
                             </DeleteButton>

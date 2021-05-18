@@ -20,6 +20,7 @@ import { keySeed } from "../../settings";
 import RouteParamsParser from "../../components/shared/RouteParamsParser";
 import { selectClubs } from "../../store/clubs/selectors";
 import { GetClubsIfRequired } from "../../store/clubs/actions";
+import { selectAccess } from "src/store/profile/selectors";
 
 interface Props {
     readonly clubId: number | undefined;
@@ -31,6 +32,8 @@ const Events: FunctionalComponent<Props> = ({ clubId }) => {
     const auth = useGoogleAuth();
     const events = useSelector(selectEvents);
     const clubs = useSelector(selectClubs);
+    const { adminClubs } = useSelector(selectAccess);
+    const canAdmin = (a: number) => adminClubs.includes(a);
     const [editingEvent, setEditingEvent] =
         useState<EditingEvent | undefined>(undefined);
     useEffect(() => {
@@ -75,6 +78,7 @@ const Events: FunctionalComponent<Props> = ({ clubId }) => {
         <div>
             <Heading>Events</Heading>
             <List
+                canAdmin={canAdmin}
                 events={events}
                 setEditingEvent={(a) =>
                     setEditingEvent({

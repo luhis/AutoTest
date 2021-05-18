@@ -12,12 +12,14 @@ interface Props {
     readonly clubs: LoadingState<readonly Club[]>;
     readonly setEditingClub: (club: Club) => void;
     readonly deleteClub: (club: Club) => void;
+    readonly isClubAdmin: (club: Club) => boolean;
 }
 
 const ClubsList: FunctionComponent<Props> = ({
     clubs,
     setEditingClub,
     deleteClub,
+    isClubAdmin,
 }) =>
     ifSome(
         clubs,
@@ -48,7 +50,10 @@ const ClubsList: FunctionComponent<Props> = ({
                             </Button>
                         </Control>
                         <Control>
-                            <DeleteButton deleteFunc={() => deleteClub(club)}>
+                            <DeleteButton
+                                deleteFunc={() => deleteClub(club)}
+                                disabled={!isClubAdmin(club)}
+                            >
                                 Delete
                             </DeleteButton>
                         </Control>
