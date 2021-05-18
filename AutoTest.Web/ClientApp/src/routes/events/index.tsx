@@ -20,7 +20,7 @@ import { keySeed } from "../../settings";
 import RouteParamsParser from "../../components/shared/RouteParamsParser";
 import { selectClubs } from "../../store/clubs/selectors";
 import { GetClubsIfRequired } from "../../store/clubs/actions";
-import { selectAccess } from "src/store/profile/selectors";
+import { selectAccess } from "../../store/profile/selectors";
 
 interface Props {
     readonly clubId: number | undefined;

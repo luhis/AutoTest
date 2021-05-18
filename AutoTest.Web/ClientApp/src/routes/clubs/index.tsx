@@ -16,7 +16,7 @@ import {
     DeleteClub,
     GetClubsIfRequired,
 } from "../../store/clubs/actions";
-import { selectAccess } from "src/store/profile/selectors";
+import { selectAccess } from "../../store/profile/selectors";
 
 const uid = UUID(keySeed);
 
