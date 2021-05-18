@@ -29,7 +29,7 @@ namespace AutoTest.Web
         const string swagger2Hash = "edNyF0T6h+RbJ9Kl1HXk6KaORyz6MmKnkP3XL/kRb4o=";
         const string googleCom = "https://*.google.com";
         const string googleAnal = "https://www.google-analytics.com";
-        private const string baseCssHash = "C7pSgOvwamNBfKv77Bqchu7cIbEY9b+iP5BpHSToCZE=";
+        private const string baseCssHash = "cOt/UQxOnNwRlQZa79XvfE3Tryhvv1IjU9zQp7JJIvI=";
 
         public Startup(IConfiguration configuration, IWebHostEnvironment webHostEnvironment)
         {
