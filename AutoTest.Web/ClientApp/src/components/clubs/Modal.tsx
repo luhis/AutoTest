@@ -23,7 +23,7 @@ const ModalX: FunctionComponent<Props> = ({ save, cancel, club, setField }) => {
                 <Modal.Card>
                     <Modal.Card.Header showClose={false}>
                         {club.isNew ? "Add" : "Edit"} Club
-                </Modal.Card.Header>
+                    </Modal.Card.Header>
                     <Modal.Card.Body>
                         <Field>
                             <Label>Name</Label>
