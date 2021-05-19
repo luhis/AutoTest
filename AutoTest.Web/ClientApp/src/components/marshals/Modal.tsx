@@ -30,12 +30,12 @@ const MarshalsModal: FunctionComponent<Props> = ({
     const formSave = addPreventDefault(save);
 
     return (
-        <Modal show={true} showClose={false}>
-            <Modal.Card>
-                <Modal.Card.Header showClose={false}>
-                    {marshal.isNew ? "Add" : "Edit"} Marshal
-                </Modal.Card.Header>
-                <form onSubmit={formSave}>
+        <form onSubmit={formSave}>
+            <Modal show={true} showClose={false}>
+                <Modal.Card>
+                    <Modal.Card.Header showClose={false}>
+                        {marshal.isNew ? "Add" : "Edit"} Marshal
+                    </Modal.Card.Header>
                     <Modal.Card.Body>
                         <Field kind="group">
                             <Control fullwidth={true}>
@@ -148,9 +148,9 @@ const MarshalsModal: FunctionComponent<Props> = ({
                             Close
                         </Button>
                     </Modal.Card.Footer>
-                </form>
-            </Modal.Card>
-        </Modal>
+                </Modal.Card>
+            </Modal>
+        </form>
     );
 };
 

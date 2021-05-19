@@ -41,12 +41,12 @@ const EntrantsModal: FunctionComponent<Props> = ({
     const formSave = addPreventDefault(save);
 
     return (
-        <Modal show={true} showClose={false}>
-            <Modal.Card>
-                <Modal.Card.Header showClose={false}>
-                    {entrant.isNew ? "Add" : "Edit"} Entrant
-                </Modal.Card.Header>
-                <form onSubmit={formSave}>
+        <form onSubmit={formSave}>
+            <Modal show={true} showClose={false}>
+                <Modal.Card>
+                    <Modal.Card.Header showClose={false}>
+                        {entrant.isNew ? "Add" : "Edit"} Entrant
+                    </Modal.Card.Header>
                     <Modal.Card.Body>
                         <Field kind="group">
                             <Control fullwidth={true}>
@@ -192,9 +192,9 @@ const EntrantsModal: FunctionComponent<Props> = ({
                             Close
                         </Button>
                     </Modal.Card.Footer>
-                </form>
-            </Modal.Card>
-        </Modal>
+                </Modal.Card>
+            </Modal>
+        </form>
     );
 };
 

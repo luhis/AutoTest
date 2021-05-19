@@ -18,12 +18,12 @@ const ModalX: FunctionComponent<Props> = ({ save, cancel, club, setField }) => {
     const formSave = addPreventDefault(save);
 
     return (
-        <Modal show={true} showClose={false}>
-            <Modal.Card>
-                <Modal.Card.Header showClose={false}>
-                    {club.isNew ? "Add" : "Edit"} Club
+        <form onSubmit={formSave}>
+            <Modal show={true} showClose={false}>
+                <Modal.Card>
+                    <Modal.Card.Header showClose={false}>
+                        {club.isNew ? "Add" : "Edit"} Club
                 </Modal.Card.Header>
-                <form onSubmit={formSave}>
                     <Modal.Card.Body>
                         <Field>
                             <Label>Name</Label>
@@ -101,9 +101,9 @@ const ModalX: FunctionComponent<Props> = ({ save, cancel, club, setField }) => {
                             Close
                         </Button>
                     </Modal.Card.Footer>
-                </form>
-            </Modal.Card>
-        </Modal>
+                </Modal.Card>
+            </Modal>
+        </form>
     );
 };
 

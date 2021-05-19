@@ -33,12 +33,12 @@ const ModalX: FunctionComponent<Props> = ({
 
     const formSave = addPreventDefault(save);
     return (
-        <Modal show={true} showClose={false}>
-            <Modal.Card>
-                <Modal.Card.Header showClose={false}>
-                    {event.isNew ? "Add" : "Edit"} Event
-                </Modal.Card.Header>
-                <form onSubmit={formSave}>
+        <form onSubmit={formSave}>
+            <Modal show={true} showClose={false}>
+                <Modal.Card>
+                    <Modal.Card.Header showClose={false}>
+                        {event.isNew ? "Add" : "Edit"} Event
+                    </Modal.Card.Header>
                     <Modal.Card.Body>
                         <Field>
                             <Label>Location</Label>
@@ -185,9 +185,9 @@ const ModalX: FunctionComponent<Props> = ({
                             Close
                         </Button>
                     </Modal.Card.Footer>
-                </form>
-            </Modal.Card>
-        </Modal>
+                </Modal.Card>
+            </Modal>
+        </form>
     );
 };
 

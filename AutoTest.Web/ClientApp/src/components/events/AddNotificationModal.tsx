@@ -21,12 +21,12 @@ const AddNotificationModal: FunctionComponent<Props> = ({
 }) => {
     const formSave = addPreventDefault(save);
     return (
-        <Modal show={true} showClose={false}>
-            <Modal.Card>
-                <Modal.Card.Header showClose={false}>
-                    Notifications
-                </Modal.Card.Header>
-                <form onSubmit={formSave}>
+        <form onSubmit={formSave}>
+            <Modal show={true} showClose={false}>
+                <Modal.Card>
+                    <Modal.Card.Header showClose={false}>
+                        Notifications
+                    </Modal.Card.Header>
                     <Modal.Card.Body>
                         <Field>
                             <Label>Notification</Label>
@@ -47,9 +47,9 @@ const AddNotificationModal: FunctionComponent<Props> = ({
                             Close
                         </Button>
                     </Modal.Card.Footer>
-                </form>
-            </Modal.Card>
-        </Modal>
+                </Modal.Card>
+            </Modal>
+        </form>
     );
 };
 
