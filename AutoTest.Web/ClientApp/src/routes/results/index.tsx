@@ -3,10 +3,11 @@ import { useEffect, useState } from "preact/hooks";
 import { Heading, Table, Button, Dropdown } from "react-bulma-components";
 import { useDispatch, useSelector } from "react-redux";
 import { HubConnectionBuilder, LogLevel } from "@microsoft/signalr";
-import { range } from "@s-libs/micro-dash";
+import { compact, range } from "@s-libs/micro-dash";
 import { newValidDate } from "ts-date";
 import { FaBell } from "react-icons/fa";
 import classNames from "classnames";
+import { route } from "preact-router";
 
 import { Notification, Override, Result } from "../../types/models";
 import {
@@ -34,6 +35,7 @@ import { GetClubsIfRequired } from "../../store/clubs/actions";
 
 interface Props {
     readonly eventId: number;
+    readonly filter: readonly string[];
 }
 
 const numberToChar = (n: number) => "abcdefghijklmnopqrstuvwxyz".charAt(n);
@@ -46,7 +48,7 @@ const connection =
               .build()
         : undefined;
 
-const Results: FunctionalComponent<Props> = ({ eventId }) => {
+const Results: FunctionalComponent<Props> = ({ eventId, filter }) => {
     const dispatch = useDispatch();
     const auth = useGoogleAuth();
     const currentEvent = findIfLoaded(
@@ -110,7 +112,10 @@ const Results: FunctionalComponent<Props> = ({ eventId }) => {
         }
     }, [dispatch, eventId]);
     const [showModal, setShowModal] = useState(false);
-    const [classFilter, setClassFilter] = useState<readonly string[]>([]);
+    const [classFilter, setClassFilter] = useState<readonly string[]>(filter);
+    useEffect(() => {
+        route(`/results/${eventId}?filter=${classFilter.join(",")}`, true);
+    }, [classFilter, eventId]);
     const allClasses = mapOrDefault(results, (a) => a.map((b) => b.class), []);
 
     return (
@@ -141,6 +146,7 @@ const Results: FunctionalComponent<Props> = ({ eventId }) => {
                 >
                     All
                 </a>
+                <hr class="dropdown-divider" />
                 {allClasses.map((c) => (
                     <a
                         key={c}
@@ -149,8 +155,8 @@ const Results: FunctionalComponent<Props> = ({ eventId }) => {
                             "is-active": classFilter.includes(c),
                         })}
                         onClick={() =>
-                            setClassFilter((filter) =>
-                                filter.includes(c)
+                            setClassFilter((f) =>
+                                f.includes(c)
                                     ? filter.filter((a) => a != c)
                                     : filter.concat(c)
                             )
@@ -240,9 +246,12 @@ export default RouteParamsParser<
         Props,
         {
             readonly eventId: string;
+            readonly filter: string;
         }
     >,
     Props
->(({ eventId, ...props }) => ({ ...props, eventId: Number.parseInt(eventId) }))(
-    Results
-);
+>(({ eventId, filter, ...props }) => ({
+    ...props,
+    eventId: Number.parseInt(eventId),
+    filter: compact(filter.split(",")),
+}))(Results);
