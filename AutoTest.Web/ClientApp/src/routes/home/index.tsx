@@ -5,7 +5,7 @@ const Home: FunctionalComponent = () => {
     return (
         <div>
             <Heading>Home</Heading>
-            <p>This is the Home component.</p>
+            <p>This is the Mangaji AutoTest app.</p>
         </div>
     );
 };
