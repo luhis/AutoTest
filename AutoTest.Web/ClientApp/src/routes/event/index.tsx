@@ -91,9 +91,8 @@ const Event: FunctionalComponent<Props> = ({ eventId }) => {
                 &nbsp;
                 {mapOrDefault(
                     notifications,
-                    (loadedNotifications) =>
-                        loadedNotifications.length.toString(),
-                    ""
+                    (loadedNotifications) => loadedNotifications.length,
+                    0
                 )}
             </Button>
             <Button

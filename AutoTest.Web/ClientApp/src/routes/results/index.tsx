@@ -130,7 +130,7 @@ const Results: FunctionalComponent<Props> = ({ eventId, filter }) => {
                 &nbsp;
                 {notifications.tag === "Loaded"
                     ? notifications.value.length
-                    : ""}
+                    : 0}
             </Button>
             <Dropdown
                 label={`Class Filter: ${
@@ -253,5 +253,5 @@ export default RouteParamsParser<
 >(({ eventId, filter, ...props }) => ({
     ...props,
     eventId: Number.parseInt(eventId),
-    filter: compact(filter.split(",")),
+    filter: filter ? compact(filter.split(",")) : [],
 }))(Results);
