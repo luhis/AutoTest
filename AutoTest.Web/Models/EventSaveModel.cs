@@ -17,6 +17,8 @@ namespace AutoTest.Web.Models
 
         public string Regulations { get; set; } = string.Empty;
 
+        public string Maps { get; set; } = string.Empty;
+
         public EventType EventType { get; set; }
     }
 }

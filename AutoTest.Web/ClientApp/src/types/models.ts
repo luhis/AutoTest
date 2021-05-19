@@ -74,6 +74,7 @@ export interface Event {
     readonly maxAttemptsPerTest: number;
     readonly tests: readonly Test[];
     readonly regulations: string | null;
+    readonly maps: string | null;
     readonly eventType: EventType;
 }
 

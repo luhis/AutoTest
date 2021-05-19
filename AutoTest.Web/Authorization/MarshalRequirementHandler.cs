@@ -8,6 +8,7 @@ using AutoTest.Web.Authorization.Tooling;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
+using Microsoft.EntityFrameworkCore;
 
 namespace AutoTest.Web.Authorization
 {
@@ -35,7 +36,7 @@ namespace AutoTest.Web.Authorization
                 {
                     throw new Exception("Cannot find event");
                 }
-                var emails = _autoTestContext.Marshals!.Where(a => a.EventId == eventId).Select(a => a.Email);
+                var emails = await _autoTestContext.Marshals!.Where(a => a.EventId == eventId).Select(a => a.Email).ToArrayAsync();
                 var email = context.User.GetEmailAddress();
                 if (emails.Contains(email))
                 {

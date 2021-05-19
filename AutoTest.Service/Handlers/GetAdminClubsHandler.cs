@@ -21,7 +21,7 @@ namespace AutoTest.Service.Handlers
         async Task<IEnumerable<ulong>> IRequestHandler<GetAdminClubs, IEnumerable<ulong>>.Handle(GetAdminClubs request, CancellationToken cancellationToken)
         {
             // todo this is very ineficcient, but the only other option at this time is SQL
-            return (await autoTestContext.Clubs!.ToEnumerableAsync(cancellationToken)).Where(a => a.AdminEmails.Any(e => e.Email == request.EmailAddress)).Select(a => a.ClubId).Distinct();
+            return (await autoTestContext.Clubs!.Select(a => new { a.ClubId, a.AdminEmails }).ToEnumerableAsync(cancellationToken)).Where(a => a.AdminEmails.Any(e => e.Email == request.EmailAddress)).Select(a => a.ClubId).Distinct();
         }
     }
 }

@@ -30,127 +30,125 @@ const MarshalsModal: FunctionComponent<Props> = ({
     const formSave = addPreventDefault(save);
 
     return (
-        <form onSubmit={formSave}>
-            <Modal show={true} showClose={false}>
-                <Modal.Card>
-                    <Modal.Card.Header showClose={false}>
-                        {marshal.isNew ? "Add" : "Edit"} Marshal
-                    </Modal.Card.Header>
-                    <Modal.Card.Body>
-                        <Field kind="group">
-                            <Control fullwidth={true}>
-                                <Label>Given Name</Label>
-                                <Input
-                                    required
-                                    value={marshal.givenName}
-                                    onChange={(e: OnChange): void =>
-                                        setField({
-                                            givenName: e.target.value,
-                                        })
-                                    }
-                                />
-                            </Control>
-                            <Control fullwidth={true}>
-                                <Label>Family Name</Label>
-                                <Input
-                                    required
-                                    value={marshal.familyName}
-                                    onChange={(e: OnChange): void =>
-                                        setField({ familyName: e.target.value })
-                                    }
-                                />
-                            </Control>
-                        </Field>
-                        <Field>
-                            <Label>Email</Label>
+        <Modal show={true} showClose={false}>
+            <Modal.Card renderAs="form" onSubmit={formSave}>
+                <Modal.Card.Header showClose={false}>
+                    {marshal.isNew ? "Add" : "Edit"} Marshal
+                </Modal.Card.Header>
+                <Modal.Card.Body>
+                    <Field kind="group">
+                        <Control fullwidth={true}>
+                            <Label>Given Name</Label>
                             <Input
                                 required
-                                value={marshal.email}
-                                type="email"
-                                onChange={(e: OnChange) => {
+                                value={marshal.givenName}
+                                onChange={(e: OnChange): void =>
                                     setField({
-                                        email: e.target.value,
-                                    });
-                                }}
+                                        givenName: e.target.value,
+                                    })
+                                }
                             />
-                            <Help color="danger">
-                                This address is used to manage access to the
-                                system, be careful!
-                            </Help>
-                        </Field>
-                        <EmergencyContactEditor
-                            emergencyContact={marshal.emergencyContact}
-                            setField={(e: EmergencyContact): void =>
+                        </Control>
+                        <Control fullwidth={true}>
+                            <Label>Family Name</Label>
+                            <Input
+                                required
+                                value={marshal.familyName}
+                                onChange={(e: OnChange): void =>
+                                    setField({ familyName: e.target.value })
+                                }
+                            />
+                        </Control>
+                    </Field>
+                    <Field>
+                        <Label>Email</Label>
+                        <Input
+                            required
+                            value={marshal.email}
+                            type="email"
+                            onChange={(e: OnChange) => {
                                 setField({
-                                    emergencyContact: e,
+                                    email: e.target.value,
+                                });
+                            }}
+                        />
+                        <Help color="danger">
+                            This address is used to manage access to the system,
+                            be careful!
+                        </Help>
+                    </Field>
+                    <EmergencyContactEditor
+                        emergencyContact={marshal.emergencyContact}
+                        setField={(e: EmergencyContact): void =>
+                            setField({
+                                emergencyContact: e,
+                            })
+                        }
+                    />
+                    <Field>
+                        <Label>Registration</Label>
+                        <Input
+                            required
+                            type="number"
+                            value={marshal.registrationNumber}
+                            onChange={({ target }: OnChange): void =>
+                                setField({
+                                    ...marshal,
+                                    registrationNumber: Math.floor(
+                                        target.valueAsNumber
+                                    ),
                                 })
                             }
                         />
-                        <Field>
-                            <Label>Registration</Label>
-                            <Input
-                                required
-                                type="number"
-                                value={marshal.registrationNumber}
-                                onChange={({ target }: OnChange): void =>
-                                    setField({
-                                        ...marshal,
-                                        registrationNumber: Math.floor(
-                                            target.valueAsNumber
-                                        ),
-                                    })
-                                }
-                            />
-                        </Field>
-                        <Field>
-                            <Label>Role</Label>
-                            <DropdownInput
-                                required
-                                options={allRoles}
-                                value={marshal.role}
-                                setValue={(e): void =>
-                                    setField({
-                                        ...marshal,
-                                        role: e,
-                                    })
-                                }
-                            />
-                        </Field>
-                        <Field>
-                            <Control>
-                                <Checkbox>
-                                    {"  "}I agree to the{" "}
-                                    <a
-                                        target="_blank"
-                                        href="https://www.motorsportuk.org/wp-content/uploads/2020/06/2021-04-26-signing-on-declaration-officials-pdf.pdf"
-                                        rel="noreferrer"
-                                    >
-                                        Motorsport UK Pre-Event Declaration Form
-                                    </a>
-                                </Checkbox>
-                            </Control>
-                        </Field>
-                    </Modal.Card.Body>
-                    <Modal.Card.Footer>
-                        <Button type="submit" color="primary">
-                            Save changes
+                    </Field>
+                    <Field>
+                        <Label>Role</Label>
+                        <DropdownInput
+                            required
+                            options={allRoles}
+                            value={marshal.role}
+                            setValue={(e): void =>
+                                setField({
+                                    ...marshal,
+                                    role: e,
+                                })
+                            }
+                        />
+                    </Field>
+                    <Field>
+                        <Control>
+                            <Checkbox>
+                                {"  "}I agree to the{" "}
+                                <a
+                                    target="_blank"
+                                    href="https://www.motorsportuk.org/wp-content/uploads/2020/06/2021-04-26-signing-on-declaration-officials-pdf.pdf"
+                                    rel="noreferrer"
+                                >
+                                    Motorsport UK Pre-Event Declaration Form
+                                </a>
+                            </Checkbox>
+                        </Control>
+                    </Field>
+                </Modal.Card.Body>
+                <Modal.Card.Footer>
+                    <Button type="submit" color="primary">
+                        Save changes
+                    </Button>
+                    {marshal.isNew ? (
+                        <Button
+                            color="secondary"
+                            type="button"
+                            onClick={fillFromProfile}
+                        >
+                            Fill from Profile
                         </Button>
-                        {marshal.isNew ? (
-                            <Button
-                                color="secondary"
-                                type="button"
-                                onClick={fillFromProfile}
-                            >
-                                Fill from Profile
-                            </Button>
-                        ) : null}
-                        <Button color="secondary" onClick={cancel}>
-                            Close
-                        </Button>
-                    </Modal.Card.Footer>
-                </Modal.Card>
-            </Modal>
-        </form>
+                    ) : null}
+                    <Button color="secondary" onClick={cancel}>
+                        Close
+                    </Button>
+                </Modal.Card.Footer>
+            </Modal.Card>
+        </Modal>
     );
 };
 

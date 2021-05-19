@@ -78,6 +78,18 @@ const Event: FunctionalComponent<Props> = ({ eventId }) => {
                 : Promise.resolve(),
         [currentEvent]
     );
+    const saveMaps = useCallback(
+        () =>
+            currentEvent
+                ? save(
+                      currentEvent.maps,
+                      `${currentEvent.location}-${getDateString(
+                          currentEvent.startTime
+                      )}-maps.pdf`
+                  )
+                : Promise.resolve(),
+        [currentEvent]
+    );
     return (
         <div>
             <Breadcrumbs club={currentClub} event={currentEvent} />
@@ -137,6 +149,7 @@ const Event: FunctionalComponent<Props> = ({ eventId }) => {
                 Results
             </Button>
             <Button onClick={saveRegs}>Regs</Button>
+            <Button onClick={saveMaps}>Maps</Button>
         </div>
     );
 };

@@ -1,6 +1,5 @@
 ﻿namespace AutoTest.Web.Controllers
 {
-    using System.Linq;
     using System.Threading.Tasks;
     using AutoTest.Service.Messages;
     using AutoTest.Web.Authorization.Tooling;
