@@ -110,7 +110,7 @@ const Results: FunctionalComponent<Props> = ({ eventId, filter }) => {
         } else {
             return () => undefined;
         }
-    }, [dispatch, eventId]);
+    }, [connection, dispatch, eventId]);
     const [showModal, setShowModal] = useState(false);
     const [classFilter, setClassFilter] = useState<readonly string[]>(filter);
     useEffect(() => {

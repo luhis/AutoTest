@@ -3,7 +3,7 @@ import { useEffect, useState } from "preact/hooks";
 import { Heading } from "react-bulma-components";
 import { useDispatch, useSelector } from "react-redux";
 import { HubConnectionBuilder, LogLevel } from "@microsoft/signalr";
-import { compact } from "@s-libs/micro-dash";
+import { compact, last } from "@s-libs/micro-dash";
 import { route } from "preact-router";
 import { FaExclamation } from "react-icons/fa";
 
@@ -45,7 +45,7 @@ const Results: FunctionalComponent<Props> = ({ eventId, testFilter }) => {
         useSelector(selectClubs),
         (a) => a.clubId === currentEvent?.clubId
     );
-    const [run, setRun] = useState<TestRun | undefined>(undefined);
+    const [runs, setRun] = useState<readonly TestRun[]>([]);
     useEffect(() => {
         dispatch(GetClubsIfRequired(getAccessToken(auth)));
         dispatch(GetEventsIfRequired());
@@ -59,15 +59,14 @@ const Results: FunctionalComponent<Props> = ({ eventId, testFilter }) => {
         );
     }, [testFilterState, eventId]);
 
+    const filterRuns = (r: TestRun) =>
+        testFilterState.length === 0 ||
+        testFilterState.includes(r.ordinal.toString());
+
     useEffect(() => {
         if (connection) {
             connection.on("NewTestRun", (newRun: TestRun) => {
-                if (
-                    testFilterState.length === 0 ||
-                    testFilterState.includes(newRun.ordinal.toString())
-                ) {
-                    setRun(newRun);
-                }
+                setRun((a) => a.concat(newRun));
             });
             void connection
                 .start()
@@ -82,7 +81,7 @@ const Results: FunctionalComponent<Props> = ({ eventId, testFilter }) => {
         } else {
             return () => undefined;
         }
-    }, [dispatch, eventId]); //todo need to keep the connection, but update the filter
+    }, [connection, dispatch, eventId]);
 
     const allTests = currentEvent
         ? currentEvent.tests.map((a) => a.ordinal.toString())
@@ -96,6 +95,7 @@ const Results: FunctionalComponent<Props> = ({ eventId, testFilter }) => {
         return found ? `${found.givenName} ${found.familyName}` : "";
     };
 
+    const currentRun = last(runs.filter(filterRuns));
     return (
         <div>
             <Breadcrumbs club={currentClub} event={currentEvent} />
@@ -106,12 +106,12 @@ const Results: FunctionalComponent<Props> = ({ eventId, testFilter }) => {
                 selected={testFilterState}
                 setFilter={setTestFilterState}
             />
-            {run ? (
+            {currentRun ? (
                 <p>
-                    {getEntrantName(run.entrantId)}:{" "}
-                    {(run.timeInMS / 1_000).toFixed(2)}
-                    {run.penalties.length > 0 ? <FaExclamation /> : null}
-                    {run.penalties.map((p) => (
+                    {getEntrantName(currentRun.entrantId)}:{" "}
+                    {(currentRun.timeInMS / 1_000).toFixed(2)}
+                    {currentRun.penalties.length > 0 ? <FaExclamation /> : null}
+                    {currentRun.penalties.map((p) => (
                         <p key={p.penaltyType}>
                             {p.instanceCount} X{" "}
                             {startCase(PenaltyType[p.penaltyType])}
