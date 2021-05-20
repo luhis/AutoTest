@@ -30,7 +30,13 @@ namespace AutoTest.Persistence.Repositories
 
         Task ITestRunsRepository.AddTestRun(TestRun testRun, CancellationToken cancellationToken)
         {
-            this._autoTestContext.TestRuns.ThrowIfNull().Add(testRun);
+            this._autoTestContext.TestRuns!.Add(testRun);
+            return this._autoTestContext.SaveChangesAsync(cancellationToken);
+        }
+
+        Task ITestRunsRepository.UpdateTestRun(TestRun testRun, CancellationToken cancellationToken)
+        {
+            this._autoTestContext.TestRuns!.Update(testRun);
             return this._autoTestContext.SaveChangesAsync(cancellationToken);
         }
     }

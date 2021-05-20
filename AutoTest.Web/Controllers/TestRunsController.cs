@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoTest.Domain.StorageModels;
@@ -17,6 +18,7 @@ namespace AutoTest.Web.Controllers
     public class TestRunsController : ControllerBase
     {
         private readonly IMediator mediator;
+        private static readonly Random random = new Random();
 
         public TestRunsController(IMediator mediator)
         {
@@ -31,7 +33,18 @@ namespace AutoTest.Web.Controllers
 
         [Authorize(Policies.Marshal)]
         [HttpPut("{testRunId}")]
-        public Task Create(ulong eventId, int ordinal, ulong testRunId, TestRunSaveModel testRun, CancellationToken cancellationToken) =>
-            mediator.Send(new AddTestRun(MapClub.Map(eventId, ordinal, testRunId, testRun)), cancellationToken);
+        public Task Create(ulong eventId, int ordinal, ulong testRunId, TestRunSaveModel testRun, CancellationToken cancellationToken)
+        {
+            if (random.Next(2) == 1)
+            {
+                throw new Exception();
+            }
+            return mediator.Send(new AddTestRun(MapClub.Map(eventId, ordinal, testRunId, testRun)), cancellationToken);
+        }
+
+        //[Authorize(Policies.ClubAdmin)]
+        //[HttpPut("{testRunId}/update")]
+        //public Task Update(ulong eventId, int ordinal, ulong testRunId, TestRunSaveModel testRun, CancellationToken cancellationToken) =>
+        //    mediator.Send(new AddTestRun(MapClub.Map(eventId, ordinal, testRunId, testRun)), cancellationToken);
     }
 }

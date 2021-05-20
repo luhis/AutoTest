@@ -17,7 +17,7 @@ import {
     ADD_MARSHAL,
     DELETE_MARSHAL,
 } from "./types";
-import { Entrant, TestRun, TestRunUploadState } from "../../types/models";
+import { Entrant, TestRunUploadState } from "../../types/models";
 import { ifLoaded, LoadingState } from "../../types/loadingState";
 import { neverReached } from "../../types/shared";
 import { CLEAR_CACHE } from "../shared/types";
@@ -41,19 +41,19 @@ const setPaid = (
     );
 };
 
-const createNewTestRuns = (
-    payload: LoadingState<readonly TestRun[], number>
-) => {
-    if (payload.tag === "Loaded") {
-        return payload.value.map((a) => ({
-            ...a,
-            state: TestRunUploadState.Uploaded,
-            eventId: payload.id,
-        }));
-    } else {
-        return [];
-    }
-};
+// const createNewTestRuns = (
+//     payload: LoadingState<readonly TestRun[], number>
+// ) => {
+//     if (payload.tag === "Loaded") {
+//         return payload.value.map((a) => ({
+//             ...a,
+//             state: TestRunUploadState.Uploaded,
+//             eventId: payload.id,
+//         }));
+//     } else {
+//         return [];
+//     }
+// };
 
 export const eventReducer = (
     state = initialState,
@@ -188,7 +188,7 @@ export const eventReducer = (
         case GET_TEST_RUNS:
             return {
                 ...state,
-                testRuns: createNewTestRuns(action.payload),
+                testRunsFromServer: action.payload,
             };
         case GET_NOTIFICATIONS:
             return {

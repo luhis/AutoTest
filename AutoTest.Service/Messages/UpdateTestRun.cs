@@ -3,9 +3,9 @@ using MediatR;
 
 namespace AutoTest.Service.Messages
 {
-    public class AddTestRun : IRequest
+    public class UpdateTestRun : IRequest
     {
-        public AddTestRun(TestRun testRun)
+        public UpdateTestRun(TestRun testRun)
         {
             TestRun = testRun;
         }

@@ -12,5 +12,7 @@ namespace AutoTest.Domain.Repositories
         Task<IEnumerable<TestRun>> GetAll(ulong eventId, int ordinal, CancellationToken cancellationToken);
 
         Task AddTestRun(TestRun testRun, CancellationToken cancellationToken);
+
+        Task UpdateTestRun(TestRun testRun, CancellationToken cancellationToken);
     }
 }

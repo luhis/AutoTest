@@ -1,3 +1,4 @@
+import { uniqBy } from "@s-libs/micro-dash";
 import { FunctionalComponent, h } from "preact";
 
 import { TestRun, Event } from "../../types/models";
@@ -17,9 +18,12 @@ const ExportCount: FunctionalComponent<Props> = ({
 }) => (
     <span>
         {entrantId
-            ? testRuns.filter(
-                  (run) =>
-                      run.entrantId === entrantId && run.ordinal === ordinal
+            ? uniqBy(
+                  testRuns.filter(
+                      (run) =>
+                          run.entrantId === entrantId && run.ordinal === ordinal
+                  ),
+                  (a) => a.testRunId
               ).length
             : "NA"}{" "}
         of{" "}

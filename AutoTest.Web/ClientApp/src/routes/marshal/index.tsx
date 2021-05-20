@@ -29,15 +29,17 @@ import {
     selectRequiresSync,
     selectTestRuns,
     selectEvents,
+    selectTestRunsFromServer,
 } from "../../store/event/selectors";
 import { keySeed } from "../../settings";
 import ExistingCount from "../../components/marshal/ExistingCount";
-import { findIfLoaded } from "../../types/loadingState";
+import { findIfLoaded, mapOrDefault } from "../../types/loadingState";
 import RouteParamsParser from "../../components/shared/RouteParamsParser";
 import Breadcrumbs from "../../components/shared/Breadcrumbs";
 import SyncButton from "../../components/marshal/SyncButton";
 import { selectClubs } from "../../store/clubs/selectors";
 import { GetClubsIfRequired } from "../../store/clubs/actions";
+import { identity } from "@s-libs/micro-dash";
 
 const getNewEditableTest = (ordinal: number): EditableTestRun => ({
     testRunId: uid.uuid(),
@@ -60,6 +62,7 @@ const Marshal: FunctionalComponent<Readonly<Props>> = ({
     const dispatch = useDispatch();
     const entrants = useSelector(selectEntrants);
     const testRuns = useSelector(selectTestRuns);
+    const testRunsFromServer = useSelector(selectTestRunsFromServer);
     const requiresSync = useSelector(selectRequiresSync);
 
     const currentEvent = findIfLoaded(
@@ -152,6 +155,9 @@ const Marshal: FunctionalComponent<Readonly<Props>> = ({
     const clearInputs = () => {
         setEditing((a) => getNewEditableTest(a.ordinal)); // todo
     };
+    const allTestRuns = mapOrDefault(testRunsFromServer, identity, []).concat(
+        testRuns
+    );
     return (
         <div>
             <Breadcrumbs
@@ -163,6 +169,7 @@ const Marshal: FunctionalComponent<Readonly<Props>> = ({
             <Field>
                 <Label>Entrant</Label>
                 <Select<number>
+                    required
                     class="is-fullwidth"
                     onChange={(event: OnSelectChange) =>
                         setEditing((e) => ({
@@ -193,12 +200,13 @@ const Marshal: FunctionalComponent<Readonly<Props>> = ({
                     entrantId={editing.entrantId}
                     ordinal={ordinal}
                     currentEvent={currentEvent}
-                    testRuns={testRuns}
+                    testRuns={allTestRuns}
                 />
             </Field>
             <Field>
                 <Label>Time (Secs)</Label>
                 <Input
+                    required
                     type="number"
                     min="0"
                     step="0.01"

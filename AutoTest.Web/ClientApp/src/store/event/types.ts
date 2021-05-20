@@ -19,7 +19,7 @@ export interface EventState {
         readonly state: TestRunUploadState;
         readonly eventId: number;
     })[];
-    readonly testRunsFromServer: LoadingState<readonly TestRun[]>;
+    readonly testRunsFromServer: LoadingState<readonly TestRun[], number>;
     readonly notifications: LoadingState<readonly Notification[], number>;
 }
 
