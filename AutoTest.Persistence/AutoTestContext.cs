@@ -2,6 +2,7 @@
 
 namespace AutoTest.Persistence
 {
+    using AutoTest.Domain.Enums;
     using AutoTest.Domain.StorageModels;
     using AutoTest.Persistence.Setup;
     using Microsoft.EntityFrameworkCore;
@@ -47,7 +48,7 @@ namespace AutoTest.Persistence
                 }
                 if (this.Events != null && this.Events.SingleOrDefault(a => a.EventId == 1) == null)
                 {
-                    var e = new Event(1, 1, "Kestrel Farm", new DateTime(2000, 1, 1), 10, 2, string.Empty, EventType.AutoTest);
+                    var e = new Event(1, 1, "Kestrel Farm", new DateTime(2000, 1, 1), 10, 2, string.Empty, EventType.AutoTest, string.Empty);
                     e.SetTests(new[] { new Test(1, "") });
                     this.Events.Add(e);
                 }

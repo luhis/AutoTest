@@ -2,7 +2,7 @@ import { h, FunctionComponent } from "preact";
 import { Modal, Button, Form } from "react-bulma-components";
 import { newValidDateOrThrow } from "ts-date";
 import PromiseFileReader from "promise-file-reader";
-const { Label, Input, Field, Select } = Form;
+const { Label, Input, Field, Select, Help } = Form;
 
 import { EditingEvent, Club, EventType } from "../../types/models";
 import { OnChange, OnSelectChange } from "../../types/inputs";
@@ -11,6 +11,7 @@ import ifSome from "../shared/ifSome";
 import { getDateTimeString } from "../../lib/date";
 import { startCase } from "../../lib/string";
 import { addPreventDefault } from "../../lib/form";
+import { isNil } from "@s-libs/micro-dash";
 
 interface Props {
     readonly event: EditingEvent;
@@ -36,7 +37,9 @@ const ModalX: FunctionComponent<Props> = ({
         <Modal show={true} showClose={false}>
             <Modal.Card renderAs="form" onSubmit={formSave}>
                 <Modal.Card.Header showClose={false}>
-                    {event.isNew ? "Add" : "Edit"} Event
+                    <Modal.Card.Title>
+                        {event.isNew ? "Add" : "Edit"} Event
+                    </Modal.Card.Title>
                 </Modal.Card.Header>
                 <Modal.Card.Body>
                     <Field>
@@ -168,10 +171,29 @@ const ModalX: FunctionComponent<Props> = ({
                             }}
                             accept=".pdf"
                         />
+                        <Help>
+                            {!isNil(event.maps) ? "Present" : "Missing"}
+                        </Help>
                     </Field>
                     <Field>
                         <Label>Maps</Label>
-                        <Input type="file" accept=".pdf" />
+                        <Input
+                            required={event.isNew}
+                            type="file"
+                            onChange={async (e: OnChange): Promise<void> => {
+                                setField({
+                                    maps: e.target.files
+                                        ? await PromiseFileReader.readAsDataURL(
+                                              e.target.files[0]
+                                          )
+                                        : null,
+                                });
+                            }}
+                            accept=".pdf"
+                        />
+                        <Help>
+                            {!isNil(event.maps) ? "Present" : "Missing"}
+                        </Help>
                     </Field>
                 </Modal.Card.Body>
                 <Modal.Card.Footer>

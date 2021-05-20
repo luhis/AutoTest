@@ -8,7 +8,9 @@ const DeleteModal: FunctionComponent<{
 }> = ({ deleteFunc, cancel }) => (
     <Modal show={true} showClose={false}>
         <Modal.Card>
-            <Modal.Card.Header showClose={false}>Delete?</Modal.Card.Header>
+            <Modal.Card.Header showClose={false}>
+                <Modal.Card.Title>Delete?</Modal.Card.Title>
+            </Modal.Card.Header>
             <Modal.Card.Body>Are you sure you want to delete?</Modal.Card.Body>
             <Modal.Card.Footer>
                 <Button color="primary" onClick={deleteFunc}>

@@ -33,7 +33,9 @@ const MarshalsModal: FunctionComponent<Props> = ({
         <Modal show={true} showClose={false}>
             <Modal.Card renderAs="form" onSubmit={formSave}>
                 <Modal.Card.Header showClose={false}>
-                    {marshal.isNew ? "Add" : "Edit"} Marshal
+                    <Modal.Card.Title>
+                        {marshal.isNew ? "Add" : "Edit"} Marshal
+                    </Modal.Card.Title>
                 </Modal.Card.Header>
                 <Modal.Card.Body>
                     <Field kind="group">

@@ -44,7 +44,9 @@ const EntrantsModal: FunctionComponent<Props> = ({
         <Modal show={true} showClose={false}>
             <Modal.Card renderAs="form" onSubmit={formSave}>
                 <Modal.Card.Header showClose={false}>
-                    {entrant.isNew ? "Add" : "Edit"} Entrant
+                    <Modal.Card.Title>
+                        {entrant.isNew ? "Add" : "Edit"} Entrant
+                    </Modal.Card.Title>
                 </Modal.Card.Header>
                 <Modal.Card.Body>
                     <Field kind="group">

@@ -1,4 +1,6 @@
-﻿namespace AutoTest.Domain.StorageModels
+﻿using AutoTest.Domain.Enums;
+
+namespace AutoTest.Domain.StorageModels
 {
     public class Penalty
     {

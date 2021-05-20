@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using AutoTest.Domain.Enums;
 using AutoTest.Domain.StorageModels;
 using AutoTest.Service.ResultCalculation;
 using FluentAssertions;
@@ -30,7 +31,7 @@ namespace AutoTest.Unit.Test
         }
 
         [Fact]
-        public void TakeShortestTimeWithCode()
+        public void TakeShortestTimeWithCone()
         {
             var runWithCone = new TestRun(1, 1, 0, 44_000, 1, DateTime.UtcNow);
             runWithCone.SetPenalties(new[] { new Penalty(PenaltyEnum.HitBarrier, 1) });

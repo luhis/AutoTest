@@ -1,12 +1,11 @@
 import { FunctionalComponent, h, Fragment } from "preact";
 import { useEffect, useState } from "preact/hooks";
-import { Heading, Table, Button, Dropdown } from "react-bulma-components";
+import { Heading, Table, Button } from "react-bulma-components";
 import { useDispatch, useSelector } from "react-redux";
 import { HubConnectionBuilder, LogLevel } from "@microsoft/signalr";
 import { compact, range } from "@s-libs/micro-dash";
 import { newValidDate } from "ts-date";
 import { FaBell } from "react-icons/fa";
-import classNames from "classnames";
 import { route } from "preact-router";
 
 import { Notification, Override, Result } from "../../types/models";
@@ -32,6 +31,7 @@ import Breadcrumbs from "../../components/shared/Breadcrumbs";
 import DriverNumber from "../../components/shared/DriverNumber";
 import { selectClubs } from "../../store/clubs/selectors";
 import { GetClubsIfRequired } from "../../store/clubs/actions";
+import FilterDropdown from "../../components/shared/FilterDropdown";
 
 interface Props {
     readonly eventId: number;
@@ -39,16 +39,16 @@ interface Props {
 }
 
 const numberToChar = (n: number) => "abcdefghijklmnopqrstuvwxyz".charAt(n);
-const connection =
-    typeof window !== "undefined"
-        ? new HubConnectionBuilder()
-              .withUrl("/resultsHub")
-              .withAutomaticReconnect()
-              .configureLogging(LogLevel.Error)
-              .build()
-        : undefined;
 
 const Results: FunctionalComponent<Props> = ({ eventId, filter }) => {
+    const connection =
+        typeof window !== "undefined"
+            ? new HubConnectionBuilder()
+                  .withUrl("/resultsHub")
+                  .withAutomaticReconnect()
+                  .configureLogging(LogLevel.Error)
+                  .build()
+            : undefined;
     const dispatch = useDispatch();
     const auth = useGoogleAuth();
     const currentEvent = findIfLoaded(
@@ -89,7 +89,7 @@ const Results: FunctionalComponent<Props> = ({ eventId, filter }) => {
             connection.on("NewNotification", (notification: Notification) => {
                 dispatch(AddNotification(notification));
             });
-            connection.on("NewTestRun", (newResults: readonly Result[]) => {
+            connection.on("NewResults", (newResults: readonly Result[]) => {
                 setResults({
                     tag: "Loaded",
                     value: newResults,
@@ -132,40 +132,12 @@ const Results: FunctionalComponent<Props> = ({ eventId, filter }) => {
                     ? notifications.value.length
                     : 0}
             </Button>
-            <Dropdown
-                label={`Class Filter: ${
-                    classFilter.length === 0 ? "All" : classFilter.join(", ")
-                }`}
-            >
-                <a
-                    href="#"
-                    class={classNames("dropdown-item", {
-                        "is-active": classFilter.length === 0,
-                    })}
-                    onClick={() => setClassFilter([])}
-                >
-                    All
-                </a>
-                <hr class="dropdown-divider" />
-                {allClasses.map((c) => (
-                    <a
-                        key={c}
-                        href="#"
-                        class={classNames("dropdown-item", {
-                            "is-active": classFilter.includes(c),
-                        })}
-                        onClick={() =>
-                            setClassFilter((f) =>
-                                f.includes(c)
-                                    ? filter.filter((a) => a != c)
-                                    : filter.concat(c)
-                            )
-                        }
-                    >
-                        {c}
-                    </a>
-                ))}
-            </Dropdown>
+            <FilterDropdown
+                filterName="Class"
+                options={allClasses}
+                selected={classFilter}
+                setFilter={setClassFilter}
+            />
             <Table>
                 <thead>
                     <tr>

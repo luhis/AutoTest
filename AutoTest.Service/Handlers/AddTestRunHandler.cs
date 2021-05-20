@@ -21,7 +21,7 @@ namespace AutoTest.Service.Handlers
         async Task<Unit> IRequestHandler<AddTestRun, Unit>.Handle(AddTestRun request, CancellationToken cancellationToken)
         {
             await testRunsRepository.AddTestRun(request.TestRun, cancellationToken);
-            await signalRNotifier.NewTestRun(request.TestRun.EventId, cancellationToken);
+            await signalRNotifier.NewTestRun(request.TestRun, cancellationToken);
             return Unit.Value;
         }
     }

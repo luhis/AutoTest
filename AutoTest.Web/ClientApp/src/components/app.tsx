@@ -19,6 +19,7 @@ import Header from "./header";
 import Results from "../routes/results";
 import Tests from "../routes/tests";
 import Marshal from "../routes/marshal";
+import LiveRuns from "../routes/liveRuns";
 import store from "../store";
 import { googleKey } from "../settings";
 
@@ -91,6 +92,10 @@ const App: FunctionalComponent = () => {
                                 <Route
                                     path="/marshal/:eventId/:ordinal"
                                     component={Marshal}
+                                />
+                                <Route
+                                    path="/liveruns/:eventId/"
+                                    component={LiveRuns}
                                 />
                                 <NotFoundPage default />
                             </Router>

@@ -21,10 +21,12 @@ namespace AutoTest.Web.Hubs
 
         private IClientProxy GetEventGroup(ulong eventId) => this.hub.Clients.Group(eventId.ToString());
 
-        async Task ISignalRNotifier.NewTestRun(ulong eventId, CancellationToken cancellationToken)
+        async Task ISignalRNotifier.NewTestRun(TestRun testRun, CancellationToken cancellationToken)
         {
-            var results = await mediator.Send(new GetResults(eventId), cancellationToken);
-            await GetEventGroup(eventId).SendAsync("NewTestRun", results, cancellationToken);
+            var results = await mediator.Send(new GetResults(testRun.EventId), cancellationToken);
+            var group = GetEventGroup(testRun.EventId);
+            await group.SendAsync("NewResults", results, cancellationToken);
+            await group.SendAsync("NewTestRun", testRun, cancellationToken);
         }
 
         Task ISignalRNotifier.NewNotification(Notification notification, CancellationToken cancellationToken)

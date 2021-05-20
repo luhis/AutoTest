@@ -1,5 +1,5 @@
 ﻿using System;
-using AutoTest.Domain.StorageModels;
+using AutoTest.Domain.Enums;
 
 namespace AutoTest.Web.Models
 {

@@ -24,7 +24,7 @@ const AddNotificationModal: FunctionComponent<Props> = ({
         <Modal show={true} showClose={false}>
             <Modal.Card renderAs="form" onSubmit={formSave}>
                 <Modal.Card.Header showClose={false}>
-                    Notifications
+                    <Modal.Card.Title>Notifications</Modal.Card.Title>
                 </Modal.Card.Header>
                 <Modal.Card.Body>
                     <Field>
