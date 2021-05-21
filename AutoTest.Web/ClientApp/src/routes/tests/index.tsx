@@ -46,18 +46,16 @@ const Tests: FunctionalComponent<Readonly<Props>> = ({ eventId }) => {
             <Breadcrumbs club={currentClub} event={currentEvent} />
             <Heading>Tests</Heading>
             {currentEvent ? (
-                currentEvent.tests.map((a) => (
-                    <Columns key={a.ordinal}>
+                currentEvent.tests.map(({ ordinal }) => (
+                    <Columns key={ordinal}>
                         <Column>
-                            <p class="number">{a.ordinal + 1}</p>
+                            <p class="number">{ordinal + 1}</p>
                         </Column>
                         <Column>
                             <Button.Group>
                                 <Button
                                     onClick={() =>
-                                        route(
-                                            `/marshal/${eventId}/${a.ordinal}`
-                                        )
+                                        route(`/marshal/${eventId}/${ordinal}`)
                                     }
                                 >
                                     Marshal

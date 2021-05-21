@@ -196,7 +196,7 @@ const Entrants: FunctionalComponent<Readonly<Props>> = ({ eventId }) => {
                 markPaid={setPaid}
                 deleteEntrant={deleteEntrant}
             />
-            <Button color="primary" onClick={newEntrant}>
+            <Button color="primary" onClick={newEntrant} disabled={!canSetPaid}>
                 Add Entrant
             </Button>
             {editingEntrant ? (

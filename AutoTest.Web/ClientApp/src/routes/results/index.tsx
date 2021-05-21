@@ -35,12 +35,12 @@ import FilterDropdown from "../../components/shared/FilterDropdown";
 
 interface Props {
     readonly eventId: number;
-    readonly filter: readonly string[];
+    readonly classFilter: readonly string[];
 }
 
 const numberToChar = (n: number) => "abcdefghijklmnopqrstuvwxyz".charAt(n);
 
-const Results: FunctionalComponent<Props> = ({ eventId, filter }) => {
+const Results: FunctionalComponent<Props> = ({ eventId, classFilter }) => {
     const connection =
         typeof window !== "undefined"
             ? new HubConnectionBuilder()
@@ -112,10 +112,10 @@ const Results: FunctionalComponent<Props> = ({ eventId, filter }) => {
         }
     }, [connection, dispatch, eventId]);
     const [showModal, setShowModal] = useState(false);
-    const [classFilter, setClassFilter] = useState<readonly string[]>(filter);
+    const [filter, setClassFilter] = useState<readonly string[]>(classFilter);
     useEffect(() => {
-        route(`/results/${eventId}?filter=${classFilter.join(",")}`, true);
-    }, [classFilter, eventId]);
+        route(`/results/${eventId}?classFilter=${filter.join(",")}`, true);
+    }, [filter, eventId]);
     const allClasses = mapOrDefault(results, (a) => a.map((b) => b.class), []);
 
     return (
@@ -218,12 +218,12 @@ export default RouteParamsParser<
         Props,
         {
             readonly eventId: string;
-            readonly filter: string;
+            readonly classFilter: string;
         }
     >,
     Props
->(({ eventId, filter, ...props }) => ({
+>(({ eventId, classFilter, ...props }) => ({
     ...props,
     eventId: Number.parseInt(eventId),
-    filter: filter ? compact(filter.split(",")) : [],
+    classFilter: classFilter ? compact(classFilter.split(",")) : [],
 }))(Results);

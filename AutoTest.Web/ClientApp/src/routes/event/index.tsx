@@ -95,31 +95,58 @@ const Event: FunctionalComponent<Props> = ({ eventId }) => {
             <Breadcrumbs club={currentClub} event={currentEvent} />
             <Heading>Event {currentEvent?.location}</Heading>
 
-            <Button
-                onClick={() => setShowModal(true)}
-                loading={mapOrDefault(notifications, (_) => false, true)}
-            >
-                <FaBell />
-                &nbsp;
-                {mapOrDefault(
-                    notifications,
-                    (loadedNotifications) => loadedNotifications.length,
-                    0
-                )}
-            </Button>
-            <Button
-                onClick={() =>
-                    setShowAddNotificationModal({
-                        eventId,
-                        notificationId: uid.uuid(),
-                        created: newValidDate(),
-                        message: "",
-                    })
-                }
-            >
-                Add Notification
-            </Button>
-            {showAddNotificationModal && notifications.tag === "Loaded" ? (
+            <Button.Group>
+                <Button
+                    onClick={() => setShowModal(true)}
+                    loading={mapOrDefault(notifications, (_) => false, true)}
+                >
+                    <FaBell />
+                    &nbsp;
+                    {mapOrDefault(
+                        notifications,
+                        (loadedNotifications) => loadedNotifications.length,
+                        0
+                    )}
+                </Button>
+                <Button
+                    onClick={() =>
+                        setShowAddNotificationModal({
+                            eventId,
+                            notificationId: uid.uuid(),
+                            created: newValidDate(),
+                            message: "",
+                        })
+                    }
+                >
+                    Add Notification
+                </Button>
+            </Button.Group>
+
+            <Button.Group>
+                <Button onClick={() => route(`/editRuns/${eventId}`)}>
+                    Edit Runs
+                </Button>
+                <Button onClick={() => route(`/entrants/${eventId}`)}>
+                    Entrants
+                </Button>
+                <Button onClick={() => route(`/marshals/${eventId}`)}>
+                    Marshals
+                </Button>
+            </Button.Group>
+            <Button onClick={() => route(`/tests/${eventId}`)}>Tests</Button>
+            <Button.Group>
+                <Button onClick={() => route(`/results/${eventId}`)}>
+                    Results
+                </Button>
+                <Button onClick={() => route(`/liveRuns/${eventId}`)}>
+                    Live Runs
+                </Button>
+            </Button.Group>
+            <Button.Group>
+                <Button onClick={saveRegs}>Regs</Button>
+                <Button onClick={saveMaps}>Maps</Button>
+            </Button.Group>
+            {showAddNotificationModal ? (
                 <AddNotificationModal
                     cancel={() => setShowAddNotificationModal(undefined)}
                     setField={(a: Partial<Notification>) =>
@@ -137,22 +164,6 @@ const Event: FunctionalComponent<Props> = ({ eventId }) => {
                     notifications={notifications.value}
                 />
             ) : null}
-
-            <Button onClick={() => route(`/entrants/${eventId}`)}>
-                Entrants
-            </Button>
-            <Button onClick={() => route(`/marshals/${eventId}`)}>
-                Marshals
-            </Button>
-            <Button onClick={() => route(`/tests/${eventId}`)}>Tests</Button>
-            <Button onClick={() => route(`/results/${eventId}`)}>
-                Results
-            </Button>
-            <Button onClick={() => route(`/liveruns/${eventId}`)}>
-                Live Runs
-            </Button>
-            <Button onClick={saveRegs}>Regs</Button>
-            <Button onClick={saveMaps}>Maps</Button>
         </div>
     );
 };

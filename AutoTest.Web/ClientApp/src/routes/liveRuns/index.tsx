@@ -54,7 +54,7 @@ const Results: FunctionalComponent<Props> = ({ eventId, testFilter }) => {
         useState<readonly string[]>(testFilter);
     useEffect(() => {
         route(
-            `/liveruns/${eventId}?testFilter=${testFilterState.join(",")}`,
+            `/liveRuns/${eventId}?testFilter=${testFilterState.join(",")}`,
             false
         );
     }, [testFilterState, eventId]);

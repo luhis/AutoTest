@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoTest.Domain.StorageModels;
@@ -14,11 +13,10 @@ using Microsoft.AspNetCore.Mvc;
 namespace AutoTest.Web.Controllers
 {
     [ApiController]
-    [Route("api/events/{eventId}/tests/{ordinal}/testRuns")]
+    [Route("api/events/{eventId}/tests/{ordinal:int}/testRuns")]
     public class TestRunsController : ControllerBase
     {
         private readonly IMediator mediator;
-        private static readonly Random random = new Random();
 
         public TestRunsController(IMediator mediator)
         {
@@ -35,10 +33,6 @@ namespace AutoTest.Web.Controllers
         [HttpPut("{testRunId}")]
         public Task Create(ulong eventId, int ordinal, ulong testRunId, TestRunSaveModel testRun, CancellationToken cancellationToken)
         {
-            if (random.Next(2) == 1)
-            {
-                throw new Exception();
-            }
             return mediator.Send(new AddTestRun(MapClub.Map(eventId, ordinal, testRunId, testRun)), cancellationToken);
         }
 

@@ -88,7 +88,7 @@ const MarshalsModal: FunctionComponent<Props> = ({
                         }
                     />
                     <Field>
-                        <Label>Registration</Label>
+                        <Label>Registration No</Label>
                         <Input
                             required
                             type="number"

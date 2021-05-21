@@ -20,6 +20,7 @@ import Results from "../routes/results";
 import Tests from "../routes/tests";
 import Marshal from "../routes/marshal";
 import LiveRuns from "../routes/liveRuns";
+import EditRuns from "../routes/editRuns";
 import store from "../store";
 import { googleKey } from "../settings";
 
@@ -94,8 +95,12 @@ const App: FunctionalComponent = () => {
                                     component={Marshal}
                                 />
                                 <Route
-                                    path="/liveruns/:eventId/"
+                                    path="/liveRuns/:eventId/"
                                     component={LiveRuns}
+                                />
+                                <Route
+                                    path="/editRuns/:eventId/"
+                                    component={EditRuns}
                                 />
                                 <NotFoundPage default />
                             </Router>
