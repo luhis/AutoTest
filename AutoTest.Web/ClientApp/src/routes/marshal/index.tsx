@@ -10,7 +10,7 @@ import {
     EditableTestRun,
     Override,
     PenaltyType,
-    TestRunTemp,
+    TestRun,
 } from "../../types/models";
 import ifSome from "../../components/shared/ifSome";
 import { getAccessToken } from "../../api/api";
@@ -145,7 +145,7 @@ const Marshal: FunctionalComponent<Readonly<Props>> = ({
                         ...editing,
                         created: newValidDate(),
                         eventId: eventId,
-                    } as TestRunTemp,
+                    } as TestRun,
                     getAccessToken(auth)
                 )
             );

@@ -1,10 +1,10 @@
 import { FunctionalComponent, h } from "preact";
-import { useEffect, useState } from "preact/hooks";
+import { useCallback, useEffect, useState } from "preact/hooks";
 import { Form, Heading, Table } from "react-bulma-components";
 import { useDispatch, useSelector } from "react-redux";
 import { range } from "@s-libs/micro-dash";
 
-import { Override } from "../../types/models";
+import { Override, TestRun } from "../../types/models";
 import { findIfLoaded } from "../../types/loadingState";
 import { useGoogleAuth } from "../../components/app";
 import { getAccessToken } from "../../api/api";
@@ -19,6 +19,7 @@ import {
     GetEventsIfRequired,
     GetMarshalsIfRequired,
     GetTestRunsIfRequired,
+    UpdateTestRun,
 } from "../../store/event/actions";
 import RouteParamsParser from "../../components/shared/RouteParamsParser";
 import Breadcrumbs from "../../components/shared/Breadcrumbs";
@@ -27,6 +28,7 @@ import { GetClubsIfRequired } from "../../store/clubs/actions";
 import { OnSelectChange } from "../../types/inputs";
 import ifSome from "../../components/shared/ifSome";
 import Penalties from "../../components/shared/Penalties";
+import Modal from "../../components/editRuns/Modal";
 
 interface Props {
     readonly eventId: number;
@@ -75,6 +77,27 @@ const EditRuns: FunctionalComponent<Props> = ({ eventId }) => {
         );
         return found ? `${found.givenName} ${found.familyName}` : "Not Found";
     };
+
+    const [editing, setEditing] = useState<TestRun | undefined>(undefined);
+    const clearEditingRun = () => setEditing(undefined);
+    const setField = useCallback(
+        (a: Partial<TestRun>) =>
+            setEditing((b) => {
+                if (b !== undefined) {
+                    return { ...b, ...a };
+                } else {
+                    return b;
+                }
+            }),
+        []
+    );
+    const save = useCallback(() => {
+        if (editing) {
+            dispatch(
+                UpdateTestRun(editing, getAccessToken(auth), clearEditingRun)
+            );
+        }
+    }, [auth, dispatch, editing]);
     return (
         <div>
             <Breadcrumbs club={currentClub} event={currentEvent} />
@@ -109,7 +132,11 @@ const EditRuns: FunctionalComponent<Props> = ({ eventId }) => {
                     testRuns,
                     (r) => r.testRunId,
                     (result) => (
-                        <tr key={result.testRunId}>
+                        <tr
+                            key={result.testRunId}
+                            onClick={() => setEditing(result)}
+                            class="is-clickable"
+                        >
                             <td>{result.testRunId}</td>
                             <td>{getMarshalName(result.marshalId)}</td>
                             <td>{getEntrantName(result.entrantId)}</td>
@@ -123,6 +150,14 @@ const EditRuns: FunctionalComponent<Props> = ({ eventId }) => {
                     (_) => true
                 )}
             </Table>
+            {editing ? (
+                <Modal
+                    run={editing}
+                    setField={setField}
+                    cancel={clearEditingRun}
+                    save={save}
+                />
+            ) : null}
         </div>
     );
 };

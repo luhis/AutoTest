@@ -22,6 +22,7 @@ export interface Test {
 }
 
 export interface TestRun {
+    readonly eventId: number;
     readonly testRunId: number;
     readonly ordinal: number;
     readonly timeInMS: number;
@@ -30,8 +31,6 @@ export interface TestRun {
     readonly created: ValidDate;
     readonly penalties: readonly Penalty[];
 }
-
-export type TestRunTemp = TestRun & { readonly eventId: number };
 
 export enum PenaltyType {
     Late = 0,

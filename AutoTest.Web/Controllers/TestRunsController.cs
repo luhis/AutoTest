@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoTest.Domain.StorageModels;
@@ -35,12 +36,13 @@ namespace AutoTest.Web.Controllers
         public Task Create(ulong eventId, int ordinal, ulong testRunId, TestRunSaveModel testRun, CancellationToken cancellationToken)
         {
             var emailAddress = this.User.GetEmailAddress();
-            return mediator.Send(new AddTestRun(testRunId, eventId, ordinal, testRun.TimeInMS, testRun.EntrantId, testRun.Created, emailAddress), cancellationToken);
+            return mediator.Send(
+                new AddTestRun(testRunId, eventId, ordinal, testRun.TimeInMS, testRun.EntrantId, testRun.Created, emailAddress, testRun.Penalties.Select(a => new Penalty(a.PenaltyType, a.InstanceCount))), cancellationToken);
         }
 
         //[Authorize(Policies.ClubAdmin)]
         //[HttpPut("{testRunId}/update")]
         //public Task Update(ulong eventId, int ordinal, ulong testRunId, TestRunSaveModel testRun, CancellationToken cancellationToken) =>
-        //    mediator.Send(new AddTestRun(MapClub.Map(eventId, ordinal, testRunId, testRun)), cancellationToken);
+        //    mediator.Send(new UpdateTestRun(MapClub.Map(eventId, ordinal, testRunId, testRun)), cancellationToken);
     }
 }

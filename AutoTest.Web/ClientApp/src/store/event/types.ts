@@ -3,7 +3,6 @@ import {
     Event,
     TestRun,
     TestRunUploadState,
-    TestRunTemp,
     Notification,
     Marshal,
 } from "../../types/models";
@@ -38,6 +37,7 @@ export const DELETE_EVENT = "DELETE_EVENT";
 export const ADD_EVENT = "ADD_EVENT";
 export const GET_TEST_RUNS = "GET_TEST_RUNS";
 export const ADD_TEST_RUN = "ADD_TEST_RUN";
+export const UPDATE_TEST_RUN = "UPDATE_TEST_RUN";
 export const UPDATE_TEST_RUN_STATE = "UPDATE_TEST_RUN_STATE";
 export const GET_NOTIFICATIONS = "GET_NOTIFICATIONS";
 export const ADD_NOTIFICATION = "ADD_NOTIFICATION";
@@ -102,7 +102,12 @@ interface GetTestRuns {
 
 interface AddTestRun {
     readonly type: typeof ADD_TEST_RUN;
-    readonly payload: TestRunTemp;
+    readonly payload: TestRun;
+}
+
+interface UpdateTestRun {
+    readonly type: typeof UPDATE_TEST_RUN;
+    readonly payload: TestRun;
 }
 
 interface UpdateTestRunState {
@@ -133,6 +138,7 @@ export type EventActionTypes =
     | GetEvents
     | DeleteEvent
     | AddTestRun
+    | UpdateTestRun
     | UpdateTestRunState
     | GetNotifications
     | AddNotification

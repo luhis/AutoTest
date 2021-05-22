@@ -20,7 +20,7 @@ import {
 } from "./types";
 import {
     TestRunUploadState,
-    TestRunTemp,
+    TestRun,
     Entrant,
     Event,
     Notification,
@@ -34,7 +34,7 @@ import {
 } from "../../api/entrants";
 import { addMarshal, deleteMarshal, getMarshals } from "../../api/marshals";
 import { AppState } from "..";
-import { addTestRun, getTestRuns } from "../../api/testRuns";
+import { addTestRun, getTestRuns, updateTestRun } from "../../api/testRuns";
 import {
     requiresLoading,
     idsMatch,
@@ -221,8 +221,24 @@ const GetTestRuns =
     };
 
 export const AddTestRun =
-    (testRun: TestRunTemp, token: string | undefined) =>
+    (testRun: TestRun, token: string | undefined) =>
     async (dispatch: Dispatch<EventActionTypes>, getState: () => AppState) => {
+        dispatch({
+            type: ADD_TEST_RUN,
+            payload: testRun,
+        });
+        await SyncTestRuns(
+            testRun.eventId,
+            testRun.ordinal,
+            token
+        )(dispatch, getState);
+    };
+
+export const UpdateTestRun =
+    (testRun: TestRun, token: string | undefined, onSuccess: () => void) =>
+    async (dispatch: Dispatch<EventActionTypes>, getState: () => AppState) => {
+        await updateTestRun(testRun.eventId, testRun, token);
+        onSuccess();
         dispatch({
             type: ADD_TEST_RUN,
             payload: testRun,
@@ -285,7 +301,7 @@ export const SyncTestRuns =
         );
         await Promise.all(
             toUpload.map(async (element) => {
-                const res = await addTestRun(element.eventId, element, token);
+                const res = await addTestRun(element, token);
                 ifLoaded(res, () => {
                     dispatch(
                         UpdateTestRunState(

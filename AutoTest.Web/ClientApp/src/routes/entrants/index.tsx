@@ -85,7 +85,7 @@ const Entrants: FunctionalComponent<Readonly<Props>> = ({ eventId }) => {
                         driverNumber: getDriverNumber(entrants, editingEntrant),
                     },
                     getAccessToken(auth),
-                    () => setEditingEntrant(undefined)
+                    clearEditingEntrant
                 )
             );
         }

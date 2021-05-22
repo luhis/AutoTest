@@ -16,6 +16,7 @@ import {
     GET_MARSHALS,
     ADD_MARSHAL,
     DELETE_MARSHAL,
+    UPDATE_TEST_RUN,
 } from "./types";
 import { Entrant, TestRunUploadState } from "../../types/models";
 import { ifLoaded, LoadingState } from "../../types/loadingState";
@@ -164,6 +165,17 @@ export const eventReducer = (
                     ...action.payload,
                     state: TestRunUploadState.NotSent,
                 }),
+            };
+        case UPDATE_TEST_RUN:
+            return {
+                ...state,
+                testRunsFromServer: ifLoaded(state.testRunsFromServer, (runs) =>
+                    runs.map((a) =>
+                        a.testRunId === action.payload.testRunId
+                            ? action.payload
+                            : a
+                    )
+                ),
             };
         case UPDATE_TEST_RUN_STATE: {
             const found = state.testRuns.find(

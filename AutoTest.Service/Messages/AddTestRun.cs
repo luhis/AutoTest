@@ -1,11 +1,14 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using AutoTest.Domain.StorageModels;
 using MediatR;
 
 namespace AutoTest.Service.Messages
 {
     public class AddTestRun : IRequest
     {
-        public AddTestRun(ulong testRunId, ulong eventId, int ordinal, int timeInMS, ulong entrantId, DateTime created, string emailAddress)
+        public AddTestRun(ulong testRunId, ulong eventId, int ordinal, int timeInMS, ulong entrantId, DateTime created, string emailAddress, IEnumerable<Penalty> penalties)
         {
             TestRunId = testRunId;
             EventId = eventId;
@@ -14,6 +17,7 @@ namespace AutoTest.Service.Messages
             EntrantId = entrantId;
             Created = created;
             EmailAddress = emailAddress;
+            Penalties = penalties;
         }
         public int Ordinal { get; set; }
 
@@ -28,5 +32,7 @@ namespace AutoTest.Service.Messages
         public ulong EntrantId { get; }
 
         public string EmailAddress { get; }
+
+        public IEnumerable<Penalty> Penalties { get; }
     }
 }
