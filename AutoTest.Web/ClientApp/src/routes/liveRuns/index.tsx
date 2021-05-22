@@ -5,9 +5,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { HubConnectionBuilder, LogLevel } from "@microsoft/signalr";
 import { compact, last } from "@s-libs/micro-dash";
 import { route } from "preact-router";
-import { FaExclamation } from "react-icons/fa";
 
-import { Override, PenaltyType, TestRun } from "../../types/models";
+import { Override, TestRun } from "../../types/models";
 import { findIfLoaded } from "../../types/loadingState";
 import { useGoogleAuth } from "../../components/app";
 import { getAccessToken } from "../../api/api";
@@ -18,7 +17,7 @@ import Breadcrumbs from "../../components/shared/Breadcrumbs";
 import { selectClubs } from "../../store/clubs/selectors";
 import { GetClubsIfRequired } from "../../store/clubs/actions";
 import FilterDropdown from "../../components/shared/FilterDropdown";
-import { startCase } from "../../lib/string";
+import Penalties from "../../components/shared/Penalties";
 
 interface Props {
     readonly eventId: number;
@@ -92,7 +91,7 @@ const Results: FunctionalComponent<Props> = ({ eventId, testFilter }) => {
             currentEntrants,
             (a) => a.entrantId === entrantId
         );
-        return found ? `${found.givenName} ${found.familyName}` : "";
+        return found ? `${found.givenName} ${found.familyName}` : "Not Found";
     };
 
     const currentRun = last(runs.filter(filterRuns));
@@ -109,14 +108,8 @@ const Results: FunctionalComponent<Props> = ({ eventId, testFilter }) => {
             {currentRun ? (
                 <p>
                     {getEntrantName(currentRun.entrantId)}:{" "}
-                    {(currentRun.timeInMS / 1_000).toFixed(2)}
-                    {currentRun.penalties.length > 0 ? <FaExclamation /> : null}
-                    {currentRun.penalties.map((p) => (
-                        <p key={p.penaltyType}>
-                            {p.instanceCount} X{" "}
-                            {startCase(PenaltyType[p.penaltyType])}
-                        </p>
-                    ))}
+                    {(currentRun.timeInMS / 1_000).toFixed(2)}s
+                    <Penalties penalties={currentRun.penalties} />
                 </p>
             ) : null}
         </div>

@@ -194,13 +194,15 @@ export const GetTestRunsIfRequired =
     (eventId: number, ordinal: number, token: string | undefined) =>
     async (dispatch: Dispatch<EventActionTypes>, getState: () => AppState) => {
         const testRuns = selectTestRunsFromServer(getState());
-        if (!idsMatch(testRuns, eventId)) {
+        const id = { eventId, ordinal };
+        const missMatch = !idsMatch(testRuns, id)
+        if (missMatch) {
             dispatch({
                 type: GET_TEST_RUNS,
-                payload: { tag: "Loading", id: eventId },
+                payload: { tag: "Loading", id: id },
             });
         }
-        if (requiresLoading(testRuns.tag) || isStale(testRuns)) {
+        if (requiresLoading(testRuns.tag) || isStale(testRuns) || missMatch) {
             await GetTestRuns(eventId, ordinal, token)(dispatch, getState);
         }
     };

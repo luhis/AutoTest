@@ -14,6 +14,7 @@
             entity.Property(e => e.Ordinal).IsRequired();
             entity.HasOne<Event>().WithMany().HasForeignKey(p => p.EventId);
             entity.HasOne<Entrant>().WithMany().HasForeignKey(p => p.EntrantId);
+            entity.HasOne<Marshal>().WithMany().HasForeignKey(p => p.MarshalId);
             entity.OwnsMany(a => a.Penalties, SetupPenalty);
         }
         public static void SetupPenalty(OwnedNavigationBuilder<TestRun, Penalty> entity)

@@ -26,6 +26,8 @@ export interface TestRun {
     readonly ordinal: number;
     readonly timeInMS: number;
     readonly entrantId: number;
+    readonly marshalId: number;
+    readonly created: ValidDate;
     readonly penalties: readonly Penalty[];
 }
 

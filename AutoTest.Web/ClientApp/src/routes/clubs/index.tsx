@@ -77,7 +77,7 @@ const ClubComponent: FunctionalComponent = () => {
                 setEditingClub={setCurrentEditingClub}
                 deleteClub={deleteClub}
             />
-            <Button color="primary" onClick={newClub}>
+            <Button color="primary" onClick={newClub} disabled={!isRootAdmin}>
                 Add Club
             </Button>
             {editingClub ? (

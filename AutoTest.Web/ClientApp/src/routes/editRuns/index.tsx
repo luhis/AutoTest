@@ -1,6 +1,6 @@
 import { FunctionalComponent, h } from "preact";
 import { useEffect, useState } from "preact/hooks";
-import { Form, Heading } from "react-bulma-components";
+import { Form, Heading, Table } from "react-bulma-components";
 import { useDispatch, useSelector } from "react-redux";
 import { range } from "@s-libs/micro-dash";
 
@@ -8,14 +8,25 @@ import { Override } from "../../types/models";
 import { findIfLoaded } from "../../types/loadingState";
 import { useGoogleAuth } from "../../components/app";
 import { getAccessToken } from "../../api/api";
-import { selectEvents } from "../../store/event/selectors";
-import { GetEventsIfRequired } from "../../store/event/actions";
+import {
+    selectEntrants,
+    selectEvents,
+    selectMarshals,
+    selectTestRunsFromServer,
+} from "../../store/event/selectors";
+import {
+    GetEntrantsIfRequired,
+    GetEventsIfRequired,
+    GetMarshalsIfRequired,
+    GetTestRunsIfRequired,
+} from "../../store/event/actions";
 import RouteParamsParser from "../../components/shared/RouteParamsParser";
 import Breadcrumbs from "../../components/shared/Breadcrumbs";
 import { selectClubs } from "../../store/clubs/selectors";
 import { GetClubsIfRequired } from "../../store/clubs/actions";
 import { OnSelectChange } from "../../types/inputs";
-import { getTestRuns } from "../../api/testRuns";
+import ifSome from "../../components/shared/ifSome";
+import Penalties from "../../components/shared/Penalties";
 
 interface Props {
     readonly eventId: number;
@@ -37,13 +48,33 @@ const EditRuns: FunctionalComponent<Props> = ({ eventId }) => {
         dispatch(GetEventsIfRequired());
     }, [dispatch, auth]);
 
-    const [ordinal, setSelectedOrdinal] =
-        useState<number | undefined>(undefined);
+    const [ordinal, setSelectedOrdinal] = useState<number>(0);
+    const testRuns = useSelector(selectTestRunsFromServer);
     useEffect(() => {
-        if (ordinal) {
-            void getTestRuns(eventId, ordinal, getAccessToken(auth));
+        dispatch(GetTestRunsIfRequired(eventId, ordinal, getAccessToken(auth)));
+        dispatch(GetEntrantsIfRequired(eventId, getAccessToken(auth)));
+        dispatch(GetMarshalsIfRequired(eventId, getAccessToken(auth)));
+    }, [auth, dispatch, eventId, ordinal]);
+
+    const entrants = useSelector(selectEntrants);
+
+    const getEntrantName = (entrantId: number) => {
+        const found = findIfLoaded(entrants, (a) => a.entrantId === entrantId);
+        if (found) {
+            return `${found.givenName} ${found.familyName}`;
+        } else {
+            return "Not Found";
         }
-    }, [auth, eventId, ordinal]);
+    };
+    const currentMarshals = useSelector(selectMarshals);
+
+    const getMarshalName = (marshalId: number) => {
+        const found = findIfLoaded(
+            currentMarshals,
+            (a) => a.marshalId === marshalId
+        );
+        return found ? `${found.givenName} ${found.familyName}` : "Not Found";
+    };
     return (
         <div>
             <Breadcrumbs club={currentClub} event={currentEvent} />
@@ -63,6 +94,35 @@ const EditRuns: FunctionalComponent<Props> = ({ eventId }) => {
                     </option>
                 ))}
             </Form.Select>
+            <Table>
+                <thead>
+                    <tr>
+                        <th>Test Run ID</th>
+                        <th>Marshal</th>
+                        <th>Entrant</th>
+                        <th>Time</th>
+                        <th>Penalties</th>
+                        <th>Created</th>
+                    </tr>
+                </thead>
+                {ifSome(
+                    testRuns,
+                    (r) => r.testRunId,
+                    (result) => (
+                        <tr key={result.testRunId}>
+                            <td>{result.testRunId}</td>
+                            <td>{getMarshalName(result.marshalId)}</td>
+                            <td>{getEntrantName(result.entrantId)}</td>
+                            <td>{(result.timeInMS / 1000).toFixed(2)}s</td>
+                            <td>
+                                <Penalties penalties={result.penalties} />
+                            </td>
+                            <td>{result.created.toUTCString()}</td>
+                        </tr>
+                    ),
+                    (_) => true
+                )}
+            </Table>
         </div>
     );
 };

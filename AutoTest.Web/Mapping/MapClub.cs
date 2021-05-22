@@ -41,12 +41,12 @@ namespace AutoTest.Web.Mapping
             return new ClubMembership(membership.ClubName, membership.MembershipNumber, membership.Expiry);
         }
 
-        public static TestRun Map(ulong eventId, int ordinal, ulong testRunId, TestRunSaveModel test)
-        {
-            var run = new TestRun(testRunId, eventId, ordinal, test.TimeInMS, test.EntrantId, test.Created);
-            run.SetPenalties(test.Penalties.Select(a => new Penalty(a.PenaltyType, a.InstanceCount)).ToArray());
-            return run;
-        }
+        //public static TestRun Map(ulong eventId, int ordinal, ulong testRunId, TestRunSaveModel test)
+        //{
+        //    var run = new TestRun(testRunId, eventId, ordinal, test.TimeInMS, test.EntrantId, test.Created, 0);
+        //    run.SetPenalties(test.Penalties.Select(a => new Penalty(a.PenaltyType, a.InstanceCount)).ToArray());
+        //    return run;
+        //}
 
         public static Entrant Map(ulong entrantId, ulong eventId, EntrantSaveModel entrant)
         {

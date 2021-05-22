@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using AutoTest.Domain.StorageModels;
 using AutoTest.Service.Messages;
 using AutoTest.Web.Authorization;
+using AutoTest.Web.Authorization.Tooling;
 using AutoTest.Web.Mapping;
 using AutoTest.Web.Models;
 using MediatR;
@@ -33,7 +34,8 @@ namespace AutoTest.Web.Controllers
         [HttpPut("{testRunId}")]
         public Task Create(ulong eventId, int ordinal, ulong testRunId, TestRunSaveModel testRun, CancellationToken cancellationToken)
         {
-            return mediator.Send(new AddTestRun(MapClub.Map(eventId, ordinal, testRunId, testRun)), cancellationToken);
+            var emailAddress = this.User.GetEmailAddress();
+            return mediator.Send(new AddTestRun(testRunId, eventId, ordinal, testRun.TimeInMS, testRun.EntrantId, testRun.Created, emailAddress), cancellationToken);
         }
 
         //[Authorize(Policies.ClubAdmin)]

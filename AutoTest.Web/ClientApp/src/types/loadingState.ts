@@ -1,3 +1,4 @@
+import { isEqual } from "@s-libs/micro-dash";
 import { ValidDate, addMinutes, newValidDate } from "ts-date";
 
 const staleDataMinutes = 0.1;
@@ -55,7 +56,7 @@ export const idsMatch = <T, TT extends unknown>(
     id: TT
 ) => {
     if (loading.tag === "Loading" || loading.tag === "Loaded") {
-        return loading.id === id;
+        return isEqual(loading.id, id);
     } else {
         return true;
     }

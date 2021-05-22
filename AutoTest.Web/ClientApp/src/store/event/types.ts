@@ -19,7 +19,10 @@ export interface EventState {
         readonly state: TestRunUploadState;
         readonly eventId: number;
     })[];
-    readonly testRunsFromServer: LoadingState<readonly TestRun[], number>;
+    readonly testRunsFromServer: LoadingState<
+        readonly TestRun[],
+        { readonly eventId: number; readonly ordinal: number }
+    >;
     readonly notifications: LoadingState<readonly Notification[], number>;
 }
 
@@ -91,7 +94,10 @@ interface AddEvent {
 
 interface GetTestRuns {
     readonly type: typeof GET_TEST_RUNS;
-    readonly payload: LoadingState<readonly TestRun[], number>;
+    readonly payload: LoadingState<
+        readonly TestRun[],
+        { readonly eventId: number; readonly ordinal: number }
+    >;
 }
 
 interface AddTestRun {

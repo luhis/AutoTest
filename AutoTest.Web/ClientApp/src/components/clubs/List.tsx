@@ -45,7 +45,10 @@ const ClubsList: FunctionComponent<Props> = ({
                             </Button>
                         </Control>
                         <Control>
-                            <Button onClick={() => setEditingClub(club)}>
+                            <Button
+                                onClick={() => setEditingClub(club)}
+                                disabled={!isClubAdmin(club)}
+                            >
                                 Edit
                             </Button>
                         </Control>

@@ -1,28 +1,9 @@
 import { FunctionComponent, h } from "preact";
-import { FaExclamation } from "react-icons/fa";
 
-import { startCase } from "../../lib/string";
-import { EntrantTime, Penalty, PenaltyType } from "../../types/models";
+import { EntrantTime } from "../../types/models";
+import Penalties from "../shared/Penalties";
 
 const None: FunctionComponent = () => <span>X</span>;
-
-const penaltyTypeToString = (p: PenaltyType) => startCase(PenaltyType[p]);
-
-const Penalties: FunctionComponent<{
-    readonly penalties: readonly Penalty[];
-}> = ({ penalties }) =>
-    penalties.length > 0 ? (
-        <FaExclamation
-            title={penalties
-                .map(
-                    (p) =>
-                        `${p.instanceCount}x ${penaltyTypeToString(
-                            p.penaltyType
-                        )}`
-                )
-                .join(", ")}
-        />
-    ) : null;
 
 const Time: FunctionComponent<{
     readonly times: EntrantTime;
@@ -34,7 +15,7 @@ const Time: FunctionComponent<{
         const runValue = testValues.testRuns[run];
         return runValue ? (
             <span>
-                {(runValue.timeInMS / 1000).toFixed(2)}
+                {(runValue.timeInMS / 1000).toFixed(2)}s
                 <Penalties penalties={runValue.penalties} />
             </span>
         ) : (

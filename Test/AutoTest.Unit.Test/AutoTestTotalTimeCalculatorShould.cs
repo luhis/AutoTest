@@ -15,7 +15,7 @@ namespace AutoTest.Unit.Test
         [Fact]
         public void CalculateSimpleTime()
         {
-            var total = totalTimeCalculator.GetTotalTime(new[] { new TestRun(1, 1, 0, 50_000, 1, DateTime.UtcNow), }, Enumerable.Empty<TestRun>());
+            var total = totalTimeCalculator.GetTotalTime(new[] { new TestRun(1, 1, 0, 50_000, 1, DateTime.UtcNow, 1), }, Enumerable.Empty<TestRun>());
             total.Should().Be(50_000);
         }
 
@@ -24,8 +24,8 @@ namespace AutoTest.Unit.Test
         {
             var total = totalTimeCalculator.GetTotalTime(new[]
             {
-                new TestRun(1, 1, 0, 50_000, 1, DateTime.UtcNow),
-                new TestRun(1, 1, 0, 45_000, 1, DateTime.UtcNow),
+                new TestRun(1, 1, 0, 50_000, 1, DateTime.UtcNow, 1),
+                new TestRun(1, 1, 0, 45_000, 1, DateTime.UtcNow, 1),
             }, Enumerable.Empty<TestRun>());
             total.Should().Be(45_000);
         }
@@ -33,11 +33,11 @@ namespace AutoTest.Unit.Test
         [Fact]
         public void TakeShortestTimeWithCone()
         {
-            var runWithCone = new TestRun(1, 1, 0, 44_000, 1, DateTime.UtcNow);
+            var runWithCone = new TestRun(1, 1, 0, 44_000, 1, DateTime.UtcNow, 1);
             runWithCone.SetPenalties(new[] { new Penalty(PenaltyEnum.HitBarrier, 1) });
             var total = totalTimeCalculator.GetTotalTime(new[]
             {
-                new TestRun(1, 1, 0, 50_000, 1, DateTime.UtcNow),
+                new TestRun(1, 1, 0, 50_000, 1, DateTime.UtcNow, 1),
                 runWithCone,
             }, Enumerable.Empty<TestRun>());
             total.Should().Be(49_000);
@@ -48,8 +48,8 @@ namespace AutoTest.Unit.Test
         {
             var total = totalTimeCalculator.GetTotalTime(new[]
             {
-                new TestRun(1, 1, 0, 45_000, 1, DateTime.UtcNow),
-                new TestRun(1, 1, 1, 45_000, 1, DateTime.UtcNow),
+                new TestRun(1, 1, 0, 45_000, 1, DateTime.UtcNow, 1),
+                new TestRun(1, 1, 1, 45_000, 1, DateTime.UtcNow, 1),
             }, Enumerable.Empty<TestRun>());
             total.Should().Be(90_000);
         }
@@ -57,7 +57,7 @@ namespace AutoTest.Unit.Test
         [Fact]
         public void WrongTestWithNoOthersAttemptsIs20()
         {
-            var runWithWrongTest = new TestRun(1, 1, 0, 44_000, 1, DateTime.UtcNow);
+            var runWithWrongTest = new TestRun(1, 1, 0, 44_000, 1, DateTime.UtcNow, 1);
             runWithWrongTest.SetPenalties(new[] { new Penalty(PenaltyEnum.WrongTest, 1) });
             var total = totalTimeCalculator.GetTotalTime(new[]
             {
