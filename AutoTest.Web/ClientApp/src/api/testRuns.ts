@@ -1,9 +1,13 @@
-import { Override, TestRun } from "../types/models";
+import {
+    Override,
+    TestRunFromClient,
+    TestRunFromServer,
+} from "../types/models";
 import { ApiResponse, toApiResponse } from "../types/loadingState";
 import { extract, getHeaders, throwIfNotOk } from "./api";
 import { parseIsoOrThrow } from "ts-date";
 
-type TestRunApi = Override<TestRun, { readonly created: string }>;
+type TestRunApi = Override<TestRunFromServer, { readonly created: string }>;
 
 export const getTestRuns = async (
     eventId: number,
@@ -11,7 +15,7 @@ export const getTestRuns = async (
     token: string | undefined
 ): Promise<
     ApiResponse<
-        readonly TestRun[],
+        readonly TestRunFromServer[],
         { readonly eventId: number; readonly ordinal: number }
     >
 > =>
@@ -33,7 +37,7 @@ export const getTestRuns = async (
     );
 
 export const addTestRun = async (
-    { eventId, ...testRun }: TestRun,
+    { eventId, ...testRun }: TestRunFromClient,
     token: string | undefined
 ): Promise<ApiResponse<void>> =>
     toApiResponse(async () => {
@@ -50,8 +54,7 @@ export const addTestRun = async (
     }, undefined);
 
 export const updateTestRun = async (
-    eventId: number,
-    testRun: TestRun,
+    { eventId, ...testRun }: TestRunFromServer,
     token: string | undefined
 ): Promise<ApiResponse<void>> =>
     toApiResponse(async () => {

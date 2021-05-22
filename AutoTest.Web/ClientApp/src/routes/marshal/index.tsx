@@ -5,12 +5,13 @@ import UUID from "uuid-int";
 import { useSelector, useDispatch } from "react-redux";
 import { newValidDate } from "ts-date";
 const { Select, Label, Field, Input } = Form;
+import { identity } from "@s-libs/micro-dash";
 
 import {
     EditableTestRun,
     Override,
     PenaltyType,
-    TestRun,
+    TestRunUploadState,
 } from "../../types/models";
 import ifSome from "../../components/shared/ifSome";
 import { getAccessToken } from "../../api/api";
@@ -39,7 +40,7 @@ import Breadcrumbs from "../../components/shared/Breadcrumbs";
 import SyncButton from "../../components/marshal/SyncButton";
 import { selectClubs } from "../../store/clubs/selectors";
 import { GetClubsIfRequired } from "../../store/clubs/actions";
-import { identity } from "@s-libs/micro-dash";
+import { addPreventDefault } from "../../lib/form";
 
 const getNewEditableTest = (ordinal: number): EditableTestRun => ({
     testRunId: uid.uuid(),
@@ -47,6 +48,7 @@ const getNewEditableTest = (ordinal: number): EditableTestRun => ({
     timeInMS: undefined,
     penalties: [],
     entrantId: undefined,
+    state: TestRunUploadState.NotSent,
 });
 interface Props {
     readonly eventId: number;
@@ -90,6 +92,7 @@ const Marshal: FunctionalComponent<Readonly<Props>> = ({
         dispatch(GetClubsIfRequired(getAccessToken(auth)));
     }, [auth, dispatch]);
 
+    //todo can i improve this?
     const increase = (penaltyType: PenaltyType) => {
         setEditing((a) => {
             const found = a.penalties.find(
@@ -138,14 +141,20 @@ const Marshal: FunctionalComponent<Readonly<Props>> = ({
         [auth, dispatch, eventId, ordinal]
     );
     const add = useCallback(() => {
-        if (editing.ordinal !== undefined && editing.timeInMS !== undefined) {
+        if (
+            editing.ordinal !== undefined &&
+            editing.timeInMS !== undefined &&
+            editing.entrantId !== undefined
+        ) {
             dispatch(
                 AddTestRun(
                     {
                         ...editing,
                         created: newValidDate(),
                         eventId: eventId,
-                    } as TestRun,
+                        timeInMS: editing.timeInMS,
+                        entrantId: editing.entrantId,
+                    },
                     getAccessToken(auth)
                 )
             );
@@ -155,11 +164,16 @@ const Marshal: FunctionalComponent<Readonly<Props>> = ({
     const clearInputs = () => {
         setEditing((a) => getNewEditableTest(a.ordinal)); // todo
     };
-    const allTestRuns = mapOrDefault(testRunsFromServer, identity, []).concat(
-        testRuns
-    );
+    const allTestRuns = mapOrDefault(testRunsFromServer, identity, [])
+        .map(({ entrantId, testRunId }) => ({
+            entrantId,
+            testRunId,
+        }))
+        .concat(testRuns.filter((a) => a.ordinal === ordinal));
+
+    const formSave = addPreventDefault(add);
     return (
-        <div>
+        <form onSubmit={formSave}>
             <Breadcrumbs
                 club={currentClub}
                 event={currentEvent}
@@ -198,7 +212,6 @@ const Marshal: FunctionalComponent<Readonly<Props>> = ({
                 <Label>Existing Count</Label>
                 <ExistingCount
                     entrantId={editing.entrantId}
-                    ordinal={ordinal}
                     currentEvent={currentEvent}
                     testRuns={allTestRuns}
                 />
@@ -234,15 +247,13 @@ const Marshal: FunctionalComponent<Readonly<Props>> = ({
                 />
             </Field>
             <Button.Group>
-                <Button color="info" onClick={clearInputs}>
+                <Button color="info" type="button" onClick={clearInputs}>
                     Clear
                 </Button>
-                <Button color="primary" onClick={add}>
-                    Add
-                </Button>
+                <Button color="primary">Add</Button>
                 <SyncButton unSyncedCount={requiresSync} sync={sync} />
             </Button.Group>
-        </div>
+        </form>
     );
 };
 export default RouteParamsParser<

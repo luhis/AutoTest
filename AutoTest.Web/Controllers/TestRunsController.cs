@@ -6,7 +6,6 @@ using AutoTest.Domain.StorageModels;
 using AutoTest.Service.Messages;
 using AutoTest.Web.Authorization;
 using AutoTest.Web.Authorization.Tooling;
-using AutoTest.Web.Mapping;
 using AutoTest.Web.Models;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -40,9 +39,9 @@ namespace AutoTest.Web.Controllers
                 new AddTestRun(testRunId, eventId, ordinal, testRun.TimeInMS, testRun.EntrantId, testRun.Created, emailAddress, testRun.Penalties.Select(a => new Penalty(a.PenaltyType, a.InstanceCount))), cancellationToken);
         }
 
-        //[Authorize(Policies.ClubAdmin)]
-        //[HttpPut("{testRunId}/update")]
-        //public Task Update(ulong eventId, int ordinal, ulong testRunId, TestRunSaveModel testRun, CancellationToken cancellationToken) =>
-        //    mediator.Send(new UpdateTestRun(MapClub.Map(eventId, ordinal, testRunId, testRun)), cancellationToken);
+        [Authorize(Policies.ClubAdmin)]
+        [HttpPut("{testRunId}/update")]
+        public Task Update(ulong eventId, int ordinal, ulong testRunId, TestRunUpdateModel testRun, CancellationToken cancellationToken) =>
+            mediator.Send(new UpdateTestRun(testRunId, eventId, ordinal, testRun.TimeInMS, testRun.EntrantId, testRun.Created, testRun.MarshalId, testRun.Penalties.Select(a => new Penalty(a.PenaltyType, a.InstanceCount))), cancellationToken);
     }
 }

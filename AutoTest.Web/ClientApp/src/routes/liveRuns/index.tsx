@@ -6,7 +6,7 @@ import { HubConnectionBuilder, LogLevel } from "@microsoft/signalr";
 import { compact, last } from "@s-libs/micro-dash";
 import { route } from "preact-router";
 
-import { Override, TestRun } from "../../types/models";
+import { Override, TestRunFromServer } from "../../types/models";
 import { findIfLoaded } from "../../types/loadingState";
 import { useGoogleAuth } from "../../components/app";
 import { getAccessToken } from "../../api/api";
@@ -44,7 +44,7 @@ const Results: FunctionalComponent<Props> = ({ eventId, testFilter }) => {
         useSelector(selectClubs),
         (a) => a.clubId === currentEvent?.clubId
     );
-    const [runs, setRun] = useState<readonly TestRun[]>([]);
+    const [runs, setRun] = useState<readonly TestRunFromServer[]>([]);
     useEffect(() => {
         dispatch(GetClubsIfRequired(getAccessToken(auth)));
         dispatch(GetEventsIfRequired());
@@ -58,13 +58,13 @@ const Results: FunctionalComponent<Props> = ({ eventId, testFilter }) => {
         );
     }, [testFilterState, eventId]);
 
-    const filterRuns = (r: TestRun) =>
+    const filterRuns = (r: TestRunFromServer) =>
         testFilterState.length === 0 ||
         testFilterState.includes(r.ordinal.toString());
 
     useEffect(() => {
         if (connection) {
-            connection.on("NewTestRun", (newRun: TestRun) => {
+            connection.on("NewTestRun", (newRun: TestRunFromServer) => {
                 setRun((a) => a.concat(newRun));
             });
             void connection

@@ -17,14 +17,16 @@ import {
     ADD_MARSHAL,
     DELETE_MARSHAL,
     GET_MARSHALS,
+    UPDATE_TEST_RUN,
 } from "./types";
 import {
     TestRunUploadState,
-    TestRun,
     Entrant,
     Event,
     Notification,
     Marshal,
+    TestRunFromServer,
+    TestRunFromClient,
 } from "../../types/models";
 import {
     addEntrant,
@@ -221,7 +223,7 @@ const GetTestRuns =
     };
 
 export const AddTestRun =
-    (testRun: TestRun, token: string | undefined) =>
+    (testRun: TestRunFromClient, token: string | undefined) =>
     async (dispatch: Dispatch<EventActionTypes>, getState: () => AppState) => {
         dispatch({
             type: ADD_TEST_RUN,
@@ -235,19 +237,18 @@ export const AddTestRun =
     };
 
 export const UpdateTestRun =
-    (testRun: TestRun, token: string | undefined, onSuccess: () => void) =>
-    async (dispatch: Dispatch<EventActionTypes>, getState: () => AppState) => {
-        await updateTestRun(testRun.eventId, testRun, token);
+    (
+        testRun: TestRunFromServer,
+        token: string | undefined,
+        onSuccess: () => void
+    ) =>
+    async (dispatch: Dispatch<EventActionTypes>) => {
+        await updateTestRun(testRun, token);
         onSuccess();
         dispatch({
-            type: ADD_TEST_RUN,
+            type: UPDATE_TEST_RUN,
             payload: testRun,
         });
-        await SyncTestRuns(
-            testRun.eventId,
-            testRun.ordinal,
-            token
-        )(dispatch, getState);
     };
 
 export const SetPaid =

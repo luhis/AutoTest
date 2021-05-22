@@ -1,11 +1,11 @@
 import { FunctionalComponent, h } from "preact";
-import { useCallback, useEffect, useState } from "preact/hooks";
+import { StateUpdater, useCallback, useEffect, useState } from "preact/hooks";
 import { Form, Heading, Table } from "react-bulma-components";
 import { useDispatch, useSelector } from "react-redux";
-import { range } from "@s-libs/micro-dash";
+import { identity, range } from "@s-libs/micro-dash";
 
-import { Override, TestRun } from "../../types/models";
-import { findIfLoaded } from "../../types/loadingState";
+import { Override, TestRunFromServer } from "../../types/models";
+import { findIfLoaded, mapOrDefault } from "../../types/loadingState";
 import { useGoogleAuth } from "../../components/app";
 import { getAccessToken } from "../../api/api";
 import {
@@ -78,19 +78,9 @@ const EditRuns: FunctionalComponent<Props> = ({ eventId }) => {
         return found ? `${found.givenName} ${found.familyName}` : "Not Found";
     };
 
-    const [editing, setEditing] = useState<TestRun | undefined>(undefined);
+    const [editing, setEditing] =
+        useState<TestRunFromServer | undefined>(undefined);
     const clearEditingRun = () => setEditing(undefined);
-    const setField = useCallback(
-        (a: Partial<TestRun>) =>
-            setEditing((b) => {
-                if (b !== undefined) {
-                    return { ...b, ...a };
-                } else {
-                    return b;
-                }
-            }),
-        []
-    );
     const save = useCallback(() => {
         if (editing) {
             dispatch(
@@ -102,20 +92,20 @@ const EditRuns: FunctionalComponent<Props> = ({ eventId }) => {
         <div>
             <Breadcrumbs club={currentClub} event={currentEvent} />
             <Heading>Edit Runs</Heading>
+            Test Number:
             <Form.Select<number>
                 value={ordinal}
                 onChange={(a: OnSelectChange) =>
                     setSelectedOrdinal(Number.parseInt(a.target.value))
                 }
             >
-                {(currentEvent
-                    ? range(currentEvent.testCount).map((a) => a.toString())
-                    : []
-                ).map((a) => (
-                    <option key={a} value={a}>
-                        {a}
-                    </option>
-                ))}
+                {(currentEvent ? range(currentEvent.testCount) : []).map(
+                    (a) => (
+                        <option key={a} value={a}>
+                            {a + 1}
+                        </option>
+                    )
+                )}
             </Form.Select>
             <Table>
                 <thead>
@@ -153,7 +143,8 @@ const EditRuns: FunctionalComponent<Props> = ({ eventId }) => {
             {editing ? (
                 <Modal
                     run={editing}
-                    setField={setField}
+                    entrants={mapOrDefault(entrants, identity, [])}
+                    setField={setEditing as StateUpdater<TestRunFromServer>}
                     cancel={clearEditingRun}
                     save={save}
                 />

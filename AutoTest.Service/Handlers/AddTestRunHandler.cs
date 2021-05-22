@@ -28,6 +28,7 @@ namespace AutoTest.Service.Handlers
         {
             var marshal = await _autoTestContext.Marshals!.SingleAsync(a => a.Email == request.EmailAddress, cancellationToken);
             var testRun = new TestRun(request.TestRunId, request.EventId, request.Ordinal, request.TimeInMS, request.EntrantId, request.Created, marshal.MarshalId);
+            testRun.SetPenalties(request.Penalties.ToArray());
             await testRunsRepository.AddTestRun(testRun, cancellationToken);
             await signalRNotifier.NewTestRun(testRun, cancellationToken);
             return Unit.Value;

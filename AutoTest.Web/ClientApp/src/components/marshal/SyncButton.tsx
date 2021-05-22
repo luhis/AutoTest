@@ -6,7 +6,7 @@ const SyncButton: FunctionalComponent<{
     readonly sync: () => void;
 }> = ({ unSyncedCount, sync }) =>
     unSyncedCount > 0 ? (
-        <Button onClick={sync} color="danger">
+        <Button type="button" onClick={sync} color="danger">
             Sync ({unSyncedCount})
         </Button>
     ) : null;

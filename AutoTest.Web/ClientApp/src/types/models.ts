@@ -21,7 +21,7 @@ export interface Test {
     readonly mapLocation: string;
 }
 
-export interface TestRun {
+export interface TestRunFromServer {
     readonly eventId: number;
     readonly testRunId: number;
     readonly ordinal: number;
@@ -31,6 +31,10 @@ export interface TestRun {
     readonly created: ValidDate;
     readonly penalties: readonly Penalty[];
 }
+
+export type TestRunFromClient = Omit<TestRunFromServer, "marshalId"> & {
+    readonly state: TestRunUploadState;
+};
 
 export enum PenaltyType {
     Late = 0,
@@ -58,11 +62,12 @@ export interface Penalty {
 }
 
 export type EditableTestRun = Override<
-    Partial<Omit<TestRun, "created">>,
+    Partial<Omit<TestRunFromClient, "created">>,
     {
         readonly testRunId: number;
         readonly ordinal: number;
         readonly penalties: readonly Penalty[];
+        readonly state: TestRunUploadState;
     }
 >;
 
@@ -150,7 +155,7 @@ export interface Notification {
 
 interface TestTime {
     readonly ordinal: number;
-    readonly testRuns: readonly TestRun[];
+    readonly testRuns: readonly TestRunFromServer[];
 }
 
 export type Override<T, P> = P & Omit<T, keyof P>;

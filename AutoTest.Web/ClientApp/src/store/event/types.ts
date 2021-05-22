@@ -1,10 +1,11 @@
 import {
     Entrant,
     Event,
-    TestRun,
+    TestRunFromServer,
     TestRunUploadState,
     Notification,
     Marshal,
+    TestRunFromClient,
 } from "../../types/models";
 import { LoadingState } from "../../types/loadingState";
 import { AddEvent } from "./actions";
@@ -14,12 +15,9 @@ export interface EventState {
     readonly events: LoadingState<readonly Event[]>;
     readonly entrants: LoadingState<readonly Entrant[], number>;
     readonly marshals: LoadingState<readonly Marshal[], number>;
-    readonly testRuns: readonly (TestRun & {
-        readonly state: TestRunUploadState;
-        readonly eventId: number;
-    })[];
+    readonly testRuns: readonly TestRunFromClient[];
     readonly testRunsFromServer: LoadingState<
-        readonly TestRun[],
+        readonly TestRunFromServer[],
         { readonly eventId: number; readonly ordinal: number }
     >;
     readonly notifications: LoadingState<readonly Notification[], number>;
@@ -95,19 +93,19 @@ interface AddEvent {
 interface GetTestRuns {
     readonly type: typeof GET_TEST_RUNS;
     readonly payload: LoadingState<
-        readonly TestRun[],
+        readonly TestRunFromServer[],
         { readonly eventId: number; readonly ordinal: number }
     >;
 }
 
 interface AddTestRun {
     readonly type: typeof ADD_TEST_RUN;
-    readonly payload: TestRun;
+    readonly payload: TestRunFromClient;
 }
 
 interface UpdateTestRun {
     readonly type: typeof UPDATE_TEST_RUN;
-    readonly payload: TestRun;
+    readonly payload: TestRunFromServer;
 }
 
 interface UpdateTestRunState {
