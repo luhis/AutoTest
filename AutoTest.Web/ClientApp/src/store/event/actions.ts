@@ -195,7 +195,7 @@ export const GetTestRunsIfRequired =
     async (dispatch: Dispatch<EventActionTypes>, getState: () => AppState) => {
         const testRuns = selectTestRunsFromServer(getState());
         const id = { eventId, ordinal };
-        const missMatch = !idsMatch(testRuns, id)
+        const missMatch = !idsMatch(testRuns, id);
         if (missMatch) {
             dispatch({
                 type: GET_TEST_RUNS,
