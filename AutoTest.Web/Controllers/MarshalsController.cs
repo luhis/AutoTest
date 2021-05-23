@@ -14,7 +14,7 @@ namespace AutoTest.Web.Controllers
     using Microsoft.AspNetCore.Mvc;
 
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("api/[controller]/{eventId}")]
     public class MarshalsController : ControllerBase
     {
         private readonly IMediator mediator;
@@ -25,15 +25,15 @@ namespace AutoTest.Web.Controllers
         }
 
         [Authorize(policy: Policies.ClubAdmin)]
-        [HttpGet("{eventId}")]
+        [HttpGet]
         public Task<IEnumerable<Marshal>> GetMarshals(ulong eventId, CancellationToken cancellationToken) => this.mediator.Send(new GetMarshals(eventId), cancellationToken);
 
         [Authorize(policy: Policies.ClubAdminOrSelf)]
-        [HttpPut("{eventId}/{marshalId}")]
+        [HttpPut("{marshalId}")]
         public Task<Marshal> PutMarshal(ulong eventId, ulong marshalId, MarshalSaveModel entrantSaveModel, CancellationToken cancellationToken) => this.mediator.Send(new SaveMarshal(MapClub.Map(marshalId, eventId, entrantSaveModel)), cancellationToken);
 
         [Authorize(policy: Policies.ClubAdminOrSelf)]
-        [HttpDelete("{eventId}/{marshalId}")]
+        [HttpDelete("{marshalId}")]
         public Task Delete(ulong marshalId) => this.mediator.Send(new DeleteMarshal(marshalId));
     }
 }

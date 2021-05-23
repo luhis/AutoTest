@@ -20,7 +20,7 @@
         {
             this.mediator = mediator;
         }
-
+        
         [HttpGet]
         public async Task<AccessModel> GetAccessAsync()
         {

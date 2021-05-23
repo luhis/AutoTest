@@ -1,12 +1,12 @@
 import { FunctionalComponent, h, Fragment } from "preact";
-import { useEffect, useState } from "preact/hooks";
+import { useEffect, useMemo, useState } from "preact/hooks";
 import { Heading, Table, Button } from "react-bulma-components";
 import { useDispatch, useSelector } from "react-redux";
 import { HubConnectionBuilder, LogLevel } from "@microsoft/signalr";
 import { compact, range } from "@s-libs/micro-dash";
 import { newValidDate } from "ts-date";
 import { FaBell } from "react-icons/fa";
-import { route } from "preact-router";
+// import { route } from "preact-router";
 
 import { Notification, Override, Result } from "../../types/models";
 import {
@@ -40,15 +40,16 @@ interface Props {
 
 const numberToChar = (n: number) => "abcdefghijklmnopqrstuvwxyz".charAt(n);
 
+const baseConn = new HubConnectionBuilder()
+    .withUrl("/resultsHub")
+    .withAutomaticReconnect()
+    .configureLogging(LogLevel.Error);
+
 const Results: FunctionalComponent<Props> = ({ eventId, classFilter }) => {
-    const connection =
-        typeof window !== "undefined"
-            ? new HubConnectionBuilder()
-                  .withUrl("/resultsHub")
-                  .withAutomaticReconnect()
-                  .configureLogging(LogLevel.Error)
-                  .build()
-            : undefined;
+    const connection = useMemo(
+        () => (typeof window !== "undefined" ? baseConn.build() : undefined),
+        []
+    );
     const dispatch = useDispatch();
     const auth = useGoogleAuth();
     const currentEvent = findIfLoaded(
@@ -104,6 +105,7 @@ const Results: FunctionalComponent<Props> = ({ eventId, classFilter }) => {
                 })
                 .catch(console.error);
             return async () => {
+                debugger;
                 await connection.invoke("LeaveEvent", eventId);
                 await connection.stop();
             };
@@ -112,10 +114,10 @@ const Results: FunctionalComponent<Props> = ({ eventId, classFilter }) => {
         }
     }, [connection, dispatch, eventId]);
     const [showModal, setShowModal] = useState(false);
-    const [filter, setClassFilter] = useState<readonly string[]>(classFilter);
-    useEffect(() => {
-        route(`/results/${eventId}?classFilter=${filter.join(",")}`, true);
-    }, [filter, eventId]);
+    const [_, setClassFilter] = useState<readonly string[]>(classFilter);
+    // useEffect(() => {
+    //     route(`/results/${eventId}?classFilter=${filter.join(",")}`, false);
+    // }, [filter, eventId]);
     const allClasses = mapOrDefault(results, (a) => a.map((b) => b.class), []);
 
     return (

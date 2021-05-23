@@ -17,6 +17,7 @@ interface Props {
     readonly cancel: () => void;
     readonly setField: (k: Partial<EditingMarshal>) => void;
     readonly fillFromProfile: () => void;
+    readonly isClubAdmin: boolean;
 }
 
 const MarshalsModal: FunctionComponent<Props> = ({
@@ -26,6 +27,7 @@ const MarshalsModal: FunctionComponent<Props> = ({
     allRoles,
     setField,
     fillFromProfile,
+    isClubAdmin,
 }) => {
     const formSave = addPreventDefault(save);
 
@@ -65,6 +67,7 @@ const MarshalsModal: FunctionComponent<Props> = ({
                     <Field>
                         <Label>Email</Label>
                         <Input
+                            readOnly={!isClubAdmin}
                             required
                             value={marshal.email}
                             type="email"

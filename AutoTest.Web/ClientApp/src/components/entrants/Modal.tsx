@@ -24,6 +24,7 @@ interface Props {
     readonly cancel: () => void;
     readonly setField: (k: Partial<EditingEntrant>) => void;
     readonly fillFromProfile: () => void;
+    readonly isClubAdmin: boolean;
 }
 
 const EntrantsModal: FunctionComponent<Props> = ({
@@ -32,6 +33,7 @@ const EntrantsModal: FunctionComponent<Props> = ({
     entrant,
     setField,
     fillFromProfile,
+    isClubAdmin,
 }) => {
     const classesInUse = useSelector(selectClassOptions);
     const makeAndModels = useSelector(selectMakeModelOptions);
@@ -78,6 +80,7 @@ const EntrantsModal: FunctionComponent<Props> = ({
                     <Field>
                         <Label>Email</Label>
                         <Input
+                            readOnly={!isClubAdmin}
                             required
                             value={entrant.email}
                             type="email"

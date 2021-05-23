@@ -11,4 +11,4 @@ To develop this project, you need a few tools:
 Open the project in Visual Studio, run `yarn install` from the ClientApp folder, make sure CosmosDB emulator is running, finally run the Visual Studio project and everything should work.  You may need to refresh the website after the initial load if you see an error page.
 
 # Demo on Azure
-https://brmc.azurewebsites.net
+https://mangaji-autotest.azurewebsites.net

@@ -15,7 +15,7 @@ interface Props {
     readonly setEditingEntrant: (entrant: Entrant) => void;
     readonly markPaid: (entrant: Entrant, isPaid: boolean) => void;
     readonly deleteEntrant: (entrant: Entrant) => void;
-    readonly canSetPaid: boolean;
+    readonly isClubAdmin: boolean;
 }
 
 const List: FunctionalComponent<Props> = ({
@@ -23,7 +23,7 @@ const List: FunctionalComponent<Props> = ({
     setEditingEntrant,
     markPaid,
     deleteEntrant,
-    canSetPaid,
+    isClubAdmin,
 }) =>
     ifSome(
         entrants,
@@ -45,7 +45,7 @@ const List: FunctionalComponent<Props> = ({
                         {entrant.isPaid ? (
                             <Control>
                                 <Button
-                                    disabled={!canSetPaid}
+                                    disabled={!isClubAdmin}
                                     onClick={() => markPaid(entrant, false)}
                                 >
                                     <FaMoneyBill />
@@ -55,7 +55,7 @@ const List: FunctionalComponent<Props> = ({
                         ) : (
                             <Control>
                                 <Button
-                                    disabled={!canSetPaid}
+                                    disabled={!isClubAdmin}
                                     onClick={() => markPaid(entrant, true)}
                                 >
                                     <FaMoneyBill />
@@ -70,7 +70,7 @@ const List: FunctionalComponent<Props> = ({
                         </Control>
                         <Control>
                             <DeleteButton
-                                disabled={!canSetPaid}
+                                disabled={!isClubAdmin}
                                 deleteFunc={() => deleteEntrant(entrant)}
                             >
                                 Delete

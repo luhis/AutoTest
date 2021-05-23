@@ -21,6 +21,7 @@
             entity.OwnsOne(a => a.Vehicle, SetupVehicle.Setup);
             entity.OwnsOne(a => a.EmergencyContact, SetupEmergencyContact.Setup);
             entity.OwnsOne(a => a.MsaMembership, SetupMsaMembership.Setup);
+            entity.OwnsOne(a => a.AcceptDeclaration, SetupAcceptDeclaration.Setup);
         }
     }
 }

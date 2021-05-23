@@ -42,12 +42,14 @@
 
         public MsaMembership MsaMembership { get; private set; } = new MsaMembership();
 
-        //public AcceptDeclaration AcceptDeclaration { get; private set; } = new AcceptDeclaration();
+        public AcceptDeclaration AcceptDeclaration { get; private set; } = new AcceptDeclaration();
 
         public void SetVehicle(Vehicle vehicle) => Vehicle = vehicle;
 
         public void SetEmergencyContact(EmergencyContact emergencyContact) => EmergencyContact = emergencyContact;
 
         public void SetMsaMembership(MsaMembership msaMembership) => MsaMembership = msaMembership;
+
+        public void SetAcceptDeclaration(AcceptDeclaration acceptDeclaration) => AcceptDeclaration = acceptDeclaration;
     }
 }

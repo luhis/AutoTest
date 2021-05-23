@@ -13,7 +13,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace AutoTest.Web.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("api/[controller]/{eventId}")]
     public class NotificationsController : ControllerBase
     {
         private readonly IMediator mediator;
@@ -24,14 +24,14 @@ namespace AutoTest.Web.Controllers
         }
 
         [Authorize(policy: Policies.ClubAdmin)]
-        [HttpPut("{eventId}/{notificationId}")]
+        [HttpPut("{notificationId}")]
         public Task Add(ulong notificationId, ulong eventId, NotificationSaveModel notification)
         {
             var email = this.User.GetEmailAddress();
             return mediator.Send(new AddNotification(MapClub.Map(notificationId, eventId, email, notification)));
         }
 
-        [HttpGet("{eventId}")]
+        [HttpGet]
         public Task<IEnumerable<Notification>> GetAll(ulong eventId)
         {
             return mediator.Send(new GetNotifications(eventId));

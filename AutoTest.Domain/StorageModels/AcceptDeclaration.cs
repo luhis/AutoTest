@@ -8,11 +8,15 @@ namespace AutoTest.Domain.StorageModels
         {
 
         }
-        public AcceptDeclaration(string email, DateTime timestamp)
+        public AcceptDeclaration(string email, DateTime timestamp, bool isAccepted)
         {
             Email = email;
             Timestamp = timestamp;
+            IsAccepted = isAccepted;
         }
+
+        public bool IsAccepted { get; } = false;
+
         public string Email { get; } = string.Empty;
 
         public DateTime Timestamp { get; } = DateTime.UtcNow;

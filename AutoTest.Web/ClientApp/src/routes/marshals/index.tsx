@@ -139,15 +139,12 @@ const Marshals: FunctionalComponent<Readonly<Props>> = ({ eventId }) => {
                 setEditingMarshal={setCurrentEditingMarshal}
                 deleteMarshal={deleteMarshal}
             />
-            <Button
-                color="primary"
-                disabled={!isClubAdmin}
-                onClick={newMarshal}
-            >
+            <Button color="primary" onClick={newMarshal}>
                 Add Marshal
             </Button>
             {editingMarshal ? (
                 <EntrantsModal
+                    isClubAdmin={isClubAdmin}
                     allRoles={allRoles}
                     marshal={editingMarshal}
                     setField={setField}

@@ -31,4 +31,14 @@ namespace AutoTest.Persistence.Setup
             entity.Property(e => e.MsaLicense).IsRequired();
         }
     }
+    public static class SetupAcceptDeclaration
+    {
+        public static void Setup<T>(OwnedNavigationBuilder<T, AcceptDeclaration> entity) where T : class
+        {
+            entity.WithOwner();
+            entity.Property(e => e.IsAccepted).IsRequired();
+            entity.Property(e => e.Email).IsRequired();
+            entity.Property(e => e.Timestamp).IsRequired();
+        }
+    }
 }

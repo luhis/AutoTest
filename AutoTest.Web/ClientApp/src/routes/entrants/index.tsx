@@ -181,7 +181,7 @@ const Entrants: FunctionalComponent<Readonly<Props>> = ({ eventId }) => {
             }),
         []
     );
-    const canSetPaid =
+    const isClubAdmin =
         currentEvent !== undefined &&
         access.adminClubs.includes(currentEvent.clubId);
 
@@ -190,17 +190,18 @@ const Entrants: FunctionalComponent<Readonly<Props>> = ({ eventId }) => {
             <Breadcrumbs club={currentClub} event={currentEvent} />
             <Heading>Entrants</Heading>
             <List
-                canSetPaid={canSetPaid}
+                isClubAdmin={isClubAdmin}
                 entrants={entrants}
                 setEditingEntrant={setCurrentEditingEntrant}
                 markPaid={setPaid}
                 deleteEntrant={deleteEntrant}
             />
-            <Button color="primary" onClick={newEntrant} disabled={!canSetPaid}>
+            <Button color="primary" onClick={newEntrant}>
                 Add Entrant
             </Button>
             {editingEntrant ? (
                 <EntrantsModal
+                    isClubAdmin={isClubAdmin}
                     entrant={editingEntrant}
                     setField={setField}
                     cancel={clearEditingEntrant}

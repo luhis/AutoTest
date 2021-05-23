@@ -1,10 +1,10 @@
 import { FunctionalComponent, h } from "preact";
-import { useEffect, useState } from "preact/hooks";
+import { useEffect, useMemo, useState } from "preact/hooks";
 import { Heading } from "react-bulma-components";
 import { useDispatch, useSelector } from "react-redux";
 import { HubConnectionBuilder, LogLevel } from "@microsoft/signalr";
 import { compact, last } from "@s-libs/micro-dash";
-import { route } from "preact-router";
+// import { route } from "preact-router";
 
 import { Override, TestRunFromServer } from "../../types/models";
 import { findIfLoaded } from "../../types/loadingState";
@@ -24,15 +24,16 @@ interface Props {
     readonly testFilter: readonly string[];
 }
 
+const baseConn = new HubConnectionBuilder()
+    .withUrl("/resultsHub")
+    .withAutomaticReconnect()
+    .configureLogging(LogLevel.Debug);
+
 const Results: FunctionalComponent<Props> = ({ eventId, testFilter }) => {
-    const connection =
-        typeof window !== "undefined"
-            ? new HubConnectionBuilder()
-                  .withUrl("/resultsHub")
-                  .withAutomaticReconnect()
-                  .configureLogging(LogLevel.Debug)
-                  .build()
-            : undefined;
+    const connection = useMemo(
+        () => (typeof window !== "undefined" ? baseConn.build() : undefined),
+        []
+    );
     const dispatch = useDispatch();
     const auth = useGoogleAuth();
     const currentEvent = findIfLoaded(
@@ -51,12 +52,12 @@ const Results: FunctionalComponent<Props> = ({ eventId, testFilter }) => {
     }, [dispatch, auth]);
     const [testFilterState, setTestFilterState] =
         useState<readonly string[]>(testFilter);
-    useEffect(() => {
-        route(
-            `/liveRuns/${eventId}?testFilter=${testFilterState.join(",")}`,
-            false
-        );
-    }, [testFilterState, eventId]);
+    // useEffect(() => {
+    //     route(
+    //         `/liveRuns/${eventId}?testFilter=${testFilterState.join(",")}`,
+    //         false
+    //     );
+    // }, [testFilterState, eventId]);
 
     const filterRuns = (r: TestRunFromServer) =>
         testFilterState.length === 0 ||
@@ -73,9 +74,13 @@ const Results: FunctionalComponent<Props> = ({ eventId, testFilter }) => {
                     void connection.invoke("ListenToEvent", eventId);
                 })
                 .catch(console.error);
-            return async () => {
-                await connection.invoke("LeaveEvent", eventId);
-                await connection.stop();
+            return () => {
+                debugger;
+                const f = async () => {
+                    await connection.invoke("LeaveEvent", eventId);
+                    await connection.stop();
+                };
+                void f();
             };
         } else {
             return () => undefined;

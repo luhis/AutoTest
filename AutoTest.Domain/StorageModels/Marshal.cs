@@ -26,10 +26,12 @@
         public string Role { get; }
 
         public string Email { get; }
-        //public AcceptDeclaration AcceptDeclaration { get; private set; } = new AcceptDeclaration();
+        public AcceptDeclaration AcceptDeclaration { get; private set; } = new AcceptDeclaration();
 
         public EmergencyContact EmergencyContact { get; private set; } = new EmergencyContact();
 
         public void SetEmergencyContact(EmergencyContact emergencyContact) => EmergencyContact = emergencyContact;
+
+        public void SetAcceptDeclaration(AcceptDeclaration acceptDeclaration) => AcceptDeclaration = acceptDeclaration;
     }
 }
