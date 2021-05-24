@@ -1,17 +1,17 @@
-import { createElement, FunctionComponent } from "react";
+/* eslint-disable @typescript-eslint/ban-types */
+import { h, FunctionComponent } from "preact";
 
 import { Override } from "../../types/models";
 
-// eslint-disable-next-line @typescript-eslint/ban-types
 export default <TOuterProps extends object, TInnerProps extends object>(
         paramsMapper: (_: TOuterProps) => TInnerProps
     ) =>
-    (component: FunctionComponent<TInnerProps>) => {
+    (Component: FunctionComponent<TInnerProps>) => {
         const RouteParamsParserWrapper = (
             props: Override<TInnerProps, TOuterProps>
         ) => {
             const finalProps = paramsMapper(props);
-            return createElement(component, finalProps);
+            return <Component {...finalProps} />;
         };
 
         return RouteParamsParserWrapper;
