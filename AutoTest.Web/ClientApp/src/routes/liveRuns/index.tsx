@@ -25,7 +25,7 @@ import RouteParamsParser from "../../components/shared/RouteParamsParser";
 
 interface Props {
     readonly eventId: number;
-    readonly testFilter: readonly string[];
+    readonly testFilter: readonly number[];
     readonly connection: HubConnection | undefined;
 }
 
@@ -56,7 +56,7 @@ const Results: FunctionalComponent<Props> = ({
         dispatch(GetEventsIfRequired());
     }, [dispatch, auth]);
     const [testFilterState, setTestFilterState] =
-        useState<readonly string[]>(testFilter);
+        useState<readonly number[]>(testFilter);
     useEffect(() => {
         route(
             `/liveRuns/${eventId}?testFilter=${testFilterState.join(",")}`,
@@ -72,11 +72,10 @@ const Results: FunctionalComponent<Props> = ({
     }, [connection]);
 
     const filterRuns = (r: TestRunFromServer) =>
-        testFilterState.length === 0 ||
-        testFilterState.includes(r.ordinal.toString());
+        testFilterState.length === 0 || testFilterState.includes(r.ordinal);
 
     const allTests = currentEvent
-        ? currentEvent.tests.map((a) => a.ordinal.toString())
+        ? currentEvent.tests.map((a) => a.ordinal + 1)
         : [];
 
     const getEntrantName = (entrantId: number) => {
@@ -112,7 +111,7 @@ const Results: FunctionalComponent<Props> = ({
 interface OtherProps {
     readonly matches: {
         readonly eventId: number;
-        readonly testFilter: readonly string[];
+        readonly testFilter: readonly number[];
     };
 }
 const SignalRWrapper: FunctionComponent<OtherProps> = ({ matches }) => {
@@ -165,7 +164,9 @@ export default RouteParamsParser<
     matches: {
         eventId: Number.parseInt(matches.eventId),
         testFilter: matches.testFilter
-            ? compact(matches.testFilter.split(","))
+            ? compact(
+                  matches.testFilter.split(",").map((a) => Number.parseInt(a))
+              )
             : [],
     },
 }))(SignalRWrapper);

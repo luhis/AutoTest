@@ -1,12 +1,16 @@
-import { FunctionalComponent, h, Fragment } from "preact";
+import { FunctionalComponent, h, Fragment, FunctionComponent } from "preact";
 import { useEffect, useMemo, useState } from "preact/hooks";
 import { Heading, Table, Button } from "react-bulma-components";
 import { useDispatch, useSelector } from "react-redux";
-import { HubConnectionBuilder, LogLevel } from "@microsoft/signalr";
+import {
+    HubConnectionBuilder,
+    LogLevel,
+    HubConnection,
+} from "@microsoft/signalr";
 import { compact, range } from "@s-libs/micro-dash";
 import { newValidDate } from "ts-date";
 import { FaBell } from "react-icons/fa";
-// import { route } from "preact-router";
+import { route } from "preact-router";
 
 import { Notification, Override, Result } from "../../types/models";
 import {
@@ -45,11 +49,9 @@ const baseConn = new HubConnectionBuilder()
     .withAutomaticReconnect()
     .configureLogging(LogLevel.Error);
 
-const Results: FunctionalComponent<Props> = ({ eventId, classFilter }) => {
-    const connection = useMemo(
-        () => (typeof window !== "undefined" ? baseConn.build() : undefined),
-        []
-    );
+const Results: FunctionalComponent<
+    Props & { readonly connection: HubConnection | undefined }
+> = ({ eventId, classFilter, connection }) => {
     const dispatch = useDispatch();
     const auth = useGoogleAuth();
     const currentEvent = findIfLoaded(
@@ -98,25 +100,16 @@ const Results: FunctionalComponent<Props> = ({ eventId, classFilter }) => {
                     loaded: newValidDate(),
                 });
             });
-            void connection
-                .start()
-                .then(() => {
-                    void connection.invoke("ListenToEvent", eventId);
-                })
-                .catch(console.error);
-            return async () => {
-                await connection.invoke("LeaveEvent", eventId);
-                await connection.stop();
-            };
-        } else {
-            return () => undefined;
         }
     }, [connection, dispatch, eventId]);
     const [showModal, setShowModal] = useState(false);
     const [_, setClassFilter] = useState<readonly string[]>(classFilter);
-    // useEffect(() => {
-    //     route(`/results/${eventId}?classFilter=${filter.join(",")}`, false);
-    // }, [filter, eventId]);
+    useEffect(() => {
+        route(
+            `/results/${eventId}?classFilter=${classFilter.join(",")}`,
+            false
+        );
+    }, [classFilter, eventId]);
     const allClasses = mapOrDefault(results, (a) => a.map((b) => b.class), []);
 
     return (
@@ -214,6 +207,40 @@ const Results: FunctionalComponent<Props> = ({ eventId, classFilter }) => {
     );
 };
 
+const SignalRWrapper: FunctionComponent<Props> = ({ eventId, classFilter }) => {
+    const connection = useMemo(
+        () => (typeof window !== "undefined" ? baseConn.build() : undefined),
+        []
+    );
+
+    useEffect(() => {
+        if (connection) {
+            void connection
+                .start()
+                .then(() => {
+                    void connection.invoke("ListenToEvent", eventId);
+                })
+                .catch(console.error);
+            return () => {
+                const f = async () => {
+                    await connection.invoke("LeaveEvent", eventId);
+                    await connection.stop();
+                };
+                void f();
+            };
+        } else {
+            return () => undefined;
+        }
+    }, [connection, eventId]);
+    return (
+        <Results
+            eventId={eventId}
+            classFilter={classFilter}
+            connection={connection}
+        />
+    );
+};
+
 export default RouteParamsParser<
     Override<
         Props,
@@ -227,4 +254,4 @@ export default RouteParamsParser<
     ...props,
     eventId: Number.parseInt(eventId),
     classFilter: classFilter ? compact(classFilter.split(",")) : [],
-}))(Results);
+}))(SignalRWrapper);

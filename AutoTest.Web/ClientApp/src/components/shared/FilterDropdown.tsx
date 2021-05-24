@@ -1,14 +1,21 @@
-import { h, FunctionComponent } from "preact";
+import { h } from "preact";
 import classNames from "classnames";
 import { Dropdown } from "react-bulma-components";
 import { StateUpdater } from "preact/hooks";
 
-const FilterDropdown: FunctionComponent<{
+interface Props<T> {
     readonly filterName: string;
-    readonly options: readonly string[];
-    readonly selected: readonly string[];
-    readonly setFilter: StateUpdater<readonly string[]>;
-}> = ({ filterName, options, selected, setFilter }) => (
+    readonly options: readonly T[];
+    readonly selected: readonly T[];
+    readonly setFilter: StateUpdater<readonly T[]>;
+}
+
+const FilterDropdown = <T extends string | number>({
+    filterName,
+    options,
+    selected,
+    setFilter,
+}: Props<T>) => (
     <Dropdown
         label={`${filterName} Filter: ${
             selected.length === 0 ? "All" : selected.join(", ")
@@ -37,7 +44,7 @@ const FilterDropdown: FunctionComponent<{
                     )
                 }
             >
-                {c}
+                {c.toString()}
             </a>
         ))}
     </Dropdown>
