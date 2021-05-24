@@ -1,10 +1,14 @@
-import { FunctionalComponent, h } from "preact";
+import { FunctionalComponent, FunctionComponent, h } from "preact";
 import { useEffect, useMemo, useState } from "preact/hooks";
 import { Heading } from "react-bulma-components";
 import { useDispatch, useSelector } from "react-redux";
-import { HubConnectionBuilder, LogLevel } from "@microsoft/signalr";
+import {
+    HubConnectionBuilder,
+    LogLevel,
+    HubConnection,
+} from "@microsoft/signalr";
 import { compact, last } from "@s-libs/micro-dash";
-// import { route } from "preact-router";
+import { route } from "preact-router";
 
 import { Override, TestRunFromServer } from "../../types/models";
 import { findIfLoaded } from "../../types/loadingState";
@@ -12,16 +16,17 @@ import { useGoogleAuth } from "../../components/app";
 import { getAccessToken } from "../../api/api";
 import { selectEntrants, selectEvents } from "../../store/event/selectors";
 import { GetEventsIfRequired } from "../../store/event/actions";
-import RouteParamsParser from "../../components/shared/RouteParamsParser";
 import Breadcrumbs from "../../components/shared/Breadcrumbs";
 import { selectClubs } from "../../store/clubs/selectors";
 import { GetClubsIfRequired } from "../../store/clubs/actions";
 import FilterDropdown from "../../components/shared/FilterDropdown";
 import Penalties from "../../components/shared/Penalties";
+import RouteParamsParser from "../../components/shared/RouteParamsParser";
 
 interface Props {
     readonly eventId: number;
     readonly testFilter: readonly string[];
+    readonly connection: HubConnection | undefined;
 }
 
 const baseConn = new HubConnectionBuilder()
@@ -29,11 +34,11 @@ const baseConn = new HubConnectionBuilder()
     .withAutomaticReconnect()
     .configureLogging(LogLevel.Debug);
 
-const Results: FunctionalComponent<Props> = ({ eventId, testFilter }) => {
-    const connection = useMemo(
-        () => (typeof window !== "undefined" ? baseConn.build() : undefined),
-        []
-    );
+const Results: FunctionalComponent<Props> = ({
+    eventId,
+    testFilter,
+    connection,
+}) => {
     const dispatch = useDispatch();
     const auth = useGoogleAuth();
     const currentEvent = findIfLoaded(
@@ -52,40 +57,23 @@ const Results: FunctionalComponent<Props> = ({ eventId, testFilter }) => {
     }, [dispatch, auth]);
     const [testFilterState, setTestFilterState] =
         useState<readonly string[]>(testFilter);
-    // useEffect(() => {
-    //     route(
-    //         `/liveRuns/${eventId}?testFilter=${testFilterState.join(",")}`,
-    //         false
-    //     );
-    // }, [testFilterState, eventId]);
-
-    const filterRuns = (r: TestRunFromServer) =>
-        testFilterState.length === 0 ||
-        testFilterState.includes(r.ordinal.toString());
-
+    useEffect(() => {
+        route(
+            `/liveRuns/${eventId}?testFilter=${testFilterState.join(",")}`,
+            false
+        );
+    }, [testFilterState, eventId]);
     useEffect(() => {
         if (connection) {
             connection.on("NewTestRun", (newRun: TestRunFromServer) => {
                 setRun((a) => a.concat(newRun));
             });
-            void connection
-                .start()
-                .then(() => {
-                    void connection.invoke("ListenToEvent", eventId);
-                })
-                .catch(console.error);
-            return () => {
-                debugger;
-                const f = async () => {
-                    await connection.invoke("LeaveEvent", eventId);
-                    await connection.stop();
-                };
-                void f();
-            };
-        } else {
-            return () => undefined;
         }
-    }, [connection, dispatch, eventId]);
+    }, [connection]);
+
+    const filterRuns = (r: TestRunFromServer) =>
+        testFilterState.length === 0 ||
+        testFilterState.includes(r.ordinal.toString());
 
     const allTests = currentEvent
         ? currentEvent.tests.map((a) => a.ordinal.toString())
@@ -121,17 +109,63 @@ const Results: FunctionalComponent<Props> = ({ eventId, testFilter }) => {
     );
 };
 
+interface OtherProps {
+    readonly matches: {
+        readonly eventId: number;
+        readonly testFilter: readonly string[];
+    };
+}
+const SignalRWrapper: FunctionComponent<OtherProps> = ({ matches }) => {
+    const connection = useMemo(
+        () => (typeof window !== "undefined" ? baseConn.build() : undefined),
+        []
+    );
+
+    useEffect(() => {
+        if (connection) {
+            void connection
+                .start()
+                .then(() => {
+                    void connection.invoke("ListenToEvent", matches.eventId);
+                })
+                .catch(console.error);
+            return () => {
+                const f = async () => {
+                    await connection.invoke("LeaveEvent", matches.eventId);
+                    await connection.stop();
+                };
+                void f();
+            };
+        } else {
+            return () => undefined;
+        }
+    }, [connection, matches.eventId]);
+    return (
+        <Results
+            eventId={matches.eventId}
+            testFilter={matches.testFilter}
+            connection={connection}
+        />
+    );
+};
+
 export default RouteParamsParser<
     Override<
-        Props,
+        OtherProps,
         {
-            readonly eventId: string;
-            readonly testFilter: string;
+            readonly matches: {
+                readonly eventId: string;
+                readonly testFilter: string;
+            };
         }
     >,
-    Props
->(({ eventId, testFilter, ...props }) => ({
+    OtherProps
+>(({ matches, ...props }) => ({
     ...props,
-    eventId: Number.parseInt(eventId),
-    testFilter: testFilter ? compact(testFilter.split(",")) : [],
-}))(Results);
+    matches: {
+        eventId: Number.parseInt(matches.eventId),
+        testFilter: matches.testFilter
+            ? compact(matches.testFilter.split(","))
+            : [],
+    },
+}))(SignalRWrapper);

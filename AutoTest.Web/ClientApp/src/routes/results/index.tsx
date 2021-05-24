@@ -105,7 +105,6 @@ const Results: FunctionalComponent<Props> = ({ eventId, classFilter }) => {
                 })
                 .catch(console.error);
             return async () => {
-                debugger;
                 await connection.invoke("LeaveEvent", eventId);
                 await connection.stop();
             };
