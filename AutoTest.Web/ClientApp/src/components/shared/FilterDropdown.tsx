@@ -1,4 +1,4 @@
-import { h } from "preact";
+import { h, RenderableProps } from "preact";
 import classNames from "classnames";
 import { Dropdown } from "react-bulma-components";
 import { StateUpdater } from "preact/hooks";
@@ -15,7 +15,7 @@ const FilterDropdown = <T extends string | number>({
     options,
     selected,
     setFilter,
-}: Props<T>) => (
+}: RenderableProps<Props<T>>) => (
     <Dropdown
         label={`${filterName} Filter: ${
             selected.length === 0 ? "All" : selected.join(", ")
