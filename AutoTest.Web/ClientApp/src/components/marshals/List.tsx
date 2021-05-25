@@ -9,16 +9,16 @@ import DeleteButton from "../shared/DeleteButton";
 
 interface Props {
     readonly marshals: LoadingState<readonly Marshal[], number>;
-    readonly setEditingMarshal: (entrant: Marshal) => void;
-    readonly deleteMarshal: (entrant: Marshal) => void;
-    readonly isClubAdmin: boolean;
+    readonly setEditingMarshal: (marshal: Marshal) => void;
+    readonly deleteMarshal: (marshal: Marshal) => void;
+    readonly canEditMarshal: (marshalId: number) => boolean;
 }
 
 const List: FunctionalComponent<Props> = ({
     marshals,
     setEditingMarshal,
     deleteMarshal,
-    isClubAdmin,
+    canEditMarshal,
 }) =>
     ifSome(
         marshals,
@@ -29,7 +29,10 @@ const List: FunctionalComponent<Props> = ({
                 <Columns.Column>
                     <Field kind="group">
                         <Control>
-                            <Button onClick={() => setEditingMarshal(marshal)}>
+                            <Button
+                                disabled={!canEditMarshal(marshal.marshalId)}
+                                onClick={() => setEditingMarshal(marshal)}
+                            >
                                 Edit
                             </Button>
                         </Control>
@@ -37,7 +40,7 @@ const List: FunctionalComponent<Props> = ({
                         <Control>
                             <DeleteButton
                                 deleteFunc={() => deleteMarshal(marshal)}
-                                disabled={!isClubAdmin}
+                                disabled={!canEditMarshal(marshal.marshalId)}
                             >
                                 Delete
                             </DeleteButton>

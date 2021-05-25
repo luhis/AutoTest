@@ -118,16 +118,19 @@ export type EditingEntrant = Override<
     }
 >;
 
-export interface Marshal {
+interface PublicMarshal {
     readonly marshalId: number;
     readonly eventId: number;
     readonly givenName: string;
     readonly familyName: string;
-    readonly emergencyContact: EmergencyContact;
     readonly role: string;
+}
+
+export type Marshal = {
+    readonly emergencyContact: EmergencyContact;
     readonly registrationNumber: number;
     readonly email: string;
-}
+} & PublicMarshal;
 
 export type EditingMarshal = Override<
     Marshal,

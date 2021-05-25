@@ -126,18 +126,22 @@ const Marshals: FunctionalComponent<Readonly<Props>> = ({ eventId }) => {
             }),
         []
     );
-    const isClubAdmin = useSelector(selectAccess).adminClubs.includes(
+
+    const access = useSelector(selectAccess);
+    const isClubAdmin = access.adminClubs.includes(
         currentEvent?.clubId || Number.NaN
     );
+    const canEditMarshal = (entrantId: number) =>
+        isClubAdmin || access.editableMarshals.includes(entrantId);
     return (
         <div>
             <Breadcrumbs club={currentClub} event={currentEvent} />
             <Heading>Marshals</Heading>
             <List
-                isClubAdmin={isClubAdmin}
                 marshals={marshals}
                 setEditingMarshal={setCurrentEditingMarshal}
                 deleteMarshal={deleteMarshal}
+                canEditMarshal={canEditMarshal}
             />
             <Button color="primary" onClick={newMarshal}>
                 Add Marshal
