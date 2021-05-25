@@ -184,7 +184,8 @@ const Entrants: FunctionalComponent<Readonly<Props>> = ({ eventId }) => {
     const isClubAdmin =
         currentEvent !== undefined &&
         access.adminClubs.includes(currentEvent.clubId);
-    const canEditEntrant = (entrantId: number) => isClubAdmin || access.editableEntrants.includes(entrantId);
+    const canEditEntrant = (entrantId: number) =>
+        isClubAdmin || access.editableEntrants.includes(entrantId);
 
     return (
         <div>
