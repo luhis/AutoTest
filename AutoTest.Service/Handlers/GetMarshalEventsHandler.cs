@@ -19,7 +19,7 @@ namespace AutoTest.Service.Handlers
 
         Task<IEnumerable<ulong>> IRequestHandler<GetMarshalEvents, IEnumerable<ulong>>.Handle(GetMarshalEvents request, CancellationToken cancellationToken)
         {
-            return this.autoTestContext.Marshals.Where(a => a.Email == request.EmailAddress).Select(a => a.EventId).Distinct().ToEnumerableAsync(cancellationToken);
+            return this.autoTestContext.Marshals!.Where(a => a.Email == request.EmailAddress).Select(a => a.EventId).Distinct().ToEnumerableAsync(cancellationToken);
         }
     }
 }

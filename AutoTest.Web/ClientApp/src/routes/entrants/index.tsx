@@ -184,6 +184,7 @@ const Entrants: FunctionalComponent<Readonly<Props>> = ({ eventId }) => {
     const isClubAdmin =
         currentEvent !== undefined &&
         access.adminClubs.includes(currentEvent.clubId);
+    const canEditEntrant = (entrantId: number) => isClubAdmin || access.editableEntrants.includes(entrantId);
 
     return (
         <div>
@@ -195,6 +196,7 @@ const Entrants: FunctionalComponent<Readonly<Props>> = ({ eventId }) => {
                 setEditingEntrant={setCurrentEditingEntrant}
                 markPaid={setPaid}
                 deleteEntrant={deleteEntrant}
+                canEditEntrant={canEditEntrant}
             />
             <Button color="primary" onClick={newEntrant}>
                 Add Entrant

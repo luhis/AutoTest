@@ -15,6 +15,8 @@ const defaultAccess: Access = {
     isRootAdmin: false,
     adminClubs: [],
     marshalEvents: [],
+    editableEntrants: [],
+    editableMarshals: [],
 };
 
 const initialProfileState: ProfileState = {

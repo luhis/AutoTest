@@ -1,5 +1,5 @@
 import { h, FunctionComponent, Fragment } from "preact";
-import { Form } from "react-bulma-components";
+import { Form, Icon } from "react-bulma-components";
 const { Input, Field, Label, Control } = Form;
 
 import { Vehicle } from "../../types/shared";
@@ -75,21 +75,26 @@ const VehicleEditor: FunctionComponent<Props> = ({
                 </Control>
                 <Control fullwidth={true}>
                     <Label>Displacement (CC)</Label>
-                    <Input
-                        required
-                        type="number"
-                        step={1}
-                        value={vehicle.displacement}
-                        onChange={(e: OnChange): void =>
-                            setField({
-                                ...vehicle,
-                                displacement: Math.floor(
-                                    e.target.valueAsNumber
-                                ),
-                            })
-                        }
-                        min={1}
-                    />
+                    <Control>
+                        <Input
+                            required
+                            type="number"
+                            step={1}
+                            value={vehicle.displacement}
+                            onChange={(e: OnChange): void =>
+                                setField({
+                                    ...vehicle,
+                                    displacement: Math.floor(
+                                        e.target.valueAsNumber
+                                    ),
+                                })
+                            }
+                            min={1}
+                        />
+                        <Icon align="right" size="small">
+                            CC
+                        </Icon>
+                    </Control>
                 </Control>
             </Field>
         </Fragment>

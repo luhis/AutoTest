@@ -29,6 +29,10 @@ namespace AutoTest.Web.Controllers
         public Task<IEnumerable<Marshal>> GetMarshals(ulong eventId, CancellationToken cancellationToken) => this.mediator.Send(new GetMarshals(eventId), cancellationToken);
 
         [Authorize(policy: Policies.ClubAdminOrSelf)]
+        [HttpGet("{marshalId}")]
+        public Task<Marshal> GetMarshal(ulong eventId, ulong marshalId, CancellationToken cancellationToken) => this.mediator.Send(new GetMarshal(eventId, marshalId), cancellationToken);
+
+        [Authorize(policy: Policies.ClubAdminOrSelf)]
         [HttpPut("{marshalId}")]
         public Task<Marshal> PutMarshal(ulong eventId, ulong marshalId, MarshalSaveModel entrantSaveModel, CancellationToken cancellationToken) => this.mediator.Send(new SaveMarshal(MapClub.Map(marshalId, eventId, entrantSaveModel)), cancellationToken);
 

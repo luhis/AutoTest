@@ -1,4 +1,7 @@
-﻿namespace AutoTest.Web.Controllers
+﻿using System.Collections.Generic;
+using Microsoft.Extensions.Configuration;
+
+namespace AutoTest.Web.Controllers
 {
     using System.Threading.Tasks;
     using AutoTest.Service.Messages;
@@ -16,20 +19,25 @@
 
         private readonly IMediator mediator;
 
-        public AccessController(IMediator mediator)
+        public AccessController(IConfiguration configuration, IMediator mediator)
         {
             this.mediator = mediator;
+            this.AdminEmails = new HashSet<string>(configuration.GetSection("RootAdminIds").Get<IEnumerable<string>>());
         }
-        
+
+        private HashSet<string> AdminEmails { get; }
+
         [HttpGet]
         public async Task<AccessModel> GetAccessAsync()
         {
             var identity = this.User.Identity;
-            var isAuthenticated = identity != null && identity.IsAuthenticated;
+            var isAuthenticated = identity is { IsAuthenticated: true };
             var email = User.GetEmailAddress();
             var adminClubs = await this.mediator.Send(new GetAdminClubs(email));
             var marshalEvents = await this.mediator.Send(new GetMarshalEvents(email));
-            return new AccessModel(isAuthenticated, isAuthenticated, isAuthenticated, adminClubs, marshalEvents);
+            var editableEntrants = await this.mediator.Send(new GetEditableEntrants(email));
+            var editableMarshals = await this.mediator.Send(new GetEditableMarshals(email));
+            return new AccessModel(AdminEmails.Contains(email), isAuthenticated, isAuthenticated, isAuthenticated, adminClubs, marshalEvents, editableEntrants, editableMarshals);
         }
     }
 }

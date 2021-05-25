@@ -44,7 +44,7 @@ const FilterDropdown = <T extends string | number>({
                     )
                 }
             >
-                {c.toString()}
+                {c}
             </a>
         ))}
     </Dropdown>

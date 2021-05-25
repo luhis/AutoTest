@@ -92,21 +92,24 @@ export type EditingEvent = Override<
     readonly isClubEditable: boolean;
 };
 
-export interface Entrant {
+export interface PublicEntrant {
     readonly entrantId: number;
     readonly eventId: number;
-    readonly driverNumber: number;
     readonly class: string;
     readonly givenName: string;
     readonly familyName: string;
-    readonly msaMembership: MsaMembership;
     readonly vehicle: Vehicle;
-    readonly emergencyContact: EmergencyContact;
+    readonly driverNumber: number;
     readonly club: string;
+}
+
+export type Entrant = {
+    readonly msaMembership: MsaMembership;
+    readonly emergencyContact: EmergencyContact;
     readonly clubNumber: number;
     readonly isPaid: boolean;
     readonly email: string;
-}
+} & PublicEntrant;
 
 export type EditingEntrant = Override<
     Omit<Entrant, "driverNumber">,

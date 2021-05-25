@@ -14,7 +14,7 @@ namespace AutoTest.Web.Controllers
     using Microsoft.AspNetCore.Mvc;
 
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("api/[controller]/{eventId}")]
     public class EntrantsController : ControllerBase
     {
         private readonly IMediator mediator;
@@ -24,20 +24,25 @@ namespace AutoTest.Web.Controllers
             this.mediator = mediator;
         }
 
-        [Authorize(policy: Policies.ClubAdmin)]
-        [HttpGet("{eventId}")]
+        [Authorize(policy: Policies.ClubAdmin)] //todo limit the fields and make this public
+        [HttpGet]
         public Task<IEnumerable<Entrant>> GetEntrants(ulong eventId, CancellationToken cancellationToken) => this.mediator.Send(new GetEntrants(eventId), cancellationToken);
 
         [Authorize(policy: Policies.ClubAdminOrSelf)]
-        [HttpPut("{eventId}/{entrantId}")]
+        [HttpGet("{entrantId}")]
+        public Task<Entrant> GetEntrant(ulong eventId, ulong entrantId, CancellationToken cancellationToken) => this.mediator.Send(new GetEntrant(eventId, entrantId), cancellationToken);
+
+
+        [Authorize(policy: Policies.ClubAdminOrSelf)]
+        [HttpPut("{entrantId}")]
         public Task<Entrant> PutEntrant(ulong eventId, ulong entrantId, EntrantSaveModel entrantSaveModel, CancellationToken cancellationToken) => this.mediator.Send(new SaveEntrant(MapClub.Map(entrantId, eventId, entrantSaveModel)), cancellationToken);
 
         [Authorize(policy: Policies.ClubAdmin)]
-        [HttpPut("{eventId}/{entrantId}/markPaid")]
+        [HttpPut("{entrantId}/markPaid")]
         public Task MarkPaid(ulong entrantId, bool isPaid) => this.mediator.Send(new MarkPaid(entrantId, isPaid));
 
         [Authorize(policy: Policies.ClubAdminOrSelf)]
-        [HttpDelete("{eventId}/{entrantId}")]
+        [HttpDelete("{entrantId}")]
         public Task Delete(ulong entrantId) => this.mediator.Send(new DeleteEntrant(entrantId));
     }
 }

@@ -22,4 +22,6 @@ export interface Access {
     readonly canViewProfile: boolean;
     readonly adminClubs: readonly number[];
     readonly marshalEvents: readonly number[];
+    readonly editableEntrants: readonly number[];
+    readonly editableMarshals: readonly number[];
 }
