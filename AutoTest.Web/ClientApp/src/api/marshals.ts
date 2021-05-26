@@ -13,6 +13,18 @@ export const getMarshals = async (
         return await extract(response);
     }, eventId);
 
+export const getMarshal = async (
+    eventId: number,
+    marshalId: number,
+    token: string | undefined
+): Promise<ApiResponse<readonly Marshal[], number>> =>
+    toApiResponse(async () => {
+        const response = await fetch(`/api/marshal/${eventId}/${marshalId}`, {
+            headers: getHeaders(token),
+        });
+        return await extract(response);
+    }, eventId);
+
 export const addMarshal = async (
     entrant: Marshal,
     token: string | undefined

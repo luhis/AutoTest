@@ -13,6 +13,18 @@ export const getEntrants = async (
         return await extract(response);
     }, eventId);
 
+export const getEntrant = async (
+    eventId: number,
+    entrantId: number,
+    token: string | undefined
+): Promise<ApiResponse<Entrant, number>> =>
+    toApiResponse(async () => {
+        const response = await fetch(`/api/entrant/${eventId}/${entrantId}`, {
+            headers: getHeaders(token),
+        });
+        return await extract(response);
+    }, eventId);
+
 export const addEntrant = async (
     entrant: Entrant,
     token: string | undefined
