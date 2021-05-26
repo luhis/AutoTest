@@ -1,14 +1,13 @@
-import { Marshal } from "../types/models";
+import { Marshal, PublicMarshal } from "../types/models";
 import { ApiResponse, toApiResponse } from "../types/loadingState";
 import { extract, getHeaders, throwIfNotOk } from "./api";
 
 export const getMarshals = async (
-    eventId: number,
-    token: string | undefined
-): Promise<ApiResponse<readonly Marshal[], number>> =>
+    eventId: number
+): Promise<ApiResponse<readonly PublicMarshal[], number>> =>
     toApiResponse(async () => {
         const response = await fetch(`/api/marshals/${eventId}`, {
-            headers: getHeaders(token),
+            headers: getHeaders(undefined),
         });
         return await extract(response);
     }, eventId);
@@ -17,13 +16,12 @@ export const getMarshal = async (
     eventId: number,
     marshalId: number,
     token: string | undefined
-): Promise<ApiResponse<readonly Marshal[], number>> =>
-    toApiResponse(async () => {
-        const response = await fetch(`/api/marshal/${eventId}/${marshalId}`, {
-            headers: getHeaders(token),
-        });
-        return await extract(response);
-    }, eventId);
+): Promise<Marshal> => {
+    const response = await fetch(`/api/marshals/${eventId}/${marshalId}`, {
+        headers: getHeaders(token),
+    });
+    return await extract(response);
+};
 
 export const addMarshal = async (
     entrant: Marshal,

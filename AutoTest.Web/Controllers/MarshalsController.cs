@@ -1,4 +1,5 @@
-﻿using AutoTest.Web.Mapping;
+﻿using System.Linq;
+using AutoTest.Web.Mapping;
 
 namespace AutoTest.Web.Controllers
 {
@@ -24,9 +25,12 @@ namespace AutoTest.Web.Controllers
             this.mediator = mediator;
         }
 
-        [Authorize(policy: Policies.ClubAdmin)]
         [HttpGet]
-        public Task<IEnumerable<Marshal>> GetMarshals(ulong eventId, CancellationToken cancellationToken) => this.mediator.Send(new GetMarshals(eventId), cancellationToken);
+        public async Task<IEnumerable<PublicMarshalModel>> GetMarshals(ulong eventId, CancellationToken cancellationToken)
+        {
+            var marshals = await this.mediator.Send(new GetMarshals(eventId), cancellationToken);
+            return marshals.Select(a => new PublicMarshalModel(a.MarshalId, a.GivenName, a.FamilyName, a.EventId, a.Role));
+        }
 
         [Authorize(policy: Policies.ClubAdminOrSelf)]
         [HttpGet("{marshalId}")]

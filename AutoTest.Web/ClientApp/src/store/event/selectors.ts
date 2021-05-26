@@ -16,15 +16,7 @@ export const selectAllRoles = (state: AppState): readonly string[] =>
         []
     );
 
-export const selectLicenseTypeOptions = (state: AppState): readonly string[] =>
-    mapOrDefault(
-        selectEntrants(state),
-        (a) =>
-            distinct(
-                a.map((entrant) => entrant.msaMembership.msaLicenseType).sort()
-            ),
-        []
-    );
+export const selectLicenseTypeOptions = (_: AppState): readonly string[] => []; //todo put in a new api to serve up license types
 export const selectClubOptions = (state: AppState): readonly string[] =>
     mapOrDefault(
         selectEntrants(state),

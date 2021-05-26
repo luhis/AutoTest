@@ -3,14 +3,18 @@ import { Modal, Button, Form } from "react-bulma-components";
 const { Label, Field, Input, Select } = Form;
 import { StateUpdater } from "preact/hooks";
 
-import { Entrant, PenaltyType, TestRunFromServer } from "../../types/models";
+import {
+    PublicEntrant,
+    PenaltyType,
+    TestRunFromServer,
+} from "../../types/models";
 import { addPreventDefault } from "../../lib/form";
 import { OnChange } from "../../types/inputs";
 import Penalties from "../marshal/Penalties";
 
 interface Props {
     readonly run: TestRunFromServer;
-    readonly entrants: readonly Entrant[];
+    readonly entrants: readonly PublicEntrant[];
     readonly save: () => void;
     readonly cancel: () => void;
     readonly setField: StateUpdater<TestRunFromServer>;

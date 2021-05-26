@@ -5,7 +5,7 @@ import UUID from "uuid-int";
 import { useDispatch, useSelector } from "react-redux";
 import { nth } from "@s-libs/micro-dash";
 
-import { Entrant, EditingEntrant, Override } from "../../types/models";
+import { EditingEntrant, Override, PublicEntrant } from "../../types/models";
 import { useGoogleAuth } from "../../components/app";
 import { getAccessToken } from "../../api/api";
 import List from "../../components/entrants/List";
@@ -30,6 +30,7 @@ import Breadcrumbs from "../../components/shared/Breadcrumbs";
 import { GetProfileIfRequired } from "../../store/profile/actions";
 import { selectClubs } from "../../store/clubs/selectors";
 import { GetClubsIfRequired } from "../../store/clubs/actions";
+import { getEntrant } from "../../api/entrants";
 
 interface Props {
     readonly eventId: number;
@@ -37,7 +38,7 @@ interface Props {
 const uid = UUID(keySeed);
 
 const getDriverNumber = (
-    entrants: LoadingState<readonly Entrant[], number>,
+    entrants: LoadingState<readonly PublicEntrant[], number>,
     entrant: EditingEntrant
 ) => {
     return mapOrDefault(
@@ -124,10 +125,10 @@ const Entrants: FunctionalComponent<Readonly<Props>> = ({ eventId }) => {
             );
         }
     }, [currentEvent, profile]);
-    const setPaid = (entrant: Entrant, isPaid: boolean) => {
+    const setPaid = (entrant: PublicEntrant, isPaid: boolean) => {
         dispatch(SetPaid(entrant, isPaid, getAccessToken(auth)));
     };
-    const deleteEntrant = (entrant: Entrant) => {
+    const deleteEntrant = (entrant: PublicEntrant) => {
         dispatch(DeleteEntrant(entrant, getAccessToken(auth)));
     };
     useEffect(() => {
@@ -135,7 +136,7 @@ const Entrants: FunctionalComponent<Readonly<Props>> = ({ eventId }) => {
     }, [dispatch]);
     useEffect(() => {
         dispatch(GetClubsIfRequired(getAccessToken(auth)));
-        dispatch(GetEntrantsIfRequired(eventId, getAccessToken(auth)));
+        dispatch(GetEntrantsIfRequired(eventId));
     }, [eventId, dispatch, auth]);
     const clearEditingEntrant = () => setEditingEntrant(undefined);
 
@@ -167,8 +168,15 @@ const Entrants: FunctionalComponent<Readonly<Props>> = ({ eventId }) => {
         });
     }, [auth, dispatch, eventId]);
     const setCurrentEditingEntrant = useCallback(
-        (entrant: Entrant) => setEditingEntrant({ ...entrant, isNew: false }),
-        []
+        async (entrant: PublicEntrant) => {
+            const e = await getEntrant(
+                entrant.eventId,
+                entrant.entrantId,
+                getAccessToken(auth)
+            );
+            setEditingEntrant({ ...e, isNew: false });
+        },
+        [auth]
     );
     const setField = useCallback(
         (a: Partial<EditingEntrant>) =>

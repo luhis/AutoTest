@@ -27,6 +27,8 @@ import {
     Marshal,
     TestRunFromServer,
     TestRunFromClient,
+    PublicMarshal,
+    PublicEntrant,
 } from "../../types/models";
 import {
     addEntrant,
@@ -56,7 +58,7 @@ import {
 import { CLEAR_CACHE } from "../shared/types";
 
 export const GetMarshalsIfRequired =
-    (eventId: number, token: string | undefined) =>
+    (eventId: number) =>
     async (dispatch: Dispatch<EventActionTypes>, getState: () => AppState) => {
         const clubs = selectMarshals(getState());
         if (requiresLoading(clubs.tag) || isStale(clubs)) {
@@ -66,7 +68,7 @@ export const GetMarshalsIfRequired =
                     payload: { tag: "Loading", id: eventId },
                 });
             }
-            const res = await getMarshals(eventId, token);
+            const res = await getMarshals(eventId);
             if (canUpdate(clubs, res)) {
                 dispatch({
                     type: GET_MARSHALS,
@@ -81,7 +83,7 @@ export const ClearCache = () => ({
 });
 
 export const GetEntrantsIfRequired =
-    (eventId: number, token: string | undefined) =>
+    (eventId: number) =>
     async (dispatch: Dispatch<EventActionTypes>, getState: () => AppState) => {
         const entrants = selectEntrants(getState());
         if (!idsMatch(entrants, eventId)) {
@@ -91,7 +93,7 @@ export const GetEntrantsIfRequired =
             });
         }
         if (requiresLoading(entrants.tag) || isStale(entrants)) {
-            const res = await getEntrants(eventId, token);
+            const res = await getEntrants(eventId);
             if (canUpdate(entrants, res)) {
                 dispatch({
                     type: GET_ENTRANTS,
@@ -253,7 +255,7 @@ export const UpdateTestRun =
 
 export const SetPaid =
     (
-        { eventId, entrantId }: Entrant,
+        { eventId, entrantId }: PublicEntrant,
         isPaid: boolean,
         token: string | undefined
     ) =>
@@ -266,7 +268,7 @@ export const SetPaid =
     };
 
 export const DeleteEntrant =
-    ({ eventId, entrantId }: Entrant, token: string | undefined) =>
+    ({ eventId, entrantId }: PublicEntrant, token: string | undefined) =>
     async (dispatch: Dispatch<EventActionTypes>) => {
         await deleteEntrant(eventId, entrantId, token);
         dispatch({
@@ -276,7 +278,7 @@ export const DeleteEntrant =
     };
 
 export const DeleteMarshal =
-    ({ eventId, marshalId }: Marshal, token: string | undefined) =>
+    ({ eventId, marshalId }: PublicMarshal, token: string | undefined) =>
     async (dispatch: Dispatch<EventActionTypes>) => {
         await deleteMarshal(eventId, marshalId, token);
         dispatch({

@@ -4,17 +4,17 @@ import { FaMoneyBill } from "react-icons/fa";
 const { Field, Control } = Form;
 
 import ifSome from "../shared/ifSome";
-import { Entrant } from "../../types/models";
+import { PublicEntrant } from "../../types/models";
 import { LoadingState } from "../../types/loadingState";
 import NumberPlate from "../shared/NumberPlate";
 import DeleteButton from "../shared/DeleteButton";
 import DriverNumber from "../shared/DriverNumber";
 
 interface Props {
-    readonly entrants: LoadingState<readonly Entrant[], number>;
-    readonly setEditingEntrant: (entrant: Entrant) => void;
-    readonly markPaid: (entrant: Entrant, isPaid: boolean) => void;
-    readonly deleteEntrant: (entrant: Entrant) => void;
+    readonly entrants: LoadingState<readonly PublicEntrant[], number>;
+    readonly setEditingEntrant: (entrant: PublicEntrant) => void;
+    readonly markPaid: (entrant: PublicEntrant, isPaid: boolean) => void;
+    readonly deleteEntrant: (entrant: PublicEntrant) => void;
     readonly isClubAdmin: boolean;
     readonly canEditEntrant: (entrantId: number) => boolean;
 }

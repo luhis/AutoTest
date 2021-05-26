@@ -1,4 +1,5 @@
-﻿using AutoTest.Web.Mapping;
+﻿using System.Linq;
+using AutoTest.Web.Mapping;
 using AutoTest.Web.Models;
 
 namespace AutoTest.Web.Controllers
@@ -23,10 +24,13 @@ namespace AutoTest.Web.Controllers
         {
             this.mediator = mediator;
         }
-
-        [Authorize(policy: Policies.ClubAdmin)] //todo limit the fields and make this public
+        
         [HttpGet]
-        public Task<IEnumerable<Entrant>> GetEntrants(ulong eventId, CancellationToken cancellationToken) => this.mediator.Send(new GetEntrants(eventId), cancellationToken);
+        public async Task<IEnumerable<PublicEntrantModel>> GetEntrants(ulong eventId, CancellationToken cancellationToken)
+        {
+            var entrants = await this.mediator.Send(new GetEntrants(eventId), cancellationToken);
+            return entrants.Select(a => new PublicEntrantModel(a.EntrantId, a.DriverNumber, a.GivenName, a.FamilyName, a.Class, a.EventId, a.Club, a.Vehicle));
+        }
 
         [Authorize(policy: Policies.ClubAdminOrSelf)]
         [HttpGet("{entrantId}")]

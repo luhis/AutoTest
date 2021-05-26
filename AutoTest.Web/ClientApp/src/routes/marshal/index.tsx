@@ -82,7 +82,7 @@ const Marshal: FunctionalComponent<Readonly<Props>> = ({
     const auth = useGoogleAuth();
     useEffect(() => {
         const token = getAccessToken(auth);
-        dispatch(GetEntrantsIfRequired(eventId, token));
+        dispatch(GetEntrantsIfRequired(eventId));
         dispatch(GetTestRunsIfRequired(eventId, ordinal, token));
     }, [auth, dispatch, eventId, ordinal]);
     useEffect(() => {

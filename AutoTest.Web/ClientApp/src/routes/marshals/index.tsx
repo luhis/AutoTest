@@ -4,7 +4,7 @@ import { Heading, Button } from "react-bulma-components";
 import UUID from "uuid-int";
 import { useDispatch, useSelector } from "react-redux";
 
-import { Override, Marshal, EditingMarshal } from "../../types/models";
+import { Override, EditingMarshal, PublicMarshal } from "../../types/models";
 import { useGoogleAuth } from "../../components/app";
 import { getAccessToken } from "../../api/api";
 import List from "../../components/marshals/List";
@@ -28,6 +28,7 @@ import Breadcrumbs from "../../components/shared/Breadcrumbs";
 import { GetProfileIfRequired } from "../../store/profile/actions";
 import { selectClubs } from "../../store/clubs/selectors";
 import { GetClubsIfRequired } from "../../store/clubs/actions";
+import { getMarshal } from "../../api/marshals";
 
 interface Props {
     readonly eventId: number;
@@ -82,7 +83,7 @@ const Marshals: FunctionalComponent<Readonly<Props>> = ({ eventId }) => {
         }
     }, [profile]);
 
-    const deleteMarshal = (marshal: Marshal) => {
+    const deleteMarshal = (marshal: PublicMarshal) => {
         dispatch(DeleteMarshal(marshal, getAccessToken(auth)));
     };
     useEffect(() => {
@@ -90,7 +91,7 @@ const Marshals: FunctionalComponent<Readonly<Props>> = ({ eventId }) => {
     }, [dispatch]);
     useEffect(() => {
         dispatch(GetClubsIfRequired(getAccessToken(auth)));
-        dispatch(GetMarshalsIfRequired(eventId, getAccessToken(auth)));
+        dispatch(GetMarshalsIfRequired(eventId));
     }, [eventId, dispatch, auth]);
     const clearEditingMarshal = () => setEditingMarshal(undefined);
 
@@ -112,8 +113,15 @@ const Marshals: FunctionalComponent<Readonly<Props>> = ({ eventId }) => {
         });
     }, [auth, dispatch, eventId]);
     const setCurrentEditingMarshal = useCallback(
-        (marshal: Marshal) => setEditingMarshal({ ...marshal, isNew: false }),
-        []
+        async (marshal: PublicMarshal) => {
+            const m = await getMarshal(
+                marshal.eventId,
+                marshal.marshalId,
+                getAccessToken(auth)
+            );
+            setEditingMarshal({ ...m, isNew: false });
+        },
+        [auth]
     );
     const setField = useCallback(
         (a: Partial<EditingMarshal>) =>

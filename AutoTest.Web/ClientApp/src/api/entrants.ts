@@ -1,14 +1,13 @@
-import { Entrant } from "../types/models";
+import { Entrant, PublicEntrant } from "../types/models";
 import { ApiResponse, toApiResponse } from "../types/loadingState";
 import { extract, getHeaders, throwIfNotOk } from "./api";
 
 export const getEntrants = async (
-    eventId: number,
-    token: string | undefined
-): Promise<ApiResponse<readonly Entrant[], number>> =>
+    eventId: number
+): Promise<ApiResponse<readonly PublicEntrant[], number>> =>
     toApiResponse(async () => {
         const response = await fetch(`/api/entrants/${eventId}`, {
-            headers: getHeaders(token),
+            headers: getHeaders(undefined),
         });
         return await extract(response);
     }, eventId);
@@ -17,13 +16,12 @@ export const getEntrant = async (
     eventId: number,
     entrantId: number,
     token: string | undefined
-): Promise<ApiResponse<Entrant, number>> =>
-    toApiResponse(async () => {
-        const response = await fetch(`/api/entrant/${eventId}/${entrantId}`, {
-            headers: getHeaders(token),
-        });
-        return await extract(response);
-    }, eventId);
+): Promise<Entrant> => {
+    const response = await fetch(`/api/entrants/${eventId}/${entrantId}`, {
+        headers: getHeaders(token),
+    });
+    return await extract(response);
+};
 
 export const addEntrant = async (
     entrant: Entrant,

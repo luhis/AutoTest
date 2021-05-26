@@ -35,7 +35,7 @@ const Tests: FunctionalComponent<Readonly<Props>> = ({ eventId }) => {
         (a) => a.clubId === currentEvent?.clubId
     );
     useEffect(() => {
-        dispatch(GetEntrantsIfRequired(eventId, getAccessToken(auth)));
+        dispatch(GetEntrantsIfRequired(eventId));
     }, [eventId, dispatch, auth]);
     useEffect(() => {
         dispatch(GetClubsIfRequired(getAccessToken(auth)));

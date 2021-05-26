@@ -54,8 +54,8 @@ const EditRuns: FunctionalComponent<Props> = ({ eventId }) => {
     const testRuns = useSelector(selectTestRunsFromServer);
     useEffect(() => {
         dispatch(GetTestRunsIfRequired(eventId, ordinal, getAccessToken(auth)));
-        dispatch(GetEntrantsIfRequired(eventId, getAccessToken(auth)));
-        dispatch(GetMarshalsIfRequired(eventId, getAccessToken(auth)));
+        dispatch(GetEntrantsIfRequired(eventId));
+        dispatch(GetMarshalsIfRequired(eventId));
     }, [auth, dispatch, eventId, ordinal]);
 
     const entrants = useSelector(selectEntrants);

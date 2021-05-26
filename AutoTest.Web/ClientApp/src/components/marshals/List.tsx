@@ -3,14 +3,14 @@ import { Columns, Button, Form } from "react-bulma-components";
 const { Field, Control } = Form;
 
 import ifSome from "../shared/ifSome";
-import { Marshal } from "../../types/models";
+import { PublicMarshal } from "../../types/models";
 import { LoadingState } from "../../types/loadingState";
 import DeleteButton from "../shared/DeleteButton";
 
 interface Props {
-    readonly marshals: LoadingState<readonly Marshal[], number>;
-    readonly setEditingMarshal: (marshal: Marshal) => void;
-    readonly deleteMarshal: (marshal: Marshal) => void;
+    readonly marshals: LoadingState<readonly PublicMarshal[], number>;
+    readonly setEditingMarshal: (marshal: PublicMarshal) => void;
+    readonly deleteMarshal: (marshal: PublicMarshal) => void;
     readonly canEditMarshal: (marshalId: number) => boolean;
 }
 

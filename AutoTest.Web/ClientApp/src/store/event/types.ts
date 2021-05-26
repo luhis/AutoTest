@@ -6,6 +6,8 @@ import {
     Notification,
     Marshal,
     TestRunFromClient,
+    PublicEntrant,
+    PublicMarshal,
 } from "../../types/models";
 import { LoadingState } from "../../types/loadingState";
 import { AddEvent } from "./actions";
@@ -13,8 +15,8 @@ import { SharedActionTypes } from "../shared/types";
 
 export interface EventState {
     readonly events: LoadingState<readonly Event[]>;
-    readonly entrants: LoadingState<readonly Entrant[], number>;
-    readonly marshals: LoadingState<readonly Marshal[], number>;
+    readonly entrants: LoadingState<readonly PublicEntrant[], number>;
+    readonly marshals: LoadingState<readonly PublicMarshal[], number>;
     readonly testRuns: readonly TestRunFromClient[];
     readonly testRunsFromServer: LoadingState<
         readonly TestRunFromServer[],
@@ -42,7 +44,7 @@ export const ADD_NOTIFICATION = "ADD_NOTIFICATION";
 
 interface GetEntrants {
     readonly type: typeof GET_ENTRANTS;
-    readonly payload: LoadingState<readonly Entrant[], number>;
+    readonly payload: LoadingState<readonly PublicEntrant[], number>;
 }
 
 interface AddEntrant {
@@ -62,7 +64,7 @@ interface SetPaid {
 
 interface GetMarshals {
     readonly type: typeof GET_MARSHALS;
-    readonly payload: LoadingState<readonly Marshal[], number>;
+    readonly payload: LoadingState<readonly PublicMarshal[], number>;
 }
 
 interface AddMarshal {

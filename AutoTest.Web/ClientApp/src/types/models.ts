@@ -101,13 +101,13 @@ export interface PublicEntrant {
     readonly vehicle: Vehicle;
     readonly driverNumber: number;
     readonly club: string;
+    readonly isPaid: boolean;
 }
 
 export type Entrant = {
     readonly msaMembership: MsaMembership;
     readonly emergencyContact: EmergencyContact;
     readonly clubNumber: number;
-    readonly isPaid: boolean;
     readonly email: string;
 } & PublicEntrant;
 
@@ -118,7 +118,7 @@ export type EditingEntrant = Override<
     }
 >;
 
-interface PublicMarshal {
+export interface PublicMarshal {
     readonly marshalId: number;
     readonly eventId: number;
     readonly givenName: string;
