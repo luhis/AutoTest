@@ -18,7 +18,7 @@ namespace AutoTest.Service.Handlers
 
         async Task<Unit> IRequestHandler<DeleteMarshal, Unit>.Handle(DeleteMarshal request, CancellationToken cancellationToken)
         {
-            var found = await this._autoTestContext.Marshals!.SingleAsync(a => a.MarshalId == request.MarshalId, cancellationToken);
+            var found = await this._autoTestContext.Marshals!.SingleAsync(a => a.EventId == request.EventId && a.MarshalId == request.MarshalId, cancellationToken);
             this._autoTestContext.Marshals!.Remove(found);
             await this._autoTestContext.SaveChangesAsync(cancellationToken);
             return Unit.Value;

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 using AutoTest.Domain.StorageModels;
 using AutoTest.Service.Messages;
@@ -25,16 +26,16 @@ namespace AutoTest.Web.Controllers
 
         [Authorize(policy: Policies.ClubAdmin)]
         [HttpPut("{notificationId}")]
-        public Task Add(ulong notificationId, ulong eventId, NotificationSaveModel notification)
+        public Task Add(ulong notificationId, ulong eventId, NotificationSaveModel notification, CancellationToken cancellationToken)
         {
             var email = this.User.GetEmailAddress();
-            return mediator.Send(new AddNotification(MapClub.Map(notificationId, eventId, email, notification)));
+            return mediator.Send(new AddNotification(MapClub.Map(notificationId, eventId, email, notification)), cancellationToken);
         }
 
         [HttpGet]
-        public Task<IEnumerable<Notification>> GetAll(ulong eventId)
+        public Task<IEnumerable<Notification>> GetAll(ulong eventId, CancellationToken cancellationToken)
         {
-            return mediator.Send(new GetNotifications(eventId));
+            return mediator.Send(new GetNotifications(eventId), cancellationToken);
         }
     }
 }

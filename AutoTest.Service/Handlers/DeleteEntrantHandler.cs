@@ -18,7 +18,7 @@ namespace AutoTest.Service.Handlers
 
         async Task<Unit> IRequestHandler<DeleteEntrant, Unit>.Handle(DeleteEntrant request, CancellationToken cancellationToken)
         {
-            var found = await this._autoTestContext.Entrants!.SingleAsync(a => a.EntrantId == request.EntrantId, cancellationToken);
+            var found = await this._autoTestContext.Entrants!.SingleAsync(a => a.EventId == request.EventId && a.EntrantId == request.EntrantId, cancellationToken);
             this._autoTestContext.Entrants!.Remove(found);
             await this._autoTestContext.SaveChangesAsync(cancellationToken);
             return Unit.Value;

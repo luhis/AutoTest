@@ -42,6 +42,6 @@ namespace AutoTest.Web.Controllers
 
         [Authorize(policy: Policies.ClubAdminOrSelf)]
         [HttpDelete("{marshalId}")]
-        public Task Delete(ulong marshalId) => this.mediator.Send(new DeleteMarshal(marshalId));
+        public Task Delete(ulong eventId, ulong marshalId, CancellationToken cancellationToken) => this.mediator.Send(new DeleteMarshal(eventId, marshalId), cancellationToken);
     }
 }

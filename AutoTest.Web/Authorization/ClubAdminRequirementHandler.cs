@@ -3,7 +3,9 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoTest.Domain.Repositories;
+using AutoTest.Service.Messages;
 using AutoTest.Web.Authorization.Tooling;
+using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
@@ -14,15 +16,15 @@ namespace AutoTest.Web.Authorization
     {
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IEntrantsRepository _entrantsRepository;
-        private readonly IEventsRepository _eventsRepository;
         private readonly IClubRepository _clubRepository;
+        private readonly IMediator mediator;
 
-        public ClubAdminRequirementHandler(IHttpContextAccessor httpContextAccessor, IEntrantsRepository entrantsRepository, IEventsRepository eventsRepository, IClubRepository clubRepository)
+        public ClubAdminRequirementHandler(IHttpContextAccessor httpContextAccessor, IEntrantsRepository entrantsRepository, IClubRepository clubRepository, IMediator mediator)
         {
             _httpContextAccessor = httpContextAccessor;
             _entrantsRepository = entrantsRepository;
-            _eventsRepository = eventsRepository;
             _clubRepository = clubRepository;
+            this.mediator = mediator;
         }
 
         protected override async Task HandleRequirementAsync(AuthorizationHandlerContext context, ClubAdminRequirement requirement)
@@ -31,7 +33,8 @@ namespace AutoTest.Web.Authorization
             if (routeData != null)
             {
                 var eventId = await GetEventId(routeData);
-                var @event = await _eventsRepository.GetById(eventId, CancellationToken.None);
+
+                var @event = await mediator.Send(new GetEvent(eventId), CancellationToken.None);
                 if (@event == null)
                 {
                     // new event

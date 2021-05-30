@@ -48,7 +48,7 @@ namespace AutoTest.Persistence
                 }
                 if (this.Events != null && this.Events.SingleOrDefault(a => a.EventId == 1) == null)
                 {
-                    var e = new Event(1, 1, "Kestrel Farm", new DateTime(2000, 1, 1), 10, 2, string.Empty, EventType.AutoTest, string.Empty);
+                    var e = new Event(1, 1, "Kestrel Farm", new DateTime(2000, 1, 1), 10, 2, string.Empty, EventType.AutoTest, string.Empty, TimingSystem.StopWatch);
                     e.SetTests(new[] { new Test(1, "") });
                     this.Events.Add(e);
                 }

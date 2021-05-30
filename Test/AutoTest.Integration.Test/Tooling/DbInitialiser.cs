@@ -9,7 +9,7 @@ namespace AutoTest.Integration.Test.Tooling
     {
         public static void InitializeDbForTests(AutoTestContext db)
         {
-            db.Events!.Add(new Event(22, 1, "", DateTime.Today, 10, 2, "", EventType.AutoTest, string.Empty));
+            db.Events!.Add(new Event(22, 1, "", DateTime.Today, 10, 2, "", EventType.AutoTest, string.Empty, TimingSystem.StopWatch));
             db.SaveChanges();
         }
     }

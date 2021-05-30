@@ -21,6 +21,9 @@ interface Props {
     readonly setField: (k: Partial<EditingEvent>) => void;
 }
 
+const getFileLength = (data: string | null) =>
+    data ? atob(data.split("base64,")[1]).length : 0;
+
 const ModalX: FunctionComponent<Props> = ({
     event,
     clubs,
@@ -172,7 +175,11 @@ const ModalX: FunctionComponent<Props> = ({
                             accept=".pdf"
                         />
                         <Help>
-                            {!isNil(event.maps) ? "Present" : "Missing"}
+                            {!isNil(event.maps)
+                                ? `Present: ${getFileLength(
+                                      event.regulations
+                                  ).toLocaleString()} B`
+                                : "Missing"}
                         </Help>
                     </Field>
                     <Field>
@@ -192,7 +199,11 @@ const ModalX: FunctionComponent<Props> = ({
                             accept=".pdf"
                         />
                         <Help>
-                            {!isNil(event.maps) ? "Present" : "Missing"}
+                            {!isNil(event.maps)
+                                ? `Present: ${getFileLength(
+                                      event.maps
+                                  ).toLocaleString()} B`
+                                : "Missing"}
                         </Help>
                     </Field>
                 </Modal.Card.Body>

@@ -24,7 +24,7 @@ namespace AutoTest.Web.Controllers
         {
             this.mediator = mediator;
         }
-        
+
         [HttpGet]
         public async Task<IEnumerable<PublicEntrantModel>> GetEntrants(ulong eventId, CancellationToken cancellationToken)
         {
@@ -39,14 +39,20 @@ namespace AutoTest.Web.Controllers
 
         [Authorize(policy: Policies.ClubAdminOrSelf)]
         [HttpPut("{entrantId}")]
-        public Task<Entrant> PutEntrant(ulong eventId, ulong entrantId, EntrantSaveModel entrantSaveModel, CancellationToken cancellationToken) => this.mediator.Send(new SaveEntrant(MapClub.Map(entrantId, eventId, entrantSaveModel)), cancellationToken);
+        public async Task<Entrant> PutEntrant(ulong eventId, ulong entrantId, EntrantSaveModel entrantSaveModel, CancellationToken cancellationToken)
+        {
+            return await this.mediator.Send(new SaveEntrant(MapClub.Map(entrantId, eventId, entrantSaveModel)),
+                cancellationToken);
+        }
 
         [Authorize(policy: Policies.ClubAdmin)]
         [HttpPut("{entrantId}/markPaid")]
-        public Task MarkPaid(ulong entrantId, bool isPaid) => this.mediator.Send(new MarkPaid(entrantId, isPaid));
+        public Task MarkPaid(ulong entrantId, bool isPaid, CancellationToken cancellationToken) => this.mediator.Send(new MarkPaid(entrantId, isPaid),
+            cancellationToken);
 
         [Authorize(policy: Policies.ClubAdminOrSelf)]
         [HttpDelete("{entrantId}")]
-        public Task Delete(ulong entrantId) => this.mediator.Send(new DeleteEntrant(entrantId));
+        public Task Delete(ulong eventId, ulong entrantId, CancellationToken cancellationToken) => this.mediator.Send(new DeleteEntrant(eventId, entrantId),
+            cancellationToken);
     }
 }
