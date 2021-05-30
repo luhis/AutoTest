@@ -1,28 +1,24 @@
 ﻿using System;
 using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
-using AutoTest.Domain.Repositories;
-using AutoTest.Persistence;
+using AutoTest.Service.Messages;
 using AutoTest.Web.Authorization.Tooling;
+using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
-using Microsoft.EntityFrameworkCore;
 
 namespace AutoTest.Web.Authorization
 {
     public class MarshalRequirementHandler : AuthorizationHandler<MarshalRequirement>
     {
         private readonly IHttpContextAccessor _httpContextAccessor;
-        private readonly IEventsRepository _eventsRepository;
-        private readonly AutoTestContext _autoTestContext;
+        private readonly IMediator mediator;
 
-        public MarshalRequirementHandler(IHttpContextAccessor httpContextAccessor, IEventsRepository eventsRepository, AutoTestContext autoTestContext)
+        public MarshalRequirementHandler(IHttpContextAccessor httpContextAccessor, IMediator mediator)
         {
             _httpContextAccessor = httpContextAccessor;
-            _eventsRepository = eventsRepository;
-            _autoTestContext = autoTestContext;
+            this.mediator = mediator;
         }
 
         protected override async Task HandleRequirementAsync(AuthorizationHandlerContext context, MarshalRequirement requirement)
@@ -31,12 +27,13 @@ namespace AutoTest.Web.Authorization
             if (routeData != null)
             {
                 var eventId = ulong.Parse((string)routeData.Values["eventId"]!);
-                var @event = await _eventsRepository.GetById(eventId, CancellationToken.None);
+                var @event = await mediator.Send(new GetEvent(eventId));
                 if (@event == null)
                 {
                     throw new Exception("Cannot find event");
                 }
-                var emails = await _autoTestContext.Marshals!.Where(a => a.EventId == eventId).Select(a => a.Email).ToArrayAsync();
+
+                var emails = (await mediator.Send(new GetMarshals(eventId))).Select(a => a.Email);
                 var email = context.User.GetEmailAddress();
                 if (emails.Contains(email))
                 {

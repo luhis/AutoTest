@@ -2,7 +2,6 @@
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using AutoTest.Domain.Repositories;
 using AutoTest.Service.Messages;
 using AutoTest.Web.Authorization.Tooling;
 using MediatR;
@@ -15,15 +14,11 @@ namespace AutoTest.Web.Authorization
     public class ClubAdminRequirementHandler : AuthorizationHandler<ClubAdminRequirement>
     {
         private readonly IHttpContextAccessor _httpContextAccessor;
-        private readonly IEntrantsRepository _entrantsRepository;
-        private readonly IClubRepository _clubRepository;
         private readonly IMediator mediator;
 
-        public ClubAdminRequirementHandler(IHttpContextAccessor httpContextAccessor, IEntrantsRepository entrantsRepository, IClubRepository clubRepository, IMediator mediator)
+        public ClubAdminRequirementHandler(IHttpContextAccessor httpContextAccessor, IMediator mediator)
         {
             _httpContextAccessor = httpContextAccessor;
-            _entrantsRepository = entrantsRepository;
-            _clubRepository = clubRepository;
             this.mediator = mediator;
         }
 
@@ -42,7 +37,7 @@ namespace AutoTest.Web.Authorization
                     return;
                 }
 
-                var club = await _clubRepository.GetById(@event.ClubId, CancellationToken.None);
+                var club = await mediator.Send(new GetClub(@event.ClubId));
                 if (club == null)
                 {
                     throw new NullReferenceException(nameof(club));
@@ -64,21 +59,22 @@ namespace AutoTest.Web.Authorization
             }
         }
 
-        private async Task<ulong> GetEventId(RouteData routeData)
+        private Task<ulong> GetEventId(RouteData routeData)
         {
             if (routeData.Values.TryGetValue("eventId", out var eventIdString) && eventIdString != null)
             {
-                return ulong.Parse((string)eventIdString);
+                return Task.FromResult(ulong.Parse((string)eventIdString));
             }
             else if (routeData.Values.TryGetValue("entrantId", out var entrantIdString) && entrantIdString != null)
             {
-                var entrantId = ulong.Parse((string)entrantIdString);
-                var entrant = await _entrantsRepository.GetById(entrantId, CancellationToken.None);
-                if (entrant == null)
-                {
-                    throw new Exception("Cannot find entrant");
-                }
-                return entrant.EventId;
+                throw new Exception("i don't think this route is used anymore");
+                //var entrantId = ulong.Parse((string)entrantIdString);
+                //var entrant = await _entrantsRepository.GetById(entrantId, CancellationToken.None);
+                //if (entrant == null)
+                //{
+                //    throw new Exception("Cannot find entrant");
+                //}
+                //return entrant.EventId;
             }
             throw new Exception("Don't know how to get EventId from this request");
         }

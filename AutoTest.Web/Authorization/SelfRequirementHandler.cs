@@ -1,28 +1,23 @@
 ﻿using System;
-using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
-using AutoTest.Domain.Repositories;
-using AutoTest.Persistence;
+using AutoTest.Service.Messages;
 using AutoTest.Web.Authorization.Tooling;
+using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
-using Microsoft.EntityFrameworkCore;
 
 namespace AutoTest.Web.Authorization
 {
     public class SelfRequirementHandler : AuthorizationHandler<SelfRequirement>
     {
         private readonly IHttpContextAccessor _httpContextAccessor;
-        private readonly IEntrantsRepository _entrantsRepository;
-        private readonly AutoTestContext autoTestContext;
+        private readonly IMediator mediator;
 
-        public SelfRequirementHandler(IHttpContextAccessor httpContextAccessor, IEntrantsRepository entrantsRepository, AutoTestContext autoTestContext)
+        public SelfRequirementHandler(IHttpContextAccessor httpContextAccessor, IMediator mediator)
         {
             _httpContextAccessor = httpContextAccessor;
-            _entrantsRepository = entrantsRepository;
-            this.autoTestContext = autoTestContext;
+            this.mediator = mediator;
         }
 
         protected override async Task HandleRequirementAsync(AuthorizationHandlerContext context, SelfRequirement requirement)
@@ -50,15 +45,19 @@ namespace AutoTest.Web.Authorization
 
         private async Task<string> GetEmail(RouteData routeData)
         {
-            if (routeData.Values.TryGetValue("entrantId", out var entrantIdString) && entrantIdString != null)
+            if (routeData.Values.TryGetValue("eventId", out var eventIdString) && eventIdString != null)
             {
-                var entrantId = ulong.Parse((string)entrantIdString);
-                return (await this._entrantsRepository.GetById(entrantId, CancellationToken.None))!.Email;
-            }
-            if (routeData.Values.TryGetValue("marshalId", out var marshalIdString) && marshalIdString != null)
-            {
-                var marshalId = ulong.Parse((string)marshalIdString);
-                return (await this.autoTestContext.Marshals.SingleAsync(a => a.MarshalId == marshalId, CancellationToken.None)).Email;
+                var eventId = ulong.Parse((string)eventIdString);
+                if (routeData.Values.TryGetValue("entrantId", out var entrantIdString) && entrantIdString != null)
+                {
+                    var entrantId = ulong.Parse((string)entrantIdString);
+                    return (await mediator.Send(new GetEntrant(eventId, entrantId))).Email;
+                }
+                if (routeData.Values.TryGetValue("marshalId", out var marshalIdString) && marshalIdString != null)
+                {
+                    var marshalId = ulong.Parse((string)marshalIdString);
+                    return (await mediator.Send(new GetMarshal(eventId, marshalId))).Email;
+                }
             }
             throw new Exception("Don't know how to get Email from this request");
         }
