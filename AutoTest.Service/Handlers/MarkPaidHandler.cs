@@ -19,7 +19,7 @@ namespace AutoTest.Service.Handlers
 
         async Task<Unit> IRequestHandler<MarkPaid, Unit>.Handle(MarkPaid request, CancellationToken cancellationToken)
         {
-            var found = await this._autoTestContext.Entrants!.SingleAsync(a => a.EntrantId == request.EntrantId, cancellationToken);
+            var found = await this._autoTestContext.Entrants!.SingleAsync(a => a.EventId == request.EventId && a.EntrantId == request.EntrantId, cancellationToken);
             this._autoTestContext.Entrants!.Update(found);
             await this._autoTestContext.SaveChangesAsync(cancellationToken);
             return Unit.Value;

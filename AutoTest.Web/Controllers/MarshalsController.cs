@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using AutoTest.Web.Authorization.Tooling;
 using AutoTest.Web.Mapping;
 
 namespace AutoTest.Web.Controllers
@@ -38,7 +39,20 @@ namespace AutoTest.Web.Controllers
 
         [Authorize(policy: Policies.ClubAdminOrSelf)]
         [HttpPut("{marshalId}")]
-        public Task<Marshal> PutMarshal(ulong eventId, ulong marshalId, MarshalSaveModel entrantSaveModel, CancellationToken cancellationToken) => this.mediator.Send(new SaveMarshal(MapClub.Map(marshalId, eventId, entrantSaveModel)), cancellationToken);
+        public async Task<Marshal> PutMarshal(ulong eventId, ulong marshalId, MarshalSaveModel entrantSaveModel, CancellationToken cancellationToken)
+        {
+            var currentUserEmail = this.User.GetEmailAddress();
+            if (await this.mediator.Send(new IsClubAdmin(eventId, currentUserEmail), cancellationToken))
+            {
+                return await this.mediator.Send(new SaveMarshal(MapClub.Map(marshalId, eventId, entrantSaveModel, entrantSaveModel.Email)),
+                cancellationToken);
+            }
+            else
+            {
+                return await this.mediator.Send(new SaveMarshal(MapClub.Map(marshalId, eventId, entrantSaveModel, currentUserEmail)),
+                    cancellationToken);
+            }
+        }
 
         [Authorize(policy: Policies.ClubAdminOrSelf)]
         [HttpDelete("{marshalId}")]

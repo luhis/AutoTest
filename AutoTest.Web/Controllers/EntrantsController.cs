@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using AutoTest.Web.Authorization.Tooling;
 using AutoTest.Web.Mapping;
 using AutoTest.Web.Models;
 
@@ -41,13 +42,22 @@ namespace AutoTest.Web.Controllers
         [HttpPut("{entrantId}")]
         public async Task<Entrant> PutEntrant(ulong eventId, ulong entrantId, EntrantSaveModel entrantSaveModel, CancellationToken cancellationToken)
         {
-            return await this.mediator.Send(new SaveEntrant(MapClub.Map(entrantId, eventId, entrantSaveModel)),
-                cancellationToken);
+            var currentUserEmail = this.User.GetEmailAddress();
+            if (await this.mediator.Send(new IsClubAdmin(eventId, currentUserEmail), cancellationToken))
+            {
+                return await this.mediator.Send(new SaveEntrant(MapClub.Map(entrantId, eventId, entrantSaveModel, entrantSaveModel.Email)),
+                    cancellationToken);
+            }
+            else
+            {
+                return await this.mediator.Send(new SaveEntrant(MapClub.Map(entrantId, eventId, entrantSaveModel, currentUserEmail)),
+                    cancellationToken);
+            }
         }
 
         [Authorize(policy: Policies.ClubAdmin)]
         [HttpPut("{entrantId}/markPaid")]
-        public Task MarkPaid(ulong entrantId, bool isPaid, CancellationToken cancellationToken) => this.mediator.Send(new MarkPaid(entrantId, isPaid),
+        public Task MarkPaid(ulong eventId, ulong entrantId, bool isPaid, CancellationToken cancellationToken) => this.mediator.Send(new MarkPaid(eventId, entrantId, isPaid),
             cancellationToken);
 
         [Authorize(policy: Policies.ClubAdminOrSelf)]
