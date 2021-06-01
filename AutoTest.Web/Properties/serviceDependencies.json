@@ -3,6 +3,9 @@
     "cosmosdb1": {
       "type": "cosmosdb",
       "connectionId": "Cosmos"
+    },
+    "appInsights1": {
+      "type": "appInsights"
     }
   }
 }
