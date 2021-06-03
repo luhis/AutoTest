@@ -23,7 +23,7 @@ import {
     TestRunUploadState,
     Entrant,
     Event,
-    Notification,
+    EventNotification,
     Marshal,
     TestRunFromServer,
     TestRunFromClient,
@@ -158,13 +158,13 @@ export const GetNotifications =
         });
     };
 
-export const AddNotification = (notification: Notification) => ({
+export const AddNotification = (notification: EventNotification) => ({
     type: ADD_NOTIFICATION,
     payload: notification,
 });
 
 export const CreateNotification =
-    (notification: Notification, token: string | undefined) =>
+    (notification: EventNotification, token: string | undefined) =>
     async (dispatch: Dispatch<EventActionTypes>) => {
         await addNotification(notification, token);
         dispatch({

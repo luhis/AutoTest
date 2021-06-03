@@ -1,16 +1,16 @@
 import { parseIsoOrThrow } from "ts-date";
 
-import { Override, Notification } from "../types/models";
+import { Override, EventNotification } from "../types/models";
 import { ApiResponse, toApiResponse } from "../types/loadingState";
 import { extract, getHeaders, throwIfNotOk } from "./api";
 
 export const getNotifications = async (
     eventId: number
-): Promise<ApiResponse<readonly Notification[], number>> =>
+): Promise<ApiResponse<readonly EventNotification[], number>> =>
     toApiResponse(async () => {
         const response = await fetch(`/api/notifications/${eventId}`);
         type ApiNotification = Override<
-            Notification,
+            EventNotification,
             { readonly created: string }
         >;
         const events = await extract<readonly ApiNotification[]>(response);
@@ -22,7 +22,7 @@ export const getNotifications = async (
     }, eventId);
 
 export const addNotification = async (
-    notification: Notification,
+    notification: EventNotification,
     token: string | undefined
 ): Promise<void> => {
     const { notificationId, eventId, ...rest } = notification;

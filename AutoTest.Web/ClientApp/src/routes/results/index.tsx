@@ -13,7 +13,7 @@ import { FaBell } from "react-icons/fa";
 import { route } from "preact-router";
 
 import {
-    Notification,
+    EventNotification,
     Override,
     Result,
     TestRunFromServer,
@@ -56,15 +56,15 @@ const requestNotificationPermission = () => {
     }
 
     if (
-        Notification.permission !== "granted" &&
-        Notification.permission !== "denied"
+        window.Notification.permission !== "granted" &&
+        window.Notification.permission !== "denied"
     ) {
-        void Notification.requestPermission();
+        void window.Notification.requestPermission();
     }
 };
 
 const showDesktopNotification = (text: string) => {
-    new Notification(text);
+    new window.Notification(text);
 };
 
 const baseConn = new HubConnectionBuilder()
@@ -114,9 +114,12 @@ const Results: FunctionalComponent<
     const access = useSelector(selectAccess);
     useEffect(() => {
         if (connection) {
-            connection.on("NewNotification", (notification: Notification) => {
-                dispatch(AddNotification(notification));
-            });
+            connection.on(
+                "NewNotification",
+                (notification: EventNotification) => {
+                    dispatch(AddNotification(notification));
+                }
+            );
             connection.on("NewResults", (newResults: readonly Result[]) => {
                 setResults({
                     tag: "Loaded",
@@ -169,7 +172,7 @@ const Results: FunctionalComponent<
                 selected={classFilter}
                 setFilter={setClassFilter}
             />
-            {Notification.permission !== "granted"
+            {window.Notification.permission !== "granted"
                 ? "Please allow notifications to get run notifications"
                 : null}
             <Table>

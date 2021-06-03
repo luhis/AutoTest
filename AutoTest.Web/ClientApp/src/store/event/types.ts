@@ -3,7 +3,7 @@ import {
     Event,
     TestRunFromServer,
     TestRunUploadState,
-    Notification,
+    EventNotification,
     Marshal,
     TestRunFromClient,
     PublicEntrant,
@@ -22,7 +22,7 @@ export interface EventState {
         readonly TestRunFromServer[],
         { readonly eventId: number; readonly ordinal: number }
     >;
-    readonly notifications: LoadingState<readonly Notification[], number>;
+    readonly notifications: LoadingState<readonly EventNotification[], number>;
 }
 
 export const GET_ENTRANTS = "GET_ENTRANTS";
@@ -120,12 +120,12 @@ interface UpdateTestRunState {
 
 interface GetNotifications {
     readonly type: typeof GET_NOTIFICATIONS;
-    readonly payload: LoadingState<readonly Notification[], number>;
+    readonly payload: LoadingState<readonly EventNotification[], number>;
 }
 
 interface AddNotification {
     readonly type: typeof ADD_NOTIFICATION;
-    readonly payload: Notification;
+    readonly payload: EventNotification;
 }
 
 export type EventActionTypes =

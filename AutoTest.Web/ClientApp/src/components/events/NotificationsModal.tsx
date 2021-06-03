@@ -2,10 +2,10 @@ import { h, FunctionComponent } from "preact";
 import { Modal, Button, Heading } from "react-bulma-components";
 import TimeAgo from "timeago-react";
 
-import { Notification } from "../../types/models";
+import { EventNotification } from "../../types/models";
 
 interface Props {
-    readonly notifications: readonly Notification[];
+    readonly notifications: readonly EventNotification[];
     readonly cancel: () => void;
 }
 

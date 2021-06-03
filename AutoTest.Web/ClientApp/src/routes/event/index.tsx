@@ -19,7 +19,7 @@ import { selectEvents, selectNotifications } from "../../store/event/selectors";
 import { findIfLoaded, mapOrDefault } from "../../types/loadingState";
 import NotificationsModal from "../../components/events/NotificationsModal";
 import RouteParamsParser from "../../components/shared/RouteParamsParser";
-import { Notification, Override } from "../../types/models";
+import { EventNotification, Override } from "../../types/models";
 import AddNotificationModal from "../../components/events/AddNotificationModal";
 import { keySeed } from "../../settings";
 import Breadcrumbs from "../../components/shared/Breadcrumbs";
@@ -54,7 +54,7 @@ const Event: FunctionalComponent<Props> = ({ eventId }) => {
     }, [dispatch, eventId]);
     const [showModal, setShowModal] = useState(false);
     const [showAddNotificationModal, setShowAddNotificationModal] =
-        useState<Notification | undefined>(undefined);
+        useState<EventNotification | undefined>(undefined);
     const saveButton = useCallback(() => {
         if (showAddNotificationModal) {
             dispatch(
@@ -149,9 +149,9 @@ const Event: FunctionalComponent<Props> = ({ eventId }) => {
             {showAddNotificationModal ? (
                 <AddNotificationModal
                     cancel={() => setShowAddNotificationModal(undefined)}
-                    setField={(a: Partial<Notification>) =>
+                    setField={(a: Partial<EventNotification>) =>
                         setShowAddNotificationModal(
-                            (b) => ({ ...b, ...a } as Notification)
+                            (b) => ({ ...b, ...a } as EventNotification)
                         )
                     }
                     save={saveButton}

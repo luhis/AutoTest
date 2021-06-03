@@ -57,16 +57,18 @@ const GoogleAuthContext = createContext<HookReturnValue>({
     },
 }); // Not necessary, but recommended.
 
-const appInsights = new ApplicationInsights({
-    config: {
-        instrumentationKey: appInsightsKey,
-        extensions: [reactAI as ITelemetryPlugin],
-        extensionConfig: {
-            [reactAI.extensionId]: { debug: false },
+if (typeof window !== "undefined") {
+    const appInsights = new ApplicationInsights({
+        config: {
+            instrumentationKey: appInsightsKey,
+            extensions: [reactAI as ITelemetryPlugin],
+            extensionConfig: {
+                [reactAI.extensionId]: { debug: false },
+            },
         },
-    },
-});
-appInsights.loadAppInsights();
+    });
+    appInsights.loadAppInsights();
+}
 
 const App: FunctionalComponent = () => {
     const googleAuth = useGoogleLogin({

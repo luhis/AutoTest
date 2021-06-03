@@ -152,7 +152,7 @@ export interface EntrantTime {
     readonly classPosition: number;
 }
 
-export interface Notification {
+export interface EventNotification {
     readonly notificationId: number;
     readonly eventId: number;
     readonly message: string;

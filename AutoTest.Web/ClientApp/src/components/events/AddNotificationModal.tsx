@@ -3,12 +3,12 @@ import { Modal, Button, Form } from "react-bulma-components";
 const { Input, Field, Label } = Form;
 
 import { OnChange } from "src/types/inputs";
-import { Notification } from "../../types/models";
+import { EventNotification } from "../../types/models";
 import { addPreventDefault } from "../../lib/form";
 
 interface Props {
-    readonly notification: Notification;
-    readonly setField: (k: Partial<Notification>) => void;
+    readonly notification: EventNotification;
+    readonly setField: (k: Partial<EventNotification>) => void;
     readonly save: () => void;
     readonly cancel: () => void;
 }
