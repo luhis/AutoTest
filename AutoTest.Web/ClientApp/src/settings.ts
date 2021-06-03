@@ -3,3 +3,5 @@ export const keySeed = Number.parseInt(
 );
 
 export const googleKey = process.env.PREACT_APP_GOOGLE_CLIENT_ID as string;
+
+export const appInsightsKey = process.env.PREACT_APP_APP_INSIGHTS as string;

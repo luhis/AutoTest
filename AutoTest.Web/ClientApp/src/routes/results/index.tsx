@@ -12,7 +12,12 @@ import { newValidDate } from "ts-date";
 import { FaBell } from "react-icons/fa";
 import { route } from "preact-router";
 
-import { Notification, Override, Result } from "../../types/models";
+import {
+    Notification,
+    Override,
+    Result,
+    TestRunFromServer,
+} from "../../types/models";
 import {
     LoadingState,
     findIfLoaded,
@@ -36,6 +41,7 @@ import DriverNumber from "../../components/shared/DriverNumber";
 import { selectClubs } from "../../store/clubs/selectors";
 import { GetClubsIfRequired } from "../../store/clubs/actions";
 import FilterDropdown from "../../components/shared/FilterDropdown";
+import { selectAccess } from "../../store/profile/selectors";
 
 interface Props {
     readonly eventId: number;
@@ -43,6 +49,23 @@ interface Props {
 }
 
 const numberToChar = (n: number) => "abcdefghijklmnopqrstuvwxyz".charAt(n);
+
+const requestNotificationPermission = () => {
+    if (!("Notification" in window)) {
+        console.log("This browser does not support desktop notification");
+    }
+
+    if (
+        Notification.permission !== "granted" &&
+        Notification.permission !== "denied"
+    ) {
+        void Notification.requestPermission();
+    }
+};
+
+const showDesktopNotification = (text: string) => {
+    new Notification(text);
+};
 
 const baseConn = new HubConnectionBuilder()
     .withUrl("/resultsHub")
@@ -72,6 +95,7 @@ const Results: FunctionalComponent<
         tag: "Loading",
         id: eventId,
     });
+    useEffect(requestNotificationPermission, []);
     useEffect(() => {
         const fetchData = async () => {
             const resultsData = await getResults(eventId, getAccessToken(auth));
@@ -87,6 +111,7 @@ const Results: FunctionalComponent<
         dispatch(GetNotifications(eventId));
     }, [eventId, dispatch]);
 
+    const access = useSelector(selectAccess);
     useEffect(() => {
         if (connection) {
             connection.on("NewNotification", (notification: Notification) => {
@@ -100,8 +125,18 @@ const Results: FunctionalComponent<
                     loaded: newValidDate(),
                 });
             });
+
+            connection.on("NewTestRun", (newRun: TestRunFromServer) => {
+                if (access.editableEntrants.includes(newRun.entrantId)) {
+                    void showDesktopNotification(
+                        `New test run. Run Number: ${
+                            newRun.ordinal + 1
+                        }  Time:${(newRun.timeInMS / 1000).toFixed(2)}sec Penalties: ${newRun.penalties.toString()}`
+                    );
+                }
+            });
         }
-    }, [connection, dispatch, eventId]);
+    }, [access.editableEntrants, connection, dispatch, eventId]);
     const [showModal, setShowModal] = useState(false);
     const [_, setClassFilter] = useState<readonly string[]>(classFilter);
     useEffect(() => {
@@ -132,6 +167,9 @@ const Results: FunctionalComponent<
                 selected={classFilter}
                 setFilter={setClassFilter}
             />
+            {Notification.permission !== "granted"
+                ? "Please allow notifications to get run notifications"
+                : null}
             <Table>
                 <thead>
                     <tr>
