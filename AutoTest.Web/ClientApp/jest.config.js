@@ -10,3 +10,6 @@ module.exports = {
     },
     transformIgnorePatterns: ['../../node_modules/(?!${react-bulma-components})']
 }
+
+const dotenv = require('dotenv');
+dotenv.config({path: './.env.test'});
