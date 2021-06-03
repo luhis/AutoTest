@@ -131,7 +131,9 @@ const Results: FunctionalComponent<
                     void showDesktopNotification(
                         `New test run. Run Number: ${
                             newRun.ordinal + 1
-                        }  Time:${(newRun.timeInMS / 1000).toFixed(2)}sec Penalties: ${newRun.penalties.toString()}`
+                        }  Time:${(newRun.timeInMS / 1000).toFixed(
+                            2
+                        )}sec Penalties: ${newRun.penalties.toString()}`
                     );
                 }
             });
