@@ -34,8 +34,9 @@ const Events: FunctionalComponent<Props> = ({ clubId }) => {
     const clubs = useSelector(selectClubs);
     const { adminClubs } = useSelector(selectAccess);
     const canAdmin = (a: number) => adminClubs.includes(a);
-    const [editingEvent, setEditingEvent] =
-        useState<EditingEvent | undefined>(undefined);
+    const [editingEvent, setEditingEvent] = useState<EditingEvent | undefined>(
+        undefined
+    );
     useEffect(() => {
         dispatch(GetEventsIfRequired());
         dispatch(GetClubsIfRequired(getAccessToken(auth)));

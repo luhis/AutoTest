@@ -78,8 +78,9 @@ const EditRuns: FunctionalComponent<Props> = ({ eventId }) => {
         return found ? `${found.givenName} ${found.familyName}` : "Not Found";
     };
 
-    const [editing, setEditing] =
-        useState<TestRunFromServer | undefined>(undefined);
+    const [editing, setEditing] = useState<TestRunFromServer | undefined>(
+        undefined
+    );
     const clearEditingRun = () => setEditing(undefined);
     const save = useCallback(() => {
         if (editing) {
