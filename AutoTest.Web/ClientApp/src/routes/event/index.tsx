@@ -53,8 +53,9 @@ const Event: FunctionalComponent<Props> = ({ eventId }) => {
         dispatch(GetNotifications(eventId));
     }, [dispatch, eventId]);
     const [showModal, setShowModal] = useState(false);
-    const [showAddNotificationModal, setShowAddNotificationModal] =
-        useState<EventNotification | undefined>(undefined);
+    const [showAddNotificationModal, setShowAddNotificationModal] = useState<
+        EventNotification | undefined
+    >(undefined);
     const saveButton = useCallback(() => {
         if (showAddNotificationModal) {
             dispatch(

@@ -47,8 +47,9 @@ const Marshals: FunctionalComponent<Readonly<Props>> = ({ eventId }) => {
         useSelector(selectClubs),
         (a) => a.clubId === currentEvent?.clubId
     );
-    const [editingMarshal, setEditingMarshal] =
-        useState<EditingMarshal | undefined>(undefined);
+    const [editingMarshal, setEditingMarshal] = useState<
+        EditingMarshal | undefined
+    >(undefined);
     const auth = useGoogleAuth();
     const dispatch = useDispatch();
     const save = useCallback(() => {
