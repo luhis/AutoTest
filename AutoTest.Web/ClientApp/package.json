@@ -39,7 +39,7 @@
     "preact-router": "3.2.1",
     "promise-file-reader": "1.0.3",
     "react-appinsights": "3.0.0",
-    "react-bulma-components": "4.0.4",
+    "react-bulma-components": "4.0.7",
     "react-icons": "4.2.0",
     "react-redux": "7.2.4",
     "react-use-googlelogin": "0.12.5",

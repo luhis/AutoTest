@@ -9253,10 +9253,10 @@ react-appinsights@3.0.0:
     history "^4.9.0"
     react "^16.8.6"
 
-react-bulma-components@4.0.4:
-  version "4.0.4"
-  resolved "https://registry.yarnpkg.com/react-bulma-components/-/react-bulma-components-4.0.4.tgz#c662f9052bd07cf26f857ab0fd47bb720dca61eb"
-  integrity sha512-2/YPGvIZ/s+ZeZI3hpFTFKLZGUmDp83kz6/SXwyaQWqZI5ZltJCauz8F1dTY7lbucExyJ9WjSAXuJNpu8yMp+A==
+react-bulma-components@4.0.7:
+  version "4.0.7"
+  resolved "https://registry.yarnpkg.com/react-bulma-components/-/react-bulma-components-4.0.7.tgz#b50b2f02b4332d3debf7a974fcae679aa49157d1"
+  integrity sha512-F6dsnkKWQU+dtaLO2gB+0RSbPBQAPIhzjn5C3SvUab7qJXlCM3mqy8+Rqc4j5UZdvfRjqwl4MKpkYSTAX6Z2ag==
   dependencies:
     classnames "2.3.1"
 
