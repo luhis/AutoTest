@@ -51,7 +51,7 @@
     "save-file": "2.3.1",
     "timeago-react": "3.0.2",
     "ts-date": "3.0.2",
-    "uuid-int": "3.0.3"
+    "uuid-int": "3.1.0"
   },
   "devDependencies": {
     "@teamsupercell/typings-for-css-modules-loader": "2.5.1",
