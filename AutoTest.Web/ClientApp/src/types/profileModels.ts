@@ -5,10 +5,16 @@ import {
     Vehicle,
 } from "./shared";
 
+export enum Age {
+    junior = 0,
+    senior = 1,
+}
+
 export interface Profile {
     readonly emailAddress: string;
     readonly givenName: string;
     readonly familyName: string;
+    readonly age: Age;
     readonly vehicle: Vehicle;
     readonly msaMembership: MsaMembership;
     readonly emergencyContact: EmergencyContact;

@@ -31,6 +31,7 @@ import { GetProfileIfRequired } from "../../store/profile/actions";
 import { selectClubs } from "../../store/clubs/selectors";
 import { GetClubsIfRequired } from "../../store/clubs/actions";
 import { getEntrant } from "../../api/entrants";
+import { Age } from "../../types/profileModels";
 
 interface Props {
     readonly eventId: number;
@@ -151,6 +152,7 @@ const Entrants: FunctionalComponent<Readonly<Props>> = ({ eventId }) => {
             familyName: "",
             email: "",
             msaMembership: { msaLicense: Number.NaN, msaLicenseType: "" },
+            age: Age.senior,
             vehicle: {
                 make: "",
                 model: "",

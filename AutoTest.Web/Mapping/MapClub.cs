@@ -52,7 +52,7 @@ namespace AutoTest.Web.Mapping
         public static Entrant Map(ulong entrantId, ulong eventId, EntrantSaveModel entrant, string email)
         {
             var e = new Entrant(entrantId, entrant.DriverNumber, entrant.GivenName, entrant.FamilyName, email, entrant.Class, eventId,
-                entrant.IsPaid, entrant.Club, entrant.ClubNumber);
+                entrant.IsPaid, entrant.Club, entrant.ClubNumber, entrant.Age);
             e.SetVehicle(Map(entrant.Vehicle));
             e.SetEmergencyContact(Map(entrant.EmergencyContact));
             e.SetMsaMembership(Map(entrant.MsaMembership));
@@ -69,7 +69,7 @@ namespace AutoTest.Web.Mapping
 
         public static Profile Map(string emailAddress, ProfileSaveModel profile)
         {
-            var p = new Profile(emailAddress, profile.GivenName, profile.FamilyName);
+            var p = new Profile(emailAddress, profile.GivenName, profile.FamilyName, profile.Age);
             p.SetVehicle(Map(profile.Vehicle));
             p.SetEmergencyContact(Map(profile.EmergencyContact));
             p.SetClubMemberships(profile.ClubMemberships.Select(Map).ToArray());

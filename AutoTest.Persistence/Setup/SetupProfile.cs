@@ -11,6 +11,7 @@ namespace AutoTest.Persistence.Setup
             entity.Property(e => e.EmailAddress).ValueGeneratedNever().IsRequired();
             entity.Property(e => e.GivenName).IsRequired();
             entity.Property(e => e.FamilyName).IsRequired();
+            entity.Property(e => e.Age).IsRequired();
             entity.OwnsOne(a => a.Vehicle, SetupVehicle.Setup);
             entity.OwnsOne(a => a.EmergencyContact, SetupEmergencyContact.Setup);
             entity.OwnsMany(a => a.ClubMemberships, SetupClubMembership.Setup);

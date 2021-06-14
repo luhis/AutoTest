@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using AutoTest.Domain.Enums;
 using AutoTest.Domain.StorageModels;
 using AutoTest.Persistence;
 using AutoTest.Service.Messages;
@@ -21,7 +22,7 @@ namespace AutoTest.Service.Handlers
         async Task<Profile> IRequestHandler<GetProfile, Profile>.Handle(GetProfile request, CancellationToken cancellationToken)
         {
             var found = await this.autoTestContext.Users.Where(a => a.EmailAddress == request.EmailAddress).SingleOrDefaultAsync(cancellationToken);
-            return found == null ? new Profile(request.EmailAddress, "", "") : found;
+            return found == null ? new Profile(request.EmailAddress, "", "", Age.Senior) : found;
         }
     }
 }

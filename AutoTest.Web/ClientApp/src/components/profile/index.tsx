@@ -1,8 +1,8 @@
 import { h, FunctionComponent } from "preact";
 import { Button, Form, Heading } from "react-bulma-components";
-const { Label, Input, Field } = Form;
+const { Label, Input, Field, Radio } = Form;
 
-import { Profile } from "../../types/profileModels";
+import { Age, Profile } from "../../types/profileModels";
 import { OnChange } from "../../types/inputs";
 import EmergencyContactEditor from "../shared/EmergencyContactEditor";
 import { EmergencyContact, MsaMembership, Vehicle } from "../../types/shared";
@@ -41,6 +41,21 @@ const ProfileComp: FunctionComponent<Props> = ({ save, profile, setField }) => {
                         setField({ familyName: e.target.value })
                     }
                 />
+            </Field>
+            <Field>
+                <Label>Age</Label>
+                <Radio
+                    checked={profile.age === Age.junior}
+                    onChange={() => setField({ age: Age.junior })}
+                >
+                    Junior
+                </Radio>
+                <Radio
+                    checked={profile.age === Age.senior}
+                    onChange={() => setField({ age: Age.senior })}
+                >
+                    Senior
+                </Radio>
             </Field>
             <MsaMembershipEditor
                 licenseTypes={[]}

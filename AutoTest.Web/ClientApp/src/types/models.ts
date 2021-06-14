@@ -1,4 +1,5 @@
 import { ValidDate } from "ts-date";
+import { Age } from "./profileModels";
 
 import { EmergencyContact, MsaMembership, Vehicle } from "./shared";
 
@@ -98,6 +99,7 @@ export interface PublicEntrant {
     readonly class: string;
     readonly givenName: string;
     readonly familyName: string;
+    readonly age: Age;
     readonly vehicle: Vehicle;
     readonly driverNumber: number;
     readonly club: string;

@@ -1,8 +1,10 @@
-﻿namespace AutoTest.Domain.StorageModels
+﻿using AutoTest.Domain.Enums;
+
+namespace AutoTest.Domain.StorageModels
 {
     public class Entrant
     {
-        public Entrant(ulong entrantId, ushort driverNumber, string givenName, string familyName, string email, string @class, ulong eventId, bool isPaid, string club, uint clubNumber)
+        public Entrant(ulong entrantId, ushort driverNumber, string givenName, string familyName, string email, string @class, ulong eventId, bool isPaid, string club, uint clubNumber, Age age)
         {
             EntrantId = entrantId;
             GivenName = givenName;
@@ -13,6 +15,7 @@
             IsPaid = isPaid;
             Club = club;
             ClubNumber = clubNumber;
+            Age = age;
             DriverNumber = driverNumber;
         }
 
@@ -35,6 +38,8 @@
         public uint ClubNumber { get; }
 
         public string Email { get; }
+
+        public Age Age { get; }
 
         public Vehicle Vehicle { get; private set; } = new Vehicle();
 

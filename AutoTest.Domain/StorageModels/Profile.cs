@@ -1,15 +1,17 @@
 ﻿using System.Collections.Generic;
+using AutoTest.Domain.Enums;
 
 namespace AutoTest.Domain.StorageModels
 {
     public class Profile
     {
 
-        public Profile(string emailAddress, string givenName, string familyName)
+        public Profile(string emailAddress, string givenName, string familyName, Age age)
         {
             EmailAddress = emailAddress;
             GivenName = givenName;
             FamilyName = familyName;
+            Age = age;
         }
 
         public string EmailAddress { get; }
@@ -17,6 +19,8 @@ namespace AutoTest.Domain.StorageModels
         public string GivenName { get; }
 
         public string FamilyName { get; }
+
+        public Age Age { get; }
 
         public Vehicle Vehicle { get; private set; } = new Vehicle();
 

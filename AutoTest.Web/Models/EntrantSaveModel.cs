@@ -1,4 +1,6 @@
-﻿namespace AutoTest.Web.Models
+﻿using AutoTest.Domain.Enums;
+
+namespace AutoTest.Web.Models
 {
     public class EntrantSaveModel
     {
@@ -17,6 +19,8 @@
         public bool IsPaid { get; set; }
 
         public string Email { get; set; } = string.Empty;
+
+        public Age Age { get; set; } = Age.Senior;
 
         public VehicleSaveModel Vehicle { get; set; } = new VehicleSaveModel();
 

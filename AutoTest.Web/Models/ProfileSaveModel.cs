@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using AutoTest.Domain.Enums;
 
 namespace AutoTest.Web.Models
 {
@@ -7,6 +8,8 @@ namespace AutoTest.Web.Models
         public string GivenName { get; set; } = string.Empty;
 
         public string FamilyName { get; set; } = string.Empty;
+
+        public Age Age { get; set; } = Age.Senior;
 
         public VehicleSaveModel Vehicle { get; set; } = new VehicleSaveModel();
 

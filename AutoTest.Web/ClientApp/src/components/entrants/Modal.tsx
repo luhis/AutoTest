@@ -1,7 +1,7 @@
 import { h, FunctionComponent } from "preact";
 import { Modal, Button, Form } from "react-bulma-components";
 import { useSelector } from "react-redux";
-const { Control, Field, Label, Input, Help, Checkbox } = Form;
+const { Control, Field, Label, Input, Help, Checkbox, Radio } = Form;
 
 import { EditingEntrant } from "../../types/models";
 import { OnChange } from "../../types/inputs";
@@ -17,6 +17,7 @@ import VehicleEditor from "../shared/VehicleEditor";
 import DropdownInput from "../shared/DropdownInput";
 import MsaMembershipEditor from "../shared/MsaMembershipEditor";
 import { addPreventDefault } from "../../lib/form";
+import { Age } from "../../types/profileModels";
 
 interface Props {
     readonly entrant: EditingEntrant;
@@ -76,6 +77,21 @@ const EntrantsModal: FunctionComponent<Props> = ({
                                 }
                             />
                         </Control>
+                    </Field>
+                    <Field>
+                        <Label>Age</Label>
+                        <Radio
+                            checked={entrant.age === Age.junior}
+                            onChange={() => setField({ age: Age.junior })}
+                        >
+                            Junior
+                        </Radio>
+                        <Radio
+                            checked={entrant.age === Age.senior}
+                            onChange={() => setField({ age: Age.senior })}
+                        >
+                            Senior
+                        </Radio>
                     </Field>
                     <Field>
                         <Label>Email</Label>
