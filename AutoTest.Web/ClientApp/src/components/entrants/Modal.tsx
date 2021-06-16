@@ -1,7 +1,8 @@
 import { h, FunctionComponent } from "preact";
-import { Modal, Button, Form } from "react-bulma-components";
+import { Modal, Button, Form, Dropdown } from "react-bulma-components";
 import { useSelector } from "react-redux";
 const { Control, Field, Label, Input, Help, Checkbox, Radio } = Form;
+import { isEmpty } from "@s-libs/micro-dash";
 
 import { EditingEntrant } from "../../types/models";
 import { OnChange } from "../../types/inputs";
@@ -11,7 +12,12 @@ import {
     selectLicenseTypeOptions,
     selectMakeModelOptions,
 } from "../../store/event/selectors";
-import { MsaMembership, EmergencyContact, Vehicle } from "src/types/shared";
+import {
+    MsaMembership,
+    EmergencyContact,
+    Vehicle,
+    ClubMembership,
+} from "src/types/shared";
 import EmergencyContactEditor from "../shared/EmergencyContactEditor";
 import VehicleEditor from "../shared/VehicleEditor";
 import DropdownInput from "../shared/DropdownInput";
@@ -19,13 +25,41 @@ import MsaMembershipEditor from "../shared/MsaMembershipEditor";
 import { addPreventDefault } from "../../lib/form";
 import { Age } from "../../types/profileModels";
 
+const FillProfileButton: FunctionComponent<{
+    readonly clubMemberships: readonly ClubMembership[];
+    readonly fillFromProfile: (club: ClubMembership | undefined) => void;
+}> = ({ clubMemberships, fillFromProfile }) => {
+    if (isEmpty(clubMemberships) || clubMemberships.length === 1) {
+        return (
+            <Button onClick={() => fillFromProfile(clubMemberships[0])}>
+                Fill from Profile
+            </Button>
+        );
+    } else {
+        return (
+            <Dropdown color="secondary" label="Fill from Profile">
+                {clubMemberships.map((a) => (
+                    <Dropdown.Item
+                        key={a.clubName}
+                        value={a.clubName}
+                        onClick={() => fillFromProfile(a)}
+                    >
+                        {a.clubName} {a.membershipNumber}
+                    </Dropdown.Item>
+                ))}
+            </Dropdown>
+        );
+    }
+};
+
 interface Props {
     readonly entrant: EditingEntrant;
     readonly save: () => void;
     readonly cancel: () => void;
     readonly setField: (k: Partial<EditingEntrant>) => void;
-    readonly fillFromProfile: () => void;
+    readonly fillFromProfile: (membership: ClubMembership | undefined) => void;
     readonly isClubAdmin: boolean;
+    readonly clubMemberships: readonly ClubMembership[];
 }
 
 const EntrantsModal: FunctionComponent<Props> = ({
@@ -35,6 +69,7 @@ const EntrantsModal: FunctionComponent<Props> = ({
     setField,
     fillFromProfile,
     isClubAdmin,
+    clubMemberships,
 }) => {
     const classesInUse = useSelector(selectClassOptions);
     const makeAndModels = useSelector(selectMakeModelOptions);
@@ -198,13 +233,10 @@ const EntrantsModal: FunctionComponent<Props> = ({
                         Save changes
                     </Button>
                     {entrant.isNew ? (
-                        <Button
-                            color="secondary"
-                            type="button"
-                            onClick={fillFromProfile}
-                        >
-                            Fill from Profile
-                        </Button>
+                        <FillProfileButton
+                            clubMemberships={clubMemberships}
+                            fillFromProfile={fillFromProfile}
+                        />
                     ) : null}
                     <Button color="secondary" onClick={cancel}>
                         Close
