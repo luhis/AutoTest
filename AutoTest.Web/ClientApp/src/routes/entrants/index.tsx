@@ -3,7 +3,6 @@ import { useCallback, useEffect, useState } from "preact/hooks";
 import { Heading, Button } from "react-bulma-components";
 import UUID from "uuid-int";
 import { useDispatch, useSelector } from "react-redux";
-import { nth } from "@s-libs/micro-dash";
 
 import { EditingEntrant, Override, PublicEntrant } from "../../types/models";
 import { useGoogleAuth } from "../../components/app";
@@ -32,6 +31,7 @@ import { selectClubs } from "../../store/clubs/selectors";
 import { GetClubsIfRequired } from "../../store/clubs/actions";
 import { getEntrant } from "../../api/entrants";
 import { Age } from "../../types/profileModels";
+import { ClubMembership } from "src/types/shared";
 
 interface Props {
     readonly eventId: number;
@@ -93,40 +93,42 @@ const Entrants: FunctionalComponent<Readonly<Props>> = ({ eventId }) => {
             );
         }
     }, [auth, dispatch, editingEntrant, entrants]);
-    const fillFromProfile = useCallback(() => {
-        if (profile.tag === "Loaded") {
-            const {
-                familyName,
-                givenName,
-                msaMembership,
-                emergencyContact,
-                vehicle,
-                clubMemberships,
-                emailAddress,
-            } = profile.value;
-            const validMemberships = clubMemberships.filter(
-                (a) =>
-                    currentEvent == undefined ||
-                    a.expiry >= currentEvent.startTime
-            );
-            const club = nth(validMemberships, 0);
-            setEditingEntrant((e) =>
-                e
-                    ? {
-                          ...e,
-                          familyName,
-                          givenName,
-                          msaMembership,
-                          emergencyContact,
-                          vehicle,
-                          club: club?.clubName || "",
-                          clubNumber: club?.membershipNumber || Number.NaN,
-                          email: emailAddress,
-                      }
-                    : undefined
-            );
-        }
-    }, [currentEvent, profile]);
+
+    const filterMemberships = (clubMemberships: readonly ClubMembership[]) =>
+        clubMemberships.filter(
+            (a) =>
+                currentEvent == undefined || a.expiry >= currentEvent.startTime
+        );
+    const fillFromProfile = useCallback(
+        (clubMembership: ClubMembership | undefined) => {
+            if (profile.tag === "Loaded") {
+                const {
+                    familyName,
+                    givenName,
+                    msaMembership,
+                    emergencyContact,
+                    vehicle,
+                    emailAddress,
+                } = profile.value;
+                setEditingEntrant((e) =>
+                    e
+                        ? {
+                              ...e,
+                              familyName,
+                              givenName,
+                              msaMembership,
+                              emergencyContact,
+                              vehicle,
+                              club: clubMembership?.clubName || "",
+                              clubNumber: clubMembership?.membershipNumber || Number.NaN,
+                              email: emailAddress,
+                          }
+                        : undefined
+                );
+            }
+        },
+        [profile]
+    );
     const setPaid = (entrant: PublicEntrant, isPaid: boolean) => {
         dispatch(SetPaid(entrant, isPaid, getAccessToken(auth)));
     };
@@ -215,6 +217,11 @@ const Entrants: FunctionalComponent<Readonly<Props>> = ({ eventId }) => {
             </Button>
             {editingEntrant ? (
                 <EntrantsModal
+                    clubMemberships={mapOrDefault(
+                        profile,
+                        (a) => filterMemberships(a.clubMemberships),
+                        []
+                    )}
                     isClubAdmin={isClubAdmin}
                     entrant={editingEntrant}
                     setField={setField}
