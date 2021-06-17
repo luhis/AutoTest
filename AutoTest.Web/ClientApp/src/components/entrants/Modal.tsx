@@ -40,6 +40,7 @@ const FillProfileButton: FunctionComponent<{
             <Dropdown color="secondary" label="Fill from Profile">
                 {clubMemberships.map((a) => (
                     <Dropdown.Item
+                        renderAs="a"
                         key={a.clubName}
                         value={a.clubName}
                         onClick={() => fillFromProfile(a)}

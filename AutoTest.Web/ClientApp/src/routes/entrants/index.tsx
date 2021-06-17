@@ -120,7 +120,9 @@ const Entrants: FunctionalComponent<Readonly<Props>> = ({ eventId }) => {
                               emergencyContact,
                               vehicle,
                               club: clubMembership?.clubName || "",
-                              clubNumber: clubMembership?.membershipNumber || Number.NaN,
+                              clubNumber:
+                                  clubMembership?.membershipNumber ||
+                                  Number.NaN,
                               email: emailAddress,
                           }
                         : undefined
