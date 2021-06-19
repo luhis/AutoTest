@@ -29,6 +29,7 @@ import { GetProfileIfRequired } from "../../store/profile/actions";
 import { selectClubs } from "../../store/clubs/selectors";
 import { GetClubsIfRequired } from "../../store/clubs/actions";
 import { getMarshal } from "../../api/marshals";
+import { useThunkDispatch } from "../../store";
 
 interface Props {
     readonly eventId: number;
@@ -52,9 +53,10 @@ const Marshals: FunctionalComponent<Readonly<Props>> = ({ eventId }) => {
     >(undefined);
     const auth = useGoogleAuth();
     const dispatch = useDispatch();
-    const save = useCallback(() => {
+    const thunkDispatch = useThunkDispatch();
+    const save = useCallback(async () => {
         if (editingMarshal) {
-            dispatch(
+            await thunkDispatch(
                 AddMarshal(
                     {
                         ...editingMarshal,
@@ -64,7 +66,7 @@ const Marshals: FunctionalComponent<Readonly<Props>> = ({ eventId }) => {
                 )
             );
         }
-    }, [auth, dispatch, editingMarshal]);
+    }, [auth, thunkDispatch, editingMarshal]);
     const fillFromProfile = useCallback(() => {
         if (profile.tag === "Loaded") {
             const { familyName, givenName, emergencyContact, emailAddress } =

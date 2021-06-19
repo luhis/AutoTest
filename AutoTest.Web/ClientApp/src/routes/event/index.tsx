@@ -27,6 +27,7 @@ import { getDateString } from "../../lib/date";
 import { selectClubs } from "../../store/clubs/selectors";
 import { GetClubsIfRequired } from "../../store/clubs/actions";
 import { useThunkDispatch } from "../../store";
+import { selectAccess } from "../../store/profile/selectors";
 
 const uid = UUID(keySeed);
 
@@ -59,14 +60,15 @@ const Event: FunctionalComponent<Props> = ({ eventId }) => {
     >(undefined);
     const saveButton = useCallback(async () => {
         if (showAddNotificationModal) {
-            const x = await dispatch(
+            const res = await dispatch(
                 CreateNotification(
                     showAddNotificationModal,
                     getAccessToken(auth)
                 )
             );
-            console.log(x);
-            setShowAddNotificationModal(undefined);
+            if (res) {
+                setShowAddNotificationModal(undefined);
+            }
         }
     }, [auth, dispatch, showAddNotificationModal]);
     const saveRegs = useCallback(
@@ -93,6 +95,10 @@ const Event: FunctionalComponent<Props> = ({ eventId }) => {
                 : Promise.resolve(),
         [currentEvent]
     );
+    const { adminClubs } = useSelector(selectAccess);
+    const canEdit =
+        currentEvent === undefined ||
+        !adminClubs.includes(currentEvent?.clubId);
     return (
         <div>
             <Breadcrumbs club={currentClub} event={currentEvent} />
@@ -112,6 +118,7 @@ const Event: FunctionalComponent<Props> = ({ eventId }) => {
                     )}
                 </Button>
                 <Button
+                    disabled={canEdit}
                     onClick={() =>
                         setShowAddNotificationModal({
                             eventId,
@@ -126,7 +133,10 @@ const Event: FunctionalComponent<Props> = ({ eventId }) => {
             </Button.Group>
 
             <Button.Group>
-                <Button onClick={() => route(`/editRuns/${eventId}`)}>
+                <Button
+                    disabled={canEdit}
+                    onClick={() => route(`/editRuns/${eventId}`)}
+                >
                     Edit Runs
                 </Button>
                 <Button onClick={() => route(`/entrants/${eventId}`)}>

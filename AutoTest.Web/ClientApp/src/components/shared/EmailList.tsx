@@ -36,6 +36,7 @@ const EmailList: FunctionComponent<Props> = ({ emails, addNew, remove }) => {
             addNew({ email: newEmail });
             setNewEmail("");
         }
+        return Promise.resolve();
     }, [addNew, newEmail]);
     const setEmail = useCallback(
         (e: OnChange): void => setNewEmail(e.target.value),

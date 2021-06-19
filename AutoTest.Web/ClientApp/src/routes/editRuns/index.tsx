@@ -29,6 +29,7 @@ import { OnSelectChange } from "../../types/inputs";
 import ifSome from "../../components/shared/ifSome";
 import Penalties from "../../components/shared/Penalties";
 import Modal from "../../components/editRuns/Modal";
+import { useThunkDispatch } from "../../store";
 
 interface Props {
     readonly eventId: number;
@@ -36,6 +37,7 @@ interface Props {
 
 const EditRuns: FunctionalComponent<Props> = ({ eventId }) => {
     const dispatch = useDispatch();
+    const thunkDispatch = useThunkDispatch();
     const auth = useGoogleAuth();
     const currentEvent = findIfLoaded(
         useSelector(selectEvents),
@@ -82,13 +84,13 @@ const EditRuns: FunctionalComponent<Props> = ({ eventId }) => {
         undefined
     );
     const clearEditingRun = () => setEditing(undefined);
-    const save = useCallback(() => {
+    const save = useCallback(async () => {
         if (editing) {
-            dispatch(
+            await thunkDispatch(
                 UpdateTestRun(editing, getAccessToken(auth), clearEditingRun)
             );
         }
-    }, [auth, dispatch, editing]);
+    }, [auth, thunkDispatch, editing]);
     return (
         <div>
             <Breadcrumbs club={currentClub} event={currentEvent} />

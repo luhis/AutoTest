@@ -10,7 +10,7 @@ import { useState } from "preact/hooks";
 
 interface Props {
     readonly club: EditingClub;
-    readonly save: () => void;
+    readonly save: () => Promise<void>;
     readonly cancel: () => void;
     readonly setField: (k: Partial<Club>) => void;
 }

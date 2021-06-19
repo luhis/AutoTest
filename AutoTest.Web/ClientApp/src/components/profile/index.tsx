@@ -14,7 +14,7 @@ import { addPreventDefault } from "../../lib/form";
 
 interface Props {
     readonly profile: Profile;
-    readonly save: () => void;
+    readonly save: () => Promise<void>;
     readonly setField: (k: Partial<Profile>) => void;
 }
 

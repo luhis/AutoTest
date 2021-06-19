@@ -21,6 +21,7 @@ import RouteParamsParser from "../../components/shared/RouteParamsParser";
 import { selectClubs } from "../../store/clubs/selectors";
 import { GetClubsIfRequired } from "../../store/clubs/actions";
 import { selectAccess } from "../../store/profile/selectors";
+import { useThunkDispatch } from "../../store";
 
 interface Props {
     readonly clubId: number | undefined;
@@ -41,9 +42,10 @@ const Events: FunctionalComponent<Props> = ({ clubId }) => {
         dispatch(GetEventsIfRequired());
         dispatch(GetClubsIfRequired(getAccessToken(auth)));
     }, [auth, dispatch]);
-    const save = useCallback(() => {
+    const dispatchThunk = useThunkDispatch();
+    const save = useCallback(async () => {
         if (editingEvent && editingEvent.clubId) {
-            dispatch(
+            await dispatchThunk(
                 AddEvent(
                     { ...editingEvent, clubId: editingEvent.clubId },
                     getAccessToken(auth),
@@ -51,12 +53,14 @@ const Events: FunctionalComponent<Props> = ({ clubId }) => {
                 )
             );
         }
-    }, [auth, dispatch, editingEvent]);
+    }, [auth, dispatchThunk, editingEvent]);
     const deleteEvent = useCallback(
-        (event: Event) => {
-            dispatch(DeleteEvent(event.eventId, getAccessToken(auth)));
+        async (event: Event) => {
+            await dispatchThunk(
+                DeleteEvent(event.eventId, getAccessToken(auth))
+            );
         },
-        [auth, dispatch]
+        [auth, dispatchThunk]
     );
     const createNewEvent = useCallback(
         () =>

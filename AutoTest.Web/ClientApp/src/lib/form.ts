@@ -1,10 +1,10 @@
 import { h } from "preact";
 
 export const addPreventDefault =
-    (save: () => void, setSavingStatus: (saving: boolean) => void) =>
-    (e: h.JSX.TargetedEvent<HTMLFormElement>) => {
+    (save: () => Promise<void>, setSavingStatus: (saving: boolean) => void) =>
+    async (e: h.JSX.TargetedEvent<HTMLFormElement>) => {
         setSavingStatus(true);
         e.preventDefault();
-        save();
+        await save();
         setSavingStatus(false);
     };

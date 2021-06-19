@@ -56,7 +56,7 @@ const FillProfileButton: FunctionComponent<{
 
 interface Props {
     readonly entrant: EditingEntrant;
-    readonly save: () => void;
+    readonly save: () => Promise<void>;
     readonly cancel: () => void;
     readonly setField: (k: Partial<EditingEntrant>) => void;
     readonly fillFromProfile: (membership: ClubMembership | undefined) => void;

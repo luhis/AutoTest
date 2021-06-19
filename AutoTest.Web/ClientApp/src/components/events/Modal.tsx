@@ -17,7 +17,7 @@ import { addPreventDefault } from "../../lib/form";
 interface Props {
     readonly event: EditingEvent;
     readonly clubs: LoadingState<readonly Club[]>;
-    readonly save: () => void;
+    readonly save: () => Promise<void>;
     readonly cancel: () => void;
     readonly setField: (k: Partial<EditingEvent>) => void;
 }

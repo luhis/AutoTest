@@ -15,7 +15,7 @@ import Penalties from "../marshal/Penalties";
 interface Props {
     readonly run: TestRunFromServer;
     readonly entrants: readonly PublicEntrant[];
-    readonly save: () => void;
+    readonly save: () => Promise<void>;
     readonly cancel: () => void;
     readonly setField: StateUpdater<TestRunFromServer>;
 }

@@ -8,6 +8,7 @@ import { useGoogleAuth } from "../../components/app";
 import ProfileModal from "../../components/profile/index";
 import { selectProfile } from "../../store/profile/selectors";
 import { Profile } from "../../types/profileModels";
+import { useThunkDispatch } from "../../store";
 
 interface Props {
     readonly profile: Profile;
@@ -15,13 +16,15 @@ interface Props {
 
 const ProfileEditor: FunctionalComponent<Readonly<Props>> = ({ profile }) => {
     const auth = useGoogleAuth();
-    const dispatch = useDispatch();
+    const thunkDispatch = useThunkDispatch();
     const [editingProfile, setEditingProfile] = useState<Profile>(profile);
-    const save = useCallback(() => {
+    const save = useCallback(async () => {
         if (editingProfile) {
-            dispatch(SaveProfile(editingProfile, getAccessToken(auth)));
+            await thunkDispatch(
+                SaveProfile(editingProfile, getAccessToken(auth))
+            );
         }
-    }, [auth, dispatch, editingProfile]);
+    }, [auth, thunkDispatch, editingProfile]);
     return (
         <ProfileModal
             profile={editingProfile}

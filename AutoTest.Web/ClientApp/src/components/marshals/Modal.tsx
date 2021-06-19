@@ -14,7 +14,7 @@ import DropdownInput from "../shared/DropdownInput";
 interface Props {
     readonly marshal: EditingMarshal;
     readonly allRoles: readonly string[];
-    readonly save: () => void;
+    readonly save: () => Promise<void>;
     readonly cancel: () => void;
     readonly setField: (k: Partial<EditingMarshal>) => void;
     readonly fillFromProfile: () => void;

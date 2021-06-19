@@ -32,6 +32,7 @@ import { GetClubsIfRequired } from "../../store/clubs/actions";
 import { getEntrant } from "../../api/entrants";
 import { Age } from "../../types/profileModels";
 import { ClubMembership } from "src/types/shared";
+import { useThunkDispatch } from "../../store";
 
 interface Props {
     readonly eventId: number;
@@ -78,10 +79,11 @@ const Entrants: FunctionalComponent<Readonly<Props>> = ({ eventId }) => {
     >(undefined);
     const auth = useGoogleAuth();
     const dispatch = useDispatch();
+    const thunkDispatch = useThunkDispatch();
 
-    const save = useCallback(() => {
+    const save = useCallback(async () => {
         if (editingEntrant) {
-            dispatch(
+            await thunkDispatch(
                 AddEntrant(
                     {
                         ...editingEntrant,
@@ -92,7 +94,7 @@ const Entrants: FunctionalComponent<Readonly<Props>> = ({ eventId }) => {
                 )
             );
         }
-    }, [auth, dispatch, editingEntrant, entrants]);
+    }, [auth, thunkDispatch, editingEntrant, entrants]);
 
     const filterMemberships = (clubMemberships: readonly ClubMembership[]) =>
         clubMemberships.filter(
@@ -214,7 +216,11 @@ const Entrants: FunctionalComponent<Readonly<Props>> = ({ eventId }) => {
                 deleteEntrant={deleteEntrant}
                 canEditEntrant={canEditEntrant}
             />
-            <Button color="primary" onClick={newEntrant}>
+            <Button
+                disabled={!access.isLoggedIn}
+                color="primary"
+                onClick={newEntrant}
+            >
                 Add Entrant
             </Button>
             {editingEntrant ? (

@@ -17,12 +17,14 @@ import {
     GetClubsIfRequired,
 } from "../../store/clubs/actions";
 import { selectAccess } from "../../store/profile/selectors";
+import { useThunkDispatch } from "../../store";
 
 const uid = UUID(keySeed);
 
 const ClubComponent: FunctionalComponent = () => {
     const auth = useGoogleAuth();
     const dispatch = useDispatch();
+    const thunkDispatch = useThunkDispatch();
     const clubs = useSelector(selectClubs);
     const [editingClub, setEditingClub] = useState<EditingClub | undefined>(
         undefined
@@ -31,15 +33,15 @@ const ClubComponent: FunctionalComponent = () => {
         dispatch(GetClubsIfRequired(getAccessToken(auth)));
     }, [auth, dispatch]);
 
-    const save = useCallback(() => {
+    const save = useCallback(async () => {
         if (editingClub) {
-            dispatch(
+            await thunkDispatch(
                 AddClub(editingClub, getAccessToken(auth), () =>
                     setEditingClub(undefined)
                 )
             );
         }
-    }, [auth, dispatch, editingClub]);
+    }, [auth, thunkDispatch, editingClub]);
 
     const deleteClub = useCallback(
         (club: Club) => {

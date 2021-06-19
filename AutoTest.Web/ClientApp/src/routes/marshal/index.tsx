@@ -41,6 +41,7 @@ import SyncButton from "../../components/marshal/SyncButton";
 import { selectClubs } from "../../store/clubs/selectors";
 import { GetClubsIfRequired } from "../../store/clubs/actions";
 import { addPreventDefault } from "../../lib/form";
+import { useThunkDispatch } from "../../store";
 
 const getNewEditableTest = (ordinal: number): EditableTestRun => ({
     testRunId: uid.uuid(),
@@ -140,13 +141,14 @@ const Marshal: FunctionalComponent<Readonly<Props>> = ({
         () => dispatch(SyncTestRuns(eventId, ordinal, getAccessToken(auth))),
         [auth, dispatch, eventId, ordinal]
     );
-    const add = useCallback(() => {
+    const thunkDispatch = useThunkDispatch();
+    const add = useCallback(async () => {
         if (
             editing.ordinal !== undefined &&
             editing.timeInMS !== undefined &&
             editing.entrantId !== undefined
         ) {
-            dispatch(
+            await thunkDispatch(
                 AddTestRun(
                     {
                         ...editing,
@@ -160,7 +162,7 @@ const Marshal: FunctionalComponent<Readonly<Props>> = ({
             );
             setEditing(getNewEditableTest(ordinal));
         }
-    }, [auth, dispatch, editing, eventId, ordinal]);
+    }, [auth, thunkDispatch, editing, eventId, ordinal]);
     const clearInputs = () => {
         setEditing((a) => getNewEditableTest(a.ordinal)); // todo
     };

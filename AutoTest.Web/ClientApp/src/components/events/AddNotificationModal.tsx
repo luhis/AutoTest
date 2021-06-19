@@ -10,7 +10,7 @@ import { addPreventDefault } from "../../lib/form";
 interface Props {
     readonly notification: EventNotification;
     readonly setField: (k: Partial<EventNotification>) => void;
-    readonly save: () => void;
+    readonly save: () => Promise<void>;
     readonly cancel: () => void;
 }
 
