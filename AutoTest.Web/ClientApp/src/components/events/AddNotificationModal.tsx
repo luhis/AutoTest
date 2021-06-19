@@ -1,6 +1,7 @@
 import { h, FunctionComponent } from "preact";
 import { Modal, Button, Form } from "react-bulma-components";
 const { Input, Field, Label } = Form;
+import { useState } from "preact/hooks";
 
 import { OnChange } from "src/types/inputs";
 import { EventNotification } from "../../types/models";
@@ -19,7 +20,8 @@ const AddNotificationModal: FunctionComponent<Props> = ({
     save,
     cancel,
 }) => {
-    const formSave = addPreventDefault(save);
+    const [saving, setSaving] = useState(false);
+    const formSave = addPreventDefault(save, setSaving);
     return (
         <Modal show={true} showClose={false}>
             <Modal.Card renderAs="form" onSubmit={formSave}>
@@ -39,7 +41,7 @@ const AddNotificationModal: FunctionComponent<Props> = ({
                     </Field>
                 </Modal.Card.Body>
                 <Modal.Card.Footer>
-                    <Button color="primary" type="submit">
+                    <Button loading={saving} color="primary" type="submit">
                         Save
                     </Button>
                     <Button color="secondary" onClick={cancel}>

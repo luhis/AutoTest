@@ -3,6 +3,7 @@ import { Modal, Button, Form, Dropdown } from "react-bulma-components";
 import { useSelector } from "react-redux";
 const { Control, Field, Label, Input, Help, Checkbox, Radio } = Form;
 import { isEmpty } from "@s-libs/micro-dash";
+import { useState } from "preact/hooks";
 
 import { EditingEntrant } from "../../types/models";
 import { OnChange } from "../../types/inputs";
@@ -77,7 +78,8 @@ const EntrantsModal: FunctionComponent<Props> = ({
     const licenseTypes = useSelector(selectLicenseTypeOptions);
     const clubOptions = useSelector(selectClubOptions);
 
-    const formSave = addPreventDefault(save);
+    const [saving, setSaving] = useState(false);
+    const formSave = addPreventDefault(save, setSaving);
 
     return (
         <Modal show={true} showClose={false}>
@@ -230,7 +232,7 @@ const EntrantsModal: FunctionComponent<Props> = ({
                     </Field>
                 </Modal.Card.Body>
                 <Modal.Card.Footer>
-                    <Button type="submit" color="primary">
+                    <Button loading={saving} type="submit" color="primary">
                         Save changes
                     </Button>
                     {entrant.isNew ? (

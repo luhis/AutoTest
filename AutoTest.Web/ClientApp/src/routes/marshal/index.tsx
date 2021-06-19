@@ -171,7 +171,8 @@ const Marshal: FunctionalComponent<Readonly<Props>> = ({
         }))
         .concat(testRuns.filter((a) => a.ordinal === ordinal));
 
-    const formSave = addPreventDefault(add);
+    const [saving, setSaving] = useState(false);
+    const formSave = addPreventDefault(add, setSaving);
     return (
         <form onSubmit={formSave}>
             <Breadcrumbs
@@ -250,7 +251,9 @@ const Marshal: FunctionalComponent<Readonly<Props>> = ({
                 <Button color="info" type="button" onClick={clearInputs}>
                     Clear
                 </Button>
-                <Button color="primary">Add</Button>
+                <Button color="primary" loading={saving}>
+                    Add
+                </Button>
                 <SyncButton unSyncedCount={requiresSync} sync={sync} />
             </Button.Group>
         </form>

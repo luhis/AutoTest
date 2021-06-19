@@ -41,7 +41,8 @@ const EmailList: FunctionComponent<Props> = ({ emails, addNew, remove }) => {
         (e: OnChange): void => setNewEmail(e.target.value),
         []
     );
-    const formSave = addPreventDefault(addNewEmail);
+    const [saving, setSaving] = useState(false);
+    const formSave = addPreventDefault(addNewEmail, setSaving);
     return (
         <form onSubmit={formSave}>
             {emails.map(({ email }, i) => (
@@ -58,7 +59,11 @@ const EmailList: FunctionComponent<Props> = ({ emails, addNew, remove }) => {
                     />
                 </Control>
                 <Control>
-                    <Button disabled={newEmail === ""} type="submit">
+                    <Button
+                        loading={saving}
+                        disabled={newEmail === ""}
+                        type="submit"
+                    >
                         Add
                     </Button>
                 </Control>

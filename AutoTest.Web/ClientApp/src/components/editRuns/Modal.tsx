@@ -1,7 +1,7 @@
 import { h, FunctionComponent } from "preact";
 import { Modal, Button, Form } from "react-bulma-components";
 const { Label, Field, Input, Select } = Form;
-import { StateUpdater } from "preact/hooks";
+import { StateUpdater, useState } from "preact/hooks";
 
 import {
     PublicEntrant,
@@ -27,7 +27,8 @@ const EditRunModal: FunctionComponent<Props> = ({
     cancel,
     setField,
 }) => {
-    const formSave = addPreventDefault(save);
+    const [saving, setSaving] = useState(false);
+    const formSave = addPreventDefault(save, setSaving);
 
     const increase = (penaltyType: PenaltyType) => {
         setField((a) => {
@@ -130,7 +131,7 @@ const EditRunModal: FunctionComponent<Props> = ({
                     />
                 </Modal.Card.Body>
                 <Modal.Card.Footer>
-                    <Button type="submit" color="primary">
+                    <Button loading={saving} type="submit" color="primary">
                         Save changes
                     </Button>
                     <Button color="secondary" onClick={cancel}>

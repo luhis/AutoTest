@@ -1,6 +1,7 @@
 import { h, FunctionComponent } from "preact";
 import { Modal, Button, Form } from "react-bulma-components";
 const { Control, Field, Label, Input, Help, Checkbox } = Form;
+import { useState } from "preact/hooks";
 
 import { EditingMarshal } from "../../types/models";
 import { OnChange } from "../../types/inputs";
@@ -29,7 +30,8 @@ const MarshalsModal: FunctionComponent<Props> = ({
     fillFromProfile,
     isClubAdmin,
 }) => {
-    const formSave = addPreventDefault(save);
+    const [saving, setSaving] = useState(false);
+    const formSave = addPreventDefault(save, setSaving);
 
     return (
         <Modal show={true} showClose={false}>
@@ -136,7 +138,7 @@ const MarshalsModal: FunctionComponent<Props> = ({
                     </Field>
                 </Modal.Card.Body>
                 <Modal.Card.Footer>
-                    <Button type="submit" color="primary">
+                    <Button loading={saving} type="submit" color="primary">
                         Save changes
                     </Button>
                     {marshal.isNew ? (

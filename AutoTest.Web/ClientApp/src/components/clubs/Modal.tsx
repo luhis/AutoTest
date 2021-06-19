@@ -6,6 +6,7 @@ import { Club, EditingClub } from "../../types/models";
 import { OnChange } from "../../types/inputs";
 import EmailList from "../shared/EmailList";
 import { addPreventDefault } from "../../lib/form";
+import { useState } from "preact/hooks";
 
 interface Props {
     readonly club: EditingClub;
@@ -15,7 +16,8 @@ interface Props {
 }
 
 const ModalX: FunctionComponent<Props> = ({ save, cancel, club, setField }) => {
-    const formSave = addPreventDefault(save);
+    const [saving, setSaving] = useState(false);
+    const formSave = addPreventDefault(save, setSaving);
 
     return (
         <Modal show={true} showClose={false}>
@@ -93,7 +95,7 @@ const ModalX: FunctionComponent<Props> = ({ save, cancel, club, setField }) => {
                     </Field>
                 </Modal.Card.Body>
                 <Modal.Card.Footer>
-                    <Button color="primary" type="submit">
+                    <Button loading={saving} color="primary" type="submit">
                         Save changes
                     </Button>
                     <Button color="secondary" onClick={cancel}>

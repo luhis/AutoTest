@@ -166,11 +166,16 @@ export const AddNotification = (notification: EventNotification) => ({
 export const CreateNotification =
     (notification: EventNotification, token: string | undefined) =>
     async (dispatch: Dispatch<EventActionTypes>) => {
-        await addNotification(notification, token);
-        dispatch({
-            type: ADD_NOTIFICATION,
-            payload: notification,
-        });
+        try {
+            await addNotification(notification, token);
+            dispatch({
+                type: ADD_NOTIFICATION,
+                payload: notification,
+            });
+            return true;
+        } catch (e) {
+            return false;
+        }
     };
 
 export const AddEvent =

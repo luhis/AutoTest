@@ -1,6 +1,7 @@
 import { h, FunctionComponent } from "preact";
 import { Button, Form, Heading } from "react-bulma-components";
 const { Label, Input, Field, Radio } = Form;
+import { useState } from "preact/hooks";
 
 import { Age, Profile } from "../../types/profileModels";
 import { OnChange } from "../../types/inputs";
@@ -18,7 +19,8 @@ interface Props {
 }
 
 const ProfileComp: FunctionComponent<Props> = ({ save, profile, setField }) => {
-    const formSave = addPreventDefault(save);
+    const [saving, setSaving] = useState(false);
+    const formSave = addPreventDefault(save, setSaving);
     return (
         <form onSubmit={formSave}>
             <Heading>Profile</Heading>
@@ -100,7 +102,7 @@ const ProfileComp: FunctionComponent<Props> = ({ save, profile, setField }) => {
                 }}
             />
             <Button.Group>
-                <Button color="primary" type="submit">
+                <Button loading={saving} color="primary" type="submit">
                     Save changes
                 </Button>
             </Button.Group>

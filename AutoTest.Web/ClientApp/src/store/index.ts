@@ -5,7 +5,7 @@ import {
     Store,
     AnyAction,
 } from "redux";
-import thunk from "redux-thunk";
+import thunk, { ThunkDispatch } from "redux-thunk";
 import { composeWithDevTools } from "redux-devtools-extension";
 import storage from "redux-persist/lib/storage";
 import { persistStore, persistReducer, createTransform } from "redux-persist";
@@ -14,6 +14,10 @@ import { parseIsoOrThrow } from "ts-date";
 import { eventReducer } from "./event/reducers";
 import { profileReducer } from "./profile/reducers";
 import { clubsReducer } from "./clubs/reducers";
+import { useDispatch } from "react-redux";
+import { EventActionTypes } from "./event/types";
+import { ClubsActionTypes } from "./clubs/types";
+import { ProfileActionTypes } from "./profile/types";
 
 const persistConfig = {
     key: "root",
@@ -51,3 +55,8 @@ export default () => {
     const persistor = persistStore(appStore);
     return { appStore, persistor };
 };
+
+type AppActionTypes = EventActionTypes | ClubsActionTypes | ProfileActionTypes;
+
+export const useThunkDispatch = () =>
+    useDispatch<ThunkDispatch<AppState, unknown, AppActionTypes>>();

@@ -3,6 +3,8 @@ import { Modal, Button, Form } from "react-bulma-components";
 import { newValidDateOrThrow } from "ts-date";
 import PromiseFileReader from "promise-file-reader";
 const { Label, Input, Field, Select, Help } = Form;
+import { isNil } from "@s-libs/micro-dash";
+import { useState } from "preact/hooks";
 
 import { EditingEvent, Club, EventType } from "../../types/models";
 import { OnChange, OnSelectChange } from "../../types/inputs";
@@ -11,7 +13,6 @@ import ifSome from "../shared/ifSome";
 import { getDateTimeString } from "../../lib/date";
 import { startCase } from "../../lib/string";
 import { addPreventDefault } from "../../lib/form";
-import { isNil } from "@s-libs/micro-dash";
 
 interface Props {
     readonly event: EditingEvent;
@@ -35,7 +36,8 @@ const ModalX: FunctionComponent<Props> = ({
         .map((a) => Number.parseInt(a))
         .filter((key) => !isNaN(key));
 
-    const formSave = addPreventDefault(save);
+    const [saving, setSaving] = useState(false);
+    const formSave = addPreventDefault(save, setSaving);
     return (
         <Modal show={true} showClose={false}>
             <Modal.Card renderAs="form" onSubmit={formSave}>
@@ -208,7 +210,9 @@ const ModalX: FunctionComponent<Props> = ({
                     </Field>
                 </Modal.Card.Body>
                 <Modal.Card.Footer>
-                    <Button color="primary">Save changes</Button>
+                    <Button loading={saving} color="primary">
+                        Save changes
+                    </Button>
                     <Button color="secondary" onClick={cancel}>
                         Close
                     </Button>

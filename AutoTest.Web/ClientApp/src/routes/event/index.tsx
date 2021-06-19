@@ -1,7 +1,7 @@
 import { FunctionalComponent, h } from "preact";
 import { useCallback, useEffect, useState } from "preact/hooks";
 import { Button, Heading } from "react-bulma-components";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { newValidDate } from "ts-date";
 import UUID from "uuid-int";
 import { FaBell } from "react-icons/fa";
@@ -26,6 +26,7 @@ import Breadcrumbs from "../../components/shared/Breadcrumbs";
 import { getDateString } from "../../lib/date";
 import { selectClubs } from "../../store/clubs/selectors";
 import { GetClubsIfRequired } from "../../store/clubs/actions";
+import { useThunkDispatch } from "../../store";
 
 const uid = UUID(keySeed);
 
@@ -34,7 +35,7 @@ interface Props {
 }
 
 const Event: FunctionalComponent<Props> = ({ eventId }) => {
-    const dispatch = useDispatch();
+    const dispatch = useThunkDispatch();
     const auth = useGoogleAuth();
     const currentEvent = findIfLoaded(
         useSelector(selectEvents),
@@ -46,24 +47,25 @@ const Event: FunctionalComponent<Props> = ({ eventId }) => {
     );
     const notifications = useSelector(selectNotifications);
     useEffect(() => {
-        dispatch(GetEventsIfRequired());
-        dispatch(GetClubsIfRequired(getAccessToken(auth)));
+        void dispatch(GetEventsIfRequired());
+        void dispatch(GetClubsIfRequired(getAccessToken(auth)));
     }, [auth, dispatch]);
     useEffect(() => {
-        dispatch(GetNotifications(eventId));
+        void dispatch(GetNotifications(eventId));
     }, [dispatch, eventId]);
     const [showModal, setShowModal] = useState(false);
     const [showAddNotificationModal, setShowAddNotificationModal] = useState<
         EventNotification | undefined
     >(undefined);
-    const saveButton = useCallback(() => {
+    const saveButton = useCallback(async () => {
         if (showAddNotificationModal) {
-            dispatch(
+            const x = await dispatch(
                 CreateNotification(
                     showAddNotificationModal,
                     getAccessToken(auth)
                 )
             );
+            console.log(x);
             setShowAddNotificationModal(undefined);
         }
     }, [auth, dispatch, showAddNotificationModal]);
