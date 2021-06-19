@@ -154,7 +154,11 @@ const Marshals: FunctionalComponent<Readonly<Props>> = ({ eventId }) => {
                 deleteMarshal={deleteMarshal}
                 canEditMarshal={canEditMarshal}
             />
-            <Button color="primary" onClick={newMarshal}>
+            <Button
+                disabled={!access.isLoggedIn}
+                color="primary"
+                onClick={newMarshal}
+            >
                 Add Marshal
             </Button>
             {editingMarshal ? (
