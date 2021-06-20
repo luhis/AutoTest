@@ -91,8 +91,7 @@ namespace AutoTest.Web
                 o.AddPolicy(Policies.ClubAdminOrSelf, p =>
                 {
                     p.RequireAuthenticatedUser();
-                    p.AddRequirements(new ClubAdminRequirement(), 
-                        new SelfRequirement());
+                    p.AddRequirements(new ClubAdminOrSelfRequirement());
                 });
                 o.AddPolicy(Policies.Marshal, p =>
                 {

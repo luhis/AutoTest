@@ -11,18 +11,18 @@ using Microsoft.AspNetCore.Routing;
 
 namespace AutoTest.Web.Authorization
 {
-    public class ClubAdminRequirementHandler : AuthorizationHandler<ClubAdminRequirement>
+    public class ClubAdminOrSelfRequirementClubAdminHandler : AuthorizationHandler<ClubAdminOrSelfRequirement>
     {
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IMediator mediator;
 
-        public ClubAdminRequirementHandler(IHttpContextAccessor httpContextAccessor, IMediator mediator)
+        public ClubAdminOrSelfRequirementClubAdminHandler(IHttpContextAccessor httpContextAccessor, IMediator mediator)
         {
             _httpContextAccessor = httpContextAccessor;
             this.mediator = mediator;
         }
 
-        protected override async Task HandleRequirementAsync(AuthorizationHandlerContext context, ClubAdminRequirement requirement)
+        protected override async Task HandleRequirementAsync(AuthorizationHandlerContext context, ClubAdminOrSelfRequirement requirement)
         {
             var routeData = _httpContextAccessor.HttpContext!.GetRouteData();
             if (routeData != null)

@@ -21,6 +21,8 @@ namespace AutoTest.Web
             collection.AddScoped<IAuthorizationHandler, MarshalRequirementHandler>();
             collection.AddScoped<IAuthorizationHandler, ClubAdminRequirementHandler>();
             collection.AddScoped<IAuthorizationHandler, SelfRequirementHandler>();
+            collection.AddScoped<IAuthorizationHandler, ClubAdminOrSelfRequirementSelfHander>();
+            collection.AddScoped<IAuthorizationHandler, ClubAdminOrSelfRequirementClubAdminHandler>();
             collection.AddScoped<ISignalRNotifier, SignalRNotifier>();
             collection.AddDbContext<AutoTestContext>(o => o.UseCosmos(
                 endpoint,
