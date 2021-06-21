@@ -48,14 +48,6 @@ namespace AutoTest.Web.Authorization
                 {
                     context.Succeed(requirement);
                 }
-                else
-                {
-                    context.Fail();
-                }
-            }
-            else
-            {
-                context.Fail();
             }
         }
     }
