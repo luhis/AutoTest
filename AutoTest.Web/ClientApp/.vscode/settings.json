@@ -10,6 +10,6 @@
     "preact",
     "signalr"
   ],
-  "files.eol": "\n",
+  "files.eol": "\r\n",
   "typescript.tsdk": "node_modules\\typescript\\lib"
 }
