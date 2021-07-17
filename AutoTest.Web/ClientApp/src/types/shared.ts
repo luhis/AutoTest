@@ -5,12 +5,15 @@ export interface EmergencyContact {
     readonly phone: string;
 }
 
+export type InductionTypes = "NA" | "Forced";
+
 export interface Vehicle {
     readonly make: string;
     readonly model: string;
     readonly year: number;
     readonly registration: string;
     readonly displacement: number;
+    readonly induction: InductionTypes;
 }
 
 export interface ClubMembership {

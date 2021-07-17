@@ -34,7 +34,7 @@ namespace AutoTest.Web.Mapping
         public static Vehicle Map(VehicleSaveModel vehicle)
         {
             return new Vehicle(vehicle.Make, vehicle.Model, vehicle.Year,
-                vehicle.Displacement, vehicle.Registration);
+                vehicle.Displacement, vehicle.Induction, vehicle.Registration);
         }
 
         public static ClubMembership Map(ClubMembershipSaveModel membership)

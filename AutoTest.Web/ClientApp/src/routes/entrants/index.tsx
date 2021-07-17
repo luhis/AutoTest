@@ -165,6 +165,7 @@ const Entrants: FunctionalComponent<Readonly<Props>> = ({ eventId }) => {
                 year: 0,
                 displacement: Number.NaN,
                 registration: "",
+                induction: "NA",
             },
             isNew: true,
             emergencyContact: {

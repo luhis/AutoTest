@@ -13,6 +13,7 @@ namespace AutoTest.Persistence.Setup
             entity.Property(e => e.Model).IsRequired();
             entity.Property(e => e.Registration).IsRequired();
             entity.Property(e => e.Year).IsRequired();
+            entity.Property(e => e.Induction).IsRequired();
         }
     }
 }

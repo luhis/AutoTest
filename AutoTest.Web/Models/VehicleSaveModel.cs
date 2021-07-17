@@ -1,4 +1,6 @@
-﻿namespace AutoTest.Web.Models
+﻿using AutoTest.Domain.Enums;
+
+namespace AutoTest.Web.Models
 {
     public class VehicleSaveModel
     {
@@ -11,5 +13,7 @@
         public string Registration { get; set; } = string.Empty;
 
         public int Displacement { get; set; }
+
+        public Induction Induction { get; set; }
     }
 }

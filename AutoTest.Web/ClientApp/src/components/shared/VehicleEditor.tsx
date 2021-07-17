@@ -1,8 +1,8 @@
 import { h, FunctionComponent, Fragment } from "preact";
 import { Form, Icon } from "react-bulma-components";
-const { Input, Field, Label, Control } = Form;
+const { Input, Field, Label, Control, Radio } = Form;
 
-import { Vehicle } from "../../types/shared";
+import { InductionTypes, Vehicle } from "../../types/shared";
 import { OnChange } from "../../types/inputs";
 import { MakeAndModel } from "src/types/models";
 import DropdownInput from "./DropdownInput";
@@ -25,6 +25,12 @@ const VehicleEditor: FunctionComponent<Props> = ({
             .filter(({ make }) => make === vehicle.make)
             .map((a) => a.model)
     );
+
+    const setInduction = (e: OnChange) =>
+        setField({
+            ...vehicle,
+            induction: e.target.value as InductionTypes,
+        });
     return (
         <Fragment>
             <Field kind="group">
@@ -96,6 +102,23 @@ const VehicleEditor: FunctionComponent<Props> = ({
                         </Icon>
                     </Control>
                 </Control>
+            </Field>
+            <Field>
+                <Label>Induction</Label>
+                <Radio
+                    checked={vehicle.induction === "NA"}
+                    onChange={setInduction}
+                    value={"NA"}
+                >
+                    NA
+                </Radio>
+                <Radio
+                    checked={vehicle.induction === "Forced"}
+                    onChange={setInduction}
+                    value={"Forced"}
+                >
+                    Forced
+                </Radio>
             </Field>
         </Fragment>
     );
