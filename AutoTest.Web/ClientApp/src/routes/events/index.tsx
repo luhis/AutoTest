@@ -95,7 +95,14 @@ const Events: FunctionalComponent<Props> = ({ clubId }) => {
                 }
                 deleteEvent={deleteEvent}
             />
-            <Button color="primary" onClick={createNewEvent}>
+            <Button
+                color="primary"
+                disabled={
+                    (clubId !== undefined && !adminClubs.includes(clubId)) ||
+                    (clubId === undefined && adminClubs.length === 0)
+                }
+                onClick={createNewEvent}
+            >
                 Add Event
             </Button>
             {editingEvent ? (
