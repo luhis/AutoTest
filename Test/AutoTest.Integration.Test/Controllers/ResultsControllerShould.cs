@@ -21,7 +21,7 @@ namespace AutoTest.Integration.Test.Controllers
         {
             var res = await unAuthorisedClient.GetAsync("/api/results/22");
             var content = await res.Content.ReadAsStringAsync();
-            res.StatusCode.Should().Be(200);
+            res.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);
         }
     }
 }

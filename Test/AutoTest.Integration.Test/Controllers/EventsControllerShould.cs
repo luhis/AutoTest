@@ -20,7 +20,7 @@ namespace AutoTest.Integration.Test.Controllers
         public async Task GetAll()
         {
             var res = await unAuthorisedClient.GetAsync("/api/events/");
-            res.StatusCode.Should().Be(200);
+            res.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);
         }
     }
 }
