@@ -20,7 +20,7 @@ namespace AutoTest.Service.Handlers
 
         Task<IEnumerable<Notification>> IRequestHandler<GetNotifications, IEnumerable<Notification>>.Handle(GetNotifications request, CancellationToken cancellationToken)
         {
-            return autoTestContext.Notifications.Where(a => a.EventId == request.EventId).OrderByDescending(a => a.Created).ToEnumerableAsync(cancellationToken);
+            return autoTestContext.Notifications!.Where(a => a.EventId == request.EventId).OrderByDescending(a => a.Created).ToEnumerableAsync(cancellationToken);
         }
     }
 }

@@ -21,7 +21,7 @@ namespace AutoTest.Service.Handlers
 
         async Task<Profile> IRequestHandler<GetProfile, Profile>.Handle(GetProfile request, CancellationToken cancellationToken)
         {
-            var found = await this.autoTestContext.Users.Where(a => a.EmailAddress == request.EmailAddress).SingleOrDefaultAsync(cancellationToken);
+            var found = await this.autoTestContext.Users!.Where(a => a.EmailAddress == request.EmailAddress).SingleOrDefaultAsync(cancellationToken);
             return found == null ? new Profile(request.EmailAddress, "", "", Age.Senior) : found;
         }
     }
