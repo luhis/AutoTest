@@ -19,17 +19,17 @@ namespace AutoTest.Persistence.Repositories
 
         async Task<Entrant?> IEntrantsRepository.GetById(ulong entrantId, CancellationToken cancellationToken)
         {
-            return await _autoTestContext.Entrants.Where(a => a.EntrantId == entrantId).SingleOrDefaultAsync(cancellationToken);
+            return await _autoTestContext.Entrants!.Where(a => a.EntrantId == entrantId).SingleOrDefaultAsync(cancellationToken);
         }
 
         Task<IEnumerable<Entrant>> IEntrantsRepository.GetByEventId(ulong eventId, CancellationToken cancellationToken)
         {
-            return _autoTestContext.Entrants.Where(a => a.EventId == eventId).ToEnumerableAsync(cancellationToken);
+            return _autoTestContext.Entrants!.Where(a => a.EventId == eventId).ToEnumerableAsync(cancellationToken);
         }
 
         Task<IEnumerable<Entrant>> IEntrantsRepository.GetAll(ulong eventId, CancellationToken cancellationToken)
         {
-            return _autoTestContext.Entrants.Where(a => a.EventId == eventId).OrderBy(a => a.DriverNumber).ToEnumerableAsync(cancellationToken);
+            return _autoTestContext.Entrants!.Where(a => a.EventId == eventId).OrderBy(a => a.DriverNumber).ToEnumerableAsync(cancellationToken);
         }
 
         async Task IEntrantsRepository.Upsert(Entrant entrant, CancellationToken cancellationToken)

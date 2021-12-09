@@ -19,7 +19,7 @@ namespace AutoTest.Persistence.Repositories
 
         async Task<Club?> IClubRepository.GetById(ulong clubId, CancellationToken cancellationToken)
         {
-            return await _autoTestContext.Clubs.Where(a => a.ClubId == clubId).SingleOrDefaultAsync(cancellationToken);
+            return await _autoTestContext.Clubs!.Where(a => a.ClubId == clubId).SingleOrDefaultAsync(cancellationToken);
         }
 
         async Task IClubRepository.Delete(ulong clubId, CancellationToken cancellationToken)
@@ -31,7 +31,7 @@ namespace AutoTest.Persistence.Repositories
 
         Task<IEnumerable<Club>> IClubRepository.GetAll(CancellationToken cancellationToken)
         {
-            return this._autoTestContext.Clubs.OrderBy(a => a.ClubName).ToEnumerableAsync(cancellationToken);
+            return this._autoTestContext.Clubs!.OrderBy(a => a.ClubName).ToEnumerableAsync(cancellationToken);
         }
 
         async Task IClubRepository.Upsert(Club club, CancellationToken cancellationToken)
