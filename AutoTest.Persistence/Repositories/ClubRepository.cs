@@ -24,7 +24,7 @@ namespace AutoTest.Persistence.Repositories
 
         async Task IClubRepository.Delete(ulong clubId, CancellationToken cancellationToken)
         {
-            var found = await this._autoTestContext.Clubs.SingleAsync(a => a.ClubId == clubId, cancellationToken);
+            var found = await this._autoTestContext.Clubs!.SingleAsync(a => a.ClubId == clubId, cancellationToken);
             this._autoTestContext.Clubs.ThrowIfNull().Remove(found);
             await this._autoTestContext.SaveChangesAsync(cancellationToken);
         }

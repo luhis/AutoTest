@@ -23,8 +23,8 @@ namespace AutoTest.Service.Handlers
 
         async Task<bool> IRequestHandler<IsClubAdmin, bool>.Handle(IsClubAdmin request, CancellationToken cancellationToken)
         {
-            var @event = await this.autoTestContext.Events.SingleAsync(a => a.EventId == request.EventId, cancellationToken);
-            var club = await this.autoTestContext.Clubs.SingleAsync(a => a.ClubId == @event.ClubId, cancellationToken);
+            var @event = await this.autoTestContext.Events!.SingleAsync(a => a.EventId == request.EventId, cancellationToken);
+            var club = await this.autoTestContext.Clubs!.SingleAsync(a => a.ClubId == @event.ClubId, cancellationToken);
             return club != null && club.AdminEmails.Select(a => a.Email).Contains(request.EmailAddress);
         }
     }
