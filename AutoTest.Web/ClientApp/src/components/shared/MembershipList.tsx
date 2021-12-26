@@ -3,6 +3,7 @@ import { Button, Form, Level } from "react-bulma-components";
 import { useState } from "preact/hooks";
 import { addYear, newValidDate, parseIsoOrThrow } from "ts-date";
 const { Input, Control, Field, Label } = Form;
+import { FaPlus } from "react-icons/fa";
 
 import { OnChange } from "../../types/inputs";
 import { getDateString } from "../../lib/date";
@@ -109,6 +110,7 @@ const MembershipList: FunctionComponent<Props> = ({
                             }
                         }}
                     >
+                        <FaPlus title="Add" />
                         Add
                     </Button>
                 </Control>

@@ -2,6 +2,7 @@ import { h, FunctionComponent } from "preact";
 import { Button, Level, Form } from "react-bulma-components";
 import { useCallback, useState } from "preact/hooks";
 const { Input, Control, Field } = Form;
+import { FaPlus } from "react-icons/fa";
 
 import { OnChange } from "../../types/inputs";
 import { AuthorisationEmail } from "../../types/models";
@@ -65,6 +66,7 @@ const EmailList: FunctionComponent<Props> = ({ emails, addNew, remove }) => {
                         disabled={newEmail === ""}
                         type="submit"
                     >
+                        <FaPlus title="Add" />
                         Add
                     </Button>
                 </Control>
