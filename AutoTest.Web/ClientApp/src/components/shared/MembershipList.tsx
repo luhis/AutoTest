@@ -111,7 +111,7 @@ const MembershipList: FunctionComponent<Props> = ({
                         }}
                     >
                         <FaPlus title="Add" />
-                        Add
+                        &nbsp; Add
                     </Button>
                 </Control>
             </Field>

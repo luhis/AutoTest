@@ -1,33 +1,42 @@
 ﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
+using AutoTest.Service.Messages;
+using AutoTest.Web.Authorization.Attributes;
 using AutoTest.Web.Authorization.Tooling;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
 
-namespace AutoTest.Web.Authorization
+namespace AutoTest.Web.Authorization.Handlers
 {
-    public class SelfRequirementHandler : AuthorizationHandler<SelfRequirement>
+    public class MarshalRequirementHandler : AuthorizationHandler<MarshalRequirement>
     {
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IMediator mediator;
 
-        public SelfRequirementHandler(IHttpContextAccessor httpContextAccessor, IMediator mediator)
+        public MarshalRequirementHandler(IHttpContextAccessor httpContextAccessor, IMediator mediator)
         {
             _httpContextAccessor = httpContextAccessor;
             this.mediator = mediator;
         }
 
-        protected override async Task HandleRequirementAsync(AuthorizationHandlerContext context, SelfRequirement requirement)
+        protected override async Task HandleRequirementAsync(AuthorizationHandlerContext context, MarshalRequirement requirement)
         {
             var routeData = _httpContextAccessor.HttpContext!.GetRouteData();
             if (routeData != null)
             {
-                var emailFromRoute = await AuthTools.GetEmail(routeData, mediator);
+                var eventId = ulong.Parse((string)routeData.Values["eventId"]!);
+                var @event = await mediator.Send(new GetEvent(eventId));
+                if (@event == null)
+                {
+                    throw new Exception("Cannot find event");
+                }
 
+                var emails = (await mediator.Send(new GetMarshals(eventId))).Select(a => a.Email);
                 var email = context.User.GetEmailAddress();
-                if (emailFromRoute == email)
+                if (emails.Contains(email))
                 {
                     context.Succeed(requirement);
                 }

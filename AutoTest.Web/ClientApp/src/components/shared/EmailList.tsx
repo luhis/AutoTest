@@ -67,7 +67,7 @@ const EmailList: FunctionComponent<Props> = ({ emails, addNew, remove }) => {
                         type="submit"
                     >
                         <FaPlus title="Add" />
-                        Add
+                        &nbsp; Add
                     </Button>
                 </Control>
             </Field>

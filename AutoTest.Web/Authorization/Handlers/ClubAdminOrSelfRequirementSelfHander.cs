@@ -1,11 +1,12 @@
 ﻿using System.Threading.Tasks;
+using AutoTest.Web.Authorization.Attributes;
 using AutoTest.Web.Authorization.Tooling;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
 
-namespace AutoTest.Web.Authorization
+namespace AutoTest.Web.Authorization.Handlers
 {
     public class ClubAdminOrSelfRequirementSelfHander : AuthorizationHandler<ClubAdminOrSelfRequirement>
     {

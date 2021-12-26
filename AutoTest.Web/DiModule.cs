@@ -6,6 +6,7 @@ using Microsoft.Extensions.Configuration;
 namespace AutoTest.Web
 {
     using AutoTest.Persistence;
+    using AutoTest.Web.Authorization.Handlers;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.DependencyInjection;

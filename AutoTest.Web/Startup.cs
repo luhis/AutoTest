@@ -12,6 +12,7 @@ namespace AutoTest.Web
     using AutoTest.Persistence;
     using AutoTest.Service.Messages;
     using AutoTest.Web.Authorization;
+    using AutoTest.Web.Authorization.Attributes;
     using MediatR;
     using Microsoft.AspNetCore.Authentication.JwtBearer;
     using Microsoft.AspNetCore.Builder;
@@ -25,10 +26,10 @@ namespace AutoTest.Web
 
     public class Startup
     {
-        const string swaggerHash = "Tui7QoFlnLXkJCSl1/JvEZdIXTmBttnWNxzJpXomQjg=";
-        const string swagger2Hash = "edNyF0T6h+RbJ9Kl1HXk6KaORyz6MmKnkP3XL/kRb4o=";
-        const string googleCom = "https://*.google.com";
-        const string googleAnal = "https://www.google-analytics.com";
+        private const string swaggerHash = "Tui7QoFlnLXkJCSl1/JvEZdIXTmBttnWNxzJpXomQjg=";
+        private const string swagger2Hash = "edNyF0T6h+RbJ9Kl1HXk6KaORyz6MmKnkP3XL/kRb4o=";
+        private const string googleCom = "https://*.google.com";
+        private const string googleAnal = "https://www.google-analytics.com";
         private const string baseCssHash = "cOt/UQxOnNwRlQZa79XvfE3Tryhvv1IjU9zQp7JJIvI=";
 
         public Startup(IConfiguration configuration, IWebHostEnvironment webHostEnvironment)
