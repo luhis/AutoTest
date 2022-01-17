@@ -73,7 +73,7 @@
     "preact-cli": "3.3.3",
     "preact-cli-plugin-env-vars": "1.2.1",
     "prettier": "2.5.1",
-    "sirv-cli": "2.0.1",
+    "sirv-cli": "2.0.2",
     "typescript": "4.5.4"
   }
 }
