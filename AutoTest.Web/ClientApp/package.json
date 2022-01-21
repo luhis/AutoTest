@@ -37,7 +37,7 @@
     "preact": "10.6.4",
     "preact-markup": "2.1.1",
     "preact-render-to-string": "5.1.19",
-    "preact-router": "4.0.0",
+    "preact-router": "4.0.1",
     "promise-file-reader": "1.0.3",
     "react-appinsights": "3.0.0",
     "react-bulma-components": "4.0.7",
