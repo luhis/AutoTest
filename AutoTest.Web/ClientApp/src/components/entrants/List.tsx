@@ -12,7 +12,7 @@ import DriverNumber from "../shared/DriverNumber";
 
 interface Props {
     readonly entrants: LoadingState<readonly PublicEntrant[], number>;
-    readonly setEditingEntrant: (entrant: PublicEntrant) => void;
+    readonly setEditingEntrant: (entrant: PublicEntrant) => Promise<void>;
     readonly markPaid: (entrant: PublicEntrant, isPaid: boolean) => void;
     readonly deleteEntrant: (entrant: PublicEntrant) => void;
     readonly isClubAdmin: boolean;

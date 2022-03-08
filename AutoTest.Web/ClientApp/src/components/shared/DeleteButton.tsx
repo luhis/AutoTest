@@ -3,7 +3,7 @@ import { useCallback, useState } from "preact/hooks";
 import { Button, Modal } from "react-bulma-components";
 
 const DeleteModal: FunctionComponent<{
-    readonly deleteFunc: () => void;
+    readonly deleteFunc: () => Promise<void> | void;
     readonly cancel: () => void;
 }> = ({ deleteFunc, cancel }) => (
     <Modal show={true} showClose={false}>
@@ -24,7 +24,7 @@ const DeleteModal: FunctionComponent<{
     </Modal>
 );
 interface Props {
-    readonly deleteFunc: () => void;
+    readonly deleteFunc: () => Promise<void> | void;
     readonly disabled: boolean;
 }
 

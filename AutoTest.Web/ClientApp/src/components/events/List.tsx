@@ -12,7 +12,7 @@ import DeleteButton from "../shared/DeleteButton";
 interface Props {
     readonly events: LoadingState<readonly Event[]>;
     readonly setEditingEvent: (event: Event) => void;
-    readonly deleteEvent: (event: Event) => void;
+    readonly deleteEvent: (event: Event) => Promise<void>;
     readonly canAdmin: (clubId: number) => boolean;
 }
 
