@@ -1,15 +1,16 @@
 {
   "cSpell.words": [
     "Authorisation",
-    "Motorsport",
-    "Precaching",
-    "Regs",
     "bulma",
     "devtools",
     "fullwidth",
     "googlelogin",
+    "Motorsport",
     "persistor",
     "preact",
+    "Precaching",
+    "Regs",
+    "Renderable",
     "signalr"
   ],
   "files.eol": "\r\n",

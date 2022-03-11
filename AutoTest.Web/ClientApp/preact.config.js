@@ -13,8 +13,8 @@ export default {
      **/
     webpack(config, env, helpers, options) {
         if (!env.production) {
-            config.devServer.public = 'https://localhost:5001/';
-            config.devServer.stats = 'minimal';
+            // config.devServer.public = 'https://localhost:5001/';
+            // config.devServer.stats = 'minimal';
           }
         // Switch css-loader for typings-for-css-modules-loader, which is a wrapper
         // that automatically generates .d.ts files for loaded CSS
