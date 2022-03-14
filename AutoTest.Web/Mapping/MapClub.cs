@@ -31,6 +31,11 @@ namespace AutoTest.Web.Mapping
             return new MsaMembership(emergencyContact.MsaLicenseType, emergencyContact.MsaLicense);
         }
 
+        public static Payment Map(PaymentSaveModel payment)
+        {
+            return new Payment(payment.PayedAt, payment.Method, payment.Timestamp);
+        }
+
         public static Vehicle Map(VehicleSaveModel vehicle)
         {
             return new Vehicle(vehicle.Make, vehicle.Model, vehicle.Year,
@@ -52,10 +57,11 @@ namespace AutoTest.Web.Mapping
         public static Entrant Map(ulong entrantId, ulong eventId, EntrantSaveModel entrant, string email)
         {
             var e = new Entrant(entrantId, entrant.DriverNumber, entrant.GivenName, entrant.FamilyName, email, entrant.Class, eventId,
-                entrant.IsPaid, entrant.Club, entrant.ClubNumber, entrant.Age);
+                entrant.Club, entrant.ClubNumber, entrant.Age);
             e.SetVehicle(Map(entrant.Vehicle));
             e.SetEmergencyContact(Map(entrant.EmergencyContact));
             e.SetMsaMembership(Map(entrant.MsaMembership));
+            e.SetPayment(Map(entrant.Payment));
             return e;
         }
 

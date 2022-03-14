@@ -29,6 +29,7 @@ import {
     TestRunFromClient,
     PublicMarshal,
     PublicEntrant,
+    Payment,
 } from "../../types/models";
 import {
     addEntrant,
@@ -261,14 +262,14 @@ export const UpdateTestRun =
 export const SetPaid =
     (
         { eventId, entrantId }: PublicEntrant,
-        isPaid: boolean,
+        payment: Payment | undefined,
         token: string | undefined
     ) =>
     async (dispatch: Dispatch<EventActionTypes>) => {
-        await markPaid(eventId, entrantId, isPaid, token);
+        await markPaid(eventId, entrantId, payment, token);
         dispatch({
             type: SET_PAID,
-            payload: { entrantId, isPaid },
+            payload: { entrantId, payment },
         });
     };
 

@@ -4,7 +4,7 @@ namespace AutoTest.Domain.StorageModels
 {
     public class Entrant
     {
-        public Entrant(ulong entrantId, ushort driverNumber, string givenName, string familyName, string email, string @class, ulong eventId, bool isPaid, string club, uint clubNumber, Age age)
+        public Entrant(ulong entrantId, ushort driverNumber, string givenName, string familyName, string email, string @class, ulong eventId, string club, uint clubNumber, Age age)
         {
             EntrantId = entrantId;
             GivenName = givenName;
@@ -12,7 +12,6 @@ namespace AutoTest.Domain.StorageModels
             Email = email;
             Class = @class;
             EventId = eventId;
-            IsPaid = isPaid;
             Club = club;
             ClubNumber = clubNumber;
             Age = age;
@@ -31,11 +30,9 @@ namespace AutoTest.Domain.StorageModels
 
         public ulong EventId { get; }
 
-        public bool IsPaid { get; }
-
         public string Club { get; }
 
-        public uint ClubNumber { get; }
+        public uint ClubNumber { get; } // make a club obj?
 
         public string Email { get; }
 
@@ -48,6 +45,7 @@ namespace AutoTest.Domain.StorageModels
         public MsaMembership MsaMembership { get; private set; } = new MsaMembership();
 
         public AcceptDeclaration AcceptDeclaration { get; private set; } = new AcceptDeclaration();
+        public Payment? Payment { get; private set; } = null;
 
         public void SetVehicle(Vehicle vehicle) => Vehicle = vehicle;
 
@@ -56,5 +54,6 @@ namespace AutoTest.Domain.StorageModels
         public void SetMsaMembership(MsaMembership msaMembership) => MsaMembership = msaMembership;
 
         public void SetAcceptDeclaration(AcceptDeclaration acceptDeclaration) => AcceptDeclaration = acceptDeclaration;
+        public void SetPayment(Payment? payment) => Payment = payment;
     }
 }

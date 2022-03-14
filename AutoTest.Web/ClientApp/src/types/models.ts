@@ -57,6 +57,11 @@ export enum TestRunUploadState {
     Uploaded,
 }
 
+export enum PaymentMethod {
+    Bacs = 0,
+    PayPal = 1,
+}
+
 export interface Penalty {
     readonly penaltyType: PenaltyType;
     readonly instanceCount: number;
@@ -93,6 +98,12 @@ export type EditingEvent = Override<
     readonly isClubEditable: boolean;
 };
 
+export interface Payment {
+    readonly payedAt: ValidDate;
+    readonly method: PaymentMethod;
+    readonly timestamp: ValidDate;
+}
+
 export interface PublicEntrant {
     readonly entrantId: number;
     readonly eventId: number;
@@ -103,7 +114,7 @@ export interface PublicEntrant {
     readonly vehicle: Vehicle;
     readonly driverNumber: number;
     readonly club: string;
-    readonly isPaid: boolean;
+    readonly payment: Payment | undefined;
 }
 
 export type Entrant = {

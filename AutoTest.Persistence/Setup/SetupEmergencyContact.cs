@@ -41,4 +41,14 @@ namespace AutoTest.Persistence.Setup
             entity.Property(e => e.Timestamp).IsRequired();
         }
     }
+    public static class SetupPayment
+    {
+        public static void Setup<T>(OwnedNavigationBuilder<T, Payment> entity) where T : class
+        {
+            entity.WithOwner();
+            entity.Property(e => e.Method).IsRequired();
+            entity.Property(e => e.PayedAt).IsRequired();
+            entity.Property(e => e.Timestamp).IsRequired();
+        }
+    }
 }

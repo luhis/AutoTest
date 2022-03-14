@@ -8,6 +8,7 @@ import {
     TestRunFromClient,
     PublicEntrant,
     PublicMarshal,
+    Payment,
 } from "../../types/models";
 import { LoadingState } from "../../types/loadingState";
 import { AddEvent } from "./actions";
@@ -59,7 +60,10 @@ interface DeleteEntrant {
 
 interface SetPaid {
     readonly type: typeof SET_PAID;
-    readonly payload: { readonly entrantId: number; readonly isPaid: boolean };
+    readonly payload: {
+        readonly entrantId: number;
+        readonly payment: Payment | undefined;
+    };
 }
 
 interface GetMarshals {

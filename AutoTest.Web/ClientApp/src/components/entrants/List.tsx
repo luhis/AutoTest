@@ -4,16 +4,20 @@ import { FaMoneyBill } from "react-icons/fa";
 const { Field, Control } = Form;
 
 import ifSome from "../shared/ifSome";
-import { PublicEntrant } from "../../types/models";
+import { Payment, PublicEntrant } from "../../types/models";
 import { LoadingState } from "../../types/loadingState";
 import NumberPlate from "../shared/NumberPlate";
 import DeleteButton from "../shared/DeleteButton";
 import DriverNumber from "../shared/DriverNumber";
+import { newValidDate } from "ts-date";
 
 interface Props {
     readonly entrants: LoadingState<readonly PublicEntrant[], number>;
     readonly setEditingEntrant: (entrant: PublicEntrant) => Promise<void>;
-    readonly markPaid: (entrant: PublicEntrant, isPaid: boolean) => void;
+    readonly markPaid: (
+        entrant: PublicEntrant,
+        payment: Payment | undefined
+    ) => void;
     readonly deleteEntrant: (entrant: PublicEntrant) => void;
     readonly isClubAdmin: boolean;
     readonly canEditEntrant: (entrantId: number) => boolean;
@@ -40,15 +44,15 @@ const List: FunctionalComponent<Props> = ({
                 </Columns.Column>
                 <Columns.Column>{`${entrant.givenName} ${entrant.familyName}`}</Columns.Column>
                 <Columns.Column>
-                    {entrant.isPaid ? "Paid" : "Unpaid"}
+                    {entrant.payment !== undefined ? "Paid" : "Unpaid"}
                 </Columns.Column>
                 <Columns.Column>
                     <Field kind="group">
-                        {entrant.isPaid ? (
+                        {entrant.payment !== undefined ? (
                             <Control>
                                 <Button
                                     disabled={!isClubAdmin}
-                                    onClick={() => markPaid(entrant, false)}
+                                    onClick={() => markPaid(entrant, undefined)}
                                 >
                                     <FaMoneyBill />
                                     &nbsp; Mark Unpaid
@@ -58,7 +62,13 @@ const List: FunctionalComponent<Props> = ({
                             <Control>
                                 <Button
                                     disabled={!isClubAdmin}
-                                    onClick={() => markPaid(entrant, true)}
+                                    onClick={() =>
+                                        markPaid(entrant, {
+                                            timestamp: newValidDate(),
+                                            method: 1,
+                                            payedAt: newValidDate(),
+                                        })
+                                    }
                                 >
                                     <FaMoneyBill />
                                     &nbsp; Mark Paid

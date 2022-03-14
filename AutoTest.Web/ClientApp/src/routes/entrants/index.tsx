@@ -4,7 +4,12 @@ import { Heading, Button } from "react-bulma-components";
 import UUID from "uuid-int";
 import { useDispatch, useSelector } from "react-redux";
 
-import { EditingEntrant, Override, PublicEntrant } from "../../types/models";
+import {
+    EditingEntrant,
+    Override,
+    Payment,
+    PublicEntrant,
+} from "../../types/models";
 import { useGoogleAuth } from "../../components/app";
 import { getAccessToken } from "../../api/api";
 import List from "../../components/entrants/List";
@@ -133,8 +138,8 @@ const Entrants: FunctionalComponent<Readonly<Props>> = ({ eventId }) => {
         },
         [profile]
     );
-    const setPaid = (entrant: PublicEntrant, isPaid: boolean) => {
-        dispatch(SetPaid(entrant, isPaid, getAccessToken(auth)));
+    const setPaid = (entrant: PublicEntrant, payment: Payment | undefined) => {
+        dispatch(SetPaid(entrant, payment, getAccessToken(auth)));
     };
     const deleteEntrant = (entrant: PublicEntrant) => {
         dispatch(DeleteEntrant(entrant, getAccessToken(auth)));
@@ -174,7 +179,7 @@ const Entrants: FunctionalComponent<Readonly<Props>> = ({ eventId }) => {
             },
             club: "",
             clubNumber: Number.NaN,
-            isPaid: false,
+            payment: undefined,
         });
     }, [auth, dispatch, eventId]);
     const setCurrentEditingEntrant = useCallback(

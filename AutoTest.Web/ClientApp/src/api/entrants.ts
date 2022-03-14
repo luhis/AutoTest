@@ -1,4 +1,4 @@
-import { Entrant, PublicEntrant } from "../types/models";
+import { Entrant, Payment, PublicEntrant } from "../types/models";
 import { ApiResponse, toApiResponse } from "../types/loadingState";
 import { extract, getHeaders, throwIfNotOk } from "./api";
 
@@ -39,7 +39,7 @@ export const addEntrant = async (
 export const markPaid = async (
     eventId: number,
     entrantId: number,
-    isPaid: boolean,
+    payment: Payment | undefined,
     token: string | undefined
 ): Promise<void> => {
     const response = await fetch(
@@ -47,7 +47,7 @@ export const markPaid = async (
         {
             headers: getHeaders(token),
             method: "PUT",
-            body: JSON.stringify(isPaid),
+            body: JSON.stringify(payment),
         }
     );
     throwIfNotOk(response);

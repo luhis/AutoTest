@@ -18,7 +18,7 @@ import {
     DELETE_MARSHAL,
     UPDATE_TEST_RUN,
 } from "./types";
-import { PublicEntrant, TestRunUploadState } from "../../types/models";
+import { Payment, PublicEntrant, TestRunUploadState } from "../../types/models";
 import { ifLoaded, LoadingState } from "../../types/loadingState";
 import { neverReached } from "../../types/shared";
 import { CLEAR_CACHE } from "../shared/types";
@@ -35,10 +35,10 @@ const initialState: EventState = {
 const setPaid = (
     entrants: LoadingState<readonly PublicEntrant[], number>,
     entrantId: number,
-    isPaid: boolean
+    payment: Payment | undefined
 ): LoadingState<readonly PublicEntrant[], number> => {
     return ifLoaded(entrants, (v) =>
-        v.map((e) => (e.entrantId === entrantId ? { ...e, isPaid } : e))
+        v.map((e) => (e.entrantId === entrantId ? { ...e, payment } : e))
     );
 };
 
@@ -92,7 +92,7 @@ export const eventReducer = (
                 entrants: setPaid(
                     state.entrants,
                     action.payload.entrantId,
-                    action.payload.isPaid
+                    action.payload.payment
                 ),
             };
         case DELETE_ENTRANT:

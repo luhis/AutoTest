@@ -27,7 +27,7 @@ namespace AutoTest.Web.Controllers
 
         [HttpGet]
         public Task<IEnumerable<Club>> GetClubs(CancellationToken cancellationToken) => this.mediator.Send(new GetClubs(), cancellationToken);
-        
+
         [Authorize(policy: Policies.Admin)]
         [HttpPut("{clubId}")]
         public Task<ulong> Save(ulong clubId, ClubSaveModel club, CancellationToken cancellationToken) =>

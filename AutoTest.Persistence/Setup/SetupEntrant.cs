@@ -14,7 +14,6 @@
             entity.Property(e => e.GivenName).IsRequired();
             entity.Property(e => e.FamilyName).IsRequired();
             entity.Property(e => e.Email).IsRequired();
-            entity.Property(e => e.IsPaid).IsRequired();
             entity.Property(e => e.Club).IsRequired();
             entity.Property(e => e.ClubNumber).IsRequired();
             entity.Property(e => e.Age).IsRequired();
@@ -23,6 +22,7 @@
             entity.OwnsOne(a => a.EmergencyContact, SetupEmergencyContact.Setup);
             entity.OwnsOne(a => a.MsaMembership, SetupMsaMembership.Setup);
             entity.OwnsOne(a => a.AcceptDeclaration, SetupAcceptDeclaration.Setup);
+            entity.OwnsOne(a => a.Payment, SetupPayment.Setup);
         }
     }
 }

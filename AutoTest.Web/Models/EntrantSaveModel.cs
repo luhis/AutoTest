@@ -16,8 +16,6 @@ namespace AutoTest.Web.Models
 
         public uint ClubNumber { get; set; }
 
-        public bool IsPaid { get; set; }
-
         public string Email { get; set; } = string.Empty;
 
         public Age Age { get; set; } = Age.Senior;
@@ -27,5 +25,7 @@ namespace AutoTest.Web.Models
         public MsaMembershipSaveModel MsaMembership { get; set; } = new MsaMembershipSaveModel();
 
         public EmergencyContactSaveModel EmergencyContact { get; set; } = new EmergencyContactSaveModel();
+
+        public PaymentSaveModel Payment { get; set; } = new PaymentSaveModel();
     }
 }
