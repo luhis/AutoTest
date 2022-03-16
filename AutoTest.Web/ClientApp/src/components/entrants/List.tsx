@@ -1,15 +1,16 @@
 import { FunctionalComponent, h } from "preact";
 import { Columns, Button, Form } from "react-bulma-components";
 import { FaMoneyBill } from "react-icons/fa";
+import { newValidDate } from "ts-date";
 const { Field, Control } = Form;
 
 import ifSome from "../shared/ifSome";
-import { Payment, PublicEntrant } from "../../types/models";
+import { Payment, PaymentMethod, PublicEntrant } from "../../types/models";
 import { LoadingState } from "../../types/loadingState";
 import NumberPlate from "../shared/NumberPlate";
 import DeleteButton from "../shared/DeleteButton";
 import DriverNumber from "../shared/DriverNumber";
-import { newValidDate } from "ts-date";
+import { startCase } from "../../lib/string";
 
 interface Props {
     readonly entrants: LoadingState<readonly PublicEntrant[], number>;
@@ -55,7 +56,11 @@ const List: FunctionalComponent<Props> = ({
                                     onClick={() => markPaid(entrant, undefined)}
                                 >
                                     <FaMoneyBill />
-                                    &nbsp; Mark Unpaid
+                                    &nbsp; Mark Unpaid (
+                                    {startCase(
+                                        PaymentMethod[entrant.payment.method]
+                                    )}
+                                    )
                                 </Button>
                             </Control>
                         ) : (

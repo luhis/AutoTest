@@ -4,7 +4,16 @@ namespace AutoTest.Web.Models
 {
     public class PublicEntrantModel
     {
-        public PublicEntrantModel(ulong entrantId, ushort driverNumber, string givenName, string familyName, string @class, ulong eventId, string club, Vehicle vehicle)
+        public PublicEntrantModel(
+            ulong entrantId,
+            ushort driverNumber,
+            string givenName,
+            string familyName,
+            string @class,
+            ulong eventId,
+            string club,
+            Vehicle vehicle,
+            Payment? payment)
         {
             EntrantId = entrantId;
             DriverNumber = driverNumber;
@@ -14,6 +23,7 @@ namespace AutoTest.Web.Models
             EventId = eventId;
             Club = club;
             Vehicle = vehicle;
+            Payment = payment;
         }
 
         public ulong EntrantId { get; }
@@ -31,5 +41,7 @@ namespace AutoTest.Web.Models
         public string Club { get; }
 
         public Vehicle Vehicle { get; }
+
+        public Payment? Payment { get; }
     }
 }
