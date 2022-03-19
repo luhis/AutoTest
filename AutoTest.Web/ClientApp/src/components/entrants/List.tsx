@@ -12,7 +12,8 @@ import NumberPlate from "../shared/NumberPlate";
 import DeleteButton from "../shared/DeleteButton";
 import DriverNumber from "../shared/DriverNumber";
 import { startCase } from "../../lib/string";
-import { OnChange } from "../../types/inputs";
+import { OnChange, OnSelectChange } from "../../types/inputs";
+import { getDateString } from "../../lib/date";
 
 interface Props {
     readonly entrants: LoadingState<readonly PublicEntrant[], number>;
@@ -37,7 +38,10 @@ const Pay: FunctionalComponent<{
         payment: Payment | null
     ) => void;
 }> = ({ entrant, markPaid }) => {
-    const [date, setDate] = useState("");
+    const [date, setDate] = useState(getDateString(new Date()));
+    const [paymentMethod, setPaymentMethod] = useState<PaymentMethod>(
+        PaymentMethod.Bacs
+    );
     return (
         <Fragment>
             <Field>
@@ -55,7 +59,14 @@ const Pay: FunctionalComponent<{
             </Field>
             <Field>
                 <Label>Payment Method</Label>
-                <Select<PaymentMethod> required>
+                <Select<PaymentMethod>
+                    required
+                    class="is-fullwidth"
+                    onChange={(evt: OnSelectChange) =>
+                        setPaymentMethod(Number.parseInt(evt.target.value))
+                    }
+                    value={paymentMethod}
+                >
                     <option disabled value={Number.NaN}>
                         - Please Select -
                     </option>
@@ -70,7 +81,7 @@ const Pay: FunctionalComponent<{
                 onClick={() =>
                     markPaid(entrant, {
                         timestamp: newValidDate(),
-                        method: PaymentMethod.Bacs,
+                        method: paymentMethod,
                         paidAt: parseIsoOrThrow(date),
                     })
                 }

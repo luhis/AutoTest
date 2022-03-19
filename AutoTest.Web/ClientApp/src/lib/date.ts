@@ -3,4 +3,5 @@ import { ValidDate } from "ts-date";
 export const getDateTimeString = (d: ValidDate) =>
     d.toISOString().substring(0, 16);
 
-export const getDateString = (d: ValidDate) => d.toISOString().substring(0, 10);
+export const getDateString = (d: ValidDate | Date) =>
+    d.toISOString().substring(0, 10);
