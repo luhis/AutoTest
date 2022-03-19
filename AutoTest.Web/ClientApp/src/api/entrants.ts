@@ -1,4 +1,6 @@
-import { Entrant, Payment, PublicEntrant } from "../types/models";
+import { parseIsoOrThrow } from "ts-date";
+
+import { Entrant, Override, Payment, PublicEntrant } from "../types/models";
 import { ApiResponse, toApiResponse } from "../types/loadingState";
 import { extract, getHeaders, throwIfNotOk } from "./api";
 
@@ -9,8 +11,32 @@ export const getEntrants = async (
         const response = await fetch(`/api/entrants/${eventId}`, {
             headers: getHeaders(undefined),
         });
-        return await extract(response);
+        const res = await extract<readonly ApiEntrant[]>(response);
+        return res.map(
+            ({ payment, ...rest }) =>
+                <PublicEntrant>{
+                    ...rest,
+                    payment:
+                        payment !== null
+                            ? {
+                                  ...payment,
+                                  paidAt: parseIsoOrThrow(payment.paidAt),
+                                  timestamp: parseIsoOrThrow(payment.timestamp),
+                              }
+                            : null,
+                }
+        );
     }, eventId);
+
+type ApiEntrant = Override<
+    PublicEntrant,
+    {
+        readonly payment: Override<
+            Payment,
+            { readonly paidAt: string; readonly timestamp: string } | null
+        >;
+    }
+>;
 
 export const getEntrant = async (
     eventId: number,
@@ -39,7 +65,7 @@ export const addEntrant = async (
 export const markPaid = async (
     eventId: number,
     entrantId: number,
-    payment: Payment | undefined,
+    payment: Payment | null,
     token: string | undefined
 ): Promise<void> => {
     const response = await fetch(

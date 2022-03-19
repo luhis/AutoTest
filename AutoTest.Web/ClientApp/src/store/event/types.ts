@@ -62,7 +62,7 @@ interface SetPaid {
     readonly type: typeof SET_PAID;
     readonly payload: {
         readonly entrantId: number;
-        readonly payment: Payment | undefined;
+        readonly payment: Payment | null;
     };
 }
 

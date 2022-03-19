@@ -33,7 +33,7 @@ namespace AutoTest.Web.Mapping
 
         public static Payment Map(PaymentSaveModel payment)
         {
-            return new Payment(payment.PayedAt, payment.Method, payment.Timestamp);
+            return new Payment(payment.PaidAt, payment.Method, payment.Timestamp);
         }
 
         public static Vehicle Map(VehicleSaveModel vehicle)

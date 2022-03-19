@@ -9,14 +9,14 @@ namespace AutoTest.Domain.StorageModels
         {
         }
 
-        public Payment(DateTime payedAt, PaymentMethod method, DateTime timestamp)
+        public Payment(DateTime paidAt, PaymentMethod method, DateTime timestamp)
         {
-            PayedAt = payedAt;
+            PaidAt = paidAt;
             Method = method;
             Timestamp = timestamp;
         }
 
-        public DateTime PayedAt { get; }
+        public DateTime PaidAt { get; }
         public PaymentMethod Method { get; }
         public DateTime Timestamp { get; } = DateTime.UtcNow;
 

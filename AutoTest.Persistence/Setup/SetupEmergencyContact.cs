@@ -47,7 +47,7 @@ namespace AutoTest.Persistence.Setup
         {
             entity.WithOwner();
             entity.Property(e => e.Method).IsRequired();
-            entity.Property(e => e.PayedAt).IsRequired();
+            entity.Property(e => e.PaidAt).IsRequired();
             entity.Property(e => e.Timestamp).IsRequired();
         }
     }

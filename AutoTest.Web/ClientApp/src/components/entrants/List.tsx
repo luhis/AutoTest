@@ -1,8 +1,9 @@
-import { FunctionalComponent, h } from "preact";
-import { Columns, Button, Form } from "react-bulma-components";
+import { Fragment, FunctionalComponent, h } from "preact";
+import { Columns, Button, Form, Dropdown } from "react-bulma-components";
 import { FaMoneyBill } from "react-icons/fa";
-import { newValidDate } from "ts-date";
-const { Field, Control } = Form;
+import { newValidDate, parseIsoOrThrow } from "ts-date";
+import { useState } from "preact/hooks";
+const { Field, Control, Input, Select, Label } = Form;
 
 import ifSome from "../shared/ifSome";
 import { Payment, PaymentMethod, PublicEntrant } from "../../types/models";
@@ -11,18 +12,75 @@ import NumberPlate from "../shared/NumberPlate";
 import DeleteButton from "../shared/DeleteButton";
 import DriverNumber from "../shared/DriverNumber";
 import { startCase } from "../../lib/string";
+import { OnChange } from "../../types/inputs";
 
 interface Props {
     readonly entrants: LoadingState<readonly PublicEntrant[], number>;
     readonly setEditingEntrant: (entrant: PublicEntrant) => Promise<void>;
     readonly markPaid: (
         entrant: PublicEntrant,
-        payment: Payment | undefined
+        payment: Payment | null
     ) => void;
     readonly deleteEntrant: (entrant: PublicEntrant) => void;
     readonly isClubAdmin: boolean;
     readonly canEditEntrant: (entrantId: number) => boolean;
 }
+
+const paymentMethods = Object.keys(PaymentMethod)
+    .map((a) => Number.parseInt(a))
+    .filter((key) => !isNaN(key));
+
+const Pay: FunctionalComponent<{
+    readonly entrant: PublicEntrant;
+    readonly markPaid: (
+        entrant: PublicEntrant,
+        payment: Payment | null
+    ) => void;
+}> = ({ entrant, markPaid }) => {
+    const [date, setDate] = useState("");
+    return (
+        <Fragment>
+            <Field>
+                <Label>Paid Date</Label>
+                <Input
+                    required
+                    type="date"
+                    value={date}
+                    onChange={({ target }: OnChange): void => {
+                        if (target.valueAsDate !== null) {
+                            setDate(target.value);
+                        }
+                    }}
+                ></Input>
+            </Field>
+            <Field>
+                <Label>Payment Method</Label>
+                <Select<PaymentMethod> required>
+                    <option disabled value={Number.NaN}>
+                        - Please Select -
+                    </option>
+                    {paymentMethods.map((key) => (
+                        <option key={key} value={key}>
+                            {startCase(PaymentMethod[key])}
+                        </option>
+                    ))}
+                </Select>
+            </Field>
+            <Button
+                onClick={() =>
+                    markPaid(entrant, {
+                        timestamp: newValidDate(),
+                        method: PaymentMethod.Bacs,
+                        paidAt: parseIsoOrThrow(date),
+                    })
+                }
+            >
+                <FaMoneyBill />
+                &nbsp; Mark Paid
+            </Button>
+        </Fragment>
+    );
+};
 
 const List: FunctionalComponent<Props> = ({
     entrants,
@@ -45,15 +103,15 @@ const List: FunctionalComponent<Props> = ({
                 </Columns.Column>
                 <Columns.Column>{`${entrant.givenName} ${entrant.familyName}`}</Columns.Column>
                 <Columns.Column>
-                    {entrant.payment !== undefined ? "Paid" : "Unpaid"}
+                    {entrant.payment !== null ? "Paid" : "Unpaid"}
                 </Columns.Column>
                 <Columns.Column>
                     <Field kind="group">
-                        {entrant.payment !== undefined ? (
+                        {entrant.payment !== null ? (
                             <Control>
                                 <Button
                                     disabled={!isClubAdmin}
-                                    onClick={() => markPaid(entrant, undefined)}
+                                    onClick={() => markPaid(entrant, null)}
                                 >
                                     <FaMoneyBill />
                                     &nbsp; Mark Unpaid (
@@ -65,19 +123,18 @@ const List: FunctionalComponent<Props> = ({
                             </Control>
                         ) : (
                             <Control>
-                                <Button
+                                <Dropdown
                                     disabled={!isClubAdmin}
-                                    onClick={() =>
-                                        markPaid(entrant, {
-                                            timestamp: newValidDate(),
-                                            method: 1,
-                                            payedAt: newValidDate(),
-                                        })
-                                    }
+                                    label="Mark Paid"
+                                    closeOnSelect={false}
                                 >
-                                    <FaMoneyBill />
-                                    &nbsp; Mark Paid
-                                </Button>
+                                    <Dropdown.Item value="mark paid">
+                                        <Pay
+                                            entrant={entrant}
+                                            markPaid={markPaid}
+                                        />
+                                    </Dropdown.Item>
+                                </Dropdown>
                             </Control>
                         )}
                         <Control>

@@ -5,7 +5,7 @@ namespace AutoTest.Web.Models
 {
     public class PaymentSaveModel
     {
-        public DateTime PayedAt { get; set; }
+        public DateTime PaidAt { get; set; }
         public PaymentMethod Method { get; set; }
         public DateTime Timestamp { get; set; }
     }

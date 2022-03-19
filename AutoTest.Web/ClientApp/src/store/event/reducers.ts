@@ -35,7 +35,7 @@ const initialState: EventState = {
 const setPaid = (
     entrants: LoadingState<readonly PublicEntrant[], number>,
     entrantId: number,
-    payment: Payment | undefined
+    payment: Payment | null
 ): LoadingState<readonly PublicEntrant[], number> => {
     return ifLoaded(entrants, (v) =>
         v.map((e) => (e.entrantId === entrantId ? { ...e, payment } : e))

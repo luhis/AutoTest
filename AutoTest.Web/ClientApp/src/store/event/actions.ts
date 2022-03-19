@@ -262,7 +262,7 @@ export const UpdateTestRun =
 export const SetPaid =
     (
         { eventId, entrantId }: PublicEntrant,
-        payment: Payment | undefined,
+        payment: Payment | null,
         token: string | undefined
     ) =>
     async (dispatch: Dispatch<EventActionTypes>) => {

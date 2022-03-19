@@ -138,7 +138,7 @@ const Entrants: FunctionalComponent<Readonly<Props>> = ({ eventId }) => {
         },
         [profile]
     );
-    const setPaid = (entrant: PublicEntrant, payment: Payment | undefined) => {
+    const setPaid = (entrant: PublicEntrant, payment: Payment | null) => {
         dispatch(SetPaid(entrant, payment, getAccessToken(auth)));
     };
     const deleteEntrant = (entrant: PublicEntrant) => {
@@ -179,7 +179,7 @@ const Entrants: FunctionalComponent<Readonly<Props>> = ({ eventId }) => {
             },
             club: "",
             clubNumber: Number.NaN,
-            payment: undefined,
+            payment: null,
         });
     }, [auth, dispatch, eventId]);
     const setCurrentEditingEntrant = useCallback(
