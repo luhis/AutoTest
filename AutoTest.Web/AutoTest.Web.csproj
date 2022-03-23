@@ -11,6 +11,7 @@
     <WarningsAsErrors />
     <Nullable>enable</Nullable>
     <UserSecretsId>9baa697e-94c6-4813-8d03-8247fd7bfb88</UserSecretsId>
+    <TieredCompilation>true</TieredCompilation>
   </PropertyGroup>
 
   <ItemGroup>

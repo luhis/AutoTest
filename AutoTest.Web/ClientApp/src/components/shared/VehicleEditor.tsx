@@ -4,7 +4,7 @@ const { Input, Field, Label, Control, Radio } = Form;
 
 import { InductionTypes, Vehicle } from "../../types/shared";
 import { OnChange } from "../../types/inputs";
-import { MakeAndModel } from "src/types/models";
+import { MakeAndModel } from "../../types/models";
 import DropdownInput from "./DropdownInput";
 import { distinct } from "../../lib/array";
 
@@ -29,7 +29,7 @@ const VehicleEditor: FunctionComponent<Props> = ({
     const setInduction = (e: OnChange) =>
         setField({
             ...vehicle,
-            induction: e.target.value as InductionTypes,
+            induction: e.target.valueAsNumber as InductionTypes,
         });
     return (
         <Fragment>
@@ -106,14 +106,14 @@ const VehicleEditor: FunctionComponent<Props> = ({
             <Field>
                 <Label>Induction</Label>
                 <Radio
-                    checked={vehicle.induction === "NA"}
+                    checked={vehicle.induction === InductionTypes.NA}
                     onChange={setInduction}
                     value={"NA"}
                 >
                     NA
                 </Radio>
                 <Radio
-                    checked={vehicle.induction === "Forced"}
+                    checked={vehicle.induction === InductionTypes.Forced}
                     onChange={setInduction}
                     value={"Forced"}
                 >

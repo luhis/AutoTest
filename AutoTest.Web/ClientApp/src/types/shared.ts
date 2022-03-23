@@ -5,7 +5,10 @@ export interface EmergencyContact {
     readonly phone: string;
 }
 
-export type InductionTypes = "NA" | "Forced";
+export enum InductionTypes {
+    "NA" = 0,
+    "Forced" = 1,
+}
 
 export interface Vehicle {
     readonly make: string;

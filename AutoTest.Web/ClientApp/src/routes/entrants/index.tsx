@@ -36,7 +36,7 @@ import { selectClubs } from "../../store/clubs/selectors";
 import { GetClubsIfRequired } from "../../store/clubs/actions";
 import { getEntrant } from "../../api/entrants";
 import { Age } from "../../types/profileModels";
-import { ClubMembership } from "src/types/shared";
+import { ClubMembership, InductionTypes } from "../../types/shared";
 import { useThunkDispatch } from "../../store";
 
 interface Props {
@@ -170,7 +170,7 @@ const Entrants: FunctionalComponent<Readonly<Props>> = ({ eventId }) => {
                 year: 0,
                 displacement: Number.NaN,
                 registration: "",
-                induction: "NA",
+                induction: InductionTypes.NA,
             },
             isNew: true,
             emergencyContact: {
