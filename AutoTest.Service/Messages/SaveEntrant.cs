@@ -10,6 +10,6 @@ namespace AutoTest.Service.Messages
             this.Entrant = entrant;
         }
 
-        public Entrant Entrant { get; }
+        public Entrant Entrant { get; } // swap for tighter model without payment?
     }
 }
