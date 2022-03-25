@@ -7,7 +7,7 @@ using MediatR;
 
 namespace AutoTest.Service.Handlers
 {
-    public class AddNotificationHandler : IRequestHandler<AddNotification, Unit>
+    public class AddNotificationHandler : IRequestHandler<AddNotification>
     {
         private readonly AutoTestContext autoTestContext;
         private readonly ISignalRNotifier signalRNotifier;

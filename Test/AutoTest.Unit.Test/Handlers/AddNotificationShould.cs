@@ -1,9 +1,5 @@
-﻿
-using System;
-using System.Linq;
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
-using AutoTest.Domain.Repositories;
 using AutoTest.Domain.StorageModels;
 using AutoTest.Persistence;
 using AutoTest.Service.Handlers;
@@ -11,7 +7,6 @@ using AutoTest.Service.Interfaces;
 using AutoTest.Service.Messages;
 using FluentAssertions;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
 using Moq;
 using Xunit;
 
@@ -27,9 +22,7 @@ namespace AutoTest.Unit.Test.Handlers
         public AddNotificationShould()
         {
             mr = new MockRepository(MockBehavior.Strict);
-            context = new AutoTestContext(new DbContextOptionsBuilder<AutoTestContext>()
-               .UseInMemoryDatabase(databaseName: Guid.NewGuid().ToString())
-               .Options);
+            context = InMemDbFixture.GetDbContext();
             notifier = mr.Create<ISignalRNotifier>();
             sut = new AddNotificationHandler(context, notifier.Object);
         }
