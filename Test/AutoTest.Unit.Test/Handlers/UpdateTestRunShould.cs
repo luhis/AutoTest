@@ -5,6 +5,7 @@ using AutoTest.Domain.StorageModels;
 using AutoTest.Service.Handlers;
 using AutoTest.Service.Interfaces;
 using AutoTest.Service.Messages;
+using FluentAssertions.ArgumentMatchers.Moq;
 using MediatR;
 using Moq;
 using Xunit;
@@ -27,17 +28,17 @@ namespace AutoTest.Unit.Test.Handlers
         }
 
         [Fact]
-        public async Task ShouldNotifyOnNewNotification()
+        public async Task ShouldNotifyOnUpdatedTestRun()
         {
             var entrantId = 5ul;
             var marshalId = 6ul;
-            var tr = new TestRun(1, 2, 3, 4, entrantId, new System.DateTime(), marshalId);
-            var notification = new Notification(1, 2, "message", new System.DateTime(2000, 1, 1), "test user");
-            // todo more validation
-            notifier.Setup(a => a.NewTestRun(It.Is<TestRun>(a => a.EntrantId == entrantId), CancellationToken.None)).Returns(Task.CompletedTask);
-            testRuns.Setup(a => a.UpdateTestRun(It.Is<TestRun>(a => a.EntrantId == entrantId), CancellationToken.None)).Returns(Task.CompletedTask);
+            var penalties = new[] { new Penalty(Domain.Enums.PenaltyEnum.Late, 1) };
+            var tr = new TestRun(1, 2, 3, 4, entrantId, new System.DateTime(2000, 1, 1), marshalId);
+            tr.SetPenalties(penalties);
+            notifier.Setup(a => a.NewTestRun(Its.EquivalentTo(tr), CancellationToken.None)).Returns(Task.CompletedTask);
+            testRuns.Setup(a => a.UpdateTestRun(Its.EquivalentTo(tr), CancellationToken.None)).Returns(Task.CompletedTask);
 
-            var res = await sut.Handle(new(1, 2, 3, 4, entrantId, new System.DateTime(2000, 1, 1), marshalId, new[] { new Penalty(Domain.Enums.PenaltyEnum.Late, 1) }), CancellationToken.None);
+            var res = await sut.Handle(new(1, 2, 3, 4, entrantId, new System.DateTime(2000, 1, 1), marshalId, penalties), CancellationToken.None);
 
             mr.VerifyAll();
         }

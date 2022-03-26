@@ -5,6 +5,7 @@ using AutoTest.Persistence;
 using AutoTest.Service.Handlers;
 using AutoTest.Service.Interfaces;
 using AutoTest.Service.Messages;
+using AutoTest.Unit.Test.Fixtures;
 using FluentAssertions;
 using MediatR;
 using Moq;
@@ -28,7 +29,7 @@ namespace AutoTest.Unit.Test.Handlers
         }
 
         [Fact]
-        public async Task ShouldNotifyOnNewNotification()
+        public async Task NotifyOnNewNotification()
         {
             context.Notifications!.Should().BeEmpty();
             var notification = new Notification(1, 2, "message", new System.DateTime(2000, 1, 1), "test user");

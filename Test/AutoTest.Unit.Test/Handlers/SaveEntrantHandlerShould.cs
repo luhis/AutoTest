@@ -26,7 +26,7 @@ namespace AutoTest.Unit.Test.Handlers
         }
 
         [Fact]
-        public async Task ShouldNotOverwritePaymentMethodWhenNone()
+        public async Task NotOverwritePaymentMethodWhenNone()
         {
             var entrantId = 1ul;
             var entrant = new Entrant(entrantId, 123, "name", "familyName", "a@a.com", "A", 2, "BRMC", 123456, Domain.Enums.Age.Senior);
@@ -43,7 +43,7 @@ namespace AutoTest.Unit.Test.Handlers
         }
 
         [Fact]
-        public async Task ShouldNotOverwritePaymentMethodWhenSome()
+        public async Task NotOverwritePaymentMethodWhenSome()
         {
             var entrantId = 1ul;
             var entrant = new Entrant(entrantId, 123, "name", "familyName", "a@a.com", "A", 2, "BRMC", 123456, Domain.Enums.Age.Senior);

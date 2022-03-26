@@ -2,7 +2,7 @@
 using AutoTest.Persistence;
 using Microsoft.EntityFrameworkCore;
 
-namespace AutoTest.Unit.Test.Handlers
+namespace AutoTest.Unit.Test.Fixtures
 {
     public static class InMemDbFixture
     {
