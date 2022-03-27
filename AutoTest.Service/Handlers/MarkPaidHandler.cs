@@ -1,28 +1,26 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
-using AutoTest.Persistence;
+using AutoTest.Domain.Repositories;
 using AutoTest.Service.Messages;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
 
 namespace AutoTest.Service.Handlers
 {
     public class MarkPaidHandler : IRequestHandler<MarkPaid>
     {
-        private readonly AutoTestContext _autoTestContext;
+        private readonly IEntrantsRepository _entrantsRepository;
 
-        public MarkPaidHandler(AutoTestContext autoTestContext)
+        public MarkPaidHandler(IEntrantsRepository entrantsRepository)
         {
-            _autoTestContext = autoTestContext;
+            _entrantsRepository = entrantsRepository;
         }
 
 
         async Task<Unit> IRequestHandler<MarkPaid, Unit>.Handle(MarkPaid request, CancellationToken cancellationToken)
         {
-            var found = await this._autoTestContext.Entrants!.SingleAsync(a => a.EventId == request.EventId && a.EntrantId == request.EntrantId, cancellationToken);
+            var found = (await _entrantsRepository.GetById(request.EventId, request.EntrantId, cancellationToken))!;// await this._autoTestContext.Entrants!.SingleAsync(a => a.EventId == request.EventId && a.EntrantId == request.EntrantId, cancellationToken);
             found.SetPayment(request.Payment);
-            this._autoTestContext.Entrants!.Update(found);
-            await this._autoTestContext.SaveChangesAsync(cancellationToken);
+            await _entrantsRepository.Update(found, cancellationToken);
             return Unit.Value;
         }
     }

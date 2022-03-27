@@ -17,9 +17,9 @@ namespace AutoTest.Persistence.Repositories
             _autoTestContext = autoTestContext;
         }
 
-        async Task<Entrant?> IEntrantsRepository.GetById(ulong entrantId, CancellationToken cancellationToken)
+        async Task<Entrant?> IEntrantsRepository.GetById(ulong eventId, ulong entrantId, CancellationToken cancellationToken)
         {
-            return await _autoTestContext.Entrants!.Where(a => a.EntrantId == entrantId).SingleOrDefaultAsync(cancellationToken);
+            return await _autoTestContext.Entrants!.Where(a => a.EventId == eventId && a.EntrantId == entrantId).SingleOrDefaultAsync(cancellationToken);
         }
 
         Task<IEnumerable<Entrant>> IEntrantsRepository.GetByEventId(ulong eventId, CancellationToken cancellationToken)
@@ -35,6 +35,12 @@ namespace AutoTest.Persistence.Repositories
         async Task IEntrantsRepository.Upsert(Entrant entrant, CancellationToken cancellationToken)
         {
             await this._autoTestContext.Entrants.ThrowIfNull().Upsert(entrant, a => a.EntrantId == entrant.EntrantId, cancellationToken);
+            await this._autoTestContext.SaveChangesAsync(cancellationToken);
+        }
+
+        async Task IEntrantsRepository.Update(Entrant entrant, CancellationToken cancellationToken)
+        {
+            this._autoTestContext.Entrants.ThrowIfNull().Update(entrant);
             await this._autoTestContext.SaveChangesAsync(cancellationToken);
         }
     }

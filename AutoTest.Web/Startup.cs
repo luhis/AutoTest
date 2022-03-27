@@ -52,7 +52,7 @@ namespace AutoTest.Web
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllersWithViews( o => o.AllowEmptyInputInBodyModelBinding = true);
+            services.AddControllersWithViews(o => o.AllowEmptyInputInBodyModelBinding = true);
             services.AddMediatR(typeof(GetClubs).Assembly);
             services.AddPersistence();
             services.AddWeb(this.Configuration);

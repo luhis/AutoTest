@@ -1,13 +1,11 @@
-﻿using System.Linq;
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
+using AutoTest.Domain.Repositories;
 using AutoTest.Domain.StorageModels;
-using AutoTest.Persistence;
 using AutoTest.Service.Handlers;
 using AutoTest.Service.Messages;
-using AutoTest.Unit.Test.Fixtures;
-using FluentAssertions;
 using MediatR;
+using Moq;
 using Xunit;
 
 namespace AutoTest.Unit.Test.Handlers
@@ -15,12 +13,14 @@ namespace AutoTest.Unit.Test.Handlers
     public class MarkPaidShould
     {
         private readonly IRequestHandler<MarkPaid, MediatR.Unit> sut;
-        private readonly AutoTestContext context;
+        private readonly MockRepository mr;
+        private readonly Mock<IEntrantsRepository> entrantsRepository;
 
         public MarkPaidShould()
         {
-            context = InMemDbFixture.GetDbContext();
-            sut = new MarkPaidHandler(context);
+            mr = new MockRepository(MockBehavior.Strict);
+            entrantsRepository = mr.Create<IEntrantsRepository>();
+            sut = new MarkPaidHandler(entrantsRepository.Object);
         }
 
         [Fact]
@@ -30,15 +30,13 @@ namespace AutoTest.Unit.Test.Handlers
             var eventId = 22ul;
             var entrant = new Entrant(entrantId, 1, "matt", "mccorry", "a@a.com", "A", eventId, "BRMC", 1234, Domain.Enums.Age.Senior);
             entrant.SetPayment(new(new System.DateTime(2000, 1, 1), Domain.Enums.PaymentMethod.Paypal, new System.DateTime(2000, 2, 2)));
-            context.Entrants!.Add(entrant);
-            await context.SaveChangesAsync();
-            context.Entry(entrant).State = Microsoft.EntityFrameworkCore.EntityState.Detached;
+            entrantsRepository.Setup(a => a.GetById(eventId, entrantId, CancellationToken.None)).Returns(Task.FromResult<Entrant?>(entrant));
+            entrantsRepository.Setup(a => a.Update(entrant, CancellationToken.None)).Returns(Task.CompletedTask);
 
             await sut.Handle(new(eventId, entrantId, null), CancellationToken.None);
 
-            //var updated = context.Entrants!.Single(a => a.EntrantId == entrantId);
-            //context.Entry(entrant).Reload();
-            //entrant.Payment.Should().BeNull();
+            mr.VerifyAll();
+            entrantsRepository.Verify(a => a.Update(It.Is<Entrant>(a => a.Payment == null), CancellationToken.None));
         }
 
         [Fact]
@@ -47,15 +45,13 @@ namespace AutoTest.Unit.Test.Handlers
             var entrantId = 1ul;
             var eventId = 22ul;
             var entrant = new Entrant(entrantId, 1, "matt", "mccorry", "a@a.com", "A", eventId, "BRMC", 1234, Domain.Enums.Age.Senior);
-            context.Entrants!.Add(entrant);
-            await context.SaveChangesAsync();
-            context.Entry(entrant).State = Microsoft.EntityFrameworkCore.EntityState.Detached;
+            entrantsRepository.Setup(a => a.GetById(eventId, entrantId, CancellationToken.None)).Returns(Task.FromResult<Entrant?>(entrant));
+            entrantsRepository.Setup(a => a.Update(entrant, CancellationToken.None)).Returns(Task.CompletedTask);
 
             await sut.Handle(new(eventId, entrantId, new(new System.DateTime(2000, 1, 1), Domain.Enums.PaymentMethod.Paypal, new System.DateTime(2000, 2, 2))), CancellationToken.None);
 
-            //var updated = context.Entrants!.Single(a => a.EntrantId == entrantId);
-            //updated.Payment.Should().NotBeNull();
-            //updated.Payment!.Method.Should().Be(Domain.Enums.PaymentMethod.Paypal);
+            mr.VerifyAll();
+            entrantsRepository.Verify(a => a.Update(It.Is<Entrant>(a => a.Payment != null), CancellationToken.None));
         }
     }
 }

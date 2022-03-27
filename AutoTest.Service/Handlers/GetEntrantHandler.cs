@@ -22,7 +22,7 @@ namespace AutoTest.Service.Handlers
 
         Task<Entrant> IRequestHandler<GetEntrant, Entrant>.Handle(GetEntrant request, CancellationToken cancellationToken)
         {
-            return this.entrantsRepository.GetById(request.EntrantId, cancellationToken)!;
+            return this.entrantsRepository.GetById(request.EventId, request.EntrantId, cancellationToken)!;
         }
     }
 }

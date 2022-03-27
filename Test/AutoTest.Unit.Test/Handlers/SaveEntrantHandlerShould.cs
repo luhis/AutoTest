@@ -29,11 +29,12 @@ namespace AutoTest.Unit.Test.Handlers
         public async Task NotOverwritePaymentMethodWhenNone()
         {
             var entrantId = 1ul;
-            var entrant = new Entrant(entrantId, 123, "name", "familyName", "a@a.com", "A", 2, "BRMC", 123456, Domain.Enums.Age.Senior);
+            var eventId = 2ul;
+            var entrant = new Entrant(entrantId, 123, "name", "familyName", "a@a.com", "A", eventId, "BRMC", 123456, Domain.Enums.Age.Senior);
             entrant.SetPayment(new Payment());
 
-            var entrantFromDb = new Entrant(entrantId, 123, "name", "familyName", "a@a.com", "A", 2, "BRMC", 123456, Domain.Enums.Age.Senior);
-            entrantsRepository.Setup(a => a.GetById(entrantId, CancellationToken.None)).Returns(Task.FromResult<Entrant?>(entrantFromDb));
+            var entrantFromDb = new Entrant(entrantId, 123, "name", "familyName", "a@a.com", "A", eventId, "BRMC", 123456, Domain.Enums.Age.Senior);
+            entrantsRepository.Setup(a => a.GetById(eventId, entrantId, CancellationToken.None)).Returns(Task.FromResult<Entrant?>(entrantFromDb));
             entrantsRepository.Setup(a => a.Upsert(entrant, CancellationToken.None)).Returns(Task.CompletedTask);
             var se = new SaveEntrant(entrant);
             var res = await sut.Handle(se, CancellationToken.None);
@@ -46,11 +47,12 @@ namespace AutoTest.Unit.Test.Handlers
         public async Task NotOverwritePaymentMethodWhenSome()
         {
             var entrantId = 1ul;
-            var entrant = new Entrant(entrantId, 123, "name", "familyName", "a@a.com", "A", 2, "BRMC", 123456, Domain.Enums.Age.Senior);
+            var eventId = 2ul;
+            var entrant = new Entrant(entrantId, 123, "name", "familyName", "a@a.com", "A", eventId, "BRMC", 123456, Domain.Enums.Age.Senior);
 
-            var entrantFromDb = new Entrant(entrantId, 123, "name", "familyName", "a@a.com", "A", 2, "BRMC", 123456, Domain.Enums.Age.Senior);
+            var entrantFromDb = new Entrant(entrantId, 123, "name", "familyName", "a@a.com", "A", eventId, "BRMC", 123456, Domain.Enums.Age.Senior);
             entrantFromDb.SetPayment(new Payment());
-            entrantsRepository.Setup(a => a.GetById(entrantId, CancellationToken.None)).Returns(Task.FromResult<Entrant?>(entrantFromDb));
+            entrantsRepository.Setup(a => a.GetById(eventId, entrantId, CancellationToken.None)).Returns(Task.FromResult<Entrant?>(entrantFromDb));
             entrantsRepository.Setup(a => a.Upsert(entrant, CancellationToken.None)).Returns(Task.CompletedTask);
             var se = new SaveEntrant(entrant);
             var res = await sut.Handle(se, CancellationToken.None);

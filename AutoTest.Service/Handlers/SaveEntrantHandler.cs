@@ -18,7 +18,7 @@ namespace AutoTest.Service.Handlers
 
         async Task<Entrant> IRequestHandler<SaveEntrant, Entrant>.Handle(SaveEntrant request, CancellationToken cancellationToken)
         {
-            var existing = await entrantsRepository.GetById(request.Entrant.EntrantId, cancellationToken);
+            var existing = await entrantsRepository.GetById(request.Entrant.EventId, request.Entrant.EntrantId, cancellationToken);
             request.Entrant.SetPayment(existing?.Payment);
             await entrantsRepository.Upsert(request.Entrant, cancellationToken);
             return request.Entrant;
