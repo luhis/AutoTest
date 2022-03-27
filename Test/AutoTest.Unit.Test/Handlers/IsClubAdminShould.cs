@@ -28,7 +28,7 @@ namespace AutoTest.Unit.Test.Handlers
             var clubId = 2ul;
             context.Events!.Add(new(eventId, clubId, "location", new System.DateTime(2000, 1, 1), 2, 3, "regs", Domain.Enums.EventType.AutoSolo, "maps", Domain.Enums.TimingSystem.App));
             context.Clubs!.Add(new(clubId, "club", "pay@paypal.com", "www.club.com"));
-            context.SaveChanges();
+            await context.SaveChangesAsync();
             var res = await sut.Handle(new(eventId, "a@a.com"), CancellationToken.None);
 
             res.Should().BeFalse();

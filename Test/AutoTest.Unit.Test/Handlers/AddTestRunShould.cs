@@ -44,7 +44,7 @@ namespace AutoTest.Unit.Test.Handlers
             context.Marshals!.Add(new(marshalId, "dave", "marshal", "marshal@email.com", eventId, 12345, "marshal"));
             context.Events!.Add(new(eventId, clubId, "location", new System.DateTime(2000, 1, 1), 2, 3, "regs", Domain.Enums.EventType.AutoSolo, "maps", Domain.Enums.TimingSystem.App));
             context.Clubs!.Add(new(clubId, "club", "pay@paypal.com", "www.club.com"));
-            context.SaveChanges();
+            await context.SaveChangesAsync();
             notifier.Setup(a => a.NewTestRun(Its.EquivalentTo(tr), CancellationToken.None)).Returns(Task.CompletedTask);
             testRuns.Setup(a => a.AddTestRun(Its.EquivalentTo(tr), CancellationToken.None)).Returns(Task.CompletedTask);
 
