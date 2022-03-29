@@ -7,10 +7,12 @@ namespace AutoTest.Domain.Repositories
 {
     public interface IEventsRepository
     {
-        Task<Event?> GetById(ulong eventId, CancellationToken cancellationToken);
+        Task<Event> GetById(ulong eventId, CancellationToken cancellationToken);
 
         Task<IEnumerable<Event>> GetAll(CancellationToken cancellationToken);
 
         Task Upsert(Event @event, CancellationToken cancellationToken);
+
+        Task Delete(Event @event, CancellationToken cancellationToken);
     }
 }

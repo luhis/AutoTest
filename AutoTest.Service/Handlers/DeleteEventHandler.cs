@@ -1,26 +1,26 @@
-﻿using System.Threading;
+﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
-using AutoTest.Persistence;
+using AutoTest.Domain.Repositories;
 using AutoTest.Service.Messages;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
 
 namespace AutoTest.Service.Handlers
 {
     public class DeleteEventHandler : IRequestHandler<DeleteEvent>
     {
-        private readonly AutoTestContext _autoTestContext;
+        private readonly IEventsRepository eventsRepository;
 
-        public DeleteEventHandler(AutoTestContext autoTestContext)
+        public DeleteEventHandler(IEventsRepository autoTestContext)
         {
-            _autoTestContext = autoTestContext;
+            eventsRepository = autoTestContext;
         }
 
         async Task<Unit> IRequestHandler<DeleteEvent, Unit>.Handle(DeleteEvent request, CancellationToken cancellationToken)
         {
-            var found = await this._autoTestContext.Events!.SingleAsync(a => a.EventId == request.EventId, cancellationToken);
-            this._autoTestContext.Events!.Remove(found);
-            await this._autoTestContext.SaveChangesAsync(cancellationToken);
+            var found = await this.eventsRepository.GetById(request.EventId, cancellationToken);
+
+            await this.eventsRepository.Delete(found, cancellationToken);
             return Unit.Value;
         }
     }

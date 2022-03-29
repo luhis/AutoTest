@@ -22,10 +22,7 @@ namespace AutoTest.Service.Handlers
         async Task<IEnumerable<Test>> IRequestHandler<GetTests, IEnumerable<Test>>.Handle(GetTests request, CancellationToken cancellationToken)
         {
             var @event = await this.eventsRepository.GetById(request.EventId, cancellationToken);
-            if (@event == null)
-            {
-                throw new Exception("cannot find event");
-            }
+
             return @event.Tests.OrderBy(a => a.Ordinal);
         }
     }

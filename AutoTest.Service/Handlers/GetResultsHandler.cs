@@ -29,10 +29,7 @@ namespace AutoTest.Service.Handlers
         async Task<IEnumerable<Result>> IRequestHandler<GetResults, IEnumerable<Result>>.Handle(GetResults request, CancellationToken cancellationToken)
         {
             var @event = await eventsRepository.GetById(request.EventId, cancellationToken);
-            if (@event == null)
-            {
-                throw new Exception("Cannot find event");
-            }
+
             var tests = @event.Tests;
             var entrants = await entrantsRepository.GetByEventId(request.EventId, cancellationToken);
             var testRuns = await testRunsRepository.GetAll(request.EventId, cancellationToken);

@@ -17,9 +17,9 @@ namespace AutoTest.Persistence.Repositories
             _autoTestContext = autoTestContext;
         }
 
-        async Task<Event?> IEventsRepository.GetById(ulong eventId, CancellationToken cancellationToken)
+        async Task<Event> IEventsRepository.GetById(ulong eventId, CancellationToken cancellationToken)
         {
-            return await _autoTestContext.Events!.Where(a => a.EventId == eventId).SingleOrDefaultAsync(cancellationToken);
+            return await _autoTestContext.Events!.Where(a => a.EventId == eventId).SingleAsync(cancellationToken);
         }
 
         Task<IEnumerable<Event>> IEventsRepository.GetAll(CancellationToken cancellationToken)
@@ -42,6 +42,12 @@ namespace AutoTest.Persistence.Repositories
             var toAddOrdinals = expectedOrdinals.Except(tests.Select(a => a.Ordinal));
 
             @event.SetTests(tests.Where(a => expectedOrdinals.Contains(a.Ordinal)).Concat(toAddOrdinals.Select(a => new Test(a, ""))).ToArray());
+        }
+
+        Task IEventsRepository.Delete(Event @event, CancellationToken cancellationToken)
+        {
+            this._autoTestContext.Events!.Remove(@event);
+            return this._autoTestContext.SaveChangesAsync();
         }
     }
 }
