@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -14,7 +15,7 @@ using Xunit;
 
 namespace AutoTest.Unit.Test.Handlers
 {
-    public delegate void CallbackDelegate(string p1, out IEnumerable<(ulong ClubId, IEnumerable<AuthorisationEmail> AdminEmails)> p2);
+    public delegate void CallbackDelegate(object p1, out object p2);
     public class GetAdminCLubsHandlerShould
     {
         private readonly IRequestHandler<GetAdminClubs, IEnumerable<ulong>> sut;
@@ -33,11 +34,34 @@ namespace AutoTest.Unit.Test.Handlers
         [Fact(Skip = "skip")]
         public async Task ShouldSkipIfInCache()
         {
-            IEnumerable<(ulong ClubId, IEnumerable<AuthorisationEmail> AdminEmails)> outObj;
+            object outObj;
+            memoryCache
+                .Setup(a => a.TryGetValue(nameof(GetAdminClubsHandler), out outObj)).Returns(true)
+                .Callback(new CallbackDelegate((object word, out object substitution) =>
+                substitution = new[] { (object)(ClubId: 1ul, AdminEmails: Enumerable.Empty<AuthorisationEmail>()) }.AsEnumerable()))
+                ;
+            var email = "a@a.com";
+            var res = await sut.Handle(new(email), CancellationToken.None);
+
+            res.Should().BeEquivalentTo(Enumerable.Empty<ulong>());
+            mr.VerifyAll();
+        }
+
+        [Fact]
+        public async Task ShouldCreatIfNotInCache()
+        {
+            object outObj;
             memoryCache
                 .Setup(a => a.TryGetValue(nameof(GetAdminClubsHandler), out outObj))
-                .Callback(new CallbackDelegate((string word, out IEnumerable<(ulong ClubId, IEnumerable<AuthorisationEmail> AdminEmails)> substitution) =>
-                substitution = new[] { (ClubId: 1ul, AdminEmails: System.Array.Empty<AuthorisationEmail>().AsEnumerable()) }.AsEnumerable())).Returns(true);
+                .Callback(new CallbackDelegate((object word, out object substitution) =>
+                substitution = new[] { (object)(ClubId: 1ul, AdminEmails: Enumerable.Empty<AuthorisationEmail>()) }.AsEnumerable()))
+                .Returns(false);
+            var ce = mr.Create<ICacheEntry>();
+            ce.Setup(a => a.Dispose());
+            ce.SetupSet(a => a.AbsoluteExpirationRelativeToNow = TimeSpan.FromSeconds(30));
+            ce.SetupSet(a => a.Value = Enumerable.Empty<(ulong ClubId, IEnumerable<AuthorisationEmail> AdminEmails)>());
+            memoryCache.Setup(a => a.CreateEntry(nameof(GetAdminClubsHandler))).Returns(ce.Object);
+            clubsRepository.Setup(a => a.GetAll(CancellationToken.None)).Returns(Task.FromResult(Enumerable.Empty<Club>()));
             var email = "a@a.com";
             var res = await sut.Handle(new(email), CancellationToken.None);
 
