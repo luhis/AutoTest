@@ -5,7 +5,7 @@ using AutoTest.Domain.StorageModels;
 
 namespace AutoTest.Domain.Repositories
 {
-    public interface IClubRepository
+    public interface IClubsRepository
     {
         Task<Club?> GetById(ulong clubId, CancellationToken cancellationToken);
 

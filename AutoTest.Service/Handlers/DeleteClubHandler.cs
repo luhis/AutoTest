@@ -9,9 +9,9 @@ namespace AutoTest.Service.Handlers
 
     public class DeleteClubHandler : IRequestHandler<DeleteClub>
     {
-        private readonly IClubRepository clubRepository;
+        private readonly IClubsRepository clubRepository;
 
-        public DeleteClubHandler(IClubRepository clubRepository)
+        public DeleteClubHandler(IClubsRepository clubRepository)
         {
             this.clubRepository = clubRepository;
         }

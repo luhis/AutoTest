@@ -29,7 +29,7 @@ namespace AutoTest.Web.Authorization
                 if (routeData.Values.TryGetValue("entrantId", out var entrantIdString) && entrantIdString != null)
                 {
                     var entrantId = ulong.Parse((string)entrantIdString);
-                    return (await mediator.Send(new GetEntrant(eventId, entrantId))).Email;
+                    return (await mediator.Send(new GetEntrant(eventId, entrantId)))!.Email;
                 }
                 if (routeData.Values.TryGetValue("marshalId", out var marshalIdString) && marshalIdString != null)
                 {

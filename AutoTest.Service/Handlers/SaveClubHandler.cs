@@ -9,9 +9,9 @@ namespace AutoTest.Service.Handlers
 
     public class SaveClubHandler : IRequestHandler<SaveClub, ulong>
     {
-        private readonly IClubRepository clubRepository;
+        private readonly IClubsRepository clubRepository;
 
-        public SaveClubHandler(IClubRepository clubRepository)
+        public SaveClubHandler(IClubsRepository clubRepository)
         {
             this.clubRepository = clubRepository;
         }

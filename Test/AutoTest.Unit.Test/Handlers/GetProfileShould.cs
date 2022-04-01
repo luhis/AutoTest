@@ -11,6 +11,7 @@ using Xunit;
 
 namespace AutoTest.Unit.Test.Handlers
 {
+
     public class GetProfileShould
     {
         private readonly IRequestHandler<GetProfile, Profile> sut;

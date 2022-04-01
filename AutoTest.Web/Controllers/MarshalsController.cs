@@ -10,6 +10,7 @@ namespace AutoTest.Web.Controllers
     using AutoTest.Domain.StorageModels;
     using AutoTest.Service.Messages;
     using AutoTest.Web.Authorization;
+    using AutoTest.Web.Extensions;
     using AutoTest.Web.Models;
     using MediatR;
     using Microsoft.AspNetCore.Authorization;
@@ -35,7 +36,11 @@ namespace AutoTest.Web.Controllers
 
         [Authorize(policy: Policies.ClubAdminOrSelf)]
         [HttpGet("{marshalId}")]
-        public Task<Marshal> GetMarshal(ulong eventId, ulong marshalId, CancellationToken cancellationToken) => this.mediator.Send(new GetMarshal(eventId, marshalId), cancellationToken);
+        public async Task<ActionResult<Marshal>> GetMarshal(ulong eventId, ulong marshalId, CancellationToken cancellationToken)
+        {
+            var r = await this.mediator.Send(new GetMarshal(eventId, marshalId), cancellationToken);
+            return r.ToIac();
+        }
 
         [Authorize(policy: Policies.ClubAdminOrSelf)]
         [HttpPut("{marshalId}")]

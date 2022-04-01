@@ -16,7 +16,6 @@ namespace AutoTest.Web.Controllers
     [Route("api/[controller]")]
     public class AccessController : ControllerBase
     {
-
         private readonly IMediator mediator;
 
         public AccessController(IConfiguration configuration, IMediator mediator)

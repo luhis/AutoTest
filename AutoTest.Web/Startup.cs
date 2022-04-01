@@ -58,6 +58,7 @@ namespace AutoTest.Web
             services.AddWeb(this.Configuration);
             services.AddHttpContextAccessor();
             services.AddApplicationInsightsTelemetry();
+            services.AddMemoryCache();
 
             services.AddAuthentication(x =>
             {

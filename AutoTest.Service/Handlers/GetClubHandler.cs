@@ -13,9 +13,9 @@ namespace AutoTest.Service.Handlers
 {
     public class GetClubHandler : IRequestHandler<GetClub, Club?>
     {
-        private readonly IClubRepository clubRepository;
+        private readonly IClubsRepository clubRepository;
 
-        public GetClubHandler(IClubRepository clubRepository)
+        public GetClubHandler(IClubsRepository clubRepository)
         {
             this.clubRepository = clubRepository;
         }
