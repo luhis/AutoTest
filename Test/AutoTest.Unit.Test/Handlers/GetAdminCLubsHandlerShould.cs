@@ -48,7 +48,7 @@ namespace AutoTest.Unit.Test.Handlers
         }
 
         [Fact]
-        public async Task ShouldCreatIfNotInCache()
+        public async Task ShouldCreateIfNotInCache()
         {
             object outObj;
             memoryCache

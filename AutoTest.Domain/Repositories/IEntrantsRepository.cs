@@ -14,6 +14,7 @@ namespace AutoTest.Domain.Repositories
         Task<IEnumerable<Entrant>> GetAll(ulong eventId, CancellationToken cancellationToken);
 
         Task Upsert(Entrant entrant, CancellationToken cancellationToken);
+
         Task Update(Entrant entrant, CancellationToken cancellationToken);
     }
 }
