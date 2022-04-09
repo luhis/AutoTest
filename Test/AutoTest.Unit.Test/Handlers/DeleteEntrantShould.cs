@@ -1,11 +1,10 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
-using AutoTest.Persistence;
+using AutoTest.Domain.Repositories;
 using AutoTest.Service.Handlers;
 using AutoTest.Service.Messages;
-using AutoTest.Unit.Test.Fixtures;
-using FluentAssertions;
 using MediatR;
+using Moq;
 using Xunit;
 
 namespace AutoTest.Unit.Test.Handlers
@@ -13,27 +12,28 @@ namespace AutoTest.Unit.Test.Handlers
     public class DeleteEntrantShould
     {
         private readonly IRequestHandler<DeleteEntrant> sut;
-        private readonly AutoTestContext context;
+        private readonly MockRepository mr;
+        private readonly Mock<IEntrantsRepository> entrants;
 
         public DeleteEntrantShould()
         {
-            context = InMemDbFixture.GetDbContext();
-            sut = new DeleteEntrantHandler(context);
+            mr = new MockRepository(MockBehavior.Strict);
+            entrants = mr.Create<IEntrantsRepository>();
+            sut = new DeleteEntrantHandler(entrants.Object);
         }
 
-        [Fact(Skip = "Entity tracking issue")]
+        [Fact]
         public async Task ReturnBlankProfileIfNone()
         {
-            context.Entrants!.Should().BeEmpty();
-
             var eventId = 1ul;
             var entrantId = 2ul;
-            context.Entrants!.Add(new(entrantId, 22, "joe", "bloggs", "joe@bloggs.com", "A", eventId, "BRMC", 1234, Domain.Enums.Age.Senior));
-            await context.SaveChangesAsync();
+            var entrant = new Domain.StorageModels.Entrant(entrantId, 22, "joe", "bloggs", "joe@bloggs.com", "A", eventId, "BRMC", 1234, Domain.Enums.Age.Senior);
+            entrants.Setup(a => a.GetById(eventId, entrantId, CancellationToken.None)).ReturnsAsync(entrant);
+            entrants.Setup(a => a.Delete(entrant, CancellationToken.None)).Returns(Task.CompletedTask);
 
             await sut.Handle(new(eventId, entrantId), CancellationToken.None);
 
-            context.Users!.Should().BeEmpty();
+            mr.VerifyAll();
         }
     }
 }

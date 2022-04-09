@@ -1,26 +1,29 @@
-﻿using System.Threading;
+﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
-using AutoTest.Persistence;
+using AutoTest.Domain.Repositories;
 using AutoTest.Service.Messages;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
 
 namespace AutoTest.Service.Handlers
 {
     public class DeleteEntrantHandler : IRequestHandler<DeleteEntrant>
     {
-        private readonly AutoTestContext _autoTestContext;
+        private readonly IEntrantsRepository _autoTestContext;
 
-        public DeleteEntrantHandler(AutoTestContext autoTestContext)
+        public DeleteEntrantHandler(IEntrantsRepository entrantsRepository)
         {
-            _autoTestContext = autoTestContext;
+            _autoTestContext = entrantsRepository;
         }
 
         async Task<Unit> IRequestHandler<DeleteEntrant, Unit>.Handle(DeleteEntrant request, CancellationToken cancellationToken)
         {
-            var found = await this._autoTestContext.Entrants!.SingleAsync(a => a.EventId == request.EventId && a.EntrantId == request.EntrantId, cancellationToken);
-            this._autoTestContext.Entrants!.Remove(found);
-            await this._autoTestContext.SaveChangesAsync(cancellationToken);
+            var found = await this._autoTestContext.GetById(request.EventId, request.EntrantId, cancellationToken);
+            if (found == null)
+            {
+                throw new NullReferenceException();
+            }
+            await this._autoTestContext.Delete(found, cancellationToken);
             return Unit.Value;
         }
     }

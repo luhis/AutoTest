@@ -43,5 +43,11 @@ namespace AutoTest.Persistence.Repositories
             this._autoTestContext.Entrants.ThrowIfNull().Update(entrant);
             await this._autoTestContext.SaveChangesAsync(cancellationToken);
         }
+
+        public Task Delete(Entrant entrant, CancellationToken cancellationToken)
+        {
+            this._autoTestContext.Entrants!.Remove(entrant);
+            return _autoTestContext.SaveChangesAsync(cancellationToken);
+        }
     }
 }

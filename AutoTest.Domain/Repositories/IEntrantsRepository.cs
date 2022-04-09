@@ -16,5 +16,7 @@ namespace AutoTest.Domain.Repositories
         Task Upsert(Entrant entrant, CancellationToken cancellationToken);
 
         Task Update(Entrant entrant, CancellationToken cancellationToken);
+
+        Task Delete(Entrant entrant, CancellationToken cancellationToken);
     }
 }
