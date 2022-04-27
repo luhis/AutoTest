@@ -1,4 +1,4 @@
-import { Dispatch } from "redux";
+import { ThunkAction } from "redux-thunk";
 
 import { getProfile, saveProfile } from "../../api/user";
 import { Profile } from "../../types/profileModels";
@@ -14,20 +14,21 @@ import { AppState } from "..";
 import { isStale, requiresLoading } from "../../types/loadingState";
 
 export const GetProfileIfRequired =
-    (token: string | undefined) =>
-    async (
-        dispatch: Dispatch<ProfileActionTypes>,
-        getState: () => AppState
-    ) => {
+    (
+        token: string | undefined
+    ): ThunkAction<Promise<void>, AppState, unknown, ProfileActionTypes> =>
+    async (dispatch, getState) => {
         const profile = selectProfile(getState());
         if (requiresLoading(profile.tag) || isStale(profile)) {
-            await GetProfile(token)(dispatch);
+            await GetProfile(token)(dispatch, getState, undefined);
         }
     };
 
 const GetProfile =
-    (token: string | undefined) =>
-    async (dispatch: Dispatch<ProfileActionTypes>) => {
+    (
+        token: string | undefined
+    ): ThunkAction<Promise<void>, AppState, unknown, ProfileActionTypes> =>
+    async (dispatch) => {
         dispatch({
             type: GET_PROFILE,
             payload: { tag: "Loading", id: undefined },
@@ -39,15 +40,20 @@ const GetProfile =
     };
 
 export const SaveProfile =
-    (profile: Profile, token: string | undefined) =>
-    async (dispatch: Dispatch<ProfileActionTypes>) => {
+    (
+        profile: Profile,
+        token: string | undefined
+    ): ThunkAction<Promise<void>, AppState, unknown, ProfileActionTypes> =>
+    async (dispatch, getState) => {
         await saveProfile(profile, token);
-        await GetProfile(token)(dispatch);
+        await GetProfile(token)(dispatch, getState, undefined);
     };
 
 export const GetAccess =
-    (token: string | undefined) =>
-    async (dispatch: Dispatch<ProfileActionTypes>) => {
+    (
+        token: string | undefined
+    ): ThunkAction<Promise<void>, AppState, unknown, ProfileActionTypes> =>
+    async (dispatch) => {
         if (token) {
             const access = await getAccess(token);
             dispatch({
