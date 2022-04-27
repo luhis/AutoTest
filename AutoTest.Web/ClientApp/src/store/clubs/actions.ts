@@ -1,4 +1,4 @@
-import { Dispatch } from "redux";
+import { ThunkAction } from "redux-thunk";
 
 import { EditingClub } from "src/types/models";
 import { addClub, deleteClub, getClubs } from "../../api/clubs";
@@ -8,8 +8,10 @@ import { canUpdate, isStale, requiresLoading } from "../../types/loadingState";
 import { ADD_CLUB, ClubsActionTypes, GET_CLUBS } from "./types";
 
 export const GetClubsIfRequired =
-    (token: string | undefined) =>
-    async (dispatch: Dispatch<ClubsActionTypes>, getState: () => AppState) => {
+    (
+        token: string | undefined
+    ): ThunkAction<void, AppState, unknown, ClubsActionTypes> =>
+    async (dispatch, getState) => {
         const clubs = selectClubs(getState());
         if (requiresLoading(clubs.tag) || isStale(clubs)) {
             if (clubs.tag === "Idle") {
@@ -29,8 +31,12 @@ export const GetClubsIfRequired =
     };
 
 export const AddClub =
-    (club: EditingClub, token: string | undefined, onSuccess: () => void) =>
-    async (dispatch: Dispatch<ClubsActionTypes>) => {
+    (
+        club: EditingClub,
+        token: string | undefined,
+        onSuccess: () => void
+    ): ThunkAction<Promise<void>, AppState, unknown, ClubsActionTypes> =>
+    async (dispatch) => {
         await addClub(club, token);
         dispatch({
             type: ADD_CLUB,
@@ -40,8 +46,11 @@ export const AddClub =
     };
 
 export const DeleteClub =
-    (clubId: number, token: string | undefined) =>
-    async (dispatch: Dispatch<ClubsActionTypes>) => {
+    (
+        clubId: number,
+        token: string | undefined
+    ): ThunkAction<Promise<void>, AppState, unknown, ClubsActionTypes> =>
+    async (dispatch) => {
         await deleteClub(clubId, token);
         dispatch({
             type: GET_CLUBS,
