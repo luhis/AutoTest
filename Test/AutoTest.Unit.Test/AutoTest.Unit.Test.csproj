@@ -21,6 +21,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\AutoTest.Service\AutoTest.Service.csproj" />
+    <ProjectReference Include="..\..\AutoTest.Web\AutoTest.Web.csproj" />
   </ItemGroup>
 
 </Project>

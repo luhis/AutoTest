@@ -123,7 +123,7 @@ namespace AutoTest.Web
             });
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "MyRentals API", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "AutoTest API", Version = "v1" });
                 c.AddSecurityDefinition("bearer", new OpenApiSecurityScheme()
                 {
                     Type = SecuritySchemeType.OAuth2,
