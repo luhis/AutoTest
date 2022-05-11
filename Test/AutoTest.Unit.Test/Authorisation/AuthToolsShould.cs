@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Threading.Tasks;
 using AutoTest.Web.Authorization;
 using FluentAssertions;
 using MediatR;
@@ -38,20 +37,20 @@ namespace AutoTest.Unit.Test.Authorisation
 
             Action act = () => AuthTools.GetEventId(rd);
 
-            act.Should().Throw<Exception>();
+            act.Should().Throw<Exception>().WithMessage("Don't know how to get EventId from this request");
         }
 
-//        [Fact]
-//        public void FailGetEmailWhenNotPresent()
-//        {
-//            var rd = new RouteData(new RouteValueDictionary());
+        [Fact]
+        public void FailGetEmailWhenNotPresent()
+        {
+            var rd = new RouteData(new RouteValueDictionary());
 
-//            Task<string> act = AuthTools.GetEmail(rd, mediator.Object);
+#pragma warning disable VSTHRD002 // Avoid problematic synchronous waits
+            Func<string> act = () => AuthTools.GetEmail(rd, mediator.Object).Result;
+#pragma warning restore VSTHRD002 // Avoid problematic synchronous waits
 
-//#pragma warning disable VSTHRD002 // Avoid problematic synchronous waits
-//            act.Result.Should().Throw<Exception>();
-//#pragma warning restore VSTHRD002 // Avoid problematic synchronous waits
-//            mr.VerifyAll();
-//        }
+            act.Should().Throw<Exception>().WithMessage("Don't know how to get Email from this request");
+            mr.VerifyAll();
+        }
     }
 }
