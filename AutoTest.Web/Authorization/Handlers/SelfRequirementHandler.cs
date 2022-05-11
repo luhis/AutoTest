@@ -27,7 +27,7 @@ namespace AutoTest.Web.Authorization.Handlers
                 var emailFromRoute = await AuthTools.GetEmail(routeData, mediator);
 
                 var email = context.User.GetEmailAddress();
-                if (emailFromRoute == email)
+                if (emailFromRoute.Equals(email, System.StringComparison.InvariantCultureIgnoreCase))
                 {
                     context.Succeed(requirement);
                 }
