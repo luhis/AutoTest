@@ -3,6 +3,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using AutoTest.Domain.StorageModels;
 using AutoTest.Service.Messages;
+using AutoTest.Unit.Test.Fixtures;
 using AutoTest.Web.Authorization.Attributes;
 using AutoTest.Web.Authorization.Handlers;
 using FluentAssertions;
@@ -36,11 +37,9 @@ namespace AutoTest.Unit.Test.Authorisation
             var ac = new AuthorizationHandlerContext(
                 new[] { new SelfRequirement() },
                 new ClaimsPrincipal(new ClaimsIdentity(new[] { new Claim(ClaimTypes.Email, "a@a.com") })), null);
-            var ctx = new DefaultHttpContext();
             var entrantId = 99ul;
             var eventId = 1ul;
-            ctx.Request.RouteValues.Add("eventId", eventId.ToString());
-            ctx.Request.RouteValues.Add("entrantId", entrantId.ToString());
+            var ctx = HttpContextFixture.GetHttpContext(new[] { ("eventId", eventId.ToString()), ("entrantId", entrantId.ToString()) });
             httpContextAccessor.SetupGet(a => a.HttpContext).Returns(ctx);
             mediator.Setup(a => a.Send(Its.EquivalentTo(new GetEntrant(eventId, entrantId)), CancellationToken.None)).Returns(Task.FromResult<Entrant?>(
                 new Entrant(entrantId, 1, "Joe", "Bloggs", "a@a.com", "A", eventId, "BRMC", 12345678, Domain.Enums.Age.Senior)));
@@ -57,11 +56,9 @@ namespace AutoTest.Unit.Test.Authorisation
             var ac = new AuthorizationHandlerContext(
                 new[] { new SelfRequirement() },
                 new ClaimsPrincipal(new ClaimsIdentity(new[] { new Claim(ClaimTypes.Email, "notA@a.com") })), null);
-            var ctx = new DefaultHttpContext();
             var entrantId = 99ul;
             var eventId = 1ul;
-            ctx.Request.RouteValues.Add("eventId", eventId.ToString());
-            ctx.Request.RouteValues.Add("entrantId", entrantId.ToString());
+            var ctx = HttpContextFixture.GetHttpContext(new[] { ("eventId", eventId.ToString()), ("entrantId", entrantId.ToString()) });
             httpContextAccessor.SetupGet(a => a.HttpContext).Returns(ctx);
             mediator.Setup(a => a.Send(Its.EquivalentTo(new GetEntrant(eventId, entrantId)), CancellationToken.None)).Returns(Task.FromResult<Entrant?>(
                 new Entrant(entrantId, 1, "Joe", "Bloggs", "a@a.com", "A", eventId, "BRMC", 12345678, Domain.Enums.Age.Senior)));

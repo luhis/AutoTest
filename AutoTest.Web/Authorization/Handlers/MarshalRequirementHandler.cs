@@ -34,7 +34,7 @@ namespace AutoTest.Web.Authorization.Handlers
                     throw new Exception("Cannot find event");
                 }
 
-                var emails = (await mediator.Send(new GetMarshals(eventId))).Select(a => a.Email);
+                var emails = (await mediator.Send(new GetMarshals(eventId))).Select(a => a.Email).ToHashSet(StringComparer.InvariantCultureIgnoreCase);
                 var email = context.User.GetEmailAddress();
                 if (emails.Contains(email))
                 {

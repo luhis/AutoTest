@@ -1,6 +1,11 @@
 ﻿using System;
+using System.Threading;
+using System.Threading.Tasks;
+using AutoTest.Domain.StorageModels;
+using AutoTest.Service.Messages;
 using AutoTest.Web.Authorization;
 using FluentAssertions;
+using FluentAssertions.ArgumentMatchers.Moq;
 using MediatR;
 using Microsoft.AspNetCore.Routing;
 using Moq;
@@ -41,15 +46,47 @@ namespace AutoTest.Unit.Test.Authorisation
         }
 
         [Fact]
-        public void FailGetEmailWhenNotPresent()
+        public async Task FailGetEmailWhenNotPresentAsync()
         {
             var rd = new RouteData(new RouteValueDictionary());
 
-#pragma warning disable VSTHRD002 // Avoid problematic synchronous waits
-            Func<string> act = () => AuthTools.GetEmail(rd, mediator.Object).Result;
-#pragma warning restore VSTHRD002 // Avoid problematic synchronous waits
+            Func<Task<string>> act = () => AuthTools.GetEmail(rd, mediator.Object);
 
-            act.Should().Throw<Exception>().WithMessage("Don't know how to get Email from this request");
+            await act.Should().ThrowAsync<Exception>().WithMessage("Don't know how to get Email from this request");
+            mr.VerifyAll();
+        }
+
+        [Fact]
+        public async Task GetFromEntrantId()
+        {
+            var eventId = 1ul;
+            var entrantId = 2ul;
+            var rd = new RouteData(new RouteValueDictionary());
+            rd.Values.Add("eventId", eventId.ToString());
+            rd.Values.Add("entrantId", entrantId.ToString());
+            mediator.Setup(a => a.Send(Its.EquivalentTo(new GetEntrant(eventId, entrantId)), CancellationToken.None)).Returns(
+                Task.FromResult<Entrant?>(new Entrant(entrantId, 22, "Joe", "Bloggs", "a@a.com", "A", 99, "BRMC", 123456, Domain.Enums.Age.Senior)));
+
+            var email = await AuthTools.GetEmail(rd, mediator.Object);
+
+            email.Should().BeEquivalentTo("a@a.com");
+            mr.VerifyAll();
+        }
+
+        [Fact]
+        public async Task GetFromMarshalId()
+        {
+            var eventId = 1ul;
+            var marshalId = 2ul;
+            var rd = new RouteData(new RouteValueDictionary());
+            rd.Values.Add("eventId", eventId.ToString());
+            rd.Values.Add("marshalId", marshalId.ToString());
+            mediator.Setup(a => a.Send(Its.EquivalentTo(new GetMarshal(eventId, marshalId)), CancellationToken.None)).Returns(
+                Task.FromResult(new Marshal(marshalId, "Joe", "Bloggs", "a@a.com", eventId, 9876543, "role")));
+
+            var email = await AuthTools.GetEmail(rd, mediator.Object);
+
+            email.Should().BeEquivalentTo("a@a.com");
             mr.VerifyAll();
         }
     }
