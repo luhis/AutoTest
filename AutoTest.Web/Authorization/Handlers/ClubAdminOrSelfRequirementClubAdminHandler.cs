@@ -43,7 +43,7 @@ namespace AutoTest.Web.Authorization.Handlers
                 {
                     throw new NullReferenceException(nameof(club));
                 }
-                var emails = club.AdminEmails.Select(b => b.Email);
+                var emails = club.AdminEmails.Select(b => b.Email).ToHashSet(StringComparer.InvariantCultureIgnoreCase);
                 var email = context.User.GetEmailAddress();
                 if (emails.Contains(email))
                 {

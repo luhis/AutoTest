@@ -26,7 +26,7 @@ namespace AutoTest.Service.Handlers
             var @event = await this.eventsRepository.GetById(request.EventId, cancellationToken);
 
             var club = await this.autoTestContext.Clubs!.SingleAsync(a => a.ClubId == @event.ClubId, cancellationToken);
-            return club != null && club.AdminEmails.Select(a => a.Email).Contains(request.EmailAddress);
+            return club != null && club.AdminEmails.Select(a => a.Email).Contains(request.EmailAddress, StringComparer.InvariantCultureIgnoreCase);
         }
     }
 }

@@ -3,6 +3,7 @@ using Microsoft.Extensions.Configuration;
 
 namespace AutoTest.Web.Controllers
 {
+    using System;
     using System.Threading.Tasks;
     using AutoTest.Service.Messages;
     using AutoTest.Web.Authorization.Tooling;
@@ -21,7 +22,7 @@ namespace AutoTest.Web.Controllers
         public AccessController(IConfiguration configuration, IMediator mediator)
         {
             this.mediator = mediator;
-            this.AdminEmails = new HashSet<string>(configuration.GetSection("RootAdminIds").Get<IEnumerable<string>>());
+            this.AdminEmails = new HashSet<string>(configuration.GetSection("RootAdminIds").Get<IEnumerable<string>>(), StringComparer.InvariantCultureIgnoreCase);
         }
 
         private HashSet<string> AdminEmails { get; }
