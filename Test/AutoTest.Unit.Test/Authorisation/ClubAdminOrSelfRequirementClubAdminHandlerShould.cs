@@ -15,33 +15,38 @@ using Xunit;
 
 namespace AutoTest.Unit.Test.Authorisation
 {
-    public class SelfRequirementHandlerShould
+    public class ClubAdminOrSelfRequirementClubAdminHandlerShould
     {
-        private readonly AuthorizationHandler<SelfRequirement> sut;
+        private readonly AuthorizationHandler<ClubAdminOrSelfRequirement> sut;
         private readonly MockRepository mr;
         private readonly Mock<IMediator> mediator;
         private readonly Mock<IHttpContextAccessor> httpContextAccessor;
 
-        public SelfRequirementHandlerShould()
+        public ClubAdminOrSelfRequirementClubAdminHandlerShould()
         {
             mr = new MockRepository(MockBehavior.Strict);
             mediator = mr.Create<IMediator>();
             httpContextAccessor = mr.Create<IHttpContextAccessor>();
-            sut = new SelfRequirementHandler(httpContextAccessor.Object, mediator.Object);
+            sut = new ClubAdminOrSelfRequirementClubAdminHandler(httpContextAccessor.Object, mediator.Object);
         }
 
         [Fact]
         public async Task ShouldPassIfEmailMatches()
         {
             var ac = AuthorizationHandlerContextFixture.GetAuthContext(
-                new[] { new SelfRequirement() },
+                new[] { new ClubAdminOrSelfRequirement() },
                  "a@a.com");
             var entrantId = 99ul;
             var eventId = 1ul;
+            var clubId = 88ul;
             var ctx = HttpContextFixture.GetHttpContext(new[] { ("eventId", eventId.ToString()), ("entrantId", entrantId.ToString()) });
             httpContextAccessor.SetupGet(a => a.HttpContext).Returns(ctx);
-            mediator.Setup(a => a.Send(Its.EquivalentTo(new GetEntrant(eventId, entrantId)), CancellationToken.None)).ReturnsAsync(
-                new Entrant(entrantId, 1, "Joe", "Bloggs", "a@a.com", "A", eventId, "BRMC", 12345678, Domain.Enums.Age.Senior));
+            mediator.Setup(a => a.Send(Its.EquivalentTo(new GetEvent(eventId)), CancellationToken.None)).ReturnsAsync(
+                new Event(eventId, clubId, "Kestel Farm", new System.DateTime(), 99, 3, "", Domain.Enums.EventType.AutoTest, "", Domain.Enums.TimingSystem.StopWatch));
+            var club = new Club(clubId, "BRMC", "pay@brmc.org", "www.com");
+            club.AdminEmails.Add(new("a@a.com"));
+            mediator.Setup(a => a.Send(Its.EquivalentTo(new GetClub(clubId)), CancellationToken.None)).ReturnsAsync(
+                club);
 
             await sut.HandleAsync(ac);
 
@@ -53,15 +58,19 @@ namespace AutoTest.Unit.Test.Authorisation
         public async Task ShouldFailIfEmailsDontMatch()
         {
             var ac = AuthorizationHandlerContextFixture.GetAuthContext(
-                new[] { new SelfRequirement() },
+                new[] { new ClubAdminOrSelfRequirement() },
                 "notA@a.com");
             var entrantId = 99ul;
             var eventId = 1ul;
+            var clubId = 88ul;
             var ctx = HttpContextFixture.GetHttpContext(new[] { ("eventId", eventId.ToString()), ("entrantId", entrantId.ToString()) });
             httpContextAccessor.SetupGet(a => a.HttpContext).Returns(ctx);
-            mediator.Setup(a => a.Send(Its.EquivalentTo(new GetEntrant(eventId, entrantId)), CancellationToken.None)).ReturnsAsync(
-                new Entrant(entrantId, 1, "Joe", "Bloggs", "a@a.com", "A", eventId, "BRMC", 12345678, Domain.Enums.Age.Senior));
-
+            mediator.Setup(a => a.Send(Its.EquivalentTo(new GetEvent(eventId)), CancellationToken.None)).ReturnsAsync(
+                new Event(eventId, clubId, "Kestel Farm", new System.DateTime(), 99, 3, "", Domain.Enums.EventType.AutoTest, "", Domain.Enums.TimingSystem.StopWatch));
+            var club = new Club(clubId, "BRMC", "pay@brmc.org", "www.com");
+            club.AdminEmails.Add(new("a@a.com"));
+            mediator.Setup(a => a.Send(Its.EquivalentTo(new GetClub(clubId)), CancellationToken.None)).ReturnsAsync(
+                club);
             await sut.HandleAsync(ac);
 
             ac.HasSucceeded.Should().BeFalse();

@@ -15,26 +15,26 @@ using Xunit;
 
 namespace AutoTest.Unit.Test.Authorisation
 {
-    public class SelfRequirementHandlerShould
+    public class ClubAdminOrSelfRequirementSelfHanderShould
     {
-        private readonly AuthorizationHandler<SelfRequirement> sut;
+        private readonly AuthorizationHandler<ClubAdminOrSelfRequirement> sut;
         private readonly MockRepository mr;
         private readonly Mock<IMediator> mediator;
         private readonly Mock<IHttpContextAccessor> httpContextAccessor;
 
-        public SelfRequirementHandlerShould()
+        public ClubAdminOrSelfRequirementSelfHanderShould()
         {
             mr = new MockRepository(MockBehavior.Strict);
             mediator = mr.Create<IMediator>();
             httpContextAccessor = mr.Create<IHttpContextAccessor>();
-            sut = new SelfRequirementHandler(httpContextAccessor.Object, mediator.Object);
+            sut = new ClubAdminOrSelfRequirementSelfHander(httpContextAccessor.Object, mediator.Object);
         }
 
         [Fact]
         public async Task ShouldPassIfEmailMatches()
         {
             var ac = AuthorizationHandlerContextFixture.GetAuthContext(
-                new[] { new SelfRequirement() },
+                new[] { new ClubAdminOrSelfRequirement() },
                  "a@a.com");
             var entrantId = 99ul;
             var eventId = 1ul;
@@ -53,7 +53,7 @@ namespace AutoTest.Unit.Test.Authorisation
         public async Task ShouldFailIfEmailsDontMatch()
         {
             var ac = AuthorizationHandlerContextFixture.GetAuthContext(
-                new[] { new SelfRequirement() },
+                new[] { new ClubAdminOrSelfRequirement() },
                 "notA@a.com");
             var entrantId = 99ul;
             var eventId = 1ul;
