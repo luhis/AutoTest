@@ -41,7 +41,7 @@ namespace AutoTest.Unit.Test.Authorisation
             mediator.Setup(a => a.Send(Its.EquivalentTo(new GetEvent(eventId)), CancellationToken.None)).ReturnsAsync(
                 new Event(eventId, 1, "Kestel Farm", new System.DateTime(), 99, 3, "", Domain.Enums.EventType.AutoTest, "", Domain.Enums.TimingSystem.StopWatch));
             mediator.Setup(a => a.Send(Its.EquivalentTo(new GetMarshals(eventId)), CancellationToken.None))
-                .Returns(Task.FromResult<IEnumerable<Marshal>>(new[] { new Marshal(1, "Joe", "Marshall", "marshal@email.com", eventId, 123456, "") }));
+                .ReturnsAsync(new[] { new Marshal(1, "Joe", "Marshall", "marshal@email.com", eventId, 123456, "") });
 
 
             await sut.HandleAsync(ac);
@@ -60,7 +60,7 @@ namespace AutoTest.Unit.Test.Authorisation
             mediator.Setup(a => a.Send(Its.EquivalentTo(new GetEvent(eventId)), CancellationToken.None)).ReturnsAsync(
                 new Event(eventId, 1, "Kestel Farm", new System.DateTime(), 99, 3, "", Domain.Enums.EventType.AutoTest, "", Domain.Enums.TimingSystem.StopWatch));
             mediator.Setup(a => a.Send(Its.EquivalentTo(new GetMarshals(eventId)), CancellationToken.None))
-                .Returns(Task.FromResult<IEnumerable<Marshal>>(new[] { new Marshal(1, "Joe", "Marshall", "marshal@email.com", eventId, 123456, "") }));
+                .ReturnsAsync(new[] { new Marshal(1, "Joe", "Marshall", "marshal@email.com", eventId, 123456, "") });
 
 
             await sut.HandleAsync(ac);

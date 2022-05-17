@@ -61,7 +61,7 @@ namespace AutoTest.Unit.Test.Handlers
             ce.SetupSet(a => a.AbsoluteExpirationRelativeToNow = TimeSpan.FromSeconds(30));
             ce.SetupSet(a => a.Value = Enumerable.Empty<(ulong ClubId, IEnumerable<AuthorisationEmail> AdminEmails)>());
             memoryCache.Setup(a => a.CreateEntry(nameof(GetAdminClubsHandler))).Returns(ce.Object);
-            clubsRepository.Setup(a => a.GetAll(CancellationToken.None)).Returns(Task.FromResult(Enumerable.Empty<Club>()));
+            clubsRepository.Setup(a => a.GetAll(CancellationToken.None)).ReturnsAsync(Enumerable.Empty<Club>());
             var email = "a@a.com";
             var res = await sut.Handle(new(email), CancellationToken.None);
 

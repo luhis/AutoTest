@@ -64,8 +64,8 @@ namespace AutoTest.Unit.Test.Authorisation
             var rd = new RouteData(new RouteValueDictionary());
             rd.Values.Add("eventId", eventId.ToString());
             rd.Values.Add("entrantId", entrantId.ToString());
-            mediator.Setup(a => a.Send(Its.EquivalentTo(new GetEntrant(eventId, entrantId)), CancellationToken.None)).Returns(
-                Task.FromResult<Entrant?>(new Entrant(entrantId, 22, "Joe", "Bloggs", "a@a.com", "A", 99, "BRMC", 123456, Domain.Enums.Age.Senior)));
+            mediator.Setup(a => a.Send(Its.EquivalentTo(new GetEntrant(eventId, entrantId)), CancellationToken.None)).ReturnsAsync(
+                new Entrant(entrantId, 22, "Joe", "Bloggs", "a@a.com", "A", 99, "BRMC", 123456, Domain.Enums.Age.Senior));
 
             var email = await AuthTools.GetEmail(rd, mediator.Object);
 
@@ -81,8 +81,8 @@ namespace AutoTest.Unit.Test.Authorisation
             var rd = new RouteData(new RouteValueDictionary());
             rd.Values.Add("eventId", eventId.ToString());
             rd.Values.Add("marshalId", marshalId.ToString());
-            mediator.Setup(a => a.Send(Its.EquivalentTo(new GetMarshal(eventId, marshalId)), CancellationToken.None)).Returns(
-                Task.FromResult(new Marshal(marshalId, "Joe", "Bloggs", "a@a.com", eventId, 9876543, "role")));
+            mediator.Setup(a => a.Send(Its.EquivalentTo(new GetMarshal(eventId, marshalId)), CancellationToken.None)).ReturnsAsync(
+                new Marshal(marshalId, "Joe", "Bloggs", "a@a.com", eventId, 9876543, "role"));
 
             var email = await AuthTools.GetEmail(rd, mediator.Object);
 

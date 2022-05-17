@@ -33,9 +33,9 @@ namespace AutoTest.Unit.Test.Handlers
         {
             var eventId = 1ul;
             var clubId = 2ul;
-            eventsRepository.Setup(a => a.GetById(eventId, CancellationToken.None)).Returns(Task.FromResult(
+            eventsRepository.Setup(a => a.GetById(eventId, CancellationToken.None)).ReturnsAsync(
                 new Event(eventId, clubId, "location", new System.DateTime(2000, 1, 1), 2, 3, "regs", Domain.Enums.EventType.AutoSolo, "maps", Domain.Enums.TimingSystem.App)
-                ));
+                );
             context.Clubs!.Add(new(clubId, "club", "pay@paypal.com", "www.club.com"));
             await context.SaveChangesAsync();
 
