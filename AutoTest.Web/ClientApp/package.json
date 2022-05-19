@@ -57,7 +57,7 @@
   "devDependencies": {
     "@teamsupercell/typings-for-css-modules-loader": "2.5.1",
     "@types/jest": "27.5.1",
-    "@types/webpack-env": "1.16.4",
+    "@types/webpack-env": "1.17.0",
     "css-loader": "6.7.1",
     "enzyme": "3.11.0",
     "enzyme-adapter-preact-pure": "4.0.1",
