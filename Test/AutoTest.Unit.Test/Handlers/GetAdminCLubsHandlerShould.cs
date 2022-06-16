@@ -16,14 +16,14 @@ using Xunit;
 namespace AutoTest.Unit.Test.Handlers
 {
     public delegate void CallbackDelegate(object p1, out object p2);
-    public class GetAdminCLubsHandlerShould
+    public class GetAdminClubsHandlerShould
     {
         private readonly IRequestHandler<GetAdminClubs, IEnumerable<ulong>> sut;
         private readonly MockRepository mr;
         private readonly Mock<IClubsRepository> clubsRepository;
         private readonly Mock<IMemoryCache> memoryCache;
 
-        public GetAdminCLubsHandlerShould()
+        public GetAdminClubsHandlerShould()
         {
             mr = new MockRepository(MockBehavior.Strict);
             clubsRepository = mr.Create<IClubsRepository>();

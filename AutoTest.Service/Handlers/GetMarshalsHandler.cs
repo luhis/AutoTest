@@ -20,7 +20,7 @@ namespace AutoTest.Service.Handlers
 
         Task<IEnumerable<Marshal>> IRequestHandler<GetMarshals, IEnumerable<Marshal>>.Handle(GetMarshals request, CancellationToken cancellationToken)
         {
-            return this.autoTestContext.Marshals!.Where(a => a.EventId == request.EventId).OrderByDescending(a => a.FamilyName).ToEnumerableAsync(cancellationToken);
+            return this.autoTestContext.Marshals!.Where(a => a.EventId == request.EventId).OrderByDescending(a => a.FamilyName).ThenByDescending(a => a.GivenName).ToEnumerableAsync(cancellationToken);
         }
     }
 }
