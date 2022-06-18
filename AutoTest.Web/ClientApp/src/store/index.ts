@@ -5,6 +5,7 @@ import {
     Store,
     AnyAction,
 } from "redux";
+import { configureStore } from "@reduxjs/toolkit";
 import thunk, { ThunkDispatch } from "redux-thunk";
 import { composeWithDevTools } from "redux-devtools-extension";
 import storage from "redux-persist/lib/storage";
@@ -48,10 +49,10 @@ const persistedReducer = persistReducer(persistConfig, rootReducer);
 export type AppState = ReturnType<typeof persistedReducer>;
 
 export default () => {
-    const appStore: Store<AppState, AnyAction> = createStore(
-        persistedReducer,
-        composeWithDevTools(applyMiddleware(thunk))
-    );
+    const appStore: Store<AppState, AnyAction> = configureStore({
+        reducer: rootReducer,
+        middleware: persistReducer,
+    });
     const persistor = persistStore(appStore);
     return { appStore, persistor };
 };
