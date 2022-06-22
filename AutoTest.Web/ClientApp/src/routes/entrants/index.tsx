@@ -147,7 +147,7 @@ const Entrants: FunctionalComponent<Readonly<Props>> = ({ eventId }) => {
         void thunkDispatch(GetEventsIfRequired());
     }, [thunkDispatch]);
     useEffect(() => {
-        thunkDispatch(GetClubsIfRequired(getAccessToken(auth)));
+        void thunkDispatch(GetClubsIfRequired(getAccessToken(auth)));
         void thunkDispatch(GetEntrantsIfRequired(eventId));
     }, [eventId, thunkDispatch, auth]);
     const clearEditingEntrant = () => setEditingEntrant(undefined);

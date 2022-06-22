@@ -15,6 +15,7 @@ const Header: FunctionalComponent = () => {
     const auth = useGoogleAuth();
     const thunkDispatch = useThunkDispatch();
     const dispatch = useDispatch();
+    const thunkDispatch = useThunkDispatch();
     useEffect(() => {
         void thunkDispatch(GetAccess(getAccessToken(auth)));
     }, [thunkDispatch, auth]);

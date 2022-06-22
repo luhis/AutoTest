@@ -53,7 +53,7 @@ const Results: FunctionalComponent<Props> = ({
     );
     const [runs, setRun] = useState<readonly TestRunFromServer[]>([]);
     useEffect(() => {
-        thunkDispatch(GetClubsIfRequired(getAccessToken(auth)));
+        void thunkDispatch(GetClubsIfRequired(getAccessToken(auth)));
         void thunkDispatch(GetEventsIfRequired());
     }, [thunkDispatch, auth]);
     const [testFilterState, setTestFilterState] =

@@ -106,7 +106,8 @@ const Results: FunctionalComponent<
         void fetchData();
     }, [auth, eventId]);
     useEffect(() => {
-        thunkDispatch(GetClubsIfRequired(getAccessToken(auth)));
+        // todo is this okay?
+        void thunkDispatch(GetClubsIfRequired(getAccessToken(auth)));
         void thunkDispatch(GetEventsIfRequired());
     }, [thunkDispatch, auth]);
     useEffect(() => {

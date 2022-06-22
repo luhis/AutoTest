@@ -92,7 +92,7 @@ const Marshals: FunctionalComponent<Readonly<Props>> = ({ eventId }) => {
         void thunkDispatch(GetEventsIfRequired());
     }, [thunkDispatch]);
     useEffect(() => {
-        thunkDispatch(GetClubsIfRequired(getAccessToken(auth)));
+        void thunkDispatch(GetClubsIfRequired(getAccessToken(auth)));
         void thunkDispatch(GetMarshalsIfRequired(eventId));
     }, [eventId, thunkDispatch, auth]);
     const clearEditingMarshal = () => setEditingMarshal(undefined);

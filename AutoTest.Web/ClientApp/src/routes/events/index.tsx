@@ -40,7 +40,7 @@ const Events: FunctionalComponent<Props> = ({ clubId }) => {
     );
     useEffect(() => {
         void thunkDispatch(GetEventsIfRequired());
-        thunkDispatch(GetClubsIfRequired(getAccessToken(auth)));
+        void thunkDispatch(GetClubsIfRequired(getAccessToken(auth)));
     }, [auth, thunkDispatch]);
     const dispatchThunk = useThunkDispatch();
     const save = useCallback(async () => {

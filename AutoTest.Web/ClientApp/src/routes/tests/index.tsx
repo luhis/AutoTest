@@ -25,8 +25,8 @@ interface Props {
 }
 
 const Tests: FunctionalComponent<Readonly<Props>> = ({ eventId }) => {
-    const thunkDispatch = useThunkDispatch();
     const auth = useGoogleAuth();
+    const thunkDispatch = useThunkDispatch();
     const currentEvent = findIfLoaded(
         useSelector(selectEvents),
         (a) => a.eventId === eventId
