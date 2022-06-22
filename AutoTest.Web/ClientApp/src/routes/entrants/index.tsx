@@ -2,7 +2,7 @@ import { FunctionalComponent, h } from "preact";
 import { useCallback, useEffect, useState } from "preact/hooks";
 import { Heading, Button } from "react-bulma-components";
 import UUID from "uuid-int";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 
 import {
     EditingEntrant,
@@ -83,7 +83,6 @@ const Entrants: FunctionalComponent<Readonly<Props>> = ({ eventId }) => {
         EditingEntrant | undefined
     >(undefined);
     const auth = useGoogleAuth();
-    const dispatch = useDispatch();
     const thunkDispatch = useThunkDispatch();
 
     const save = useCallback(async () => {
@@ -138,23 +137,23 @@ const Entrants: FunctionalComponent<Readonly<Props>> = ({ eventId }) => {
         },
         [profile]
     );
-    const setPaid = (entrant: PublicEntrant, payment: Payment | null) => {
-        dispatch(SetPaid(entrant, payment, getAccessToken(auth)));
-    };
-    const deleteEntrant = (entrant: PublicEntrant) => {
-        dispatch(DeleteEntrant(entrant, getAccessToken(auth)));
-    };
+    const setPaid = (entrant: PublicEntrant, payment: Payment | null) =>
+        thunkDispatch(SetPaid(entrant, payment, getAccessToken(auth)));
+
+    const deleteEntrant = (entrant: PublicEntrant) =>
+        thunkDispatch(DeleteEntrant(entrant, getAccessToken(auth)));
+
     useEffect(() => {
-        dispatch(GetEventsIfRequired());
-    }, [dispatch]);
+        void thunkDispatch(GetEventsIfRequired());
+    }, [thunkDispatch]);
     useEffect(() => {
-        dispatch(GetClubsIfRequired(getAccessToken(auth)));
-        dispatch(GetEntrantsIfRequired(eventId));
-    }, [eventId, dispatch, auth]);
+        thunkDispatch(GetClubsIfRequired(getAccessToken(auth)));
+        void thunkDispatch(GetEntrantsIfRequired(eventId));
+    }, [eventId, thunkDispatch, auth]);
     const clearEditingEntrant = () => setEditingEntrant(undefined);
 
-    const newEntrant = useCallback(() => {
-        dispatch(GetProfileIfRequired(getAccessToken(auth)));
+    const newEntrant = useCallback(async () => {
+        await thunkDispatch(GetProfileIfRequired(getAccessToken(auth)));
         setEditingEntrant({
             entrantId: uid.uuid(),
             eventId: eventId,
@@ -181,7 +180,7 @@ const Entrants: FunctionalComponent<Readonly<Props>> = ({ eventId }) => {
             clubNumber: Number.NaN,
             payment: null,
         });
-    }, [auth, dispatch, eventId]);
+    }, [auth, thunkDispatch, eventId]);
     const setCurrentEditingEntrant = useCallback(
         async (entrant: PublicEntrant) => {
             const e = await getEntrant(

@@ -1,6 +1,6 @@
 import { FunctionalComponent, h } from "preact";
 import { useCallback, useEffect, useState } from "preact/hooks";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 
 import { getAccessToken } from "../../api/api";
 import { GetProfileIfRequired, SaveProfile } from "../../store/profile/actions";
@@ -40,11 +40,11 @@ const ProfileEditor: FunctionalComponent<Readonly<Props>> = ({ profile }) => {
 
 const ProfileRoute: FunctionalComponent = () => {
     const auth = useGoogleAuth();
-    const dispatch = useDispatch();
+    const thunkDispatch = useThunkDispatch();
     const profile = useSelector(selectProfile);
     useEffect(() => {
-        dispatch(GetProfileIfRequired(getAccessToken(auth)));
-    }, [dispatch, auth]);
+        void thunkDispatch(GetProfileIfRequired(getAccessToken(auth)));
+    }, [thunkDispatch, auth]);
 
     return profile.tag === "Loaded" ? (
         <ProfileEditor profile={profile.value} />

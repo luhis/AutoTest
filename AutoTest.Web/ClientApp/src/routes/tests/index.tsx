@@ -2,7 +2,7 @@ import { FunctionalComponent, h } from "preact";
 import { useEffect } from "preact/hooks";
 import { route } from "preact-router";
 import { Heading, Columns, Button, Loader } from "react-bulma-components";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 const { Column } = Columns;
 
 import { useGoogleAuth } from "../../components/app";
@@ -18,13 +18,14 @@ import { Override } from "../../types/models";
 import Breadcrumbs from "../../components/shared/Breadcrumbs";
 import { selectClubs } from "../../store/clubs/selectors";
 import { GetClubsIfRequired } from "../../store/clubs/actions";
+import { useThunkDispatch } from "../../store";
 
 interface Props {
     readonly eventId: number;
 }
 
 const Tests: FunctionalComponent<Readonly<Props>> = ({ eventId }) => {
-    const dispatch = useDispatch();
+    const thunkDispatch = useThunkDispatch();
     const auth = useGoogleAuth();
     const currentEvent = findIfLoaded(
         useSelector(selectEvents),
@@ -35,12 +36,12 @@ const Tests: FunctionalComponent<Readonly<Props>> = ({ eventId }) => {
         (a) => a.clubId === currentEvent?.clubId
     );
     useEffect(() => {
-        dispatch(GetEntrantsIfRequired(eventId));
-    }, [eventId, dispatch, auth]);
+        void thunkDispatch(GetEntrantsIfRequired(eventId));
+    }, [eventId, thunkDispatch, auth]);
     useEffect(() => {
-        dispatch(GetClubsIfRequired(getAccessToken(auth)));
-        dispatch(GetEventsIfRequired());
-    }, [dispatch, auth]);
+        thunkDispatch(GetClubsIfRequired(getAccessToken(auth)));
+        void thunkDispatch(GetEventsIfRequired());
+    }, [thunkDispatch, auth]);
     return (
         <div>
             <Breadcrumbs club={currentClub} event={currentEvent} />

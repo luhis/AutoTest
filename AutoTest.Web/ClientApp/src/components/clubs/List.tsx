@@ -11,7 +11,7 @@ import DeleteButton from "../shared/DeleteButton";
 interface Props {
     readonly clubs: LoadingState<readonly Club[]>;
     readonly setEditingClub: (club: Club) => void;
-    readonly deleteClub: (club: Club) => void;
+    readonly deleteClub: (club: Club) => Promise<void>;
     readonly isClubAdmin: (club: Club) => boolean;
 }
 
