@@ -2,7 +2,7 @@ import { FunctionalComponent, h } from "preact";
 import { useCallback, useEffect, useState } from "preact/hooks";
 import { Heading, Button } from "react-bulma-components";
 import UUID from "uuid-int";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 
 import {
     EditingEntrant,
@@ -83,7 +83,6 @@ const Entrants: FunctionalComponent<Readonly<Props>> = ({ eventId }) => {
         EditingEntrant | undefined
     >(undefined);
     const auth = useGoogleAuth();
-    const dispatch = useDispatch();
     const thunkDispatch = useThunkDispatch();
 
     const save = useCallback(async () => {
