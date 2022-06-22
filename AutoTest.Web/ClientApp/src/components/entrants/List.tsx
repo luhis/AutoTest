@@ -36,7 +36,7 @@ const Pay: FunctionalComponent<{
     readonly markPaid: (
         entrant: PublicEntrant,
         payment: Payment | null
-    ) => void;
+    ) => Promise<void>;
 }> = ({ entrant, markPaid }) => {
     const [date, setDate] = useState(getDateString(new Date()));
     const [paymentMethod, setPaymentMethod] = useState<PaymentMethod>(

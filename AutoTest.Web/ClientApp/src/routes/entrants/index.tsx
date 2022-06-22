@@ -181,7 +181,7 @@ const Entrants: FunctionalComponent<Readonly<Props>> = ({ eventId }) => {
             clubNumber: Number.NaN,
             payment: null,
         });
-    }, [auth, dispatch, eventId]);
+    }, [auth, thunkDispatch, eventId]);
     const setCurrentEditingEntrant = useCallback(
         async (entrant: PublicEntrant) => {
             const e = await getEntrant(
