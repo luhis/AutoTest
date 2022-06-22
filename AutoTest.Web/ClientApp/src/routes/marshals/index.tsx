@@ -2,7 +2,7 @@ import { FunctionalComponent, h } from "preact";
 import { useCallback, useEffect, useState } from "preact/hooks";
 import { Heading, Button } from "react-bulma-components";
 import UUID from "uuid-int";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 
 import { Override, EditingMarshal, PublicMarshal } from "../../types/models";
 import { useGoogleAuth } from "../../components/app";
@@ -52,7 +52,6 @@ const Marshals: FunctionalComponent<Readonly<Props>> = ({ eventId }) => {
         EditingMarshal | undefined
     >(undefined);
     const auth = useGoogleAuth();
-    const dispatch = useDispatch();
     const thunkDispatch = useThunkDispatch();
     const save = useCallback(async () => {
         if (editingMarshal) {
@@ -86,20 +85,20 @@ const Marshals: FunctionalComponent<Readonly<Props>> = ({ eventId }) => {
         }
     }, [profile]);
 
-    const deleteMarshal = (marshal: PublicMarshal) => {
-        dispatch(DeleteMarshal(marshal, getAccessToken(auth)));
-    };
+    const deleteMarshal = (marshal: PublicMarshal) =>
+        thunkDispatch(DeleteMarshal(marshal, getAccessToken(auth)));
+
     useEffect(() => {
-        dispatch(GetEventsIfRequired());
-    }, [dispatch]);
+        void thunkDispatch(GetEventsIfRequired());
+    }, [thunkDispatch]);
     useEffect(() => {
-        dispatch(GetClubsIfRequired(getAccessToken(auth)));
-        dispatch(GetMarshalsIfRequired(eventId));
-    }, [eventId, dispatch, auth]);
+        thunkDispatch(GetClubsIfRequired(getAccessToken(auth)));
+        void thunkDispatch(GetMarshalsIfRequired(eventId));
+    }, [eventId, thunkDispatch, auth]);
     const clearEditingMarshal = () => setEditingMarshal(undefined);
 
-    const newMarshal = useCallback(() => {
-        dispatch(GetProfileIfRequired(getAccessToken(auth)));
+    const newMarshal = useCallback(async () => {
+        await thunkDispatch(GetProfileIfRequired(getAccessToken(auth)));
         setEditingMarshal({
             marshalId: uid.uuid(),
             eventId: eventId,
@@ -114,7 +113,7 @@ const Marshals: FunctionalComponent<Readonly<Props>> = ({ eventId }) => {
             role: "",
             registrationNumber: Number.NaN,
         });
-    }, [auth, dispatch, eventId]);
+    }, [auth, thunkDispatch, eventId]);
     const setCurrentEditingMarshal = useCallback(
         async (marshal: PublicMarshal) => {
             const m = await getMarshal(

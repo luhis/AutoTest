@@ -8,14 +8,16 @@ import { ClearCache } from "../../store/event/actions";
 import { GetAccess, ResetAccess } from "../../store/profile/actions";
 import { useGoogleAuth } from "../app";
 import { getAccessToken } from "../../api/api";
+import { useThunkDispatch } from "../../store";
 
 const Header: FunctionalComponent = () => {
     const access = useSelector(selectAccess);
     const auth = useGoogleAuth();
+    const thunkDispatch = useThunkDispatch();
     const dispatch = useDispatch();
     useEffect(() => {
-        dispatch(GetAccess(getAccessToken(auth)));
-    }, [dispatch, auth]);
+        void thunkDispatch(GetAccess(getAccessToken(auth)));
+    }, [thunkDispatch, auth]);
     const clearCache = () => {
         dispatch(ClearCache());
     };

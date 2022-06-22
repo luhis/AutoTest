@@ -3,7 +3,7 @@ import { useCallback, useEffect, useState } from "preact/hooks";
 import { Heading, Button } from "react-bulma-components";
 import UUID from "uuid-int";
 import { newValidDate } from "ts-date";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 
 import { Event, EditingEvent, Override } from "../../types/models";
 import Modal from "../../components/events/Modal";
@@ -29,7 +29,7 @@ interface Props {
 const uid = UUID(keySeed);
 
 const Events: FunctionalComponent<Props> = ({ clubId }) => {
-    const dispatch = useDispatch();
+    const thunkDispatch = useThunkDispatch();
     const auth = useGoogleAuth();
     const events = useSelector(selectEvents);
     const clubs = useSelector(selectClubs);
@@ -39,9 +39,9 @@ const Events: FunctionalComponent<Props> = ({ clubId }) => {
         undefined
     );
     useEffect(() => {
-        dispatch(GetEventsIfRequired());
-        dispatch(GetClubsIfRequired(getAccessToken(auth)));
-    }, [auth, dispatch]);
+        void thunkDispatch(GetEventsIfRequired());
+        thunkDispatch(GetClubsIfRequired(getAccessToken(auth)));
+    }, [auth, thunkDispatch]);
     const dispatchThunk = useThunkDispatch();
     const save = useCallback(async () => {
         if (editingEvent && editingEvent.clubId) {

@@ -1,7 +1,7 @@
 import { FunctionalComponent, FunctionComponent, h } from "preact";
 import { useEffect, useMemo, useState } from "preact/hooks";
 import { Heading } from "react-bulma-components";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import {
     HubConnectionBuilder,
     LogLevel,
@@ -22,6 +22,7 @@ import { GetClubsIfRequired } from "../../store/clubs/actions";
 import FilterDropdown from "../../components/shared/FilterDropdown";
 import Penalties from "../../components/shared/Penalties";
 import RouteParamsParser from "../../components/shared/RouteParamsParser";
+import { useThunkDispatch } from "../../store";
 
 interface Props {
     readonly eventId: number;
@@ -39,7 +40,7 @@ const Results: FunctionalComponent<Props> = ({
     testFilter,
     connection,
 }) => {
-    const dispatch = useDispatch();
+    const thunkDispatch = useThunkDispatch();
     const auth = useGoogleAuth();
     const currentEvent = findIfLoaded(
         useSelector(selectEvents),
@@ -52,9 +53,9 @@ const Results: FunctionalComponent<Props> = ({
     );
     const [runs, setRun] = useState<readonly TestRunFromServer[]>([]);
     useEffect(() => {
-        dispatch(GetClubsIfRequired(getAccessToken(auth)));
-        dispatch(GetEventsIfRequired());
-    }, [dispatch, auth]);
+        thunkDispatch(GetClubsIfRequired(getAccessToken(auth)));
+        void thunkDispatch(GetEventsIfRequired());
+    }, [thunkDispatch, auth]);
     const [testFilterState, setTestFilterState] =
         useState<readonly number[]>(testFilter);
     useEffect(() => {

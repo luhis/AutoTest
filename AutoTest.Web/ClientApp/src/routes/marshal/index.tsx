@@ -2,7 +2,7 @@ import { FunctionalComponent, h } from "preact";
 import { useCallback, useEffect, useState } from "preact/hooks";
 import { Heading, Form, Button } from "react-bulma-components";
 import UUID from "uuid-int";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import { newValidDate } from "ts-date";
 const { Select, Label, Field, Input } = Form;
 import { identity } from "@s-libs/micro-dash";
@@ -62,7 +62,7 @@ const Marshal: FunctionalComponent<Readonly<Props>> = ({
     eventId,
     ordinal,
 }) => {
-    const dispatch = useDispatch();
+    const thunkDispatch = useThunkDispatch();
     const entrants = useSelector(selectEntrants);
     const testRuns = useSelector(selectTestRuns);
     const testRunsFromServer = useSelector(selectTestRunsFromServer);
@@ -83,15 +83,15 @@ const Marshal: FunctionalComponent<Readonly<Props>> = ({
     const auth = useGoogleAuth();
     useEffect(() => {
         const token = getAccessToken(auth);
-        dispatch(GetEntrantsIfRequired(eventId));
-        dispatch(GetTestRunsIfRequired(eventId, ordinal, token));
-    }, [auth, dispatch, eventId, ordinal]);
+        void thunkDispatch(GetEntrantsIfRequired(eventId));
+        void thunkDispatch(GetTestRunsIfRequired(eventId, ordinal, token));
+    }, [auth, thunkDispatch, eventId, ordinal]);
     useEffect(() => {
-        dispatch(GetEventsIfRequired());
-    }, [dispatch]);
+        void thunkDispatch(GetEventsIfRequired());
+    }, [thunkDispatch]);
     useEffect(() => {
-        dispatch(GetClubsIfRequired(getAccessToken(auth)));
-    }, [auth, dispatch]);
+        thunkDispatch(GetClubsIfRequired(getAccessToken(auth)));
+    }, [auth, thunkDispatch]);
 
     //todo can i improve this?
     const increase = (penaltyType: PenaltyType) => {
@@ -138,10 +138,10 @@ const Marshal: FunctionalComponent<Readonly<Props>> = ({
         });
     };
     const sync = useCallback(
-        () => dispatch(SyncTestRuns(eventId, ordinal, getAccessToken(auth))),
-        [auth, dispatch, eventId, ordinal]
+        () =>
+            thunkDispatch(SyncTestRuns(eventId, ordinal, getAccessToken(auth))),
+        [auth, thunkDispatch, eventId, ordinal]
     );
-    const thunkDispatch = useThunkDispatch();
     const add = useCallback(async () => {
         if (
             editing.ordinal !== undefined &&

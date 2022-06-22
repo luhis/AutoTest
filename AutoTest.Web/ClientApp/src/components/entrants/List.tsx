@@ -21,8 +21,8 @@ interface Props {
     readonly markPaid: (
         entrant: PublicEntrant,
         payment: Payment | null
-    ) => void;
-    readonly deleteEntrant: (entrant: PublicEntrant) => void;
+    ) => Promise<void>;
+    readonly deleteEntrant: (entrant: PublicEntrant) => Promise<void>;
     readonly isClubAdmin: boolean;
     readonly canEditEntrant: (entrantId: number) => boolean;
 }

@@ -2,7 +2,7 @@ import { FunctionalComponent, h } from "preact";
 import { useCallback, useEffect, useState } from "preact/hooks";
 import { Button, Heading } from "react-bulma-components";
 import UUID from "uuid-int";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 
 import { useGoogleAuth } from "../../components/app";
 import { getAccessToken } from "../../api/api";
@@ -23,15 +23,14 @@ const uid = UUID(keySeed);
 
 const ClubComponent: FunctionalComponent = () => {
     const auth = useGoogleAuth();
-    const dispatch = useDispatch();
     const thunkDispatch = useThunkDispatch();
     const clubs = useSelector(selectClubs);
     const [editingClub, setEditingClub] = useState<EditingClub | undefined>(
         undefined
     );
     useEffect(() => {
-        dispatch(GetClubsIfRequired(getAccessToken(auth)));
-    }, [auth, dispatch]);
+        thunkDispatch(GetClubsIfRequired(getAccessToken(auth)));
+    }, [auth, thunkDispatch]);
 
     const save = useCallback(async () => {
         if (editingClub) {
@@ -44,10 +43,9 @@ const ClubComponent: FunctionalComponent = () => {
     }, [auth, thunkDispatch, editingClub]);
 
     const deleteClub = useCallback(
-        (club: Club) => {
-            dispatch(DeleteClub(club.clubId, getAccessToken(auth)));
-        },
-        [auth, dispatch]
+        (club: Club) =>
+            thunkDispatch(DeleteClub(club.clubId, getAccessToken(auth))),
+        [auth, thunkDispatch]
     );
     const newClub = useCallback(
         () =>

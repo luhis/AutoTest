@@ -42,6 +42,7 @@ import { selectClubs } from "../../store/clubs/selectors";
 import { GetClubsIfRequired } from "../../store/clubs/actions";
 import FilterDropdown from "../../components/shared/FilterDropdown";
 import { selectAccess } from "../../store/profile/selectors";
+import { useThunkDispatch } from "../../store";
 
 interface Props {
     readonly eventId: number;
@@ -76,6 +77,7 @@ const Results: FunctionalComponent<
     Props & { readonly connection: HubConnection | undefined }
 > = ({ eventId, classFilter, connection }) => {
     const dispatch = useDispatch();
+    const thunkDispatch = useThunkDispatch();
     const auth = useGoogleAuth();
     const currentEvent = findIfLoaded(
         useSelector(selectEvents),
@@ -104,12 +106,12 @@ const Results: FunctionalComponent<
         void fetchData();
     }, [auth, eventId]);
     useEffect(() => {
-        dispatch(GetClubsIfRequired(getAccessToken(auth)));
-        dispatch(GetEventsIfRequired());
-    }, [dispatch, auth]);
+        thunkDispatch(GetClubsIfRequired(getAccessToken(auth)));
+        void thunkDispatch(GetEventsIfRequired());
+    }, [thunkDispatch, auth]);
     useEffect(() => {
-        dispatch(GetNotifications(eventId));
-    }, [eventId, dispatch]);
+        void thunkDispatch(GetNotifications(eventId));
+    }, [eventId, thunkDispatch]);
 
     const access = useSelector(selectAccess);
     useEffect(() => {

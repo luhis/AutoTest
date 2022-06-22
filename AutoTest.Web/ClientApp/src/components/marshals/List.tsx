@@ -10,7 +10,7 @@ import DeleteButton from "../shared/DeleteButton";
 interface Props {
     readonly marshals: LoadingState<readonly PublicMarshal[], number>;
     readonly setEditingMarshal: (marshal: PublicMarshal) => Promise<void>;
-    readonly deleteMarshal: (marshal: PublicMarshal) => void;
+    readonly deleteMarshal: (marshal: PublicMarshal) => Promise<void>;
     readonly canEditMarshal: (marshalId: number) => boolean;
 }
 

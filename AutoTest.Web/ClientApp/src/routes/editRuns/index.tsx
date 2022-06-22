@@ -1,7 +1,7 @@
 import { FunctionalComponent, h } from "preact";
 import { StateUpdater, useCallback, useEffect, useState } from "preact/hooks";
 import { Form, Heading, Table } from "react-bulma-components";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { identity, range } from "@s-libs/micro-dash";
 
 import { Override, TestRunFromServer } from "../../types/models";
@@ -36,7 +36,6 @@ interface Props {
 }
 
 const EditRuns: FunctionalComponent<Props> = ({ eventId }) => {
-    const dispatch = useDispatch();
     const thunkDispatch = useThunkDispatch();
     const auth = useGoogleAuth();
     const currentEvent = findIfLoaded(
@@ -48,17 +47,19 @@ const EditRuns: FunctionalComponent<Props> = ({ eventId }) => {
         (a) => a.clubId === currentEvent?.clubId
     );
     useEffect(() => {
-        dispatch(GetClubsIfRequired(getAccessToken(auth)));
-        dispatch(GetEventsIfRequired());
-    }, [dispatch, auth]);
+        void thunkDispatch(GetClubsIfRequired(getAccessToken(auth)));
+        void thunkDispatch(GetEventsIfRequired());
+    }, [thunkDispatch, auth]);
 
     const [ordinal, setSelectedOrdinal] = useState<number>(0);
     const testRuns = useSelector(selectTestRunsFromServer);
     useEffect(() => {
-        dispatch(GetTestRunsIfRequired(eventId, ordinal, getAccessToken(auth)));
-        dispatch(GetEntrantsIfRequired(eventId));
-        dispatch(GetMarshalsIfRequired(eventId));
-    }, [auth, dispatch, eventId, ordinal]);
+        void thunkDispatch(
+            GetTestRunsIfRequired(eventId, ordinal, getAccessToken(auth))
+        );
+        void thunkDispatch(GetEntrantsIfRequired(eventId));
+        void thunkDispatch(GetMarshalsIfRequired(eventId));
+    }, [auth, thunkDispatch, eventId, ordinal]);
 
     const entrants = useSelector(selectEntrants);
 

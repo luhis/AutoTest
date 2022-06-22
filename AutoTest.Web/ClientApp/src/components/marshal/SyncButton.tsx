@@ -3,7 +3,7 @@ import { Button } from "react-bulma-components";
 
 const SyncButton: FunctionalComponent<{
     readonly unSyncedCount: number;
-    readonly sync: () => void;
+    readonly sync: () => Promise<void>;
 }> = ({ unSyncedCount, sync }) =>
     unSyncedCount > 0 ? (
         <Button type="button" onClick={sync} color="danger">
