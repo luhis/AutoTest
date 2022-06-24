@@ -68,6 +68,7 @@ export const eventReducer = (
                 marshals: { tag: "Idle" },
                 testRunsFromServer: { tag: "Idle" },
                 events: { tag: "Idle" },
+                notifications: { tag: "Idle" },
             };
         case GET_ENTRANTS:
             return {
