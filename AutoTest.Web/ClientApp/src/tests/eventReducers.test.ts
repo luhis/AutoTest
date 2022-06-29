@@ -20,7 +20,7 @@ const populatedState: EventState = {
             penalties: [],
             state: TestRunUploadState.NotSent,
             testRunId: 1,
-            timeInMS: 1000, 
+            timeInMS: 1000,
         },
     ],
     testRunsFromServer: { tag: "Error", value: "Fail" },
