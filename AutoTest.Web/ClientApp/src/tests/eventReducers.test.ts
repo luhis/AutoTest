@@ -1,9 +1,12 @@
 import { newValidDate } from "ts-date";
 
-import { TestRunUploadState } from "../types/models";
+import { PaymentMethod, TestRunUploadState } from "../types/models";
 import { ClearCache } from "../store/event/actions";
 import { eventReducer } from "../store/event/reducers";
-import { EventState, EventActionTypes } from "../store/event/types";
+import { EventState, EventActionTypes, SET_PAID } from "../store/event/types";
+import { Age } from "../types/profileModels";
+import { InductionTypes } from "../types/shared";
+import { mapOrDefault } from "../types/loadingState";
 
 const populatedState: EventState = {
     entrants: { tag: "Error", value: "Fail" },
@@ -17,7 +20,7 @@ const populatedState: EventState = {
             penalties: [],
             state: TestRunUploadState.NotSent,
             testRunId: 1,
-            timeInMS: 1000,
+            timeInMS: 1000, 
         },
     ],
     testRunsFromServer: { tag: "Error", value: "Fail" },
@@ -37,5 +40,50 @@ describe("Event Reducer", () => {
         expect(finalState.events.tag).toBe("Idle");
         expect(finalState.notifications.tag).toBe("Idle");
         expect(finalState.testRuns.length).toBe(1);
+    });
+
+    test("Set Paid unpaid", () => {
+        const payment = {
+            method: PaymentMethod.PayPal,
+            paidAt: newValidDate(),
+            timestamp: newValidDate(),
+        };
+        const stateWithEntrant: EventState = {
+            ...populatedState,
+            entrants: {
+                tag: "Loaded",
+                value: [
+                    {
+                        entrantId: 2,
+                        payment,
+                        age: Age.senior,
+                        class: "A",
+                        club: "BRMC",
+                        driverNumber: 1,
+                        eventId: 2,
+                        familyName: "Family Name",
+                        givenName: "Given Name",
+                        vehicle: {
+                            displacement: 1364,
+                            induction: InductionTypes.NA,
+                            make: "",
+                            model: "",
+                            registration: "",
+                            year: 2006,
+                        },
+                    },
+                ],
+                id: 1,
+                loaded: newValidDate(),
+            },
+        };
+        const finalState = eventReducer(stateWithEntrant, {
+            type: SET_PAID,
+            payload: { entrantId: 2, payment: null },
+        });
+        expect(finalState.entrants.tag).toBe("Loaded");
+        expect(
+            mapOrDefault(finalState.entrants, (a) => a[0].payment, payment)
+        ).toBeNull();
     });
 });
