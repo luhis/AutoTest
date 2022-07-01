@@ -3,7 +3,7 @@ import { newValidDate } from "ts-date";
 import { PaymentMethod, TestRunUploadState } from "../types/models";
 import { ClearCache } from "../store/event/actions";
 import { eventReducer } from "../store/event/reducers";
-import { EventState, EventActionTypes, SET_PAID } from "../store/event/types";
+import { EventState, EventActionTypes, SET_PAID, UPDATE_TEST_RUN_STATE } from "../store/event/types";
 import { Age } from "../types/profileModels";
 import { InductionTypes } from "../types/shared";
 import { mapOrDefault } from "../types/loadingState";
@@ -85,5 +85,93 @@ describe("Event Reducer", () => {
         expect(
             mapOrDefault(finalState.entrants, (a) => a[0].payment, payment)
         ).toBeNull();
+    });
+    test("Set Paid Bacs", () => {
+        const payment = {
+            method: PaymentMethod.Bacs,
+            paidAt: newValidDate(),
+            timestamp: newValidDate(),
+        };
+        const stateWithEntrant: EventState = {
+            ...populatedState,
+            entrants: {
+                tag: "Loaded",
+                value: [
+                    {
+                        entrantId: 2,
+                        payment: null,
+                        age: Age.senior,
+                        class: "A",
+                        club: "BRMC",
+                        driverNumber: 1,
+                        eventId: 2,
+                        familyName: "Family Name",
+                        givenName: "Given Name",
+                        vehicle: {
+                            displacement: 1364,
+                            induction: InductionTypes.NA,
+                            make: "",
+                            model: "",
+                            registration: "",
+                            year: 2006,
+                        },
+                    },
+                ],
+                id: 1,
+                loaded: newValidDate(),
+            },
+        };
+        const finalState = eventReducer(stateWithEntrant, {
+            type: SET_PAID,
+            payload: { entrantId: 2, payment: payment },
+        });
+        expect(finalState.entrants.tag).toBe("Loaded");
+        expect(
+            mapOrDefault(finalState.entrants, (a) => a[0].payment, null)
+        ).toBe(payment);
+    });
+    test("Update test run state", () => {
+        const payment = {
+            method: PaymentMethod.Bacs,
+            paidAt: newValidDate(),
+            timestamp: newValidDate(),
+        };
+        const stateWithEntrant: EventState = {
+            ...populatedState,
+            entrants: {
+                tag: "Loaded",
+                value: [
+                    {
+                        entrantId: 2,
+                        payment: null,
+                        age: Age.senior,
+                        class: "A",
+                        club: "BRMC",
+                        driverNumber: 1,
+                        eventId: 2,
+                        familyName: "Family Name",
+                        givenName: "Given Name",
+                        vehicle: {
+                            displacement: 1364,
+                            induction: InductionTypes.NA,
+                            make: "",
+                            model: "",
+                            registration: "",
+                            year: 2006,
+                        },
+                    },
+                ],
+                id: 1,
+                loaded: newValidDate(),
+            },
+        };
+        const finalState = eventReducer(stateWithEntrant, {
+            type: UPDATE_TEST_RUN_STATE,
+            payload: { testRunId: 2, state: TestRunUploadState.Error },
+        });
+        expect(finalState.entrants.tag).toBe("Loaded");
+        expect(
+            mapOrDefault(finalState.entrants, (a) => a[0].payment, null)
+        ).toBe(payment);
     });
 });
