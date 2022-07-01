@@ -3,7 +3,12 @@ import { newValidDate } from "ts-date";
 import { PaymentMethod, TestRunUploadState } from "../types/models";
 import { ClearCache } from "../store/event/actions";
 import { eventReducer } from "../store/event/reducers";
-import { EventState, EventActionTypes, SET_PAID, UPDATE_TEST_RUN_STATE } from "../store/event/types";
+import {
+    EventState,
+    EventActionTypes,
+    SET_PAID,
+    UPDATE_TEST_RUN_STATE,
+} from "../store/event/types";
 import { Age } from "../types/profileModels";
 import { InductionTypes } from "../types/shared";
 import { mapOrDefault } from "../types/loadingState";
@@ -131,47 +136,25 @@ describe("Event Reducer", () => {
         ).toBe(payment);
     });
     test("Update test run state", () => {
-        const payment = {
-            method: PaymentMethod.Bacs,
-            paidAt: newValidDate(),
-            timestamp: newValidDate(),
-        };
         const stateWithEntrant: EventState = {
             ...populatedState,
-            entrants: {
-                tag: "Loaded",
-                value: [
-                    {
-                        entrantId: 2,
-                        payment: null,
-                        age: Age.senior,
-                        class: "A",
-                        club: "BRMC",
-                        driverNumber: 1,
-                        eventId: 2,
-                        familyName: "Family Name",
-                        givenName: "Given Name",
-                        vehicle: {
-                            displacement: 1364,
-                            induction: InductionTypes.NA,
-                            make: "",
-                            model: "",
-                            registration: "",
-                            year: 2006,
-                        },
-                    },
-                ],
-                id: 1,
-                loaded: newValidDate(),
-            },
+            testRuns: [
+                {
+                    state: TestRunUploadState.NotSent,
+                    timeInMS: 10000,
+                    created: newValidDate(),
+                    entrantId: 1,
+                    eventId: 1,
+                    testRunId: 2,
+                    ordinal: 1,
+                    penalties: [],
+                },
+            ],
         };
         const finalState = eventReducer(stateWithEntrant, {
             type: UPDATE_TEST_RUN_STATE,
-            payload: { testRunId: 2, state: TestRunUploadState.Error },
+            payload: { testRunId: 2, state: TestRunUploadState.Uploaded },
         });
-        expect(finalState.entrants.tag).toBe("Loaded");
-        expect(
-            mapOrDefault(finalState.entrants, (a) => a[0].payment, null)
-        ).toBe(payment);
+        expect(finalState.testRuns[0].state).toBe(TestRunUploadState.Uploaded);
     });
 });
