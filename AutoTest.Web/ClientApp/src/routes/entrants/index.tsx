@@ -162,7 +162,7 @@ const Entrants: FunctionalComponent<Readonly<Props>> = ({ eventId }) => {
             familyName: "",
             email: "",
             msaMembership: { msaLicense: Number.NaN, msaLicenseType: "" },
-            age: Age.senior,
+            age: Age.Senior,
             vehicle: {
                 make: "",
                 model: "",

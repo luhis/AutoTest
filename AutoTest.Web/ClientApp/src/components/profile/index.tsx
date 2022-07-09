@@ -47,14 +47,14 @@ const ProfileComp: FunctionComponent<Props> = ({ save, profile, setField }) => {
             <Field>
                 <Label>Age</Label>
                 <Radio
-                    checked={profile.age === Age.junior}
-                    onChange={() => setField({ age: Age.junior })}
+                    checked={profile.age === Age.Junior}
+                    onChange={() => setField({ age: Age.Junior })}
                 >
                     Junior
                 </Radio>
                 <Radio
-                    checked={profile.age === Age.senior}
-                    onChange={() => setField({ age: Age.senior })}
+                    checked={profile.age === Age.Senior}
+                    onChange={() => setField({ age: Age.Senior })}
                 >
                     Senior
                 </Radio>

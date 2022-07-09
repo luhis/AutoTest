@@ -6,8 +6,8 @@ import {
 } from "./shared";
 
 export enum Age {
-    junior = 0,
-    senior = 1,
+    Junior = 0,
+    Senior = 1,
 }
 
 export interface Profile {

@@ -61,7 +61,7 @@ describe("Event Reducer", () => {
                     {
                         entrantId: 2,
                         payment,
-                        age: Age.senior,
+                        age: Age.Senior,
                         class: "A",
                         club: "BRMC",
                         driverNumber: 1,
@@ -105,7 +105,7 @@ describe("Event Reducer", () => {
                     {
                         entrantId: 2,
                         payment: null,
-                        age: Age.senior,
+                        age: Age.Senior,
                         class: "A",
                         club: "BRMC",
                         driverNumber: 1,

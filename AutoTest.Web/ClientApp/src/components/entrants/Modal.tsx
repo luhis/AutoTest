@@ -119,14 +119,14 @@ const EntrantsModal: FunctionComponent<Props> = ({
                     <Field>
                         <Label>Age</Label>
                         <Radio
-                            checked={entrant.age === Age.junior}
-                            onChange={() => setField({ age: Age.junior })}
+                            checked={entrant.age === Age.unior}
+                            onChange={() => setField({ age: Age.Junior })}
                         >
                             Junior
                         </Radio>
                         <Radio
-                            checked={entrant.age === Age.senior}
-                            onChange={() => setField({ age: Age.senior })}
+                            checked={entrant.age === Age.Senior}
+                            onChange={() => setField({ age: Age.Senior })}
                         >
                             Senior
                         </Radio>
