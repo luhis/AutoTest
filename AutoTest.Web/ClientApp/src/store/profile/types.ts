@@ -4,6 +4,7 @@ import { LoadingState } from "../../types/loadingState";
 export const GET_PROFILE = "GET_PROFILE";
 export const GET_ACCESS = "GET_ACCESS";
 export const RESET_ACCESS = "RESET_ACCESS";
+export const ADD_CLUB_ADMIN = "ADD_CLUB_ADMIN";
 
 export interface ProfileState {
     readonly profile: LoadingState<Profile>;
@@ -20,8 +21,17 @@ interface GetAccess {
     readonly payload: Access;
 }
 
+interface AddCLubAdmin {
+    readonly type: typeof ADD_CLUB_ADMIN;
+    readonly payload: number;
+}
+
 interface ResetAccess {
     readonly type: typeof RESET_ACCESS;
 }
 
-export type ProfileActionTypes = GetProfile | GetAccess | ResetAccess;
+export type ProfileActionTypes =
+    | GetProfile
+    | GetAccess
+    | ResetAccess
+    | AddCLubAdmin;

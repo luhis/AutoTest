@@ -1,4 +1,4 @@
-import { FunctionalComponent, h, Fragment, FunctionComponent } from "preact";
+import { FunctionComponent, h, Fragment } from "preact";
 import { useEffect, useMemo, useState } from "preact/hooks";
 import { Heading, Table, Button } from "react-bulma-components";
 import { useDispatch, useSelector } from "react-redux";
@@ -73,7 +73,7 @@ const baseConn = new HubConnectionBuilder()
     .withAutomaticReconnect()
     .configureLogging(LogLevel.Error);
 
-const Results: FunctionalComponent<
+const Results: FunctionComponent<
     Props & { readonly connection: HubConnection | undefined }
 > = ({ eventId, classFilter, connection }) => {
     const dispatch = useDispatch();

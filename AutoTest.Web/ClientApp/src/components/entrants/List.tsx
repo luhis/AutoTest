@@ -1,4 +1,4 @@
-import { Fragment, FunctionalComponent, h } from "preact";
+import { Fragment, FunctionComponent, h } from "preact";
 import { Columns, Button, Form, Dropdown } from "react-bulma-components";
 import { FaMoneyBill } from "react-icons/fa";
 import { newValidDate, parseIsoOrThrow } from "ts-date";
@@ -31,7 +31,7 @@ const paymentMethods = Object.keys(PaymentMethod)
     .map((a) => Number.parseInt(a))
     .filter((key) => !isNaN(key));
 
-const Pay: FunctionalComponent<{
+const Pay: FunctionComponent<{
     readonly entrant: PublicEntrant;
     readonly markPaid: (
         entrant: PublicEntrant,
@@ -93,7 +93,7 @@ const Pay: FunctionalComponent<{
     );
 };
 
-const List: FunctionalComponent<Props> = ({
+const List: FunctionComponent<Props> = ({
     entrants,
     setEditingEntrant,
     markPaid,

@@ -3,6 +3,7 @@ import { ThunkAction } from "redux-thunk";
 import { getProfile, saveProfile } from "../../api/user";
 import { Profile } from "../../types/profileModels";
 import {
+    ADD_CLUB_ADMIN,
     GET_ACCESS,
     GET_PROFILE,
     ProfileActionTypes,
@@ -69,4 +70,9 @@ export const GetAccess =
 
 export const ResetAccess = () => ({
     type: RESET_ACCESS,
+});
+
+export const AddClubAdmin = (clubId: number) => ({
+    type: ADD_CLUB_ADMIN,
+    payload: clubId,
 });
