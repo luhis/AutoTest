@@ -1,4 +1,4 @@
-import { FunctionalComponent, h, createContext } from "preact";
+import { FunctionComponent, h, createContext } from "preact";
 import { Route, Router } from "preact-router";
 import { useGoogleLogin } from "react-use-googlelogin";
 import { useContext } from "preact/hooks";
@@ -70,7 +70,7 @@ if (typeof window !== "undefined") {
     appInsights.loadAppInsights();
 }
 
-const App: FunctionalComponent = () => {
+const App: FunctionComponent = () => {
     const googleAuth = useGoogleLogin({
         clientId: googleKey, // Your clientID from Google.
     });

@@ -6,6 +6,7 @@ import {
     GET_PROFILE,
     GET_ACCESS,
     RESET_ACCESS,
+    ADD_CLUB_ADMIN,
 } from "./types";
 
 const defaultAccess: Access = {
@@ -43,6 +44,14 @@ export const profileReducer = (
             return {
                 ...state,
                 access: defaultAccess,
+            };
+        case ADD_CLUB_ADMIN:
+            return {
+                ...state,
+                access: {
+                    ...state.access,
+                    adminClubs: state.access.adminClubs.concat(action.payload),
+                },
             };
         default: {
             neverReached(action);

@@ -1,4 +1,6 @@
-﻿using System.Threading;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using AutoTest.Domain.StorageModels;
 using AutoTest.Service.Interfaces;
@@ -20,6 +22,7 @@ namespace AutoTest.Web.Hubs
         }
 
         private IClientProxy GetEventGroup(ulong eventId) => this.hub.Clients.Group(eventId.ToString());
+        private IClientProxy GetEmailGroup(string email) => this.hub.Clients.Group(email);
 
         async Task ISignalRNotifier.NewTestRun(TestRun testRun, CancellationToken cancellationToken)
         {
@@ -32,6 +35,13 @@ namespace AutoTest.Web.Hubs
         Task ISignalRNotifier.NewNotification(Notification notification, CancellationToken cancellationToken)
         {
             return GetEventGroup(notification.EventId).SendAsync("NewNotification", notification, cancellationToken);
+        }
+
+        async Task ISignalRNotifier.NewClubAdmin(ulong clubId, IEnumerable<string> newEmails)
+        {
+            // todo is this secure enough?
+            var groups = newEmails.Select(e => GetEmailGroup(e));
+            await Task.WhenAll(groups.Select(a => a.SendAsync("NewClubAdmin", clubId)));
         }
     }
 }

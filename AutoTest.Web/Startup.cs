@@ -217,6 +217,7 @@ namespace AutoTest.Web
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapHub<ResultsHub>("/resultsHub");
+                endpoints.MapHub<AuthorisationHub>("/authorisationHub");
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller}/{action=Index}/{id?}");
