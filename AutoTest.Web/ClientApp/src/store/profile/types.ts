@@ -5,6 +5,9 @@ export const GET_PROFILE = "GET_PROFILE";
 export const GET_ACCESS = "GET_ACCESS";
 export const RESET_ACCESS = "RESET_ACCESS";
 export const ADD_CLUB_ADMIN = "ADD_CLUB_ADMIN";
+export const REMOVE_CLUB_ADMIN = "REMOVE_CLUB_ADMIN";
+export const ADD_EVENT_MARSHAL = "ADD_EVENT_MARSHAL";
+export const REMOVE_EVENT_MARSHAL = "REMOVE_EVENT_MARSHAL";
 
 export interface ProfileState {
     readonly profile: LoadingState<Profile>;
@@ -21,8 +24,23 @@ interface GetAccess {
     readonly payload: Access;
 }
 
-interface AddCLubAdmin {
+interface AddClubAdmin {
     readonly type: typeof ADD_CLUB_ADMIN;
+    readonly payload: number;
+}
+
+interface RemoveClubAdmin {
+    readonly type: typeof REMOVE_CLUB_ADMIN;
+    readonly payload: number;
+}
+
+interface AddEventMarshal {
+    readonly type: typeof ADD_EVENT_MARSHAL;
+    readonly payload: number;
+}
+
+interface RemoveEventMarshal {
+    readonly type: typeof REMOVE_EVENT_MARSHAL;
     readonly payload: number;
 }
 
@@ -34,4 +52,7 @@ export type ProfileActionTypes =
     | GetProfile
     | GetAccess
     | ResetAccess
-    | AddCLubAdmin;
+    | AddClubAdmin
+    | RemoveClubAdmin
+    | AddEventMarshal
+    | RemoveEventMarshal;

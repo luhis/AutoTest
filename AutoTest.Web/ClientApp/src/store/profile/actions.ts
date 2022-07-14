@@ -4,6 +4,7 @@ import { getProfile, saveProfile } from "../../api/user";
 import { Profile } from "../../types/profileModels";
 import {
     ADD_CLUB_ADMIN,
+    ADD_EVENT_MARSHAL,
     GET_ACCESS,
     GET_PROFILE,
     ProfileActionTypes,
@@ -75,4 +76,9 @@ export const ResetAccess = () => ({
 export const AddClubAdmin = (clubId: number) => ({
     type: ADD_CLUB_ADMIN,
     payload: clubId,
+});
+
+export const AddEventMarshal = (eventId: number) => ({
+    type: ADD_EVENT_MARSHAL,
+    payload: eventId,
 });

@@ -7,11 +7,11 @@ namespace AutoTest.Web.Hubs
     {
         public Task ListenToEvent(ulong eventId)
         {
-            return Groups.AddToGroupAsync(Context.ConnectionId, eventId.ToString());
+            return Groups.AddToGroupAsync(Context.ConnectionId, $"eventId:{eventId}");
         }
         public Task LeaveEvent(ulong eventId)
         {
-            return Groups.RemoveFromGroupAsync(Context.ConnectionId, eventId.ToString());
+            return Groups.RemoveFromGroupAsync(Context.ConnectionId, $"eventId:{eventId}");
         }
     }
 }

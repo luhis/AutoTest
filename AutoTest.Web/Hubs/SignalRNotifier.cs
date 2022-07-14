@@ -21,7 +21,7 @@ namespace AutoTest.Web.Hubs
             this.mediator = mediator;
         }
 
-        private IClientProxy GetEventGroup(ulong eventId) => this.hub.Clients.Group(eventId.ToString());
+        private IClientProxy GetEventGroup(ulong eventId) => this.hub.Clients.Group($"eventId:{eventId}");
         private IClientProxy GetEmailGroup(string email) => this.hub.Clients.Group(email);
 
         async Task ISignalRNotifier.NewTestRun(TestRun testRun, CancellationToken cancellationToken)
@@ -37,11 +37,16 @@ namespace AutoTest.Web.Hubs
             return GetEventGroup(notification.EventId).SendAsync("NewNotification", notification, cancellationToken);
         }
 
-        async Task ISignalRNotifier.NewClubAdmin(ulong clubId, IEnumerable<string> newEmails)
+        Task ISignalRNotifier.NewClubAdmin(ulong clubId, IEnumerable<string> newEmails)
         {
-            // todo is this secure enough?
             var groups = newEmails.Select(e => GetEmailGroup(e));
-            await Task.WhenAll(groups.Select(a => a.SendAsync("NewClubAdmin", clubId)));
+            return Task.WhenAll(groups.Select(a => a.SendAsync("NewClubAdmin", clubId)));
+        }
+
+        Task ISignalRNotifier.NewEventMarshal(ulong eventId, IEnumerable<string> newEmails)
+        {
+            var groups = newEmails.Select(e => GetEmailGroup(e));
+            return Task.WhenAll(groups.Select(a => a.SendAsync("NewEventMarshal", eventId)));
         }
     }
 }

@@ -7,6 +7,9 @@ import {
     GET_ACCESS,
     RESET_ACCESS,
     ADD_CLUB_ADMIN,
+    ADD_EVENT_MARSHAL,
+    REMOVE_CLUB_ADMIN,
+    REMOVE_EVENT_MARSHAL,
 } from "./types";
 
 const defaultAccess: Access = {
@@ -51,6 +54,36 @@ export const profileReducer = (
                 access: {
                     ...state.access,
                     adminClubs: state.access.adminClubs.concat(action.payload),
+                },
+            };
+        case REMOVE_CLUB_ADMIN:
+            return {
+                ...state,
+                access: {
+                    ...state.access,
+                    adminClubs: state.access.adminClubs.filter(
+                        (id) => id != action.payload
+                    ),
+                },
+            };
+        case ADD_EVENT_MARSHAL:
+            return {
+                ...state,
+                access: {
+                    ...state.access,
+                    marshalEvents: state.access.marshalEvents.concat(
+                        action.payload
+                    ),
+                },
+            };
+        case REMOVE_EVENT_MARSHAL:
+            return {
+                ...state,
+                access: {
+                    ...state.access,
+                    marshalEvents: state.access.marshalEvents.filter(
+                        (id) => id !== action.payload
+                    ),
                 },
             };
         default: {

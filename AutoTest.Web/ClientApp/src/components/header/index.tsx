@@ -8,6 +8,7 @@ import { selectAccess } from "../../store/profile/selectors";
 import { ClearCache } from "../../store/event/actions";
 import {
     AddClubAdmin,
+    AddEventMarshal,
     GetAccess,
     ResetAccess,
 } from "../../store/profile/actions";
@@ -108,6 +109,9 @@ const SignalRWrapper: FunctionalComponent = () => {
         if (connection) {
             connection.on("NewClubAdmin", (clubId: number) => {
                 dispatch(AddClubAdmin(clubId));
+            });
+            connection.on("NewEventMarshal", (eventId: number) => {
+                dispatch(AddEventMarshal(eventId));
             });
         }
     }, [connection, dispatch]);
