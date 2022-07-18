@@ -77,6 +77,8 @@ const Events: FunctionalComponent<Props> = ({ clubId }) => {
                 regulations: null,
                 maps: null,
                 eventType: Number.NaN,
+                entryOpenDate: newValidDate(),
+                entryCloseDate: newValidDate(),
             }),
         [clubId]
     );

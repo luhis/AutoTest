@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoTest.Domain.StorageModels;
@@ -39,7 +40,7 @@ namespace AutoTest.Unit.Test.Authorisation
             var ctx = HttpContextFixture.GetHttpContext(new[] { ("eventId", eventId.ToString()) });
             httpContextAccessor.SetupGet(a => a.HttpContext).Returns(ctx);
             mediator.Setup(a => a.Send(Its.EquivalentTo(new GetEvent(eventId)), CancellationToken.None)).ReturnsAsync(
-                new Event(eventId, 1, "Kestel Farm", new System.DateTime(), 99, 3, "", Domain.Enums.EventType.AutoTest, "", Domain.Enums.TimingSystem.StopWatch));
+                new Event(eventId, 1, "Kestel Farm", new System.DateTime(), 99, 3, "", Domain.Enums.EventType.AutoTest, "", Domain.Enums.TimingSystem.StopWatch, new System.DateTime(), new System.DateTime()));
             mediator.Setup(a => a.Send(Its.EquivalentTo(new GetMarshals(eventId)), CancellationToken.None))
                 .ReturnsAsync(new[] { new Marshal(1, "Joe", "Marshall", "marshal@email.com", eventId, 123456, "") });
 
@@ -58,7 +59,7 @@ namespace AutoTest.Unit.Test.Authorisation
             var ctx = HttpContextFixture.GetHttpContext(new[] { ("eventId", eventId.ToString()) });
             httpContextAccessor.SetupGet(a => a.HttpContext).Returns(ctx);
             mediator.Setup(a => a.Send(Its.EquivalentTo(new GetEvent(eventId)), CancellationToken.None)).ReturnsAsync(
-                new Event(eventId, 1, "Kestel Farm", new System.DateTime(), 99, 3, "", Domain.Enums.EventType.AutoTest, "", Domain.Enums.TimingSystem.StopWatch));
+                new Event(eventId, 1, "Kestel Farm", new System.DateTime(), 99, 3, "", Domain.Enums.EventType.AutoTest, "", Domain.Enums.TimingSystem.StopWatch, new DateTime(), new DateTime()));
             mediator.Setup(a => a.Send(Its.EquivalentTo(new GetMarshals(eventId)), CancellationToken.None))
                 .ReturnsAsync(new[] { new Marshal(1, "Joe", "Marshall", "marshal@email.com", eventId, 123456, "") });
 

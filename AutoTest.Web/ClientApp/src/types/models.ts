@@ -88,6 +88,8 @@ export interface Event {
     readonly regulations: string | null;
     readonly maps: string | null;
     readonly eventType: EventType;
+    readonly entryOpenDate: ValidDate;
+    readonly entryCloseDate: ValidDate;
 }
 
 export type EditingEvent = Override<

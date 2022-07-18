@@ -20,5 +20,9 @@ namespace AutoTest.Web.Models
         public string Maps { get; set; } = string.Empty;
 
         public EventType EventType { get; set; }
+
+        public DateTime EntryOpenDate { get; set; }
+
+        public DateTime EntryCloseDate { get; set; }
     }
 }

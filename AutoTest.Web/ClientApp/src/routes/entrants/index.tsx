@@ -38,6 +38,7 @@ import { getEntrant } from "../../api/entrants";
 import { Age } from "../../types/profileModels";
 import { ClubMembership, InductionTypes } from "../../types/shared";
 import { useThunkDispatch } from "../../store";
+import { newValidDate } from "ts-date";
 
 interface Props {
     readonly eventId: number;
@@ -208,7 +209,26 @@ const Entrants: FunctionalComponent<Readonly<Props>> = ({ eventId }) => {
         access.adminClubs.includes(currentEvent.clubId);
     const canEditEntrant = (entrantId: number) =>
         isClubAdmin || access.editableEntrants.includes(entrantId);
+    const isTooEarly =
+        currentEvent !== undefined &&
+        currentEvent.entryOpenDate > newValidDate();
+    const isTooLate =
+        currentEvent !== undefined &&
+        currentEvent.entryCloseDate < newValidDate();
 
+    const addEntrantDisabled = !access.isLoggedIn || isTooEarly || isTooLate;
+
+    const clauses = [
+        { failed: !access.isLoggedIn, message: "NotLoggedIn" },
+        { failed: isTooEarly, message: "Is too early" },
+        { failed: isTooLate, message: "Is too late" },
+    ];
+    const addEntrantText = !addEntrantDisabled
+        ? undefined
+        : clauses
+              .filter(({ failed }) => failed)
+              .map(({ message }) => message)
+              .join(", ");
     return (
         <div>
             <Breadcrumbs club={currentClub} event={currentEvent} />
@@ -222,9 +242,10 @@ const Entrants: FunctionalComponent<Readonly<Props>> = ({ eventId }) => {
                 canEditEntrant={canEditEntrant}
             />
             <Button
-                disabled={!access.isLoggedIn}
+                disabled={addEntrantDisabled}
                 color="primary"
                 onClick={newEntrant}
+                title={addEntrantText}
             >
                 Add Entrant
             </Button>

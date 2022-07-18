@@ -161,6 +161,36 @@ const ModalX: FunctionComponent<Props> = ({
                         />
                     </Field>
                     <Field>
+                        <Label>Entry Open Date</Label>
+                        <Input
+                            required
+                            type="datetime-local"
+                            value={getDateTimeString(event.entryOpenDate)}
+                            onChange={(e: OnChange): void =>
+                                setField({
+                                    entryOpenDate: newValidDateOrThrow(
+                                        e.target.value
+                                    ),
+                                })
+                            }
+                        />
+                    </Field>
+                    <Field>
+                        <Label>Entry Close Date</Label>
+                        <Input
+                            required
+                            type="datetime-local"
+                            value={getDateTimeString(event.entryCloseDate)}
+                            onChange={(e: OnChange): void =>
+                                setField({
+                                    entryCloseDate: newValidDateOrThrow(
+                                        e.target.value
+                                    ),
+                                })
+                            }
+                        />
+                    </Field>
+                    <Field>
                         <Label>Regulations</Label>
                         <Input
                             required={event.isNew}

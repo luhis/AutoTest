@@ -7,7 +7,7 @@ namespace AutoTest.Domain.StorageModels
 
     public class Event
     {
-        public Event(ulong eventId, ulong clubId, string location, DateTime startTime, int testCount, int maxAttemptsPerTest, string regulations, EventType eventType, string maps, TimingSystem timingSystem)
+        public Event(ulong eventId, ulong clubId, string location, DateTime startTime, int testCount, int maxAttemptsPerTest, string regulations, EventType eventType, string maps, TimingSystem timingSystem, DateTime entryOpenDate, DateTime entryCloseDate)
         {
             EventId = eventId;
             ClubId = clubId;
@@ -19,6 +19,8 @@ namespace AutoTest.Domain.StorageModels
             EventType = eventType;
             Maps = maps;
             TimingSystem = timingSystem;
+            EntryOpenDate = entryOpenDate;
+            EntryCloseDate = entryCloseDate;
         }
 
         public ulong EventId { get; }
@@ -43,6 +45,10 @@ namespace AutoTest.Domain.StorageModels
         public EventType EventType { get; }
 
         public TimingSystem TimingSystem { get; }
+
+        public DateTime EntryOpenDate { get; }
+
+        public DateTime EntryCloseDate { get; }
 
     }
 }

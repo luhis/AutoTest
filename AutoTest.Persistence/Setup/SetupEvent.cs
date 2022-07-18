@@ -11,6 +11,8 @@
             entity.Property(e => e.EventId).ValueGeneratedNever().IsRequired();
             entity.Property(e => e.Location).IsRequired();
             entity.Property(e => e.StartTime).IsRequired();
+            entity.Property(e => e.EntryOpenDate).IsRequired();
+            entity.Property(e => e.EntryCloseDate).IsRequired();
             entity.Property(e => e.TestCount).IsRequired();
             entity.Property(e => e.MaxAttemptsPerTest).IsRequired();
             entity.Property(e => e.Regulations).IsRequired();
