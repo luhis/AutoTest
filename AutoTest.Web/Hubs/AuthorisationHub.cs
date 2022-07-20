@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.SignalR;
 
 namespace AutoTest.Web.Hubs
 {
-    //[Authorize]
+    [Authorize]
     public class AuthorisationHub : Hub
     {
         public override async Task OnConnectedAsync()
