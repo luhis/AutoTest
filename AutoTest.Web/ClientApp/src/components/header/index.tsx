@@ -75,18 +75,23 @@ const Header: FunctionalComponent = () => {
 
 const SignalRWrapper: FunctionalComponent = () => {
     const auth = useGoogleAuth();
-    const baseConn = useMemo(
-        () =>
-            new HubConnectionBuilder()
-                .withUrl("/authorisationHub", {
-                    accessTokenFactory: () => getAccessToken(auth) || "",
-                })
-                .withAutomaticReconnect()
-                .configureLogging(LogLevel.Error),
-        [auth]
-    );
+    const baseConn = useMemo(() => {
+        const accessToken = getAccessToken(auth);
+        if (accessToken === undefined) {
+            return undefined;
+        }
+        return new HubConnectionBuilder()
+            .withUrl("/authorisationHub", {
+                accessTokenFactory: () => accessToken,
+            })
+            .withAutomaticReconnect()
+            .configureLogging(LogLevel.Error);
+    }, [auth]);
     const connection = useMemo(
-        () => (typeof window !== "undefined" ? baseConn.build() : undefined),
+        () =>
+            typeof window !== "undefined" && baseConn !== undefined
+                ? baseConn.build()
+                : undefined,
         [baseConn]
     );
 

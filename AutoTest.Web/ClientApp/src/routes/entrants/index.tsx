@@ -219,7 +219,7 @@ const Entrants: FunctionalComponent<Readonly<Props>> = ({ eventId }) => {
     const addEntrantDisabled = !access.isLoggedIn || isTooEarly || isTooLate;
 
     const clauses = [
-        { failed: !access.isLoggedIn, message: "NotLoggedIn" },
+        { failed: !access.isLoggedIn, message: "Not Logged In" },
         { failed: isTooEarly, message: "Is too early" },
         { failed: isTooLate, message: "Is too late" },
     ];
