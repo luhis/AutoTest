@@ -10,6 +10,8 @@ import {
     AddClubAdmin,
     AddEventMarshal,
     GetAccess,
+    RemoveClubAdmin,
+    RemoveEventMarshal,
     ResetAccess,
 } from "../../store/profile/actions";
 import { useGoogleAuth } from "../app";
@@ -115,8 +117,14 @@ const SignalRWrapper: FunctionalComponent = () => {
             connection.on("NewClubAdmin", (clubId: number) => {
                 dispatch(AddClubAdmin(clubId));
             });
+            connection.on("RemoveClubAdmin", (clubId: number) => {
+                dispatch(RemoveClubAdmin(clubId));
+            });
             connection.on("NewEventMarshal", (eventId: number) => {
                 dispatch(AddEventMarshal(eventId));
+            });
+            connection.on("RemoveEventMarshal", (eventId: number) => {
+                dispatch(RemoveEventMarshal(eventId));
             });
         }
     }, [connection, dispatch]);

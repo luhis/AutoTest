@@ -8,6 +8,8 @@ import {
     GET_ACCESS,
     GET_PROFILE,
     ProfileActionTypes,
+    REMOVE_CLUB_ADMIN,
+    REMOVE_EVENT_MARSHAL,
     RESET_ACCESS,
 } from "./types";
 import { getAccess } from "../../api/access";
@@ -78,7 +80,17 @@ export const AddClubAdmin = (clubId: number) => ({
     payload: clubId,
 });
 
+export const RemoveClubAdmin = (clubId: number) => ({
+    type: REMOVE_CLUB_ADMIN,
+    payload: clubId,
+});
+
 export const AddEventMarshal = (eventId: number) => ({
     type: ADD_EVENT_MARSHAL,
+    payload: eventId,
+});
+
+export const RemoveEventMarshal = (eventId: number) => ({
+    type: REMOVE_EVENT_MARSHAL,
     payload: eventId,
 });

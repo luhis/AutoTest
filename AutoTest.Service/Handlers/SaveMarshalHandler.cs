@@ -25,9 +25,13 @@ namespace AutoTest.Service.Handlers
             var existing = autoTestContext.Marshals!.SingleOrDefault(a => a.MarshalId == request.Marshal.MarshalId);
             await autoTestContext.Marshals!.Upsert(request.Marshal, a => a.MarshalId == request.Marshal.MarshalId, cancellationToken);
             await this.autoTestContext.SaveChangesAsync(cancellationToken);
-            if (existing == null || existing.Email != request.Marshal.Email)
+            if (existing == null || !existing.Email.Equals(request.Marshal.Email, System.StringComparison.InvariantCultureIgnoreCase))
             {
                 await signalRNotifier.NewEventMarshal(request.Marshal.EventId, new[] { request.Marshal.Email });
+                if (existing != null)
+                {
+                    await signalRNotifier.RemoveEventMarshal(request.Marshal.EventId, new[] { existing.Email });
+                }
             }
             return request.Marshal;
         }

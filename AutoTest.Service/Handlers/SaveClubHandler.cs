@@ -33,6 +33,11 @@ namespace AutoTest.Service.Handlers
                 {
                     await signalRNotifier.NewClubAdmin(request.Club.ClubId, newEmails);
                 }
+                var removedEmails = GetRemovedItems(existing.AdminEmails.Select(a => a.Email), request.Club.AdminEmails.Select(a => a.Email));
+                if (removedEmails.Any())
+                {
+                    await signalRNotifier.RemoveClubAdmin(request.Club.ClubId, removedEmails);
+                }
             }
             return request.Club.ClubId;
         }
@@ -40,6 +45,11 @@ namespace AutoTest.Service.Handlers
         private static IEnumerable<string> GetNewItems(IEnumerable<string> oldValues, IEnumerable<string> newValues)
         {
             return newValues.Where(v => !oldValues.Any(ov => ov.Equals(v, StringComparison.InvariantCultureIgnoreCase)));
+        }
+
+        private static IEnumerable<string> GetRemovedItems(IEnumerable<string> oldValues, IEnumerable<string> newValues)
+        {
+            return oldValues.Where(v => !newValues.Any(ov => ov.Equals(v, StringComparison.InvariantCultureIgnoreCase)));
         }
     }
 }

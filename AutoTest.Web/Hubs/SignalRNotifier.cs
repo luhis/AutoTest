@@ -24,6 +24,7 @@ namespace AutoTest.Web.Hubs
         private IClientProxy GetEventGroup(ulong eventId) => this.hub.Clients.Group($"eventId:{eventId}");
         private IClientProxy GetEmailGroup(string email) => this.hub.Clients.Group(email);
 
+
         async Task ISignalRNotifier.NewTestRun(TestRun testRun, CancellationToken cancellationToken)
         {
             var results = await mediator.Send(new GetResults(testRun.EventId), cancellationToken);
@@ -34,19 +35,31 @@ namespace AutoTest.Web.Hubs
 
         Task ISignalRNotifier.NewNotification(Notification notification, CancellationToken cancellationToken)
         {
-            return GetEventGroup(notification.EventId).SendAsync("NewNotification", notification, cancellationToken);
+            return GetEventGroup(notification.EventId).SendAsync(nameof(ISignalRNotifier.NewNotification), notification, cancellationToken);
         }
 
         Task ISignalRNotifier.NewClubAdmin(ulong clubId, IEnumerable<string> newEmails)
         {
             var groups = newEmails.Select(e => GetEmailGroup(e));
-            return Task.WhenAll(groups.Select(a => a.SendAsync("NewClubAdmin", clubId)));
+            return Task.WhenAll(groups.Select(a => a.SendAsync(nameof(ISignalRNotifier.NewClubAdmin), clubId)));
         }
 
         Task ISignalRNotifier.NewEventMarshal(ulong eventId, IEnumerable<string> newEmails)
         {
             var groups = newEmails.Select(e => GetEmailGroup(e));
-            return Task.WhenAll(groups.Select(a => a.SendAsync("NewEventMarshal", eventId)));
+            return Task.WhenAll(groups.Select(a => a.SendAsync(nameof(ISignalRNotifier.NewEventMarshal), eventId)));
+        }
+
+        Task ISignalRNotifier.RemoveClubAdmin(ulong clubId, IEnumerable<string> newEmails)
+        {
+            var groups = newEmails.Select(e => GetEmailGroup(e));
+            return Task.WhenAll(groups.Select(a => a.SendAsync(nameof(ISignalRNotifier.RemoveClubAdmin), clubId)));
+        }
+
+        Task ISignalRNotifier.RemoveEventMarshal(ulong eventId, IEnumerable<string> newEmails)
+        {
+            var groups = newEmails.Select(e => GetEmailGroup(e));
+            return Task.WhenAll(groups.Select(a => a.SendAsync(nameof(ISignalRNotifier.RemoveEventMarshal), eventId)));
         }
     }
 }
