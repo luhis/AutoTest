@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
+using AutoTest.Domain.Enums;
 using AutoTest.Domain.Repositories;
 using AutoTest.Domain.StorageModels;
 using AutoTest.Persistence;
@@ -35,7 +36,7 @@ namespace AutoTest.Unit.Test.Handlers
             var eventId = 1ul;
             var clubId = 2ul;
             eventsRepository.Setup(a => a.GetById(eventId, CancellationToken.None)).ReturnsAsync(
-                new Event(eventId, clubId, "location", new System.DateTime(2000, 1, 1), 2, 3, "regs", Domain.Enums.EventType.AutoSolo, "maps", Domain.Enums.TimingSystem.App, new DateTime(), new DateTime())
+                new Event(eventId, clubId, "location", new DateTime(2000, 1, 1), 2, 3, "regs", EventType.AutoSolo, "maps", TimingSystem.App, new DateTime(), new DateTime())
                 );
             context.Clubs!.Add(new(clubId, "club", "pay@paypal.com", "www.club.com"));
             await context.SaveChangesAsync();

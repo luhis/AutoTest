@@ -33,6 +33,9 @@ namespace AutoTest.Service.Handlers
             }
             var existing = await entrantsRepository.GetById(request.Entrant.EventId, request.Entrant.EntrantId, cancellationToken);
             request.Entrant.SetPayment(existing?.Payment);
+            if (existing != null)
+                request.Entrant.SetEntrantStatus(existing.EntrantStatus);
+
             await entrantsRepository.Upsert(request.Entrant, cancellationToken);
             return request.Entrant;
         }

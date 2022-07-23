@@ -47,6 +47,8 @@ namespace AutoTest.Domain.StorageModels
         public AcceptDeclaration AcceptDeclaration { get; private set; } = new AcceptDeclaration();
         public Payment? Payment { get; private set; } = null;
 
+        public EntrantStatus EntrantStatus { get; private set; }
+
         public void SetVehicle(Vehicle vehicle) => Vehicle = vehicle;
 
         public void SetEmergencyContact(EmergencyContact emergencyContact) => EmergencyContact = emergencyContact;
@@ -55,5 +57,10 @@ namespace AutoTest.Domain.StorageModels
 
         public void SetAcceptDeclaration(AcceptDeclaration acceptDeclaration) => AcceptDeclaration = acceptDeclaration;
         public void SetPayment(Payment? payment) => Payment = payment;
+
+        public void SetEntrantStatus(EntrantStatus newStatus)
+        {
+            this.EntrantStatus = newStatus;
+        }
     }
 }

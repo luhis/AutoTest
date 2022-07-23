@@ -2,6 +2,7 @@
 using System;
 using System.Threading;
 using System.Threading.Tasks;
+using AutoTest.Domain.Enums;
 using AutoTest.Domain.Repositories;
 using AutoTest.Domain.StorageModels;
 using AutoTest.Service.Handlers;
@@ -33,13 +34,13 @@ namespace AutoTest.Unit.Test.Handlers
         {
             var entrantId = 1ul;
             var eventId = 2ul;
-            var entrant = new Entrant(entrantId, 123, "name", "familyName", "a@a.com", "A", eventId, "BRMC", 123456, Domain.Enums.Age.Senior);
+            var entrant = new Entrant(entrantId, 123, "name", "familyName", "a@a.com", "A", eventId, "BRMC", 123456, Age.Senior);
             entrant.SetPayment(new Payment());
 
-            var entrantFromDb = new Entrant(entrantId, 123, "name", "familyName", "a@a.com", "A", eventId, "BRMC", 123456, Domain.Enums.Age.Senior);
+            var entrantFromDb = new Entrant(entrantId, 123, "name", "familyName", "a@a.com", "A", eventId, "BRMC", 123456, Age.Senior);
             entrantsRepository.Setup(a => a.GetById(eventId, entrantId, CancellationToken.None)).ReturnsAsync(entrantFromDb);
             entrantsRepository.Setup(a => a.Upsert(entrant, CancellationToken.None)).Returns(Task.CompletedTask);
-            eventsRepository.Setup(a => a.GetById(eventId, CancellationToken.None)).Returns(Task.FromResult(new Event(eventId, 1, "", DateTime.UtcNow, 3, 2, "", Domain.Enums.EventType.AutoTest, "", Domain.Enums.TimingSystem.StopWatch, DateTime.UtcNow.AddDays(-2), DateTime.UtcNow.AddDays(2))));
+            eventsRepository.Setup(a => a.GetById(eventId, CancellationToken.None)).Returns(Task.FromResult(new Event(eventId, 1, "", DateTime.UtcNow, 3, 2, "", EventType.AutoTest, "", TimingSystem.StopWatch, DateTime.UtcNow.AddDays(-2), DateTime.UtcNow.AddDays(2))));
 
             var se = new SaveEntrant(entrant);
             var res = await sut.Handle(se, CancellationToken.None);
@@ -53,10 +54,10 @@ namespace AutoTest.Unit.Test.Handlers
         {
             var entrantId = 1ul;
             var eventId = 2ul;
-            var entrant = new Entrant(entrantId, 123, "name", "familyName", "a@a.com", "A", eventId, "BRMC", 123456, Domain.Enums.Age.Senior);
+            var entrant = new Entrant(entrantId, 123, "name", "familyName", "a@a.com", "A", eventId, "BRMC", 123456, Age.Senior);
             entrant.SetPayment(new Payment());
 
-            eventsRepository.Setup(a => a.GetById(eventId, CancellationToken.None)).Returns(Task.FromResult(new Event(eventId, 1, "", DateTime.UtcNow, 3, 2, "", Domain.Enums.EventType.AutoTest, "", Domain.Enums.TimingSystem.StopWatch, DateTime.UtcNow.AddDays(1), DateTime.UtcNow.AddDays(2))));
+            eventsRepository.Setup(a => a.GetById(eventId, CancellationToken.None)).Returns(Task.FromResult(new Event(eventId, 1, "", DateTime.UtcNow, 3, 2, "", EventType.AutoTest, "", TimingSystem.StopWatch, DateTime.UtcNow.AddDays(1), DateTime.UtcNow.AddDays(2))));
 
             var se = new SaveEntrant(entrant);
             Func<Task> act = () => sut.Handle(se, CancellationToken.None);
@@ -74,7 +75,7 @@ namespace AutoTest.Unit.Test.Handlers
             var entrant = new Entrant(entrantId, 123, "name", "familyName", "a@a.com", "A", eventId, "BRMC", 123456, Domain.Enums.Age.Senior);
             entrant.SetPayment(new Payment());
 
-            eventsRepository.Setup(a => a.GetById(eventId, CancellationToken.None)).Returns(Task.FromResult(new Event(eventId, 1, "", DateTime.UtcNow, 3, 2, "", Domain.Enums.EventType.AutoTest, "", Domain.Enums.TimingSystem.StopWatch, DateTime.UtcNow.AddDays(-2), DateTime.UtcNow.AddDays(-1))));
+            eventsRepository.Setup(a => a.GetById(eventId, CancellationToken.None)).Returns(Task.FromResult(new Event(eventId, 1, "", DateTime.UtcNow, 3, 2, "", EventType.AutoTest, "", TimingSystem.StopWatch, DateTime.UtcNow.AddDays(-2), DateTime.UtcNow.AddDays(-1))));
 
             var se = new SaveEntrant(entrant);
             Func<Task> act = () => sut.Handle(se, CancellationToken.None);
@@ -95,7 +96,7 @@ namespace AutoTest.Unit.Test.Handlers
             entrantFromDb.SetPayment(new Payment());
             entrantsRepository.Setup(a => a.GetById(eventId, entrantId, CancellationToken.None)).ReturnsAsync(entrantFromDb);
             entrantsRepository.Setup(a => a.Upsert(entrant, CancellationToken.None)).Returns(Task.CompletedTask);
-            eventsRepository.Setup(a => a.GetById(eventId, CancellationToken.None)).Returns(Task.FromResult(new Event(eventId, 1, "", DateTime.UtcNow, 3, 2, "", Domain.Enums.EventType.AutoTest, "", Domain.Enums.TimingSystem.StopWatch, DateTime.UtcNow.AddDays(-2), DateTime.UtcNow.AddDays(2))));
+            eventsRepository.Setup(a => a.GetById(eventId, CancellationToken.None)).Returns(Task.FromResult(new Event(eventId, 1, "", DateTime.UtcNow, 3, 2, "", EventType.AutoTest, "", TimingSystem.StopWatch, DateTime.UtcNow.AddDays(-2), DateTime.UtcNow.AddDays(2))));
 
             var se = new SaveEntrant(entrant);
             var res = await sut.Handle(se, CancellationToken.None);

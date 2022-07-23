@@ -42,7 +42,7 @@ namespace AutoTest.Web.Controllers
             return r.ToIac();
         }
 
-        [Authorize(policy: Policies.ClubAdmin)]
+        [Authorize(policy: Policies.ClubAdminOrSelf)]
         [HttpPut("{marshalId}")]
         public async Task<Marshal> PutMarshal(ulong eventId, ulong marshalId, MarshalSaveModel entrantSaveModel, CancellationToken cancellationToken)
         {

@@ -40,7 +40,10 @@ namespace AutoTest.Domain.StorageModels
         public void SetTests(ICollection<Test> tests) => Tests = tests;
 
         public string Regulations { get; }
+
         public string Maps { get; }
+
+        public EventStatus EventStatus { get; private set; }
 
         public EventType EventType { get; }
 
@@ -49,6 +52,8 @@ namespace AutoTest.Domain.StorageModels
         public DateTime EntryOpenDate { get; }
 
         public DateTime EntryCloseDate { get; }
+
+        public void SetEventStats(EventStatus eventStatus) => this.EventStatus = EventStatus;
 
     }
 }
