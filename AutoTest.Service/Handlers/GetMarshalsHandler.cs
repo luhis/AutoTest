@@ -2,8 +2,8 @@
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using AutoTest.Domain.Repositories;
 using AutoTest.Domain.StorageModels;
-using AutoTest.Persistence;
 using AutoTest.Service.Messages;
 using MediatR;
 
@@ -11,16 +11,17 @@ namespace AutoTest.Service.Handlers
 {
     public class GetMarshalsHandler : IRequestHandler<GetMarshals, IEnumerable<Marshal>>
     {
-        private readonly AutoTestContext autoTestContext;
+        private readonly IMarshalsRepository marshalsRepository;
 
-        public GetMarshalsHandler(AutoTestContext autoTestContext)
+        public GetMarshalsHandler(IMarshalsRepository autoTestContext)
         {
-            this.autoTestContext = autoTestContext;
+            this.marshalsRepository = autoTestContext;
         }
 
-        Task<IEnumerable<Marshal>> IRequestHandler<GetMarshals, IEnumerable<Marshal>>.Handle(GetMarshals request, CancellationToken cancellationToken)
+        async Task<IEnumerable<Marshal>> IRequestHandler<GetMarshals, IEnumerable<Marshal>>.Handle(GetMarshals request, CancellationToken cancellationToken)
         {
-            return this.autoTestContext.Marshals!.Where(a => a.EventId == request.EventId).OrderByDescending(a => a.FamilyName).ThenByDescending(a => a.GivenName).ToEnumerableAsync(cancellationToken);
+            var marshals = await this.marshalsRepository.GetByEventId(request.EventId, cancellationToken);
+            return marshals.OrderByDescending(a => a.FamilyName).ThenByDescending(a => a.GivenName);
         }
     }
 }

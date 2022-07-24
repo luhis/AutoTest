@@ -53,7 +53,7 @@ namespace AutoTest.Domain.StorageModels
 
         public DateTime EntryCloseDate { get; }
 
-        public void SetEventStats(EventStatus eventStatus) => this.EventStatus = EventStatus;
+        public void SetEventStatus(EventStatus eventStatus) => this.EventStatus = eventStatus;
 
     }
 }

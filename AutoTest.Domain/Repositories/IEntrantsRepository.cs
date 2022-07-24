@@ -5,6 +5,7 @@ using AutoTest.Domain.StorageModels;
 
 namespace AutoTest.Domain.Repositories
 {
+
     public interface IEntrantsRepository
     {
         Task<Entrant?> GetById(ulong eventId, ulong entrantId, CancellationToken cancellationToken);

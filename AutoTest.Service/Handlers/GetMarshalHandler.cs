@@ -24,7 +24,7 @@ namespace AutoTest.Service.Handlers
 
         Task<Marshal> IRequestHandler<GetMarshal, Marshal>.Handle(GetMarshal request, CancellationToken cancellationToken)
         {
-            return this.autoTestContext.Marshals!.Where(a => a.EventId == request.EventId).OrderByDescending(a => a.FamilyName).SingleAsync(cancellationToken);
+            return this.autoTestContext.Marshals!.Where(a => a.EventId == request.EventId && a.MarshalId == request.MarshalId).OrderByDescending(a => a.FamilyName).SingleAsync(cancellationToken);
         }
     }
 }
