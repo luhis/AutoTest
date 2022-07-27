@@ -31,8 +31,8 @@ namespace AutoTest.Service.Handlers
             {
                 throw new System.Exception("Event must be running to add Test Run");
             }
-            var marshal = await _marshalsRepository.GetById(request.EventId, request.EmailAddress, cancellationToken);
-            var testRun = new TestRun(request.TestRunId, request.EventId, request.Ordinal, request.TimeInMS, request.EntrantId, request.Created, marshal.MarshalId);
+            var marshalId = await _marshalsRepository.GetMashalIdByEmail(request.EventId, request.EmailAddress, cancellationToken);
+            var testRun = new TestRun(request.TestRunId, request.EventId, request.Ordinal, request.TimeInMS, request.EntrantId, request.Created, marshalId);
             testRun.SetPenalties(request.Penalties.ToArray());
             await testRunsRepository.AddTestRun(testRun, cancellationToken);
             await signalRNotifier.NewTestRun(testRun, cancellationToken);

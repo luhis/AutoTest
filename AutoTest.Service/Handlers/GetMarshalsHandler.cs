@@ -4,6 +4,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using AutoTest.Domain.Repositories;
 using AutoTest.Domain.StorageModels;
+using AutoTest.Persistence;
 using AutoTest.Service.Messages;
 using MediatR;
 
@@ -18,10 +19,9 @@ namespace AutoTest.Service.Handlers
             this.marshalsRepository = autoTestContext;
         }
 
-        async Task<IEnumerable<Marshal>> IRequestHandler<GetMarshals, IEnumerable<Marshal>>.Handle(GetMarshals request, CancellationToken cancellationToken)
+        Task<IEnumerable<Marshal>> IRequestHandler<GetMarshals, IEnumerable<Marshal>>.Handle(GetMarshals request, CancellationToken cancellationToken)
         {
-            var marshals = await this.marshalsRepository.GetByEventId(request.EventId, cancellationToken);
-            return marshals.OrderByDescending(a => a.FamilyName).ThenByDescending(a => a.GivenName);
+            return this.marshalsRepository.GetByEventId(request.EventId).OrderByDescending(a => a.FamilyName).ThenByDescending(a => a.GivenName).ToEnumerableAsync(cancellationToken);
         }
     }
 }

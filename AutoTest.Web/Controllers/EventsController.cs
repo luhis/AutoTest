@@ -9,6 +9,7 @@ using AutoTest.Domain.StorageModels;
 using AutoTest.Service.Messages;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using AutoTest.Domain.Enums;
 
 namespace AutoTest.Web.Controllers
 {
@@ -31,6 +32,11 @@ namespace AutoTest.Web.Controllers
         [HttpPut("{eventId}")]
         public Task<ulong> Save(ulong eventId, EventSaveModel @event, CancellationToken cancellationToken) =>
             this.mediator.Send(new SaveEvent(MapClub.Map(eventId, @event)), cancellationToken);
+
+        [Authorize(policy: Policies.ClubAdmin)]
+        [HttpPut("{eventId}/setEntrantStatus")]
+        public Task SetEntrantStatus(ulong eventId, CancellationToken cancellationToken, EventStatus status) =>
+            this.mediator.Send(new SetEventStatus(eventId, status), cancellationToken);
 
         [Authorize(policy: Policies.ClubAdmin)]
         [HttpDelete("{eventId}")]

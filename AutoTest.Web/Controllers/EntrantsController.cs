@@ -8,6 +8,7 @@ namespace AutoTest.Web.Controllers
     using System.Collections.Generic;
     using System.Threading;
     using System.Threading.Tasks;
+    using AutoTest.Domain.Enums;
     using AutoTest.Domain.StorageModels;
     using AutoTest.Service.Messages;
     using AutoTest.Web.Authorization;
@@ -63,6 +64,11 @@ namespace AutoTest.Web.Controllers
         [HttpPut("{entrantId}/markPaid")]
         public Task MarkPaid(ulong eventId, ulong entrantId, CancellationToken cancellationToken, PaymentSaveModel? payment) =>
             this.mediator.Send(new MarkPaid(eventId, entrantId, payment != null ? MapClub.Map(payment) : null), cancellationToken);
+
+        [Authorize(policy: Policies.ClubAdmin)]
+        [HttpPut("{entrantId}/setEntrantStatus")]
+        public Task SetEntrantStatus(ulong eventId, ulong entrantId, CancellationToken cancellationToken, EntrantStatus status) =>
+            this.mediator.Send(new SetEntrantStatus(eventId, entrantId, status), cancellationToken);
 
         [Authorize(policy: Policies.ClubAdminOrSelf)]
         [HttpDelete("{entrantId}")]

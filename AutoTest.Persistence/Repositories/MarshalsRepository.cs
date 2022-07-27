@@ -17,14 +17,24 @@ namespace AutoTest.Persistence.Repositories
             _autoTestContext = autoTestContext;
         }
 
-        Task<IEnumerable<Marshal>> IMarshalsRepository.GetByEventId(ulong eventId, CancellationToken cancellationToken)
+        IQueryable<Marshal> IMarshalsRepository.GetByEmail(string emailAddress)
         {
-            return _autoTestContext.Marshals!.Where(a => a.EventId == eventId).ToEnumerableAsync(cancellationToken);
+            return _autoTestContext.Marshals!.Where(a => a.Email == emailAddress);
         }
 
-        Task<Marshal> IMarshalsRepository.GetById(ulong eventId, string emailAddress, CancellationToken cancellationToken)
+        IQueryable<Marshal> IMarshalsRepository.GetByEventId(ulong eventId)
         {
-            return _autoTestContext.Marshals!.SingleAsync(a => a.EventId == eventId && a.Email == emailAddress, cancellationToken);
+            return _autoTestContext.Marshals!.Where(a => a.EventId == eventId);
+        }
+
+        Task<ulong> IMarshalsRepository.GetMashalIdByEmail(ulong eventId, string emailAddress, CancellationToken cancellationToken)
+        {
+            return _autoTestContext.Marshals!.Where(a => a.EventId == eventId && a.Email == emailAddress).Select(a => a.MarshalId).SingleAsync(cancellationToken);
+        }
+
+        Task<Marshal> IMarshalsRepository.GetById(ulong eventId, ulong marshalId, CancellationToken cancellationToken)
+        {
+            return _autoTestContext.Marshals!.SingleAsync(a => a.EventId == eventId && a.MarshalId == marshalId, cancellationToken);
         }
     }
 }

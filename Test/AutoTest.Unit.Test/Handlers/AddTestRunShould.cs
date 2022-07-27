@@ -43,7 +43,7 @@ namespace AutoTest.Unit.Test.Handlers
             var penalties = new[] { new Penalty(Domain.Enums.PenaltyEnum.Late, 1) };
             var tr = new TestRun(1, eventId, 3, 4, entrantId, new System.DateTime(2000, 1, 1), marshalId);
             tr.SetPenalties(penalties);
-            marshalsRepository.Setup(a => a.GetById(eventId, "marshal@email.com", CancellationToken.None)).ReturnsAsync(new Marshal(marshalId, "dave", "marshal", "marshal@email.com", eventId, 12345, "marshal"));
+            marshalsRepository.Setup(a => a.GetMashalIdByEmail(eventId, "marshal@email.com", CancellationToken.None)).ReturnsAsync(marshalId);
             var @event = new Event(eventId, clubId, "location", new System.DateTime(2000, 1, 1), 2, 3, "regs", Domain.Enums.EventType.AutoSolo, "maps", Domain.Enums.TimingSystem.App, new DateTime(), new DateTime());
             @event.SetEventStatus(Domain.Enums.EventStatus.Running);
             events.Setup(a => a.GetById(eventId, CancellationToken.None)).ReturnsAsync(@event);
