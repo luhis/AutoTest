@@ -34,7 +34,7 @@
     "bulma": "0.9.4",
     "bulma-toast": "2.4.1",
     "eslint-plugin-ts-immutable": "0.3.0",
-    "preact": "10.10.2",
+    "preact": "10.10.3",
     "preact-render-to-string": "5.2.1",
     "preact-router": "4.1.0",
     "promise-file-reader": "1.0.3",
