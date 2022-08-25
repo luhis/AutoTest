@@ -11,7 +11,7 @@ namespace AutoTest.Service.Interfaces
         Task NewNotification(Notification notification, CancellationToken cancellationToken);
         Task NewClubAdmin(ulong clubId, IEnumerable<string> newEmails);
         Task RemoveClubAdmin(ulong clubId, IEnumerable<string> newEmails);
-        Task NewEventMarshal(ulong eventId, IEnumerable<string> newEmails);
-        Task RemoveEventMarshal(ulong eventId, IEnumerable<string> newEmails);
+        Task NewEventMarshal(ulong eventId, IEnumerable<string> newEmails, CancellationToken cancellationToken);
+        Task RemoveEventMarshal(ulong eventId, IEnumerable<string> newEmails, CancellationToken cancellationToken);
     }
 }

@@ -44,10 +44,10 @@ namespace AutoTest.Web.Hubs
             return Task.WhenAll(groups.Select(a => a.SendAsync(nameof(ISignalRNotifier.NewClubAdmin), clubId)));
         }
 
-        Task ISignalRNotifier.NewEventMarshal(ulong eventId, IEnumerable<string> newEmails)
+        Task ISignalRNotifier.NewEventMarshal(ulong eventId, IEnumerable<string> newEmails, CancellationToken cancellationToken)
         {
             var groups = newEmails.Select(e => GetEmailGroup(e));
-            return Task.WhenAll(groups.Select(a => a.SendAsync(nameof(ISignalRNotifier.NewEventMarshal), eventId)));
+            return Task.WhenAll(groups.Select(a => a.SendAsync(nameof(ISignalRNotifier.NewEventMarshal), eventId, cancellationToken)));
         }
 
         Task ISignalRNotifier.RemoveClubAdmin(ulong clubId, IEnumerable<string> newEmails)
@@ -56,10 +56,10 @@ namespace AutoTest.Web.Hubs
             return Task.WhenAll(groups.Select(a => a.SendAsync(nameof(ISignalRNotifier.RemoveClubAdmin), clubId)));
         }
 
-        Task ISignalRNotifier.RemoveEventMarshal(ulong eventId, IEnumerable<string> newEmails)
+        Task ISignalRNotifier.RemoveEventMarshal(ulong eventId, IEnumerable<string> newEmails, CancellationToken cancellationToken)
         {
             var groups = newEmails.Select(e => GetEmailGroup(e));
-            return Task.WhenAll(groups.Select(a => a.SendAsync(nameof(ISignalRNotifier.RemoveEventMarshal), eventId)));
+            return Task.WhenAll(groups.Select(a => a.SendAsync(nameof(ISignalRNotifier.RemoveEventMarshal), eventId, cancellationToken)));
         }
     }
 }

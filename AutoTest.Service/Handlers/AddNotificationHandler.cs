@@ -1,6 +1,6 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
-using AutoTest.Persistence;
+using AutoTest.Domain.Repositories;
 using AutoTest.Service.Interfaces;
 using AutoTest.Service.Messages;
 using MediatR;
@@ -9,19 +9,18 @@ namespace AutoTest.Service.Handlers
 {
     public class AddNotificationHandler : IRequestHandler<AddNotification>
     {
-        private readonly AutoTestContext autoTestContext;
+        private readonly INotificationsRepository notificationsRepository;
         private readonly ISignalRNotifier signalRNotifier;
 
-        public AddNotificationHandler(AutoTestContext autoTestContext, ISignalRNotifier signalRNotifier)
+        public AddNotificationHandler(INotificationsRepository notificationsRepository, ISignalRNotifier signalRNotifier)
         {
-            this.autoTestContext = autoTestContext;
+            this.notificationsRepository = notificationsRepository;
             this.signalRNotifier = signalRNotifier;
         }
 
         async Task<Unit> IRequestHandler<AddNotification, Unit>.Handle(AddNotification request, CancellationToken cancellationToken)
         {
-            await autoTestContext.Notifications!.Upsert(request.Notification, a => a.NotificationId == request.Notification.NotificationId, cancellationToken);
-            await this.autoTestContext.SaveChangesAsync(cancellationToken);
+            await notificationsRepository.AddNotificaiton(request.Notification, cancellationToken);
             await signalRNotifier.NewNotification(request.Notification, cancellationToken);
             return new Unit();
         }

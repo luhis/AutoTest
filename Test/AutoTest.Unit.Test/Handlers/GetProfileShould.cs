@@ -1,36 +1,50 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
+using AutoTest.Domain.Repositories;
 using AutoTest.Domain.StorageModels;
-using AutoTest.Persistence;
 using AutoTest.Service.Handlers;
 using AutoTest.Service.Messages;
-using AutoTest.Unit.Test.Fixtures;
 using FluentAssertions;
 using MediatR;
+using Moq;
 using Xunit;
 
 namespace AutoTest.Unit.Test.Handlers
 {
     public class GetProfileShould
     {
+        private readonly MockRepository mr;
         private readonly IRequestHandler<GetProfile, Profile> sut;
-        private readonly AutoTestContext context;
+        private readonly Mock<IProfileRepository> profileRepository;
 
         public GetProfileShould()
         {
-            context = InMemDbFixture.GetDbContext();
-            sut = new GetProfileHandler(context);
+            mr = new MockRepository(MockBehavior.Strict);
+            profileRepository = mr.Create<IProfileRepository>();
+            sut = new GetProfileHandler(profileRepository.Object);
         }
 
         [Fact]
         public async Task ReturnBlankProfileIfNone()
         {
-            context.Users!.Should().BeEmpty();
             var email = "a@a.com";
+            profileRepository.Setup(a => a.Get(email, CancellationToken.None)).ReturnsAsync((Profile?)null);
+
             var res = await sut.Handle(new(email), CancellationToken.None);
 
             res.EmailAddress.Should().BeEquivalentTo(email);
-            context.Users!.Should().BeEmpty();
+        }
+
+        [Fact]
+        public async Task ReturnExistyngProfileIfSome()
+        {
+            var email = "a@a.com";
+            var profile = new Profile(email, "First", "Last", Domain.Enums.Age.Junior);
+            profileRepository.Setup(a => a.Get(email, CancellationToken.None)).ReturnsAsync(profile);
+
+            var res = await sut.Handle(new(email), CancellationToken.None);
+
+            res.Should().BeEquivalentTo(profile);
         }
     }
 }

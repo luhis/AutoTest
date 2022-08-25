@@ -4,10 +4,8 @@ using System.Threading.Tasks;
 using AutoTest.Domain.Enums;
 using AutoTest.Domain.Repositories;
 using AutoTest.Domain.StorageModels;
-using AutoTest.Persistence;
 using AutoTest.Service.Handlers;
 using AutoTest.Service.Messages;
-using AutoTest.Unit.Test.Fixtures;
 using FluentAssertions;
 using MediatR;
 using Moq;
@@ -18,16 +16,16 @@ namespace AutoTest.Unit.Test.Handlers
     public class IsClubAdminShould
     {
         private readonly IRequestHandler<IsClubAdmin, bool> sut;
-        private readonly AutoTestContext context;
+        private readonly Mock<IClubsRepository> clubsRepository;
         private readonly MockRepository mr;
         private readonly Mock<IEventsRepository> eventsRepository;
 
         public IsClubAdminShould()
         {
-            context = InMemDbFixture.GetDbContext();
             mr = new MockRepository(MockBehavior.Strict);
             eventsRepository = mr.Create<IEventsRepository>();
-            sut = new IsClubAdminHandler(context, eventsRepository.Object);
+            clubsRepository = mr.Create<IClubsRepository>();
+            sut = new IsClubAdminHandler(clubsRepository.Object, eventsRepository.Object);
         }
 
         [Fact]
@@ -38,8 +36,8 @@ namespace AutoTest.Unit.Test.Handlers
             eventsRepository.Setup(a => a.GetById(eventId, CancellationToken.None)).ReturnsAsync(
                 new Event(eventId, clubId, "location", new DateTime(2000, 1, 1), 2, 3, "regs", EventType.AutoSolo, "maps", TimingSystem.App, new DateTime(), new DateTime())
                 );
-            context.Clubs!.Add(new(clubId, "club", "pay@paypal.com", "www.club.com"));
-            await context.SaveChangesAsync();
+            var club = new Club(clubId, "club", "pay@paypal.com", "www.club.com");
+            clubsRepository.Setup(a => a.GetById(clubId, CancellationToken.None)).ReturnsAsync(club);
 
             var res = await sut.Handle(new(eventId, "a@a.com"), CancellationToken.None);
 

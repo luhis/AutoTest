@@ -1,26 +1,32 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
-using AutoTest.Persistence;
+using AutoTest.Domain.Repositories;
+using AutoTest.Service.Interfaces;
 using AutoTest.Service.Messages;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
 
 namespace AutoTest.Service.Handlers
 {
     public class DeleteMarshalHandler : IRequestHandler<DeleteMarshal>
     {
-        private readonly AutoTestContext _autoTestContext;
+        private readonly ISignalRNotifier signalRNotifier;
+        private readonly IMarshalsRepository _marshalsRepository
+            ;
 
-        public DeleteMarshalHandler(AutoTestContext autoTestContext)
+        public DeleteMarshalHandler(IMarshalsRepository marshalsRepository, ISignalRNotifier signalRNotifier)
         {
-            _autoTestContext = autoTestContext;
+            _marshalsRepository = marshalsRepository;
+            this.signalRNotifier = signalRNotifier;
         }
 
         async Task<Unit> IRequestHandler<DeleteMarshal, Unit>.Handle(DeleteMarshal request, CancellationToken cancellationToken)
         {
-            var found = await this._autoTestContext.Marshals!.SingleAsync(a => a.EventId == request.EventId && a.MarshalId == request.MarshalId, cancellationToken);
-            this._autoTestContext.Marshals!.Remove(found);
-            await this._autoTestContext.SaveChangesAsync(cancellationToken);
+            var found = await _marshalsRepository.GetById(request.EventId, request.MarshalId, cancellationToken);
+            if (found != null)
+            {
+                await _marshalsRepository.Remove(found, cancellationToken);
+                await signalRNotifier.RemoveEventMarshal(request.MarshalId, new[] { found.Email }, cancellationToken);
+            }
             return Unit.Value;
         }
     }

@@ -22,7 +22,7 @@ namespace AutoTest.Service.Handlers
 
         Task<Marshal> IRequestHandler<GetMarshal, Marshal>.Handle(GetMarshal request, CancellationToken cancellationToken)
         {
-            return this.marshalsRepository.GetById(request.EventId, request.MarshalId, cancellationToken);
+            return this.marshalsRepository.GetById(request.EventId, request.MarshalId, cancellationToken)!;
         }
     }
 }
