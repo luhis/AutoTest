@@ -41,17 +41,17 @@ namespace AutoTest.Unit.Test.Handlers
             var eventId = 1ul;
             var clubId = 2ul;
             var penalties = new[] { new Penalty(Domain.Enums.PenaltyEnum.Late, 1) };
-            var tr = new TestRun(1, eventId, 3, 4, entrantId, new System.DateTime(2000, 1, 1), marshalId);
+            var tr = new TestRun(1, eventId, 3, 4, entrantId, new DateTime(2000, 1, 1), marshalId);
             tr.SetPenalties(penalties);
             marshalsRepository.Setup(a => a.GetMashalIdByEmail(eventId, "marshal@email.com", CancellationToken.None)).ReturnsAsync(marshalId);
-            var @event = new Event(eventId, clubId, "location", new System.DateTime(2000, 1, 1), 2, 3, "regs", Domain.Enums.EventType.AutoSolo, "maps", Domain.Enums.TimingSystem.App, new DateTime(), new DateTime());
+            var @event = new Event(eventId, clubId, "location", new DateTime(2000, 1, 1), 2, 3, "regs", Domain.Enums.EventType.AutoSolo, "maps", Domain.Enums.TimingSystem.App, new DateTime(), new DateTime(), 10);
             @event.SetEventStatus(Domain.Enums.EventStatus.Running);
             events.Setup(a => a.GetById(eventId, CancellationToken.None)).ReturnsAsync(@event);
 
             notifier.Setup(a => a.NewTestRun(Its.EquivalentTo(tr), CancellationToken.None)).Returns(Task.CompletedTask);
             testRuns.Setup(a => a.AddTestRun(Its.EquivalentTo(tr), CancellationToken.None)).Returns(Task.CompletedTask);
 
-            await sut.Handle(new(1, eventId, 3, 4, entrantId, new System.DateTime(2000, 1, 1), "marshal@email.com", penalties), CancellationToken.None);
+            await sut.Handle(new(1, eventId, 3, 4, entrantId, new DateTime(2000, 1, 1), "marshal@email.com", penalties), CancellationToken.None);
 
             mr.VerifyAll();
         }
@@ -64,12 +64,12 @@ namespace AutoTest.Unit.Test.Handlers
             var eventId = 1ul;
             var clubId = 2ul;
             var penalties = new[] { new Penalty(Domain.Enums.PenaltyEnum.Late, 1) };
-            var tr = new TestRun(1, eventId, 3, 4, entrantId, new System.DateTime(2000, 1, 1), marshalId);
+            var tr = new TestRun(1, eventId, 3, 4, entrantId, new DateTime(2000, 1, 1), marshalId);
             tr.SetPenalties(penalties);
-            var @event = new Event(eventId, clubId, "location", new System.DateTime(2000, 1, 1), 2, 3, "regs", Domain.Enums.EventType.AutoSolo, "maps", Domain.Enums.TimingSystem.App, new DateTime(), new DateTime());
+            var @event = new Event(eventId, clubId, "location", new DateTime(2000, 1, 1), 2, 3, "regs", Domain.Enums.EventType.AutoSolo, "maps", Domain.Enums.TimingSystem.App, new DateTime(), new DateTime(), 10);
             events.Setup(a => a.GetById(eventId, CancellationToken.None)).ReturnsAsync(@event);
 
-            Func<Task<MediatR.Unit>> act = () => sut.Handle(new(1, eventId, 3, 4, entrantId, new System.DateTime(2000, 1, 1), "marshal@email.com", penalties), CancellationToken.None);
+            Func<Task<MediatR.Unit>> act = () => sut.Handle(new(1, eventId, 3, 4, entrantId, new DateTime(2000, 1, 1), "marshal@email.com", penalties), CancellationToken.None);
             await act.Should().ThrowAsync<Exception>().WithMessage("Event must be running to add Test Run");
 
             mr.VerifyAll();

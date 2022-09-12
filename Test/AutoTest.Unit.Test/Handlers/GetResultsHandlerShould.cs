@@ -38,7 +38,7 @@ namespace AutoTest.Unit.Test.Handlers
             var eventId = 22ul;
 
             eventsRepository.Setup(a => a.GetById(eventId, CancellationToken.None)).ReturnsAsync(
-                new Event(eventId, 1, "location", new System.DateTime(2000, 1, 1), 2, 3, "regs", EventType.AutoSolo, "maps", TimingSystem.App, new DateTime(), new DateTime())
+                new Event(eventId, 1, "location", new System.DateTime(2000, 1, 1), 2, 3, "regs", EventType.AutoSolo, "maps", TimingSystem.App, new DateTime(), new DateTime(), 10)
                 );
             var entrant = new Entrant(entrantId, 1, "matt", "mccorry", "a@a.com", "A", eventId, "BRMC", 1234, Age.Senior);
             entrant.SetPayment(new(new System.DateTime(2000, 1, 1), Domain.Enums.PaymentMethod.Paypal, new System.DateTime(2000, 2, 2)));

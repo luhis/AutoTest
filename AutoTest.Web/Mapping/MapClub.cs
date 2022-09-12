@@ -17,7 +17,7 @@ namespace AutoTest.Web.Mapping
         public static Event Map(ulong eventId, EventSaveModel @event)
         {
             var e = new Event(eventId, @event.ClubId, @event.Location, @event.StartTime, @event.TestCount,
-                @event.MaxAttemptsPerTest, @event.Regulations, @event.EventType, @event.Maps, TimingSystem.StopWatch, @event.EntryOpenDate, @event.EntryCloseDate);
+                @event.MaxAttemptsPerTest, @event.Regulations, @event.EventType, @event.Maps, TimingSystem.StopWatch, @event.EntryOpenDate, @event.EntryCloseDate, @event.MaxEntrants);
             return e;
         }
 

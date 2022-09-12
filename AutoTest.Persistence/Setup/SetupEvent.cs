@@ -20,6 +20,7 @@
             entity.Property(e => e.EventType).IsRequired();
             entity.Property(e => e.EventStatus).IsRequired();
             entity.Property(e => e.TimingSystem).IsRequired();
+            entity.Property(e => e.MaxEntrants).IsRequired();
             entity.HasOne<Club>().WithMany().HasForeignKey(p => p.ClubId);
             entity.OwnsMany(a => a.Tests, SetupTest.Setup);
         }

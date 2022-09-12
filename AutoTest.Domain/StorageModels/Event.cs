@@ -7,7 +7,7 @@ namespace AutoTest.Domain.StorageModels
 
     public class Event
     {
-        public Event(ulong eventId, ulong clubId, string location, DateTime startTime, int testCount, int maxAttemptsPerTest, string regulations, EventType eventType, string maps, TimingSystem timingSystem, DateTime entryOpenDate, DateTime entryCloseDate)
+        public Event(ulong eventId, ulong clubId, string location, DateTime startTime, int testCount, int maxAttemptsPerTest, string regulations, EventType eventType, string maps, TimingSystem timingSystem, DateTime entryOpenDate, DateTime entryCloseDate, uint maxEntrants)
         {
             EventId = eventId;
             ClubId = clubId;
@@ -21,6 +21,7 @@ namespace AutoTest.Domain.StorageModels
             TimingSystem = timingSystem;
             EntryOpenDate = entryOpenDate;
             EntryCloseDate = entryCloseDate;
+            MaxEntrants = maxEntrants;
         }
 
         public ulong EventId { get; }
@@ -52,6 +53,8 @@ namespace AutoTest.Domain.StorageModels
         public DateTime EntryOpenDate { get; }
 
         public DateTime EntryCloseDate { get; }
+
+        public uint MaxEntrants { get; }
 
         public void SetEventStatus(EventStatus eventStatus) => this.EventStatus = eventStatus;
 

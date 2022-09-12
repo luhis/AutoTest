@@ -24,5 +24,7 @@ namespace AutoTest.Web.Models
         public DateTime EntryOpenDate { get; set; }
 
         public DateTime EntryCloseDate { get; set; }
+
+        public uint MaxEntrants { get; set; }
     }
 }

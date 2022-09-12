@@ -43,7 +43,7 @@ namespace AutoTest.Unit.Test.Authorisation
             var ctx = HttpContextFixture.GetHttpContext(new[] { ("eventId", eventId.ToString()), ("entrantId", entrantId.ToString()) });
             httpContextAccessor.SetupGet(a => a.HttpContext).Returns(ctx);
             mediator.Setup(a => a.Send(Its.EquivalentTo(new GetEvent(eventId)), CancellationToken.None)).ReturnsAsync(
-                new Event(eventId, clubId, "Kestel Farm", new System.DateTime(), 99, 3, "", Domain.Enums.EventType.AutoTest, "", Domain.Enums.TimingSystem.StopWatch, new DateTime(), new DateTime()));
+                new Event(eventId, clubId, "Kestel Farm", new System.DateTime(), 99, 3, "", Domain.Enums.EventType.AutoTest, "", Domain.Enums.TimingSystem.StopWatch, new DateTime(), new DateTime(), 10));
             var club = new Club(clubId, "BRMC", "pay@brmc.org", "www.com");
             club.AdminEmails.Add(new("a@a.com"));
             mediator.Setup(a => a.Send(Its.EquivalentTo(new GetClub(clubId)), CancellationToken.None)).ReturnsAsync(
@@ -67,7 +67,7 @@ namespace AutoTest.Unit.Test.Authorisation
             var ctx = HttpContextFixture.GetHttpContext(new[] { ("eventId", eventId.ToString()), ("entrantId", entrantId.ToString()) });
             httpContextAccessor.SetupGet(a => a.HttpContext).Returns(ctx);
             mediator.Setup(a => a.Send(Its.EquivalentTo(new GetEvent(eventId)), CancellationToken.None)).ReturnsAsync(
-                new Event(eventId, clubId, "Kestel Farm", new System.DateTime(), 99, 3, "", Domain.Enums.EventType.AutoTest, "", Domain.Enums.TimingSystem.StopWatch, new DateTime(), new DateTime()));
+                new Event(eventId, clubId, "Kestel Farm", new System.DateTime(), 99, 3, "", Domain.Enums.EventType.AutoTest, "", Domain.Enums.TimingSystem.StopWatch, new DateTime(), new DateTime(), 10));
             var club = new Club(clubId, "BRMC", "pay@brmc.org", "www.com");
             club.AdminEmails.Add(new("a@a.com"));
             mediator.Setup(a => a.Send(Its.EquivalentTo(new GetClub(clubId)), CancellationToken.None)).ReturnsAsync(

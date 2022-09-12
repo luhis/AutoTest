@@ -146,6 +146,23 @@ const ModalX: FunctionComponent<Props> = ({
                         />
                     </Field>
                     <Field>
+                        <Label>Max Entrants</Label>
+                        <Input
+                            required
+                            type="number"
+                            min={1}
+                            step={1}
+                            value={event.maxEntrants}
+                            onChange={(e: OnChange): void =>
+                                setField({
+                                    maxEntrants: Math.floor(
+                                        e.target.valueAsNumber
+                                    ),
+                                })
+                            }
+                        />
+                    </Field>
+                    <Field>
                         <Label>Start Time</Label>
                         <Input
                             required

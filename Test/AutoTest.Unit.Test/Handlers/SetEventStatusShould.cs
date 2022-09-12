@@ -30,8 +30,8 @@ namespace AutoTest.Unit.Test.Handlers
         {
             var eventId = 11ul;
             var clubId = 2ul;
-            events.Setup(a => a.GetById(eventId, CancellationToken.None)).ReturnsAsync(new Event(eventId, clubId, "location", new System.DateTime(2000, 1, 1), 2, 3, "regs", Domain.Enums.EventType.AutoSolo, "maps", Domain.Enums.TimingSystem.App, new DateTime(), new DateTime()));
-            var toSave = new Event(eventId, clubId, "location", new System.DateTime(2000, 1, 1), 2, 3, "regs", Domain.Enums.EventType.AutoSolo, "maps", Domain.Enums.TimingSystem.App, new DateTime(), new DateTime());
+            events.Setup(a => a.GetById(eventId, CancellationToken.None)).ReturnsAsync(new Event(eventId, clubId, "location", new System.DateTime(2000, 1, 1), 2, 3, "regs", Domain.Enums.EventType.AutoSolo, "maps", Domain.Enums.TimingSystem.App, new DateTime(), new DateTime(), 10));
+            var toSave = new Event(eventId, clubId, "location", new System.DateTime(2000, 1, 1), 2, 3, "regs", Domain.Enums.EventType.AutoSolo, "maps", Domain.Enums.TimingSystem.App, new DateTime(), new DateTime(), 10);
             toSave.SetEventStatus(Domain.Enums.EventStatus.Open);
             events.Setup(a => a.Upsert(Its.EquivalentTo(toSave), CancellationToken.None)).Returns(Task.CompletedTask);
 

@@ -84,6 +84,7 @@ export interface Event {
     readonly startTime: ValidDate;
     readonly testCount: number;
     readonly maxAttemptsPerTest: number;
+    readonly maxEntrants: number;
     readonly tests: readonly Test[];
     readonly regulations: string | null;
     readonly maps: string | null;

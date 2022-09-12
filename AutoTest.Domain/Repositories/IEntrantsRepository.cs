@@ -19,5 +19,7 @@ namespace AutoTest.Domain.Repositories
         Task Update(Entrant entrant, CancellationToken cancellationToken);
 
         Task Delete(Entrant entrant, CancellationToken cancellationToken);
+
+        Task<int> GetEntrantCount(ulong eventId, CancellationToken cancellationToken);
     }
 }
