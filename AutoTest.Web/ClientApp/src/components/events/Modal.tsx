@@ -63,15 +63,13 @@ const ModalX: FunctionComponent<Props> = ({
                             multiple
                             required
                             class="is-fullwidth"
-                            onChange={(evt: OnSelectChange) => {
-                                // eslint-disable-next-line no-debugger
-                                debugger;
-                                return setField({
+                            onChange={(evt: OnSelectChange) =>
+                                setField({
                                     eventTypes: event.eventTypes.concat(
                                         Number.parseInt(evt.target.value)
                                     ),
-                                });
-                            }}
+                                })
+                            }
                             value={event.eventTypes}
                         >
                             {eventTypes.map((key) => (
