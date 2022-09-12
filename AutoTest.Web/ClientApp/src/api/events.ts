@@ -7,13 +7,24 @@ import { extract, getHeaders, throwIfNotOk } from "./api";
 export const getEvents = async (): Promise<ApiResponse<readonly Event[]>> =>
     toApiResponse(async () => {
         const response = await fetch("/api/events");
-        type ApiEvent = Override<Event, { readonly startTime: string }>;
+        type ApiEvent = Override<
+            Event,
+            {
+                readonly startTime: string;
+                readonly entryCloseDate: string;
+                readonly entryOpenDate: string;
+            }
+        >;
         const events = await extract<readonly ApiEvent[]>(response);
 
-        return events.map(({ startTime, ...rest }) => ({
-            ...rest,
-            startTime: parseIsoOrThrow(startTime),
-        }));
+        return events.map(
+            ({ startTime, entryCloseDate, entryOpenDate, ...rest }) => ({
+                ...rest,
+                startTime: parseIsoOrThrow(startTime),
+                entryCloseDate: parseIsoOrThrow(entryCloseDate),
+                entryOpenDate: parseIsoOrThrow(entryOpenDate),
+            })
+        );
     }, undefined);
 
 export const addEvent = async (
