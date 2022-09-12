@@ -88,7 +88,7 @@ export interface Event {
     readonly tests: readonly Test[];
     readonly regulations: string | null;
     readonly maps: string | null;
-    readonly eventType: EventType;
+    readonly eventTypes: readonly EventType[];
     readonly entryOpenDate: ValidDate;
     readonly entryCloseDate: ValidDate;
 }

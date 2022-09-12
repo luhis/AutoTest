@@ -40,7 +40,7 @@ namespace AutoTest.Unit.Test.Handlers
             var entrantFromDb = new Entrant(entrantId, 123, "name", "familyName", "a@a.com", "A", eventId, "BRMC", 123456, Age.Senior);
             entrantsRepository.Setup(a => a.GetById(eventId, entrantId, CancellationToken.None)).ReturnsAsync(entrantFromDb);
             entrantsRepository.Setup(a => a.Upsert(entrant, CancellationToken.None)).Returns(Task.CompletedTask);
-            eventsRepository.Setup(a => a.GetById(eventId, CancellationToken.None)).Returns(Task.FromResult(new Event(eventId, 1, "", DateTime.UtcNow, 3, 2, "", EventType.AutoTest, "", TimingSystem.StopWatch, DateTime.UtcNow.AddDays(-2), DateTime.UtcNow.AddDays(2), 10)));
+            eventsRepository.Setup(a => a.GetById(eventId, CancellationToken.None)).ReturnsAsync(new Event(eventId, 1, "", DateTime.UtcNow, 3, 2, "", new[] { EventType.AutoTest }, "", TimingSystem.StopWatch, DateTime.UtcNow.AddDays(-2), DateTime.UtcNow.AddDays(2), 10));
             entrantsRepository.Setup(a => a.GetEntrantCount(eventId, CancellationToken.None)).ReturnsAsync(0);
 
             var se = new SaveEntrant(entrant);
@@ -58,7 +58,7 @@ namespace AutoTest.Unit.Test.Handlers
             var entrant = new Entrant(entrantId, 123, "name", "familyName", "a@a.com", "A", eventId, "BRMC", 123456, Age.Senior);
             entrant.SetPayment(new Payment());
 
-            eventsRepository.Setup(a => a.GetById(eventId, CancellationToken.None)).Returns(Task.FromResult(new Event(eventId, 1, "", DateTime.UtcNow, 3, 2, "", EventType.AutoTest, "", TimingSystem.StopWatch, DateTime.UtcNow.AddDays(1), DateTime.UtcNow.AddDays(2), 10)));
+            eventsRepository.Setup(a => a.GetById(eventId, CancellationToken.None)).ReturnsAsync(new Event(eventId, 1, "", DateTime.UtcNow, 3, 2, "", new[] { EventType.AutoTest }, "", TimingSystem.StopWatch, DateTime.UtcNow.AddDays(1), DateTime.UtcNow.AddDays(2), 10));
 
             var se = new SaveEntrant(entrant);
             Func<Task> act = () => sut.Handle(se, CancellationToken.None);
@@ -76,7 +76,7 @@ namespace AutoTest.Unit.Test.Handlers
             var entrant = new Entrant(entrantId, 123, "name", "familyName", "a@a.com", "A", eventId, "BRMC", 123456, Age.Senior);
             entrant.SetPayment(new Payment());
 
-            eventsRepository.Setup(a => a.GetById(eventId, CancellationToken.None)).Returns(Task.FromResult(new Event(eventId, 1, "", DateTime.UtcNow, 3, 2, "", EventType.AutoTest, "", TimingSystem.StopWatch, DateTime.UtcNow.AddDays(-2), DateTime.UtcNow.AddDays(-1), 10)));
+            eventsRepository.Setup(a => a.GetById(eventId, CancellationToken.None)).ReturnsAsync(new Event(eventId, 1, "", DateTime.UtcNow, 3, 2, "", new[] { EventType.AutoTest }, "", TimingSystem.StopWatch, DateTime.UtcNow.AddDays(-2), DateTime.UtcNow.AddDays(-1), 10));
 
             var se = new SaveEntrant(entrant);
             Func<Task> act = () => sut.Handle(se, CancellationToken.None);
@@ -94,7 +94,7 @@ namespace AutoTest.Unit.Test.Handlers
             var entrant = new Entrant(entrantId, 123, "name", "familyName", "a@a.com", "A", eventId, "BRMC", 123456, Age.Senior);
             entrant.SetPayment(new Payment());
 
-            eventsRepository.Setup(a => a.GetById(eventId, CancellationToken.None)).Returns(Task.FromResult(new Event(eventId, 1, "", DateTime.UtcNow, 3, 2, "", EventType.AutoTest, "", TimingSystem.StopWatch, DateTime.UtcNow.AddDays(-2), DateTime.UtcNow.AddDays(1), 10)));
+            eventsRepository.Setup(a => a.GetById(eventId, CancellationToken.None)).ReturnsAsync(new Event(eventId, 1, "", DateTime.UtcNow, 3, 2, "", new[] { EventType.AutoTest }, "", TimingSystem.StopWatch, DateTime.UtcNow.AddDays(-2), DateTime.UtcNow.AddDays(1), 10));
             entrantsRepository.Setup(a => a.GetEntrantCount(eventId, CancellationToken.None)).ReturnsAsync(10);
 
             var se = new SaveEntrant(entrant);
@@ -116,7 +116,7 @@ namespace AutoTest.Unit.Test.Handlers
             entrantFromDb.SetPayment(new Payment());
             entrantsRepository.Setup(a => a.GetById(eventId, entrantId, CancellationToken.None)).ReturnsAsync(entrantFromDb);
             entrantsRepository.Setup(a => a.Upsert(entrant, CancellationToken.None)).Returns(Task.CompletedTask);
-            eventsRepository.Setup(a => a.GetById(eventId, CancellationToken.None)).Returns(Task.FromResult(new Event(eventId, 1, "", DateTime.UtcNow, 3, 2, "", EventType.AutoTest, "", TimingSystem.StopWatch, DateTime.UtcNow.AddDays(-2), DateTime.UtcNow.AddDays(2), 10)));
+            eventsRepository.Setup(a => a.GetById(eventId, CancellationToken.None)).ReturnsAsync(new Event(eventId, 1, "", DateTime.UtcNow, 3, 2, "", new[] { EventType.AutoTest }, "", TimingSystem.StopWatch, DateTime.UtcNow.AddDays(-2), DateTime.UtcNow.AddDays(2), 10));
             entrantsRepository.Setup(a => a.GetEntrantCount(eventId, CancellationToken.None)).ReturnsAsync(0);
 
             var se = new SaveEntrant(entrant);

@@ -60,20 +60,20 @@ const ModalX: FunctionComponent<Props> = ({
                     <Field>
                         <Label>Event Type</Label>
                         <Select<EventType>
+                            multiple
                             required
                             class="is-fullwidth"
-                            onChange={(evt: OnSelectChange) =>
-                                setField({
-                                    eventType: Number.parseInt(
-                                        evt.target.value
+                            onChange={(evt: OnSelectChange) => {
+                                // eslint-disable-next-line no-debugger
+                                debugger;
+                                return setField({
+                                    eventTypes: event.eventTypes.concat(
+                                        Number.parseInt(evt.target.value)
                                     ),
-                                })
-                            }
-                            value={event.eventType}
+                                });
+                            }}
+                            value={event.eventTypes}
                         >
-                            <option disabled value={Number.NaN}>
-                                - Please Select -
-                            </option>
                             {eventTypes.map((key) => (
                                 <option key={key} value={key}>
                                     {startCase(EventType[key])}

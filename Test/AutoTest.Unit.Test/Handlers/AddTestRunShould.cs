@@ -44,7 +44,7 @@ namespace AutoTest.Unit.Test.Handlers
             var tr = new TestRun(1, eventId, 3, 4, entrantId, new DateTime(2000, 1, 1), marshalId);
             tr.SetPenalties(penalties);
             marshalsRepository.Setup(a => a.GetMashalIdByEmail(eventId, "marshal@email.com", CancellationToken.None)).ReturnsAsync(marshalId);
-            var @event = new Event(eventId, clubId, "location", new DateTime(2000, 1, 1), 2, 3, "regs", Domain.Enums.EventType.AutoSolo, "maps", Domain.Enums.TimingSystem.App, new DateTime(), new DateTime(), 10);
+            var @event = new Event(eventId, clubId, "location", new DateTime(2000, 1, 1), 2, 3, "regs", new[] { Domain.Enums.EventType.AutoSolo }, "maps", Domain.Enums.TimingSystem.App, new DateTime(), new DateTime(), 10);
             @event.SetEventStatus(Domain.Enums.EventStatus.Running);
             events.Setup(a => a.GetById(eventId, CancellationToken.None)).ReturnsAsync(@event);
 
@@ -66,7 +66,7 @@ namespace AutoTest.Unit.Test.Handlers
             var penalties = new[] { new Penalty(Domain.Enums.PenaltyEnum.Late, 1) };
             var tr = new TestRun(1, eventId, 3, 4, entrantId, new DateTime(2000, 1, 1), marshalId);
             tr.SetPenalties(penalties);
-            var @event = new Event(eventId, clubId, "location", new DateTime(2000, 1, 1), 2, 3, "regs", Domain.Enums.EventType.AutoSolo, "maps", Domain.Enums.TimingSystem.App, new DateTime(), new DateTime(), 10);
+            var @event = new Event(eventId, clubId, "location", new DateTime(2000, 1, 1), 2, 3, "regs", new[] { Domain.Enums.EventType.AutoSolo }, "maps", Domain.Enums.TimingSystem.App, new DateTime(), new DateTime(), 10);
             events.Setup(a => a.GetById(eventId, CancellationToken.None)).ReturnsAsync(@event);
 
             Func<Task<MediatR.Unit>> act = () => sut.Handle(new(1, eventId, 3, 4, entrantId, new DateTime(2000, 1, 1), "marshal@email.com", penalties), CancellationToken.None);

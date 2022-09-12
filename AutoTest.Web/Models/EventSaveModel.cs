@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using AutoTest.Domain.Enums;
+using Microsoft.VisualBasic;
 
 namespace AutoTest.Web.Models
 {
@@ -19,7 +21,7 @@ namespace AutoTest.Web.Models
 
         public string Maps { get; set; } = string.Empty;
 
-        public EventType EventType { get; set; }
+        public ICollection<EventType> EventTypes { get; set; } = Array.Empty<EventType>();
 
         public DateTime EntryOpenDate { get; set; }
 
