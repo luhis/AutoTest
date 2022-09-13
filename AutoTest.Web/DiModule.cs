@@ -28,7 +28,7 @@ namespace AutoTest.Web
             collection.AddDbContext<AutoTestContext>(o => o.UseCosmos(
                 endpoint,
                 key,
-                databaseName: "AutoTestDB"));
+                "AutoTestDB"));
         }
     }
 }

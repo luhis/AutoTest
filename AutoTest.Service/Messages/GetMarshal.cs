@@ -7,7 +7,7 @@ using MediatR;
 
 namespace AutoTest.Service.Messages
 {
-    public class GetMarshal : IRequest<Marshal>
+    public class GetMarshal : IRequest<Marshal?>
     {
         public GetMarshal(ulong eventId, ulong marshalId)
         {

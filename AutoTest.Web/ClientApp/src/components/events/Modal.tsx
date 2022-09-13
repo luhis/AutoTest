@@ -63,13 +63,16 @@ const ModalX: FunctionComponent<Props> = ({
                             multiple
                             required
                             class="is-fullwidth"
-                            onChange={(evt: OnSelectChange) =>
-                                setField({
-                                    eventTypes: event.eventTypes.concat(
-                                        Number.parseInt(evt.target.value)
-                                    ),
-                                })
-                            }
+                            onChange={(evt: OnSelectChange) => {
+                                const newId = Number.parseInt(evt.target.value);
+                                return setField({
+                                    eventTypes: event.eventTypes.includes(newId)
+                                        ? event.eventTypes.filter(
+                                              (a) => a !== newId
+                                          )
+                                        : event.eventTypes.concat(newId),
+                                });
+                            }}
                             value={event.eventTypes}
                         >
                             {eventTypes.map((key) => (

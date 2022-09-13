@@ -19,9 +19,10 @@ namespace AutoTest.Service.Handlers
             this.marshalsRepository = autoTestContext;
         }
 
-        Task<IEnumerable<Marshal>> IRequestHandler<GetMarshals, IEnumerable<Marshal>>.Handle(GetMarshals request, CancellationToken cancellationToken)
+        async Task<IEnumerable<Marshal>> IRequestHandler<GetMarshals, IEnumerable<Marshal>>.Handle(GetMarshals request, CancellationToken cancellationToken)
         {
-            return this.marshalsRepository.GetByEventId(request.EventId).OrderByDescending(a => a.FamilyName).ThenByDescending(a => a.GivenName).ToEnumerableAsync(cancellationToken);
+            var partial = await this.marshalsRepository.GetByEventId(request.EventId).OrderByDescending(a => a.FamilyName).ToEnumerableAsync(cancellationToken);
+            return partial.OrderBy(a => a.FamilyName).ThenBy(a => a.GivenName);
         }
     }
 }

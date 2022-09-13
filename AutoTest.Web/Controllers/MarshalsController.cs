@@ -46,6 +46,7 @@ namespace AutoTest.Web.Controllers
         [HttpPut("{marshalId}")]
         public async Task<Marshal> PutMarshal(ulong eventId, ulong marshalId, MarshalSaveModel entrantSaveModel, CancellationToken cancellationToken)
         {
+            // todo cannot create new
             var currentUserEmail = this.User.GetEmailAddress();
             if (await this.mediator.Send(new IsClubAdmin(eventId, currentUserEmail), cancellationToken))
             {

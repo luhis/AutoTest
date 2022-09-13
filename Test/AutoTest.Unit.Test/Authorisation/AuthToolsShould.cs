@@ -50,7 +50,7 @@ namespace AutoTest.Unit.Test.Authorisation
         {
             var rd = new RouteData(new RouteValueDictionary());
 
-            Func<Task<string>> act = () => AuthTools.GetEmail(rd, mediator.Object);
+            Func<Task<string>> act = () => AuthTools.GetExistingEmail(rd, mediator.Object);
 
             await act.Should().ThrowAsync<Exception>().WithMessage("Don't know how to get Email from this request");
             mr.VerifyAll();
@@ -67,7 +67,7 @@ namespace AutoTest.Unit.Test.Authorisation
             mediator.Setup(a => a.Send(Its.EquivalentTo(new GetEntrant(eventId, entrantId)), CancellationToken.None)).ReturnsAsync(
                 new Entrant(entrantId, 22, "Joe", "Bloggs", "a@a.com", "A", 99, "BRMC", 123456, Domain.Enums.Age.Senior));
 
-            var email = await AuthTools.GetEmail(rd, mediator.Object);
+            var email = await AuthTools.GetExistingEmail(rd, mediator.Object);
 
             email.Should().BeEquivalentTo("a@a.com");
             mr.VerifyAll();
@@ -84,7 +84,7 @@ namespace AutoTest.Unit.Test.Authorisation
             mediator.Setup(a => a.Send(Its.EquivalentTo(new GetMarshal(eventId, marshalId)), CancellationToken.None)).ReturnsAsync(
                 new Marshal(marshalId, "Joe", "Bloggs", "a@a.com", eventId, 9876543, "role"));
 
-            var email = await AuthTools.GetEmail(rd, mediator.Object);
+            var email = await AuthTools.GetExistingEmail(rd, mediator.Object);
 
             email.Should().BeEquivalentTo("a@a.com");
             mr.VerifyAll();

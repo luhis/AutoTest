@@ -156,8 +156,15 @@ const Event: FunctionalComponent<Props> = ({ eventId }) => {
                 </Button>
             </Button.Group>
             <Button.Group>
-                <Button onClick={saveRegs}>Regs</Button>
-                <Button onClick={saveMaps}>Maps</Button>
+                <Button
+                    disabled={currentEvent?.regulations == ""}
+                    onClick={saveRegs}
+                >
+                    Regs
+                </Button>
+                <Button disabled={currentEvent?.maps == ""} onClick={saveMaps}>
+                    Maps
+                </Button>
             </Button.Group>
             {showAddNotificationModal ? (
                 <AddNotificationModal

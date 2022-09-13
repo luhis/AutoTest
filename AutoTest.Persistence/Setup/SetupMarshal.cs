@@ -17,6 +17,7 @@
             entity.HasOne<Event>().WithMany().HasForeignKey(p => p.EventId);
             entity.OwnsOne(a => a.EmergencyContact, SetupEmergencyContact.Setup);
             entity.OwnsOne(a => a.AcceptDeclaration, SetupAcceptDeclaration.Setup);
+            entity.HasIndex(a => new { a.FamilyName, a.GivenName });
         }
     }
 }
