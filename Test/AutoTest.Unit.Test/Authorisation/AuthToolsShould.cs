@@ -50,7 +50,7 @@ namespace AutoTest.Unit.Test.Authorisation
         {
             var rd = new RouteData(new RouteValueDictionary());
 
-            Func<Task<string>> act = () => AuthTools.GetExistingEmail(rd, mediator.Object);
+            Func<Task<string?>> act = () => AuthTools.GetExistingEmail(rd, mediator.Object);
 
             await act.Should().ThrowAsync<Exception>().WithMessage("Don't know how to get Email from this request");
             mr.VerifyAll();

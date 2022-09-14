@@ -21,7 +21,7 @@ namespace AutoTest.Web.Authorization
             throw new Exception("Don't know how to get EventId from this request");
         }
 
-        public static async Task<string> GetExistingEmail(RouteData routeData, IMediator mediator)
+        public static async Task<string?> GetExistingEmail(RouteData routeData, IMediator mediator)
         {
             if (routeData.Values.TryGetValue("eventId", out var eventIdString) && eventIdString != null)
             {
@@ -30,13 +30,13 @@ namespace AutoTest.Web.Authorization
                 {
                     var entrantId = ulong.Parse((string)entrantIdString);
                     var entrant = await mediator.Send(new GetEntrant(eventId, entrantId));
-                    return entrant!.Email;
+                    return entrant?.Email;
                 }
                 if (routeData.Values.TryGetValue("marshalId", out var marshalIdString) && marshalIdString != null)
                 {
                     var marshalId = ulong.Parse((string)marshalIdString);
                     var existing = await mediator.Send(new GetMarshal(eventId, marshalId));
-                    return existing!.Email;
+                    return existing?.Email;
                 }
             }
             throw new Exception("Don't know how to get Email from this request");
