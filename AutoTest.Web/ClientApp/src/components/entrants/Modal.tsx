@@ -3,7 +3,8 @@ import { Modal, Button, Form, Dropdown } from "react-bulma-components";
 import { useSelector } from "react-redux";
 const { Control, Field, Label, Input, Help, Checkbox, Radio } = Form;
 import { isEmpty } from "@s-libs/micro-dash";
-import { useState } from "preact/hooks";
+import { useState, useEffect } from "preact/hooks";
+import { newValidDate } from "ts-date";
 
 import { EditingEntrant } from "../../types/models";
 import { OnChange } from "../../types/inputs";
@@ -25,6 +26,11 @@ import DropdownInput from "../shared/DropdownInput";
 import MsaMembershipEditor from "../shared/MsaMembershipEditor";
 import { addPreventDefault } from "../../lib/form";
 import { Age } from "../../types/profileModels";
+import { selectProfile } from "../../store/profile/selectors";
+import { getAccessToken } from "../../api/api";
+import { useThunkDispatch } from "../../store";
+import { useGoogleAuth } from "../app";
+import { GetProfileIfRequired } from "../../store/profile/actions";
 
 const FillProfileButton: FunctionComponent<{
     readonly clubMemberships: readonly ClubMembership[];
@@ -73,10 +79,16 @@ const EntrantsModal: FunctionComponent<Props> = ({
     isClubAdmin,
     clubMemberships,
 }) => {
+    const auth = useGoogleAuth();
+    const thunkDispatch = useThunkDispatch();
     const classesInUse = useSelector(selectClassOptions);
     const makeAndModels = useSelector(selectMakeModelOptions);
     const licenseTypes = useSelector(selectLicenseTypeOptions);
     const clubOptions = useSelector(selectClubOptions);
+    const profile = useSelector(selectProfile);
+    useEffect(() => {
+        void thunkDispatch(GetProfileIfRequired(getAccessToken(auth)));
+    }, [thunkDispatch, auth]);
 
     const [saving, setSaving] = useState(false);
     const formSave = addPreventDefault(save, setSaving);
@@ -218,7 +230,21 @@ const EntrantsModal: FunctionComponent<Props> = ({
                     />
                     <Field>
                         <Control>
-                            <Checkbox>
+                            <Checkbox
+                                value={entrant.acceptDeclaration !== undefined}
+                                onClick={() =>
+                                    setField({
+                                        acceptDeclaration: {
+                                            timeStamp: newValidDate(),
+                                            isAccepted: true,
+                                            email:
+                                                profile.tag == "Loaded"
+                                                    ? profile.value.emailAddress
+                                                    : "",
+                                        },
+                                    })
+                                }
+                            >
                                 {"  "}I agree to the{" "}
                                 <a
                                     target="_blank"

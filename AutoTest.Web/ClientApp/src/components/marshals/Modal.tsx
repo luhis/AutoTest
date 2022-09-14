@@ -1,15 +1,21 @@
 import { h, FunctionComponent } from "preact";
 import { Modal, Button, Form } from "react-bulma-components";
 const { Control, Field, Label, Input, Help, Checkbox } = Form;
-import { useState } from "preact/hooks";
+import { useState, useEffect } from "preact/hooks";
+import { newValidDate } from "ts-date";
+import { useSelector } from "react-redux";
 
 import { EditingMarshal } from "../../types/models";
 import { OnChange } from "../../types/inputs";
-
-import { EmergencyContact } from "src/types/shared";
+import { EmergencyContact } from "../../types/shared";
 import EmergencyContactEditor from "../shared/EmergencyContactEditor";
 import { addPreventDefault } from "../../lib/form";
 import DropdownInput from "../shared/DropdownInput";
+import { selectProfile } from "../../store/profile/selectors";
+import { useGoogleAuth } from "../app";
+import { useThunkDispatch } from "../../store";
+import { getAccessToken } from "../../api/api";
+import { GetProfileIfRequired } from "../../store/profile/actions";
 
 interface Props {
     readonly marshal: EditingMarshal;
@@ -30,6 +36,13 @@ const MarshalsModal: FunctionComponent<Props> = ({
     fillFromProfile,
     isClubAdmin,
 }) => {
+    const auth = useGoogleAuth();
+    const thunkDispatch = useThunkDispatch();
+    const profile = useSelector(selectProfile);
+    useEffect(() => {
+        void thunkDispatch(GetProfileIfRequired(getAccessToken(auth)));
+    }, [thunkDispatch, auth]);
+
     const [saving, setSaving] = useState(false);
     const formSave = addPreventDefault(save, setSaving);
 
@@ -124,7 +137,21 @@ const MarshalsModal: FunctionComponent<Props> = ({
                     </Field>
                     <Field>
                         <Control>
-                            <Checkbox>
+                            <Checkbox
+                                value={marshal.acceptDeclaration !== undefined}
+                                onClick={() =>
+                                    setField({
+                                        acceptDeclaration: {
+                                            timeStamp: newValidDate(),
+                                            isAccepted: true,
+                                            email:
+                                                profile.tag == "Loaded"
+                                                    ? profile.value.emailAddress
+                                                    : "",
+                                        },
+                                    })
+                                }
+                            >
                                 {"  "}I agree to the{" "}
                                 <a
                                     target="_blank"

@@ -120,11 +120,18 @@ export interface PublicEntrant {
     readonly payment: Payment | null;
 }
 
+export type AcceptDeclaration = {
+    readonly isAccepted: boolean;
+    readonly email: string;
+    readonly timeStamp: ValidDate;
+};
+
 export type Entrant = {
     readonly msaMembership: MsaMembership;
     readonly emergencyContact: EmergencyContact;
     readonly clubNumber: number;
     readonly email: string;
+    readonly acceptDeclaration: AcceptDeclaration | null;
 } & PublicEntrant;
 
 export type EditingEntrant = Override<
@@ -146,6 +153,7 @@ export type Marshal = {
     readonly emergencyContact: EmergencyContact;
     readonly registrationNumber: number;
     readonly email: string;
+    readonly acceptDeclaration: AcceptDeclaration | null;
 } & PublicMarshal;
 
 export type EditingMarshal = Override<

@@ -180,6 +180,7 @@ const Entrants: FunctionalComponent<Readonly<Props>> = ({ eventId }) => {
             club: "",
             clubNumber: Number.NaN,
             payment: null,
+            acceptDeclaration: null,
         });
     }, [auth, thunkDispatch, eventId]);
     const setCurrentEditingEntrant = useCallback(

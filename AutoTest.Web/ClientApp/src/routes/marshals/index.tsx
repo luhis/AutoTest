@@ -112,6 +112,7 @@ const Marshals: FunctionalComponent<Readonly<Props>> = ({ eventId }) => {
             },
             role: "",
             registrationNumber: Number.NaN,
+            acceptDeclaration: null,
         });
     }, [auth, thunkDispatch, eventId]);
     const setCurrentEditingMarshal = useCallback(

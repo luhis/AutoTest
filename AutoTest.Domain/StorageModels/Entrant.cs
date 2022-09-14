@@ -56,6 +56,7 @@ namespace AutoTest.Domain.StorageModels
         public void SetMsaMembership(MsaMembership msaMembership) => MsaMembership = msaMembership;
 
         public void SetAcceptDeclaration(AcceptDeclaration acceptDeclaration) => AcceptDeclaration = acceptDeclaration;
+
         public void SetPayment(Payment? payment) => Payment = payment;
 
         public void SetEntrantStatus(EntrantStatus newStatus)

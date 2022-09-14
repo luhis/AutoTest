@@ -26,14 +26,19 @@ namespace AutoTest.Web.Mapping
             return new EmergencyContact(emergencyContact.Name, emergencyContact.Phone);
         }
 
-        private static MsaMembership Map(MsaMembershipSaveModel emergencyContact)
+        private static MsaMembership Map(MsaMembershipSaveModel membership)
         {
-            return new MsaMembership(emergencyContact.MsaLicenseType, emergencyContact.MsaLicense);
+            return new MsaMembership(membership.MsaLicenseType, membership.MsaLicense);
         }
 
         public static Payment Map(PaymentSaveModel payment)
         {
             return new Payment(payment.PaidAt, payment.Method, payment.Timestamp);
+        }
+
+        public static AcceptDeclaration Map(AcceptDeclarationSaveModel acceptDeclaration)
+        {
+            return new AcceptDeclaration(acceptDeclaration.Email, acceptDeclaration.TimeStamp, acceptDeclaration.IsAccepted);
         }
 
         public static Vehicle Map(VehicleSaveModel vehicle)
@@ -62,6 +67,7 @@ namespace AutoTest.Web.Mapping
             e.SetEmergencyContact(Map(entrant.EmergencyContact));
             e.SetMsaMembership(Map(entrant.MsaMembership));
             e.SetPayment(Map(entrant.Payment));
+            e.SetAcceptDeclaration(Map(entrant.AcceptDeclaration));
             return e;
         }
 
