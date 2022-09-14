@@ -31,6 +31,7 @@ import { getAccessToken } from "../../api/api";
 import { useThunkDispatch } from "../../store";
 import { useGoogleAuth } from "../app";
 import { GetProfileIfRequired } from "../../store/profile/actions";
+import { EntrantAgreement } from "../../settings";
 
 const FillProfileButton: FunctionComponent<{
     readonly clubMemberships: readonly ClubMembership[];
@@ -248,7 +249,7 @@ const EntrantsModal: FunctionComponent<Props> = ({
                                 {"  "}I agree to the{" "}
                                 <a
                                     target="_blank"
-                                    href="https://www.motorsportuk.org/wp-content/uploads/2020/06/2021-04-26-signing-on-declaration-competitor-pdf.pdf"
+                                    href={EntrantAgreement}
                                     rel="noreferrer"
                                 >
                                     Motorsport UK Pre-Event Declaration
