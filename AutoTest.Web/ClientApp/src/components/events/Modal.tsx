@@ -2,7 +2,7 @@ import { h, FunctionComponent } from "preact";
 import { Modal, Button, Form } from "react-bulma-components";
 import { newValidDateOrThrow } from "ts-date";
 import PromiseFileReader from "promise-file-reader";
-const { Label, Input, Field, Select, Help } = Form;
+const { Label, Input, Field, Select, Help, Checkbox, Control } = Form;
 import { isNil } from "@s-libs/micro-dash";
 import { useState } from "preact/hooks";
 
@@ -12,7 +12,7 @@ import { LoadingState } from "../../types/loadingState";
 import ifSome from "../shared/ifSome";
 import { getDateTimeString } from "../../lib/date";
 import { startCase } from "../../lib/string";
-import { addPreventDefault } from "../../lib/form";
+import { addPreventDefault, toggleValue } from "../../lib/form";
 
 interface Props {
     readonly event: EditingEvent;
@@ -59,28 +59,23 @@ const ModalX: FunctionComponent<Props> = ({
                     </Field>
                     <Field>
                         <Label>Event Type</Label>
-                        <Select<EventType>
-                            multiple
-                            required
-                            class="is-fullwidth"
-                            onChange={(evt: OnSelectChange) => {
-                                const newId = Number.parseInt(evt.target.value);
-                                return setField({
-                                    eventTypes: event.eventTypes.includes(newId)
-                                        ? event.eventTypes.filter(
-                                              (a) => a !== newId
-                                          )
-                                        : event.eventTypes.concat(newId),
-                                });
-                            }}
-                            value={event.eventTypes}
-                        >
-                            {eventTypes.map((key) => (
-                                <option key={key} value={key}>
+                        {eventTypes.map((key) => (
+                            <Control key={key}>
+                                <Checkbox
+                                    value={key}
+                                    onChange={() => {
+                                        return setField({
+                                            eventTypes: toggleValue(
+                                                event.eventTypes,
+                                                key
+                                            ),
+                                        });
+                                    }}
+                                >
                                     {startCase(EventType[key])}
-                                </option>
-                            ))}
-                        </Select>
+                                </Checkbox>
+                            </Control>
+                        ))}
                     </Field>
                     {event.isClubEditable ? (
                         <Field>

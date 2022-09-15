@@ -43,18 +43,20 @@ const PenaltyItem: FunctionComponent<
     return (
         <p class="mb-3">
             <Field kind="group" class="has-text-left">
-                <Button type="button" onClick={() => decrease(penaltyType)}>
-                    <FaMinus />
-                </Button>
-                <Button type="button" onClick={() => increase(penaltyType)}>
-                    <FaPlus />
-                </Button>
-                <Icon size="medium">
+                <Button.Group>
+                    <Button type="button" onClick={() => decrease(penaltyType)}>
+                        <FaMinus />
+                    </Button>
+                    <Button type="button" onClick={() => increase(penaltyType)}>
+                        <FaPlus />
+                    </Button>
+                </Button.Group>
+                <Icon size="medium ml-2">
                     <TypeIcon type={penaltyType} />
                 </Icon>
                 &nbsp;
                 <span class="has-text-medium">
-                    {`${startCase(PenaltyType[penaltyType])} ${getCount(
+                    {`${startCase(PenaltyType[penaltyType])}: ${getCount(
                         penalties,
                         penaltyType
                     )}`}

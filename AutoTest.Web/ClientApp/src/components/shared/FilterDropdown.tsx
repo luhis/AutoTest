@@ -3,6 +3,8 @@ import classNames from "classnames";
 import { Dropdown } from "react-bulma-components";
 import { StateUpdater } from "preact/hooks";
 
+import { toggleValue } from "../../lib/form";
+
 interface Props<T> {
     readonly filterName: string;
     readonly options: readonly T[];
@@ -38,11 +40,7 @@ const FilterDropdown = <T extends string | number>({
                 class={classNames("dropdown-item", {
                     "is-active": selected.includes(c),
                 })}
-                onClick={() =>
-                    setFilter((f) =>
-                        f.includes(c) ? f.filter((a) => a != c) : f.concat(c)
-                    )
-                }
+                onClick={() => setFilter((f) => toggleValue(f, c))}
             >
                 {c}
             </a>
