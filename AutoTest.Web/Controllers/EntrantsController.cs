@@ -67,7 +67,7 @@ namespace AutoTest.Web.Controllers
 
         [Authorize(policy: Policies.ClubAdmin)]
         [HttpPut("{entrantId}/setEntrantStatus")]
-        public Task SetEntrantStatus(ulong eventId, ulong entrantId, CancellationToken cancellationToken, EntrantStatus status) =>
+        public Task SetEntrantStatus(ulong eventId, ulong entrantId, EntrantStatus status, CancellationToken cancellationToken) =>
             this.mediator.Send(new SetEntrantStatus(eventId, entrantId, status), cancellationToken);
 
         [Authorize(policy: Policies.ClubAdminOrSelf)]

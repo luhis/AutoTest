@@ -66,7 +66,6 @@ namespace AutoTest.Web.Mapping
             e.SetVehicle(Map(entrant.Vehicle));
             e.SetEmergencyContact(Map(entrant.EmergencyContact));
             e.SetMsaMembership(Map(entrant.MsaMembership));
-            e.SetPayment(Map(entrant.Payment));
             e.SetAcceptDeclaration(Map(entrant.AcceptDeclaration));
             return e;
         }

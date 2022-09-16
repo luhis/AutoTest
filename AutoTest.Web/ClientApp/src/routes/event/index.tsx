@@ -1,6 +1,6 @@
 import { FunctionalComponent, h } from "preact";
 import { useCallback, useEffect, useState } from "preact/hooks";
-import { Button, Heading } from "react-bulma-components";
+import { Button, Heading, Panel } from "react-bulma-components";
 import { useSelector } from "react-redux";
 import { newValidDate } from "ts-date";
 import UUID from "uuid-int";
@@ -103,69 +103,104 @@ const Event: FunctionalComponent<Props> = ({ eventId }) => {
         <div>
             <Breadcrumbs club={currentClub} event={currentEvent} />
             <Heading>Event {currentEvent?.location}</Heading>
-
-            <Button.Group>
-                <Button
-                    onClick={() => setShowModal(true)}
-                    loading={mapOrDefault(notifications, (_) => false, true)}
-                >
-                    <FaBell />
-                    &nbsp;
-                    {mapOrDefault(
-                        notifications,
-                        (loadedNotifications) => loadedNotifications.length,
-                        0
-                    )}
-                </Button>
-                <Button
-                    disabled={canEdit}
-                    onClick={() =>
-                        setShowAddNotificationModal({
-                            eventId,
-                            notificationId: uid.uuid(),
-                            created: newValidDate(),
-                            message: "",
-                        })
-                    }
-                >
-                    Add Notification
-                </Button>
-            </Button.Group>
-
-            <Button.Group>
-                <Button
-                    disabled={canEdit}
-                    onClick={() => route(`/editRuns/${eventId}`)}
-                >
-                    Edit Runs
-                </Button>
-                <Button onClick={() => route(`/entrants/${eventId}`)}>
-                    Entrants
-                </Button>
-                <Button onClick={() => route(`/marshals/${eventId}`)}>
-                    Marshals
-                </Button>
-            </Button.Group>
-            <Button onClick={() => route(`/tests/${eventId}`)}>Tests</Button>
-            <Button.Group>
-                <Button onClick={() => route(`/results/${eventId}`)}>
-                    Results
-                </Button>
-                <Button onClick={() => route(`/liveRuns/${eventId}`)}>
-                    Live Runs
-                </Button>
-            </Button.Group>
-            <Button.Group>
-                <Button
-                    disabled={currentEvent?.regulations == ""}
-                    onClick={saveRegs}
-                >
-                    Regs
-                </Button>
-                <Button disabled={currentEvent?.maps == ""} onClick={saveMaps}>
-                    Maps
-                </Button>
-            </Button.Group>
+            <Panel>
+                <Panel.Header>Notifications</Panel.Header>
+                <Panel.Block>
+                    <Button.Group>
+                        <Button
+                            onClick={() => setShowModal(true)}
+                            loading={mapOrDefault(
+                                notifications,
+                                (_) => false,
+                                true
+                            )}
+                        >
+                            <FaBell />
+                            &nbsp;
+                            {mapOrDefault(
+                                notifications,
+                                (loadedNotifications) =>
+                                    loadedNotifications.length,
+                                0
+                            )}
+                        </Button>
+                        <Button
+                            disabled={canEdit}
+                            onClick={() =>
+                                setShowAddNotificationModal({
+                                    eventId,
+                                    notificationId: uid.uuid(),
+                                    created: newValidDate(),
+                                    message: "",
+                                })
+                            }
+                        >
+                            Add Notification
+                        </Button>
+                    </Button.Group>
+                </Panel.Block>
+            </Panel>
+            <Panel>
+                <Panel.Header>People</Panel.Header>
+                <Panel.Block>
+                    <Button.Group>
+                        <Button onClick={() => route(`/entrants/${eventId}`)}>
+                            Entrants
+                        </Button>
+                        <Button onClick={() => route(`/marshals/${eventId}`)}>
+                            Marshals
+                        </Button>
+                    </Button.Group>
+                </Panel.Block>
+            </Panel>
+            <Panel>
+                <Panel.Header>Times</Panel.Header>
+                <Panel.Block>
+                    <Button.Group>
+                        <Button onClick={() => route(`/tests/${eventId}`)}>
+                            Tests
+                        </Button>
+                        <Button
+                            disabled={canEdit}
+                            onClick={() => route(`/editRuns/${eventId}`)}
+                        >
+                            Edit Runs
+                        </Button>
+                    </Button.Group>
+                </Panel.Block>
+            </Panel>
+            <Panel>
+                <Panel.Header>Results</Panel.Header>
+                <Panel.Block>
+                    <Button.Group>
+                        <Button onClick={() => route(`/results/${eventId}`)}>
+                            Results
+                        </Button>
+                        <Button onClick={() => route(`/liveRuns/${eventId}`)}>
+                            Live Runs
+                        </Button>
+                    </Button.Group>
+                </Panel.Block>
+            </Panel>
+            <Panel>
+                <Panel.Header>Downloads</Panel.Header>
+                <Panel.Block>
+                    <Button.Group>
+                        <Button
+                            disabled={currentEvent?.regulations == ""}
+                            onClick={saveRegs}
+                        >
+                            Regs
+                        </Button>
+                        <Button
+                            disabled={currentEvent?.maps == ""}
+                            onClick={saveMaps}
+                        >
+                            Maps
+                        </Button>
+                    </Button.Group>
+                </Panel.Block>
+            </Panel>
             {showAddNotificationModal ? (
                 <AddNotificationModal
                     cancel={() => setShowAddNotificationModal(undefined)}
