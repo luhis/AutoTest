@@ -7,7 +7,7 @@ import {
     LogLevel,
     HubConnection,
 } from "@microsoft/signalr";
-import { compact, last } from "@s-libs/micro-dash";
+import { compact, last, sortBy } from "@s-libs/micro-dash";
 import { route } from "preact-router";
 
 import { Override, TestRunFromServer } from "../../types/models";
@@ -95,7 +95,7 @@ const Results: FunctionalComponent<Props> = ({
             <FilterDropdown
                 filterName="Test"
                 options={allTests}
-                selected={testFilterState}
+                selected={sortBy(testFilterState, (a) => a)}
                 setFilter={setTestFilterState}
             />
             {currentRun ? (

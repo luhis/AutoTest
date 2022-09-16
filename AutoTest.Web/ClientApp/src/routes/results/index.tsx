@@ -145,35 +145,38 @@ const Results: FunctionComponent<
         }
     }, [access.editableEntrants, connection, dispatch, eventId]);
     const [showModal, setShowModal] = useState(false);
-    const [_, setClassFilter] = useState<readonly string[]>(classFilter);
+    const [classFilterState, setClassFilter] =
+        useState<readonly string[]>(classFilter);
     useEffect(() => {
         route(
-            `/results/${eventId}?classFilter=${classFilter.join(",")}`,
+            `/results/${eventId}?classFilter=${classFilterState.join(",")}`,
             false
         );
-    }, [classFilter, eventId]);
+    }, [classFilterState, eventId]);
     const allClasses = mapOrDefault(results, (a) => a.map((b) => b.class), []);
 
     return (
         <div>
             <Breadcrumbs club={currentClub} event={currentEvent} />
             <Heading>Results</Heading>
-            <Button
-                onClick={() => setShowModal(true)}
-                loading={notifications.tag === "Loaded" ? false : true}
-            >
-                <FaBell />
-                &nbsp;
-                {notifications.tag === "Loaded"
-                    ? notifications.value.length
-                    : 0}
-            </Button>
-            <FilterDropdown
-                filterName="Class"
-                options={allClasses}
-                selected={classFilter}
-                setFilter={setClassFilter}
-            />
+            <Button.Group>
+                <Button
+                    onClick={() => setShowModal(true)}
+                    loading={notifications.tag === "Loaded" ? false : true}
+                >
+                    <FaBell />
+                    &nbsp;
+                    {notifications.tag === "Loaded"
+                        ? notifications.value.length
+                        : 0}
+                </Button>
+                <FilterDropdown
+                    filterName="Class"
+                    options={allClasses}
+                    selected={classFilter}
+                    setFilter={setClassFilter}
+                />
+            </Button.Group>
             {window.Notification.permission !== "granted"
                 ? "Please allow notifications to get run notifications"
                 : null}
