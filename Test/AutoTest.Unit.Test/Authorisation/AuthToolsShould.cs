@@ -74,6 +74,23 @@ namespace AutoTest.Unit.Test.Authorisation
         }
 
         [Fact]
+        public async Task GetFromEntrantIdNotFound()
+        {
+            var eventId = 1ul;
+            var entrantId = 2ul;
+            var rd = new RouteData(new RouteValueDictionary());
+            rd.Values.Add("eventId", eventId.ToString());
+            rd.Values.Add("entrantId", entrantId.ToString());
+            mediator.Setup(a => a.Send(Its.EquivalentTo(new GetEntrant(eventId, entrantId)), CancellationToken.None)).ReturnsAsync((Entrant?)
+                null);
+
+            var email = await AuthTools.GetExistingEmail(rd, mediator.Object);
+
+            email.Should().BeNull();
+            mr.VerifyAll();
+        }
+
+        [Fact]
         public async Task GetFromMarshalId()
         {
             var eventId = 1ul;
@@ -87,6 +104,22 @@ namespace AutoTest.Unit.Test.Authorisation
             var email = await AuthTools.GetExistingEmail(rd, mediator.Object);
 
             email.Should().BeEquivalentTo("a@a.com");
+            mr.VerifyAll();
+        }
+
+        [Fact]
+        public async Task GetFromMarshalIdNotFound()
+        {
+            var eventId = 1ul;
+            var marshalId = 2ul;
+            var rd = new RouteData(new RouteValueDictionary());
+            rd.Values.Add("eventId", eventId.ToString());
+            rd.Values.Add("marshalId", marshalId.ToString());
+            mediator.Setup(a => a.Send(Its.EquivalentTo(new GetMarshal(eventId, marshalId)), CancellationToken.None)).ReturnsAsync((Marshal?)null);
+
+            var email = await AuthTools.GetExistingEmail(rd, mediator.Object);
+
+            email.Should().BeNull();
             mr.VerifyAll();
         }
     }
