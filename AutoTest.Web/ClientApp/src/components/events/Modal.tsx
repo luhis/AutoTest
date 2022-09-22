@@ -24,6 +24,9 @@ interface Props {
 
 const getFileLength = (data: string | null) =>
     data ? atob(data.split("base64,")[1]).length : 0;
+const eventTypes = Object.keys(EventType)
+    .map((a) => Number.parseInt(a))
+    .filter((key) => !isNaN(key));
 
 const ModalX: FunctionComponent<Props> = ({
     event,
@@ -32,10 +35,6 @@ const ModalX: FunctionComponent<Props> = ({
     cancel,
     setField,
 }) => {
-    const eventTypes = Object.keys(EventType)
-        .map((a) => Number.parseInt(a))
-        .filter((key) => !isNaN(key));
-
     const [saving, setSaving] = useState(false);
     const formSave = addPreventDefault(save, setSaving);
     return (
@@ -62,7 +61,7 @@ const ModalX: FunctionComponent<Props> = ({
                         {eventTypes.map((key) => (
                             <Control key={key}>
                                 <Checkbox
-                                    value={key}
+                                    checked={event.eventTypes.includes(key)}
                                     onChange={() => {
                                         return setField({
                                             eventTypes: toggleValue(

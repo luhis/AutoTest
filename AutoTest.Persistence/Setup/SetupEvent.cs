@@ -24,7 +24,7 @@
             entity.Property(e => e.Maps).IsRequired();
             entity.Property(e => e.EventTypes).IsRequired().HasConversion(
                 a => string.Join(",", a.Select(t => (int)t)),
-                a => a!.Split(",", System.StringSplitOptions.None).Select(e => int.Parse(e)).Cast<EventType>().ToArray());
+                a => a!.Split(",", StringSplitOptions.None).Where(a => !string.IsNullOrEmpty(a)).Select(e => (EventType)int.Parse(e)).ToArray());
             var valueComparer = new ValueComparer<ICollection<EventType>>(
                 (c1, c2) => c1!.SequenceEqual(c2!),
                 c => c.Aggregate(0, (a, v) => HashCode.Combine(a, v.GetHashCode())),

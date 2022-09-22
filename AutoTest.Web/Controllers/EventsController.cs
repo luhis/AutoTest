@@ -31,7 +31,7 @@ namespace AutoTest.Web.Controllers
         [Authorize(policy: Policies.ClubAdmin)]
         [HttpPut("{eventId}")]
         public Task<ulong> Save(ulong eventId, EventSaveModel @event, CancellationToken cancellationToken) =>
-            this.mediator.Send(new SaveEvent(MapClub.Map(eventId, @event)), cancellationToken);
+            this.mediator.Send(new SaveEvent(MapEvent.Map(eventId, @event)), cancellationToken);
 
         [Authorize(policy: Policies.ClubAdmin)]
         [HttpPut("{eventId}/setEntrantStatus")]

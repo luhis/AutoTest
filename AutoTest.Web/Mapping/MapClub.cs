@@ -1,5 +1,4 @@
 ﻿using System.Linq;
-using AutoTest.Domain.Enums;
 using AutoTest.Domain.StorageModels;
 using AutoTest.Web.Models;
 
@@ -12,13 +11,6 @@ namespace AutoTest.Web.Mapping
             var c = new Club(clubId, model.ClubName, model.ClubPaymentAddress, model.Website);
             c.SetAdminEmails(model.AdminEmails.Select(a => new AuthorisationEmail(a.Email)).ToArray());
             return c;
-        }
-
-        public static Event Map(ulong eventId, EventSaveModel @event)
-        {
-            var e = new Event(eventId, @event.ClubId, @event.Location, @event.StartTime, @event.TestCount,
-                @event.MaxAttemptsPerTest, @event.Regulations, @event.EventTypes, @event.Maps, TimingSystem.StopWatch, @event.EntryOpenDate, @event.EntryCloseDate, @event.MaxEntrants);
-            return e;
         }
 
         private static EmergencyContact Map(EmergencyContactSaveModel emergencyContact)
