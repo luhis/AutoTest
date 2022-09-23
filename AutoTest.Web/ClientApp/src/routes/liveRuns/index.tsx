@@ -10,8 +10,8 @@ import {
 import { compact, last, sortBy } from "@s-libs/micro-dash";
 import { route } from "preact-router";
 
-import { Override, TestRunFromServer } from "../../types/models";
-import { findIfLoaded } from "../../types/loadingState";
+import { Override, PublicEntrant, TestRunFromServer } from "../../types/models";
+import { findIfLoaded, LoadingState } from "../../types/loadingState";
 import { useGoogleAuth } from "../../components/app";
 import { getAccessToken } from "../../api/api";
 import { selectEntrants, selectEvents } from "../../store/event/selectors";
@@ -29,6 +29,17 @@ interface Props {
     readonly testFilter: readonly number[];
     readonly connection: HubConnection | undefined;
 }
+
+const getEntrantName = (
+    currentEntrants: LoadingState<readonly PublicEntrant[], number>,
+    entrantId: number
+) => {
+    const found = findIfLoaded(
+        currentEntrants,
+        (a) => a.entrantId === entrantId
+    );
+    return found ? `${found.givenName} ${found.familyName}` : "Not Found";
+};
 
 const baseConn = new HubConnectionBuilder()
     .withUrl("/resultsHub")
@@ -79,14 +90,6 @@ const Results: FunctionalComponent<Props> = ({
         ? currentEvent.tests.map((a) => a.ordinal + 1)
         : [];
 
-    const getEntrantName = (entrantId: number) => {
-        const found = findIfLoaded(
-            currentEntrants,
-            (a) => a.entrantId === entrantId
-        );
-        return found ? `${found.givenName} ${found.familyName}` : "Not Found";
-    };
-
     const currentRun = last(runs.filter(filterRuns));
     return (
         <div>
@@ -100,7 +103,7 @@ const Results: FunctionalComponent<Props> = ({
             />
             {currentRun ? (
                 <p>
-                    {getEntrantName(currentRun.entrantId)}:{" "}
+                    {getEntrantName(currentEntrants, currentRun.entrantId)}:{" "}
                     {(currentRun.timeInMS / 1_000).toFixed(2)}s
                     <Penalties penalties={currentRun.penalties} />
                 </p>

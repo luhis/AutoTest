@@ -232,7 +232,9 @@ const EntrantsModal: FunctionComponent<Props> = ({
                     <Field>
                         <Control>
                             <Checkbox
-                                checked={entrant.acceptDeclaration !== undefined}
+                                checked={
+                                    entrant.acceptDeclaration !== undefined
+                                }
                                 onClick={() =>
                                     setField({
                                         acceptDeclaration: {

@@ -139,7 +139,9 @@ const MarshalsModal: FunctionComponent<Props> = ({
                     <Field>
                         <Control>
                             <Checkbox
-                                checked={marshal.acceptDeclaration !== undefined}
+                                checked={
+                                    marshal.acceptDeclaration !== undefined
+                                }
                                 onClick={() =>
                                     setField({
                                         acceptDeclaration: {
