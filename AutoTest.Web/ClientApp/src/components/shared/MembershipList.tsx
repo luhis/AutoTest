@@ -30,6 +30,7 @@ const MembershipList: FunctionComponent<Props> = ({
 }) => {
     const [newMembership, setNewEmail] =
         useState<EditingMembership>(blankState);
+    const currentTime = newValidDate();
     return (
         <Fragment>
             <Label>Memberships</Label>
@@ -40,7 +41,7 @@ const MembershipList: FunctionComponent<Props> = ({
                     <Level.Item
                         align="left"
                         textColor={
-                            a.expiry < newValidDate() ? "danger" : undefined
+                            a.expiry < currentTime ? "danger" : undefined
                         }
                     >
                         {a.expiry.toLocaleDateString()}

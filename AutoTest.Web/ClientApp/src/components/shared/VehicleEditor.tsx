@@ -23,7 +23,7 @@ const VehicleEditor: FunctionComponent<Props> = ({
     const models = distinct(
         makeAndModels
             .filter(({ make }) => make === vehicle.make)
-            .map((a) => a.model)
+            .map(({ model }) => model)
     );
 
     const setInduction = (e: OnChange) =>

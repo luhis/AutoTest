@@ -12,7 +12,8 @@
     "Precaching",
     "Regs",
     "Renderable",
-    "signalr"
+    "signalr",
+    "timeago"
   ],
   "files.eol": "\n",
   "typescript.tsdk": "node_modules\\typescript\\lib"
