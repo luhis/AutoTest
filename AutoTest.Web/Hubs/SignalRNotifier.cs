@@ -12,17 +12,19 @@ namespace AutoTest.Web.Hubs
 {
     public class SignalRNotifier : ISignalRNotifier
     {
-        private readonly IHubContext<ResultsHub> hub;
+        private readonly IHubContext<ResultsHub> resultsHub;
+        private readonly IHubContext<AuthorisationHub> authorisationHub;
         private readonly IMediator mediator;
 
-        public SignalRNotifier(IHubContext<ResultsHub> hub, IMediator mediator)
+        public SignalRNotifier(IHubContext<ResultsHub> resultsHub, IMediator mediator, IHubContext<AuthorisationHub> authorisationHub)
         {
-            this.hub = hub;
+            this.resultsHub = resultsHub;
             this.mediator = mediator;
+            this.authorisationHub = authorisationHub;
         }
 
-        private IClientProxy GetEventGroup(ulong eventId) => this.hub.Clients.Group(ResultsHub.GetEventKey(eventId));
-        private IClientProxy GetEmailGroup(string email) => this.hub.Clients.Group(AuthorisationHub.GetEmailKey(email));
+        private IClientProxy GetEventGroup(ulong eventId) => this.resultsHub.Clients.Group(ResultsHub.GetEventKey(eventId));
+        private IClientProxy GetEmailGroup(string email) => this.authorisationHub.Clients.Group(AuthorisationHub.GetEmailKey(email));
 
 
         async Task ISignalRNotifier.NewTestRun(TestRun testRun, CancellationToken cancellationToken)
