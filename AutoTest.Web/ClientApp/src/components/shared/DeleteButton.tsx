@@ -34,7 +34,7 @@ const DeleteButton: FunctionComponent<Props> = ({ deleteFunc, disabled }) => {
     const hide = useCallback(() => setShowModal(false), []);
     return (
         <Fragment>
-            <Button disabled={disabled} color="danger" onClick={show}>
+            <Button delete disabled={disabled} color="danger" onClick={show}>
                 Delete
             </Button>
             {showModal ? (

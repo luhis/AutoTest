@@ -225,7 +225,7 @@ namespace AutoTest.Web
                         var connect = builder.AddConnectSrc().Self().From(googleCom);
                         if (env.IsDevelopment())
                         {
-                            connect.From("https://localhost:*");
+                            connect.From("https://localhost:*").From("wss://localhost:*");
                         }
 
                         builder.AddUpgradeInsecureRequests();

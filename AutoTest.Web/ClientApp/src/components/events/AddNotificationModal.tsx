@@ -44,8 +44,8 @@ const AddNotificationModal: FunctionComponent<Props> = ({
                     <Button loading={saving} color="primary" type="submit">
                         Save
                     </Button>
-                    <Button color="secondary" onClick={cancel}>
-                        Close
+                    <Button type="button" color="secondary" onClick={cancel}>
+                        Cancel
                     </Button>
                 </Modal.Card.Footer>
             </Modal.Card>

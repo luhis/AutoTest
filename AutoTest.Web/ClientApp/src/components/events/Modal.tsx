@@ -255,8 +255,8 @@ const ModalX: FunctionComponent<Props> = ({
                     <Button loading={saving} color="primary">
                         Save changes
                     </Button>
-                    <Button color="secondary" onClick={cancel}>
-                        Close
+                    <Button type="button" color="secondary" onClick={cancel}>
+                        Cancel
                     </Button>
                 </Modal.Card.Footer>
             </Modal.Card>
