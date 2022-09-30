@@ -21,8 +21,8 @@ namespace AutoTest.Web.Hubs
             this.mediator = mediator;
         }
 
-        private IClientProxy GetEventGroup(ulong eventId) => this.hub.Clients.Group($"eventId:{eventId}");
-        private IClientProxy GetEmailGroup(string email) => this.hub.Clients.Group(email);
+        private IClientProxy GetEventGroup(ulong eventId) => this.hub.Clients.Group(ResultsHub.GetEventKey(eventId));
+        private IClientProxy GetEmailGroup(string email) => this.hub.Clients.Group(AuthorisationHub.GetEmailKey(email));
 
 
         async Task ISignalRNotifier.NewTestRun(TestRun testRun, CancellationToken cancellationToken)
