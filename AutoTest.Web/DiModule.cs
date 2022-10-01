@@ -1,5 +1,4 @@
 ﻿using AutoTest.Service.Interfaces;
-using AutoTest.Web.Authorization;
 using AutoTest.Web.Hubs;
 using Microsoft.Extensions.Configuration;
 
@@ -25,6 +24,7 @@ namespace AutoTest.Web
             collection.AddScoped<IAuthorizationHandler, ClubAdminOrSelfRequirementSelfHander>();
             collection.AddScoped<IAuthorizationHandler, ClubAdminOrSelfRequirementClubAdminHandler>();
             collection.AddScoped<ISignalRNotifier, SignalRNotifier>();
+            collection.AddScoped<IAuthorisationNotifier, AuthorisationNotifier>();
             collection.AddDbContext<AutoTestContext>(o => o.UseCosmos(
                 endpoint,
                 key,

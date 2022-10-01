@@ -19,13 +19,13 @@ namespace AutoTest.Unit.Test.Handlers
         private readonly IRequestHandler<SaveClub, ulong> sut;
         private readonly MockRepository mr;
         private readonly Mock<IClubsRepository> clubsRepository;
-        private readonly Mock<ISignalRNotifier> signalRNotifier;
+        private readonly Mock<IAuthorisationNotifier> signalRNotifier;
 
         public SaveClubHandlerShould()
         {
             mr = new MockRepository(MockBehavior.Strict);
             clubsRepository = mr.Create<IClubsRepository>();
-            signalRNotifier = mr.Create<ISignalRNotifier>();
+            signalRNotifier = mr.Create<IAuthorisationNotifier>();
             sut = new SaveClubHandler(clubsRepository.Object, signalRNotifier.Object);
         }
 

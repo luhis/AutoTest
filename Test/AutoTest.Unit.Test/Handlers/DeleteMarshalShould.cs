@@ -16,13 +16,13 @@ namespace AutoTest.Unit.Test.Handlers
         private readonly IRequestHandler<DeleteMarshal> sut;
         private readonly MockRepository mr;
         private readonly Mock<IMarshalsRepository> entrants;
-        private readonly Mock<ISignalRNotifier> signalRNotifier;
+        private readonly Mock<IAuthorisationNotifier> signalRNotifier;
 
         public DeleteMarshalShould()
         {
             mr = new MockRepository(MockBehavior.Strict);
             entrants = mr.Create<IMarshalsRepository>();
-            signalRNotifier = mr.Create<ISignalRNotifier>();
+            signalRNotifier = mr.Create<IAuthorisationNotifier>();
             sut = new DeleteMarshalHandler(entrants.Object, signalRNotifier.Object);
         }
 

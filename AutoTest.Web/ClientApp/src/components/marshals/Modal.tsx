@@ -143,16 +143,22 @@ const MarshalsModal: FunctionComponent<Props> = ({
                                     marshal.acceptDeclaration !== undefined
                                 }
                                 onClick={() =>
-                                    setField({
-                                        acceptDeclaration: {
-                                            timeStamp: newValidDate(),
-                                            isAccepted: true,
-                                            email:
-                                                profile.tag == "Loaded"
-                                                    ? profile.value.emailAddress
-                                                    : "",
-                                        },
-                                    })
+                                    setField(
+                                        marshal.acceptDeclaration === undefined
+                                            ? {
+                                                  acceptDeclaration: {
+                                                      timeStamp: newValidDate(),
+                                                      isAccepted: true,
+                                                      email:
+                                                          profile.tag ==
+                                                          "Loaded"
+                                                              ? profile.value
+                                                                    .emailAddress
+                                                              : "",
+                                                  },
+                                              }
+                                            : { acceptDeclaration: undefined }
+                                    )
                                 }
                             >
                                 {"  "}I agree to the{" "}

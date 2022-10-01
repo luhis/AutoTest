@@ -9,11 +9,11 @@ namespace AutoTest.Service.Handlers
 {
     public class DeleteMarshalHandler : IRequestHandler<DeleteMarshal>
     {
-        private readonly ISignalRNotifier signalRNotifier;
+        private readonly IAuthorisationNotifier signalRNotifier;
         private readonly IMarshalsRepository _marshalsRepository
             ;
 
-        public DeleteMarshalHandler(IMarshalsRepository marshalsRepository, ISignalRNotifier signalRNotifier)
+        public DeleteMarshalHandler(IMarshalsRepository marshalsRepository, IAuthorisationNotifier signalRNotifier)
         {
             _marshalsRepository = marshalsRepository;
             this.signalRNotifier = signalRNotifier;

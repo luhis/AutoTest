@@ -17,13 +17,13 @@ namespace AutoTest.Unit.Test.Handlers
     {
         private readonly IRequestHandler<SaveMarshal, Marshal> sut;
         private readonly MockRepository mr;
-        private readonly Mock<ISignalRNotifier> signalRNotifier;
+        private readonly Mock<IAuthorisationNotifier> signalRNotifier;
         private readonly Mock<IMarshalsRepository> marshalRepository;
 
         public SaveMarshalHandlerShould()
         {
             mr = new MockRepository(MockBehavior.Strict);
-            signalRNotifier = mr.Create<ISignalRNotifier>();
+            signalRNotifier = mr.Create<IAuthorisationNotifier>();
             marshalRepository = mr.Create<IMarshalsRepository>();
             sut = new SaveMarshalHandler(marshalRepository.Object, signalRNotifier.Object);
         }

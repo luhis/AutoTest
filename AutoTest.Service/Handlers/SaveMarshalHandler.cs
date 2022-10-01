@@ -11,9 +11,9 @@ namespace AutoTest.Service.Handlers
     public class SaveMarshalHandler : IRequestHandler<SaveMarshal, Marshal>
     {
         private readonly IMarshalsRepository _marshalRepository;
-        private readonly ISignalRNotifier signalRNotifier;
+        private readonly IAuthorisationNotifier signalRNotifier;
 
-        public SaveMarshalHandler(IMarshalsRepository marshalRepository, ISignalRNotifier signalRNotifier)
+        public SaveMarshalHandler(IMarshalsRepository marshalRepository, IAuthorisationNotifier signalRNotifier)
         {
             this._marshalRepository = marshalRepository;
             this.signalRNotifier = signalRNotifier;

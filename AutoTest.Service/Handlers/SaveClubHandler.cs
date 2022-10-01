@@ -14,9 +14,9 @@ namespace AutoTest.Service.Handlers
     public class SaveClubHandler : IRequestHandler<SaveClub, ulong>
     {
         private readonly IClubsRepository clubRepository;
-        private readonly ISignalRNotifier signalRNotifier;
+        private readonly IAuthorisationNotifier signalRNotifier;
 
-        public SaveClubHandler(IClubsRepository clubRepository, ISignalRNotifier signalRNotifier)
+        public SaveClubHandler(IClubsRepository clubRepository, IAuthorisationNotifier signalRNotifier)
         {
             this.clubRepository = clubRepository;
             this.signalRNotifier = signalRNotifier;

@@ -7,6 +7,7 @@ import {
     PublicEntrant,
     PenaltyType,
     TestRunFromServer,
+    Penalty,
 } from "../../types/models";
 import { addPreventDefault } from "../../lib/form";
 import { OnChange } from "../../types/inputs";
@@ -20,6 +21,57 @@ interface Props {
     readonly setField: StateUpdater<TestRunFromServer>;
 }
 
+const findByPenaltyType = (
+    penalties: readonly Penalty[],
+    penaltyType: PenaltyType
+) => penalties.find((penalty) => penalty.penaltyType === penaltyType);
+
+const increase = (
+    setField: StateUpdater<TestRunFromServer>,
+    penaltyType: PenaltyType
+) => {
+    setField((a) => {
+        const found = findByPenaltyType(a.penalties, penaltyType);
+        return {
+            ...a,
+            penalties: a.penalties
+                .filter((penalty) => penalty.penaltyType !== penaltyType)
+                .concat(
+                    found !== undefined
+                        ? {
+                              ...found,
+                              instanceCount: found.instanceCount + 1,
+                          }
+                        : {
+                              penaltyType: penaltyType,
+                              instanceCount: 1,
+                          }
+                ),
+        };
+    });
+};
+const decrease = (
+    setField: StateUpdater<TestRunFromServer>,
+    penaltyType: PenaltyType
+) => {
+    setField((a) => {
+        const found = findByPenaltyType(a.penalties, penaltyType);
+        return {
+            ...a,
+            penalties: a.penalties
+                .filter((penalty) => penalty.penaltyType !== penaltyType)
+                .concat(
+                    found !== undefined && found.instanceCount > 2
+                        ? {
+                              ...found,
+                              instanceCount: found.instanceCount - 1,
+                          }
+                        : []
+                ),
+        };
+    });
+};
+
 const EditRunModal: FunctionComponent<Props> = ({
     save,
     run,
@@ -29,50 +81,6 @@ const EditRunModal: FunctionComponent<Props> = ({
 }) => {
     const [saving, setSaving] = useState(false);
     const formSave = addPreventDefault(save, setSaving);
-
-    const increase = (penaltyType: PenaltyType) => {
-        setField((a) => {
-            const found = a.penalties.find(
-                (penalty) => penalty.penaltyType === penaltyType
-            );
-            return {
-                ...a,
-                penalties: a.penalties
-                    .filter((penalty) => penalty.penaltyType !== penaltyType)
-                    .concat(
-                        found !== undefined
-                            ? {
-                                  ...found,
-                                  instanceCount: found.instanceCount + 1,
-                              }
-                            : {
-                                  penaltyType: penaltyType,
-                                  instanceCount: 1,
-                              }
-                    ),
-            };
-        });
-    };
-    const decrease = (penaltyType: PenaltyType) => {
-        setField((a) => {
-            const found = a.penalties.find(
-                (penalty) => penalty.penaltyType === penaltyType
-            );
-            return {
-                ...a,
-                penalties: a.penalties
-                    .filter((penalty) => penalty.penaltyType !== penaltyType)
-                    .concat(
-                        found !== undefined && found.instanceCount > 2
-                            ? {
-                                  ...found,
-                                  instanceCount: found.instanceCount - 1,
-                              }
-                            : []
-                    ),
-            };
-        });
-    };
 
     return (
         <Modal show={true} showClose={false}>
@@ -126,8 +134,8 @@ const EditRunModal: FunctionComponent<Props> = ({
                     </Field>
                     <Penalties
                         penalties={run.penalties}
-                        increase={increase}
-                        decrease={decrease}
+                        increase={(a) => increase(setField, a)}
+                        decrease={(a) => decrease(setField, a)}
                     />
                 </Modal.Card.Body>
                 <Modal.Card.Footer>
