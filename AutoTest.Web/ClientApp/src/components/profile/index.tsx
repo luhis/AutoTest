@@ -29,7 +29,7 @@ const ProfileComp: FunctionComponent<Props> = ({ save, profile, setField }) => {
                 <Input
                     required
                     value={profile.givenName}
-                    onChange={(e: OnChange): void =>
+                    onChange={(e: OnChange) =>
                         setField({ givenName: e.target.value })
                     }
                 />
@@ -39,7 +39,7 @@ const ProfileComp: FunctionComponent<Props> = ({ save, profile, setField }) => {
                 <Input
                     required
                     value={profile.familyName}
-                    onChange={(e: OnChange): void =>
+                    onChange={(e: OnChange) =>
                         setField({ familyName: e.target.value })
                     }
                 />
@@ -62,7 +62,7 @@ const ProfileComp: FunctionComponent<Props> = ({ save, profile, setField }) => {
             <MsaMembershipEditor
                 licenseTypes={[]}
                 membership={profile.msaMembership}
-                setField={(e: MsaMembership): void =>
+                setField={(e: MsaMembership) =>
                     setField({
                         msaMembership: e,
                     })
@@ -71,7 +71,7 @@ const ProfileComp: FunctionComponent<Props> = ({ save, profile, setField }) => {
 
             <VehicleEditor
                 vehicle={profile.vehicle}
-                setField={(e: Vehicle): void =>
+                setField={(e: Vehicle) =>
                     setField({
                         vehicle: e,
                     })
@@ -80,7 +80,7 @@ const ProfileComp: FunctionComponent<Props> = ({ save, profile, setField }) => {
             />
             <EmergencyContactEditor
                 emergencyContact={profile.emergencyContact}
-                setField={(e: EmergencyContact): void => {
+                setField={(e: EmergencyContact) => {
                     setField({
                         emergencyContact: e,
                     });

@@ -62,7 +62,7 @@ const MarshalsModal: FunctionComponent<Props> = ({
                             <Input
                                 required
                                 value={marshal.givenName}
-                                onChange={(e: OnChange): void =>
+                                onChange={(e: OnChange) =>
                                     setField({
                                         givenName: e.target.value,
                                     })
@@ -74,7 +74,7 @@ const MarshalsModal: FunctionComponent<Props> = ({
                             <Input
                                 required
                                 value={marshal.familyName}
-                                onChange={(e: OnChange): void =>
+                                onChange={(e: OnChange) =>
                                     setField({ familyName: e.target.value })
                                 }
                             />
@@ -100,7 +100,7 @@ const MarshalsModal: FunctionComponent<Props> = ({
                     </Field>
                     <EmergencyContactEditor
                         emergencyContact={marshal.emergencyContact}
-                        setField={(e: EmergencyContact): void =>
+                        setField={(e: EmergencyContact) =>
                             setField({
                                 emergencyContact: e,
                             })
@@ -112,7 +112,7 @@ const MarshalsModal: FunctionComponent<Props> = ({
                             required
                             type="number"
                             value={marshal.registrationNumber}
-                            onChange={({ target }: OnChange): void =>
+                            onChange={({ target }: OnChange) =>
                                 setField({
                                     ...marshal,
                                     registrationNumber: Math.floor(
@@ -128,7 +128,7 @@ const MarshalsModal: FunctionComponent<Props> = ({
                             required
                             options={allRoles}
                             value={marshal.role}
-                            setValue={(e): void =>
+                            setValue={(e) =>
                                 setField({
                                     ...marshal,
                                     role: e,

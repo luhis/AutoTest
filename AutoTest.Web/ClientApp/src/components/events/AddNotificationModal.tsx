@@ -34,7 +34,7 @@ const AddNotificationModal: FunctionComponent<Props> = ({
                         <Input
                             required
                             value={notification.message}
-                            onChange={(e: OnChange): void =>
+                            onChange={(e: OnChange) =>
                                 setField({ message: e.target.value })
                             }
                         />

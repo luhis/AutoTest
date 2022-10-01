@@ -110,7 +110,7 @@ const EntrantsModal: FunctionComponent<Props> = ({
                                 <Input
                                     required
                                     value={entrant.givenName}
-                                    onChange={(e: OnChange): void =>
+                                    onChange={(e: OnChange) =>
                                         setField({
                                             givenName: e.target.value,
                                         })
@@ -123,7 +123,7 @@ const EntrantsModal: FunctionComponent<Props> = ({
                             <Input
                                 required
                                 value={entrant.familyName}
-                                onChange={(e: OnChange): void =>
+                                onChange={(e: OnChange) =>
                                     setField({ familyName: e.target.value })
                                 }
                             />
@@ -169,7 +169,7 @@ const EntrantsModal: FunctionComponent<Props> = ({
                                 required
                                 value={entrant.club}
                                 options={clubOptions}
-                                setValue={(e): void => setField({ club: e })}
+                                setValue={(e) => setField({ club: e })}
                             />
                         </Control>
                         <Control fullwidth={true}>
@@ -180,7 +180,7 @@ const EntrantsModal: FunctionComponent<Props> = ({
                                 min={0}
                                 step={1}
                                 value={entrant.clubNumber}
-                                onChange={(e: OnChange): void =>
+                                onChange={(e: OnChange) =>
                                     setField({
                                         clubNumber: Math.floor(
                                             e.target.valueAsNumber
@@ -193,7 +193,7 @@ const EntrantsModal: FunctionComponent<Props> = ({
                     <MsaMembershipEditor
                         licenseTypes={licenseTypes}
                         membership={entrant.msaMembership}
-                        setField={(e: MsaMembership): void =>
+                        setField={(e: MsaMembership) =>
                             setField({
                                 msaMembership: e,
                             })
@@ -214,7 +214,7 @@ const EntrantsModal: FunctionComponent<Props> = ({
                     </Field>
                     <VehicleEditor
                         vehicle={entrant.vehicle}
-                        setField={(e: Vehicle): void =>
+                        setField={(e: Vehicle) =>
                             setField({
                                 vehicle: e,
                             })
@@ -223,7 +223,7 @@ const EntrantsModal: FunctionComponent<Props> = ({
                     />
                     <EmergencyContactEditor
                         emergencyContact={entrant.emergencyContact}
-                        setField={(e: EmergencyContact): void =>
+                        setField={(e: EmergencyContact) =>
                             setField({
                                 emergencyContact: e,
                             })

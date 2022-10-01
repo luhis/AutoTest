@@ -22,7 +22,7 @@ const EmergencyContactEditor: FunctionComponent<Props> = ({
                     <Input
                         required
                         value={emergencyContact.name}
-                        onChange={({ target }: OnChange): void => {
+                        onChange={({ target }: OnChange) => {
                             setField({
                                 ...emergencyContact,
                                 name: target.value,
@@ -36,7 +36,7 @@ const EmergencyContactEditor: FunctionComponent<Props> = ({
                         required
                         type="tel"
                         value={emergencyContact.phone}
-                        onChange={({ target }: OnChange): void =>
+                        onChange={({ target }: OnChange) =>
                             setField({
                                 ...emergencyContact,
                                 phone: target.value,

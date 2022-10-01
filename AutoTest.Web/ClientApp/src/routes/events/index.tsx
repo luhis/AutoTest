@@ -2,7 +2,7 @@ import { FunctionalComponent, h } from "preact";
 import { useCallback, useEffect, useState } from "preact/hooks";
 import { Heading, Button } from "react-bulma-components";
 import UUID from "uuid-int";
-import { newValidDate } from "ts-date";
+import { newValidDate, newValidDateOrThrow } from "ts-date";
 import { useSelector } from "react-redux";
 
 import { Event, EditingEvent, Override } from "../../types/models";
@@ -22,6 +22,7 @@ import { selectClubs } from "../../store/clubs/selectors";
 import { GetClubsIfRequired } from "../../store/clubs/actions";
 import { selectAccess } from "../../store/profile/selectors";
 import { useThunkDispatch } from "../../store";
+import { getDateTimeString } from "../../lib/date";
 
 interface Props {
     readonly clubId: number | undefined;
@@ -47,7 +48,17 @@ const Events: FunctionalComponent<Props> = ({ clubId }) => {
         if (editingEvent && editingEvent.clubId) {
             await dispatchThunk(
                 AddEvent(
-                    { ...editingEvent, clubId: editingEvent.clubId },
+                    {
+                        ...editingEvent,
+                        clubId: editingEvent.clubId,
+                        startTime: newValidDateOrThrow(editingEvent.startTime),
+                        entryOpenDate: newValidDateOrThrow(
+                            editingEvent.entryOpenDate
+                        ),
+                        entryCloseDate: newValidDateOrThrow(
+                            editingEvent.entryCloseDate
+                        ),
+                    },
                     getAccessToken(auth),
                     () => setEditingEvent(undefined)
                 )
@@ -68,7 +79,7 @@ const Events: FunctionalComponent<Props> = ({ clubId }) => {
                 clubId: clubId,
                 eventId: uid.uuid(),
                 location: "",
-                startTime: newValidDate(),
+                startTime: getDateTimeString(newValidDate()),
                 testCount: 12,
                 maxAttemptsPerTest: 2,
                 maxEntrants: 30,
@@ -78,8 +89,8 @@ const Events: FunctionalComponent<Props> = ({ clubId }) => {
                 regulations: null,
                 maps: null,
                 eventTypes: [],
-                entryOpenDate: newValidDate(),
-                entryCloseDate: newValidDate(),
+                entryOpenDate: getDateTimeString(newValidDate()),
+                entryCloseDate: getDateTimeString(newValidDate()),
             }),
         [clubId]
     );
@@ -94,6 +105,9 @@ const Events: FunctionalComponent<Props> = ({ clubId }) => {
                         ...a,
                         isNew: false,
                         isClubEditable: clubId === undefined,
+                        startTime: getDateTimeString(a.startTime),
+                        entryOpenDate: getDateTimeString(a.entryOpenDate),
+                        entryCloseDate: getDateTimeString(a.entryCloseDate),
                     })
                 }
                 deleteEvent={deleteEvent}
@@ -112,7 +126,7 @@ const Events: FunctionalComponent<Props> = ({ clubId }) => {
                 <Modal
                     event={editingEvent}
                     clubs={clubs}
-                    setField={(a: Partial<Event>) => {
+                    setField={(a: Partial<EditingEvent>) => {
                         setEditingEvent((b) => {
                             return { ...b, ...a } as EditingEvent;
                         });

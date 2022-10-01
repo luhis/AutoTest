@@ -70,7 +70,7 @@ const VehicleEditor: FunctionComponent<Props> = ({
                         required
                         class="is-warning"
                         value={vehicle.registration}
-                        onChange={(e: OnChange): void =>
+                        onChange={(e: OnChange) =>
                             setField({
                                 ...vehicle,
                                 registration:
@@ -87,7 +87,7 @@ const VehicleEditor: FunctionComponent<Props> = ({
                             type="number"
                             step={1}
                             value={vehicle.displacement}
-                            onChange={(e: OnChange): void =>
+                            onChange={(e: OnChange) =>
                                 setField({
                                     ...vehicle,
                                     displacement: Math.floor(

@@ -34,7 +34,7 @@ const ModalX: FunctionComponent<Props> = ({ save, cancel, club, setField }) => {
                             <Input
                                 required
                                 value={club.clubName}
-                                onChange={(e: OnChange): void =>
+                                onChange={(e: OnChange) =>
                                     setField({ clubName: e.target.value })
                                 }
                             />
@@ -46,7 +46,7 @@ const ModalX: FunctionComponent<Props> = ({ save, cancel, club, setField }) => {
                             <Input
                                 type="email"
                                 value={club.clubPaymentAddress}
-                                onChange={(e: OnChange): void =>
+                                onChange={(e: OnChange) =>
                                     setField({
                                         clubPaymentAddress: e.target.value,
                                     })
@@ -61,7 +61,7 @@ const ModalX: FunctionComponent<Props> = ({ save, cancel, club, setField }) => {
                                 placeholder="https://motor-club.co.uk"
                                 value={club.website}
                                 type="url"
-                                onChange={(e: OnChange): void =>
+                                onChange={(e: OnChange) =>
                                     setField({
                                         website: e.target.value,
                                     })

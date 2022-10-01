@@ -56,7 +56,7 @@ const MembershipList: FunctionComponent<Props> = ({
                     <Label>Club Name</Label>
                     <Input
                         value={newMembership.clubName}
-                        onChange={({ target }: OnChange): void =>
+                        onChange={({ target }: OnChange) =>
                             setNewEmail((e) => ({
                                 ...e,
                                 clubName: target.value,
@@ -70,7 +70,7 @@ const MembershipList: FunctionComponent<Props> = ({
                         type="number"
                         step={1}
                         value={newMembership.membershipNumber}
-                        onChange={({ target }: OnChange): void =>
+                        onChange={({ target }: OnChange) =>
                             setNewEmail((e) => ({
                                 ...e,
                                 membershipNumber: Math.floor(
@@ -85,7 +85,7 @@ const MembershipList: FunctionComponent<Props> = ({
                     <Input
                         type="date"
                         value={getDateString(newMembership.expiry)}
-                        onChange={({ target }: OnChange): void =>
+                        onChange={({ target }: OnChange) =>
                             setNewEmail((e) => ({
                                 ...e,
                                 expiry: parseIsoOrThrow(target.value),

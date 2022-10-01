@@ -1,6 +1,5 @@
 import { h, FunctionComponent } from "preact";
 import { Modal, Button, Form } from "react-bulma-components";
-import { newValidDateOrThrow } from "ts-date";
 import PromiseFileReader from "promise-file-reader";
 const { Label, Input, Field, Select, Help, Checkbox, Control } = Form;
 import { isNil } from "@s-libs/micro-dash";
@@ -10,7 +9,6 @@ import { EditingEvent, Club, EventType } from "../../types/models";
 import { OnChange, OnSelectChange } from "../../types/inputs";
 import { LoadingState } from "../../types/loadingState";
 import ifSome from "../shared/ifSome";
-import { getDateTimeString } from "../../lib/date";
 import { startCase } from "../../lib/string";
 import { addPreventDefault, toggleValue } from "../../lib/form";
 
@@ -51,7 +49,7 @@ const ModalX: FunctionComponent<Props> = ({
                         <Input
                             required
                             value={event.location}
-                            onChange={(e: OnChange): void =>
+                            onChange={(e: OnChange) =>
                                 setField({ location: e.target.value })
                             }
                         />
@@ -114,7 +112,7 @@ const ModalX: FunctionComponent<Props> = ({
                             min={1}
                             step={1}
                             value={event.testCount}
-                            onChange={(e: OnChange): void =>
+                            onChange={(e: OnChange) =>
                                 setField({
                                     testCount: Math.floor(
                                         e.target.valueAsNumber
@@ -131,7 +129,7 @@ const ModalX: FunctionComponent<Props> = ({
                             min={1}
                             step={1}
                             value={event.maxAttemptsPerTest}
-                            onChange={(e: OnChange): void =>
+                            onChange={(e: OnChange) =>
                                 setField({
                                     maxAttemptsPerTest: Math.floor(
                                         e.target.valueAsNumber
@@ -148,7 +146,7 @@ const ModalX: FunctionComponent<Props> = ({
                             min={1}
                             step={1}
                             value={event.maxEntrants}
-                            onChange={(e: OnChange): void =>
+                            onChange={(e: OnChange) =>
                                 setField({
                                     maxEntrants: Math.floor(
                                         e.target.valueAsNumber
@@ -162,12 +160,10 @@ const ModalX: FunctionComponent<Props> = ({
                         <Input
                             required
                             type="datetime-local"
-                            value={getDateTimeString(event.startTime)}
-                            onChange={(e: OnChange): void =>
+                            value={event.startTime}
+                            onChange={(e: OnChange) =>
                                 setField({
-                                    startTime: newValidDateOrThrow(
-                                        e.target.value
-                                    ),
+                                    startTime: e.target.value,
                                 })
                             }
                         />
@@ -177,12 +173,10 @@ const ModalX: FunctionComponent<Props> = ({
                         <Input
                             required
                             type="datetime-local"
-                            value={getDateTimeString(event.entryOpenDate)}
-                            onChange={(e: OnChange): void =>
+                            value={event.entryOpenDate}
+                            onChange={(e: OnChange) =>
                                 setField({
-                                    entryOpenDate: newValidDateOrThrow(
-                                        e.target.value
-                                    ),
+                                    entryOpenDate: e.target.value,
                                 })
                             }
                         />
@@ -192,12 +186,10 @@ const ModalX: FunctionComponent<Props> = ({
                         <Input
                             required
                             type="datetime-local"
-                            value={getDateTimeString(event.entryCloseDate)}
-                            onChange={(e: OnChange): void =>
+                            value={event.entryCloseDate}
+                            onChange={(e: OnChange) =>
                                 setField({
-                                    entryCloseDate: newValidDateOrThrow(
-                                        e.target.value
-                                    ),
+                                    entryCloseDate: e.target.value,
                                 })
                             }
                         />

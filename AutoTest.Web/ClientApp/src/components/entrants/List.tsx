@@ -50,7 +50,7 @@ const Pay: FunctionComponent<{
                     required
                     type="date"
                     value={date}
-                    onChange={({ target }: OnChange): void => {
+                    onChange={({ target }: OnChange) => {
                         if (target.valueAsDate !== null) {
                             setDate(target.value);
                         }

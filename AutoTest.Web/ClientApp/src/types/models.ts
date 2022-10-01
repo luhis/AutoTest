@@ -95,7 +95,12 @@ export interface Event {
 
 export type EditingEvent = Override<
     Event,
-    { readonly clubId: number | undefined }
+    {
+        readonly clubId: number | undefined;
+        readonly startTime: string;
+        readonly entryOpenDate: string;
+        readonly entryCloseDate: string;
+    }
 > & {
     readonly isNew: boolean;
     readonly isClubEditable: boolean;

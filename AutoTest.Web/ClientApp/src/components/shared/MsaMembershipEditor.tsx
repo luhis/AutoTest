@@ -26,7 +26,7 @@ const MsaMembershipEditor: FunctionComponent<Props> = ({
                         required
                         value={membership.msaLicenseType}
                         options={licenseTypes}
-                        setValue={(e): void =>
+                        setValue={(e) =>
                             setField({
                                 ...membership,
                                 msaLicenseType: e,
@@ -42,7 +42,7 @@ const MsaMembershipEditor: FunctionComponent<Props> = ({
                         min={0}
                         step={1}
                         value={membership.msaLicense}
-                        onChange={(e: OnChange): void =>
+                        onChange={(e: OnChange) =>
                             setField({
                                 ...membership,
                                 msaLicense: Math.floor(e.target.valueAsNumber),

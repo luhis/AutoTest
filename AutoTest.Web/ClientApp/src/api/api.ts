@@ -1,6 +1,6 @@
 import { HookReturnValue } from "react-use-googlelogin/dist/types";
 
-export const throwIfNotOk = (response: Response): void => {
+export const throwIfNotOk = (response: Response) => {
     if (!response.ok) {
         throw new Error(`Network response was not ok ${response.status}`);
     }
