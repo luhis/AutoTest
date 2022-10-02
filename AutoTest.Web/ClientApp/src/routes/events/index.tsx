@@ -5,7 +5,12 @@ import UUID from "uuid-int";
 import { newValidDate, newValidDateOrThrow } from "ts-date";
 import { useSelector } from "react-redux";
 
-import { Event, EditingEvent, Override } from "../../types/models";
+import {
+    Event,
+    EditingEvent,
+    Override,
+    TimingSystem,
+} from "../../types/models";
 import Modal from "../../components/events/Modal";
 import { getAccessToken } from "../../api/api";
 import { useGoogleAuth } from "../../components/app";
@@ -91,6 +96,7 @@ const Events: FunctionalComponent<Props> = ({ clubId }) => {
                 eventTypes: [],
                 entryOpenDate: getDateTimeString(newValidDate()),
                 entryCloseDate: getDateTimeString(newValidDate()),
+                timingSystem: TimingSystem.App,
             }),
         [clubId]
     );
