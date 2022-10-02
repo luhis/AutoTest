@@ -1,4 +1,4 @@
-import { FunctionalComponent, h } from "preact";
+import { Fragment, FunctionalComponent, h } from "preact";
 import { useCallback, useEffect, useState } from "preact/hooks";
 import { Heading, Form, Button } from "react-bulma-components";
 import UUID from "uuid-int";
@@ -12,6 +12,7 @@ import {
     Override,
     PenaltyType,
     TestRunUploadState,
+    TimingSystem,
 } from "../../types/models";
 import ifSome from "../../components/shared/ifSome";
 import { getAccessToken } from "../../api/api";
@@ -46,7 +47,7 @@ import { useThunkDispatch } from "../../store";
 const getNewEditableTest = (ordinal: number): EditableTestRun => ({
     testRunId: uid.uuid(),
     ordinal: ordinal,
-    timeInMS: undefined,
+    timeInMS: "0.00",
     penalties: [],
     entrantId: undefined,
     state: TestRunUploadState.NotSent,
@@ -154,7 +155,7 @@ const Marshal: FunctionalComponent<Readonly<Props>> = ({
                         ...editing,
                         created: newValidDate(),
                         eventId: eventId,
-                        timeInMS: editing.timeInMS,
+                        timeInMS: Number.parseFloat(editing.timeInMS) * 1000,
                         entrantId: editing.entrantId,
                     },
                     getAccessToken(auth)
@@ -221,26 +222,23 @@ const Marshal: FunctionalComponent<Readonly<Props>> = ({
             </Field>
             <Field>
                 <Label>Time (Secs)</Label>
-                <Input
-                    required
-                    type="number"
-                    min="0"
-                    step="0.01"
-                    value={
-                        editing.timeInMS === undefined
-                            ? ""
-                            : (editing.timeInMS / 1000).toFixed(2)
-                    }
-                    onChange={(e: OnChange) =>
-                        setEditing((a) => ({
-                            ...a,
-                            timeInMS:
-                                Number.parseFloat(
-                                    e.target.valueAsNumber.toFixed(2)
-                                ) * 1000,
-                        }))
-                    }
-                />
+                {currentEvent?.timingSystem === TimingSystem.StopWatch ? (
+                    <Input
+                        required
+                        type="number"
+                        min="0"
+                        step="0.01"
+                        value={editing.timeInMS}
+                        onChange={(e: OnChange) =>
+                            setEditing((a) => ({
+                                ...a,
+                                timeInMS: e.target.value,
+                            }))
+                        }
+                    />
+                ) : (
+                    <Fragment></Fragment>
+                )}
             </Field>
             <Field>
                 <Penalties

@@ -62,6 +62,11 @@ export enum PaymentMethod {
     PayPal = 1,
 }
 
+export enum TimingSystem {
+    StopWatch = 0,
+    App = 1,
+}
+
 export interface Penalty {
     readonly penaltyType: PenaltyType;
     readonly instanceCount: number;
@@ -74,6 +79,7 @@ export type EditableTestRun = Override<
         readonly ordinal: number;
         readonly penalties: readonly Penalty[];
         readonly state: TestRunUploadState;
+        readonly timeInMS: string;
     }
 >;
 
@@ -91,6 +97,7 @@ export interface Event {
     readonly eventTypes: readonly EventType[];
     readonly entryOpenDate: ValidDate;
     readonly entryCloseDate: ValidDate;
+    readonly timingSystem: TimingSystem;
 }
 
 export type EditingEvent = Override<
