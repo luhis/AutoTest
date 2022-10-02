@@ -8,6 +8,7 @@ import { FaPlus } from "react-icons/fa";
 import { OnChange } from "../../types/inputs";
 import { getDateString } from "../../lib/date";
 import { ClubMembership } from "../../types/shared";
+import { Override } from "src/types/models";
 
 interface Props {
     readonly memberships: readonly ClubMembership[];
@@ -15,12 +16,12 @@ interface Props {
     readonly remove: (_: number) => void;
 }
 
-type EditingMembership = ClubMembership;
+type EditingMembership = Override<ClubMembership, { readonly expiry: string }>;
 
 const blankState = (): EditingMembership => ({
     clubName: "",
     membershipNumber: Number.NaN,
-    expiry: addYear(newValidDate(), 1),
+    expiry: getDateString(addYear(newValidDate(), 1)),
 });
 
 const MembershipList: FunctionComponent<Props> = ({
@@ -28,7 +29,7 @@ const MembershipList: FunctionComponent<Props> = ({
     addNew,
     remove,
 }) => {
-    const [newMembership, setNewEmail] =
+    const [newMembership, setNewMembership] =
         useState<EditingMembership>(blankState);
     const currentTime = newValidDate();
     return (
@@ -57,7 +58,7 @@ const MembershipList: FunctionComponent<Props> = ({
                     <Input
                         value={newMembership.clubName}
                         onChange={({ target }: OnChange) =>
-                            setNewEmail((e) => ({
+                            setNewMembership((e) => ({
                                 ...e,
                                 clubName: target.value,
                             }))
@@ -71,7 +72,7 @@ const MembershipList: FunctionComponent<Props> = ({
                         step={1}
                         value={newMembership.membershipNumber}
                         onChange={({ target }: OnChange) =>
-                            setNewEmail((e) => ({
+                            setNewMembership((e) => ({
                                 ...e,
                                 membershipNumber: Math.floor(
                                     target.valueAsNumber
@@ -84,16 +85,18 @@ const MembershipList: FunctionComponent<Props> = ({
                     <Label>Expiry</Label>
                     <Input
                         type="date"
-                        value={getDateString(newMembership.expiry)}
-                        onChange={({ target }: OnChange) =>
-                            setNewEmail((e) => ({
-                                ...e,
-                                expiry: parseIsoOrThrow(target.value),
-                            }))
-                        }
+                        value={newMembership.expiry}
+                        onChange={({ target }: OnChange) => {
+                            if (target.valueAsDate !== null) {
+                                setNewMembership((e) => ({
+                                    ...e,
+                                    expiry: target.value,
+                                }));
+                            }
+                        }}
                     />
                 </Control>
-                <Control>
+                <Control className="mt-5">
                     <Button
                         disabled={
                             newMembership.clubName === "" ||
@@ -105,9 +108,12 @@ const MembershipList: FunctionComponent<Props> = ({
                                     ...newMembership,
                                     membershipNumber:
                                         newMembership.membershipNumber,
+                                    expiry: parseIsoOrThrow(
+                                        newMembership.expiry
+                                    ),
                                 };
                                 addNew(externalMembership);
-                                setNewEmail(blankState);
+                                setNewMembership(blankState);
                             }
                         }}
                     >
