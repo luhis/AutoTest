@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.SignalR;
 
 namespace AutoTest.Web.Hubs
 {
-    public class ResultsHub : Hub
+    public class EventHub : Hub
     {
         public static string GetEventKey(ulong eventId) => $"eventId:{eventId}";
 

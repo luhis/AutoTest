@@ -23,7 +23,7 @@ namespace AutoTest.Web
             collection.AddScoped<IAuthorizationHandler, SelfRequirementHandler>();
             collection.AddScoped<IAuthorizationHandler, ClubAdminOrSelfRequirementSelfHander>();
             collection.AddScoped<IAuthorizationHandler, ClubAdminOrSelfRequirementClubAdminHandler>();
-            collection.AddScoped<ISignalRNotifier, SignalRNotifier>();
+            collection.AddScoped<IEventNotifier, EventNotifier>();
             collection.AddScoped<IAuthorisationNotifier, AuthorisationNotifier>();
             collection.AddDbContext<AutoTestContext>(o => o.UseCosmos(
                 endpoint,

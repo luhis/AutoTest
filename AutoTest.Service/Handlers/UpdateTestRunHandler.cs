@@ -12,9 +12,9 @@ namespace AutoTest.Service.Handlers
     public class UpdateTestRunHandler : IRequestHandler<UpdateTestRun>
     {
         private readonly ITestRunsRepository testRunsRepository;
-        private readonly ISignalRNotifier signalRNotifier;
+        private readonly IEventNotifier signalRNotifier;
 
-        public UpdateTestRunHandler(ITestRunsRepository testRunsRepository, ISignalRNotifier signalRNotifier)
+        public UpdateTestRunHandler(ITestRunsRepository testRunsRepository, IEventNotifier signalRNotifier)
         {
             this.testRunsRepository = testRunsRepository;
             this.signalRNotifier = signalRNotifier;

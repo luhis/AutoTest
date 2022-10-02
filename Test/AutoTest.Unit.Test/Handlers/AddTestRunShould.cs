@@ -18,7 +18,7 @@ namespace AutoTest.Unit.Test.Handlers
     {
         private readonly IRequestHandler<AddTestRun, MediatR.Unit> sut;
         private readonly MockRepository mr;
-        private readonly Mock<ISignalRNotifier> notifier;
+        private readonly Mock<IEventNotifier> notifier;
         private readonly Mock<ITestRunsRepository> testRuns;
         private readonly Mock<IEventsRepository> events;
         private readonly Mock<IMarshalsRepository> marshalsRepository;
@@ -26,7 +26,7 @@ namespace AutoTest.Unit.Test.Handlers
         public AddTestRunShould()
         {
             mr = new MockRepository(MockBehavior.Strict);
-            notifier = mr.Create<ISignalRNotifier>();
+            notifier = mr.Create<IEventNotifier>();
             testRuns = mr.Create<ITestRunsRepository>();
             events = mr.Create<IEventsRepository>();
             marshalsRepository = mr.Create<IMarshalsRepository>();

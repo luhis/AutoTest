@@ -15,13 +15,13 @@ namespace AutoTest.Unit.Test.Handlers
     {
         private readonly IRequestHandler<AddNotification, MediatR.Unit> sut;
         private readonly MockRepository mr;
-        private readonly Mock<ISignalRNotifier> notifier;
+        private readonly Mock<IEventNotifier> notifier;
         private readonly Mock<INotificationsRepository> notificationRepository;
 
         public AddNotificationShould()
         {
             mr = new MockRepository(MockBehavior.Strict);
-            notifier = mr.Create<ISignalRNotifier>();
+            notifier = mr.Create<IEventNotifier>();
             notificationRepository = mr.Create<INotificationsRepository>();
             sut = new AddNotificationHandler(notificationRepository.Object, notifier.Object);
         }

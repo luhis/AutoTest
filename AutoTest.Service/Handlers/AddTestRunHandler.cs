@@ -14,9 +14,9 @@ namespace AutoTest.Service.Handlers
         private readonly ITestRunsRepository testRunsRepository;
         private readonly IEventsRepository _eventsRepository;
         private readonly IMarshalsRepository _marshalsRepository;
-        private readonly ISignalRNotifier signalRNotifier;
+        private readonly IEventNotifier signalRNotifier;
 
-        public AddTestRunHandler(ITestRunsRepository testRunsRepository, ISignalRNotifier signalRNotifier, IMarshalsRepository marshalsRepository, IEventsRepository eventsRepository)
+        public AddTestRunHandler(ITestRunsRepository testRunsRepository, IEventNotifier signalRNotifier, IMarshalsRepository marshalsRepository, IEventsRepository eventsRepository)
         {
             this.testRunsRepository = testRunsRepository;
             this.signalRNotifier = signalRNotifier;

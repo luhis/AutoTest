@@ -10,9 +10,9 @@ namespace AutoTest.Service.Handlers
     public class AddNotificationHandler : IRequestHandler<AddNotification>
     {
         private readonly INotificationsRepository notificationsRepository;
-        private readonly ISignalRNotifier signalRNotifier;
+        private readonly IEventNotifier signalRNotifier;
 
-        public AddNotificationHandler(INotificationsRepository notificationsRepository, ISignalRNotifier signalRNotifier)
+        public AddNotificationHandler(INotificationsRepository notificationsRepository, IEventNotifier signalRNotifier)
         {
             this.notificationsRepository = notificationsRepository;
             this.signalRNotifier = signalRNotifier;
