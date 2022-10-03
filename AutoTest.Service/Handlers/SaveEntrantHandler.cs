@@ -46,7 +46,7 @@ namespace AutoTest.Service.Handlers
                 request.Entrant.SetEntrantStatus(existing.EntrantStatus);
 
             await entrantsRepository.Upsert(request.Entrant, cancellationToken);
-            await authorisationNotifier.AddEditableMarshal(request.Entrant.EventId, new[] { request.Entrant.Email }, cancellationToken);
+            await authorisationNotifier.AddEditableEntrant(request.Entrant.EntrantId, new[] { request.Entrant.Email }, cancellationToken);
             return request.Entrant;
         }
     }
