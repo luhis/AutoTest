@@ -6,8 +6,10 @@ using AutoTest.Domain.Enums;
 using AutoTest.Domain.Repositories;
 using AutoTest.Domain.StorageModels;
 using AutoTest.Service.Handlers;
+using AutoTest.Service.Interfaces;
 using AutoTest.Service.Messages;
 using FluentAssertions;
+using FluentAssertions.ArgumentMatchers.Moq;
 using MediatR;
 using Moq;
 using Xunit;
@@ -20,13 +22,15 @@ namespace AutoTest.Unit.Test.Handlers
         private readonly MockRepository mr;
         private readonly Mock<IEntrantsRepository> entrantsRepository;
         private readonly Mock<IEventsRepository> eventsRepository;
+        private readonly Mock<IAuthorisationNotifier> authorisationNotifier;
 
         public SaveEntrantHandlerShould()
         {
             mr = new MockRepository(MockBehavior.Strict);
             entrantsRepository = mr.Create<IEntrantsRepository>();
             eventsRepository = mr.Create<IEventsRepository>();
-            sut = new SaveEntrantHandler(entrantsRepository.Object, eventsRepository.Object);
+            authorisationNotifier = mr.Create<IAuthorisationNotifier>();
+            sut = new SaveEntrantHandler(entrantsRepository.Object, eventsRepository.Object, authorisationNotifier.Object);
         }
 
         [Fact]
@@ -42,6 +46,7 @@ namespace AutoTest.Unit.Test.Handlers
             entrantsRepository.Setup(a => a.Upsert(entrant, CancellationToken.None)).Returns(Task.CompletedTask);
             eventsRepository.Setup(a => a.GetById(eventId, CancellationToken.None)).ReturnsAsync(new Event(eventId, 1, "", DateTime.UtcNow, 3, 2, "", new[] { EventType.AutoTest }, "", TimingSystem.StopWatch, DateTime.UtcNow.AddDays(-2), DateTime.UtcNow.AddDays(2), 10));
             entrantsRepository.Setup(a => a.GetEntrantCount(eventId, CancellationToken.None)).ReturnsAsync(0);
+            authorisationNotifier.Setup(a => a.AddEditableEntrant(entrantId, Its.EquivalentTo(new[] { "a@a.com" }), CancellationToken.None)).Returns(Task.CompletedTask);
 
             var se = new SaveEntrant(entrant);
             var res = await sut.Handle(se, CancellationToken.None);
@@ -118,6 +123,7 @@ namespace AutoTest.Unit.Test.Handlers
             entrantsRepository.Setup(a => a.Upsert(entrant, CancellationToken.None)).Returns(Task.CompletedTask);
             eventsRepository.Setup(a => a.GetById(eventId, CancellationToken.None)).ReturnsAsync(new Event(eventId, 1, "", DateTime.UtcNow, 3, 2, "", new[] { EventType.AutoTest }, "", TimingSystem.StopWatch, DateTime.UtcNow.AddDays(-2), DateTime.UtcNow.AddDays(2), 10));
             entrantsRepository.Setup(a => a.GetEntrantCount(eventId, CancellationToken.None)).ReturnsAsync(0);
+            authorisationNotifier.Setup(a => a.AddEditableEntrant(entrantId, Its.EquivalentTo(new[] { "a@a.com" }), CancellationToken.None)).Returns(Task.CompletedTask);
 
             var se = new SaveEntrant(entrant);
             var res = await sut.Handle(se, CancellationToken.None);

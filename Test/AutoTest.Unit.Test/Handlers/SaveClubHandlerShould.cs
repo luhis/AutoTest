@@ -39,7 +39,7 @@ namespace AutoTest.Unit.Test.Handlers
             var clubFromDb = new Club(clubId, "My Club", "pay@pal.com", "clubsite.com");
             clubsRepository.Setup(a => a.GetById(clubId, CancellationToken.None)).ReturnsAsync(clubFromDb);
             clubsRepository.Setup(a => a.Upsert(club, CancellationToken.None)).Returns(Task.CompletedTask);
-            signalRNotifier.Setup(a => a.NewClubAdmin(clubId, Its.EquivalentTo<IEnumerable<string>>(new[] { "test@test.com" }))).Returns(Task.CompletedTask);
+            signalRNotifier.Setup(a => a.NewClubAdmin(clubId, Its.EquivalentTo<IEnumerable<string>>(new[] { "test@test.com" }), CancellationToken.None)).Returns(Task.CompletedTask);
             var se = new SaveClub(club);
 
             var res = await sut.Handle(se, CancellationToken.None);
@@ -57,7 +57,7 @@ namespace AutoTest.Unit.Test.Handlers
             clubFromDb.AdminEmails.Add(new AuthorisationEmail("test@test.com"));
             clubsRepository.Setup(a => a.GetById(clubId, CancellationToken.None)).ReturnsAsync(clubFromDb);
             clubsRepository.Setup(a => a.Upsert(club, CancellationToken.None)).Returns(Task.CompletedTask);
-            signalRNotifier.Setup(a => a.RemoveClubAdmin(clubId, Its.EquivalentTo<IEnumerable<string>>(new[] { "test@test.com" }))).Returns(Task.CompletedTask);
+            signalRNotifier.Setup(a => a.RemoveClubAdmin(clubId, Its.EquivalentTo<IEnumerable<string>>(new[] { "test@test.com" }), CancellationToken.None)).Returns(Task.CompletedTask);
             var se = new SaveClub(club);
 
             var res = await sut.Handle(se, CancellationToken.None);

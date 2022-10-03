@@ -4,6 +4,8 @@ import { getProfile, saveProfile } from "../../api/user";
 import { Profile } from "../../types/profileModels";
 import {
     ADD_CLUB_ADMIN,
+    ADD_EDITABLE_ENTRANT,
+    ADD_EDITABLE_MARSHAL,
     ADD_EVENT_MARSHAL,
     GET_ACCESS,
     GET_PROFILE,
@@ -88,6 +90,14 @@ export const RemoveClubAdmin = (clubId: number) => ({
 export const AddEventMarshal = (eventId: number) => ({
     type: ADD_EVENT_MARSHAL,
     payload: eventId,
+});
+export const AddEditableMarshal = (marshalId: number) => ({
+    type: ADD_EDITABLE_MARSHAL,
+    payload: marshalId,
+});
+export const AddEditableEntrant = (entrantId: number) => ({
+    type: ADD_EDITABLE_ENTRANT,
+    payload: entrantId,
 });
 
 export const RemoveEventMarshal = (eventId: number) => ({

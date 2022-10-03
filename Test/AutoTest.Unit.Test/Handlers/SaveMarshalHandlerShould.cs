@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoTest.Domain.Repositories;
@@ -17,15 +18,15 @@ namespace AutoTest.Unit.Test.Handlers
     {
         private readonly IRequestHandler<SaveMarshal, Marshal> sut;
         private readonly MockRepository mr;
-        private readonly Mock<IAuthorisationNotifier> signalRNotifier;
+        private readonly Mock<IAuthorisationNotifier> authorisationNotifier;
         private readonly Mock<IMarshalsRepository> marshalRepository;
 
         public SaveMarshalHandlerShould()
         {
             mr = new MockRepository(MockBehavior.Strict);
-            signalRNotifier = mr.Create<IAuthorisationNotifier>();
+            authorisationNotifier = mr.Create<IAuthorisationNotifier>();
             marshalRepository = mr.Create<IMarshalsRepository>();
-            sut = new SaveMarshalHandler(marshalRepository.Object, signalRNotifier.Object);
+            sut = new SaveMarshalHandler(marshalRepository.Object, authorisationNotifier.Object);
         }
 
         [Fact]
@@ -37,6 +38,7 @@ namespace AutoTest.Unit.Test.Handlers
 
             marshalRepository.Setup(a => a.GetById(eventId, marshalId, CancellationToken.None)).ReturnsAsync(marshal);
             marshalRepository.Setup(a => a.Upsert(marshal, CancellationToken.None)).Returns(Task.CompletedTask);
+            authorisationNotifier.Setup(a => a.AddEditableMarshal(marshalId, Its.EquivalentTo(new[] { "a@a.com" }), CancellationToken.None)).Returns(Task.CompletedTask);
 
             var se = new SaveMarshal(marshal);
             var res = await sut.Handle(se, CancellationToken.None);
@@ -53,7 +55,8 @@ namespace AutoTest.Unit.Test.Handlers
 
             marshalRepository.Setup(a => a.GetById(eventId, marshalId, CancellationToken.None)).ReturnsAsync((Marshal?)null);
             marshalRepository.Setup(a => a.Upsert(marshal, CancellationToken.None)).Returns(Task.CompletedTask);
-            signalRNotifier.Setup(a => a.NewEventMarshal(eventId, Its.EquivalentTo<IEnumerable<string>>(new[] { "a@a.com" }), CancellationToken.None)).Returns(Task.CompletedTask);
+            authorisationNotifier.Setup(a => a.NewEventMarshal(eventId, Its.EquivalentTo<IEnumerable<string>>(new[] { "a@a.com" }), CancellationToken.None)).Returns(Task.CompletedTask);
+            authorisationNotifier.Setup(a => a.AddEditableMarshal(marshalId, Its.EquivalentTo(new[] { "a@a.com" }), CancellationToken.None)).Returns(Task.CompletedTask);
 
             var se = new SaveMarshal(marshal);
             var res = await sut.Handle(se, CancellationToken.None);

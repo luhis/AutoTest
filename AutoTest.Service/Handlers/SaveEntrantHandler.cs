@@ -4,6 +4,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using AutoTest.Domain.Repositories;
 using AutoTest.Domain.StorageModels;
+using AutoTest.Service.Interfaces;
 using AutoTest.Service.Messages;
 using MediatR;
 
@@ -11,13 +12,15 @@ namespace AutoTest.Service.Handlers
 {
     public class SaveEntrantHandler : IRequestHandler<SaveEntrant, Entrant>
     {
+        private readonly IAuthorisationNotifier authorisationNotifier;
         private readonly IEntrantsRepository entrantsRepository;
         private readonly IEventsRepository _eventsRepository;
 
-        public SaveEntrantHandler(IEntrantsRepository entrantsRepository, IEventsRepository eventsRepository)
+        public SaveEntrantHandler(IEntrantsRepository entrantsRepository, IEventsRepository eventsRepository, IAuthorisationNotifier authorisationNotifier)
         {
             this.entrantsRepository = entrantsRepository;
             _eventsRepository = eventsRepository;
+            this.authorisationNotifier = authorisationNotifier;
         }
 
         async Task<Entrant> IRequestHandler<SaveEntrant, Entrant>.Handle(SaveEntrant request, CancellationToken cancellationToken)
@@ -43,6 +46,7 @@ namespace AutoTest.Service.Handlers
                 request.Entrant.SetEntrantStatus(existing.EntrantStatus);
 
             await entrantsRepository.Upsert(request.Entrant, cancellationToken);
+            await authorisationNotifier.AddEditableMarshal(request.Entrant.EventId, new[] { request.Entrant.Email }, cancellationToken);
             return request.Entrant;
         }
     }

@@ -32,6 +32,7 @@ namespace AutoTest.Service.Handlers
                     await signalRNotifier.RemoveEventMarshal(request.Marshal.EventId, new[] { existing.Email }, cancellationToken);
                 }
             }
+            await signalRNotifier.AddEditableMarshal(request.Marshal.MarshalId, new[] { request.Marshal.Email }, cancellationToken);
             return request.Marshal;
         }
     }

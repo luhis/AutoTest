@@ -1,13 +1,14 @@
 import { FunctionalComponent, h } from "preact";
 import { Navbar, Button } from "react-bulma-components";
 import { useDispatch, useSelector } from "react-redux";
-import { useCallback, useEffect, useMemo, useState } from "preact/hooks";
-import { HubConnectionBuilder, LogLevel } from "@microsoft/signalr";
+import { useCallback, useEffect, useState } from "preact/hooks";
 
 import { selectAccess } from "../../store/profile/selectors";
 import { ClearCache } from "../../store/event/actions";
 import {
     AddClubAdmin,
+    AddEditableEntrant,
+    AddEditableMarshal,
     AddEventMarshal,
     GetAccess,
     RemoveClubAdmin,
@@ -17,6 +18,15 @@ import {
 import { useGoogleAuth } from "../app";
 import { getAccessToken } from "../../api/api";
 import { useThunkDispatch } from "../../store";
+import {
+    AddEditableEntrantTag,
+    AddEditableMarshalTag,
+    NewClubAdminTag,
+    NewEventMarshalTag,
+    RemoveClubAdminTag,
+    RemoveEventMarshalTag,
+    useConnection,
+} from "../../signalR/authorisationHub";
 
 const Header: FunctionalComponent = () => {
     const access = useSelector(selectAccess);
@@ -77,25 +87,7 @@ const Header: FunctionalComponent = () => {
 
 const SignalRWrapper: FunctionalComponent = () => {
     const auth = useGoogleAuth();
-    const baseConn = useMemo(() => {
-        const accessToken = getAccessToken(auth);
-        if (accessToken === undefined) {
-            return undefined;
-        }
-        return new HubConnectionBuilder()
-            .withUrl("/authorisationHub", {
-                accessTokenFactory: () => accessToken,
-            })
-            .withAutomaticReconnect()
-            .configureLogging(LogLevel.Error);
-    }, [auth]);
-    const connection = useMemo(
-        () =>
-            typeof window !== "undefined" && baseConn !== undefined
-                ? baseConn.build()
-                : undefined,
-        [baseConn]
-    );
+    const connection = useConnection(getAccessToken(auth));
 
     useEffect(() => {
         if (connection) {
@@ -114,17 +106,23 @@ const SignalRWrapper: FunctionalComponent = () => {
     const dispatch = useDispatch();
     useEffect(() => {
         if (connection) {
-            connection.on("NewClubAdmin", (clubId: number) => {
+            connection.on(NewClubAdminTag, (clubId: number) => {
                 dispatch(AddClubAdmin(clubId));
             });
-            connection.on("RemoveClubAdmin", (clubId: number) => {
+            connection.on(RemoveClubAdminTag, (clubId: number) => {
                 dispatch(RemoveClubAdmin(clubId));
             });
-            connection.on("NewEventMarshal", (eventId: number) => {
+            connection.on(NewEventMarshalTag, (eventId: number) => {
                 dispatch(AddEventMarshal(eventId));
             });
-            connection.on("RemoveEventMarshal", (eventId: number) => {
+            connection.on(RemoveEventMarshalTag, (eventId: number) => {
                 dispatch(RemoveEventMarshal(eventId));
+            });
+            connection.on(AddEditableEntrantTag, (entrantId: number) => {
+                dispatch(AddEditableEntrant(entrantId));
+            });
+            connection.on(AddEditableMarshalTag, (marshalId: number) => {
+                dispatch(AddEditableMarshal(marshalId));
             });
         }
     }, [connection, dispatch]);

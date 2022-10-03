@@ -31,12 +31,12 @@ namespace AutoTest.Service.Handlers
                 var newEmails = GetNewItems(existing.AdminEmails.Select(a => a.Email), request.Club.AdminEmails.Select(a => a.Email));
                 if (newEmails.Any())
                 {
-                    await signalRNotifier.NewClubAdmin(request.Club.ClubId, newEmails);
+                    await signalRNotifier.NewClubAdmin(request.Club.ClubId, newEmails, cancellationToken);
                 }
                 var removedEmails = GetRemovedItems(existing.AdminEmails.Select(a => a.Email), request.Club.AdminEmails.Select(a => a.Email));
                 if (removedEmails.Any())
                 {
-                    await signalRNotifier.RemoveClubAdmin(request.Club.ClubId, removedEmails);
+                    await signalRNotifier.RemoveClubAdmin(request.Club.ClubId, removedEmails, cancellationToken);
                 }
             }
             return request.Club.ClubId;

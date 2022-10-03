@@ -9,14 +9,13 @@ namespace AutoTest.Service.Handlers
 {
     public class DeleteMarshalHandler : IRequestHandler<DeleteMarshal>
     {
-        private readonly IAuthorisationNotifier signalRNotifier;
-        private readonly IMarshalsRepository _marshalsRepository
-            ;
+        private readonly IAuthorisationNotifier authorisationNotifier;
+        private readonly IMarshalsRepository _marshalsRepository;
 
         public DeleteMarshalHandler(IMarshalsRepository marshalsRepository, IAuthorisationNotifier signalRNotifier)
         {
             _marshalsRepository = marshalsRepository;
-            this.signalRNotifier = signalRNotifier;
+            this.authorisationNotifier = signalRNotifier;
         }
 
         async Task<Unit> IRequestHandler<DeleteMarshal, Unit>.Handle(DeleteMarshal request, CancellationToken cancellationToken)
@@ -25,7 +24,7 @@ namespace AutoTest.Service.Handlers
             if (found != null)
             {
                 await _marshalsRepository.Remove(found, cancellationToken);
-                await signalRNotifier.RemoveEventMarshal(request.MarshalId, new[] { found.Email }, cancellationToken);
+                await authorisationNotifier.RemoveEventMarshal(request.MarshalId, new[] { found.Email }, cancellationToken);
             }
             return Unit.Value;
         }

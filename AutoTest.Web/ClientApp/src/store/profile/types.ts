@@ -8,6 +8,8 @@ export const ADD_CLUB_ADMIN = "ADD_CLUB_ADMIN";
 export const REMOVE_CLUB_ADMIN = "REMOVE_CLUB_ADMIN";
 export const ADD_EVENT_MARSHAL = "ADD_EVENT_MARSHAL";
 export const REMOVE_EVENT_MARSHAL = "REMOVE_EVENT_MARSHAL";
+export const ADD_EDITABLE_MARSHAL = "ADD_EDITABLE_MARSHAL";
+export const ADD_EDITABLE_ENTRANT = "ADD_EDITABLE_ENTRANT";
 
 export interface ProfileState {
     readonly profile: LoadingState<Profile>;
@@ -39,6 +41,16 @@ interface AddEventMarshal {
     readonly payload: number;
 }
 
+interface AddEditableMarshal {
+    readonly type: typeof ADD_EDITABLE_MARSHAL;
+    readonly payload: number;
+}
+
+interface AddEditableEntrant {
+    readonly type: typeof ADD_EDITABLE_ENTRANT;
+    readonly payload: number;
+}
+
 interface RemoveEventMarshal {
     readonly type: typeof REMOVE_EVENT_MARSHAL;
     readonly payload: number;
@@ -55,4 +67,6 @@ export type ProfileActionTypes =
     | AddClubAdmin
     | RemoveClubAdmin
     | AddEventMarshal
-    | RemoveEventMarshal;
+    | RemoveEventMarshal
+    | AddEditableMarshal
+    | AddEditableEntrant;

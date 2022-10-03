@@ -49,7 +49,7 @@ const getNewEditableTest = (ordinal: number): EditableTestRun => ({
     ordinal: ordinal,
     timeInMS: "0.00",
     penalties: [],
-    entrantId: undefined,
+    entrantId: Number.NaN,
     state: TestRunUploadState.NotSent,
 });
 interface Props {

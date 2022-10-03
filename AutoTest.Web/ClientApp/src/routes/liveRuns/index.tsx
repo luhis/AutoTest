@@ -1,12 +1,8 @@
 import { FunctionalComponent, FunctionComponent, h } from "preact";
-import { useEffect, useMemo, useState } from "preact/hooks";
+import { useEffect, useState } from "preact/hooks";
 import { Heading } from "react-bulma-components";
 import { useSelector } from "react-redux";
-import {
-    HubConnectionBuilder,
-    LogLevel,
-    HubConnection,
-} from "@microsoft/signalr";
+import { HubConnection } from "@microsoft/signalr";
 import { compact, last, sortBy, identity } from "@s-libs/micro-dash";
 import { route } from "preact-router";
 
@@ -23,6 +19,12 @@ import FilterDropdown from "../../components/shared/FilterDropdown";
 import Penalties from "../../components/shared/Penalties";
 import RouteParamsParser from "../../components/shared/RouteParamsParser";
 import { useThunkDispatch } from "../../store";
+import {
+    LeaveEvent,
+    ListenToEvent,
+    NewTestRun,
+    useConnection,
+} from "../../signalR/eventHub";
 
 interface Props {
     readonly eventId: number;
@@ -40,11 +42,6 @@ const getEntrantName = (
     );
     return found ? `${found.givenName} ${found.familyName}` : "Not Found";
 };
-
-const baseConn = new HubConnectionBuilder()
-    .withUrl("/resultsHub")
-    .withAutomaticReconnect()
-    .configureLogging(LogLevel.Debug);
 
 const Results: FunctionalComponent<Props> = ({
     eventId,
@@ -77,7 +74,7 @@ const Results: FunctionalComponent<Props> = ({
     }, [testFilterState, eventId]);
     useEffect(() => {
         if (connection) {
-            connection.on("NewTestRun", (newRun: TestRunFromServer) => {
+            connection.on(NewTestRun, (newRun: TestRunFromServer) => {
                 setRun((a) => a.concat(newRun));
             });
         }
@@ -119,22 +116,19 @@ interface OtherProps {
     };
 }
 const SignalRWrapper: FunctionComponent<OtherProps> = ({ matches }) => {
-    const connection = useMemo(
-        () => (typeof window !== "undefined" ? baseConn.build() : undefined),
-        []
-    );
+    const connection = useConnection();
 
     useEffect(() => {
         if (connection) {
             void connection
                 .start()
                 .then(() => {
-                    void connection.invoke("ListenToEvent", matches.eventId);
+                    void connection.invoke(ListenToEvent, matches.eventId);
                 })
                 .catch(console.error);
             return () => {
                 const f = async () => {
-                    await connection.invoke("LeaveEvent", matches.eventId);
+                    await connection.invoke(LeaveEvent, matches.eventId);
                     await connection.stop();
                 };
                 void f();

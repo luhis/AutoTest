@@ -1,12 +1,8 @@
 import { FunctionComponent, h, Fragment } from "preact";
-import { useEffect, useMemo, useState } from "preact/hooks";
+import { useEffect, useState } from "preact/hooks";
 import { Heading, Table, Button } from "react-bulma-components";
 import { useDispatch, useSelector } from "react-redux";
-import {
-    HubConnectionBuilder,
-    LogLevel,
-    HubConnection,
-} from "@microsoft/signalr";
+import { HubConnection } from "@microsoft/signalr";
 import { compact, range } from "@s-libs/micro-dash";
 import { newValidDate } from "ts-date";
 import { FaBell } from "react-icons/fa";
@@ -43,6 +39,14 @@ import { GetClubsIfRequired } from "../../store/clubs/actions";
 import FilterDropdown from "../../components/shared/FilterDropdown";
 import { selectAccess } from "../../store/profile/selectors";
 import { useThunkDispatch } from "../../store";
+import {
+    LeaveEvent,
+    ListenToEvent,
+    NewNotification,
+    NewResults,
+    NewTestRun,
+    useConnection,
+} from "../../signalR/eventHub";
 
 interface Props {
     readonly eventId: number;
@@ -67,11 +71,6 @@ const requestNotificationPermission = () => {
 const showDesktopNotification = (text: string) => {
     new window.Notification(text);
 };
-
-const baseConn = new HubConnectionBuilder()
-    .withUrl("/resultsHub")
-    .withAutomaticReconnect()
-    .configureLogging(LogLevel.Error);
 
 const Results: FunctionComponent<
     Props & { readonly connection: HubConnection | undefined }
@@ -117,12 +116,12 @@ const Results: FunctionComponent<
     useEffect(() => {
         if (connection) {
             connection.on(
-                "NewNotification",
+                NewNotification,
                 (notification: EventNotification) => {
                     dispatch(AddNotification(notification));
                 }
             );
-            connection.on("NewResults", (newResults: readonly Result[]) => {
+            connection.on(NewResults, (newResults: readonly Result[]) => {
                 setResults({
                     tag: "Loaded",
                     value: newResults,
@@ -131,7 +130,7 @@ const Results: FunctionComponent<
                 });
             });
 
-            connection.on("NewTestRun", (newRun: TestRunFromServer) => {
+            connection.on(NewTestRun, (newRun: TestRunFromServer) => {
                 if (access.editableEntrants.includes(newRun.entrantId)) {
                     void showDesktopNotification(
                         `New test run. Run Number: ${
@@ -256,22 +255,19 @@ const Results: FunctionComponent<
 };
 
 const SignalRWrapper: FunctionComponent<Props> = ({ eventId, classFilter }) => {
-    const connection = useMemo(
-        () => (typeof window !== "undefined" ? baseConn.build() : undefined),
-        []
-    );
+    const connection = useConnection();
 
     useEffect(() => {
         if (connection) {
             void connection
                 .start()
                 .then(() => {
-                    void connection.invoke("ListenToEvent", eventId);
+                    void connection.invoke(ListenToEvent, eventId);
                 })
                 .catch(console.error);
             return () => {
                 const f = async () => {
-                    await connection.invoke("LeaveEvent", eventId);
+                    await connection.invoke(LeaveEvent, eventId);
                     await connection.stop();
                 };
                 void f();

@@ -19,6 +19,7 @@ import Breadcrumbs from "../../components/shared/Breadcrumbs";
 import { selectClubs } from "../../store/clubs/selectors";
 import { GetClubsIfRequired } from "../../store/clubs/actions";
 import { useThunkDispatch } from "../../store";
+import { selectAccess } from "../../store/profile/selectors";
 
 interface Props {
     readonly eventId: number;
@@ -42,6 +43,7 @@ const Tests: FunctionalComponent<Readonly<Props>> = ({ eventId }) => {
         thunkDispatch(GetClubsIfRequired(getAccessToken(auth)));
         void thunkDispatch(GetEventsIfRequired());
     }, [thunkDispatch, auth]);
+    const access = useSelector(selectAccess);
     return (
         <div>
             <Breadcrumbs club={currentClub} event={currentEvent} />
@@ -55,6 +57,9 @@ const Tests: FunctionalComponent<Readonly<Props>> = ({ eventId }) => {
                         <Column>
                             <Button.Group>
                                 <Button
+                                    disabled={
+                                        !access.marshalEvents.includes(eventId)
+                                    }
                                     onClick={() =>
                                         route(`/marshal/${eventId}/${ordinal}`)
                                     }

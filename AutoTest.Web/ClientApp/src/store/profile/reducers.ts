@@ -10,6 +10,8 @@ import {
     ADD_EVENT_MARSHAL,
     REMOVE_CLUB_ADMIN,
     REMOVE_EVENT_MARSHAL,
+    ADD_EDITABLE_ENTRANT,
+    ADD_EDITABLE_MARSHAL,
 } from "./types";
 
 const defaultAccess: Access = {
@@ -83,6 +85,26 @@ export const profileReducer = (
                     ...state.access,
                     marshalEvents: state.access.marshalEvents.filter(
                         (id) => id !== action.payload
+                    ),
+                },
+            };
+        case ADD_EDITABLE_ENTRANT:
+            return {
+                ...state,
+                access: {
+                    ...state.access,
+                    editableEntrants: state.access.editableEntrants.concat(
+                        action.payload
+                    ),
+                },
+            };
+        case ADD_EDITABLE_MARSHAL:
+            return {
+                ...state,
+                access: {
+                    ...state.access,
+                    editableMarshals: state.access.editableMarshals.concat(
+                        action.payload
                     ),
                 },
             };

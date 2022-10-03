@@ -95,7 +95,7 @@ const Event: FunctionalComponent<Props> = ({ eventId }) => {
                 : Promise.resolve(),
         [currentEvent]
     );
-    const { adminClubs } = useSelector(selectAccess);
+    const { adminClubs, marshalEvents } = useSelector(selectAccess);
     const canEdit =
         currentEvent === undefined ||
         !adminClubs.includes(currentEvent?.clubId);
@@ -157,7 +157,10 @@ const Event: FunctionalComponent<Props> = ({ eventId }) => {
                 <Panel.Header>Times</Panel.Header>
                 <Panel.Block>
                     <Button.Group>
-                        <Button onClick={() => route(`/tests/${eventId}`)}>
+                        <Button
+                            disabled={!marshalEvents.includes(eventId)}
+                            onClick={() => route(`/tests/${eventId}`)}
+                        >
                             Tests
                         </Button>
                         <Button
