@@ -2,7 +2,6 @@
 using System.Threading.Tasks;
 using AutoTest.Service.Interfaces;
 using AutoTest.Web.Hubs;
-using FluentAssertions.ArgumentMatchers.Moq;
 using Microsoft.AspNetCore.SignalR;
 using Moq;
 using Xunit;
@@ -23,20 +22,37 @@ namespace AutoTest.Unit.Test.Notifiers
         }
 
         [Fact]
-        public async Task Test()
+        public async Task AddEditableEntrant()
         {
-            var entrantId = 1ul;
+            var eventId = 1ul;
             var email = "a@a.com";
             var clientProxy = mr.Create<IClientProxy>();
             var clients = mr.Create<IHubClients>();
             clients.Setup(a => a.Group($"email:{email}")).Returns(clientProxy.Object);
             eventHub.Setup(a => a.Clients).Returns(clients.Object);
             clientProxy.Setup(a => a.SendCoreAsync("AddEditableEntrant",
-                It.IsAny<object[]>(),
-                //Its.EquivalentTo(new object[] { entrantId, It.IsAny<string[]>() }),//Its.EquivalentTo(new[] { email }) }),
+                new object[] { eventId },
                 CancellationToken.None)).Returns(Task.CompletedTask);
 
-            await sut.AddEditableEntrant(entrantId, new[] { email }, CancellationToken.None);
+            await sut.AddEditableEntrant(eventId, new[] { email }, CancellationToken.None);
+
+            mr.VerifyAll();
+        }
+
+        [Fact]
+        public async Task AddEditableMarshal()
+        {
+            var eventId = 1ul;
+            var email = "a@a.com";
+            var clientProxy = mr.Create<IClientProxy>();
+            var clients = mr.Create<IHubClients>();
+            clients.Setup(a => a.Group($"email:{email}")).Returns(clientProxy.Object);
+            eventHub.Setup(a => a.Clients).Returns(clients.Object);
+            clientProxy.Setup(a => a.SendCoreAsync("AddEditableMarshal",
+                new object[] { eventId },
+                CancellationToken.None)).Returns(Task.CompletedTask);
+
+            await sut.AddEditableMarshal(eventId, new[] { email }, CancellationToken.None);
 
             mr.VerifyAll();
         }
