@@ -13,6 +13,6 @@ namespace AutoTest.Service.Interfaces
         Task RemoveEventMarshal(ulong eventId, IEnumerable<string> newEmails, CancellationToken cancellationToken);
 
         Task AddEditableMarshal(ulong marshalId, IEnumerable<string> newEmails, CancellationToken cancellationToken);
-        Task AddEditableEntrant(ulong entrantId, IEnumerable<string> newEmails, CancellationToken cancellationToken);
+        Task AddEditableEntrant(ulong eventId, IEnumerable<string> newEmails, CancellationToken cancellationToken);
     }
 }
