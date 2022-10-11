@@ -56,5 +56,77 @@ namespace AutoTest.Unit.Test.Notifiers
 
             mr.VerifyAll();
         }
+
+        [Fact]
+        public async Task NewClubAdmin()
+        {
+            var clubId = 1ul;
+            var email = "a@a.com";
+            var clientProxy = mr.Create<IClientProxy>();
+            var clients = mr.Create<IHubClients>();
+            clients.Setup(a => a.Group($"email:{email}")).Returns(clientProxy.Object);
+            eventHub.Setup(a => a.Clients).Returns(clients.Object);
+            clientProxy.Setup(a => a.SendCoreAsync("NewClubAdmin",
+                new object[] { clubId },
+                CancellationToken.None)).Returns(Task.CompletedTask);
+
+            await sut.NewClubAdmin(clubId, new[] { email }, CancellationToken.None);
+
+            mr.VerifyAll();
+        }
+
+        [Fact]
+        public async Task RemoveClubAdmin()
+        {
+            var clubId = 1ul;
+            var email = "a@a.com";
+            var clientProxy = mr.Create<IClientProxy>();
+            var clients = mr.Create<IHubClients>();
+            clients.Setup(a => a.Group($"email:{email}")).Returns(clientProxy.Object);
+            eventHub.Setup(a => a.Clients).Returns(clients.Object);
+            clientProxy.Setup(a => a.SendCoreAsync("RemoveClubAdmin",
+                new object[] { clubId },
+                CancellationToken.None)).Returns(Task.CompletedTask);
+
+            await sut.RemoveClubAdmin(clubId, new[] { email }, CancellationToken.None);
+
+            mr.VerifyAll();
+        }
+
+        [Fact]
+        public async Task NewEventMarshal()
+        {
+            var eventId = 1ul;
+            var email = "a@a.com";
+            var clientProxy = mr.Create<IClientProxy>();
+            var clients = mr.Create<IHubClients>();
+            clients.Setup(a => a.Group($"email:{email}")).Returns(clientProxy.Object);
+            eventHub.Setup(a => a.Clients).Returns(clients.Object);
+            clientProxy.Setup(a => a.SendCoreAsync("NewEventMarshal",
+                new object[] { eventId },
+                CancellationToken.None)).Returns(Task.CompletedTask);
+
+            await sut.NewEventMarshal(eventId, new[] { email }, CancellationToken.None);
+
+            mr.VerifyAll();
+        }
+
+        [Fact]
+        public async Task RemoveEventMarshal()
+        {
+            var eventId = 1ul;
+            var email = "a@a.com";
+            var clientProxy = mr.Create<IClientProxy>();
+            var clients = mr.Create<IHubClients>();
+            clients.Setup(a => a.Group($"email:{email}")).Returns(clientProxy.Object);
+            eventHub.Setup(a => a.Clients).Returns(clients.Object);
+            clientProxy.Setup(a => a.SendCoreAsync("RemoveEventMarshal",
+                new object[] { eventId },
+                CancellationToken.None)).Returns(Task.CompletedTask);
+
+            await sut.RemoveEventMarshal(eventId, new[] { email }, CancellationToken.None);
+
+            mr.VerifyAll();
+        }
     }
 }
