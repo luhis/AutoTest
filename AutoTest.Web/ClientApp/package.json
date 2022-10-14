@@ -47,7 +47,7 @@
     "redux-devtools-extension": "2.13.9",
     "redux-persist": "6.0.0",
     "redux-thunk": "2.4.1",
-    "regenerator-runtime": "0.13.9",
+    "regenerator-runtime": "0.13.10",
     "save-file": "2.3.1",
     "timeago-react": "3.0.5",
     "ts-date": "3.0.2",
