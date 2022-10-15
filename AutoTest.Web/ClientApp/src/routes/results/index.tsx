@@ -57,7 +57,7 @@ const numberToChar = (n: number) => "abcdefghijklmnopqrstuvwxyz".charAt(n);
 
 const requestNotificationPermission = () => {
     if (!("Notification" in window)) {
-        console.log("This browser does not support desktop notification");
+        console.error("This browser does not support desktop notification");
     }
 
     if (
