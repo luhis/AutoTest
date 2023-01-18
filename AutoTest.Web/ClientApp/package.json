@@ -70,7 +70,7 @@
     "jest-environment-jsdom": "29.3.1",
     "jest-preset-preact": "4.0.5",
     "lint-staged": "13.1.0",
-    "preact-cli": "3.4.4",
+    "preact-cli": "3.4.5",
     "preact-cli-plugin-env-vars": "1.2.1",
     "prettier": "2.8.3",
     "sirv-cli": "2.0.2",
