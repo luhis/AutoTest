@@ -9385,10 +9385,10 @@ preact-cli-plugin-env-vars@1.2.1:
     dotenv "^4.0.0"
     resolve-env-vars "^1.0.0"
 
-preact-cli@3.4.4:
-  version "3.4.4"
-  resolved "https://registry.yarnpkg.com/preact-cli/-/preact-cli-3.4.4.tgz#4a9f8676e0dd71a621c563c93ce5d9598c921e51"
-  integrity sha512-qiC/Hg4AEJHPAAG4NB4npTht2cb0puW33CNGmQ0ia+OoxwNCrCzuWkVOlqJ+LtfCTEureNwoQ326CDpwqzqDMg==
+preact-cli@3.4.5:
+  version "3.4.5"
+  resolved "https://registry.yarnpkg.com/preact-cli/-/preact-cli-3.4.5.tgz#501f0ca410a15a7b1dac92083c32df52b6da6cf7"
+  integrity sha512-pLTawiXDy4rEct5ul0mDCP92GB6NK/QFhpoR+iHZJqgkeyE25qEXPf1/tJhAiijphDL5kxGvsT4qA6SrpQ5BsQ==
   dependencies:
     "@babel/core" "^7.13.16"
     "@babel/plugin-proposal-class-properties" "^7.13.0"
