@@ -1541,10 +1541,10 @@
     estree-walker "^1.0.1"
     picomatch "^2.2.2"
 
-"@s-libs/micro-dash@15.0.0":
-  version "15.0.0"
-  resolved "https://registry.yarnpkg.com/@s-libs/micro-dash/-/micro-dash-15.0.0.tgz#42d393ee1834a42879e1334b1ce72c6e103af81f"
-  integrity sha512-aIN98LgoslgUN0oEx6g6unR3GSOcvLV6Or32EzS2/n0oPVXij8V2PVzp3SeOxVRTnryrydMn1zaEOkwx1YrxFA==
+"@s-libs/micro-dash@15.1.0":
+  version "15.1.0"
+  resolved "https://registry.yarnpkg.com/@s-libs/micro-dash/-/micro-dash-15.1.0.tgz#393e0173a37f573148f9d5857e2a627ed115fcff"
+  integrity sha512-aAVutALpYYaqP9D2w9lBPtm/KaBFis25pyl+AjOEnnOJD4cQFBblMYJkNGUMH0gihmUrnvdWEvNscTJE1ZVadw==
   dependencies:
     tslib "^2.3.0"
     utility-types "^3.10.0"
