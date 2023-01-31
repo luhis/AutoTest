@@ -54,7 +54,7 @@
     "uuid-int": "3.1.0"
   },
   "devDependencies": {
-    "@teamsupercell/typings-for-css-modules-loader": "2.5.1",
+    "@teamsupercell/typings-for-css-modules-loader": "2.5.2",
     "@types/jest": "29.4.0",
     "@types/webpack-env": "1.18.0",
     "css-loader": "6.7.3",
