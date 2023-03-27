@@ -17,7 +17,7 @@ namespace AutoTest.Web.Controllers
     using Microsoft.AspNetCore.Mvc;
 
     [ApiController]
-    [Route("api/[controller]/{eventId}")]
+    [Route("api/[controller]/{eventId:long}")]
     public class MarshalsController : ControllerBase
     {
         private readonly IMediator mediator;

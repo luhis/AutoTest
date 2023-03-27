@@ -12,7 +12,7 @@ namespace AutoTest.Unit.Test.Handlers
 {
     public class MarkPaidShould
     {
-        private readonly IRequestHandler<MarkPaid, MediatR.Unit> sut;
+        private readonly IRequestHandler<MarkPaid> sut;
         private readonly MockRepository mr;
         private readonly Mock<IEntrantsRepository> entrantsRepository;
 

@@ -54,7 +54,7 @@ namespace AutoTest.Web
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews(o => o.AllowEmptyInputInBodyModelBinding = true);
-            services.AddMediatR(typeof(GetClubs).Assembly);
+            services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(typeof(GetClubs).Assembly));
             services.AddPersistence();
             services.AddWeb(this.Configuration);
             services.AddHttpContextAccessor();

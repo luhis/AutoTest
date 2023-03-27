@@ -16,10 +16,9 @@ namespace AutoTest.Service.Handlers
             this.clubRepository = clubRepository;
         }
 
-        async Task<Unit> IRequestHandler<DeleteClub, Unit>.Handle(DeleteClub request, CancellationToken cancellationToken)
+        async Task IRequestHandler<DeleteClub>.Handle(DeleteClub request, CancellationToken cancellationToken)
         {
             await clubRepository.Delete(request.ClubId, cancellationToken);
-            return Unit.Value;
         }
     }
 }

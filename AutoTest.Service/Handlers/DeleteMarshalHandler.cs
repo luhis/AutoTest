@@ -18,7 +18,7 @@ namespace AutoTest.Service.Handlers
             this.authorisationNotifier = signalRNotifier;
         }
 
-        async Task<Unit> IRequestHandler<DeleteMarshal, Unit>.Handle(DeleteMarshal request, CancellationToken cancellationToken)
+        async Task IRequestHandler<DeleteMarshal>.Handle(DeleteMarshal request, CancellationToken cancellationToken)
         {
             var found = await _marshalsRepository.GetById(request.EventId, request.MarshalId, cancellationToken);
             if (found != null)
@@ -26,7 +26,6 @@ namespace AutoTest.Service.Handlers
                 await _marshalsRepository.Remove(found, cancellationToken);
                 await authorisationNotifier.RemoveEventMarshal(request.MarshalId, new[] { found.Email }, cancellationToken);
             }
-            return Unit.Value;
         }
     }
 }

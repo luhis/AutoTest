@@ -14,7 +14,7 @@ namespace AutoTest.Unit.Test.Handlers
 {
     public class UpdateTestRunShould
     {
-        private readonly IRequestHandler<UpdateTestRun, MediatR.Unit> sut;
+        private readonly IRequestHandler<UpdateTestRun> sut;
         private readonly MockRepository mr;
         private readonly Mock<IEventNotifier> notifier;
         private readonly Mock<ITestRunsRepository> testRuns;

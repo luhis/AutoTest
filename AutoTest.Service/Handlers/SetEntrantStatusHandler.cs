@@ -15,12 +15,11 @@ namespace AutoTest.Service.Handlers
             _entrantsRepository = entrantsRepository;
         }
 
-        async Task<Unit> IRequestHandler<SetEntrantStatus, Unit>.Handle(SetEntrantStatus request, CancellationToken cancellationToken)
+        async Task IRequestHandler<SetEntrantStatus>.Handle(SetEntrantStatus request, CancellationToken cancellationToken)
         {
             var entrant = await _entrantsRepository.GetById(request.EventId, request.EntrantId, cancellationToken);
             entrant!.SetEntrantStatus(request.Status);
             await _entrantsRepository.Upsert(entrant, cancellationToken);
-            return new Unit();
         }
     }
 }

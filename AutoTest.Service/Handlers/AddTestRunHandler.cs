@@ -24,7 +24,7 @@ namespace AutoTest.Service.Handlers
             _eventsRepository = eventsRepository;
         }
 
-        async Task<Unit> IRequestHandler<AddTestRun, Unit>.Handle(AddTestRun request, CancellationToken cancellationToken)
+        async Task IRequestHandler<AddTestRun>.Handle(AddTestRun request, CancellationToken cancellationToken)
         {
             var @event = await _eventsRepository.GetById(request.EventId, cancellationToken);
             if (@event.EventStatus != Domain.Enums.EventStatus.Running)
@@ -36,7 +36,6 @@ namespace AutoTest.Service.Handlers
             testRun.SetPenalties(request.Penalties.ToArray());
             await testRunsRepository.AddTestRun(testRun, cancellationToken);
             await signalRNotifier.NewTestRun(testRun, cancellationToken);
-            return Unit.Value;
         }
     }
 }

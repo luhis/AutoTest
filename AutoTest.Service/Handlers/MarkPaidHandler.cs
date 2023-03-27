@@ -16,12 +16,11 @@ namespace AutoTest.Service.Handlers
         }
 
 
-        async Task<Unit> IRequestHandler<MarkPaid, Unit>.Handle(MarkPaid request, CancellationToken cancellationToken)
+        async Task IRequestHandler<MarkPaid>.Handle(MarkPaid request, CancellationToken cancellationToken)
         {
             var found = (await _entrantsRepository.GetById(request.EventId, request.EntrantId, cancellationToken))!;// await this._autoTestContext.Entrants!.SingleAsync(a => a.EventId == request.EventId && a.EntrantId == request.EntrantId, cancellationToken);
             found.SetPayment(request.Payment);
             await _entrantsRepository.Update(found, cancellationToken);
-            return Unit.Value;
         }
     }
 }

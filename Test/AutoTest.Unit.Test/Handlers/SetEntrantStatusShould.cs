@@ -13,7 +13,7 @@ namespace AutoTest.Unit.Test.Handlers
 {
     public class SetEntrantStatusShould
     {
-        private readonly IRequestHandler<SetEntrantStatus, MediatR.Unit> sut;
+        private readonly IRequestHandler<SetEntrantStatus> sut;
         private readonly MockRepository mr;
         private readonly Mock<IEntrantsRepository> entrants;
 
@@ -32,7 +32,7 @@ namespace AutoTest.Unit.Test.Handlers
             entrants.Setup(a => a.GetById(eventId, entrantId, CancellationToken.None)).ReturnsAsync(new Entrant(entrantId, 22, "joe", "bloggs", "joe@bloggs.com", "A", eventId, "BRMC", 1234, Domain.Enums.Age.Senior));
             var toSave = new Entrant(entrantId, 22, "joe", "bloggs", "joe@bloggs.com", "A", eventId, "BRMC", 1234, Domain.Enums.Age.Senior);
             toSave.SetEntrantStatus(Domain.Enums.EntrantStatus.Withdrawn);
-            entrants.Setup(a => a.Upsert(Its.EquivalentTo(toSave, o => o.Excluding(a => a.EmergencyContact).Excluding(a => a.MsaMembership).Excluding(a =>a.AcceptDeclaration)), CancellationToken.None)).Returns(Task.CompletedTask);
+            entrants.Setup(a => a.Upsert(Its.EquivalentTo(toSave, o => o.Excluding(a => a.EmergencyContact).Excluding(a => a.MsaMembership).Excluding(a => a.AcceptDeclaration)), CancellationToken.None)).Returns(Task.CompletedTask);
 
             await sut.Handle(new SetEntrantStatus(eventId, entrantId, Domain.Enums.EntrantStatus.Withdrawn), CancellationToken.None);
         }

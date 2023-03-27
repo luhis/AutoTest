@@ -16,12 +16,11 @@ namespace AutoTest.Service.Handlers
             eventsRepository = autoTestContext;
         }
 
-        async Task<Unit> IRequestHandler<DeleteEvent, Unit>.Handle(DeleteEvent request, CancellationToken cancellationToken)
+        async Task IRequestHandler<DeleteEvent>.Handle(DeleteEvent request, CancellationToken cancellationToken)
         {
             var found = await this.eventsRepository.GetById(request.EventId, cancellationToken);
 
             await this.eventsRepository.Delete(found, cancellationToken);
-            return Unit.Value;
         }
     }
 }

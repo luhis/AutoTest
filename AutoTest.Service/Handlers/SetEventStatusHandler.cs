@@ -15,12 +15,11 @@ namespace AutoTest.Service.Handlers
             _eventRepository = eventRepository;
         }
 
-        async Task<Unit> IRequestHandler<SetEventStatus, Unit>.Handle(SetEventStatus request, CancellationToken cancellationToken)
+        async Task IRequestHandler<SetEventStatus>.Handle(SetEventStatus request, CancellationToken cancellationToken)
         {
             var @event = await _eventRepository.GetById(request.EventId, cancellationToken);
             @event.SetEventStatus(request.Status);
             await _eventRepository.Upsert(@event, cancellationToken);
-            return new Unit();
         }
     }
 }

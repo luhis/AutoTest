@@ -14,7 +14,7 @@ namespace AutoTest.Unit.Test.Handlers
 {
     public class SetEventStatusShould
     {
-        private readonly IRequestHandler<SetEventStatus, MediatR.Unit> sut;
+        private readonly IRequestHandler<SetEventStatus> sut;
         private readonly MockRepository mr;
         private readonly Mock<IEventsRepository> events;
 

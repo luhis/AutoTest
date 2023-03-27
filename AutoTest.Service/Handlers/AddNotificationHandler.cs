@@ -18,11 +18,10 @@ namespace AutoTest.Service.Handlers
             this.signalRNotifier = signalRNotifier;
         }
 
-        async Task<Unit> IRequestHandler<AddNotification, Unit>.Handle(AddNotification request, CancellationToken cancellationToken)
+        public async Task Handle(AddNotification request, CancellationToken cancellationToken)
         {
             await notificationsRepository.AddNotificaiton(request.Notification, cancellationToken);
             await signalRNotifier.NewNotification(request.Notification, cancellationToken);
-            return new Unit();
         }
     }
 }

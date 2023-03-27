@@ -13,7 +13,7 @@ namespace AutoTest.Unit.Test.Handlers
 {
     public class AddNotificationShould
     {
-        private readonly IRequestHandler<AddNotification, MediatR.Unit> sut;
+        private readonly IRequestHandler<AddNotification> sut;
         private readonly MockRepository mr;
         private readonly Mock<IEventNotifier> notifier;
         private readonly Mock<INotificationsRepository> notificationRepository;

@@ -16,7 +16,7 @@ namespace AutoTest.Unit.Test.Handlers
 {
     public class AddTestRunShould
     {
-        private readonly IRequestHandler<AddTestRun, MediatR.Unit> sut;
+        private readonly IRequestHandler<AddTestRun> sut;
         private readonly MockRepository mr;
         private readonly Mock<IEventNotifier> notifier;
         private readonly Mock<ITestRunsRepository> testRuns;
@@ -69,7 +69,7 @@ namespace AutoTest.Unit.Test.Handlers
             var @event = new Event(eventId, clubId, "location", new DateTime(2000, 1, 1), 2, 3, "regs", new[] { Domain.Enums.EventType.AutoSolo }, "maps", Domain.Enums.TimingSystem.App, new DateTime(), new DateTime(), 10);
             events.Setup(a => a.GetById(eventId, CancellationToken.None)).ReturnsAsync(@event);
 
-            Func<Task<MediatR.Unit>> act = () => sut.Handle(new(1, eventId, 3, 4, entrantId, new DateTime(2000, 1, 1), "marshal@email.com", penalties), CancellationToken.None);
+            Func<Task> act = () => sut.Handle(new(1, eventId, 3, 4, entrantId, new DateTime(2000, 1, 1), "marshal@email.com", penalties), CancellationToken.None);
             await act.Should().ThrowAsync<Exception>().WithMessage("Event must be running to add Test Run");
 
             mr.VerifyAll();

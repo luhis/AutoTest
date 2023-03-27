@@ -16,7 +16,7 @@ namespace AutoTest.Service.Handlers
             _autoTestContext = entrantsRepository;
         }
 
-        async Task<Unit> IRequestHandler<DeleteEntrant, Unit>.Handle(DeleteEntrant request, CancellationToken cancellationToken)
+        async Task IRequestHandler<DeleteEntrant>.Handle(DeleteEntrant request, CancellationToken cancellationToken)
         {
             var found = await this._autoTestContext.GetById(request.EventId, request.EntrantId, cancellationToken);
             if (found == null)
@@ -24,7 +24,6 @@ namespace AutoTest.Service.Handlers
                 throw new NullReferenceException();
             }
             await this._autoTestContext.Delete(found, cancellationToken);
-            return Unit.Value;
         }
     }
 }
