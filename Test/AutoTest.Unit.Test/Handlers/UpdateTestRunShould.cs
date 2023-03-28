@@ -38,7 +38,7 @@ namespace AutoTest.Unit.Test.Handlers
             notifier.Setup(a => a.NewTestRun(Its.EquivalentTo(tr), CancellationToken.None)).Returns(Task.CompletedTask);
             testRuns.Setup(a => a.UpdateTestRun(Its.EquivalentTo(tr), CancellationToken.None)).Returns(Task.CompletedTask);
 
-            var res = await sut.Handle(new(1, 2, 3, 4, entrantId, new System.DateTime(2000, 1, 1), marshalId, penalties), CancellationToken.None);
+            await sut.Handle(new(1, 2, 3, 4, entrantId, new System.DateTime(2000, 1, 1), marshalId, penalties), CancellationToken.None);
 
             mr.VerifyAll();
         }

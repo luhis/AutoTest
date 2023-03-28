@@ -33,7 +33,7 @@ namespace AutoTest.Unit.Test.Handlers
             notifier.Setup(a => a.NewNotification(notification, CancellationToken.None)).Returns(Task.CompletedTask);
             notificationRepository.Setup(a => a.AddNotificaiton(notification, CancellationToken.None)).Returns(Task.CompletedTask);
 
-            var res = await sut.Handle(new(notification), CancellationToken.None);
+            await sut.Handle(new(notification), CancellationToken.None);
 
             mr.VerifyAll();
         }
