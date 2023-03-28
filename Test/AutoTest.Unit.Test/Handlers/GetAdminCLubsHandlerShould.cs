@@ -34,7 +34,7 @@ namespace AutoTest.Unit.Test.Handlers
         [Fact(Skip = "skip")]
         public async Task ShouldSkipIfInCache()
         {
-            object outObj;
+            object? outObj;
             memoryCache
                 .Setup(a => a.TryGetValue(nameof(GetAdminClubsHandler), out outObj)).Returns(true)
                 .Callback(new CallbackDelegate((object word, out object substitution) =>
@@ -50,7 +50,7 @@ namespace AutoTest.Unit.Test.Handlers
         [Fact]
         public async Task ShouldCreateIfNotInCache()
         {
-            object outObj;
+            object? outObj;
             memoryCache
                 .Setup(a => a.TryGetValue(nameof(GetAdminClubsHandler), out outObj))
                 .Callback(new CallbackDelegate((object word, out object substitution) =>
