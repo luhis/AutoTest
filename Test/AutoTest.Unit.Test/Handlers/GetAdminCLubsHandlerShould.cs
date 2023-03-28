@@ -31,15 +31,16 @@ namespace AutoTest.Unit.Test.Handlers
             sut = new GetAdminClubsHandler(clubsRepository.Object, memoryCache.Object);
         }
 
-        [Fact(Skip = "skip")]
+        [Fact]
         public async Task ShouldSkipIfInCache()
         {
             object? outObj;
             memoryCache
-                .Setup(a => a.TryGetValue(nameof(GetAdminClubsHandler), out outObj)).Returns(true)
-                .Callback(new CallbackDelegate((object word, out object substitution) =>
-                substitution = new[] { (object)(ClubId: 1ul, AdminEmails: Enumerable.Empty<AuthorisationEmail>()) }.AsEnumerable()))
-                ;
+                .Setup(a => a.TryGetValue(nameof(GetAdminClubsHandler), out outObj)).Returns((string _, out IEnumerable<(ulong ClubId, IEnumerable<AuthorisationEmail> AdminEmails)> outObj) =>
+                {
+                    outObj = new[] { (ClubId: 1ul, AdminEmails: Enumerable.Empty<AuthorisationEmail>()) }.AsEnumerable();
+                    return true;
+                });
             var email = "a@a.com";
             var res = await sut.Handle(new(email), CancellationToken.None);
 
@@ -53,8 +54,6 @@ namespace AutoTest.Unit.Test.Handlers
             object? outObj;
             memoryCache
                 .Setup(a => a.TryGetValue(nameof(GetAdminClubsHandler), out outObj))
-                .Callback(new CallbackDelegate((object word, out object substitution) =>
-                substitution = new[] { (object)(ClubId: 1ul, AdminEmails: Enumerable.Empty<AuthorisationEmail>()) }.AsEnumerable()))
                 .Returns(false);
             var ce = mr.Create<ICacheEntry>();
             ce.Setup(a => a.Dispose());
