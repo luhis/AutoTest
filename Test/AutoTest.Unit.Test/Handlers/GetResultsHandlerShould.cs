@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoTest.Domain.Enums;
@@ -31,7 +32,7 @@ namespace AutoTest.Unit.Test.Handlers
             sut = new GetResultsHandler(testRunsRepository.Object, eventsRepository.Object, entrantsRepository.Object);
         }
 
-        [Fact(Skip = "todo")]
+        [Fact]
         public async Task GetResults()
         {
             var entrantId = 1ul;
@@ -42,13 +43,12 @@ namespace AutoTest.Unit.Test.Handlers
                 );
             var entrant = new Entrant(entrantId, 1, "matt", "mccorry", "a@a.com", "A", eventId, "BRMC", 1234, Age.Senior);
             entrant.SetPayment(new(new System.DateTime(2000, 1, 1), Domain.Enums.PaymentMethod.Paypal, new System.DateTime(2000, 2, 2)));
-            entrantsRepository.Setup(a => a.GetById(eventId, entrantId, CancellationToken.None)).ReturnsAsync(entrant);
-            entrantsRepository.Setup(a => a.Update(entrant, CancellationToken.None)).Returns(Task.CompletedTask);
+            entrantsRepository.Setup(a => a.GetByEventId(eventId, CancellationToken.None)).ReturnsAsync(new[] { entrant });
+            testRunsRepository.Setup(a => a.GetAll(eventId, CancellationToken.None)).ReturnsAsync(Enumerable.Empty<TestRun>());
 
             await sut.Handle(new(eventId), CancellationToken.None);
 
             mr.VerifyAll();
-            entrantsRepository.Verify(a => a.Update(It.Is<Entrant>(a => a.Payment == null), CancellationToken.None));
         }
     }
 }
