@@ -1433,18 +1433,18 @@
     nopt "^5.0.0"
     pify "^2.3.0"
 
-"@microsoft/signalr-protocol-msgpack@6.0.16":
-  version "6.0.16"
-  resolved "https://registry.yarnpkg.com/@microsoft/signalr-protocol-msgpack/-/signalr-protocol-msgpack-6.0.16.tgz#71ad16d1759079e2894d89d53764c48bed467165"
-  integrity sha512-cEbtkYZ9cmcdxsdYn2N5ZKX6GAgQClYHqe4p9Y7Gs1WyUXSpIXDWM7JLnMuFaoQJDw2Jhh/lizdTUvJUcMKrAQ==
+"@microsoft/signalr-protocol-msgpack@6.0.18":
+  version "6.0.18"
+  resolved "https://registry.yarnpkg.com/@microsoft/signalr-protocol-msgpack/-/signalr-protocol-msgpack-6.0.18.tgz#2d634f54f31484f13e6879f515daced596e2b82e"
+  integrity sha512-PZTj5RKKipkahVWOQG3YF8DoyAxzgdKJ9idBi0wFoBU9n0mJeHi0qet7aKbsha7MUz8LnALrOSlf0M2hhHGKPA==
   dependencies:
-    "@microsoft/signalr" ">=6.0.16"
+    "@microsoft/signalr" ">=6.0.18"
     "@msgpack/msgpack" "^2.7.0"
 
-"@microsoft/signalr@>=6.0.16":
-  version "7.0.5"
-  resolved "https://registry.yarnpkg.com/@microsoft/signalr/-/signalr-7.0.5.tgz#e7a984ac1f1b6a488170e9cb2f2f46a5d97d5f80"
-  integrity sha512-j84syCKlXkQAOQhyrzRmW7w/M2UXQ6OKcXXFIVNjmiiZbEGIvSvJDRAuyMFjArdQOXz+etJgd58H/prTbyTCrA==
+"@microsoft/signalr@>=6.0.18":
+  version "7.0.7"
+  resolved "https://registry.yarnpkg.com/@microsoft/signalr/-/signalr-7.0.7.tgz#4d89bb4f0a0902c05d9dc434375c669b9d183bc8"
+  integrity sha512-RMWZLTxnjWPSaS9PYZxXAttql2JDM/+IsSJk0nACFhpLjnSw8UWfvUxOv/QjZSqLxhuksXxzBJ/91xUP6Y7Nvg==
   dependencies:
     abort-controller "^3.0.0"
     eventsource "^2.0.2"
