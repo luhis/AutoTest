@@ -3143,10 +3143,10 @@ builtins@^5.0.0:
   dependencies:
     semver "^7.0.0"
 
-bulma-toast@2.4.2:
-  version "2.4.2"
-  resolved "https://registry.yarnpkg.com/bulma-toast/-/bulma-toast-2.4.2.tgz#331775bfbdc07ce4a72cd8cd4a5bcb89088dffbf"
-  integrity sha512-c3ehyeXhhvxevKICP1VKsFtZlQH+H6/S+yYY4TFyLRfkbw3mh71eGazlNc/YEIvXQSbxHpD2f+WDc02xECuV9g==
+bulma-toast@2.4.3:
+  version "2.4.3"
+  resolved "https://registry.yarnpkg.com/bulma-toast/-/bulma-toast-2.4.3.tgz#cd302ad5ed625f47d7426b48b741250950e1cbf9"
+  integrity sha512-OpNn3MUD27ne8RkQns3yS7HaltU5/s67ivbdxAb/gXjxmfZhIdoeUFPYkopEXwCpzc+VasYy1OAglGIFvjEvUQ==
 
 bulma@0.9.4:
   version "0.9.4"
