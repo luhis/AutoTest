@@ -11610,10 +11610,10 @@ tr46@~0.0.3:
   resolved "https://registry.yarnpkg.com/tr46/-/tr46-0.0.3.tgz#8184fd347dac9cdc185992f3a6622e14b9d9ab6a"
   integrity sha1-gYT9NH2snNwYWZLzpmIuFLnZq2o=
 
-ts-date@3.0.3:
-  version "3.0.3"
-  resolved "https://registry.yarnpkg.com/ts-date/-/ts-date-3.0.3.tgz#d38b8c4a88d75f8d5681b8ddc849f8b35ffebd35"
-  integrity sha512-x/5linCnkyCVpUJxu7wIG6GhS2LsYFI3i7ptiLSvE9urtJ7pmr1gJk3x2xwcV1WS5tifpEg6KnGq0N4CZhZFKA==
+ts-date@3.1.0:
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/ts-date/-/ts-date-3.1.0.tgz#37e7f1bedd8af9d323b8d360eab1c11b44188eda"
+  integrity sha512-N2jWGOqkK6TyxCmsz0eVbJ+yWatxhxiELpgqvqJmcvWJrw1m+ll+tTJ5RE1TlaP/YPltcRvpqPDJ/qgLy7Ql8g==
 
 ts-pnp@^1.1.6:
   version "1.2.0"
