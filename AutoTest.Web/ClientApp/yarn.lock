@@ -9494,10 +9494,10 @@ preact-cli-plugin-env-vars@1.2.1:
     dotenv "^4.0.0"
     resolve-env-vars "^1.0.0"
 
-preact-cli@3.4.5:
-  version "3.4.5"
-  resolved "https://registry.yarnpkg.com/preact-cli/-/preact-cli-3.4.5.tgz#501f0ca410a15a7b1dac92083c32df52b6da6cf7"
-  integrity sha512-pLTawiXDy4rEct5ul0mDCP92GB6NK/QFhpoR+iHZJqgkeyE25qEXPf1/tJhAiijphDL5kxGvsT4qA6SrpQ5BsQ==
+preact-cli@3.5.0:
+  version "3.5.0"
+  resolved "https://registry.yarnpkg.com/preact-cli/-/preact-cli-3.5.0.tgz#dd2f693fc7e6243b8b9b34656686158471f50db1"
+  integrity sha512-x6B3p4aTzI9T1nWrMlXe0itfzJ2h8oC8S5kTJydzikcW/0ORDBSX1M8vT1FmjeLPDlyGvqlrRx1RI17XuxWIOA==
   dependencies:
     "@babel/core" "^7.13.16"
     "@babel/plugin-proposal-class-properties" "^7.13.0"
@@ -9561,7 +9561,6 @@ preact-cli@3.4.5:
     stack-trace "0.0.10"
     style-loader "^2.0.0"
     terser-webpack-plugin "^4.2.3"
-    typescript "~4.6.4"
     update-notifier "^5.1.0"
     url-loader "^4.1.1"
     validate-npm-package-name "^4.0.0"
@@ -11756,11 +11755,6 @@ typescript@5.1.6:
   version "5.1.6"
   resolved "https://registry.yarnpkg.com/typescript/-/typescript-5.1.6.tgz#02f8ac202b6dad2c0dd5e0913745b47a37998274"
   integrity sha512-zaWCozRZ6DLEWAWFrVDz1H6FVXzUSfTy5FUMWsQlU8Ym5JP9eO4xkTIROFCQvhQf61z6O/G6ugw3SgAnvvm+HA==
-
-typescript@~4.6.4:
-  version "4.6.4"
-  resolved "https://registry.yarnpkg.com/typescript/-/typescript-4.6.4.tgz#caa78bbc3a59e6a5c510d35703f6a09877ce45e9"
-  integrity sha512-9ia/jWHIEbo49HfjrLGfKbZSuWo9iTMwXO+Ca3pRsSpbsMbc7/IU8NKdCZVRRBafVPGnoJeFL76ZOAA84I9fEg==
 
 uglify-js@3.4.x:
   version "3.4.10"
