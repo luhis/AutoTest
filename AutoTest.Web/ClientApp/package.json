@@ -4,7 +4,7 @@
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
-    "build": "preact build --no-esm",
+    "build": "cross-env NODE_OPTIONS=--openssl-legacy-provider preact build --no-esm",
     "serve": "sirv build --port 8080 --cors --single",
     "dev": "yarn install && preact watch --no-esm && echo Starting the development server",
     "lint": "eslint src/**/*.{js,jsx,ts,tsx} --fix",
@@ -33,6 +33,7 @@
     "@typescript-eslint/parser": "6.11.0",
     "bulma": "0.9.4",
     "bulma-toast": "2.4.3",
+    "cross-env": "^7.0.3",
     "eslint-plugin-ts-immutable": "0.3.0",
     "preact": "10.19.2",
     "preact-render-to-string": "6.3.1",
