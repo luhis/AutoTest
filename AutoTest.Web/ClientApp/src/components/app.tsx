@@ -32,7 +32,7 @@ import { appInsightsKey, googleKey } from "../settings";
 import "bulma/css/bulma.css";
 
 interface Module {
-    readonly hot: unknown | undefined;
+    readonly hot: boolean | undefined;
 }
 
 if ((module as Module).hot) {
