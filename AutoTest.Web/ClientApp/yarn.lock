@@ -1429,15 +1429,15 @@
     nopt "^5.0.0"
     pify "^2.3.0"
 
-"@microsoft/signalr-protocol-msgpack@6.0.25":
-  version "6.0.25"
-  resolved "https://registry.yarnpkg.com/@microsoft/signalr-protocol-msgpack/-/signalr-protocol-msgpack-6.0.25.tgz#eef520d33994cea5080367d7560c67361a0f14e7"
-  integrity sha512-3XVLisQMTLs3cAW9jmuyQQWnxidWcB8MOebncoH09HR98oIx3cboQxg5aOSuTOhoeWHvDHd/+bYJntKNyOsTyQ==
+"@microsoft/signalr-protocol-msgpack@8.0.0":
+  version "8.0.0"
+  resolved "https://registry.yarnpkg.com/@microsoft/signalr-protocol-msgpack/-/signalr-protocol-msgpack-8.0.0.tgz#cc1777c8614e2586d890f1a7ea47637f1cd42ffe"
+  integrity sha512-XtN5lUPVOtU96aqpB6z00o0TQayx5fmcf7CeQKDXF1flg8G96wtNCFXKb/p4sM/nvprjSmz0JiWQfc1TVXsa6Q==
   dependencies:
-    "@microsoft/signalr" ">=6.0.25"
+    "@microsoft/signalr" ">=8.0.0"
     "@msgpack/msgpack" "^2.7.0"
 
-"@microsoft/signalr@>=6.0.25":
+"@microsoft/signalr@>=8.0.0":
   version "8.0.0"
   resolved "https://registry.yarnpkg.com/@microsoft/signalr/-/signalr-8.0.0.tgz#cb1412e88e0527f40da9178fefc27a65c3ddeab0"
   integrity sha512-K/wS/VmzRWePCGqGh8MU8OWbS1Zvu7DG7LSJS62fBB8rJUXwwj4axQtqrAAwKGUZHQF6CuteuQR9xMsVpM2JNA==
