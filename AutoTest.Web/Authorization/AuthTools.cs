@@ -10,11 +10,11 @@ namespace AutoTest.Web.Authorization
     {
         public static ulong GetEventId(RouteData routeData)
         {
-            if (routeData.Values.TryGetValue("eventId", out var eventIdString) && eventIdString != null)
+            if (routeData.Values.TryGetValue(RouteParams.EventId, out var eventIdString) && eventIdString != null)
             {
                 return ulong.Parse((string)eventIdString);
             }
-            else if (routeData.Values.TryGetValue("entrantId", out var entrantIdString) && entrantIdString != null)
+            else if (routeData.Values.TryGetValue(RouteParams.EntrantId, out var entrantIdString) && entrantIdString != null)
             {
                 throw new Exception("i don't think this route is used anymore");
             }
@@ -23,16 +23,16 @@ namespace AutoTest.Web.Authorization
 
         public static async Task<string?> GetExistingEmail(RouteData routeData, IMediator mediator)
         {
-            if (routeData.Values.TryGetValue("eventId", out var eventIdString) && eventIdString != null)
+            if (routeData.Values.TryGetValue(RouteParams.EventId, out var eventIdString) && eventIdString != null)
             {
                 var eventId = ulong.Parse((string)eventIdString);
-                if (routeData.Values.TryGetValue("entrantId", out var entrantIdString) && entrantIdString != null)
+                if (routeData.Values.TryGetValue(RouteParams.EntrantId, out var entrantIdString) && entrantIdString != null)
                 {
                     var entrantId = ulong.Parse((string)entrantIdString);
                     var entrant = await mediator.Send(new GetEntrant(eventId, entrantId));
                     return entrant?.Email;
                 }
-                if (routeData.Values.TryGetValue("marshalId", out var marshalIdString) && marshalIdString != null)
+                if (routeData.Values.TryGetValue(RouteParams.MarshalId, out var marshalIdString) && marshalIdString != null)
                 {
                     var marshalId = ulong.Parse((string)marshalIdString);
                     var existing = await mediator.Send(new GetMarshal(eventId, marshalId));

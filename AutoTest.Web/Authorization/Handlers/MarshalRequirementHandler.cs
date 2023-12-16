@@ -27,7 +27,7 @@ namespace AutoTest.Web.Authorization.Handlers
             var routeData = _httpContextAccessor.HttpContext!.GetRouteData();
             if (routeData != null)
             {
-                var eventId = ulong.Parse((string)routeData.Values["eventId"]!);
+                var eventId = ulong.Parse((string)routeData.Values[RouteParams.EventId]!);
                 var @event = await mediator.Send(new GetEvent(eventId));
                 if (@event == null)
                 {
