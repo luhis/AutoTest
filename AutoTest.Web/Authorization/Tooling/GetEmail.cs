@@ -6,7 +6,7 @@ namespace AutoTest.Web.Authorization.Tooling
     {
         public static string GetEmailAddress(this ClaimsPrincipal user)
         {
-            return user.FindFirstValue(ClaimTypes.Email);
+            return user.FindFirstValue(ClaimTypes.Email) ?? "";
         }
     }
 }

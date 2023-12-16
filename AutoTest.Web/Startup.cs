@@ -36,10 +36,10 @@ namespace AutoTest.Web
         public Startup(IConfiguration configuration, IWebHostEnvironment webHostEnvironment)
         {
             this.Configuration = configuration;
-            this.AdminEmails = new HashSet<string>(configuration.GetSection("RootAdminIds").Get<IEnumerable<string>>());
+            this.AdminEmails = new HashSet<string>(configuration.GetSection("RootAdminIds").Get<IEnumerable<string>>()!);
             var authSection = configuration.GetSection("Authentication");
-            this.ClientSecret = authSection["ClientSecret"];
-            this.ClientId = authSection["ClientId"];
+            this.ClientSecret = authSection["ClientSecret"] ?? "";
+            this.ClientId = authSection["ClientId"] ?? "";
             this.env = webHostEnvironment;
         }
 

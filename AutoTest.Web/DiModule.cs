@@ -15,8 +15,8 @@ namespace AutoTest.Web
         public static void AddWeb(this IServiceCollection collection, IConfiguration configuration)
         {
             var config = configuration.GetSection("Cosmos");
-            var endpoint = config.GetValue<string>("Endpoint");
-            var key = config.GetValue<string>("Key");
+            var endpoint = config.GetValue<string>("Endpoint") ?? "";
+            var key = config.GetValue<string>("Key") ?? "";
             System.Diagnostics.Trace.TraceInformation($"Cosmos config, endpoint: {endpoint} key: {key}");
             collection.AddScoped<IAuthorizationHandler, MarshalRequirementHandler>();
             collection.AddScoped<IAuthorizationHandler, ClubAdminRequirementHandler>();

@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Primitives;
 
 namespace AutoTest.Web.Extensions
 {
@@ -13,15 +15,15 @@ namespace AutoTest.Web.Extensions
             {
                 OnPrepareResponse = r =>
                 {
-                    var path = r.File.PhysicalPath;
+                    var path = r.File.PhysicalPath ?? "";
                     var cacheExtensions =
                         new[] { ".css", ".js", ".gif", ".jpg", ".png", ".svg", ".ico", ".json" };
                     if (cacheExtensions.Any(path.EndsWith))
                     {
                         var maxAge = TimeSpan.FromDays(7);
-                        r.Context.Response.Headers.Add(
+                        r.Context.Response.Headers.Append(KeyValuePair.Create<string, StringValues>(
                             "Cache-Control",
-                            "max-age=" + maxAge.TotalSeconds.ToString("0"));
+                            "max-age=" + maxAge.TotalSeconds.ToString("0")));
                     }
                 }
             };
