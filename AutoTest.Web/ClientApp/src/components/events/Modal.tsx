@@ -11,6 +11,7 @@ import { LoadingState } from "../../types/loadingState";
 import ifSome from "../shared/ifSome";
 import { startCase } from "../../lib/string";
 import { addPreventDefault, toggleValue } from "../../lib/form";
+import prettyBytes from "pretty-bytes";
 
 interface Props {
     readonly event: EditingEvent;
@@ -64,7 +65,7 @@ const ModalX: FunctionComponent<Props> = ({
                                         return setField({
                                             eventTypes: toggleValue(
                                                 event.eventTypes,
-                                                key
+                                                key,
                                             ),
                                         });
                                     }}
@@ -83,7 +84,7 @@ const ModalX: FunctionComponent<Props> = ({
                                 onChange={(evt: OnSelectChange) =>
                                     setField({
                                         clubId: Number.parseInt(
-                                            evt.target.value
+                                            evt.target.value,
                                         ),
                                     })
                                 }
@@ -99,7 +100,7 @@ const ModalX: FunctionComponent<Props> = ({
                                         <option value={a.clubId}>
                                             {a.clubName}
                                         </option>
-                                    )
+                                    ),
                                 )}
                             </Select>
                         </Field>
@@ -115,7 +116,7 @@ const ModalX: FunctionComponent<Props> = ({
                             onChange={(e: OnChange) =>
                                 setField({
                                     testCount: Math.floor(
-                                        e.target.valueAsNumber
+                                        e.target.valueAsNumber,
                                     ),
                                 })
                             }
@@ -132,7 +133,7 @@ const ModalX: FunctionComponent<Props> = ({
                             onChange={(e: OnChange) =>
                                 setField({
                                     maxAttemptsPerTest: Math.floor(
-                                        e.target.valueAsNumber
+                                        e.target.valueAsNumber,
                                     ),
                                 })
                             }
@@ -149,7 +150,7 @@ const ModalX: FunctionComponent<Props> = ({
                             onChange={(e: OnChange) =>
                                 setField({
                                     maxEntrants: Math.floor(
-                                        e.target.valueAsNumber
+                                        e.target.valueAsNumber,
                                     ),
                                 })
                             }
@@ -203,7 +204,7 @@ const ModalX: FunctionComponent<Props> = ({
                                 setField({
                                     regulations: e.target.files
                                         ? await PromiseFileReader.readAsDataURL(
-                                              e.target.files[0]
+                                              e.target.files[0],
                                           )
                                         : null,
                                 });
@@ -212,9 +213,9 @@ const ModalX: FunctionComponent<Props> = ({
                         />
                         <Help>
                             {!isNil(event.maps)
-                                ? `Present: ${getFileLength(
-                                      event.regulations
-                                  ).toLocaleString()} B`
+                                ? `Present: ${prettyBytes(
+                                      getFileLength(event.regulations),
+                                  )}`
                                 : "Missing"}
                         </Help>
                     </Field>
@@ -227,7 +228,7 @@ const ModalX: FunctionComponent<Props> = ({
                                 setField({
                                     maps: e.target.files
                                         ? await PromiseFileReader.readAsDataURL(
-                                              e.target.files[0]
+                                              e.target.files[0],
                                           )
                                         : null,
                                 });
@@ -236,9 +237,9 @@ const ModalX: FunctionComponent<Props> = ({
                         />
                         <Help>
                             {!isNil(event.maps)
-                                ? `Present: ${getFileLength(
-                                      event.maps
-                                  ).toLocaleString()} B`
+                                ? `Present: ${prettyBytes(
+                                      getFileLength(event.maps),
+                                  )}`
                                 : "Missing"}
                         </Help>
                     </Field>

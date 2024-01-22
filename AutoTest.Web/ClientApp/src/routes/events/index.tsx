@@ -42,7 +42,7 @@ const Events: FunctionalComponent<Props> = ({ clubId }) => {
     const { adminClubs } = useSelector(selectAccess);
     const canAdmin = (a: number) => adminClubs.includes(a);
     const [editingEvent, setEditingEvent] = useState<EditingEvent | undefined>(
-        undefined
+        undefined,
     );
     useEffect(() => {
         void thunkDispatch(GetEventsIfRequired());
@@ -58,25 +58,25 @@ const Events: FunctionalComponent<Props> = ({ clubId }) => {
                         clubId: editingEvent.clubId,
                         startTime: newValidDateOrThrow(editingEvent.startTime),
                         entryOpenDate: newValidDateOrThrow(
-                            editingEvent.entryOpenDate
+                            editingEvent.entryOpenDate,
                         ),
                         entryCloseDate: newValidDateOrThrow(
-                            editingEvent.entryCloseDate
+                            editingEvent.entryCloseDate,
                         ),
                     },
                     getAccessToken(auth),
-                    () => setEditingEvent(undefined)
-                )
+                    () => setEditingEvent(undefined),
+                ),
             );
         }
     }, [auth, dispatchThunk, editingEvent]);
     const deleteEvent = useCallback(
         async (event: Event) => {
             await dispatchThunk(
-                DeleteEvent(event.eventId, getAccessToken(auth))
+                DeleteEvent(event.eventId, getAccessToken(auth)),
             );
         },
-        [auth, dispatchThunk]
+        [auth, dispatchThunk],
     );
     const createNewEvent = useCallback(
         () =>
@@ -98,7 +98,7 @@ const Events: FunctionalComponent<Props> = ({ clubId }) => {
                 entryCloseDate: getDateTimeString(newValidDate()),
                 timingSystem: TimingSystem.App,
             }),
-        [clubId]
+        [clubId],
     );
     return (
         <div>

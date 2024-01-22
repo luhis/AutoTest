@@ -40,11 +40,11 @@ const EditRuns: FunctionalComponent<Props> = ({ eventId }) => {
     const auth = useGoogleAuth();
     const currentEvent = findIfLoaded(
         useSelector(selectEvents),
-        (a) => a.eventId === eventId
+        (a) => a.eventId === eventId,
     );
     const currentClub = findIfLoaded(
         useSelector(selectClubs),
-        (a) => a.clubId === currentEvent?.clubId
+        (a) => a.clubId === currentEvent?.clubId,
     );
     useEffect(() => {
         void thunkDispatch(GetClubsIfRequired(getAccessToken(auth)));
@@ -55,7 +55,7 @@ const EditRuns: FunctionalComponent<Props> = ({ eventId }) => {
     const testRuns = useSelector(selectTestRunsFromServer);
     useEffect(() => {
         void thunkDispatch(
-            GetTestRunsIfRequired(eventId, ordinal, getAccessToken(auth))
+            GetTestRunsIfRequired(eventId, ordinal, getAccessToken(auth)),
         );
         void thunkDispatch(GetEntrantsIfRequired(eventId));
         void thunkDispatch(GetMarshalsIfRequired(eventId));
@@ -76,19 +76,19 @@ const EditRuns: FunctionalComponent<Props> = ({ eventId }) => {
     const getMarshalName = (marshalId: number) => {
         const found = findIfLoaded(
             currentMarshals,
-            (a) => a.marshalId === marshalId
+            (a) => a.marshalId === marshalId,
         );
         return found ? `${found.givenName} ${found.familyName}` : "Not Found";
     };
 
     const [editing, setEditing] = useState<TestRunFromServer | undefined>(
-        undefined
+        undefined,
     );
     const clearEditingRun = () => setEditing(undefined);
     const save = useCallback(async () => {
         if (editing) {
             await thunkDispatch(
-                UpdateTestRun(editing, getAccessToken(auth), clearEditingRun)
+                UpdateTestRun(editing, getAccessToken(auth), clearEditingRun),
             );
         }
     }, [auth, thunkDispatch, editing]);
@@ -108,7 +108,7 @@ const EditRuns: FunctionalComponent<Props> = ({ eventId }) => {
                         <option key={a} value={a}>
                             {a + 1}
                         </option>
-                    )
+                    ),
                 )}
             </Form.Select>
             <Table>
@@ -141,7 +141,7 @@ const EditRuns: FunctionalComponent<Props> = ({ eventId }) => {
                             <td>{result.created.toUTCString()}</td>
                         </tr>
                     ),
-                    (_) => true
+                    (_) => true,
                 )}
             </Table>
             {editing ? (

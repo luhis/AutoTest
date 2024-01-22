@@ -27,7 +27,7 @@ namespace AutoTest.Service.Handlers
         {
             var @event = await _eventsRepository.GetById(request.Entrant.EventId, cancellationToken);
             var now = DateTime.UtcNow;
-            if (@event.EntryOpenDate > now)
+            if (@event!.EntryOpenDate > now)
             {
                 throw new Exception("Please wait until event open");
             }

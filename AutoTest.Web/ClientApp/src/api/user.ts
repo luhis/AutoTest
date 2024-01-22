@@ -7,7 +7,7 @@ import { throwIfNotOk, getHeaders, extract } from "./api";
 import { Override } from "../types/models";
 
 export const getProfile = async (
-    token: string | undefined
+    token: string | undefined,
 ): Promise<ApiResponse<Profile>> =>
     toApiResponse(async () => {
         const response = await fetch("/api/profile", {
@@ -30,14 +30,14 @@ export const getProfile = async (
                 ({ expiry, ...rest }) => ({
                     ...rest,
                     expiry: parseIsoOrThrow(expiry),
-                })
+                }),
             ),
         };
     }, undefined);
 
 export const saveProfile = async (
     profile: Profile,
-    token: string | undefined
+    token: string | undefined,
 ): Promise<void> => {
     const response = await fetch(`/api/profile/`, {
         headers: getHeaders(token),

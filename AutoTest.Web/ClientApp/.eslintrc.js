@@ -31,7 +31,7 @@ module.exports = {
         "@typescript-eslint/no-shadow": ["error"],
         "@typescript-eslint/switch-exhaustiveness-check": "error",
         "no-implicit-globals": "error",
-        "linebreak-style": ["error", "unix"]
+        // "linebreak-style": ["error", "unix"]
     },
     settings: {
         react: {

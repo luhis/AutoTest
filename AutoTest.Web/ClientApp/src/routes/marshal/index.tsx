@@ -71,15 +71,15 @@ const Marshal: FunctionalComponent<Readonly<Props>> = ({
 
     const currentEvent = findIfLoaded(
         useSelector(selectEvents),
-        (a) => a.eventId === eventId
+        (a) => a.eventId === eventId,
     );
     const currentClub = findIfLoaded(
         useSelector(selectClubs),
-        (a) => a.clubId === currentEvent?.clubId
+        (a) => a.clubId === currentEvent?.clubId,
     );
 
     const [editing, setEditing] = useState<EditableTestRun>(
-        getNewEditableTest(ordinal)
+        getNewEditableTest(ordinal),
     );
     const auth = useGoogleAuth();
     useEffect(() => {
@@ -98,7 +98,7 @@ const Marshal: FunctionalComponent<Readonly<Props>> = ({
     const increase = (penaltyType: PenaltyType) => {
         setEditing((a) => {
             const found = a.penalties.find(
-                (penalty) => penalty.penaltyType === penaltyType
+                (penalty) => penalty.penaltyType === penaltyType,
             );
             return {
                 ...a,
@@ -113,7 +113,7 @@ const Marshal: FunctionalComponent<Readonly<Props>> = ({
                             : {
                                   penaltyType: penaltyType,
                                   instanceCount: 1,
-                              }
+                              },
                     ),
             };
         });
@@ -121,7 +121,7 @@ const Marshal: FunctionalComponent<Readonly<Props>> = ({
     const decrease = (penaltyType: PenaltyType) => {
         setEditing((a) => {
             const found = a.penalties.find(
-                (penalty) => penalty.penaltyType === penaltyType
+                (penalty) => penalty.penaltyType === penaltyType,
             );
             return {
                 ...a,
@@ -133,7 +133,7 @@ const Marshal: FunctionalComponent<Readonly<Props>> = ({
                                   ...found,
                                   instanceCount: found.instanceCount - 1,
                               }
-                            : []
+                            : [],
                     ),
             };
         });
@@ -141,7 +141,7 @@ const Marshal: FunctionalComponent<Readonly<Props>> = ({
     const sync = useCallback(
         () =>
             thunkDispatch(SyncTestRuns(eventId, ordinal, getAccessToken(auth))),
-        [auth, thunkDispatch, eventId, ordinal]
+        [auth, thunkDispatch, eventId, ordinal],
     );
     const add = useCallback(async () => {
         if (
@@ -158,8 +158,8 @@ const Marshal: FunctionalComponent<Readonly<Props>> = ({
                         timeInMS: Number.parseFloat(editing.timeInMS) * 1000,
                         entrantId: editing.entrantId,
                     },
-                    getAccessToken(auth)
-                )
+                    getAccessToken(auth),
+                ),
             );
             setEditing(getNewEditableTest(ordinal));
         }
@@ -208,7 +208,7 @@ const Marshal: FunctionalComponent<Readonly<Props>> = ({
                                 {a.driverNumber}. {a.vehicle.registration} -{" "}
                                 {a.givenName} {a.familyName}
                             </option>
-                        )
+                        ),
                     )}
                 </Select>
             </Field>

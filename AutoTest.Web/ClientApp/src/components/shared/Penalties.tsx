@@ -16,8 +16,8 @@ const Penalties: FunctionComponent<{
                 .map(
                     (p) =>
                         `${p.instanceCount}x ${penaltyTypeToString(
-                            p.penaltyType
-                        )}`
+                            p.penaltyType,
+                        )}`,
                 )
                 .join(", ")}
         />

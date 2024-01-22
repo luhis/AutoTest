@@ -63,7 +63,7 @@ const ClubsList: FunctionComponent<Props> = ({
                     </Field>
                 </Columns.Column>
             </Columns>
-        )
+        ),
     );
 
 export default ClubsList;

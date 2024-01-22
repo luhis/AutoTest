@@ -42,11 +42,11 @@ const Marshals: FunctionalComponent<Readonly<Props>> = ({ eventId }) => {
     const allRoles = useSelector(selectAllRoles);
     const currentEvent = findIfLoaded(
         useSelector(selectEvents),
-        (a) => a.eventId === eventId
+        (a) => a.eventId === eventId,
     );
     const currentClub = findIfLoaded(
         useSelector(selectClubs),
-        (a) => a.clubId === currentEvent?.clubId
+        (a) => a.clubId === currentEvent?.clubId,
     );
     const [editingMarshal, setEditingMarshal] = useState<
         EditingMarshal | undefined
@@ -61,8 +61,8 @@ const Marshals: FunctionalComponent<Readonly<Props>> = ({ eventId }) => {
                         ...editingMarshal,
                     },
                     getAccessToken(auth),
-                    () => setEditingMarshal(undefined)
-                )
+                    () => setEditingMarshal(undefined),
+                ),
             );
         }
     }, [auth, thunkDispatch, editingMarshal]);
@@ -80,7 +80,7 @@ const Marshals: FunctionalComponent<Readonly<Props>> = ({ eventId }) => {
                           emergencyContact,
                           email: emailAddress,
                       }
-                    : undefined
+                    : undefined,
             );
         }
     }, [profile]);
@@ -120,11 +120,11 @@ const Marshals: FunctionalComponent<Readonly<Props>> = ({ eventId }) => {
             const m = await getMarshal(
                 marshal.eventId,
                 marshal.marshalId,
-                getAccessToken(auth)
+                getAccessToken(auth),
             );
             setEditingMarshal({ ...m, isNew: false });
         },
-        [auth]
+        [auth],
     );
     const setField = useCallback(
         (a: Partial<EditingMarshal>) =>
@@ -135,12 +135,12 @@ const Marshals: FunctionalComponent<Readonly<Props>> = ({ eventId }) => {
                     return b;
                 }
             }),
-        []
+        [],
     );
 
     const access = useSelector(selectAccess);
     const isClubAdmin = access.adminClubs.includes(
-        currentEvent?.clubId || Number.NaN
+        currentEvent?.clubId || Number.NaN,
     );
     const canEditMarshal = (entrantId: number) =>
         isClubAdmin || access.editableMarshals.includes(entrantId);
@@ -185,5 +185,5 @@ export default RouteParamsParser<
     >,
     Props
 >(({ eventId, ...props }) => ({ ...props, eventId: Number.parseInt(eventId) }))(
-    Marshals
+    Marshals,
 );

@@ -41,7 +41,7 @@ const EmailList: FunctionComponent<Props> = ({ emails, addNew, remove }) => {
     }, [addNew, newEmail]);
     const setEmail = useCallback(
         (e: OnChange) => setNewEmail(e.target.value),
-        []
+        [],
     );
     const [saving, setSaving] = useState(false);
     const formSave = addPreventDefault(addNewEmail, setSaving);

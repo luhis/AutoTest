@@ -26,7 +26,7 @@ const ClubComponent: FunctionalComponent = () => {
     const thunkDispatch = useThunkDispatch();
     const clubs = useSelector(selectClubs);
     const [editingClub, setEditingClub] = useState<EditingClub | undefined>(
-        undefined
+        undefined,
     );
     useEffect(() => {
         thunkDispatch(GetClubsIfRequired(getAccessToken(auth)));
@@ -36,8 +36,8 @@ const ClubComponent: FunctionalComponent = () => {
         if (editingClub) {
             await thunkDispatch(
                 AddClub(editingClub, getAccessToken(auth), () =>
-                    setEditingClub(undefined)
-                )
+                    setEditingClub(undefined),
+                ),
             );
         }
     }, [auth, thunkDispatch, editingClub]);
@@ -45,7 +45,7 @@ const ClubComponent: FunctionalComponent = () => {
     const deleteClub = useCallback(
         (club: Club) =>
             thunkDispatch(DeleteClub(club.clubId, getAccessToken(auth))),
-        [auth, thunkDispatch]
+        [auth, thunkDispatch],
     );
     const newClub = useCallback(
         () =>
@@ -57,17 +57,17 @@ const ClubComponent: FunctionalComponent = () => {
                 adminEmails: [],
                 isNew: true,
             }),
-        []
+        [],
     );
     const clearEditingClub = useCallback(() => setEditingClub(undefined), []);
     const setCurrentEditingClub = useCallback(
         (a: Club) => setEditingClub({ ...a, isNew: false }),
-        []
+        [],
     );
     const { adminClubs, isRootAdmin } = useSelector(selectAccess);
     const isClubAdmin = useCallback(
         (club: Club) => adminClubs.includes(club.clubId) || isRootAdmin,
-        [adminClubs, isRootAdmin]
+        [adminClubs, isRootAdmin],
     );
     return (
         <div>
@@ -85,7 +85,7 @@ const ClubComponent: FunctionalComponent = () => {
                 <Modal
                     club={editingClub}
                     setField={(a: Partial<Club>) =>
-                        setEditingClub((b) => ({ ...b, ...a } as EditingClub))
+                        setEditingClub((b) => ({ ...b, ...a }) as EditingClub)
                     }
                     cancel={clearEditingClub}
                     save={save}

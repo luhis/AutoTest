@@ -40,11 +40,11 @@ const Event: FunctionalComponent<Props> = ({ eventId }) => {
     const auth = useGoogleAuth();
     const currentEvent = findIfLoaded(
         useSelector(selectEvents),
-        (a) => a.eventId === eventId
+        (a) => a.eventId === eventId,
     );
     const currentClub = findIfLoaded(
         useSelector(selectClubs),
-        (a) => a.clubId === currentEvent?.clubId
+        (a) => a.clubId === currentEvent?.clubId,
     );
     const notifications = useSelector(selectNotifications);
     useEffect(() => {
@@ -63,8 +63,8 @@ const Event: FunctionalComponent<Props> = ({ eventId }) => {
             const res = await dispatch(
                 CreateNotification(
                     showAddNotificationModal,
-                    getAccessToken(auth)
-                )
+                    getAccessToken(auth),
+                ),
             );
             if (res) {
                 setShowAddNotificationModal(undefined);
@@ -77,11 +77,11 @@ const Event: FunctionalComponent<Props> = ({ eventId }) => {
                 ? save(
                       currentEvent.regulations,
                       `${currentEvent.location}-${getDateString(
-                          currentEvent.startTime
-                      )}-regs.pdf`
+                          currentEvent.startTime,
+                      )}-regs.pdf`,
                   )
                 : Promise.resolve(),
-        [currentEvent]
+        [currentEvent],
     );
     const saveMaps = useCallback(
         () =>
@@ -89,11 +89,11 @@ const Event: FunctionalComponent<Props> = ({ eventId }) => {
                 ? save(
                       currentEvent.maps,
                       `${currentEvent.location}-${getDateString(
-                          currentEvent.startTime
-                      )}-maps.pdf`
+                          currentEvent.startTime,
+                      )}-maps.pdf`,
                   )
                 : Promise.resolve(),
-        [currentEvent]
+        [currentEvent],
     );
     const { adminClubs, marshalEvents } = useSelector(selectAccess);
     const canEdit =
@@ -112,7 +112,7 @@ const Event: FunctionalComponent<Props> = ({ eventId }) => {
                             loading={mapOrDefault(
                                 notifications,
                                 (_) => false,
-                                true
+                                true,
                             )}
                         >
                             <FaBell />
@@ -121,7 +121,7 @@ const Event: FunctionalComponent<Props> = ({ eventId }) => {
                                 notifications,
                                 (loadedNotifications) =>
                                     loadedNotifications.length,
-                                0
+                                0,
                             )}
                         </Button>
                         <Button
@@ -209,7 +209,7 @@ const Event: FunctionalComponent<Props> = ({ eventId }) => {
                     cancel={() => setShowAddNotificationModal(undefined)}
                     setField={(a: Partial<EventNotification>) =>
                         setShowAddNotificationModal(
-                            (b) => ({ ...b, ...a } as EventNotification)
+                            (b) => ({ ...b, ...a }) as EventNotification,
                         )
                     }
                     save={saveButton}
@@ -235,5 +235,5 @@ export default RouteParamsParser<
     >,
     Props
 >(({ eventId, ...props }) => ({ ...props, eventId: Number.parseInt(eventId) }))(
-    Event
+    Event,
 );

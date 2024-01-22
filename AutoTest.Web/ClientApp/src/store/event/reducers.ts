@@ -35,10 +35,10 @@ const initialState: EventState = {
 const setPaid = (
     entrants: LoadingState<readonly PublicEntrant[], number>,
     entrantId: number,
-    payment: Payment | null
+    payment: Payment | null,
 ): LoadingState<readonly PublicEntrant[], number> => {
     return ifLoaded(entrants, (v) =>
-        v.map((e) => (e.entrantId === entrantId ? { ...e, payment } : e))
+        v.map((e) => (e.entrantId === entrantId ? { ...e, payment } : e)),
     );
 };
 
@@ -58,7 +58,7 @@ const setPaid = (
 
 export const eventReducer = (
     state = initialState,
-    action: EventActionTypes
+    action: EventActionTypes,
 ): EventState => {
     switch (action.type) {
         case CLEAR_CACHE:
@@ -82,9 +82,9 @@ export const eventReducer = (
                     c
                         .filter(
                             ({ entrantId }) =>
-                                entrantId !== action.payload.entrantId
+                                entrantId !== action.payload.entrantId,
                         )
-                        .concat(action.payload)
+                        .concat(action.payload),
                 ),
             };
         case SET_PAID:
@@ -93,7 +93,7 @@ export const eventReducer = (
                 entrants: setPaid(
                     state.entrants,
                     action.payload.entrantId,
-                    action.payload.payment
+                    action.payload.payment,
                 ),
             };
         case DELETE_ENTRANT:
@@ -102,8 +102,8 @@ export const eventReducer = (
                 entrants: ifLoaded(state.entrants, (v) =>
                     v.filter(
                         ({ entrantId }) =>
-                            entrantId !== action.payload.entrantId
-                    )
+                            entrantId !== action.payload.entrantId,
+                    ),
                 ),
             };
         case GET_MARSHALS:
@@ -118,9 +118,9 @@ export const eventReducer = (
                     c
                         .filter(
                             ({ marshalId }) =>
-                                marshalId !== action.payload.marshalId
+                                marshalId !== action.payload.marshalId,
                         )
-                        .concat(action.payload)
+                        .concat(action.payload),
                 ),
             };
         case DELETE_MARSHAL:
@@ -129,8 +129,8 @@ export const eventReducer = (
                 marshals: ifLoaded(state.marshals, (v) =>
                     v.filter(
                         ({ marshalId }) =>
-                            marshalId !== action.payload.marshalId
-                    )
+                            marshalId !== action.payload.marshalId,
+                    ),
                 ),
             };
         case ADD_EVENT:
@@ -140,9 +140,9 @@ export const eventReducer = (
                     e
                         .filter(
                             ({ eventId }) =>
-                                eventId != action.payload.event.eventId
+                                eventId != action.payload.event.eventId,
                         )
-                        .concat(action.payload.event)
+                        .concat(action.payload.event),
                 ),
             };
         case DELETE_EVENT:
@@ -150,8 +150,8 @@ export const eventReducer = (
                 ...state,
                 events: ifLoaded(state.events, (v) =>
                     v.filter(
-                        ({ eventId }) => eventId !== action.payload.eventId
-                    )
+                        ({ eventId }) => eventId !== action.payload.eventId,
+                    ),
                 ),
             };
         case GET_EVENTS:
@@ -174,13 +174,13 @@ export const eventReducer = (
                     runs.map((a) =>
                         a.testRunId === action.payload.testRunId
                             ? action.payload
-                            : a
-                    )
+                            : a,
+                    ),
                 ),
             };
         case UPDATE_TEST_RUN_STATE: {
             const found = state.testRuns.find(
-                (a) => a.testRunId === action.payload.testRunId
+                (a) => a.testRunId === action.payload.testRunId,
             );
             return {
                 ...state,
@@ -190,7 +190,7 @@ export const eventReducer = (
                         : state.testRuns
                               .filter(
                                   (a) =>
-                                      a.testRunId !== action.payload.testRunId
+                                      a.testRunId !== action.payload.testRunId,
                               )
                               .concat({
                                   ...found,
@@ -212,7 +212,7 @@ export const eventReducer = (
             return {
                 ...state,
                 notifications: ifLoaded(state.notifications, (a) =>
-                    [action.payload].concat(a)
+                    [action.payload].concat(a),
                 ),
             };
         default: {

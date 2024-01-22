@@ -11,7 +11,7 @@ export const useConnection = () => {
     return useMemo(
         () =>
             typeof window !== "undefined" ? getBaseConn().build() : undefined,
-        []
+        [],
     );
 };
 

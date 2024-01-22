@@ -80,15 +80,15 @@ const Results: FunctionComponent<
     const auth = useGoogleAuth();
     const currentEvent = findIfLoaded(
         useSelector(selectEvents),
-        (a) => a.eventId === eventId
+        (a) => a.eventId === eventId,
     );
     const currentClub = findIfLoaded(
         useSelector(selectClubs),
-        (a) => a.clubId === currentEvent?.clubId
+        (a) => a.clubId === currentEvent?.clubId,
     );
     const notifications = useSelector(selectNotifications);
     const testRuns = range(
-        currentEvent !== undefined ? currentEvent.maxAttemptsPerTest : 0
+        currentEvent !== undefined ? currentEvent.maxAttemptsPerTest : 0,
     );
     const [results, setResults] = useState<
         LoadingState<readonly Result[], number>
@@ -119,7 +119,7 @@ const Results: FunctionComponent<
                 NewNotification,
                 (notification: EventNotification) => {
                     dispatch(AddNotification(notification));
-                }
+                },
             );
             connection.on(NewResults, (newResults: readonly Result[]) => {
                 setResults({
@@ -136,8 +136,8 @@ const Results: FunctionComponent<
                         `New test run. Run Number: ${
                             newRun.ordinal + 1
                         }  Time:${(newRun.timeInMS / 1000).toFixed(
-                            2
-                        )}sec Penalties: ${newRun.penalties.toString()}`
+                            2,
+                        )}sec Penalties: ${newRun.penalties.toString()}`,
                     );
                 }
             });
@@ -149,7 +149,7 @@ const Results: FunctionComponent<
     useEffect(() => {
         route(
             `/results/${eventId}?classFilter=${classFilterState.join(",")}`,
-            false
+            false,
         );
     }, [classFilterState, eventId]);
     const allClasses = mapOrDefault(results, (a) => a.map((b) => b.class), []);
@@ -192,7 +192,7 @@ const Results: FunctionComponent<
                                       <th key={`${test.ordinal}.${run}`}>
                                           {test.ordinal + 1}.{numberToChar(run)}
                                       </th>
-                                  ))
+                                  )),
                               )
                             : null}
                         <th>Class</th>
@@ -230,7 +230,7 @@ const Results: FunctionComponent<
                                                           run={run}
                                                       />
                                                   </td>
-                                              ))
+                                              )),
                                           )
                                         : null}
                                     <td>{a.classPosition + 1}</td>
@@ -241,7 +241,7 @@ const Results: FunctionComponent<
                     ),
                     (r: Result) =>
                         classFilter.length === 0 ||
-                        classFilter.includes(r.class)
+                        classFilter.includes(r.class),
                 )}
             </Table>
             {showModal && notifications.tag === "Loaded" ? (

@@ -5,7 +5,7 @@ import { ApiResponse, toApiResponse } from "../types/loadingState";
 import { extract, getHeaders, throwIfNotOk } from "./api";
 
 export const getEntrants = async (
-    eventId: number
+    eventId: number,
 ): Promise<ApiResponse<readonly PublicEntrant[], number>> =>
     toApiResponse(async () => {
         const response = await fetch(`/api/entrants/${eventId}`, {
@@ -24,7 +24,7 @@ export const getEntrants = async (
                                   timestamp: parseIsoOrThrow(payment.timestamp),
                               }
                             : null,
-                }
+                },
         );
     }, eventId);
 
@@ -41,7 +41,7 @@ type ApiEntrant = Override<
 export const getEntrant = async (
     eventId: number,
     entrantId: number,
-    token: string | undefined
+    token: string | undefined,
 ): Promise<Entrant> => {
     const response = await fetch(`/api/entrants/${eventId}/${entrantId}`, {
         headers: getHeaders(token),
@@ -51,7 +51,7 @@ export const getEntrant = async (
 
 export const addEntrant = async (
     entrant: Entrant,
-    token: string | undefined
+    token: string | undefined,
 ): Promise<Entrant> => {
     const { entrantId, eventId, ...rest } = entrant;
     const response = await fetch(`/api/entrants/${eventId}/${entrantId}`, {
@@ -66,7 +66,7 @@ export const markPaid = async (
     eventId: number,
     entrantId: number,
     payment: Payment | null,
-    token: string | undefined
+    token: string | undefined,
 ): Promise<void> => {
     const response = await fetch(
         `/api/entrants/${eventId}/${entrantId}/markPaid`,
@@ -74,7 +74,7 @@ export const markPaid = async (
             headers: getHeaders(token),
             method: "PUT",
             body: JSON.stringify(payment),
-        }
+        },
     );
     throwIfNotOk(response);
 };
@@ -82,7 +82,7 @@ export const markPaid = async (
 export const deleteEntrant = async (
     eventId: number,
     entrantId: number,
-    token: string | undefined
+    token: string | undefined,
 ): Promise<void> => {
     const response = await fetch(`/api/entrants/${eventId}/${entrantId}/`, {
         headers: getHeaders(token),

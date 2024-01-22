@@ -11,7 +11,7 @@ using MediatR;
 
 namespace AutoTest.Service.Handlers
 {
-    public class GetEventHandler : IRequestHandler<GetEvent, Event>
+    public class GetEventHandler : IRequestHandler<GetEvent, Event?>
     {
         private readonly IEventsRepository entrantsRepository;
 
@@ -20,7 +20,7 @@ namespace AutoTest.Service.Handlers
             this.entrantsRepository = entrantsRepository;
         }
 
-        Task<Event> IRequestHandler<GetEvent, Event>.Handle(GetEvent request, CancellationToken cancellationToken)
+        Task<Event?> IRequestHandler<GetEvent, Event?>.Handle(GetEvent request, CancellationToken cancellationToken)
         {
             return this.entrantsRepository.GetById(request.EventId, cancellationToken);
         }

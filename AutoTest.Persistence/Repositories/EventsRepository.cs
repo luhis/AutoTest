@@ -17,9 +17,9 @@ namespace AutoTest.Persistence.Repositories
             _autoTestContext = autoTestContext;
         }
 
-        async Task<Event> IEventsRepository.GetById(ulong eventId, CancellationToken cancellationToken)
+        async Task<Event?> IEventsRepository.GetById(ulong eventId, CancellationToken cancellationToken)
         {
-            return await _autoTestContext.Events!.Where(a => a.EventId == eventId).SingleAsync(cancellationToken);
+            return await _autoTestContext.Events!.Where(a => a.EventId == eventId).SingleOrDefaultAsync(cancellationToken);
         }
 
         Task<IEnumerable<Event>> IEventsRepository.GetAll(CancellationToken cancellationToken)

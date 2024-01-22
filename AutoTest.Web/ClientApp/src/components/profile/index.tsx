@@ -96,7 +96,7 @@ const ProfileComp: FunctionComponent<Props> = ({ save, profile, setField }) => {
                 remove={(removeIndex) => {
                     setField({
                         clubMemberships: profile.clubMemberships.filter(
-                            (_, i) => i !== removeIndex
+                            (_, i) => i !== removeIndex,
                         ),
                     });
                 }}

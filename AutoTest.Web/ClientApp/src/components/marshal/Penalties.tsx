@@ -58,7 +58,7 @@ const PenaltyItem: FunctionComponent<
                 <span class="has-text-medium">
                     {`${startCase(PenaltyType[penaltyType])}: ${getCount(
                         penalties,
-                        penaltyType
+                        penaltyType,
                     )}`}
                 </span>
             </Field>

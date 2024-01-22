@@ -30,11 +30,11 @@ const Tests: FunctionalComponent<Readonly<Props>> = ({ eventId }) => {
     const auth = useGoogleAuth();
     const currentEvent = findIfLoaded(
         useSelector(selectEvents),
-        (a) => a.eventId === eventId
+        (a) => a.eventId === eventId,
     );
     const currentClub = findIfLoaded(
         useSelector(selectClubs),
-        (a) => a.clubId === currentEvent?.clubId
+        (a) => a.clubId === currentEvent?.clubId,
     );
     useEffect(() => {
         void thunkDispatch(GetEntrantsIfRequired(eventId));
@@ -88,5 +88,5 @@ export default RouteParamsParser<
     >,
     Props
 >(({ eventId, ...props }) => ({ ...props, eventId: Number.parseInt(eventId) }))(
-    Tests
+    Tests,
 );

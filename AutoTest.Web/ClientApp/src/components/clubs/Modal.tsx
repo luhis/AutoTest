@@ -1,12 +1,12 @@
 import { h, FunctionComponent } from "preact";
 import { Modal, Button, Form } from "react-bulma-components";
+import { useState } from "preact/hooks";
 const { Input, Field, Label, Help, Control } = Form;
 
 import { Club, EditingClub } from "../../types/models";
 import { OnChange } from "../../types/inputs";
 import EmailList from "../shared/EmailList";
 import { addPreventDefault } from "../../lib/form";
-import { useState } from "preact/hooks";
 
 interface Props {
     readonly club: EditingClub;
@@ -82,7 +82,7 @@ const ModalX: FunctionComponent<Props> = ({ save, cancel, club, setField }) => {
                                 remove={(removeIndex) =>
                                     setField({
                                         adminEmails: club.adminEmails.filter(
-                                            (_, i) => i !== removeIndex
+                                            (_, i) => i !== removeIndex,
                                         ),
                                     })
                                 }

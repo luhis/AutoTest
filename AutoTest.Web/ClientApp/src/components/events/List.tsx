@@ -60,7 +60,7 @@ const List: FunctionComponent<Props> = ({
                     </Column>
                 </Columns>
             );
-        }
+        },
     );
 
 export default List;

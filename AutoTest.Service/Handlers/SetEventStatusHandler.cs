@@ -18,7 +18,7 @@ namespace AutoTest.Service.Handlers
         async Task IRequestHandler<SetEventStatus>.Handle(SetEventStatus request, CancellationToken cancellationToken)
         {
             var @event = await _eventRepository.GetById(request.EventId, cancellationToken);
-            @event.SetEventStatus(request.Status);
+            @event!.SetEventStatus(request.Status);
             await _eventRepository.Upsert(@event, cancellationToken);
         }
     }

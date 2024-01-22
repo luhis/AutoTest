@@ -18,7 +18,7 @@ describe("Agreements file checker", () => {
             "https://www.motorsportuk.org/wp-content/uploads/2022/02/XXXX2022-03-01-signing-on-declaration-competitor-table.pdf",
             {
                 method: "HEAD",
-            }
+            },
         );
         expect(r.ok).toBe(false);
     });

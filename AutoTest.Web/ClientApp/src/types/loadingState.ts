@@ -29,7 +29,7 @@ export type LoadingState<TValue, TId = undefined> =
 
 export const toApiResponse = async <T, TT>(
     f: () => Promise<T>,
-    id: TT
+    id: TT,
 ): Promise<ApiResponse<T, TT>> => {
     try {
         return {
@@ -61,7 +61,7 @@ export const idsMatch = <T, TT>(loading: LoadingState<T, TT>, id: TT) => {
 
 export const findIfLoaded = <T, TT>(
     loading: LoadingState<readonly T[], TT>,
-    find: (t: T) => boolean
+    find: (t: T) => boolean,
 ) => {
     if (loading.tag === "Loaded") {
         return loading.value.find(find);
@@ -72,7 +72,7 @@ export const findIfLoaded = <T, TT>(
 
 export const ifLoaded = <T, TT>(
     entrants: LoadingState<T, TT>,
-    f: (_: T) => T
+    f: (_: T) => T,
 ) => {
     if (entrants.tag === "Loaded") {
         return {
@@ -87,7 +87,7 @@ export const ifLoaded = <T, TT>(
 export const mapOrDefault = <T, TT, TTT>(
     entrants: LoadingState<T, TT>,
     f: (_: T) => TTT,
-    defaultValue: TTT
+    defaultValue: TTT,
 ) => {
     if (entrants.tag === "Loaded") {
         return f(entrants.value);
@@ -100,7 +100,7 @@ const statesAllowingErrorResult = ["Idle", "Error", "Loading"];
 
 export const canUpdate = <T, TT>(
     oldState: LoadingState<T, TT>,
-    newState: LoadingState<T, TT>
+    newState: LoadingState<T, TT>,
 ) =>
     statesAllowingErrorResult.includes(oldState.tag) ||
     newState.tag === "Loaded";

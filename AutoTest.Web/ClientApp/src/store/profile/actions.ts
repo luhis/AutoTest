@@ -21,7 +21,7 @@ import { isStale, requiresLoading } from "../../types/loadingState";
 
 export const GetProfileIfRequired =
     (
-        token: string | undefined
+        token: string | undefined,
     ): ThunkAction<Promise<void>, AppState, unknown, ProfileActionTypes> =>
     async (dispatch, getState) => {
         const profile = selectProfile(getState());
@@ -32,7 +32,7 @@ export const GetProfileIfRequired =
 
 const GetProfile =
     (
-        token: string | undefined
+        token: string | undefined,
     ): ThunkAction<Promise<void>, AppState, unknown, ProfileActionTypes> =>
     async (dispatch) => {
         dispatch({
@@ -48,7 +48,7 @@ const GetProfile =
 export const SaveProfile =
     (
         profile: Profile,
-        token: string | undefined
+        token: string | undefined,
     ): ThunkAction<Promise<void>, AppState, unknown, ProfileActionTypes> =>
     async (dispatch, getState) => {
         await saveProfile(profile, token);
@@ -57,7 +57,7 @@ export const SaveProfile =
 
 export const GetAccess =
     (
-        token: string | undefined
+        token: string | undefined,
     ): ThunkAction<Promise<void>, AppState, unknown, ProfileActionTypes> =>
     async (dispatch) => {
         if (token) {

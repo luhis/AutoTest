@@ -23,12 +23,12 @@ interface Props {
 
 const findByPenaltyType = (
     penalties: readonly Penalty[],
-    penaltyType: PenaltyType
+    penaltyType: PenaltyType,
 ) => penalties.find((penalty) => penalty.penaltyType === penaltyType);
 
 const increase = (
     setField: StateUpdater<TestRunFromServer>,
-    penaltyType: PenaltyType
+    penaltyType: PenaltyType,
 ) => {
     setField((a) => {
         const found = findByPenaltyType(a.penalties, penaltyType);
@@ -45,14 +45,14 @@ const increase = (
                         : {
                               penaltyType: penaltyType,
                               instanceCount: 1,
-                          }
+                          },
                 ),
         };
     });
 };
 const decrease = (
     setField: StateUpdater<TestRunFromServer>,
-    penaltyType: PenaltyType
+    penaltyType: PenaltyType,
 ) => {
     setField((a) => {
         const found = findByPenaltyType(a.penalties, penaltyType);
@@ -66,7 +66,7 @@ const decrease = (
                               ...found,
                               instanceCount: found.instanceCount - 1,
                           }
-                        : []
+                        : [],
                 ),
         };
     });
@@ -126,7 +126,7 @@ const EditRunModal: FunctionComponent<Props> = ({
                                     ...a,
                                     timeInMS:
                                         Number.parseFloat(
-                                            e.target.valueAsNumber.toFixed(2)
+                                            e.target.valueAsNumber.toFixed(2),
                                         ) * 1000,
                                 }))
                             }

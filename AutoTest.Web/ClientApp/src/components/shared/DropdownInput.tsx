@@ -13,7 +13,7 @@ const DropdownInput: FunctionComponent<{
 }> = ({ value, options, required, setValue }) => {
     const id = uniqueId("DropdownInput-");
     const toShow = options.filter(
-        (c) => startsWithIgnoreCase(c, value) && c !== value
+        (c) => startsWithIgnoreCase(c, value) && c !== value,
     );
     return (
         <Input

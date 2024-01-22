@@ -13,7 +13,7 @@ export const selectAllRoles = (state: AppState): readonly string[] =>
     mapOrDefault(
         selectMarshals(state),
         (a) => distinct(a.map((entrant) => entrant.role).sort()),
-        []
+        [],
     );
 
 export const selectLicenseTypeOptions = (_: AppState): readonly string[] => []; //todo put in a new api to serve up license types
@@ -21,18 +21,18 @@ export const selectClubOptions = (state: AppState): readonly string[] =>
     mapOrDefault(
         selectEntrants(state),
         (a) => distinct(a.map((entrant) => entrant.club).sort()),
-        []
+        [],
     );
 
 export const selectClassOptions = (state: AppState): readonly string[] =>
     mapOrDefault(
         selectEntrants(state),
         (a) => distinct(a.map((entrant) => entrant.class).sort()),
-        []
+        [],
     );
 
 export const selectMakeModelOptions = (
-    state: AppState
+    state: AppState,
 ): readonly MakeAndModel[] =>
     mapOrDefault(
         selectEntrants(state),
@@ -43,9 +43,9 @@ export const selectMakeModelOptions = (
                         make: vehicle.make,
                         model: vehicle.model,
                     }))
-                    .sort()
+                    .sort(),
             ),
-        []
+        [],
     );
 
 export const selectTestRuns = (a: AppState) => a.event.testRuns;

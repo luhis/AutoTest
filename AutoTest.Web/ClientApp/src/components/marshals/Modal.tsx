@@ -116,7 +116,7 @@ const MarshalsModal: FunctionComponent<Props> = ({
                                 setField({
                                     ...marshal,
                                     registrationNumber: Math.floor(
-                                        target.valueAsNumber
+                                        target.valueAsNumber,
                                     ),
                                 })
                             }
@@ -157,7 +157,7 @@ const MarshalsModal: FunctionComponent<Props> = ({
                                                               : "",
                                                   },
                                               }
-                                            : { acceptDeclaration: undefined }
+                                            : { acceptDeclaration: undefined },
                                     )
                                 }
                             >

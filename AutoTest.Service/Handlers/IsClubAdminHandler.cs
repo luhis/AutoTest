@@ -22,7 +22,7 @@ namespace AutoTest.Service.Handlers
         {
             var @event = await this.eventsRepository.GetById(request.EventId, cancellationToken);
 
-            var club = await this.autoTestContext.GetById(@event.ClubId, cancellationToken);
+            var club = await this.autoTestContext.GetById(@event!.ClubId, cancellationToken);
             return club != null && club.AdminEmails.Select(a => a.Email).Contains(request.EmailAddress, StringComparer.InvariantCultureIgnoreCase);
         }
     }

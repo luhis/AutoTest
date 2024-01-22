@@ -183,7 +183,7 @@ const EntrantsModal: FunctionComponent<Props> = ({
                                 onChange={(e: OnChange) =>
                                     setField({
                                         clubNumber: Math.floor(
-                                            e.target.valueAsNumber
+                                            e.target.valueAsNumber,
                                         ),
                                     })
                                 }
@@ -232,12 +232,10 @@ const EntrantsModal: FunctionComponent<Props> = ({
                     <Field>
                         <Control>
                             <Checkbox
-                                checked={
-                                    entrant.acceptDeclaration !== undefined
-                                }
+                                checked={entrant.acceptDeclaration !== null}
                                 onClick={() =>
                                     setField(
-                                        entrant.acceptDeclaration === undefined
+                                        entrant.acceptDeclaration === null
                                             ? {
                                                   acceptDeclaration: {
                                                       timeStamp: newValidDate(),
@@ -250,7 +248,7 @@ const EntrantsModal: FunctionComponent<Props> = ({
                                                               : "",
                                                   },
                                               }
-                                            : { acceptDeclaration: undefined }
+                                            : { acceptDeclaration: undefined },
                                     )
                                 }
                             >

@@ -37,7 +37,7 @@ describe("Event Reducer", () => {
     test("Clear Cache", () => {
         const finalState = eventReducer(
             populatedState,
-            ClearCache() as EventActionTypes
+            ClearCache() as EventActionTypes,
         );
         expect(finalState.entrants.tag).toBe("Idle");
         expect(finalState.marshals.tag).toBe("Idle");
@@ -88,7 +88,7 @@ describe("Event Reducer", () => {
         });
         expect(finalState.entrants.tag).toBe("Loaded");
         expect(
-            mapOrDefault(finalState.entrants, (a) => a[0].payment, payment)
+            mapOrDefault(finalState.entrants, (a) => a[0].payment, payment),
         ).toBeNull();
     });
     test("Set Paid Bacs", () => {
@@ -132,7 +132,7 @@ describe("Event Reducer", () => {
         });
         expect(finalState.entrants.tag).toBe("Loaded");
         expect(
-            mapOrDefault(finalState.entrants, (a) => a[0].payment, null)
+            mapOrDefault(finalState.entrants, (a) => a[0].payment, null),
         ).toBe(payment);
     });
     test("Update test run state", () => {

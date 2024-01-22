@@ -61,7 +61,7 @@ import { CLEAR_CACHE } from "../shared/types";
 
 export const GetMarshalsIfRequired =
     (
-        eventId: number
+        eventId: number,
     ): ThunkAction<Promise<void>, AppState, unknown, EventActionTypes> =>
     async (dispatch, getState) => {
         const clubs = selectMarshals(getState());
@@ -88,7 +88,7 @@ export const ClearCache = () => ({
 
 export const GetEntrantsIfRequired =
     (
-        eventId: number
+        eventId: number,
     ): ThunkAction<Promise<void>, AppState, unknown, EventActionTypes> =>
     async (dispatch, getState) => {
         const entrants = selectEntrants(getState());
@@ -113,7 +113,7 @@ export const AddEntrant =
     (
         entrant: Entrant,
         token: string | undefined,
-        onSuccess: () => void
+        onSuccess: () => void,
     ): ThunkAction<Promise<void>, AppState, unknown, EventActionTypes> =>
     async (dispatch) => {
         const newEntrant = await addEntrant(entrant, token);
@@ -128,7 +128,7 @@ export const AddMarshal =
     (
         marshal: Marshal,
         token: string | undefined,
-        onSuccess: () => void
+        onSuccess: () => void,
     ): ThunkAction<Promise<void>, AppState, unknown, EventActionTypes> =>
     async (dispatch) => {
         const newEntrant = await addMarshal(marshal, token);
@@ -162,7 +162,7 @@ export const GetEventsIfRequired =
 
 export const GetNotifications =
     (
-        eventId: number
+        eventId: number,
     ): ThunkAction<Promise<void>, AppState, unknown, EventActionTypes> =>
     async (dispatch) => {
         dispatch({
@@ -183,7 +183,7 @@ export const AddNotification = (notification: EventNotification) => ({
 export const CreateNotification =
     (
         notification: EventNotification,
-        token: string | undefined
+        token: string | undefined,
     ): ThunkAction<Promise<boolean>, AppState, unknown, EventActionTypes> =>
     async (dispatch) => {
         try {
@@ -202,7 +202,7 @@ export const AddEvent =
     (
         event: Event,
         token: string | undefined,
-        onSuccess: () => void
+        onSuccess: () => void,
     ): ThunkAction<Promise<void>, AppState, unknown, EventActionTypes> =>
     async (dispatch) => {
         await addEvent(event, token);
@@ -216,7 +216,7 @@ export const AddEvent =
 export const DeleteEvent =
     (
         eventId: number,
-        token: string | undefined
+        token: string | undefined,
     ): ThunkAction<Promise<void>, AppState, unknown, EventActionTypes> =>
     async (dispatch) => {
         await deleteEvent(eventId, token);
@@ -230,7 +230,7 @@ export const GetTestRunsIfRequired =
     (
         eventId: number,
         ordinal: number,
-        token: string | undefined
+        token: string | undefined,
     ): ThunkAction<Promise<void>, AppState, unknown, EventActionTypes> =>
     async (dispatch, getState) => {
         const testRuns = selectTestRunsFromServer(getState());
@@ -251,7 +251,7 @@ const GetTestRuns =
     (
         eventId: number,
         ordinal: number,
-        token: string | undefined
+        token: string | undefined,
     ): ThunkAction<Promise<void>, AppState, unknown, EventActionTypes> =>
     async (dispatch, getState) => {
         const testRuns = selectTestRunsFromServer(getState());
@@ -267,7 +267,7 @@ const GetTestRuns =
 export const AddTestRun =
     (
         testRun: TestRunFromClient,
-        token: string | undefined
+        token: string | undefined,
     ): ThunkAction<Promise<void>, AppState, unknown, EventActionTypes> =>
     async (dispatch, getState) => {
         dispatch({
@@ -277,7 +277,7 @@ export const AddTestRun =
         await SyncTestRuns(testRun.eventId, testRun.ordinal, token)(
             dispatch,
             getState,
-            {}
+            {},
         );
     };
 
@@ -285,7 +285,7 @@ export const UpdateTestRun =
     (
         testRun: TestRunFromServer,
         token: string | undefined,
-        onSuccess: () => void
+        onSuccess: () => void,
     ): ThunkAction<Promise<void>, AppState, unknown, EventActionTypes> =>
     async (dispatch) => {
         await updateTestRun(testRun, token);
@@ -300,7 +300,7 @@ export const SetPaid =
     (
         { eventId, entrantId }: PublicEntrant,
         payment: Payment | null,
-        token: string | undefined
+        token: string | undefined,
     ): ThunkAction<Promise<void>, AppState, unknown, EventActionTypes> =>
     async (dispatch) => {
         await markPaid(eventId, entrantId, payment, token);
@@ -313,7 +313,7 @@ export const SetPaid =
 export const DeleteEntrant =
     (
         { eventId, entrantId }: PublicEntrant,
-        token: string | undefined
+        token: string | undefined,
     ): ThunkAction<Promise<void>, AppState, unknown, EventActionTypes> =>
     async (dispatch) => {
         await deleteEntrant(eventId, entrantId, token);
@@ -326,7 +326,7 @@ export const DeleteEntrant =
 export const DeleteMarshal =
     (
         { eventId, marshalId }: PublicMarshal,
-        token: string | undefined
+        token: string | undefined,
     ): ThunkAction<Promise<void>, AppState, unknown, EventActionTypes> =>
     async (dispatch) => {
         await deleteMarshal(eventId, marshalId, token);
@@ -338,7 +338,7 @@ export const DeleteMarshal =
 
 const UpdateTestRunState: ActionCreator<EventActionTypes> = (
     testRunId: number,
-    state: TestRunUploadState
+    state: TestRunUploadState,
 ) => ({
     type: UPDATE_TEST_RUN_STATE,
     payload: { testRunId, state },
@@ -348,12 +348,12 @@ export const SyncTestRuns =
     (
         eventId: number,
         ordinal: number,
-        token: string | undefined
+        token: string | undefined,
     ): ThunkAction<Promise<void>, AppState, unknown, EventActionTypes> =>
     async (dispatch, getState) => {
         const runs = selectTestRuns(getState());
         const toUpload = runs.filter(
-            (a) => a.state !== TestRunUploadState.Uploaded
+            (a) => a.state !== TestRunUploadState.Uploaded,
         );
         await Promise.all(
             toUpload.map(async (element) => {
@@ -362,11 +362,11 @@ export const SyncTestRuns =
                     dispatch(
                         UpdateTestRunState(
                             element.testRunId,
-                            TestRunUploadState.Uploaded
-                        )
+                            TestRunUploadState.Uploaded,
+                        ),
                     );
                 });
-            })
+            }),
         );
 
         await GetTestRuns(eventId, ordinal, token)(dispatch, getState, {});

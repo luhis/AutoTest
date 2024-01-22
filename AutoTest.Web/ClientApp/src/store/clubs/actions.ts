@@ -9,7 +9,7 @@ import { ADD_CLUB, ClubsActionTypes, GET_CLUBS } from "./types";
 
 export const GetClubsIfRequired =
     (
-        token: string | undefined
+        token: string | undefined,
     ): ThunkAction<void, AppState, unknown, ClubsActionTypes> =>
     async (dispatch, getState) => {
         const clubs = selectClubs(getState());
@@ -34,7 +34,7 @@ export const AddClub =
     (
         club: EditingClub,
         token: string | undefined,
-        onSuccess: () => void
+        onSuccess: () => void,
     ): ThunkAction<Promise<void>, AppState, unknown, ClubsActionTypes> =>
     async (dispatch) => {
         await addClub(club, token);
@@ -48,7 +48,7 @@ export const AddClub =
 export const DeleteClub =
     (
         clubId: number,
-        token: string | undefined
+        token: string | undefined,
     ): ThunkAction<Promise<void>, AppState, unknown, ClubsActionTypes> =>
     async (dispatch) => {
         await deleteClub(clubId, token);

@@ -47,24 +47,24 @@ const uid = UUID(keySeed);
 
 const getDriverNumber = (
     entrants: LoadingState<readonly PublicEntrant[], number>,
-    entrant: EditingEntrant
+    entrant: EditingEntrant,
 ) => {
     return mapOrDefault(
         entrants,
         (x) => {
             const found = x.find(
-                ({ entrantId }) => entrantId === entrant.entrantId
+                ({ entrantId }) => entrantId === entrant.entrantId,
             );
             if (found) {
                 return found.driverNumber;
             }
             return (
                 Math.max(
-                    ...x.map(({ driverNumber }) => driverNumber).concat(0)
+                    ...x.map(({ driverNumber }) => driverNumber).concat(0),
                 ) + 1
             );
         },
-        -1
+        -1,
     );
 };
 
@@ -74,11 +74,11 @@ const Entrants: FunctionalComponent<Readonly<Props>> = ({ eventId }) => {
     const profile = useSelector(selectProfile);
     const currentEvent = findIfLoaded(
         useSelector(selectEvents),
-        (a) => a.eventId === eventId
+        (a) => a.eventId === eventId,
     );
     const currentClub = findIfLoaded(
         useSelector(selectClubs),
-        (a) => a.clubId === currentEvent?.clubId
+        (a) => a.clubId === currentEvent?.clubId,
     );
     const [editingEntrant, setEditingEntrant] = useState<
         EditingEntrant | undefined
@@ -95,8 +95,8 @@ const Entrants: FunctionalComponent<Readonly<Props>> = ({ eventId }) => {
                         driverNumber: getDriverNumber(entrants, editingEntrant),
                     },
                     getAccessToken(auth),
-                    clearEditingEntrant
-                )
+                    clearEditingEntrant,
+                ),
             );
         }
     }, [auth, thunkDispatch, editingEntrant, entrants]);
@@ -104,7 +104,7 @@ const Entrants: FunctionalComponent<Readonly<Props>> = ({ eventId }) => {
     const filterMemberships = (clubMemberships: readonly ClubMembership[]) =>
         clubMemberships.filter(
             (a) =>
-                currentEvent == undefined || a.expiry >= currentEvent.startTime
+                currentEvent == undefined || a.expiry >= currentEvent.startTime,
         );
     const fillFromProfile = useCallback(
         (clubMembership: ClubMembership | undefined) => {
@@ -132,11 +132,11 @@ const Entrants: FunctionalComponent<Readonly<Props>> = ({ eventId }) => {
                                   Number.NaN,
                               email: emailAddress,
                           }
-                        : undefined
+                        : undefined,
                 );
             }
         },
-        [profile]
+        [profile],
     );
     const setPaid = (entrant: PublicEntrant, payment: Payment | null) =>
         thunkDispatch(SetPaid(entrant, payment, getAccessToken(auth)));
@@ -188,11 +188,11 @@ const Entrants: FunctionalComponent<Readonly<Props>> = ({ eventId }) => {
             const e = await getEntrant(
                 entrant.eventId,
                 entrant.entrantId,
-                getAccessToken(auth)
+                getAccessToken(auth),
             );
             setEditingEntrant({ ...e, isNew: false });
         },
-        [auth]
+        [auth],
     );
     const setField = useCallback(
         (a: Partial<EditingEntrant>) =>
@@ -203,7 +203,7 @@ const Entrants: FunctionalComponent<Readonly<Props>> = ({ eventId }) => {
                     return b;
                 }
             }),
-        []
+        [],
     );
     const isClubAdmin =
         currentEvent !== undefined &&
@@ -255,7 +255,7 @@ const Entrants: FunctionalComponent<Readonly<Props>> = ({ eventId }) => {
                     clubMemberships={mapOrDefault(
                         profile,
                         (a) => filterMemberships(a.clubMemberships),
-                        []
+                        [],
                     )}
                     isClubAdmin={isClubAdmin}
                     entrant={editingEntrant}
@@ -278,5 +278,5 @@ export default RouteParamsParser<
     >,
     Props
 >(({ eventId, ...props }) => ({ ...props, eventId: Number.parseInt(eventId) }))(
-    Entrants
+    Entrants,
 );

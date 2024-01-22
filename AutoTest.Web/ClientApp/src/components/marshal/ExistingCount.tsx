@@ -21,7 +21,7 @@ const ExportCount: FunctionalComponent<Props> = ({
         {entrantId
             ? uniqBy(
                   testRuns.filter((run) => run.entrantId === entrantId),
-                  (a) => a.testRunId
+                  (a) => a.testRunId,
               ).length
             : "NA"}{" "}
         of{" "}

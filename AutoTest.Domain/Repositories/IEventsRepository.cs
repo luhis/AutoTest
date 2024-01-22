@@ -7,7 +7,7 @@ namespace AutoTest.Domain.Repositories
 {
     public interface IEventsRepository
     {
-        Task<Event> GetById(ulong eventId, CancellationToken cancellationToken);
+        Task<Event?> GetById(ulong eventId, CancellationToken cancellationToken);
 
         Task<IEnumerable<Event>> GetAll(CancellationToken cancellationToken);
 

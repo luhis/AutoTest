@@ -5,7 +5,7 @@ export const getDateTimeString = (d: ValidDate) =>
         d.getDate() + 1
     }`.padStart(2, "0")}T${`${d.getHours()}`.padStart(
         2,
-        "0"
+        "0",
     )}:${`${d.getMinutes()}`.padStart(2, "0")}`;
 
 export const getDateString = (d: ValidDate | Date) =>

@@ -6,7 +6,7 @@ const ifSome = <T, TT>(
     arr: LoadingState<readonly T[], TT>,
     getKey: (t: T) => string | number,
     IfIs: FunctionalComponent<T>,
-    filter: (t: T) => boolean = (_: T) => true
+    filter: (t: T) => boolean = (_: T) => true,
 ) => {
     switch (arr.tag) {
         case "Loaded": {

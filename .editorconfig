@@ -1,4 +1,4 @@
-﻿# EditorConfig is awesome: https://EditorConfig.org
+# EditorConfig is awesome: https://EditorConfig.org
 
 # top-most EditorConfig file
 root = true
@@ -13,6 +13,8 @@ indent_style = space
 indent_size = 4
 insert_final_newline = true
 charset = utf-8-bom
+vsspell_section_id = 9358c2306e3c412690e295dfff2a5d6f
+vsspell_ignored_words_9358c2306e3c412690e295dfff2a5d6f = Accessor|Di|env|Startup|Timestamp|Enums
 
 # XML project files
 [*.{csproj,vbproj,vcxproj,vcxproj.filters,proj,projitems,shproj}]

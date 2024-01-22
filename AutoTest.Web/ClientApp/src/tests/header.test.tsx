@@ -13,7 +13,7 @@ describe("Initial Test of the Header", () => {
         shallow(
             <Provider store={store}>
                 <Header />
-            </Provider>
+            </Provider>,
         );
     });
 });

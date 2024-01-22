@@ -23,7 +23,7 @@ namespace AutoTest.Service.Handlers
         {
             var @event = await this.eventsRepository.GetById(request.EventId, cancellationToken);
 
-            return @event.Tests.OrderBy(a => a.Ordinal);
+            return @event!.Tests.OrderBy(a => a.Ordinal);
         }
     }
 }

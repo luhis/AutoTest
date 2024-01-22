@@ -32,7 +32,7 @@ const initialProfileState: ProfileState = {
 
 export const profileReducer = (
     state = initialProfileState,
-    action: ProfileActionTypes
+    action: ProfileActionTypes,
 ): ProfileState => {
     switch (action.type) {
         case GET_PROFILE:
@@ -64,7 +64,7 @@ export const profileReducer = (
                 access: {
                     ...state.access,
                     adminClubs: state.access.adminClubs.filter(
-                        (id) => id != action.payload
+                        (id) => id != action.payload,
                     ),
                 },
             };
@@ -74,7 +74,7 @@ export const profileReducer = (
                 access: {
                     ...state.access,
                     marshalEvents: state.access.marshalEvents.concat(
-                        action.payload
+                        action.payload,
                     ),
                 },
             };
@@ -84,7 +84,7 @@ export const profileReducer = (
                 access: {
                     ...state.access,
                     marshalEvents: state.access.marshalEvents.filter(
-                        (id) => id !== action.payload
+                        (id) => id !== action.payload,
                     ),
                 },
             };
@@ -94,7 +94,7 @@ export const profileReducer = (
                 access: {
                     ...state.access,
                     editableEntrants: state.access.editableEntrants.concat(
-                        action.payload
+                        action.payload,
                     ),
                 },
             };
@@ -104,7 +104,7 @@ export const profileReducer = (
                 access: {
                     ...state.access,
                     editableMarshals: state.access.editableMarshals.concat(
-                        action.payload
+                        action.payload,
                     ),
                 },
             };

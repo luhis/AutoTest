@@ -27,7 +27,7 @@ namespace AutoTest.Service.Handlers
         async Task IRequestHandler<AddTestRun>.Handle(AddTestRun request, CancellationToken cancellationToken)
         {
             var @event = await _eventsRepository.GetById(request.EventId, cancellationToken);
-            if (@event.EventStatus != Domain.Enums.EventStatus.Running)
+            if (@event!.EventStatus != Domain.Enums.EventStatus.Running)
             {
                 throw new System.Exception("Event must be running to add Test Run");
             }

@@ -30,8 +30,8 @@ const persistConfig = {
                 typeof value === "string" &&
                 /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}/.exec(value)
                     ? parseIsoOrThrow(value)
-                    : value
-            )
+                    : value,
+            ),
         ) as never,
     ],
     blacklist: ["profile"],
@@ -50,7 +50,7 @@ export type AppState = ReturnType<typeof persistedReducer>;
 export default () => {
     const appStore: Store<AppState, AnyAction> = createStore(
         persistedReducer,
-        composeWithDevTools(applyMiddleware(thunk))
+        composeWithDevTools(applyMiddleware(thunk)),
     );
     const persistor = persistStore(appStore);
     return { appStore, persistor };

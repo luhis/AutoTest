@@ -12,7 +12,7 @@ type TestRunApi = Override<TestRunFromServer, { readonly created: string }>;
 export const getTestRuns = async (
     eventId: number,
     ordinal: number,
-    token: string | undefined
+    token: string | undefined,
 ): Promise<
     ApiResponse<
         readonly TestRunFromServer[],
@@ -25,7 +25,7 @@ export const getTestRuns = async (
                 `/api/events/${eventId}/tests/${ordinal}/testRuns/`,
                 {
                     headers: getHeaders(token),
-                }
+                },
             );
             const runs = await extract<readonly TestRunApi[]>(response);
             return runs.map(({ created, ...rest }) => ({
@@ -33,12 +33,12 @@ export const getTestRuns = async (
                 created: parseIsoOrThrow(created),
             }));
         },
-        { eventId, ordinal }
+        { eventId, ordinal },
     );
 
 export const addTestRun = async (
     { eventId, ...testRun }: TestRunFromClient,
-    token: string | undefined
+    token: string | undefined,
 ): Promise<ApiResponse<void>> =>
     toApiResponse(async () => {
         const { testRunId, ordinal, ...rest } = testRun;
@@ -48,14 +48,14 @@ export const addTestRun = async (
                 method: "PUT",
                 body: JSON.stringify(rest),
                 headers: getHeaders(token),
-            }
+            },
         );
         throwIfNotOk(response);
     }, undefined);
 
 export const updateTestRun = async (
     { eventId, ...testRun }: TestRunFromServer,
-    token: string | undefined
+    token: string | undefined,
 ): Promise<ApiResponse<void>> =>
     toApiResponse(async () => {
         const { testRunId, ordinal, ...rest } = testRun;
@@ -65,7 +65,7 @@ export const updateTestRun = async (
                 method: "PUT",
                 body: JSON.stringify(rest),
                 headers: getHeaders(token),
-            }
+            },
         );
         throwIfNotOk(response);
     }, undefined);

@@ -20,7 +20,7 @@ interface Props {
     readonly setEditingEntrant: (entrant: PublicEntrant) => Promise<void>;
     readonly markPaid: (
         entrant: PublicEntrant,
-        payment: Payment | null
+        payment: Payment | null,
     ) => Promise<void>;
     readonly deleteEntrant: (entrant: PublicEntrant) => Promise<void>;
     readonly isClubAdmin: boolean;
@@ -35,12 +35,12 @@ const Pay: FunctionComponent<{
     readonly entrant: PublicEntrant;
     readonly markPaid: (
         entrant: PublicEntrant,
-        payment: Payment | null
+        payment: Payment | null,
     ) => Promise<void>;
 }> = ({ entrant, markPaid }) => {
     const [date, setDate] = useState(getDateString(new Date()));
     const [paymentMethod, setPaymentMethod] = useState<PaymentMethod>(
-        PaymentMethod.Bacs
+        PaymentMethod.Bacs,
     );
     return (
         <Fragment>
@@ -127,7 +127,7 @@ const List: FunctionComponent<Props> = ({
                                     <FaMoneyBill />
                                     &nbsp; Mark Unpaid (
                                     {startCase(
-                                        PaymentMethod[entrant.payment.method]
+                                        PaymentMethod[entrant.payment.method],
                                     )}
                                     )
                                 </Button>
@@ -167,7 +167,7 @@ const List: FunctionComponent<Props> = ({
                     </Field>
                 </Columns.Column>
             </Columns>
-        )
+        ),
     );
 
 export default List;

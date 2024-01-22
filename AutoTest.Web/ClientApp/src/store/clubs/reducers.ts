@@ -9,7 +9,7 @@ const initialState: ClubsState = {
 
 export const clubsReducer = (
     state = initialState,
-    action: ClubsActionTypes
+    action: ClubsActionTypes,
 ): ClubsState => {
     switch (action.type) {
         case CLEAR_CACHE: // todo in other side
@@ -28,9 +28,9 @@ export const clubsReducer = (
                 clubs: ifLoaded(state.clubs, (c) =>
                     c
                         .filter(
-                            ({ clubId }) => clubId !== action.payload.clubId
+                            ({ clubId }) => clubId !== action.payload.clubId,
                         )
-                        .concat(action.payload)
+                        .concat(action.payload),
                 ),
             };
         default: {

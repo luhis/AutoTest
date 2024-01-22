@@ -7,7 +7,7 @@ using MediatR;
 
 namespace AutoTest.Service.Messages
 {
-    public class GetEvent : IRequest<Event>
+    public class GetEvent : IRequest<Event?>
     {
         public GetEvent(ulong eventId)
         {

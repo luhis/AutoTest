@@ -20,7 +20,7 @@ namespace AutoTest.Service.Handlers
         {
             var found = await this.eventsRepository.GetById(request.EventId, cancellationToken);
 
-            await this.eventsRepository.Delete(found, cancellationToken);
+            await this.eventsRepository.Delete(found!, cancellationToken);
         }
     }
 }

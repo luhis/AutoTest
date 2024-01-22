@@ -48,7 +48,7 @@ const List: FunctionalComponent<Props> = ({
                     </Field>
                 </Columns.Column>
             </Columns>
-        )
+        ),
     );
 
 export default List;

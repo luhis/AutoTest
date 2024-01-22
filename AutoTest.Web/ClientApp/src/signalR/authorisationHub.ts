@@ -15,7 +15,7 @@ export const useConnection = (accessToken: string | undefined) => {
             typeof window !== "undefined" && accessToken !== undefined
                 ? getBaseConn(accessToken).build()
                 : undefined,
-        [accessToken]
+        [accessToken],
     );
 };
 

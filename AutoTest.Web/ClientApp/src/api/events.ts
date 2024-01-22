@@ -23,13 +23,13 @@ export const getEvents = async (): Promise<ApiResponse<readonly Event[]>> =>
                 startTime: parseIsoOrThrow(startTime),
                 entryCloseDate: parseIsoOrThrow(entryCloseDate),
                 entryOpenDate: parseIsoOrThrow(entryOpenDate),
-            })
+            }),
         );
     }, undefined);
 
 export const addEvent = async (
     event: Event,
-    token: string | undefined
+    token: string | undefined,
 ): Promise<void> => {
     const { eventId, ...rest } = event;
     const response = await fetch(`/api/events/${eventId}`, {
@@ -42,7 +42,7 @@ export const addEvent = async (
 
 export const deleteEvent = async (
     eventId: number,
-    token: string | undefined
+    token: string | undefined,
 ): Promise<void> => {
     const response = await fetch(`/api/events/${eventId}/`, {
         headers: getHeaders(token),

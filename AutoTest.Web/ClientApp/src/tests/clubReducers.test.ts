@@ -10,7 +10,7 @@ describe("Club Reducer", () => {
     test("Clear Cache", () => {
         const finalState = clubsReducer(
             populatedState,
-            ClearCache() as ClubsActionTypes
+            ClearCache() as ClubsActionTypes,
         );
         expect(finalState.clubs.tag).toBe("Idle");
     });

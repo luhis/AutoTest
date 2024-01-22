@@ -5,7 +5,7 @@ import { ApiResponse, toApiResponse } from "../types/loadingState";
 import { extract, getHeaders, throwIfNotOk } from "./api";
 
 export const getNotifications = async (
-    eventId: number
+    eventId: number,
 ): Promise<ApiResponse<readonly EventNotification[], number>> =>
     toApiResponse(async () => {
         const response = await fetch(`/api/notifications/${eventId}`);
@@ -23,7 +23,7 @@ export const getNotifications = async (
 
 export const addNotification = async (
     notification: EventNotification,
-    token: string | undefined
+    token: string | undefined,
 ): Promise<void> => {
     const { notificationId, eventId, ...rest } = notification;
     const response = await fetch(
@@ -32,7 +32,7 @@ export const addNotification = async (
             headers: getHeaders(token),
             method: "PUT",
             body: JSON.stringify(rest),
-        }
+        },
     );
     throwIfNotOk(response);
 };

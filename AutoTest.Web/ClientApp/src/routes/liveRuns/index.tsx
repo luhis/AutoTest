@@ -34,11 +34,11 @@ interface Props {
 
 const getEntrantName = (
     currentEntrants: LoadingState<readonly PublicEntrant[], number>,
-    entrantId: number
+    entrantId: number,
 ) => {
     const found = findIfLoaded(
         currentEntrants,
-        (a) => a.entrantId === entrantId
+        (a) => a.entrantId === entrantId,
     );
     return found ? `${found.givenName} ${found.familyName}` : "Not Found";
 };
@@ -52,12 +52,12 @@ const Results: FunctionalComponent<Props> = ({
     const auth = useGoogleAuth();
     const currentEvent = findIfLoaded(
         useSelector(selectEvents),
-        (a) => a.eventId === eventId
+        (a) => a.eventId === eventId,
     );
     const currentEntrants = useSelector(selectEntrants);
     const currentClub = findIfLoaded(
         useSelector(selectClubs),
-        (a) => a.clubId === currentEvent?.clubId
+        (a) => a.clubId === currentEvent?.clubId,
     );
     const [runs, setRun] = useState<readonly TestRunFromServer[]>([]);
     useEffect(() => {
@@ -69,7 +69,7 @@ const Results: FunctionalComponent<Props> = ({
     useEffect(() => {
         route(
             `/liveRuns/${eventId}?testFilter=${testFilterState.join(",")}`,
-            false
+            false,
         );
     }, [testFilterState, eventId]);
     useEffect(() => {
@@ -163,7 +163,7 @@ export default RouteParamsParser<
         eventId: Number.parseInt(matches.eventId),
         testFilter: matches.testFilter
             ? compact(
-                  matches.testFilter.split(",").map((a) => Number.parseInt(a))
+                  matches.testFilter.split(",").map((a) => Number.parseInt(a)),
               )
             : [],
     },

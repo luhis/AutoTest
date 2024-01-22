@@ -3,7 +3,7 @@ import { ApiResponse, toApiResponse } from "../types/loadingState";
 import { extract, getHeaders, throwIfNotOk } from "./api";
 
 export const getClubs = async (
-    token: string | undefined
+    token: string | undefined,
 ): Promise<ApiResponse<readonly Club[]>> =>
     toApiResponse(async () => {
         const response = await fetch("/api/clubs", {
@@ -14,7 +14,7 @@ export const getClubs = async (
 
 export const addClub = async (
     club: Club,
-    token: string | undefined
+    token: string | undefined,
 ): Promise<void> => {
     const { clubId, ...rest } = club;
     const response = await fetch(`/api/clubs/${clubId}`, {
@@ -27,7 +27,7 @@ export const addClub = async (
 
 export const deleteClub = async (
     clubId: number,
-    token: string | undefined
+    token: string | undefined,
 ): Promise<void> => {
     const response = await fetch(`/api/clubs/${clubId}/`, {
         headers: getHeaders(token),

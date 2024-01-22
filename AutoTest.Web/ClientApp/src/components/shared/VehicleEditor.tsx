@@ -23,7 +23,7 @@ const VehicleEditor: FunctionComponent<Props> = ({
     const models = distinct(
         makeAndModels
             .filter(({ make }) => make === vehicle.make)
-            .map(({ model }) => model)
+            .map(({ model }) => model),
     );
 
     const setInduction = (e: OnChange) =>
@@ -91,7 +91,7 @@ const VehicleEditor: FunctionComponent<Props> = ({
                                 setField({
                                     ...vehicle,
                                     displacement: Math.floor(
-                                        e.target.valueAsNumber
+                                        e.target.valueAsNumber,
                                     ),
                                 })
                             }

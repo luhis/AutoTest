@@ -75,7 +75,7 @@ const MembershipList: FunctionComponent<Props> = ({
                             setNewMembership((e) => ({
                                 ...e,
                                 membershipNumber: Math.floor(
-                                    target.valueAsNumber
+                                    target.valueAsNumber,
                                 ),
                             }))
                         }
@@ -109,7 +109,7 @@ const MembershipList: FunctionComponent<Props> = ({
                                     membershipNumber:
                                         newMembership.membershipNumber,
                                     expiry: parseIsoOrThrow(
-                                        newMembership.expiry
+                                        newMembership.expiry,
                                     ),
                                 };
                                 addNew(externalMembership);
