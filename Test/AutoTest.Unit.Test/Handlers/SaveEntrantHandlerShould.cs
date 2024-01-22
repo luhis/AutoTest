@@ -119,7 +119,7 @@ namespace AutoTest.Unit.Test.Handlers
             entrant.SetPayment(new Payment());
 
             eventsRepository.Setup(a => a.GetById(eventId, CancellationToken.None)).ReturnsAsync(new Event(eventId, 1, "", DateTime.UtcNow, 3, 2, "", new[] { EventType.AutoTest }, "", TimingSystem.StopWatch, DateTime.UtcNow.AddDays(-2), DateTime.UtcNow.AddDays(1), 10));
-            entrantsRepository.Setup(a => a.GetEntrantCount(eventId, CancellationToken.None)).ReturnsAsync(10);
+            entrantsRepository.Setup(a => a.GetEntrantCount(eventId, CancellationToken.None)).ReturnsAsync(1);
 
             var se = new SaveEntrant(entrant);
             Func<Task> act = () => sut.Handle(se, CancellationToken.None);
