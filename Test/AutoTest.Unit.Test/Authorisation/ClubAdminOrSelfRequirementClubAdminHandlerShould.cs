@@ -56,6 +56,27 @@ namespace AutoTest.Unit.Test.Authorisation
         }
 
         [Fact]
+        public async Task ShouldPassIfNewEvent()
+        {
+            var ac = AuthorizationHandlerContextFixture.GetAuthContext(
+                new[] { new ClubAdminOrSelfRequirement() },
+                 "a@a.com");
+            var entrantId = 99ul;
+            var eventId = 1ul;
+            var clubId = 88ul;
+            var ctx = HttpContextFixture.GetHttpContext(new[] { ("eventId", eventId.ToString()), ("entrantId", entrantId.ToString()) });
+            httpContextAccessor.SetupGet(a => a.HttpContext).Returns(ctx);
+            mediator.Setup(a => a.Send(Its.EquivalentTo(new GetEvent(eventId)), CancellationToken.None)).ReturnsAsync((Event?)null);
+            var club = new Club(clubId, "BRMC", "pay@brmc.org", "www.com");
+            club.AdminEmails.Add(new("a@a.com"));
+
+            await sut.HandleAsync(ac);
+
+            ac.HasSucceeded.Should().BeTrue();
+            mr.VerifyAll();
+        }
+
+        [Fact]
         public async Task ShouldFailIfEmailsDontMatch()
         {
             var ac = AuthorizationHandlerContextFixture.GetAuthContext(
@@ -75,6 +96,28 @@ namespace AutoTest.Unit.Test.Authorisation
             await sut.HandleAsync(ac);
 
             ac.HasSucceeded.Should().BeFalse();
+            mr.VerifyAll();
+        }
+
+        [Fact]
+        public async Task ShouldFailIfClubNotFound()
+        {
+            var ac = AuthorizationHandlerContextFixture.GetAuthContext(
+                new[] { new ClubAdminOrSelfRequirement() },
+                 "a@a.com");
+            var entrantId = 99ul;
+            var eventId = 1ul;
+            var clubId = 88ul;
+            var ctx = HttpContextFixture.GetHttpContext(new[] { ("eventId", eventId.ToString()), ("entrantId", entrantId.ToString()) });
+            httpContextAccessor.SetupGet(a => a.HttpContext).Returns(ctx);
+            mediator.Setup(a => a.Send(Its.EquivalentTo(new GetEvent(eventId)), CancellationToken.None)).ReturnsAsync(
+                new Event(eventId, clubId, "Kestel Farm", new DateTime(), 99, 3, "", new[] { Domain.Enums.EventType.AutoTest }, "", Domain.Enums.TimingSystem.StopWatch, new DateTime(), new DateTime(), 10));
+            mediator.Setup(a => a.Send(Its.EquivalentTo(new GetClub(clubId)), CancellationToken.None)).ReturnsAsync(
+                (Club?)null);
+
+            Func<Task> a = () => sut.HandleAsync(ac);
+
+            await a.Should().ThrowAsync<NullReferenceException>().WithMessage("club");
             mr.VerifyAll();
         }
     }

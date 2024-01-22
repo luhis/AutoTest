@@ -38,10 +38,10 @@ namespace AutoTest.Unit.Test.Handlers
         {
             var entrantId = 1ul;
             var eventId = 2ul;
-            var entrant = new Entrant(entrantId, 123, "name", "familyName", "a@a.com", "A", eventId, "BRMC", 123456, Age.Senior);
+            var entrant = new Entrant(entrantId, 123, "name", "familyName", "a@a.com", EventType.AutoTest, "A", eventId, "BRMC", 123456, Age.Senior);
             entrant.SetPayment(new Payment());
 
-            var entrantFromDb = new Entrant(entrantId, 123, "name", "familyName", "a@a.com", "A", eventId, "BRMC", 123456, Age.Senior);
+            var entrantFromDb = new Entrant(entrantId, 123, "name", "familyName", "a@a.com", EventType.AutoTest, "A", eventId, "BRMC", 123456, Age.Senior);
             entrantsRepository.Setup(a => a.GetById(eventId, entrantId, CancellationToken.None)).ReturnsAsync(entrantFromDb);
             entrantsRepository.Setup(a => a.Upsert(entrant, CancellationToken.None)).Returns(Task.CompletedTask);
             eventsRepository.Setup(a => a.GetById(eventId, CancellationToken.None)).ReturnsAsync(new Event(eventId, 1, "", DateTime.UtcNow, 3, 2, "", new[] { EventType.AutoTest }, "", TimingSystem.StopWatch, DateTime.UtcNow.AddDays(-2), DateTime.UtcNow.AddDays(2), 10));
@@ -60,7 +60,7 @@ namespace AutoTest.Unit.Test.Handlers
         {
             var entrantId = 1ul;
             var eventId = 2ul;
-            var entrant = new Entrant(entrantId, 123, "name", "familyName", "a@a.com", "A", eventId, "BRMC", 123456, Age.Senior);
+            var entrant = new Entrant(entrantId, 123, "name", "familyName", "a@a.com", EventType.AutoTest, "A", eventId, "BRMC", 123456, Age.Senior);
             entrant.SetPayment(new Payment());
 
             eventsRepository.Setup(a => a.GetById(eventId, CancellationToken.None)).ReturnsAsync(new Event(eventId, 1, "", DateTime.UtcNow, 3, 2, "", new[] { EventType.AutoTest }, "", TimingSystem.StopWatch, DateTime.UtcNow.AddDays(1), DateTime.UtcNow.AddDays(2), 10));
@@ -78,7 +78,7 @@ namespace AutoTest.Unit.Test.Handlers
         {
             var entrantId = 1ul;
             var eventId = 2ul;
-            var entrant = new Entrant(entrantId, 123, "name", "familyName", "a@a.com", "A", eventId, "BRMC", 123456, Age.Senior);
+            var entrant = new Entrant(entrantId, 123, "name", "familyName", "a@a.com", EventType.AutoTest, "A", eventId, "BRMC", 123456, Age.Senior);
             entrant.SetPayment(new Payment());
 
             eventsRepository.Setup(a => a.GetById(eventId, CancellationToken.None)).ReturnsAsync(new Event(eventId, 1, "", DateTime.UtcNow, 3, 2, "", new[] { EventType.AutoTest }, "", TimingSystem.StopWatch, DateTime.UtcNow.AddDays(-2), DateTime.UtcNow.AddDays(-1), 10));
@@ -96,7 +96,7 @@ namespace AutoTest.Unit.Test.Handlers
         {
             var entrantId = 1ul;
             var eventId = 2ul;
-            var entrant = new Entrant(entrantId, 123, "name", "familyName", "a@a.com", "A", eventId, "BRMC", 123456, Age.Senior);
+            var entrant = new Entrant(entrantId, 123, "name", "familyName", "a@a.com", EventType.AutoTest, "A", eventId, "BRMC", 123456, Age.Senior);
             entrant.SetPayment(new Payment());
 
             eventsRepository.Setup(a => a.GetById(eventId, CancellationToken.None)).ReturnsAsync(new Event(eventId, 1, "", DateTime.UtcNow, 3, 2, "", new[] { EventType.AutoTest }, "", TimingSystem.StopWatch, DateTime.UtcNow.AddDays(-2), DateTime.UtcNow.AddDays(1), 10));
@@ -111,13 +111,32 @@ namespace AutoTest.Unit.Test.Handlers
         }
 
         [Fact]
+        public async Task ErrorWhenWrongEventTypeAsync()
+        {
+            var entrantId = 1ul;
+            var eventId = 2ul;
+            var entrant = new Entrant(entrantId, 123, "name", "familyName", "a@a.com", EventType.PCA, "A", eventId, "BRMC", 123456, Age.Senior);
+            entrant.SetPayment(new Payment());
+
+            eventsRepository.Setup(a => a.GetById(eventId, CancellationToken.None)).ReturnsAsync(new Event(eventId, 1, "", DateTime.UtcNow, 3, 2, "", new[] { EventType.AutoTest }, "", TimingSystem.StopWatch, DateTime.UtcNow.AddDays(-2), DateTime.UtcNow.AddDays(1), 10));
+            entrantsRepository.Setup(a => a.GetEntrantCount(eventId, CancellationToken.None)).ReturnsAsync(10);
+
+            var se = new SaveEntrant(entrant);
+            Func<Task> act = () => sut.Handle(se, CancellationToken.None);
+            var exception = await act.Should().ThrowAsync<Exception>();
+            exception.WithMessage("Event Type invalid");
+
+            mr.VerifyAll();
+        }
+
+        [Fact]
         public async Task NotOverwritePaymentMethodWhenSome()
         {
             var entrantId = 1ul;
             var eventId = 2ul;
-            var entrant = new Entrant(entrantId, 123, "name", "familyName", "a@a.com", "A", eventId, "BRMC", 123456, Age.Senior);
+            var entrant = new Entrant(entrantId, 123, "name", "familyName", "a@a.com", EventType.AutoTest, "A", eventId, "BRMC", 123456, Age.Senior);
 
-            var entrantFromDb = new Entrant(entrantId, 123, "name", "familyName", "a@a.com", "A", eventId, "BRMC", 123456, Age.Senior);
+            var entrantFromDb = new Entrant(entrantId, 123, "name", "familyName", "a@a.com", EventType.AutoTest, "A", eventId, "BRMC", 123456, Age.Senior);
             entrantFromDb.SetPayment(new Payment());
             entrantsRepository.Setup(a => a.GetById(eventId, entrantId, CancellationToken.None)).ReturnsAsync(entrantFromDb);
             entrantsRepository.Setup(a => a.Upsert(entrant, CancellationToken.None)).Returns(Task.CompletedTask);

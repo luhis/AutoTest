@@ -52,7 +52,7 @@ namespace AutoTest.Unit.Test.Notifiers
             var clientProxy = mr.Create<IClientProxy>();
             var testRun = new TestRun(1, eventId, 3, 60_000, 4, new System.DateTime(2000, 1, 2), 5);
             var results = new[] { new Result("A", new[] {
-                new EntrantTimes(new Entrant(1, 2, "given", "last", "a@a.com", "A", eventId, "BRMC", 123456, Domain.Enums.Age.Senior), 55, new[] { new TestTime(1, System.Array.Empty<TestRun>()) } , 1, 1)}) };
+                new EntrantTimes(new Entrant(1, 2, "given", "last", "a@a.com", Domain.Enums.EventType.AutoTest, "A", eventId, "BRMC", 123456, Domain.Enums.Age.Senior), 55, new[] { new TestTime(1, System.Array.Empty<TestRun>()) } , 1, 1)}) };
             clientProxy.Setup(a => a.SendCoreAsync("NewResults", new[] { results }, CancellationToken.None)).Returns(Task.CompletedTask);
             clientProxy.Setup(a => a.SendCoreAsync("NewTestRun", new[] { testRun }, CancellationToken.None)).Returns(Task.CompletedTask);
             clients.Setup(a => a.Group($"eventId:{eventId}")).Returns(clientProxy.Object);
