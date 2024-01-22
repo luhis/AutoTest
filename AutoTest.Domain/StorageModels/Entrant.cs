@@ -4,12 +4,14 @@ namespace AutoTest.Domain.StorageModels
 {
     public class Entrant
     {
-        public Entrant(ulong entrantId, ushort driverNumber, string givenName, string familyName, string email, string @class, ulong eventId, string club, uint clubNumber, Age age)
+        public Entrant(ulong entrantId, ushort driverNumber, string givenName, string familyName, string email,
+        EventType eventType, string @class, ulong eventId, string club, uint clubNumber, Age age)
         {
             EntrantId = entrantId;
             GivenName = givenName;
             FamilyName = familyName;
             Email = email;
+            EventType = eventType;
             Class = @class;
             EventId = eventId;
             Club = club;
@@ -48,6 +50,7 @@ namespace AutoTest.Domain.StorageModels
         public Payment? Payment { get; private set; } = null;
 
         public EntrantStatus EntrantStatus { get; private set; }
+        public EventType EventType { get; private set; }
 
         public void SetVehicle(Vehicle vehicle) => Vehicle = vehicle;
 

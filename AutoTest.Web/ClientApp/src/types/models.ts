@@ -124,6 +124,7 @@ export interface PublicEntrant {
     readonly entrantId: number;
     readonly eventId: number;
     readonly class: string;
+    readonly eventType: EventType;
     readonly givenName: string;
     readonly familyName: string;
     readonly age: Age;

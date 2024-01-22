@@ -40,14 +40,15 @@ namespace AutoTest.Unit.Test.Authorisation
             var eventId = 1ul;
             var ctx = HttpContextFixture.GetHttpContext(new[] { ("eventId", eventId.ToString()), ("entrantId", entrantId.ToString()) });
             httpContextAccessor.SetupGet(a => a.HttpContext).Returns(ctx);
-            mediator.Setup(a => a.Send(Its.EquivalentTo(new GetEntrant(eventId, entrantId)), CancellationToken.None)).ReturnsAsync(
-                new Entrant(entrantId, 1, "Joe", "Bloggs", "a@a.com", "A", eventId, "BRMC", 12345678, Domain.Enums.Age.Senior));
+            mediator.Setup(a => a.Send(Its.EquivalentTo(new GetEntrant(eventId, entrantId)), CancellationToken.None)).ReturnsAsync(GetEntrant(eventId, entrantId));
 
             await sut.HandleAsync(ac);
 
             ac.HasSucceeded.Should().BeTrue();
             mr.VerifyAll();
         }
+
+        static Entrant GetEntrant(ulong eventId, ulong entrantId) => new Entrant(entrantId, 1, "Joe", "Bloggs", "a@a.com", Domain.Enums.EventType.AutoTest, "A", eventId, "BRMC", 12345678, Domain.Enums.Age.Senior);
 
         [Fact]
         public async Task ShouldFailIfEmailsDontMatch()
@@ -59,8 +60,8 @@ namespace AutoTest.Unit.Test.Authorisation
             var eventId = 1ul;
             var ctx = HttpContextFixture.GetHttpContext(new[] { ("eventId", eventId.ToString()), ("entrantId", entrantId.ToString()) });
             httpContextAccessor.SetupGet(a => a.HttpContext).Returns(ctx);
-            mediator.Setup(a => a.Send(Its.EquivalentTo(new GetEntrant(eventId, entrantId)), CancellationToken.None)).ReturnsAsync(
-                new Entrant(entrantId, 1, "Joe", "Bloggs", "a@a.com", "A", eventId, "BRMC", 12345678, Domain.Enums.Age.Senior));
+            mediator.Setup(a => a.Send(Its.EquivalentTo(new GetEntrant(eventId, entrantId)), CancellationToken.None)).ReturnsAsync(GetEntrant(eventId, entrantId)
+                );
 
             await sut.HandleAsync(ac);
 

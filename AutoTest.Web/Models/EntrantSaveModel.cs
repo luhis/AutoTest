@@ -27,5 +27,6 @@ namespace AutoTest.Web.Models
         public EmergencyContactSaveModel EmergencyContact { get; set; } = new EmergencyContactSaveModel();
 
         public AcceptDeclarationSaveModel AcceptDeclaration { get; set; } = new AcceptDeclarationSaveModel();
+        public EventType EventType { get; internal set; }
     }
 }

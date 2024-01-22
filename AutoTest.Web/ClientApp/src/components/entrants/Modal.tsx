@@ -69,6 +69,7 @@ interface Props {
     readonly fillFromProfile: (membership: ClubMembership | undefined) => void;
     readonly isClubAdmin: boolean;
     readonly clubMemberships: readonly ClubMembership[];
+    readonly eventOptions: readonly object[];
 }
 
 const EntrantsModal: FunctionComponent<Props> = ({
@@ -79,6 +80,7 @@ const EntrantsModal: FunctionComponent<Props> = ({
     fillFromProfile,
     isClubAdmin,
     clubMemberships,
+    eventOptions,
 }) => {
     const auth = useGoogleAuth();
     const thunkDispatch = useThunkDispatch();
@@ -200,6 +202,19 @@ const EntrantsModal: FunctionComponent<Props> = ({
                         }
                     />
                     <Field>
+                        <Label>Event Type</Label>
+                        <DropdownInput
+                            required
+                            value={entrant.eventType}
+                            options={eventOptions}
+                            setValue={(e) => {
+                                setField({
+                                    eventType: e.toLocaleUpperCase(),
+                                });
+                            }}
+                        />
+                    </Field>
+                    <Field>
                         <Label>Class</Label>
                         <DropdownInput
                             required
@@ -248,7 +263,7 @@ const EntrantsModal: FunctionComponent<Props> = ({
                                                               : "",
                                                   },
                                               }
-                                            : { acceptDeclaration: undefined },
+                                            : { acceptDeclaration: null },
                                     )
                                 }
                             >

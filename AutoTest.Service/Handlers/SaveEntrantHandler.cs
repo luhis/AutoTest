@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq.Expressions;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoTest.Domain.Repositories;
@@ -39,6 +38,10 @@ namespace AutoTest.Service.Handlers
             if (@event.MaxEntrants <= entrantCount)
             {
                 throw new Exception("Too many entrants");
+            }
+            if (!@event.EventTypes.Contains(request.Entrant.EventType))
+            {
+                throw new Exception("Event Type invalid");
             }
             var existing = await entrantsRepository.GetById(request.Entrant.EventId, request.Entrant.EntrantId, cancellationToken);
             request.Entrant.SetPayment(existing?.Payment);

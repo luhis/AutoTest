@@ -1,47 +1,38 @@
-﻿using AutoTest.Domain.StorageModels;
+﻿using AutoTest.Domain.Enums;
+using AutoTest.Domain.StorageModels;
 
 namespace AutoTest.Web.Models
 {
-    public class PublicEntrantModel
+    public class PublicEntrantModel(
+        ulong entrantId,
+        ushort driverNumber,
+        string givenName,
+        string familyName,
+        EventType eventType,
+        string @class,
+        ulong eventId,
+        string club,
+        Vehicle vehicle,
+        Payment? payment)
     {
-        public PublicEntrantModel(
-            ulong entrantId,
-            ushort driverNumber,
-            string givenName,
-            string familyName,
-            string @class,
-            ulong eventId,
-            string club,
-            Vehicle vehicle,
-            Payment? payment)
-        {
-            EntrantId = entrantId;
-            DriverNumber = driverNumber;
-            GivenName = givenName;
-            FamilyName = familyName;
-            Class = @class;
-            EventId = eventId;
-            Club = club;
-            Vehicle = vehicle;
-            Payment = payment;
-        }
+        public ulong EntrantId { get; } = entrantId;
 
-        public ulong EntrantId { get; }
+        public ushort DriverNumber { get; } = driverNumber;
 
-        public ushort DriverNumber { get; }
+        public string GivenName { get; } = givenName;
 
-        public string GivenName { get; }
+        public string FamilyName { get; } = familyName;
 
-        public string FamilyName { get; }
+        public EventType EventType { get; } = eventType;
 
-        public string Class { get; }
+        public string Class { get; } = @class;
 
-        public ulong EventId { get; }
+        public ulong EventId { get; } = eventId;
 
-        public string Club { get; }
+        public string Club { get; } = club;
 
-        public Vehicle Vehicle { get; }
+        public Vehicle Vehicle { get; } = vehicle;
 
-        public Payment? Payment { get; }
+        public Payment? Payment { get; } = payment;
     }
 }
