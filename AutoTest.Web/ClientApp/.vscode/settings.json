@@ -15,6 +15,5 @@
     "signalr",
     "timeago"
   ],
-  "files.eol": "\r\n",
   "typescript.tsdk": "node_modules\\typescript\\lib"
 }

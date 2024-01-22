@@ -8,11 +8,11 @@ const { Select, Label, Field, Input } = Form;
 import { identity } from "@s-libs/micro-dash";
 
 import {
-    EditableTestRun,
-    Override,
-    PenaltyType,
-    TestRunUploadState,
-    TimingSystem,
+  EditableTestRun,
+  Override,
+  PenaltyType,
+  TestRunUploadState,
+  TimingSystem,
 } from "../../types/models";
 import ifSome from "../../components/shared/ifSome";
 import { getAccessToken } from "../../api/api";
@@ -20,18 +20,18 @@ import { useGoogleAuth } from "../../components/app";
 import Penalties from "../../components/marshal/Penalties";
 import { OnChange, OnSelectChange } from "../../types/inputs";
 import {
-    AddTestRun,
-    SyncTestRuns,
-    GetEventsIfRequired,
-    GetEntrantsIfRequired,
-    GetTestRunsIfRequired,
+  AddTestRun,
+  SyncTestRuns,
+  GetEventsIfRequired,
+  GetEntrantsIfRequired,
+  GetTestRunsIfRequired,
 } from "../../store/event/actions";
 import {
-    selectEntrants,
-    selectRequiresSync,
-    selectTestRuns,
-    selectEvents,
-    selectTestRunsFromServer,
+  selectEntrants,
+  selectRequiresSync,
+  selectTestRuns,
+  selectEvents,
+  selectTestRunsFromServer,
 } from "../../store/event/selectors";
 import { keySeed } from "../../settings";
 import ExistingCount from "../../components/marshal/ExistingCount";
@@ -45,231 +45,226 @@ import { addPreventDefault } from "../../lib/form";
 import { useThunkDispatch } from "../../store";
 
 const getNewEditableTest = (ordinal: number): EditableTestRun => ({
-    testRunId: uid.uuid(),
-    ordinal: ordinal,
-    timeInMS: "0.00",
-    penalties: [],
-    entrantId: Number.NaN,
-    state: TestRunUploadState.NotSent,
+  testRunId: uid.uuid(),
+  ordinal: ordinal,
+  timeInMS: "0.00",
+  penalties: [],
+  entrantId: Number.NaN,
+  state: TestRunUploadState.NotSent,
 });
 interface Props {
-    readonly eventId: number;
-    readonly ordinal: number;
+  readonly eventId: number;
+  readonly ordinal: number;
 }
 
 const uid = UUID(keySeed);
 
 const Marshal: FunctionalComponent<Readonly<Props>> = ({
-    eventId,
-    ordinal,
+  eventId,
+  ordinal,
 }) => {
-    const thunkDispatch = useThunkDispatch();
-    const entrants = useSelector(selectEntrants);
-    const testRuns = useSelector(selectTestRuns);
-    const testRunsFromServer = useSelector(selectTestRunsFromServer);
-    const requiresSync = useSelector(selectRequiresSync);
+  const thunkDispatch = useThunkDispatch();
+  const entrants = useSelector(selectEntrants);
+  const testRuns = useSelector(selectTestRuns);
+  const testRunsFromServer = useSelector(selectTestRunsFromServer);
+  const requiresSync = useSelector(selectRequiresSync);
 
-    const currentEvent = findIfLoaded(
-        useSelector(selectEvents),
-        (a) => a.eventId === eventId,
-    );
-    const currentClub = findIfLoaded(
-        useSelector(selectClubs),
-        (a) => a.clubId === currentEvent?.clubId,
-    );
+  const currentEvent = findIfLoaded(
+    useSelector(selectEvents),
+    (a) => a.eventId === eventId,
+  );
+  const currentClub = findIfLoaded(
+    useSelector(selectClubs),
+    (a) => a.clubId === currentEvent?.clubId,
+  );
 
-    const [editing, setEditing] = useState<EditableTestRun>(
-        getNewEditableTest(ordinal),
-    );
-    const auth = useGoogleAuth();
-    useEffect(() => {
-        const token = getAccessToken(auth);
-        void thunkDispatch(GetEntrantsIfRequired(eventId));
-        void thunkDispatch(GetTestRunsIfRequired(eventId, ordinal, token));
-    }, [auth, thunkDispatch, eventId, ordinal]);
-    useEffect(() => {
-        void thunkDispatch(GetEventsIfRequired());
-    }, [thunkDispatch]);
-    useEffect(() => {
-        thunkDispatch(GetClubsIfRequired(getAccessToken(auth)));
-    }, [auth, thunkDispatch]);
+  const [editing, setEditing] = useState<EditableTestRun>(
+    getNewEditableTest(ordinal),
+  );
+  const auth = useGoogleAuth();
+  useEffect(() => {
+    const token = getAccessToken(auth);
+    void thunkDispatch(GetEntrantsIfRequired(eventId));
+    void thunkDispatch(GetTestRunsIfRequired(eventId, ordinal, token));
+  }, [auth, thunkDispatch, eventId, ordinal]);
+  useEffect(() => {
+    void thunkDispatch(GetEventsIfRequired());
+  }, [thunkDispatch]);
+  useEffect(() => {
+    thunkDispatch(GetClubsIfRequired(getAccessToken(auth)));
+  }, [auth, thunkDispatch]);
 
-    //todo can i improve this?
-    const increase = (penaltyType: PenaltyType) => {
-        setEditing((a) => {
-            const found = a.penalties.find(
-                (penalty) => penalty.penaltyType === penaltyType,
-            );
-            return {
+  //todo can i improve this?
+  const increase = (penaltyType: PenaltyType) => {
+    setEditing((a) => {
+      const found = a.penalties.find(
+        (penalty) => penalty.penaltyType === penaltyType,
+      );
+      return {
+        ...a,
+        penalties: a.penalties
+          .filter((penalty) => penalty.penaltyType !== penaltyType)
+          .concat(
+            found !== undefined
+              ? {
+                  ...found,
+                  instanceCount: found.instanceCount + 1,
+                }
+              : {
+                  penaltyType: penaltyType,
+                  instanceCount: 1,
+                },
+          ),
+      };
+    });
+  };
+  const decrease = (penaltyType: PenaltyType) => {
+    setEditing((a) => {
+      const found = a.penalties.find(
+        (penalty) => penalty.penaltyType === penaltyType,
+      );
+      return {
+        ...a,
+        penalties: a.penalties
+          .filter((penalty) => penalty.penaltyType !== penaltyType)
+          .concat(
+            found !== undefined && found.instanceCount > 2
+              ? {
+                  ...found,
+                  instanceCount: found.instanceCount - 1,
+                }
+              : [],
+          ),
+      };
+    });
+  };
+  const sync = useCallback(
+    () => thunkDispatch(SyncTestRuns(eventId, ordinal, getAccessToken(auth))),
+    [auth, thunkDispatch, eventId, ordinal],
+  );
+  const add = useCallback(async () => {
+    if (
+      editing.ordinal !== undefined &&
+      editing.timeInMS !== undefined &&
+      editing.entrantId !== undefined
+    ) {
+      await thunkDispatch(
+        AddTestRun(
+          {
+            ...editing,
+            created: newValidDate(),
+            eventId: eventId,
+            timeInMS: Number.parseFloat(editing.timeInMS) * 1000,
+            entrantId: editing.entrantId,
+          },
+          getAccessToken(auth),
+        ),
+      );
+      setEditing(getNewEditableTest(ordinal));
+    }
+  }, [auth, thunkDispatch, editing, eventId, ordinal]);
+  const clearInputs = () => {
+    setEditing((a) => getNewEditableTest(a.ordinal)); // todo
+  };
+  const allTestRuns = mapOrDefault(testRunsFromServer, identity, [])
+    .map(({ entrantId, testRunId }) => ({
+      entrantId,
+      testRunId,
+    }))
+    .concat(testRuns.filter((a) => a.ordinal === ordinal));
+
+  const [saving, setSaving] = useState(false);
+  const formSave = addPreventDefault(add, setSaving);
+  return (
+    <form onSubmit={formSave}>
+      <Breadcrumbs club={currentClub} event={currentEvent} test={ordinal} />
+      <Heading>Marshal</Heading>
+      <Field>
+        <Label>Entrant</Label>
+        <Select<number>
+          required
+          class="is-fullwidth"
+          onChange={(event: OnSelectChange) =>
+            setEditing((e) => ({
+              ...e,
+              entrantId: Number.parseInt(event.target.value),
+            }))
+          }
+          value={editing.entrantId}
+        >
+          <option disabled value={undefined}>
+            - Please Select -
+          </option>
+          {ifSome(
+            entrants,
+            (a) => a.entrantId,
+            (a) => (
+              <option value={a.entrantId}>
+                {a.driverNumber}. {a.vehicle.registration} - {a.givenName}{" "}
+                {a.familyName}
+              </option>
+            ),
+          )}
+        </Select>
+      </Field>
+      <Field>
+        <Label>Existing Count</Label>
+        <ExistingCount
+          entrantId={editing.entrantId}
+          currentEvent={currentEvent}
+          testRuns={allTestRuns}
+        />
+      </Field>
+      <Field>
+        <Label>Time (Secs)</Label>
+        {currentEvent?.timingSystem === TimingSystem.StopWatch ? (
+          <Input
+            required
+            type="number"
+            min="0"
+            step="0.01"
+            value={editing.timeInMS}
+            onChange={(e: OnChange) =>
+              setEditing((a) => ({
                 ...a,
-                penalties: a.penalties
-                    .filter((penalty) => penalty.penaltyType !== penaltyType)
-                    .concat(
-                        found !== undefined
-                            ? {
-                                  ...found,
-                                  instanceCount: found.instanceCount + 1,
-                              }
-                            : {
-                                  penaltyType: penaltyType,
-                                  instanceCount: 1,
-                              },
-                    ),
-            };
-        });
-    };
-    const decrease = (penaltyType: PenaltyType) => {
-        setEditing((a) => {
-            const found = a.penalties.find(
-                (penalty) => penalty.penaltyType === penaltyType,
-            );
-            return {
-                ...a,
-                penalties: a.penalties
-                    .filter((penalty) => penalty.penaltyType !== penaltyType)
-                    .concat(
-                        found !== undefined && found.instanceCount > 2
-                            ? {
-                                  ...found,
-                                  instanceCount: found.instanceCount - 1,
-                              }
-                            : [],
-                    ),
-            };
-        });
-    };
-    const sync = useCallback(
-        () =>
-            thunkDispatch(SyncTestRuns(eventId, ordinal, getAccessToken(auth))),
-        [auth, thunkDispatch, eventId, ordinal],
-    );
-    const add = useCallback(async () => {
-        if (
-            editing.ordinal !== undefined &&
-            editing.timeInMS !== undefined &&
-            editing.entrantId !== undefined
-        ) {
-            await thunkDispatch(
-                AddTestRun(
-                    {
-                        ...editing,
-                        created: newValidDate(),
-                        eventId: eventId,
-                        timeInMS: Number.parseFloat(editing.timeInMS) * 1000,
-                        entrantId: editing.entrantId,
-                    },
-                    getAccessToken(auth),
-                ),
-            );
-            setEditing(getNewEditableTest(ordinal));
-        }
-    }, [auth, thunkDispatch, editing, eventId, ordinal]);
-    const clearInputs = () => {
-        setEditing((a) => getNewEditableTest(a.ordinal)); // todo
-    };
-    const allTestRuns = mapOrDefault(testRunsFromServer, identity, [])
-        .map(({ entrantId, testRunId }) => ({
-            entrantId,
-            testRunId,
-        }))
-        .concat(testRuns.filter((a) => a.ordinal === ordinal));
-
-    const [saving, setSaving] = useState(false);
-    const formSave = addPreventDefault(add, setSaving);
-    return (
-        <form onSubmit={formSave}>
-            <Breadcrumbs
-                club={currentClub}
-                event={currentEvent}
-                test={ordinal}
-            />
-            <Heading>Marshal</Heading>
-            <Field>
-                <Label>Entrant</Label>
-                <Select<number>
-                    required
-                    class="is-fullwidth"
-                    onChange={(event: OnSelectChange) =>
-                        setEditing((e) => ({
-                            ...e,
-                            entrantId: Number.parseInt(event.target.value),
-                        }))
-                    }
-                    value={editing.entrantId}
-                >
-                    <option disabled value={undefined}>
-                        - Please Select -
-                    </option>
-                    {ifSome(
-                        entrants,
-                        (a) => a.entrantId,
-                        (a) => (
-                            <option value={a.entrantId}>
-                                {a.driverNumber}. {a.vehicle.registration} -{" "}
-                                {a.givenName} {a.familyName}
-                            </option>
-                        ),
-                    )}
-                </Select>
-            </Field>
-            <Field>
-                <Label>Existing Count</Label>
-                <ExistingCount
-                    entrantId={editing.entrantId}
-                    currentEvent={currentEvent}
-                    testRuns={allTestRuns}
-                />
-            </Field>
-            <Field>
-                <Label>Time (Secs)</Label>
-                {currentEvent?.timingSystem === TimingSystem.StopWatch ? (
-                    <Input
-                        required
-                        type="number"
-                        min="0"
-                        step="0.01"
-                        value={editing.timeInMS}
-                        onChange={(e: OnChange) =>
-                            setEditing((a) => ({
-                                ...a,
-                                timeInMS: e.target.value,
-                            }))
-                        }
-                    />
-                ) : (
-                    <Fragment></Fragment>
-                )}
-            </Field>
-            <Field>
-                <Penalties
-                    penalties={editing.penalties}
-                    increase={increase}
-                    decrease={decrease}
-                />
-            </Field>
-            <Button.Group>
-                <Button color="info" type="button" onClick={clearInputs}>
-                    Clear
-                </Button>
-                <Button color="primary" loading={saving}>
-                    Add
-                </Button>
-                <SyncButton unSyncedCount={requiresSync} sync={sync} />
-            </Button.Group>
-        </form>
-    );
+                timeInMS: e.target.value,
+              }))
+            }
+          />
+        ) : (
+          <Fragment></Fragment>
+        )}
+      </Field>
+      <Field>
+        <Penalties
+          penalties={editing.penalties}
+          increase={increase}
+          decrease={decrease}
+        />
+      </Field>
+      <Button.Group>
+        <Button color="info" type="button" onClick={clearInputs}>
+          Clear
+        </Button>
+        <Button color="primary" loading={saving}>
+          Add
+        </Button>
+        <SyncButton unSyncedCount={requiresSync} sync={sync} />
+      </Button.Group>
+    </form>
+  );
 };
 export default RouteParamsParser<
-    Override<
-        Props,
-        {
-            readonly ordinal: string;
-            readonly eventId: string;
-        }
-    >,
-    Props
+  Override<
+    Props,
+    {
+      readonly ordinal: string;
+      readonly eventId: string;
+    }
+  >,
+  Props
 >(({ eventId, ordinal, ...props }) => ({
-    ...props,
-    eventId: Number.parseInt(eventId),
-    ordinal: Number.parseInt(ordinal),
+  ...props,
+  eventId: Number.parseInt(eventId),
+  ordinal: Number.parseInt(ordinal),
 }))(Marshal);

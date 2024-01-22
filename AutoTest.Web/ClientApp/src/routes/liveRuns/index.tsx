@@ -20,151 +20,146 @@ import Penalties from "../../components/shared/Penalties";
 import RouteParamsParser from "../../components/shared/RouteParamsParser";
 import { useThunkDispatch } from "../../store";
 import {
-    LeaveEvent,
-    ListenToEvent,
-    NewTestRun,
-    useConnection,
+  LeaveEvent,
+  ListenToEvent,
+  NewTestRun,
+  useConnection,
 } from "../../signalR/eventHub";
 
 interface Props {
-    readonly eventId: number;
-    readonly testFilter: readonly number[];
-    readonly connection: HubConnection | undefined;
+  readonly eventId: number;
+  readonly testFilter: readonly number[];
+  readonly connection: HubConnection | undefined;
 }
 
 const getEntrantName = (
-    currentEntrants: LoadingState<readonly PublicEntrant[], number>,
-    entrantId: number,
+  currentEntrants: LoadingState<readonly PublicEntrant[], number>,
+  entrantId: number,
 ) => {
-    const found = findIfLoaded(
-        currentEntrants,
-        (a) => a.entrantId === entrantId,
-    );
-    return found ? `${found.givenName} ${found.familyName}` : "Not Found";
+  const found = findIfLoaded(currentEntrants, (a) => a.entrantId === entrantId);
+  return found ? `${found.givenName} ${found.familyName}` : "Not Found";
 };
 
 const Results: FunctionalComponent<Props> = ({
-    eventId,
-    testFilter,
-    connection,
+  eventId,
+  testFilter,
+  connection,
 }) => {
-    const thunkDispatch = useThunkDispatch();
-    const auth = useGoogleAuth();
-    const currentEvent = findIfLoaded(
-        useSelector(selectEvents),
-        (a) => a.eventId === eventId,
+  const thunkDispatch = useThunkDispatch();
+  const auth = useGoogleAuth();
+  const currentEvent = findIfLoaded(
+    useSelector(selectEvents),
+    (a) => a.eventId === eventId,
+  );
+  const currentEntrants = useSelector(selectEntrants);
+  const currentClub = findIfLoaded(
+    useSelector(selectClubs),
+    (a) => a.clubId === currentEvent?.clubId,
+  );
+  const [runs, setRun] = useState<readonly TestRunFromServer[]>([]);
+  useEffect(() => {
+    thunkDispatch(GetClubsIfRequired(getAccessToken(auth)));
+    void thunkDispatch(GetEventsIfRequired());
+  }, [thunkDispatch, auth]);
+  const [testFilterState, setTestFilterState] =
+    useState<readonly number[]>(testFilter);
+  useEffect(() => {
+    route(
+      `/liveRuns/${eventId}?testFilter=${testFilterState.join(",")}`,
+      false,
     );
-    const currentEntrants = useSelector(selectEntrants);
-    const currentClub = findIfLoaded(
-        useSelector(selectClubs),
-        (a) => a.clubId === currentEvent?.clubId,
-    );
-    const [runs, setRun] = useState<readonly TestRunFromServer[]>([]);
-    useEffect(() => {
-        thunkDispatch(GetClubsIfRequired(getAccessToken(auth)));
-        void thunkDispatch(GetEventsIfRequired());
-    }, [thunkDispatch, auth]);
-    const [testFilterState, setTestFilterState] =
-        useState<readonly number[]>(testFilter);
-    useEffect(() => {
-        route(
-            `/liveRuns/${eventId}?testFilter=${testFilterState.join(",")}`,
-            false,
-        );
-    }, [testFilterState, eventId]);
-    useEffect(() => {
-        if (connection) {
-            connection.on(NewTestRun, (newRun: TestRunFromServer) => {
-                setRun((a) => a.concat(newRun));
-            });
-        }
-    }, [connection]);
+  }, [testFilterState, eventId]);
+  useEffect(() => {
+    if (connection) {
+      connection.on(NewTestRun, (newRun: TestRunFromServer) => {
+        setRun((a) => a.concat(newRun));
+      });
+    }
+  }, [connection]);
 
-    const filterRuns = (r: TestRunFromServer) =>
-        testFilterState.length === 0 || testFilterState.includes(r.ordinal);
+  const filterRuns = (r: TestRunFromServer) =>
+    testFilterState.length === 0 || testFilterState.includes(r.ordinal);
 
-    const allTests = currentEvent
-        ? currentEvent.tests.map((a) => a.ordinal + 1)
-        : [];
+  const allTests = currentEvent
+    ? currentEvent.tests.map((a) => a.ordinal + 1)
+    : [];
 
-    const currentRun = last(runs.filter(filterRuns));
-    return (
-        <div>
-            <Breadcrumbs club={currentClub} event={currentEvent} />
-            <Heading>Live Runs</Heading>
-            <FilterDropdown
-                filterName="Test"
-                options={allTests}
-                selected={sortBy(testFilterState, identity)}
-                setFilter={setTestFilterState}
-            />
-            {currentRun ? (
-                <p>
-                    {getEntrantName(currentEntrants, currentRun.entrantId)}:{" "}
-                    {(currentRun.timeInMS / 1_000).toFixed(2)}s
-                    <Penalties penalties={currentRun.penalties} />
-                </p>
-            ) : null}
-        </div>
-    );
+  const currentRun = last(runs.filter(filterRuns));
+  return (
+    <div>
+      <Breadcrumbs club={currentClub} event={currentEvent} />
+      <Heading>Live Runs</Heading>
+      <FilterDropdown
+        filterName="Test"
+        options={allTests}
+        selected={sortBy(testFilterState, identity)}
+        setFilter={setTestFilterState}
+      />
+      {currentRun ? (
+        <p>
+          {getEntrantName(currentEntrants, currentRun.entrantId)}:{" "}
+          {(currentRun.timeInMS / 1_000).toFixed(2)}s
+          <Penalties penalties={currentRun.penalties} />
+        </p>
+      ) : null}
+    </div>
+  );
 };
 
 interface OtherProps {
-    readonly matches: {
-        readonly eventId: number;
-        readonly testFilter: readonly number[];
-    };
+  readonly matches: {
+    readonly eventId: number;
+    readonly testFilter: readonly number[];
+  };
 }
 const SignalRWrapper: FunctionComponent<OtherProps> = ({ matches }) => {
-    const connection = useConnection();
+  const connection = useConnection();
 
-    useEffect(() => {
-        if (connection) {
-            void connection
-                .start()
-                .then(() => {
-                    void connection.invoke(ListenToEvent, matches.eventId);
-                })
-                .catch(console.error);
-            return () => {
-                const f = async () => {
-                    await connection.invoke(LeaveEvent, matches.eventId);
-                    await connection.stop();
-                };
-                void f();
-            };
-        } else {
-            return () => undefined;
-        }
-    }, [connection, matches.eventId]);
-    return (
-        <Results
-            eventId={matches.eventId}
-            testFilter={matches.testFilter}
-            connection={connection}
-        />
-    );
+  useEffect(() => {
+    if (connection) {
+      void connection
+        .start()
+        .then(() => {
+          void connection.invoke(ListenToEvent, matches.eventId);
+        })
+        .catch(console.error);
+      return () => {
+        const f = async () => {
+          await connection.invoke(LeaveEvent, matches.eventId);
+          await connection.stop();
+        };
+        void f();
+      };
+    } else {
+      return () => undefined;
+    }
+  }, [connection, matches.eventId]);
+  return (
+    <Results
+      eventId={matches.eventId}
+      testFilter={matches.testFilter}
+      connection={connection}
+    />
+  );
 };
 
 export default RouteParamsParser<
-    Override<
-        OtherProps,
-        {
-            readonly matches: {
-                readonly eventId: string;
-                readonly testFilter: string;
-            };
-        }
-    >,
-    OtherProps
+  Override<
+    OtherProps,
+    {
+      readonly matches: {
+        readonly eventId: string;
+        readonly testFilter: string;
+      };
+    }
+  >,
+  OtherProps
 >(({ matches, ...props }) => ({
-    ...props,
-    matches: {
-        eventId: Number.parseInt(matches.eventId),
-        testFilter: matches.testFilter
-            ? compact(
-                  matches.testFilter.split(",").map((a) => Number.parseInt(a)),
-              )
-            : [],
-    },
+  ...props,
+  matches: {
+    eventId: Number.parseInt(matches.eventId),
+    testFilter: matches.testFilter
+      ? compact(matches.testFilter.split(",").map((a) => Number.parseInt(a)))
+      : [],
+  },
 }))(SignalRWrapper);

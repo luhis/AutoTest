@@ -11,44 +11,42 @@ import { Profile } from "../../types/profileModels";
 import { useThunkDispatch } from "../../store";
 
 interface Props {
-    readonly profile: Profile;
+  readonly profile: Profile;
 }
 
 const ProfileEditor: FunctionalComponent<Readonly<Props>> = ({ profile }) => {
-    const auth = useGoogleAuth();
-    const thunkDispatch = useThunkDispatch();
-    const [editingProfile, setEditingProfile] = useState<Profile>(profile);
-    const save = useCallback(async () => {
-        if (editingProfile) {
-            await thunkDispatch(
-                SaveProfile(editingProfile, getAccessToken(auth)),
-            );
-        }
-    }, [auth, thunkDispatch, editingProfile]);
-    return (
-        <ProfileModal
-            profile={editingProfile}
-            save={save}
-            setField={(a: Partial<Profile>) => {
-                setEditingProfile((b) => {
-                    return { ...b, ...a };
-                });
-            }}
-        />
-    );
+  const auth = useGoogleAuth();
+  const thunkDispatch = useThunkDispatch();
+  const [editingProfile, setEditingProfile] = useState<Profile>(profile);
+  const save = useCallback(async () => {
+    if (editingProfile) {
+      await thunkDispatch(SaveProfile(editingProfile, getAccessToken(auth)));
+    }
+  }, [auth, thunkDispatch, editingProfile]);
+  return (
+    <ProfileModal
+      profile={editingProfile}
+      save={save}
+      setField={(a: Partial<Profile>) => {
+        setEditingProfile((b) => {
+          return { ...b, ...a };
+        });
+      }}
+    />
+  );
 };
 
 const ProfileRoute: FunctionalComponent = () => {
-    const auth = useGoogleAuth();
-    const thunkDispatch = useThunkDispatch();
-    const profile = useSelector(selectProfile);
-    useEffect(() => {
-        void thunkDispatch(GetProfileIfRequired(getAccessToken(auth)));
-    }, [thunkDispatch, auth]);
+  const auth = useGoogleAuth();
+  const thunkDispatch = useThunkDispatch();
+  const profile = useSelector(selectProfile);
+  useEffect(() => {
+    void thunkDispatch(GetProfileIfRequired(getAccessToken(auth)));
+  }, [thunkDispatch, auth]);
 
-    return profile.tag === "Loaded" ? (
-        <ProfileEditor profile={profile.value} />
-    ) : null;
+  return profile.tag === "Loaded" ? (
+    <ProfileEditor profile={profile.value} />
+  ) : null;
 };
 
 export default ProfileRoute;

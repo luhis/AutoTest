@@ -1,9 +1,9 @@
 import {
-    createStore,
-    combineReducers,
-    applyMiddleware,
-    Store,
-    AnyAction,
+  createStore,
+  combineReducers,
+  applyMiddleware,
+  Store,
+  AnyAction,
 } from "redux";
 import thunk, { ThunkDispatch } from "redux-thunk";
 import { composeWithDevTools } from "redux-devtools-extension";
@@ -20,27 +20,27 @@ import { ClubsActionTypes } from "./clubs/types";
 import { ProfileActionTypes } from "./profile/types";
 
 const persistConfig = {
-    key: "root",
-    storage,
-    transforms: [
-        createTransform(JSON.stringify, (toRehydrate) =>
-            // eslint-disable-next-line @typescript-eslint/no-unsafe-return
-            JSON.parse(toRehydrate, (_, value) =>
-                // eslint-disable-next-line @typescript-eslint/no-unsafe-return
-                typeof value === "string" &&
-                /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}/.exec(value)
-                    ? parseIsoOrThrow(value)
-                    : value,
-            ),
-        ) as never,
-    ],
-    blacklist: ["profile"],
+  key: "root",
+  storage,
+  transforms: [
+    createTransform(JSON.stringify, (toRehydrate) =>
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+      JSON.parse(toRehydrate, (_, value) =>
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+        typeof value === "string" &&
+        /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}/.exec(value)
+          ? parseIsoOrThrow(value)
+          : value,
+      ),
+    ) as never,
+  ],
+  blacklist: ["profile"],
 };
 
 export const rootReducer = combineReducers({
-    event: eventReducer,
-    profile: profileReducer,
-    clubs: clubsReducer,
+  event: eventReducer,
+  profile: profileReducer,
+  clubs: clubsReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
@@ -48,15 +48,15 @@ const persistedReducer = persistReducer(persistConfig, rootReducer);
 export type AppState = ReturnType<typeof persistedReducer>;
 
 export default () => {
-    const appStore: Store<AppState, AnyAction> = createStore(
-        persistedReducer,
-        composeWithDevTools(applyMiddleware(thunk)),
-    );
-    const persistor = persistStore(appStore);
-    return { appStore, persistor };
+  const appStore: Store<AppState, AnyAction> = createStore(
+    persistedReducer,
+    composeWithDevTools(applyMiddleware(thunk)),
+  );
+  const persistor = persistStore(appStore);
+  return { appStore, persistor };
 };
 
 type AppActionTypes = EventActionTypes | ClubsActionTypes | ProfileActionTypes;
 
 export const useThunkDispatch = () =>
-    useDispatch<ThunkDispatch<AppState, unknown, AppActionTypes>>();
+  useDispatch<ThunkDispatch<AppState, unknown, AppActionTypes>>();

@@ -8,8 +8,8 @@ const { Column } = Columns;
 import { useGoogleAuth } from "../../components/app";
 import { getAccessToken } from "../../api/api";
 import {
-    GetEntrantsIfRequired,
-    GetEventsIfRequired,
+  GetEntrantsIfRequired,
+  GetEventsIfRequired,
 } from "../../store/event/actions";
 import { selectEvents } from "../../store/event/selectors";
 import { findIfLoaded } from "../../types/loadingState";
@@ -22,71 +22,67 @@ import { useThunkDispatch } from "../../store";
 import { selectAccess } from "../../store/profile/selectors";
 
 interface Props {
-    readonly eventId: number;
+  readonly eventId: number;
 }
 
 const Tests: FunctionalComponent<Readonly<Props>> = ({ eventId }) => {
-    const thunkDispatch = useThunkDispatch();
-    const auth = useGoogleAuth();
-    const currentEvent = findIfLoaded(
-        useSelector(selectEvents),
-        (a) => a.eventId === eventId,
-    );
-    const currentClub = findIfLoaded(
-        useSelector(selectClubs),
-        (a) => a.clubId === currentEvent?.clubId,
-    );
-    useEffect(() => {
-        void thunkDispatch(GetEntrantsIfRequired(eventId));
-    }, [eventId, thunkDispatch, auth]);
-    useEffect(() => {
-        thunkDispatch(GetClubsIfRequired(getAccessToken(auth)));
-        void thunkDispatch(GetEventsIfRequired());
-    }, [thunkDispatch, auth]);
-    const access = useSelector(selectAccess);
-    return (
+  const thunkDispatch = useThunkDispatch();
+  const auth = useGoogleAuth();
+  const currentEvent = findIfLoaded(
+    useSelector(selectEvents),
+    (a) => a.eventId === eventId,
+  );
+  const currentClub = findIfLoaded(
+    useSelector(selectClubs),
+    (a) => a.clubId === currentEvent?.clubId,
+  );
+  useEffect(() => {
+    void thunkDispatch(GetEntrantsIfRequired(eventId));
+  }, [eventId, thunkDispatch, auth]);
+  useEffect(() => {
+    thunkDispatch(GetClubsIfRequired(getAccessToken(auth)));
+    void thunkDispatch(GetEventsIfRequired());
+  }, [thunkDispatch, auth]);
+  const access = useSelector(selectAccess);
+  return (
+    <div>
+      <Breadcrumbs club={currentClub} event={currentEvent} />
+      <Heading>Tests</Heading>
+      {currentEvent ? (
+        currentEvent.tests.map(({ ordinal }) => (
+          <Columns key={ordinal}>
+            <Column>
+              <p class="number">{ordinal + 1}</p>
+            </Column>
+            <Column>
+              <Button.Group>
+                <Button
+                  disabled={!access.marshalEvents.includes(eventId)}
+                  onClick={() => route(`/marshal/${eventId}/${ordinal}`)}
+                >
+                  Marshal
+                </Button>
+              </Button.Group>
+            </Column>
+          </Columns>
+        ))
+      ) : (
         <div>
-            <Breadcrumbs club={currentClub} event={currentEvent} />
-            <Heading>Tests</Heading>
-            {currentEvent ? (
-                currentEvent.tests.map(({ ordinal }) => (
-                    <Columns key={ordinal}>
-                        <Column>
-                            <p class="number">{ordinal + 1}</p>
-                        </Column>
-                        <Column>
-                            <Button.Group>
-                                <Button
-                                    disabled={
-                                        !access.marshalEvents.includes(eventId)
-                                    }
-                                    onClick={() =>
-                                        route(`/marshal/${eventId}/${ordinal}`)
-                                    }
-                                >
-                                    Marshal
-                                </Button>
-                            </Button.Group>
-                        </Column>
-                    </Columns>
-                ))
-            ) : (
-                <div>
-                    Loading... <Loader />
-                </div>
-            )}
+          Loading... <Loader />
         </div>
-    );
+      )}
+    </div>
+  );
 };
 
 export default RouteParamsParser<
-    Override<
-        Props,
-        {
-            readonly eventId: string;
-        }
-    >,
-    Props
+  Override<
+    Props,
+    {
+      readonly eventId: string;
+    }
+  >,
+  Props
 >(({ eventId, ...props }) => ({ ...props, eventId: Number.parseInt(eventId) }))(
-    Tests,
+  Tests,
 );

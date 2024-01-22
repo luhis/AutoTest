@@ -8,12 +8,12 @@ import Header from "../components/header";
 import { rootReducer } from "../store";
 
 describe("Initial Test of the Header", () => {
-    const store = createStore(rootReducer);
-    test("Header renders 3 nav items", () => {
-        shallow(
-            <Provider store={store}>
-                <Header />
-            </Provider>,
-        );
-    });
+  const store = createStore(rootReducer);
+  test("Header renders 3 nav items", () => {
+    shallow(
+      <Provider store={store}>
+        <Header />
+      </Provider>,
+    );
+  });
 });

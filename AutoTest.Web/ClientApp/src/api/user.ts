@@ -7,42 +7,40 @@ import { throwIfNotOk, getHeaders, extract } from "./api";
 import { Override } from "../types/models";
 
 export const getProfile = async (
-    token: string | undefined,
+  token: string | undefined,
 ): Promise<ApiResponse<Profile>> =>
-    toApiResponse(async () => {
-        const response = await fetch("/api/profile", {
-            headers: getHeaders(token),
-        });
-        throwIfNotOk(response);
-        type ApiProfile = Override<
-            Profile,
-            {
-                readonly clubMemberships: readonly Override<
-                    ClubMembership,
-                    { readonly expiry: string }
-                >[];
-            }
-        >;
-        const received = await extract<ApiProfile>(response);
-        return {
-            ...received,
-            clubMemberships: received.clubMemberships.map(
-                ({ expiry, ...rest }) => ({
-                    ...rest,
-                    expiry: parseIsoOrThrow(expiry),
-                }),
-            ),
-        };
-    }, undefined);
-
-export const saveProfile = async (
-    profile: Profile,
-    token: string | undefined,
-): Promise<void> => {
-    const response = await fetch(`/api/profile/`, {
-        headers: getHeaders(token),
-        method: "PUT",
-        body: JSON.stringify(profile),
+  toApiResponse(async () => {
+    const response = await fetch("/api/profile", {
+      headers: getHeaders(token),
     });
     throwIfNotOk(response);
+    type ApiProfile = Override<
+      Profile,
+      {
+        readonly clubMemberships: readonly Override<
+          ClubMembership,
+          { readonly expiry: string }
+        >[];
+      }
+    >;
+    const received = await extract<ApiProfile>(response);
+    return {
+      ...received,
+      clubMemberships: received.clubMemberships.map(({ expiry, ...rest }) => ({
+        ...rest,
+        expiry: parseIsoOrThrow(expiry),
+      })),
+    };
+  }, undefined);
+
+export const saveProfile = async (
+  profile: Profile,
+  token: string | undefined,
+): Promise<void> => {
+  const response = await fetch(`/api/profile/`, {
+    headers: getHeaders(token),
+    method: "PUT",
+    body: JSON.stringify(profile),
+  });
+  throwIfNotOk(response);
 };

@@ -1,33 +1,33 @@
 import { ValidDate } from "ts-date";
 
 export interface EmergencyContact {
-    readonly name: string;
-    readonly phone: string;
+  readonly name: string;
+  readonly phone: string;
 }
 
 export enum InductionTypes {
-    "NA" = 0,
-    "Forced" = 1,
+  "NA" = 0,
+  "Forced" = 1,
 }
 
 export interface Vehicle {
-    readonly make: string;
-    readonly model: string;
-    readonly year: number;
-    readonly registration: string;
-    readonly displacement: number;
-    readonly induction: InductionTypes;
+  readonly make: string;
+  readonly model: string;
+  readonly year: number;
+  readonly registration: string;
+  readonly displacement: number;
+  readonly induction: InductionTypes;
 }
 
 export interface ClubMembership {
-    readonly clubName: string;
-    readonly membershipNumber: number;
-    readonly expiry: ValidDate;
+  readonly clubName: string;
+  readonly membershipNumber: number;
+  readonly expiry: ValidDate;
 }
 
 export interface MsaMembership {
-    readonly msaLicense: number;
-    readonly msaLicenseType: string;
+  readonly msaLicense: number;
+  readonly msaLicenseType: string;
 }
 
 export const neverReached = (_: never) => undefined;
