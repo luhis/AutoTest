@@ -52,6 +52,22 @@ namespace AutoTest.Unit.Test.Authorisation
         }
 
         [Fact]
+        public async Task ThrowIfNoEvent()
+        {
+            var ac = AuthorizationHandlerContextFixture.GetAuthContext(new[] { new MarshalRequirement() }, "marshal@email.com");
+            var eventId = 1ul;
+            var ctx = HttpContextFixture.GetHttpContext(new[] { ("eventId", eventId.ToString()) });
+            httpContextAccessor.SetupGet(a => a.HttpContext).Returns(ctx);
+            mediator.Setup(a => a.Send(Its.EquivalentTo(new GetEvent(eventId)), CancellationToken.None)).ReturnsAsync(
+                (Event?)null);
+
+            Func<Task> f = () => sut.HandleAsync(ac);
+
+            await f.Should().ThrowAsync<Exception>().WithMessage("Cannot find event");
+            mr.VerifyAll();
+        }
+
+        [Fact]
         public async Task ShouldFailIfEmailsDontMatch()
         {
             var ac = AuthorizationHandlerContextFixture.GetAuthContext(new[] { new MarshalRequirement() }, "NotMarshal@email.com");

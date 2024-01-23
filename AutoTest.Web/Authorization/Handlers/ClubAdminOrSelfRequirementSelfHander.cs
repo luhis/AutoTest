@@ -27,7 +27,7 @@ namespace AutoTest.Web.Authorization.Handlers
                 var emailFromRoute = await AuthTools.GetExistingEmail(routeData, mediator);
 
                 var email = context.User.GetEmailAddress();
-                if (emailFromRoute == null || emailFromRoute == email)
+                if (emailFromRoute == email)
                 {
                     context.Succeed(requirement);
                 }
