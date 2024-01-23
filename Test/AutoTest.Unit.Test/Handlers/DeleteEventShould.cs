@@ -1,11 +1,10 @@
 ﻿using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using AutoTest.Domain.Enums;
 using AutoTest.Domain.Repositories;
-using AutoTest.Domain.StorageModels;
 using AutoTest.Service.Handlers;
 using AutoTest.Service.Messages;
+using AutoTest.Unit.Test.MockData;
 using MediatR;
 using Moq;
 using Xunit;
@@ -29,7 +28,7 @@ namespace AutoTest.Unit.Test.Handlers
         public async Task ReturnBlankProfileIfNone()
         {
             var eventId = 1ul;
-            var @event = new Event(eventId, 1, "", new System.DateTime(), 1, 1, "", new EventType[] { }, "", TimingSystem.StopWatch, new System.DateTime(), new System.DateTime(), 2);
+            var @event = Models.GetEvent(eventId);
             events.Setup(a => a.GetById(eventId, CancellationToken.None)).ReturnsAsync(@event);
             events.Setup(a => a.Delete(@event, CancellationToken.None)).Returns(Task.CompletedTask);
 
