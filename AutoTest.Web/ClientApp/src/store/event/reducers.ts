@@ -126,7 +126,7 @@ export const eventReducer = (
         ...state,
         events: ifLoaded(state.events, (e) =>
           e
-            .filter(({ eventId }) => eventId != action.payload.event.eventId)
+            .filter(({ eventId }) => eventId !== action.payload.event.eventId)
             .concat(action.payload.event),
         ),
       };

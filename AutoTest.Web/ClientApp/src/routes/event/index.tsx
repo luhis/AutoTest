@@ -181,12 +181,12 @@ const Event: FunctionalComponent<Props> = ({ eventId }) => {
         <Panel.Block>
           <Button.Group>
             <Button
-              disabled={currentEvent?.regulations == ""}
+              disabled={currentEvent?.regulations === ""}
               onClick={saveRegs}
             >
               Regs
             </Button>
-            <Button disabled={currentEvent?.maps == ""} onClick={saveMaps}>
+            <Button disabled={currentEvent?.maps === ""} onClick={saveMaps}>
               Maps
             </Button>
           </Button.Group>

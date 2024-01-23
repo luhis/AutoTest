@@ -64,7 +64,7 @@ export const profileReducer = (
         access: {
           ...state.access,
           adminClubs: state.access.adminClubs.filter(
-            (id) => id != action.payload,
+            (id) => id !== action.payload,
           ),
         },
       };

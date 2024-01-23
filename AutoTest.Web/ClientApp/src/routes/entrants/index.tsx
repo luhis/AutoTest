@@ -3,9 +3,11 @@ import { useCallback, useEffect, useState } from "preact/hooks";
 import { Heading, Button } from "react-bulma-components";
 import UUID from "uuid-int";
 import { useSelector } from "react-redux";
+import { newValidDate } from "ts-date";
 
 import {
   EditingEntrant,
+  EventType,
   Override,
   Payment,
   PublicEntrant,
@@ -38,7 +40,6 @@ import { getEntrant } from "../../api/entrants";
 import { Age } from "../../types/profileModels";
 import { ClubMembership, InductionTypes } from "../../types/shared";
 import { useThunkDispatch } from "../../store";
-import { newValidDate } from "ts-date";
 
 interface Props {
   readonly eventId: number;
@@ -99,7 +100,7 @@ const Entrants: FunctionalComponent<Readonly<Props>> = ({ eventId }) => {
 
   const filterMemberships = (clubMemberships: readonly ClubMembership[]) =>
     clubMemberships.filter(
-      (a) => currentEvent == undefined || a.expiry >= currentEvent.startTime,
+      (a) => currentEvent === undefined || a.expiry >= currentEvent.startTime,
     );
   const fillFromProfile = useCallback(
     (clubMembership: ClubMembership | undefined) => {
@@ -151,6 +152,7 @@ const Entrants: FunctionalComponent<Readonly<Props>> = ({ eventId }) => {
     setEditingEntrant({
       entrantId: uid.uuid(),
       eventId: eventId,
+      eventType: EventType.AutoTest,
       class: "",
       givenName: "",
       familyName: "",
@@ -160,7 +162,7 @@ const Entrants: FunctionalComponent<Readonly<Props>> = ({ eventId }) => {
       vehicle: {
         make: "",
         model: "",
-        year: 0,
+        year: Number.NaN,
         displacement: Number.NaN,
         registration: "",
         induction: InductionTypes.NA,
@@ -254,6 +256,7 @@ const Entrants: FunctionalComponent<Readonly<Props>> = ({ eventId }) => {
           cancel={clearEditingEntrant}
           save={save}
           fillFromProfile={fillFromProfile}
+          eventOptions={currentEvent?.eventTypes || []}
         />
       ) : null}
     </div>

@@ -1,6 +1,6 @@
 import { newValidDate } from "ts-date";
 
-import { PaymentMethod, TestRunUploadState } from "../types/models";
+import { EventType, PaymentMethod, TestRunUploadState } from "../types/models";
 import { ClearCache } from "../store/event/actions";
 import { eventReducer } from "../store/event/reducers";
 import {
@@ -62,6 +62,7 @@ describe("Event Reducer", () => {
             entrantId: 2,
             payment,
             age: Age.Senior,
+            eventType: EventType.AutoTest,
             class: "A",
             club: "BRMC",
             driverNumber: 1,
@@ -106,6 +107,7 @@ describe("Event Reducer", () => {
             entrantId: 2,
             payment: null,
             age: Age.Senior,
+            eventType: EventType.AutoTest,
             class: "A",
             club: "BRMC",
             driverNumber: 1,

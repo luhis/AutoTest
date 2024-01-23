@@ -1,13 +1,13 @@
 import { h, FunctionComponent } from "preact";
 import { Modal, Button, Form, Dropdown } from "react-bulma-components";
 import { useSelector } from "react-redux";
-const { Control, Field, Label, Input, Help, Checkbox, Radio } = Form;
+const { Control, Field, Label, Input, Help, Checkbox, Radio, Select } = Form;
 import { isEmpty } from "@s-libs/micro-dash";
 import { useState, useEffect } from "preact/hooks";
 import { newValidDate } from "ts-date";
 
-import { EditingEntrant } from "../../types/models";
-import { OnChange } from "../../types/inputs";
+import { EditingEntrant, EventType } from "../../types/models";
+import { OnChange, OnSelectChange } from "../../types/inputs";
 import {
   selectClassOptions,
   selectClubOptions,
@@ -69,7 +69,7 @@ interface Props {
   readonly fillFromProfile: (membership: ClubMembership | undefined) => void;
   readonly isClubAdmin: boolean;
   readonly clubMemberships: readonly ClubMembership[];
-  readonly eventOptions: readonly object[];
+  readonly eventOptions: readonly EventType[];
 }
 
 const EntrantsModal: FunctionComponent<Props> = ({
@@ -200,13 +200,13 @@ const EntrantsModal: FunctionComponent<Props> = ({
           />
           <Field>
             <Label>Event Type</Label>
-            <DropdownInput
+            <Select<EventType>
               required
               value={entrant.eventType}
               options={eventOptions}
-              setValue={(e) => {
+              onChange={(evt: OnSelectChange) => {
                 setField({
-                  eventType: e.toLocaleUpperCase(),
+                  eventType: Number.parseInt(evt.target.value),
                 });
               }}
             />
@@ -253,7 +253,7 @@ const EntrantsModal: FunctionComponent<Props> = ({
                             timeStamp: newValidDate(),
                             isAccepted: true,
                             email:
-                              profile.tag == "Loaded"
+                              profile.tag === "Loaded"
                                 ? profile.value.emailAddress
                                 : "",
                           },

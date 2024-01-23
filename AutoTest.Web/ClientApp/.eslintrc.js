@@ -31,6 +31,7 @@ module.exports = {
         "@typescript-eslint/no-shadow": ["error"],
         "@typescript-eslint/switch-exhaustiveness-check": "error",
         "no-implicit-globals": "error",
+        "eqeqeq": "error",
         // "linebreak-style": ["error", "windows"],
         // "prettier/prettier": [
         //       "error",

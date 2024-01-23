@@ -145,7 +145,7 @@ const MarshalsModal: FunctionComponent<Props> = ({
                             timeStamp: newValidDate(),
                             isAccepted: true,
                             email:
-                              profile.tag == "Loaded"
+                              profile.tag === "Loaded"
                                 ? profile.value.emailAddress
                                 : "",
                           },

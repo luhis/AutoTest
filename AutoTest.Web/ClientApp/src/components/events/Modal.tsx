@@ -4,6 +4,7 @@ import PromiseFileReader from "promise-file-reader";
 const { Label, Input, Field, Select, Help, Checkbox, Control } = Form;
 import { isNil } from "@s-libs/micro-dash";
 import { useState } from "preact/hooks";
+import prettyBytes from "pretty-bytes";
 
 import { EditingEvent, Club, EventType } from "../../types/models";
 import { OnChange, OnSelectChange } from "../../types/inputs";
@@ -11,7 +12,6 @@ import { LoadingState } from "../../types/loadingState";
 import ifSome from "../shared/ifSome";
 import { startCase } from "../../lib/string";
 import { addPreventDefault, toggleValue } from "../../lib/form";
-import prettyBytes from "pretty-bytes";
 
 interface Props {
   readonly event: EditingEvent;
