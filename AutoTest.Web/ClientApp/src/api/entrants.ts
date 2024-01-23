@@ -33,8 +33,11 @@ type ApiEntrant = Override<
   {
     readonly payment: Override<
       Payment,
-      { readonly paidAt: string; readonly timestamp: string } | null
-    >;
+      {
+        readonly paidAt: string;
+        readonly timestamp: string;
+      }
+    > | null;
   }
 >;
 

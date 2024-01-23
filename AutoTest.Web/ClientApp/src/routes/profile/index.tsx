@@ -19,9 +19,7 @@ const ProfileEditor: FunctionalComponent<Readonly<Props>> = ({ profile }) => {
   const thunkDispatch = useThunkDispatch();
   const [editingProfile, setEditingProfile] = useState<Profile>(profile);
   const save = useCallback(async () => {
-    if (editingProfile) {
-      await thunkDispatch(SaveProfile(editingProfile, getAccessToken(auth)));
-    }
+    await thunkDispatch(SaveProfile(editingProfile, getAccessToken(auth)));
   }, [auth, thunkDispatch, editingProfile]);
   return (
     <ProfileModal

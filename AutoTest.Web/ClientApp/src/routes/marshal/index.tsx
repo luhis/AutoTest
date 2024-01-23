@@ -144,8 +144,8 @@ const Marshal: FunctionalComponent<Readonly<Props>> = ({
   );
   const add = useCallback(async () => {
     if (
-      editing.ordinal !== undefined &&
-      editing.timeInMS !== undefined &&
+      !Number.isNaN(editing.ordinal) &&
+      editing.timeInMS !== "" &&
       editing.entrantId !== undefined
     ) {
       await thunkDispatch(

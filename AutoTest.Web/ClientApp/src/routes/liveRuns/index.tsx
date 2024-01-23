@@ -84,7 +84,8 @@ const Results: FunctionalComponent<Props> = ({
     ? currentEvent.tests.map((a) => a.ordinal + 1)
     : [];
 
-  const currentRun = last(runs.filter(filterRuns));
+  const filteredRuns = runs.filter(filterRuns);
+  const currentRun = filteredRuns.length > 0 ? last(filteredRuns) : undefined;
   return (
     <div>
       <Breadcrumbs club={currentClub} event={currentEvent} />

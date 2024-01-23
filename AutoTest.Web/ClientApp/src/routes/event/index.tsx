@@ -94,7 +94,7 @@ const Event: FunctionalComponent<Props> = ({ eventId }) => {
   );
   const { adminClubs, marshalEvents } = useSelector(selectAccess);
   const canEdit =
-    currentEvent === undefined || !adminClubs.includes(currentEvent?.clubId);
+    currentEvent === undefined || !adminClubs.includes(currentEvent.clubId);
   return (
     <div>
       <Breadcrumbs club={currentClub} event={currentEvent} />

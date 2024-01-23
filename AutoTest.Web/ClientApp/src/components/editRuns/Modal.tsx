@@ -116,7 +116,7 @@ const EditRunModal: FunctionComponent<Props> = ({
               min="0"
               step="0.01"
               value={
-                run.timeInMS === undefined
+                Number.isNaN(run.timeInMS)
                   ? ""
                   : (run.timeInMS / 1000).toFixed(2)
               }
