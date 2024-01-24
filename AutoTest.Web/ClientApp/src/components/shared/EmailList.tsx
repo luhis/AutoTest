@@ -24,7 +24,7 @@ const ListItem: FunctionComponent<{
     <Level>
       <Level.Item align="left">{email}</Level.Item>
       <Level.Item align="right">
-        <Button remove onClick={removeItem} />
+        <Button remove onClick={removeItem} title="Delete" />
       </Level.Item>
     </Level>
   );
