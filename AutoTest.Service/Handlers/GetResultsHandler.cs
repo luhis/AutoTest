@@ -26,6 +26,8 @@ namespace AutoTest.Service.Handlers
             totalTimeCalculator = new AutoTestTotalTimeCalculator();
         }
 
+        private readonly TimeCalculatorConfig _timeCalculatorConfig = new(5_000, 5_000, 5_000, 20_000);
+
         async Task<IEnumerable<Result>> IRequestHandler<GetResults, IEnumerable<Result>>.Handle(GetResults request, CancellationToken cancellationToken)
         {
             var @event = await eventsRepository.GetById(request.EventId, cancellationToken);
@@ -43,7 +45,7 @@ namespace AutoTest.Service.Handlers
                     {
                         entrant,
                         runs,
-                        totalTime = totalTimeCalculator.GetTotalTime(runs, testRuns)
+                        totalTime = totalTimeCalculator.GetTotalTime(_timeCalculatorConfig, runs, testRuns)
                     };
                 }).OrderBy(a => a.totalTime).ToArray();
 

@@ -5,6 +5,6 @@ namespace AutoTest.Service.ResultCalculation
 {
     public interface ITotalTimeCalculator
     {
-        int GetTotalTime(IEnumerable<TestRun> testRuns, IEnumerable<TestRun> allTestRuns);
+        int GetTotalTime(TimeCalculatorConfig config, IEnumerable<TestRun> testRuns, IEnumerable<TestRun> allTestRuns);
     }
 }

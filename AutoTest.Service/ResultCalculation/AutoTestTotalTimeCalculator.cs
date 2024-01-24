@@ -7,33 +7,30 @@ namespace AutoTest.Service.ResultCalculation
 {
     public class AutoTestTotalTimeCalculator : ITotalTimeCalculator
     {
-        int ITotalTimeCalculator.GetTotalTime(IEnumerable<TestRun> testRuns, IEnumerable<TestRun> allTestRuns)
-        {
-            return testRuns.GroupBy(a => a.Ordinal).Select(a => GetTime(a, allTestRuns.Where(b => b.Ordinal == a.Key))).Sum();
-        }
+        int ITotalTimeCalculator.GetTotalTime(TimeCalculatorConfig config, IEnumerable<TestRun> testRuns, IEnumerable<TestRun> allTestRuns) =>
+            testRuns.GroupBy(a => a.Ordinal).Select(a => GetTime(config, a, allTestRuns.Where(b => b.Ordinal == a.Key))).Sum();
 
-        private const int FiveSecs = 5_000;
+        private static int GetTime(TimeCalculatorConfig config, IEnumerable<TestRun> testRuns, IEnumerable<TestRun> allTestRuns) => testRuns.Select(a => GetFinalTime(config, a, allTestRuns)).Min();
 
-        private static int GetTime(IEnumerable<TestRun> testRuns, IEnumerable<TestRun> allTestRuns) => testRuns.Select(a => GetFinalTime(a, allTestRuns)).Min();
-
-        private static int GetFinalTime(TestRun testRun, IEnumerable<TestRun> allTestRuns)
+        private static int GetFinalTime(TimeCalculatorConfig config, TestRun testRun, IEnumerable<TestRun> allTestRuns)
         {
             if (IsInCorrectRun(testRun))
             {
-                var fastest = GetFastestCorrectRun(allTestRuns);
-                return (fastest?.TimeInMS ?? 0) + 20_000;
+                var fastest = GetFastestCorrectRun(config, allTestRuns);
+                return (fastest?.TimeInMS ?? 0) + config.NoTest;
             }
 
-            return testRun.TimeInMS + GetInstanceCount(testRun.Penalties, PenaltyEnum.FailToStop) * FiveSecs + GetInstanceCount(testRun.Penalties, PenaltyEnum.HitBarrier) * FiveSecs + GetInstanceCount(testRun.Penalties, PenaltyEnum.Late) * FiveSecs;
+            return testRun.TimeInMS + GetInstanceCount(testRun.Penalties, PenaltyEnum.FailToStop) * config.FailStop + GetInstanceCount(testRun.Penalties, PenaltyEnum.HitBarrier) * config.Barrier + GetInstanceCount(testRun.Penalties, PenaltyEnum.Late) * config.Late;
         }
 
         private static int GetInstanceCount(IEnumerable<Penalty> penalties, PenaltyEnum type) =>
             penalties.Where(a => a.PenaltyType == type).Select(a => a.InstanceCount).Sum();
 
-        private static TestRun? GetFastestCorrectRun(IEnumerable<TestRun> allTestRuns) => allTestRuns.Where(a => !IsInCorrectRun(a)).OrderBy(a => GetFinalTime(a, Enumerable.Empty<TestRun>())).FirstOrDefault();
+        private static TestRun? GetFastestCorrectRun(TimeCalculatorConfig config, IEnumerable<TestRun> allTestRuns) => allTestRuns.Where(a => !IsInCorrectRun(a)).OrderBy(a => GetFinalTime(config, a, Enumerable.Empty<TestRun>())).FirstOrDefault();
 
+        private static readonly IReadOnlySet<PenaltyEnum> InCorrectTypes = new HashSet<PenaltyEnum>() { PenaltyEnum.WrongTest, PenaltyEnum.NoAttendance };
         private static bool IsInCorrectRun(TestRun tr) => tr.Penalties.Any(a =>
-            (a.PenaltyType == PenaltyEnum.WrongTest || a.PenaltyType == PenaltyEnum.NoAttendance) &&
+            InCorrectTypes.Contains(a.PenaltyType) &&
             a.InstanceCount > 0);
     }
 }
