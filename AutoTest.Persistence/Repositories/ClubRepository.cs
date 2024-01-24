@@ -25,7 +25,7 @@ namespace AutoTest.Persistence.Repositories
         async Task IClubsRepository.Delete(ulong clubId, CancellationToken cancellationToken)
         {
             var found = await this._autoTestContext.Clubs!.SingleAsync(a => a.ClubId == clubId, cancellationToken);
-            this._autoTestContext.Clubs.ThrowIfNull().Remove(found);
+            this._autoTestContext.Clubs!.Remove(found);
             await this._autoTestContext.SaveChangesAsync(cancellationToken);
         }
 
@@ -36,7 +36,7 @@ namespace AutoTest.Persistence.Repositories
 
         async Task IClubsRepository.Upsert(Club club, CancellationToken cancellationToken)
         {
-            await this._autoTestContext.Clubs.ThrowIfNull().Upsert(club, a => a.ClubId == club.ClubId, cancellationToken);
+            await this._autoTestContext.Clubs!.Upsert(club, a => a.ClubId == club.ClubId, cancellationToken);
             await this._autoTestContext.SaveChangesAsync(cancellationToken);
         }
     }

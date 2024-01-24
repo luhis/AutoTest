@@ -7,6 +7,7 @@ using AutoTest.Domain.StorageModels;
 using AutoTest.Service.Handlers;
 using AutoTest.Service.Interfaces;
 using AutoTest.Service.Messages;
+using AutoTest.Web.Hubs;
 using FluentAssertions.ArgumentMatchers.Moq;
 using MediatR;
 using Moq;
@@ -41,6 +42,26 @@ namespace AutoTest.Unit.Test.Handlers
             authorisationNotifier.Setup(a => a.AddEditableMarshal(marshalId, Its.EquivalentTo(new[] { "a@a.com" }), CancellationToken.None)).Returns(Task.CompletedTask);
 
             var se = new SaveMarshal(marshal);
+            var res = await sut.Handle(se, CancellationToken.None);
+
+            mr.VerifyAll();
+        }
+
+        [Fact]
+        public async Task SaveMarshalExistingUpdateEmail()
+        {
+            var marshalId = 1ul;
+            var eventId = 2ul;
+            var marshal = new Marshal(marshalId, "name", "familyName", "a@a.com", eventId, 123456, "");
+            var marshal2 = new Marshal(marshalId, "name", "familyName", "b@a.com", eventId, 123456, "");
+
+            marshalRepository.Setup(a => a.GetById(eventId, marshalId, CancellationToken.None)).ReturnsAsync(marshal);
+            marshalRepository.Setup(a => a.Upsert(marshal2, CancellationToken.None)).Returns(Task.CompletedTask);
+            authorisationNotifier.Setup(a => a.AddEditableMarshal(marshalId, Its.EquivalentTo(new[] { "b@a.com" }), CancellationToken.None)).Returns(Task.CompletedTask);
+            authorisationNotifier.Setup(a => a.RemoveEventMarshal(eventId, Its.EquivalentTo(new[] { "a@a.com" }), CancellationToken.None)).Returns(Task.CompletedTask);
+            authorisationNotifier.Setup(a => a.NewEventMarshal(eventId, Its.EquivalentTo(new[] { "b@a.com" }), CancellationToken.None)).Returns(Task.CompletedTask);
+
+            var se = new SaveMarshal(marshal2);
             var res = await sut.Handle(se, CancellationToken.None);
 
             mr.VerifyAll();

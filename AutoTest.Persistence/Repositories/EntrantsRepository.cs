@@ -34,13 +34,13 @@ namespace AutoTest.Persistence.Repositories
 
         async Task IEntrantsRepository.Upsert(Entrant entrant, CancellationToken cancellationToken)
         {
-            await this._autoTestContext.Entrants.ThrowIfNull().Upsert(entrant, a => a.EntrantId == entrant.EntrantId, cancellationToken);
+            await this._autoTestContext.Entrants!.Upsert(entrant, a => a.EntrantId == entrant.EntrantId, cancellationToken);
             await this._autoTestContext.SaveChangesAsync(cancellationToken);
         }
 
         async Task IEntrantsRepository.Update(Entrant entrant, CancellationToken cancellationToken)
         {
-            this._autoTestContext.Entrants.ThrowIfNull().Update(entrant);
+            this._autoTestContext.Entrants!.Update(entrant);
             await this._autoTestContext.SaveChangesAsync(cancellationToken);
         }
 

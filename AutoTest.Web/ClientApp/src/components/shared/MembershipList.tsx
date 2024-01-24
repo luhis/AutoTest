@@ -46,7 +46,7 @@ const MembershipList: FunctionComponent<Props> = ({
             {a.expiry.toLocaleDateString()}
           </Level.Item>
           <Level.Item align="right">
-            <Button remove onClick={() => remove(i)} />
+            <Button title="Delete" remove onClick={() => remove(i)} />
           </Level.Item>
         </Level>
       ))}
