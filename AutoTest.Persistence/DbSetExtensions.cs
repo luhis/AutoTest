@@ -17,7 +17,7 @@ namespace AutoTest.Persistence
             }
             else
             {
-                set.Add(toSave);
+                set.Attach(toSave);
                 set.Update(toSave).State = EntityState.Modified;
                 return UpdateStatus.Update;
             }

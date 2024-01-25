@@ -23,20 +23,20 @@ namespace AutoTest.Unit.Test
             method.Should().Be(UpdateStatus.Add);
         }
 
-        //[Fact]
-        //public async Task Update()
-        //{
+        [Fact]
+        public async Task Update()
+        {
 
-        //    var db = InMemDbFixture.GetDbContext();
-        //    db.Marshals!.Add(new Domain.StorageModels.Marshal(1, "", "", "", 2, 3, ""));
-        //    await db.SaveChangesAsync();
-        //    db.ChangeTracker.Clear();
-        //    var method = await db.Marshals!.Upsert(new Domain.StorageModels.Marshal(1, "", "", "", 2, 3, ""), a => a.MarshalId == 1, CancellationToken.None);
+            var db = InMemDbFixture.GetDbContext();
+            db.Marshals!.Add(new Domain.StorageModels.Marshal(1, "", "", "", 2, 3, ""));
+            await db.SaveChangesAsync();
+            db.ChangeTracker.Clear();
+            var method = await db.Marshals!.Upsert(new Domain.StorageModels.Marshal(1, "", "", "", 2, 3, ""), a => a.MarshalId == 1ul, CancellationToken.None);
 
-        //    await db.SaveChangesAsync();
+            await db.SaveChangesAsync();
 
-        //    db.Marshals!.Count().Should().Be(1);
-        //    method.Should().Be(UpdateStatus.Update);
-        //}
+            db.Marshals!.Count().Should().Be(1);
+            method.Should().Be(UpdateStatus.Update);
+        }
     }
 }
