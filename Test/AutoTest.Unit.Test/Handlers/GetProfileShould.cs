@@ -36,7 +36,7 @@ namespace AutoTest.Unit.Test.Handlers
         }
 
         [Fact]
-        public async Task ReturnExistyngProfileIfSome()
+        public async Task ReturnExistingProfileIfSome()
         {
             var email = "a@a.com";
             var profile = new Profile(email, "First", "Last", Domain.Enums.Age.Junior);
