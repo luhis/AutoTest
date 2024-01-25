@@ -32,7 +32,7 @@ namespace AutoTest.Web.Controllers
         public async Task<IEnumerable<PublicEntrantModel>> GetEntrants(ulong eventId, CancellationToken cancellationToken)
         {
             var entrants = await this.mediator.Send(new GetEntrants(eventId), cancellationToken);
-            return entrants.Select(a => new PublicEntrantModel(a.EntrantId, a.DriverNumber, a.GivenName, a.FamilyName, a.EventType, a.Class, a.EventId, a.Club, a.Vehicle, a.Payment));
+            return entrants.Select(a => MapClub.Map(a));
         }
 
         [Authorize(policy: Policies.ClubAdminOrSelf)]

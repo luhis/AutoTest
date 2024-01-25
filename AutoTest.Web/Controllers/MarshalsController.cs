@@ -31,7 +31,7 @@ namespace AutoTest.Web.Controllers
         public async Task<IEnumerable<PublicMarshalModel>> GetMarshals(ulong eventId, CancellationToken cancellationToken)
         {
             var marshals = await this.mediator.Send(new GetMarshals(eventId), cancellationToken);
-            return marshals.Select(a => new PublicMarshalModel(a.MarshalId, a.GivenName, a.FamilyName, a.EventId, a.Role));
+            return marshals.Select(a => MapClub.Map(a));
         }
 
         [Authorize(policy: Policies.ClubAdminOrSelf)]

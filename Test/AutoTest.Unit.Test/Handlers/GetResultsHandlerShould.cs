@@ -41,7 +41,7 @@ namespace AutoTest.Unit.Test.Handlers
             eventsRepository.Setup(a => a.GetById(eventId, CancellationToken.None)).ReturnsAsync(
                 new Event(eventId, 1, "location", new System.DateTime(2000, 1, 1), 2, 3, "regs", new[] { EventType.AutoSolo }, "maps", TimingSystem.App, new DateTime(), new DateTime(), 10)
                 );
-            var entrant = new Entrant(entrantId, 1, "matt", "mccorry", "a@a.com", EventType.AutoTest, "A", eventId, "BRMC", 1234, Age.Senior);
+            var entrant = new Entrant(entrantId, 1, "matt", "mccorry", "a@a.com", EventType.AutoTest, "A", eventId, "BRMC", 1234, Age.Senior, false);
             entrant.SetPayment(new(new System.DateTime(2000, 1, 1), Domain.Enums.PaymentMethod.Paypal, new System.DateTime(2000, 2, 2)));
             entrantsRepository.Setup(a => a.GetByEventId(eventId, CancellationToken.None)).ReturnsAsync(new[] { entrant });
             testRunsRepository.Setup(a => a.GetAll(eventId, CancellationToken.None)).ReturnsAsync(Enumerable.Empty<TestRun>());

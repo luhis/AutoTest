@@ -5,7 +5,7 @@ namespace AutoTest.Domain.StorageModels
     public class Entrant
     {
         public Entrant(ulong entrantId, ushort driverNumber, string givenName, string familyName, string email,
-        EventType eventType, string @class, ulong eventId, string club, uint clubNumber, Age age)
+        EventType eventType, string @class, ulong eventId, string club, uint clubNumber, Age age, bool isLady)
         {
             EntrantId = entrantId;
             GivenName = givenName;
@@ -18,6 +18,7 @@ namespace AutoTest.Domain.StorageModels
             ClubNumber = clubNumber;
             Age = age;
             DriverNumber = driverNumber;
+            IsLady = isLady;
         }
 
         public ulong EntrantId { get; }
@@ -40,6 +41,8 @@ namespace AutoTest.Domain.StorageModels
 
         public Age Age { get; }
 
+        public bool IsLady { get; }
+
         public Vehicle Vehicle { get; private set; } = new Vehicle();
 
         public EmergencyContact EmergencyContact { get; private set; } = new EmergencyContact();
@@ -47,6 +50,7 @@ namespace AutoTest.Domain.StorageModels
         public MsaMembership MsaMembership { get; private set; } = new MsaMembership();
 
         public AcceptDeclaration AcceptDeclaration { get; private set; } = new AcceptDeclaration();
+
         public Payment? Payment { get; private set; } = null;
 
         public EntrantStatus EntrantStatus { get; private set; }

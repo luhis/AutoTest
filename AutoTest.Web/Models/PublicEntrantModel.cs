@@ -13,7 +13,8 @@ namespace AutoTest.Web.Models
         ulong eventId,
         string club,
         Vehicle vehicle,
-        Payment? payment)
+        Payment? payment,
+        bool isLady)
     {
         public ulong EntrantId { get; } = entrantId;
 
@@ -34,5 +35,7 @@ namespace AutoTest.Web.Models
         public Vehicle Vehicle { get; } = vehicle;
 
         public Payment? Payment { get; } = payment;
+
+        public bool IsLady { get; } = isLady;
     }
 }

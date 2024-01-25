@@ -42,7 +42,7 @@ namespace AutoTest.Persistence
                 this.Database.EnsureCreated();
                 if (this.Clubs != null && this.Clubs.SingleOrDefault(a => a.ClubId == 1) == null)
                 {
-                    var brmc = new Club(1, "BRMC", "brmc@paypal.com", "https://www.bognor-regis-mc.co.uk");
+                    var brmc = new Club(1, "Brighton and Hove Motor Club", "bhmc@paypal.com", "https://www.bhmc.club");
                     brmc.SetAdminEmails(new[] { new AuthorisationEmail("mccorry@gmail.com") });
                     this.Clubs.Add(brmc);
                 }
@@ -54,7 +54,7 @@ namespace AutoTest.Persistence
                 }
                 if (this.Entrants != null && this.Entrants.SingleOrDefault(a => a.EntrantId == 1) == null)
                 {
-                    var e = new Entrant(1, 1, "Matt", "McCorry", "test@email.com", EventType.AutoTest, "A", 1, "BRMC", 69, Age.Senior);
+                    var e = new Entrant(1, 1, "Matt", "McCorry", "test@email.com", EventType.AutoTest, "A", 1, "BRMC", 69, Age.Senior, false);
                     e.SetVehicle(new Vehicle("Vauxhall", "Corsa", 2005, 1229, Induction.NA, "AA05AAA"));
                     e.SetMsaMembership(new MsaMembership("Clubman", 1234));
                     //e.SetPayment(new Payment());

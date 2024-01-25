@@ -54,13 +54,15 @@ namespace AutoTest.Web.Mapping
         public static Entrant Map(ulong entrantId, ulong eventId, EntrantSaveModel entrant, string email)
         {
             var e = new Entrant(entrantId, entrant.DriverNumber, entrant.GivenName, entrant.FamilyName, email, entrant.EventType, entrant.Class, eventId,
-                entrant.Club, entrant.ClubNumber, entrant.Age);
+                entrant.Club, entrant.ClubNumber, entrant.Age, entrant.IsLady);
             e.SetVehicle(Map(entrant.Vehicle));
             e.SetEmergencyContact(Map(entrant.EmergencyContact));
             e.SetMsaMembership(Map(entrant.MsaMembership));
             e.SetAcceptDeclaration(Map(entrant.AcceptDeclaration));
             return e;
         }
+
+        public static PublicEntrantModel Map(Entrant a) => new PublicEntrantModel(a.EntrantId, a.DriverNumber, a.GivenName, a.FamilyName, a.EventType, a.Class, a.EventId, a.Club, a.Vehicle, a.Payment, a.IsLady);
 
         public static Marshal Map(ulong marshalId, ulong eventId, MarshalSaveModel entrant, string email)
         {
@@ -69,6 +71,8 @@ namespace AutoTest.Web.Mapping
             e.SetEmergencyContact(Map(entrant.EmergencyContact));
             return e;
         }
+
+        public static PublicMarshalModel Map(Marshal a) => new PublicMarshalModel(a.MarshalId, a.GivenName, a.FamilyName, a.EventId, a.Role);
 
         public static Profile Map(string emailAddress, ProfileSaveModel profile)
         {

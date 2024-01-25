@@ -28,5 +28,7 @@ namespace AutoTest.Web.Models
 
         public AcceptDeclarationSaveModel AcceptDeclaration { get; set; } = new AcceptDeclarationSaveModel();
         public EventType EventType { get; internal set; }
+
+        public bool IsLady { get; set; }
     }
 }
