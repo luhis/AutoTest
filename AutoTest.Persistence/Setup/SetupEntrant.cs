@@ -10,6 +10,7 @@
             entity.HasKey(e => e.EntrantId);
             entity.Property(e => e.EntrantId).ValueGeneratedNever().IsRequired();
             entity.Property(e => e.DriverNumber).IsRequired();
+            entity.Property(e => e.EventType).IsRequired();
             entity.Property(e => e.Class).IsRequired();
             entity.Property(e => e.GivenName).IsRequired();
             entity.Property(e => e.FamilyName).IsRequired();
@@ -18,6 +19,7 @@
             entity.Property(e => e.ClubNumber).IsRequired();
             entity.Property(e => e.Age).IsRequired();
             entity.Property(e => e.EntrantStatus).IsRequired();
+            entity.Property(a => a.IsLady).IsRequired();
             entity.HasOne<Event>().WithMany().HasForeignKey(p => p.EventId);
             entity.OwnsOne(a => a.Vehicle, SetupVehicle.Setup);
             entity.OwnsOne(a => a.EmergencyContact, SetupEmergencyContact.Setup);
