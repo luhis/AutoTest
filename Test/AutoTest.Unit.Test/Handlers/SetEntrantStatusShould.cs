@@ -35,6 +35,7 @@ namespace AutoTest.Unit.Test.Handlers
             entrants.Setup(a => a.Upsert(Its.EquivalentTo(toSave, o => o.Excluding(a => a.EmergencyContact).Excluding(a => a.MsaMembership).Excluding(a => a.AcceptDeclaration)), CancellationToken.None)).Returns(Task.CompletedTask);
 
             await sut.Handle(new SetEntrantStatus(eventId, entrantId, Domain.Enums.EntrantStatus.Withdrawn), CancellationToken.None);
+            mr.VerifyAll();
         }
     }
 }

@@ -43,7 +43,7 @@ namespace AutoTest.Persistence
                 if (this.Clubs != null && this.Clubs.SingleOrDefault(a => a.ClubId == 1) == null)
                 {
                     var brmc = new Club(1, "Brighton and Hove Motor Club", "bhmc@paypal.com", "https://www.bhmc.club");
-                    brmc.SetAdminEmails(new[] { new AuthorisationEmail("mccorry@gmail.com") });
+                    brmc.SetAdminEmails(new[] { new AuthorisationEmail("mccorry@gmail.com"), new AuthorisationEmail("briandyer68@hotmail.com") });
                     this.Clubs.Add(brmc);
                 }
                 if (this.Events != null && this.Events.SingleOrDefault(a => a.EventId == 1) == null)

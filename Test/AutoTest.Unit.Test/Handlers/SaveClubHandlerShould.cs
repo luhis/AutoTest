@@ -30,7 +30,7 @@ namespace AutoTest.Unit.Test.Handlers
         }
 
         [Fact]
-        public async Task InvokeSingnalRMessageNewClubAdmin()
+        public async Task InvokeSignalRMessageNewClubAdmin()
         {
             var clubId = 1ul;
             var club = new Club(clubId, "My Club", "pay@pal.com", "clubsite.com");
@@ -48,7 +48,7 @@ namespace AutoTest.Unit.Test.Handlers
         }
 
         [Fact]
-        public async Task InvokeSingnalRMessageRemoveClubAdmin()
+        public async Task InvokeSignalRMessageRemoveClubAdmin()
         {
             var clubId = 1ul;
             var club = new Club(clubId, "My Club", "pay@pal.com", "clubsite.com");
@@ -66,7 +66,7 @@ namespace AutoTest.Unit.Test.Handlers
         }
 
         [Fact]
-        public async Task NotInvokeSingnalRMessage()
+        public async Task NotInvokeSignalRMessage()
         {
             var clubId = 1ul;
             var club = new Club(clubId, "My Club", "pay|@pal.com", "clubsite.com");

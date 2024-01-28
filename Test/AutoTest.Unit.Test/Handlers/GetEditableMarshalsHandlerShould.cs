@@ -14,17 +14,17 @@ using Xunit;
 
 namespace AutoTest.Unit.Test.Handlers
 {
-    public class GetMarshalsHandlerShould
+    public class GetEditableMarshalsHandlerShould
     {
         private readonly MockRepository mr;
-        private readonly IRequestHandler<GetMarshals, IEnumerable<Marshal>> sut;
+        private readonly IRequestHandler<GetEditableMarshals, IEnumerable<ulong>> sut;
         private readonly Mock<IMarshalsRepository> profileRepository;
 
-        public GetMarshalsHandlerShould()
+        public GetEditableMarshalsHandlerShould()
         {
             mr = new MockRepository(MockBehavior.Strict);
             profileRepository = mr.Create<IMarshalsRepository>();
-            sut = new GetMarshalsHandler(profileRepository.Object);
+            sut = new GetEditableMarshalsHandler(profileRepository.Object);
         }
 
         [Fact]
@@ -36,11 +36,11 @@ namespace AutoTest.Unit.Test.Handlers
                 new Marshal(2, "a", "a", "a@a.com", eventId, 212312, "")
             };
             var mock = marshals.BuildMock();
-            profileRepository.Setup(a => a.GetByEventId(eventId)).Returns(mock);
+            profileRepository.Setup(a => a.GetByEmail("test@test.com")).Returns(mock);
 
-            var res = await sut.Handle(new(eventId), CancellationToken.None);
+            var res = await sut.Handle(new("test@test.com"), CancellationToken.None);
 
-            res.Should().BeEquivalentTo(marshals.OrderBy(a => a.FamilyName), o => o.WithStrictOrdering());
+            res.Should().BeEquivalentTo(marshals.Select(a => a.MarshalId));
             mr.VerifyAll();
         }
     }

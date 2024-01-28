@@ -8,23 +8,22 @@ using AutoTest.Service.Handlers;
 using AutoTest.Service.Messages;
 using FluentAssertions;
 using MediatR;
-using MockQueryable.Moq;
 using Moq;
 using Xunit;
 
 namespace AutoTest.Unit.Test.Handlers
 {
-    public class GetMarshalsHandlerShould
+    public class GetEntrantsHandlerShould
     {
         private readonly MockRepository mr;
-        private readonly IRequestHandler<GetMarshals, IEnumerable<Marshal>> sut;
-        private readonly Mock<IMarshalsRepository> profileRepository;
+        private readonly IRequestHandler<GetEntrants, IEnumerable<Entrant>> sut;
+        private readonly Mock<IEntrantsRepository> profileRepository;
 
-        public GetMarshalsHandlerShould()
+        public GetEntrantsHandlerShould()
         {
             mr = new MockRepository(MockBehavior.Strict);
-            profileRepository = mr.Create<IMarshalsRepository>();
-            sut = new GetMarshalsHandler(profileRepository.Object);
+            profileRepository = mr.Create<IEntrantsRepository>();
+            sut = new GetEntrantsHandler(profileRepository.Object);
         }
 
         [Fact]
@@ -32,11 +31,10 @@ namespace AutoTest.Unit.Test.Handlers
         {
             var eventId = 1ul;
             var marshals = new[] {
-                new Marshal(1, "b", "b", "a@a.com", eventId, 212312, ""),
-                new Marshal(2, "a", "a", "a@a.com", eventId, 212312, "")
+                new Entrant(1, 22, "Joe", "Bloggs", "a@a.com", Domain.Enums.EventType.AutoTest, "A", 99, "BRMC", 123456, Domain.Enums.Age.Senior, false),
+                new Entrant(2, 22, "Joe", "Bloggs", "a@a.com", Domain.Enums.EventType.AutoTest, "A", 99, "BRMC", 123456, Domain.Enums.Age.Senior, false)
             };
-            var mock = marshals.BuildMock();
-            profileRepository.Setup(a => a.GetByEventId(eventId)).Returns(mock);
+            profileRepository.Setup(a => a.GetAll(eventId, CancellationToken.None)).ReturnsAsync(marshals);
 
             var res = await sut.Handle(new(eventId), CancellationToken.None);
 

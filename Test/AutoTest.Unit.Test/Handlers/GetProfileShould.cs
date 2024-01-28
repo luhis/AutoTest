@@ -33,6 +33,7 @@ namespace AutoTest.Unit.Test.Handlers
             var res = await sut.Handle(new(email), CancellationToken.None);
 
             res.EmailAddress.Should().BeEquivalentTo(email);
+            mr.VerifyAll();
         }
 
         [Fact]
@@ -45,6 +46,7 @@ namespace AutoTest.Unit.Test.Handlers
             var res = await sut.Handle(new(email), CancellationToken.None);
 
             res.Should().BeEquivalentTo(profile);
+            mr.VerifyAll();
         }
     }
 }

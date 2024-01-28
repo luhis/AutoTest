@@ -36,6 +36,7 @@ namespace AutoTest.Unit.Test.Handlers
             events.Setup(a => a.Upsert(Its.EquivalentTo(toSave), CancellationToken.None)).Returns(Task.CompletedTask);
 
             await sut.Handle(new SetEventStatus(eventId, Domain.Enums.EventStatus.Open), CancellationToken.None);
+            mr.VerifyAll();
         }
     }
 }
