@@ -65,6 +65,35 @@ const getDriverNumber = (
   );
 };
 
+const blankEntrant = (eventId: number) => ({
+  entrantId: uid.uuid(),
+  eventId: eventId,
+  eventType: EventType.AutoTest,
+  class: "",
+  givenName: "",
+  familyName: "",
+  email: "",
+  msaMembership: { msaLicense: Number.NaN, msaLicenseType: "" },
+  age: Age.Senior,
+  vehicle: {
+    make: "",
+    model: "",
+    year: Number.NaN,
+    displacement: Number.NaN,
+    registration: "",
+    induction: InductionTypes.NA,
+  },
+  isNew: true,
+  emergencyContact: {
+    name: "",
+    phone: "",
+  },
+  club: "",
+  clubNumber: Number.NaN,
+  payment: null,
+  acceptDeclaration: null,
+});
+
 const Entrants: FunctionalComponent<Readonly<Props>> = ({ eventId }) => {
   const access = useSelector(selectAccess);
   const entrants = useSelector(selectEntrants);
@@ -149,34 +178,7 @@ const Entrants: FunctionalComponent<Readonly<Props>> = ({ eventId }) => {
 
   const newEntrant = useCallback(async () => {
     await thunkDispatch(GetProfileIfRequired(getAccessToken(auth)));
-    setEditingEntrant({
-      entrantId: uid.uuid(),
-      eventId: eventId,
-      eventType: EventType.AutoTest,
-      class: "",
-      givenName: "",
-      familyName: "",
-      email: "",
-      msaMembership: { msaLicense: Number.NaN, msaLicenseType: "" },
-      age: Age.Senior,
-      vehicle: {
-        make: "",
-        model: "",
-        year: Number.NaN,
-        displacement: Number.NaN,
-        registration: "",
-        induction: InductionTypes.NA,
-      },
-      isNew: true,
-      emergencyContact: {
-        name: "",
-        phone: "",
-      },
-      club: "",
-      clubNumber: Number.NaN,
-      payment: null,
-      acceptDeclaration: null,
-    });
+    setEditingEntrant(blankEntrant(eventId));
   }, [auth, thunkDispatch, eventId]);
   const setCurrentEditingEntrant = useCallback(
     async (entrant: PublicEntrant) => {
@@ -256,7 +258,7 @@ const Entrants: FunctionalComponent<Readonly<Props>> = ({ eventId }) => {
           cancel={clearEditingEntrant}
           save={save}
           fillFromProfile={fillFromProfile}
-          eventOptions={currentEvent?.eventTypes || []}
+          eventTypes={currentEvent?.eventTypes || []}
         />
       ) : null}
     </div>

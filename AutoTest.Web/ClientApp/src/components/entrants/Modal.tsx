@@ -69,7 +69,7 @@ interface Props {
   readonly fillFromProfile: (membership: ClubMembership | undefined) => void;
   readonly isClubAdmin: boolean;
   readonly clubMemberships: readonly ClubMembership[];
-  readonly eventOptions: readonly EventType[];
+  readonly eventTypes: readonly EventType[];
 }
 
 const EntrantsModal: FunctionComponent<Props> = ({
@@ -80,7 +80,7 @@ const EntrantsModal: FunctionComponent<Props> = ({
   fillFromProfile,
   isClubAdmin,
   clubMemberships,
-  eventOptions,
+  eventTypes,
 }) => {
   const auth = useGoogleAuth();
   const thunkDispatch = useThunkDispatch();
@@ -198,31 +198,38 @@ const EntrantsModal: FunctionComponent<Props> = ({
               })
             }
           />
-          <Field>
-            <Label>Event Type</Label>
-            <Select<EventType>
-              required
-              value={entrant.eventType}
-              options={eventOptions}
-              onChange={(evt: OnSelectChange) => {
-                setField({
-                  eventType: Number.parseInt(evt.target.value),
-                });
-              }}
-            />
-          </Field>
-          <Field>
-            <Label>Class</Label>
-            <DropdownInput
-              required
-              value={entrant.class}
-              options={classesInUse}
-              setValue={(e) => {
-                setField({
-                  class: e.toLocaleUpperCase(),
-                });
-              }}
-            />
+          <Field kind="group">
+            <Control fullwidth={true}>
+              <Label>Event Type</Label>
+              <Select<EventType>
+                required
+                value={entrant.eventType}
+                onChange={(evt: OnSelectChange) => {
+                  setField({
+                    eventType: Number.parseInt(evt.target.value),
+                  });
+                }}
+              >
+                {eventTypes.map((a) => (
+                  <option key={a} value={a}>
+                    {EventType[a]}
+                  </option>
+                ))}
+              </Select>
+            </Control>
+            <Control fullwidth={true}>
+              <Label>Class</Label>
+              <DropdownInput
+                required
+                value={entrant.class}
+                options={classesInUse}
+                setValue={(e) => {
+                  setField({
+                    class: e.toLocaleUpperCase(),
+                  });
+                }}
+              />
+            </Control>
           </Field>
           <VehicleEditor
             vehicle={entrant.vehicle}
