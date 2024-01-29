@@ -36,6 +36,22 @@ interface Props {
 }
 const uid = UUID(keySeed);
 
+const blankMarshal = (eventId: number) => ({
+  marshalId: uid.uuid(),
+  eventId: eventId,
+  givenName: "",
+  familyName: "",
+  email: "",
+  isNew: true,
+  emergencyContact: {
+    name: "",
+    phone: "",
+  },
+  role: "",
+  registrationNumber: Number.NaN,
+  acceptDeclaration: null,
+});
+
 const Marshals: FunctionalComponent<Readonly<Props>> = ({ eventId }) => {
   const marshals = useSelector(selectMarshals);
   const profile = useSelector(selectProfile);
@@ -99,21 +115,7 @@ const Marshals: FunctionalComponent<Readonly<Props>> = ({ eventId }) => {
 
   const newMarshal = useCallback(async () => {
     await thunkDispatch(GetProfileIfRequired(getAccessToken(auth)));
-    setEditingMarshal({
-      marshalId: uid.uuid(),
-      eventId: eventId,
-      givenName: "",
-      familyName: "",
-      email: "",
-      isNew: true,
-      emergencyContact: {
-        name: "",
-        phone: "",
-      },
-      role: "",
-      registrationNumber: Number.NaN,
-      acceptDeclaration: null,
-    });
+    setEditingMarshal(blankMarshal(eventId));
   }, [auth, thunkDispatch, eventId]);
   const setCurrentEditingMarshal = useCallback(
     async (marshal: PublicMarshal) => {
