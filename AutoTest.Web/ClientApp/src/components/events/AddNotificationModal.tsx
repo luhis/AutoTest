@@ -1,7 +1,7 @@
 import { h, FunctionComponent } from "preact";
 import { Modal, Button, Form } from "react-bulma-components";
-const { Input, Field, Label } = Form;
 import { useState } from "preact/hooks";
+const { Input, Field, Label } = Form;
 
 import { OnChange } from "src/types/inputs";
 import { EventNotification } from "../../types/models";
