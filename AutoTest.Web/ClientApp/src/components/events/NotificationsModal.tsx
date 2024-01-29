@@ -1,6 +1,6 @@
 import { h, FunctionComponent } from "preact";
 import { Modal, Button, Heading } from "react-bulma-components";
-import TimeAgo from "timeago-react";
+import TimeAgo from "timeago.js";
 
 import { EventNotification } from "../../types/models";
 
@@ -23,9 +23,7 @@ const NotificationsModal: FunctionComponent<Props> = ({
           <ul>
             {notifications.map((a) => (
               <li key={a.notificationId}>
-                <Heading size={6}>
-                  <TimeAgo datetime={a.created} />
-                </Heading>
+                <Heading size={6}>{TimeAgo.format(a.created)}</Heading>
                 <p>{a.message}</p>
               </li>
             ))}
