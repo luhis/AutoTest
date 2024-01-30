@@ -6,7 +6,7 @@ import {
   AnyAction,
 } from "redux";
 import thunk, { ThunkDispatch } from "redux-thunk";
-import { composeWithDevTools } from "redux-devtools-extension";
+import { composeWithDevTools } from "@redux-devtools/extension";
 import storage from "redux-persist/lib/storage";
 import { persistStore, persistReducer, createTransform } from "redux-persist";
 import { parseIsoOrThrow } from "ts-date";
