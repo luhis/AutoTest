@@ -14,6 +14,7 @@ import DriverNumber from "../shared/DriverNumber";
 import { startCase } from "../../lib/string";
 import { OnChange, OnSelectChange } from "../../types/inputs";
 import { getDateString } from "../../lib/date";
+import TimeAgo from "../shared/TimeAgo";
 
 interface Props {
   readonly entrants: LoadingState<readonly PublicEntrant[], number>;
@@ -114,7 +115,9 @@ const List: FunctionComponent<Props> = ({
         </Columns.Column>
         <Columns.Column>{`${entrant.givenName} ${entrant.familyName}`}</Columns.Column>
         <Columns.Column>
-          {entrant.payment !== null ? "Paid" : "Unpaid"}
+          {entrant.payment !== null
+            ? `Paid (${entrant.payment.method} at ${TimeAgo(entrant.payment.timestamp)})`
+            : "Unpaid"}
         </Columns.Column>
         <Columns.Column>
           <Field kind="group">
