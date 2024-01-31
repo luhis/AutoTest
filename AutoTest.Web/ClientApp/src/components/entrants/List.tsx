@@ -116,7 +116,7 @@ const List: FunctionComponent<Props> = ({
         <Columns.Column>{`${entrant.givenName} ${entrant.familyName}`}</Columns.Column>
         <Columns.Column>
           {entrant.payment !== null
-            ? `Paid (${entrant.payment.method} at ${TimeAgo(entrant.payment.timestamp)})`
+            ? `Paid (${startCase(PaymentMethod[entrant.payment.method])} ${TimeAgo(entrant.payment.timestamp)})`
             : "Unpaid"}
         </Columns.Column>
         <Columns.Column>
@@ -128,8 +128,7 @@ const List: FunctionComponent<Props> = ({
                   onClick={() => markPaid(entrant, null)}
                 >
                   <FaMoneyBill />
-                  &nbsp; Mark Unpaid (
-                  {startCase(PaymentMethod[entrant.payment.method])})
+                  &nbsp; Mark Unpaid
                 </Button>
               </Control>
             ) : (
