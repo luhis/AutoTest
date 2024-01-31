@@ -9,7 +9,7 @@ on:
       - master
   workflow_dispatch:
 env:
-    CI: false
+    CI: true
 
 jobs:
   build:
