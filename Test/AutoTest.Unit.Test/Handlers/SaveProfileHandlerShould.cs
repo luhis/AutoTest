@@ -25,10 +25,10 @@ namespace AutoTest.Unit.Test.Handlers
         }
 
         [Fact]
-        public async Task ShouldNotifyOnUpdatedTestRun()
+        public async Task SaveProfile()
         {
             var penalties = new[] { new Penalty(Domain.Enums.PenaltyEnum.Late, 1) };
-            var profile = new Profile("a", "", "", Domain.Enums.Age.Junior);
+            var profile = new Profile("a", "", "", Domain.Enums.Age.Junior, false);
             testRuns.Setup(a => a.Upsert(Its.EquivalentTo(profile), CancellationToken.None)).Returns(Task.CompletedTask);
 
             await sut.Handle(new("aa@aa.com", profile), CancellationToken.None);

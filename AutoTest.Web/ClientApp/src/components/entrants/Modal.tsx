@@ -177,13 +177,10 @@ const EntrantsModal: FunctionComponent<Props> = ({
               <Label>Club Number</Label>
               <Input
                 required
-                type="number"
-                min={0}
-                step={1}
                 value={entrant.clubNumber}
                 onChange={(e: OnChange) =>
                   setField({
-                    clubNumber: Math.floor(e.target.valueAsNumber),
+                    clubNumber: e.target.value,
                   })
                 }
               />

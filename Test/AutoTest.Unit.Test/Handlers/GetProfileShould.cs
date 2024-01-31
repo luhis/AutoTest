@@ -40,7 +40,7 @@ namespace AutoTest.Unit.Test.Handlers
         public async Task ReturnExistingProfileIfSome()
         {
             var email = "a@a.com";
-            var profile = new Profile(email, "First", "Last", Domain.Enums.Age.Junior);
+            var profile = new Profile(email, "First", "Last", Domain.Enums.Age.Junior, false);
             profileRepository.Setup(a => a.Get(email, CancellationToken.None)).ReturnsAsync(profile);
 
             var res = await sut.Handle(new(email), CancellationToken.None);

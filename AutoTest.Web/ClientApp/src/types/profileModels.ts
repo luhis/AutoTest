@@ -15,6 +15,7 @@ export interface Profile {
   readonly givenName: string;
   readonly familyName: string;
   readonly age: Age;
+  readonly isLady: boolean;
   readonly vehicle: Vehicle;
   readonly msaMembership: MsaMembership;
   readonly emergencyContact: EmergencyContact;

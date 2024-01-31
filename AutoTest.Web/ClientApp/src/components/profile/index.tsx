@@ -1,6 +1,6 @@
 import { h, FunctionComponent } from "preact";
 import { Button, Form, Heading } from "react-bulma-components";
-const { Label, Input, Field, Radio } = Form;
+const { Label, Input, Field, Radio, Checkbox } = Form;
 import { useState } from "preact/hooks";
 
 import { Age, Profile } from "../../types/profileModels";
@@ -54,6 +54,15 @@ const ProfileComp: FunctionComponent<Props> = ({ save, profile, setField }) => {
         >
           Senior
         </Radio>
+      </Field>
+      <Field>
+        <Label>Lady?</Label>
+        <Checkbox
+          checked={profile.isLady}
+          onChange={() => setField({ isLady: !profile.isLady })}
+        >
+          Is Lady
+        </Checkbox>
       </Field>
       <MsaMembershipEditor
         licenseTypes={[]}

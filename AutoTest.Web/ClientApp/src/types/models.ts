@@ -61,6 +61,7 @@ export enum TestRunUploadState {
 export enum PaymentMethod {
   Bacs = 0,
   PayPal = 1,
+  Complementary = 2,
 }
 
 export enum TimingSystem {
@@ -143,9 +144,10 @@ export type AcceptDeclaration = {
 export type Entrant = {
   readonly msaMembership: MsaMembership;
   readonly emergencyContact: EmergencyContact;
-  readonly clubNumber: number;
+  readonly clubNumber: string;
   readonly email: string;
   readonly acceptDeclaration: AcceptDeclaration | null;
+  readonly isLady: boolean;
 } & PublicEntrant;
 
 export type EditingEntrant = Override<

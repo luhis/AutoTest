@@ -6,12 +6,13 @@ namespace AutoTest.Domain.StorageModels
     public class Profile
     {
 
-        public Profile(string emailAddress, string givenName, string familyName, Age age)
+        public Profile(string emailAddress, string givenName, string familyName, Age age, bool isLady)
         {
             EmailAddress = emailAddress;
             GivenName = givenName;
             FamilyName = familyName;
             Age = age;
+            IsLady = isLady;
         }
 
         public string EmailAddress { get; }
@@ -21,6 +22,8 @@ namespace AutoTest.Domain.StorageModels
         public string FamilyName { get; }
 
         public Age Age { get; }
+
+        public bool IsLady { get; }
 
         public Vehicle Vehicle { get; private set; } = new Vehicle();
 

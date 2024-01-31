@@ -31,8 +31,8 @@ namespace AutoTest.Unit.Test.Handlers
         {
             var eventId = 1ul;
             var marshals = new[] {
-                new Entrant(1, 22, "Joe", "Bloggs", "a@a.com", Domain.Enums.EventType.AutoTest, "A", 99, "BRMC", 123456, Domain.Enums.Age.Senior, false),
-                new Entrant(2, 22, "Joe", "Bloggs", "a@a.com", Domain.Enums.EventType.AutoTest, "A", 99, "BRMC", 123456, Domain.Enums.Age.Senior, false)
+                new Entrant(1, 22, "Joe", "Bloggs", "a@a.com", Domain.Enums.EventType.AutoTest, "A", 99, "BRMC", "123456", Domain.Enums.Age.Senior, false),
+                new Entrant(2, 22, "Joe", "Bloggs", "a@a.com", Domain.Enums.EventType.AutoTest, "A", 99, "BRMC", "123456", Domain.Enums.Age.Senior, false)
             };
             profileRepository.Setup(a => a.GetAll(eventId, CancellationToken.None)).ReturnsAsync(marshals);
 

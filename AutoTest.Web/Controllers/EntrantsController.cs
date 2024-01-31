@@ -62,8 +62,11 @@ namespace AutoTest.Web.Controllers
 
         [Authorize(policy: Policies.ClubAdmin)]
         [HttpPut("{entrantId}/markPaid")]
-        public Task MarkPaid(ulong eventId, ulong entrantId, CancellationToken cancellationToken, PaymentSaveModel? payment) =>
-            this.mediator.Send(new MarkPaid(eventId, entrantId, payment != null ? MapClub.Map(payment) : null), cancellationToken);
+        public Task MarkPaid(ulong eventId, ulong entrantId, CancellationToken cancellationToken, PaymentSaveModel? payment)
+        {
+            var currentUserEmail = this.User.GetEmailAddress();
+            return this.mediator.Send(new MarkPaid(eventId, entrantId, payment != null ? MapClub.Map(payment, currentUserEmail) : null), cancellationToken);
+        }
 
         [Authorize(policy: Policies.ClubAdmin)]
         [HttpPut("{entrantId}/setEntrantStatus")]

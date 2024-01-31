@@ -14,7 +14,7 @@ namespace AutoTest.Web.Models
 
         public string Club { get; set; } = string.Empty;
 
-        public uint ClubNumber { get; set; }
+        public string ClubNumber { get; set; } = string.Empty;
 
         public string Email { get; set; } = string.Empty;
 

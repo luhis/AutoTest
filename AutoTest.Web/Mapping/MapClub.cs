@@ -23,9 +23,9 @@ namespace AutoTest.Web.Mapping
             return new MsaMembership(membership.MsaLicenseType, membership.MsaLicense);
         }
 
-        public static Payment Map(PaymentSaveModel payment)
+        public static Payment Map(PaymentSaveModel payment, string currentUserEmail)
         {
-            return new Payment(payment.PaidAt, payment.Method, payment.Timestamp);
+            return new Payment(payment.PaidAt, payment.Method, payment.Timestamp, currentUserEmail);
         }
 
         public static AcceptDeclaration Map(AcceptDeclarationSaveModel acceptDeclaration)
@@ -76,7 +76,7 @@ namespace AutoTest.Web.Mapping
 
         public static Profile Map(string emailAddress, ProfileSaveModel profile)
         {
-            var p = new Profile(emailAddress, profile.GivenName, profile.FamilyName, profile.Age);
+            var p = new Profile(emailAddress, profile.GivenName, profile.FamilyName, profile.Age, profile.IsLady);
             p.SetVehicle(Map(profile.Vehicle));
             p.SetEmergencyContact(Map(profile.EmergencyContact));
             p.SetClubMemberships(profile.ClubMemberships.Select(Map).ToArray());

@@ -5,7 +5,7 @@ namespace AutoTest.Domain.StorageModels
     public class Entrant
     {
         public Entrant(ulong entrantId, ushort driverNumber, string givenName, string familyName, string email,
-        EventType eventType, string @class, ulong eventId, string club, uint clubNumber, Age age, bool isLady)
+        EventType eventType, string @class, ulong eventId, string club, string clubNumber, Age age, bool isLady)
         {
             EntrantId = entrantId;
             GivenName = givenName;
@@ -35,7 +35,7 @@ namespace AutoTest.Domain.StorageModels
 
         public string Club { get; }
 
-        public uint ClubNumber { get; } // make a club obj?
+        public string ClubNumber { get; } // make a club obj?
 
         public string Email { get; }
 

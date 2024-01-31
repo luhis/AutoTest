@@ -48,7 +48,7 @@ namespace AutoTest.Unit.Test.Authorisation
             mr.VerifyAll();
         }
 
-        static Entrant GetEntrant(ulong eventId, ulong entrantId) => new Entrant(entrantId, 1, "Joe", "Bloggs", "a@a.com", Domain.Enums.EventType.AutoTest, "A", eventId, "BRMC", 12345678, Domain.Enums.Age.Senior, false);
+        static Entrant GetEntrant(ulong eventId, ulong entrantId) => new Entrant(entrantId, 1, "Joe", "Bloggs", "a@a.com", Domain.Enums.EventType.AutoTest, "A", eventId, "BRMC", "12345678", Domain.Enums.Age.Senior, false);
 
         [Fact]
         public async Task ShouldFailIfEmailsDontMatch()

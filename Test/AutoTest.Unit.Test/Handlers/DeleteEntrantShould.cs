@@ -23,11 +23,11 @@ namespace AutoTest.Unit.Test.Handlers
         }
 
         [Fact]
-        public async Task ReturnBlankProfileIfNone()
+        public async Task DeleteEntrant()
         {
             var eventId = 1ul;
             var entrantId = 2ul;
-            var entrant = new Domain.StorageModels.Entrant(entrantId, 22, "joe", "bloggs", "joe@bloggs.com", Domain.Enums.EventType.AutoTest, "A", eventId, "BRMC", 1234, Domain.Enums.Age.Senior, false);
+            var entrant = new Domain.StorageModels.Entrant(entrantId, 22, "joe", "bloggs", "joe@bloggs.com", Domain.Enums.EventType.AutoTest, "A", eventId, "BRMC", "1234", Domain.Enums.Age.Senior, false);
             entrants.Setup(a => a.GetById(eventId, entrantId, CancellationToken.None)).ReturnsAsync(entrant);
             entrants.Setup(a => a.Delete(entrant, CancellationToken.None)).Returns(Task.CompletedTask);
 

@@ -97,6 +97,7 @@ describe("Event Reducer", () => {
       method: PaymentMethod.Bacs,
       paidAt: newValidDate(),
       timestamp: newValidDate(),
+      createdBy: "test@test.com",
     };
     const stateWithEntrant: EventState = {
       ...populatedState,

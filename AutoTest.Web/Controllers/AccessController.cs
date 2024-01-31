@@ -23,10 +23,10 @@ namespace AutoTest.Web.Controllers
         public AccessController(IConfiguration configuration, IMediator mediator)
         {
             this.mediator = mediator;
-            this.AdminEmails = new HashSet<string>(configuration.GetSection("RootAdminIds").Get<IEnumerable<string>>() ?? Enumerable.Empty<string>(), StringComparer.InvariantCultureIgnoreCase);
+            this.RootAdminEmails = new HashSet<string>(configuration.GetSection("RootAdminIds").Get<IEnumerable<string>>() ?? Enumerable.Empty<string>(), StringComparer.InvariantCultureIgnoreCase);
         }
 
-        private HashSet<string> AdminEmails { get; }
+        private HashSet<string> RootAdminEmails { get; }
 
         [HttpGet]
         public async Task<AccessModel> GetAccessAsync()
@@ -38,7 +38,7 @@ namespace AutoTest.Web.Controllers
             var marshalEvents = await this.mediator.Send(new GetMarshalEvents(email));
             var editableEntrants = await this.mediator.Send(new GetEditableEntrants(email));
             var editableMarshals = await this.mediator.Send(new GetEditableMarshals(email));
-            return new AccessModel(AdminEmails.Contains(email), isAuthenticated, isAuthenticated, isAuthenticated, adminClubs, marshalEvents, editableEntrants, editableMarshals);
+            return new AccessModel(RootAdminEmails.Contains(email), isAuthenticated, isAuthenticated, isAuthenticated, adminClubs, marshalEvents, editableEntrants, editableMarshals);
         }
     }
 }

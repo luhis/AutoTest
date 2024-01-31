@@ -30,13 +30,12 @@ namespace AutoTest.Unit.Test.Handlers
 
         [Fact]
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "VSTHRD103:Call async methods when in an async method", Justification = "<Pending>")]
-        public async Task GetMarshals()
+        public async Task GetEntrants()
         {
             var marshals = new[] {
-                new Entrant(1, 22, "Joe", "Bloggs", "test@test.com", Domain.Enums.EventType.AutoTest, "A", 99, "BRMC", 123456, Domain.Enums.Age.Senior, false),
-                new Entrant(2, 22, "Joe", "Bloggs", "a@a.com", Domain.Enums.EventType.AutoTest, "A", 99, "BRMC", 123456, Domain.Enums.Age.Senior, false)
+                new Entrant(1, 22, "Joe", "Bloggs", "test@test.com", Domain.Enums.EventType.AutoTest, "A", 99, "BRMC", "123456", Domain.Enums.Age.Senior, false),
+                new Entrant(2, 22, "Joe", "Bloggs", "a@a.com", Domain.Enums.EventType.AutoTest, "A", 99, "BRMC", "123456", Domain.Enums.Age.Senior, false)
             };
-            var mock = marshals.BuildMock();
             db.Entrants!.AddRange(marshals);
             await db.SaveChangesAsync();
 

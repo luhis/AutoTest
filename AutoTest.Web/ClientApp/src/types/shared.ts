@@ -21,7 +21,7 @@ export interface Vehicle {
 
 export interface ClubMembership {
   readonly clubName: string;
-  readonly membershipNumber: number;
+  readonly membershipNumber: string;
   readonly expiry: ValidDate;
 }
 

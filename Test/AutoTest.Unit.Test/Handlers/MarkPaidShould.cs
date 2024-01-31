@@ -16,6 +16,8 @@ namespace AutoTest.Unit.Test.Handlers
         private readonly MockRepository mr;
         private readonly Mock<IEntrantsRepository> entrantsRepository;
 
+        private readonly Payment testPayment = new(new System.DateTime(2000, 1, 1), Domain.Enums.PaymentMethod.Paypal, new System.DateTime(2000, 2, 2), "test@test.com");
+
         public MarkPaidShould()
         {
             mr = new MockRepository(MockBehavior.Strict);
@@ -28,8 +30,8 @@ namespace AutoTest.Unit.Test.Handlers
         {
             var entrantId = 1ul;
             var eventId = 22ul;
-            var entrant = new Entrant(entrantId, 1, "matt", "mccorry", "a@a.com", Domain.Enums.EventType.AutoTest, "A", eventId, "BRMC", 1234, Domain.Enums.Age.Senior, false);
-            entrant.SetPayment(new(new System.DateTime(2000, 1, 1), Domain.Enums.PaymentMethod.Paypal, new System.DateTime(2000, 2, 2)));
+            var entrant = new Entrant(entrantId, 1, "matt", "mccorry", "a@a.com", Domain.Enums.EventType.AutoTest, "A", eventId, "BRMC", "1234", Domain.Enums.Age.Senior, false);
+            entrant.SetPayment(testPayment);
             entrantsRepository.Setup(a => a.GetById(eventId, entrantId, CancellationToken.None)).ReturnsAsync(entrant);
             entrantsRepository.Setup(a => a.Update(entrant, CancellationToken.None)).Returns(Task.CompletedTask);
 
@@ -44,11 +46,11 @@ namespace AutoTest.Unit.Test.Handlers
         {
             var entrantId = 1ul;
             var eventId = 22ul;
-            var entrant = new Entrant(entrantId, 1, "matt", "mccorry", "a@a.com", Domain.Enums.EventType.AutoTest, "A", eventId, "BRMC", 1234, Domain.Enums.Age.Senior, false);
+            var entrant = new Entrant(entrantId, 1, "matt", "mccorry", "a@a.com", Domain.Enums.EventType.AutoTest, "A", eventId, "BRMC", "1234", Domain.Enums.Age.Senior, false);
             entrantsRepository.Setup(a => a.GetById(eventId, entrantId, CancellationToken.None)).ReturnsAsync(entrant);
             entrantsRepository.Setup(a => a.Update(entrant, CancellationToken.None)).Returns(Task.CompletedTask);
 
-            await sut.Handle(new(eventId, entrantId, new(new System.DateTime(2000, 1, 1), Domain.Enums.PaymentMethod.Paypal, new System.DateTime(2000, 2, 2))), CancellationToken.None);
+            await sut.Handle(new(eventId, entrantId, testPayment), CancellationToken.None);
 
             mr.VerifyAll();
             entrantsRepository.Verify(a => a.Update(It.Is<Entrant>(a => a.Payment != null), CancellationToken.None));

@@ -48,13 +48,13 @@ namespace AutoTest.Persistence
                 }
                 if (this.Events != null && this.Events.SingleOrDefault(a => a.EventId == 1) == null)
                 {
-                    var e = new Event(1, 1, "Kev's Farm", new DateTime(2000, 1, 1), 10, 2, string.Empty, new[] { EventType.AutoTest }, string.Empty, TimingSystem.StopWatch, new DateTime(), new DateTime(), 10);
-                    e.SetTests(new[] { new Test(1, "") });
+                    var e = new Event(1, 1, "Kev's Farm", new DateTime(2024, 1, 1), 10, 2, string.Empty, new[] { EventType.AutoTest }, string.Empty, TimingSystem.StopWatch, new DateTime(), DateTime.MaxValue, 10);
+                    e.SetTests(new[] { new Test(1, ""), new Test(2, ""), new Test(3, "") });
                     this.Events.Add(e);
                 }
                 if (this.Entrants != null && this.Entrants.SingleOrDefault(a => a.EntrantId == 1) == null)
                 {
-                    var e = new Entrant(1, 1, "Matt", "McCorry", "test@email.com", EventType.AutoTest, "A", 1, "BRMC", 69, Age.Senior, false);
+                    var e = new Entrant(1, 1, "Matt", "McCorry", "test@email.com", EventType.AutoTest, "A", 1, "BHMC", "69", Age.Senior, false);
                     e.SetVehicle(new Vehicle("Vauxhall", "Corsa", 2005, 1229, Induction.NA, "AA05AAA"));
                     e.SetMsaMembership(new MsaMembership("Clubman", 1234));
                     //e.SetPayment(new Payment());

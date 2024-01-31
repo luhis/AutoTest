@@ -65,7 +65,7 @@ const getDriverNumber = (
   );
 };
 
-const blankEntrant = (eventId: number) => ({
+const blankEntrant = (eventId: number): EditingEntrant => ({
   entrantId: uid.uuid(),
   eventId: eventId,
   eventType: EventType.AutoTest,
@@ -75,6 +75,7 @@ const blankEntrant = (eventId: number) => ({
   email: "",
   msaMembership: { msaLicense: Number.NaN, msaLicenseType: "" },
   age: Age.Senior,
+  isLady: false,
   vehicle: {
     make: "",
     model: "",
@@ -89,7 +90,7 @@ const blankEntrant = (eventId: number) => ({
     phone: "",
   },
   club: "",
-  clubNumber: Number.NaN,
+  clubNumber: "",
   payment: null,
   acceptDeclaration: null,
 });
@@ -152,7 +153,7 @@ const Entrants: FunctionalComponent<Readonly<Props>> = ({ eventId }) => {
                 emergencyContact,
                 vehicle,
                 club: clubMembership?.clubName || "",
-                clubNumber: clubMembership?.membershipNumber || Number.NaN,
+                clubNumber: clubMembership?.membershipNumber || "",
                 email: emailAddress,
               }
             : undefined,

@@ -20,7 +20,7 @@ type EditingMembership = Override<ClubMembership, { readonly expiry: string }>;
 
 const blankState = (): EditingMembership => ({
   clubName: "",
-  membershipNumber: Number.NaN,
+  membershipNumber: "",
   expiry: getDateString(addYear(newValidDate(), 1)),
 });
 
@@ -66,13 +66,11 @@ const MembershipList: FunctionComponent<Props> = ({
         <Control fullwidth={true}>
           <Label>Membership Number</Label>
           <Input
-            type="number"
-            step={1}
             value={newMembership.membershipNumber}
             onChange={({ target }: OnChange) =>
               setNewMembership((e) => ({
                 ...e,
-                membershipNumber: Math.floor(target.valueAsNumber),
+                membershipNumber: target.value,
               }))
             }
           />
