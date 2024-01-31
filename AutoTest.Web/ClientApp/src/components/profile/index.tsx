@@ -1,6 +1,6 @@
 import { h, FunctionComponent } from "preact";
 import { Button, Form, Heading } from "react-bulma-components";
-const { Label, Input, Field, Radio, Checkbox } = Form;
+const { Label, Input, Field, Radio, Checkbox, Control } = Form;
 import { useState } from "preact/hooks";
 
 import { Age, Profile } from "../../types/profileModels";
@@ -40,29 +40,31 @@ const ProfileComp: FunctionComponent<Props> = ({ save, profile, setField }) => {
           onChange={(e: OnChange) => setField({ familyName: e.target.value })}
         />
       </Field>
-      <Field>
-        <Label>Age</Label>
-        <Radio
-          checked={profile.age === Age.Junior}
-          onChange={() => setField({ age: Age.Junior })}
-        >
-          Junior
-        </Radio>
-        <Radio
-          checked={profile.age === Age.Senior}
-          onChange={() => setField({ age: Age.Senior })}
-        >
-          Senior
-        </Radio>
-      </Field>
-      <Field>
-        <Label>Lady?</Label>
-        <Checkbox
-          checked={profile.isLady}
-          onChange={() => setField({ isLady: !profile.isLady })}
-        >
-          Is Lady
-        </Checkbox>
+      <Field kind="group">
+        <Control fullwidth={true}>
+          <Label>Age</Label>
+          <Radio
+            checked={profile.age === Age.Junior}
+            onChange={() => setField({ age: Age.Junior })}
+          >
+            Junior
+          </Radio>
+          <Radio
+            checked={profile.age === Age.Senior}
+            onChange={() => setField({ age: Age.Senior })}
+          >
+            Senior
+          </Radio>
+        </Control>
+        <Control fullwidth={true}>
+          <Label>Lady?</Label>
+          <Checkbox
+            checked={profile.isLady}
+            onChange={() => setField({ isLady: !profile.isLady })}
+          >
+            Is Lady
+          </Checkbox>
+        </Control>
       </Field>
       <MsaMembershipEditor
         licenseTypes={[]}
