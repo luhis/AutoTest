@@ -25,7 +25,7 @@ namespace AutoTest.Unit.Test.Handlers
         }
 
         [Fact]
-        public async Task ReturnBlankProfileIfNone()
+        public async Task ReturnNullIfNotClub()
         {
             var clubId = 1ul;
             profileRepository.Setup(a => a.GetById(clubId, CancellationToken.None)).ReturnsAsync((Club?)null);
@@ -37,7 +37,7 @@ namespace AutoTest.Unit.Test.Handlers
         }
 
         [Fact]
-        public async Task ReturnExistingProfileIfSome()
+        public async Task ReturnClub()
         {
             var clubId = 1ul;
             var club = new Club(clubId, "First", "Last", "");

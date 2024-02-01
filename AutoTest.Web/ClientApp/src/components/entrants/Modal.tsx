@@ -209,7 +209,7 @@ const EntrantsModal: FunctionComponent<Props> = ({
             }
           />
           <Field kind="group">
-            <Control fullwidth={true}>
+            <Control fullwidth>
               <Label>Event Type</Label>
               <Select<EventType>
                 required
@@ -228,7 +228,7 @@ const EntrantsModal: FunctionComponent<Props> = ({
                 ))}
               </Select>
             </Control>
-            <Control fullwidth={true}>
+            <Control fullwidth>
               <Label>Class</Label>
               <DropdownInput
                 required

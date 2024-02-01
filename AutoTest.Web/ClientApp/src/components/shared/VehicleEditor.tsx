@@ -68,7 +68,7 @@ const VehicleEditor: FunctionComponent<Props> = ({
           <Label>Registration</Label>
           <Input
             required
-            class="is-warning"
+            fullwidth
             value={vehicle.registration}
             onChange={(e: OnChange) =>
               setField({
@@ -83,6 +83,7 @@ const VehicleEditor: FunctionComponent<Props> = ({
           <Control>
             <Input
               required
+              fullwidth
               type="number"
               step={1}
               value={vehicle.displacement}

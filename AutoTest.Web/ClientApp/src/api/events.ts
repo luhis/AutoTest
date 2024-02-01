@@ -48,7 +48,7 @@ export const setEventStatus = async (
   const response = await fetch(`/api/events/setEventStatus/${eventId}`, {
     headers: getHeaders(token),
     method: "PUT",
-    body: JSON.stringify({ status: eventStatus }),
+    body: eventStatus.toString(),
   });
   throwIfNotOk(response);
 };

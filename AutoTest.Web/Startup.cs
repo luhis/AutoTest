@@ -3,31 +3,30 @@ using AutoTest.Web.Extensions;
 using AutoTest.Web.Hubs;
 using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.OpenApi.Models;
+using System.Collections.Generic;
+using System.Security.Claims;
+using System.Text;
+using System.Threading.Tasks;
+using AutoTest.Persistence;
+using AutoTest.Service.Messages;
+using AutoTest.Web.Authorization;
+using AutoTest.Web.Authorization.Attributes;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using Microsoft.IdentityModel.Tokens;
+using WebMarkupMin.AspNetCore3;
 
 namespace AutoTest.Web
 {
-    using System.Collections.Generic;
-    using System.Security.Claims;
-    using System.Text;
-    using System.Threading.Tasks;
-    using AutoTest.Persistence;
-    using AutoTest.Service.Messages;
-    using AutoTest.Web.Authorization;
-    using AutoTest.Web.Authorization.Attributes;
-    using MediatR;
-    using Microsoft.AspNetCore.Authentication.JwtBearer;
-    using Microsoft.AspNetCore.Builder;
-    using Microsoft.AspNetCore.Hosting;
-    using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
-    using Microsoft.Extensions.Configuration;
-    using Microsoft.Extensions.DependencyInjection;
-    using Microsoft.Extensions.Hosting;
-    using Microsoft.IdentityModel.Tokens;
-    using WebMarkupMin.AspNetCore3;
 
     public class Startup
     {
-        private const string swaggerHash = "Tui7QoFlnLXkJCSl1/JvEZdIXTmBttnWNxzJpXomQjg=";
+        private const string swaggerHash = "A9ZGkjzNbSHK5HWS6UkGpaaIuyNt/7a8gVIu6p70YPo=";
         private const string swagger2Hash = "edNyF0T6h+RbJ9Kl1HXk6KaORyz6MmKnkP3XL/kRb4o=";
         private const string googleCom = "https://*.google.com";
         private const string googleAnal = "https://www.google-analytics.com";

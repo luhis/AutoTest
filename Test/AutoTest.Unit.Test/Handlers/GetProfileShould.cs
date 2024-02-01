@@ -4,6 +4,7 @@ using AutoTest.Domain.Repositories;
 using AutoTest.Domain.StorageModels;
 using AutoTest.Service.Handlers;
 using AutoTest.Service.Messages;
+using AutoTest.Unit.Test.MockData;
 using FluentAssertions;
 using MediatR;
 using Moq;
@@ -40,7 +41,7 @@ namespace AutoTest.Unit.Test.Handlers
         public async Task ReturnExistingProfileIfSome()
         {
             var email = "a@a.com";
-            var profile = new Profile(email, "First", "Last", Domain.Enums.Age.Junior, false);
+            var profile = Models.GetProfile(email);
             profileRepository.Setup(a => a.Get(email, CancellationToken.None)).ReturnsAsync(profile);
 
             var res = await sut.Handle(new(email), CancellationToken.None);

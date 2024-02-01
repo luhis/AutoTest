@@ -4,6 +4,7 @@ using AutoTest.Domain.Repositories;
 using AutoTest.Domain.StorageModels;
 using AutoTest.Service.Handlers;
 using AutoTest.Service.Messages;
+using AutoTest.Unit.Test.MockData;
 using FluentAssertions.ArgumentMatchers.Moq;
 using MediatR;
 using Moq;
@@ -28,7 +29,7 @@ namespace AutoTest.Unit.Test.Handlers
         public async Task SaveProfile()
         {
             var penalties = new[] { new Penalty(Domain.Enums.PenaltyEnum.Late, 1) };
-            var profile = new Profile("a", "", "", Domain.Enums.Age.Junior, false);
+            var profile = Models.GetProfile("aa@aa.com");
             testRuns.Setup(a => a.Upsert(Its.EquivalentTo(profile), CancellationToken.None)).Returns(Task.CompletedTask);
 
             await sut.Handle(new("aa@aa.com", profile), CancellationToken.None);

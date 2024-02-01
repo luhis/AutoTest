@@ -94,7 +94,7 @@ const Event: FunctionalComponent<Props> = ({ eventId }) => {
     [currentEvent],
   );
   const { adminClubs, marshalEvents } = useSelector(selectAccess);
-  const canEdit =
+  const canNotEdit =
     currentEvent === undefined || !adminClubs.includes(currentEvent.clubId);
 
   const previousStatus = useCallback(() => {
@@ -127,20 +127,23 @@ const Event: FunctionalComponent<Props> = ({ eventId }) => {
     <div>
       <Breadcrumbs club={currentClub} event={currentEvent} />
       <Heading>Event {currentEvent?.location}</Heading>
-      <Panel>
-        <Panel.Header>Event Actions</Panel.Header>
-        <Panel.Block>
-          <Button.Group>
-            <Button onClick={previousStatus}>
-              Back to {EventStatus[(currentEvent?.eventStatus || 0) - 1]}
-            </Button>
-            <p>{EventStatus[currentEvent?.eventStatus || 0]}</p>
-            <Button onClick={nextStatus}>
-              Forward to {EventStatus[(currentEvent?.eventStatus || 0) + 1]}
-            </Button>
-          </Button.Group>
-        </Panel.Block>
-      </Panel>
+      {!canNotEdit ? (
+        <Panel>
+          <Panel.Header>Event Actions</Panel.Header>
+          <Panel.Block>
+            <Button.Group>
+              <Button onClick={previousStatus}>
+                Back to {EventStatus[(currentEvent?.eventStatus || 0) - 1]}
+              </Button>
+              <p>{EventStatus[currentEvent?.eventStatus || 0]}</p>
+              <Button onClick={nextStatus}>
+                Forward to {EventStatus[(currentEvent?.eventStatus || 0) + 1]}
+              </Button>
+            </Button.Group>
+          </Panel.Block>
+        </Panel>
+      ) : null}
+
       <Panel>
         <Panel.Header>Notifications</Panel.Header>
         <Panel.Block>
@@ -158,7 +161,7 @@ const Event: FunctionalComponent<Props> = ({ eventId }) => {
               )}
             </Button>
             <Button
-              disabled={canEdit}
+              disabled={canNotEdit}
               onClick={() =>
                 setShowAddNotificationModal({
                   eventId,
@@ -197,7 +200,7 @@ const Event: FunctionalComponent<Props> = ({ eventId }) => {
               Tests
             </Button>
             <Button
-              disabled={canEdit}
+              disabled={canNotEdit}
               onClick={() => route(`/editRuns/${eventId}`)}
             >
               Edit Runs

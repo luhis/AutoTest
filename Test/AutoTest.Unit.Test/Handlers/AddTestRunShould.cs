@@ -11,6 +11,7 @@ using Moq;
 using Xunit;
 using System;
 using FluentAssertions;
+using System.Collections.Generic;
 
 namespace AutoTest.Unit.Test.Handlers
 {
@@ -22,6 +23,7 @@ namespace AutoTest.Unit.Test.Handlers
         private readonly Mock<ITestRunsRepository> testRuns;
         private readonly Mock<IEventsRepository> events;
         private readonly Mock<IMarshalsRepository> marshalsRepository;
+        private readonly ICollection<Penalty> penalties = new[] { new Penalty(Domain.Enums.PenaltyEnum.Late, 1) };
 
         public AddTestRunShould()
         {
@@ -40,7 +42,6 @@ namespace AutoTest.Unit.Test.Handlers
             var marshalId = 6ul;
             var eventId = 1ul;
             var clubId = 2ul;
-            var penalties = new[] { new Penalty(Domain.Enums.PenaltyEnum.Late, 1) };
             var tr = new TestRun(1, eventId, 3, 4, entrantId, new DateTime(2000, 1, 1), marshalId);
             tr.SetPenalties(penalties);
             marshalsRepository.Setup(a => a.GetMashalIdByEmail(eventId, "marshal@email.com", CancellationToken.None)).ReturnsAsync(marshalId);
@@ -63,7 +64,6 @@ namespace AutoTest.Unit.Test.Handlers
             var marshalId = 6ul;
             var eventId = 1ul;
             var clubId = 2ul;
-            var penalties = new[] { new Penalty(Domain.Enums.PenaltyEnum.Late, 1) };
             var tr = new TestRun(1, eventId, 3, 4, entrantId, new DateTime(2000, 1, 1), marshalId);
             tr.SetPenalties(penalties);
             var @event = new Event(eventId, clubId, "location", new DateTime(2000, 1, 1), 2, 3, "regs", new[] { Domain.Enums.EventType.AutoSolo }, "maps", Domain.Enums.TimingSystem.App, new DateTime(), new DateTime(), 10);

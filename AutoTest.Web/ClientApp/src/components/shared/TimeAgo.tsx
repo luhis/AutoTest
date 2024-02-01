@@ -9,9 +9,8 @@ const timeAgo = new TimeAgo("en-US");
 
 const TimeAgoFunc = (d: ValidDate) => timeAgo.format(d);
 
-
 export const TimeAgoComp: FunctionalComponent<{ readonly d: ValidDate }> = ({
-  d
+  d,
 }) => <span title={d.toISOString()}>{timeAgo.format(d)}</span>;
 
 export default TimeAgoFunc;

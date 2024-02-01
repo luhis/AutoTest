@@ -17,6 +17,7 @@ const DropdownInput: FunctionComponent<{
   );
   return (
     <Input
+      fullwidth
       required={required}
       list={id}
       value={value}

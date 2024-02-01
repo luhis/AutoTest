@@ -35,7 +35,7 @@ namespace AutoTest.Web.Controllers
 
         [Authorize(policy: Policies.ClubAdmin)]
         [HttpPut("[action]/{eventId}")]
-        public Task SetEventStatus(ulong eventId, CancellationToken cancellationToken, EventStatus status) =>
+        public Task SetEventStatus(ulong eventId, [FromBody] EventStatus status, CancellationToken cancellationToken) =>
             this.mediator.Send(new SetEventStatus(eventId, status), cancellationToken);
 
         [Authorize(policy: Policies.ClubAdmin)]
