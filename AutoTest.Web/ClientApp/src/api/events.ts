@@ -1,6 +1,6 @@
 import { parseIsoOrThrow } from "ts-date";
 
-import { Event, Override } from "../types/models";
+import { Event, EventStatus, Override } from "../types/models";
 import { ApiResponse, toApiResponse } from "../types/loadingState";
 import { extract, getHeaders, throwIfNotOk } from "./api";
 
@@ -36,6 +36,19 @@ export const addEvent = async (
     headers: getHeaders(token),
     method: "PUT",
     body: JSON.stringify(rest),
+  });
+  throwIfNotOk(response);
+};
+
+export const setEventStatus = async (
+  eventId: number,
+  eventStatus: EventStatus,
+  token: string | undefined,
+): Promise<void> => {
+  const response = await fetch(`/api/events/setEventStatus/${eventId}`, {
+    headers: getHeaders(token),
+    method: "PUT",
+    body: JSON.stringify({ status: eventStatus }),
   });
   throwIfNotOk(response);
 };

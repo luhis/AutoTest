@@ -32,7 +32,7 @@ namespace AutoTest.Service.Handlers
         {
             var @event = await eventsRepository.GetById(request.EventId, cancellationToken);
 
-            var tests = @event!.Tests;
+            var tests = @event!.Courses;
             var entrants = await entrantsRepository.GetByEventId(request.EventId, cancellationToken);
             var testRuns = await testRunsRepository.GetAll(request.EventId, cancellationToken);
 

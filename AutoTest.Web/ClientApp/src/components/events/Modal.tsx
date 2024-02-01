@@ -103,10 +103,10 @@ const ModalX: FunctionComponent<Props> = ({
               type="number"
               min={1}
               step={1}
-              value={event.testCount}
+              value={event.courseCount}
               onChange={(e: OnChange) =>
                 setField({
-                  testCount: Math.floor(e.target.valueAsNumber),
+                  courseCount: Math.floor(e.target.valueAsNumber),
                 })
               }
             />
@@ -118,10 +118,10 @@ const ModalX: FunctionComponent<Props> = ({
               type="number"
               min={1}
               step={1}
-              value={event.maxAttemptsPerTest}
+              value={event.maxAttemptsPerCourse}
               onChange={(e: OnChange) =>
                 setField({
-                  maxAttemptsPerTest: Math.floor(e.target.valueAsNumber),
+                  maxAttemptsPerCourse: Math.floor(e.target.valueAsNumber),
                 })
               }
             />

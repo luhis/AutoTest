@@ -17,7 +17,7 @@ namespace AutoTest.Unit.Test.Handlers
 {
     public class GetTestsHandlerShould
     {
-        private readonly IRequestHandler<GetTests, IEnumerable<Domain.StorageModels.Test>> sut;
+        private readonly IRequestHandler<GetTests, IEnumerable<Domain.StorageModels.Course>> sut;
         private readonly MockRepository mr;
         private readonly Mock<IEventsRepository> testRuns;
 

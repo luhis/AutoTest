@@ -14,12 +14,13 @@ import {
   GetEventsIfRequired,
   GetNotifications,
   CreateNotification,
+  SetEventStatus,
 } from "../../store/event/actions";
 import { selectEvents, selectNotifications } from "../../store/event/selectors";
 import { findIfLoaded, mapOrDefault } from "../../types/loadingState";
 import NotificationsModal from "../../components/events/NotificationsModal";
 import RouteParamsParser from "../../components/shared/RouteParamsParser";
-import { EventNotification, Override } from "../../types/models";
+import { EventNotification, EventStatus, Override } from "../../types/models";
 import AddNotificationModal from "../../components/events/AddNotificationModal";
 import { keySeed } from "../../settings";
 import Breadcrumbs from "../../components/shared/Breadcrumbs";
@@ -95,10 +96,51 @@ const Event: FunctionalComponent<Props> = ({ eventId }) => {
   const { adminClubs, marshalEvents } = useSelector(selectAccess);
   const canEdit =
     currentEvent === undefined || !adminClubs.includes(currentEvent.clubId);
+
+  const previousStatus = useCallback(() => {
+    if (currentEvent) {
+      return dispatch(
+        SetEventStatus(
+          currentEvent.eventId,
+          currentEvent.eventStatus - 1,
+          getAccessToken(auth),
+        ),
+      );
+    } else {
+      return Promise.resolve();
+    }
+  }, [auth, currentEvent, dispatch]);
+  const nextStatus = useCallback(() => {
+    if (currentEvent) {
+      return dispatch(
+        SetEventStatus(
+          currentEvent.eventId,
+          currentEvent.eventStatus + 1,
+          getAccessToken(auth),
+        ),
+      );
+    } else {
+      return Promise.resolve();
+    }
+  }, [auth, currentEvent, dispatch]);
   return (
     <div>
       <Breadcrumbs club={currentClub} event={currentEvent} />
       <Heading>Event {currentEvent?.location}</Heading>
+      <Panel>
+        <Panel.Header>Event Actions</Panel.Header>
+        <Panel.Block>
+          <Button.Group>
+            <Button onClick={previousStatus}>
+              Back to {EventStatus[(currentEvent?.eventStatus || 0) - 1]}
+            </Button>
+            <p>{EventStatus[currentEvent?.eventStatus || 0]}</p>
+            <Button onClick={nextStatus}>
+              Forward to {EventStatus[(currentEvent?.eventStatus || 0) + 1]}
+            </Button>
+          </Button.Group>
+        </Panel.Block>
+      </Panel>
       <Panel>
         <Panel.Header>Notifications</Panel.Header>
         <Panel.Block>

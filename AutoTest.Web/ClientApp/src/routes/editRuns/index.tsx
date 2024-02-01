@@ -103,7 +103,7 @@ const EditRuns: FunctionalComponent<Props> = ({ eventId }) => {
           setSelectedOrdinal(Number.parseInt(a.target.value))
         }
       >
-        {(currentEvent ? range(currentEvent.testCount) : []).map((a) => (
+        {(currentEvent ? range(currentEvent.courseCount) : []).map((a) => (
           <option key={a} value={a}>
             {a + 1}
           </option>

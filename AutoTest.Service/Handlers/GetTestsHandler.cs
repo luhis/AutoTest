@@ -10,7 +10,7 @@ using MediatR;
 
 namespace AutoTest.Service.Handlers
 {
-    public class GetTestsHandler : IRequestHandler<GetTests, IEnumerable<Test>>
+    public class GetTestsHandler : IRequestHandler<GetTests, IEnumerable<Course>>
     {
         private readonly IEventsRepository eventsRepository;
 
@@ -19,11 +19,11 @@ namespace AutoTest.Service.Handlers
             this.eventsRepository = eventsRepository;
         }
 
-        async Task<IEnumerable<Test>> IRequestHandler<GetTests, IEnumerable<Test>>.Handle(GetTests request, CancellationToken cancellationToken)
+        async Task<IEnumerable<Course>> IRequestHandler<GetTests, IEnumerable<Course>>.Handle(GetTests request, CancellationToken cancellationToken)
         {
             var @event = await this.eventsRepository.GetById(request.EventId, cancellationToken);
 
-            return @event!.Tests.OrderBy(a => a.Ordinal);
+            return @event!.Courses.OrderBy(a => a.Ordinal);
         }
     }
 }

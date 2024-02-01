@@ -1,8 +1,8 @@
 ﻿namespace AutoTest.Domain.StorageModels
 {
-    public class Test
+    public class Course
     {
-        public Test(int ordinal, string mapLocation)
+        public Course(int ordinal, string mapLocation)
         {
             Ordinal = ordinal;
             this.MapLocation = mapLocation;

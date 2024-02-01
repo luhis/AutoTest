@@ -18,8 +18,8 @@
             entity.Property(e => e.StartTime).IsRequired();
             entity.Property(e => e.EntryOpenDate).IsRequired();
             entity.Property(e => e.EntryCloseDate).IsRequired();
-            entity.Property(e => e.TestCount).IsRequired();
-            entity.Property(e => e.MaxAttemptsPerTest).IsRequired();
+            entity.Property(e => e.CourseCount).IsRequired();
+            entity.Property(e => e.MaxAttemptsPerCourse).IsRequired();
             entity.Property(e => e.Regulations).IsRequired();
             entity.Property(e => e.Maps).IsRequired();
             entity.Property(e => e.EventTypes).IsRequired().HasConversion(
@@ -34,7 +34,7 @@
             entity.Property(e => e.TimingSystem).IsRequired();
             entity.Property(e => e.MaxEntrants).IsRequired();
             entity.HasOne<Club>().WithMany().HasForeignKey(p => p.ClubId);
-            entity.OwnsMany(a => a.Tests, SetupTest.Setup);
+            entity.OwnsMany(a => a.Courses, SetupTest.Setup);
         }
     }
 }

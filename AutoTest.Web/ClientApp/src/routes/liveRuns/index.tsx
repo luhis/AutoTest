@@ -81,7 +81,7 @@ const Results: FunctionalComponent<Props> = ({
     testFilterState.length === 0 || testFilterState.includes(r.ordinal);
 
   const allTests = currentEvent
-    ? currentEvent.tests.map((a) => a.ordinal + 1)
+    ? currentEvent.courses.map((a) => a.ordinal + 1)
     : [];
 
   const filteredRuns = runs.filter(filterRuns);

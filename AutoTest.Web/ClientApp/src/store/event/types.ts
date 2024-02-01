@@ -9,6 +9,7 @@ import {
   PublicEntrant,
   PublicMarshal,
   Payment,
+  EventStatus,
 } from "../../types/models";
 import { LoadingState } from "../../types/loadingState";
 import { AddEvent } from "./actions";
@@ -26,6 +27,7 @@ export interface EventState {
   readonly notifications: LoadingState<readonly EventNotification[], number>;
 }
 
+// todo can i improve?
 export const GET_ENTRANTS = "GET_ENTRANTS";
 export const ADD_ENTRANT = "ADD_ENTRANT";
 export const ADD_MARSHAL = "ADD_MARSHAL";
@@ -42,6 +44,7 @@ export const UPDATE_TEST_RUN = "UPDATE_TEST_RUN";
 export const UPDATE_TEST_RUN_STATE = "UPDATE_TEST_RUN_STATE";
 export const GET_NOTIFICATIONS = "GET_NOTIFICATIONS";
 export const ADD_NOTIFICATION = "ADD_NOTIFICATION";
+export const SET_EVENT_STATUS = "SET_EVENT_STATUS";
 
 interface GetEntrants {
   readonly type: typeof GET_ENTRANTS;
@@ -96,6 +99,14 @@ interface AddEvent {
   readonly payload: { readonly event: Event };
 }
 
+interface SetEventStatus {
+  readonly type: typeof SET_EVENT_STATUS;
+  readonly payload: {
+    readonly eventId: number;
+    readonly eventStatus: EventStatus;
+  };
+}
+
 interface GetTestRuns {
   readonly type: typeof GET_TEST_RUNS;
   readonly payload: LoadingState<
@@ -138,6 +149,7 @@ export type EventActionTypes =
   | SetPaid
   | DeleteEntrant
   | AddEvent
+  | SetEventStatus
   | GetTestRuns
   | GetEvents
   | DeleteEvent

@@ -25,7 +25,7 @@ const ExportCount: FunctionalComponent<Props> = ({
         ).length
       : "NA"}{" "}
     of{" "}
-    {currentEvent !== undefined ? currentEvent.maxAttemptsPerTest : "unknown"}
+    {currentEvent !== undefined ? currentEvent.maxAttemptsPerCourse : "unknown"}
   </span>
 );
 

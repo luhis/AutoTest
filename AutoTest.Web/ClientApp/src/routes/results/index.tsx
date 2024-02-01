@@ -88,7 +88,7 @@ const Results: FunctionComponent<
   );
   const notifications = useSelector(selectNotifications);
   const testRuns = range(
-    currentEvent !== undefined ? currentEvent.maxAttemptsPerTest : 0,
+    currentEvent !== undefined ? currentEvent.maxAttemptsPerCourse : 0,
   );
   const [results, setResults] = useState<
     LoadingState<readonly Result[], number>
@@ -180,7 +180,7 @@ const Results: FunctionComponent<
             <th>Name</th>
             <th>Total Time</th>
             {currentEvent
-              ? currentEvent.tests.map((test) =>
+              ? currentEvent.courses.map((test) =>
                   testRuns.map((run) => (
                     <th key={`${test.ordinal}.${run}`}>
                       {test.ordinal + 1}.{numberToChar(run)}
@@ -208,7 +208,7 @@ const Results: FunctionComponent<
                   <td>{`${a.entrant.givenName} ${a.entrant.familyName}`}</td>
                   <td>{(a.totalTime / 1000).toFixed(2)}</td>
                   {currentEvent
-                    ? currentEvent.tests.map((test) =>
+                    ? currentEvent.courses.map((test) =>
                         testRuns.map((run) => (
                           <td key={`${test.ordinal}.${run}`}>
                             <Time times={a} ordinal={test.ordinal} run={run} />

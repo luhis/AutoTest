@@ -4,7 +4,7 @@ using MediatR;
 
 namespace AutoTest.Service.Messages
 {
-    public class GetTests : IRequest<IEnumerable<Test>>
+    public class GetTests : IRequest<IEnumerable<Course>>
     {
         public GetTests(ulong eventId)
         {

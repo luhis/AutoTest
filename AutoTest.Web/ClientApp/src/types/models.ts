@@ -17,7 +17,7 @@ export interface Club {
 
 export type EditingClub = Club & { readonly isNew: boolean };
 
-export interface Test {
+export interface Course {
   readonly ordinal: number;
   readonly mapLocation: string;
 }
@@ -50,6 +50,13 @@ export enum EventType {
   AutoSolo = 1,
   PCA = 2,
   Trial = 3,
+}
+
+export enum EventStatus {
+  Open = 0,
+  Running = 1,
+  Provisional = 2,
+  Finalised = 3,
 }
 
 export enum TestRunUploadState {
@@ -90,16 +97,17 @@ export interface Event {
   readonly clubId: number;
   readonly location: string;
   readonly startTime: ValidDate;
-  readonly testCount: number;
-  readonly maxAttemptsPerTest: number;
+  readonly courseCount: number;
+  readonly maxAttemptsPerCourse: number;
   readonly maxEntrants: number;
-  readonly tests: readonly Test[];
+  readonly courses: readonly Course[];
   readonly regulations: string | null;
   readonly maps: string | null;
   readonly eventTypes: readonly EventType[];
   readonly entryOpenDate: ValidDate;
   readonly entryCloseDate: ValidDate;
   readonly timingSystem: TimingSystem;
+  readonly eventStatus: EventStatus;
 }
 
 export type EditingEvent = Override<

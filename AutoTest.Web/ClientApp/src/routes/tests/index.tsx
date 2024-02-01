@@ -49,7 +49,7 @@ const Tests: FunctionalComponent<Readonly<Props>> = ({ eventId }) => {
       <Breadcrumbs club={currentClub} event={currentEvent} />
       <Heading>Tests</Heading>
       {currentEvent ? (
-        currentEvent.tests.map(({ ordinal }) => (
+        currentEvent.courses.map(({ ordinal }) => (
           <Columns key={ordinal}>
             <Column>
               <p class="number">{ordinal + 1}</p>

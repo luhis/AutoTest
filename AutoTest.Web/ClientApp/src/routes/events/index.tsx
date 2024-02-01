@@ -10,6 +10,7 @@ import {
   EditingEvent,
   Override,
   TimingSystem,
+  EventStatus,
 } from "../../types/models";
 import Modal from "../../components/events/Modal";
 import { getAccessToken } from "../../api/api";
@@ -33,6 +34,26 @@ interface Props {
   readonly clubId: number | undefined;
 }
 const uid = UUID(keySeed);
+
+const blankEvent = (clubId: number | undefined): EditingEvent => ({
+  clubId: clubId,
+  eventId: uid.uuid(),
+  location: "",
+  startTime: getDateTimeString(newValidDate()),
+  courseCount: 12,
+  maxAttemptsPerCourse: 2,
+  maxEntrants: 30,
+  isNew: true,
+  isClubEditable: clubId === undefined,
+  courses: [],
+  regulations: null,
+  maps: null,
+  eventTypes: [],
+  entryOpenDate: getDateTimeString(newValidDate()),
+  entryCloseDate: getDateTimeString(newValidDate()),
+  timingSystem: TimingSystem.App,
+  eventStatus: EventStatus.Open,
+});
 
 const Events: FunctionalComponent<Props> = ({ clubId }) => {
   const thunkDispatch = useThunkDispatch();
@@ -73,25 +94,7 @@ const Events: FunctionalComponent<Props> = ({ clubId }) => {
     [auth, dispatchThunk],
   );
   const createNewEvent = useCallback(
-    () =>
-      setEditingEvent({
-        clubId: clubId,
-        eventId: uid.uuid(),
-        location: "",
-        startTime: getDateTimeString(newValidDate()),
-        testCount: 12,
-        maxAttemptsPerTest: 2,
-        maxEntrants: 30,
-        isNew: true,
-        isClubEditable: clubId === undefined,
-        tests: [],
-        regulations: null,
-        maps: null,
-        eventTypes: [],
-        entryOpenDate: getDateTimeString(newValidDate()),
-        entryCloseDate: getDateTimeString(newValidDate()),
-        timingSystem: TimingSystem.App,
-      }),
+    () => setEditingEvent(blankEvent(clubId)),
     [clubId],
   );
   return (

@@ -19,6 +19,7 @@ import {
   DELETE_MARSHAL,
   GET_MARSHALS,
   UPDATE_TEST_RUN,
+  SET_EVENT_STATUS,
 } from "./types";
 import {
   TestRunUploadState,
@@ -31,6 +32,7 @@ import {
   PublicMarshal,
   PublicEntrant,
   Payment,
+  EventStatus,
 } from "../../types/models";
 import {
   addEntrant,
@@ -48,7 +50,12 @@ import {
   ifLoaded,
   canUpdate,
 } from "../../types/loadingState";
-import { addEvent, deleteEvent, getEvents } from "../../api/events";
+import {
+  addEvent,
+  deleteEvent,
+  getEvents,
+  setEventStatus,
+} from "../../api/events";
 import { addNotification, getNotifications } from "../../api/notifications";
 import {
   selectEntrants,
@@ -196,6 +203,20 @@ export const CreateNotification =
     } catch (e) {
       return false;
     }
+  };
+
+export const SetEventStatus =
+  (
+    eventId: number,
+    eventStatus: EventStatus,
+    token: string | undefined,
+  ): ThunkAction<Promise<void>, AppState, unknown, EventActionTypes> =>
+  async (dispatch) => {
+    await setEventStatus(eventId, eventStatus, token);
+    dispatch({
+      type: SET_EVENT_STATUS,
+      payload: { eventId, eventStatus },
+    });
   };
 
 export const AddEvent =

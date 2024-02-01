@@ -17,6 +17,7 @@ import {
   ADD_MARSHAL,
   DELETE_MARSHAL,
   UPDATE_TEST_RUN,
+  SET_EVENT_STATUS,
 } from "./types";
 import { Payment, PublicEntrant, TestRunUploadState } from "../../types/models";
 import { ifLoaded, LoadingState } from "../../types/loadingState";
@@ -119,6 +120,17 @@ export const eventReducer = (
         ...state,
         marshals: ifLoaded(state.marshals, (v) =>
           v.filter(({ marshalId }) => marshalId !== action.payload.marshalId),
+        ),
+      };
+    case SET_EVENT_STATUS:
+      return {
+        ...state,
+        events: ifLoaded(state.events, (e) =>
+          e.map((x) =>
+            x.eventId === action.payload.eventId
+              ? { ...x, eventStatus: action.payload.eventStatus }
+              : x,
+          ),
         ),
       };
     case ADD_EVENT:

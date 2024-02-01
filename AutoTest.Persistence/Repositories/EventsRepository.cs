@@ -37,11 +37,11 @@ namespace AutoTest.Persistence.Repositories
 
         private static void SyncTests(Event @event)
         {
-            var tests = @event.Tests;
-            var expectedOrdinals = Enumerable.Range(0, @event.TestCount).ToArray();
+            var tests = @event.Courses;
+            var expectedOrdinals = Enumerable.Range(0, @event.CourseCount).ToArray();
             var toAddOrdinals = expectedOrdinals.Except(tests.Select(a => a.Ordinal));
 
-            @event.SetTests(tests.Where(a => expectedOrdinals.Contains(a.Ordinal)).Concat(toAddOrdinals.Select(a => new Test(a, ""))).ToArray());
+            @event.SetCourses(tests.Where(a => expectedOrdinals.Contains(a.Ordinal)).Concat(toAddOrdinals.Select(a => new Course(a, ""))).ToArray());
         }
 
         Task IEventsRepository.Delete(Event @event, CancellationToken cancellationToken)
