@@ -1,5 +1,5 @@
 import { profileReducer } from "../store/profile/reducers";
-import { RESET_ACCESS, ProfileState } from "../store/profile/types";
+import { ProfileState } from "../store/profile/types";
 
 const populatedState: ProfileState = {
   profile: { tag: "Idle" },
@@ -18,7 +18,7 @@ const populatedState: ProfileState = {
 describe("Profile Reducer", () => {
   test("Reset Access", () => {
     const finalState = profileReducer(populatedState, {
-      type: RESET_ACCESS,
+      type: "RESET_ACCESS",
     });
     expect(finalState.access.isLoggedIn).toBe(false);
     expect(finalState.access.isRootAdmin).toBe(false);

@@ -1,18 +1,6 @@
-import { Access } from "src/types/profileModels";
+import { Access } from "../../types/profileModels";
 import { neverReached } from "../../types/shared";
-import {
-  ProfileState,
-  ProfileActionTypes,
-  GET_PROFILE,
-  GET_ACCESS,
-  RESET_ACCESS,
-  ADD_CLUB_ADMIN,
-  ADD_EVENT_MARSHAL,
-  REMOVE_CLUB_ADMIN,
-  REMOVE_EVENT_MARSHAL,
-  ADD_EDITABLE_ENTRANT,
-  ADD_EDITABLE_MARSHAL,
-} from "./types";
+import { ProfileState, ProfileActionTypes } from "./types";
 
 const defaultAccess: Access = {
   isLoggedIn: false,
@@ -35,22 +23,22 @@ export const profileReducer = (
   action: ProfileActionTypes,
 ): ProfileState => {
   switch (action.type) {
-    case GET_PROFILE:
+    case "GET_PROFILE":
       return {
         ...state,
         profile: action.payload,
       };
-    case GET_ACCESS:
+    case "GET_ACCESS":
       return {
         ...state,
         access: action.payload,
       };
-    case RESET_ACCESS:
+    case "RESET_ACCESS":
       return {
         ...state,
         access: defaultAccess,
       };
-    case ADD_CLUB_ADMIN:
+    case "ADD_CLUB_ADMIN":
       return {
         ...state,
         access: {
@@ -58,7 +46,7 @@ export const profileReducer = (
           adminClubs: state.access.adminClubs.concat(action.payload),
         },
       };
-    case REMOVE_CLUB_ADMIN:
+    case "REMOVE_CLUB_ADMIN":
       return {
         ...state,
         access: {
@@ -68,7 +56,7 @@ export const profileReducer = (
           ),
         },
       };
-    case ADD_EVENT_MARSHAL:
+    case "ADD_EVENT_MARSHAL":
       return {
         ...state,
         access: {
@@ -76,7 +64,7 @@ export const profileReducer = (
           marshalEvents: state.access.marshalEvents.concat(action.payload),
         },
       };
-    case REMOVE_EVENT_MARSHAL:
+    case "REMOVE_EVENT_MARSHAL":
       return {
         ...state,
         access: {
@@ -86,7 +74,7 @@ export const profileReducer = (
           ),
         },
       };
-    case ADD_EDITABLE_ENTRANT:
+    case "ADD_EDITABLE_ENTRANT":
       return {
         ...state,
         access: {
@@ -96,7 +84,7 @@ export const profileReducer = (
           ),
         },
       };
-    case ADD_EDITABLE_MARSHAL:
+    case "ADD_EDITABLE_MARSHAL":
       return {
         ...state,
         access: {

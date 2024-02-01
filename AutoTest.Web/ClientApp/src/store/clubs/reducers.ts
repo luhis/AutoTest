@@ -1,4 +1,4 @@
-import { ClubsActionTypes, GET_CLUBS, ADD_CLUB, ClubsState } from "./types";
+import { ClubsActionTypes, ClubsState } from "./types";
 import { ifLoaded } from "../../types/loadingState";
 import { neverReached } from "../../types/shared";
 import { CLEAR_CACHE } from "../shared/types";
@@ -12,17 +12,17 @@ export const clubsReducer = (
   action: ClubsActionTypes,
 ): ClubsState => {
   switch (action.type) {
-    case CLEAR_CACHE: // todo in other side
+    case CLEAR_CACHE:
       return {
         ...state,
         clubs: { tag: "Idle" },
       };
-    case GET_CLUBS:
+    case "GET_CLUBS":
       return {
         ...state,
         clubs: action.payload,
       };
-    case ADD_CLUB:
+    case "ADD_CLUB":
       return {
         ...state,
         clubs: ifLoaded(state.clubs, (c) =>

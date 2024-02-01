@@ -6,16 +6,13 @@ export interface ClubsState {
   readonly clubs: LoadingState<readonly Club[]>;
 }
 
-export const GET_CLUBS = "GET_CLUBS";
-export const ADD_CLUB = "ADD_CLUB";
-
 interface GetClubs {
-  readonly type: typeof GET_CLUBS;
+  readonly type: "GET_CLUBS";
   readonly payload: LoadingState<readonly Club[]>;
 }
 
 interface AddClub {
-  readonly type: typeof ADD_CLUB;
+  readonly type: "ADD_CLUB";
   readonly payload: Club;
 }
 
