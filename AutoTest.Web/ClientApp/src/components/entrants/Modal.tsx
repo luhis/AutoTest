@@ -32,6 +32,7 @@ import { useThunkDispatch } from "../../store";
 import { useGoogleAuth } from "../app";
 import { GetProfileIfRequired } from "../../store/profile/actions";
 import { EntrantAgreement } from "../../settings";
+import { FaInfoCircle } from "react-icons/fa";
 
 const FillProfileButton: FunctionComponent<{
   readonly clubMemberships: readonly ClubMembership[];
@@ -131,20 +132,32 @@ const EntrantsModal: FunctionComponent<Props> = ({
               />
             </Control>
           </Field>
-          <Field>
-            <Label>Age</Label>
-            <Radio
-              checked={entrant.age === Age.Junior}
-              onChange={() => setField({ age: Age.Junior })}
-            >
-              Junior
-            </Radio>
-            <Radio
-              checked={entrant.age === Age.Senior}
-              onChange={() => setField({ age: Age.Senior })}
-            >
-              Senior
-            </Radio>
+          <Field kind="group">
+            <Control fullwidth={true}>
+              <Label>Age</Label>
+              <Radio
+                checked={entrant.age === Age.Junior}
+                onChange={() => setField({ age: Age.Junior })}
+              >
+                Junior
+              </Radio>
+              <Radio
+                checked={entrant.age === Age.Senior}
+                onChange={() => setField({ age: Age.Senior })}
+              >
+                Senior
+              </Radio>
+            </Control>
+            <Control fullwidth={true}>
+              <Label>Lady?</Label>
+              <Checkbox
+                checked={entrant.isLady}
+                onChange={() => setField({ isLady: !entrant.isLady })}
+              >
+                Is Lady{" "}
+                <FaInfoCircle title="Used for fastest lady awards (if given)"></FaInfoCircle>
+              </Checkbox>
+            </Control>
           </Field>
           <Field>
             <Label>Email</Label>
@@ -200,6 +213,7 @@ const EntrantsModal: FunctionComponent<Props> = ({
               <Label>Event Type</Label>
               <Select<EventType>
                 required
+                fullwidth
                 value={entrant.eventType}
                 onChange={(evt: OnSelectChange) => {
                   setField({

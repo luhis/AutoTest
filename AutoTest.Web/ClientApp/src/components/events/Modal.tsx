@@ -75,7 +75,7 @@ const ModalX: FunctionComponent<Props> = ({
               <Label>Club</Label>
               <Select
                 required
-                class="is-fullwidth"
+                fullwidth
                 onChange={(evt: OnSelectChange) =>
                   setField({
                     clubId: Number.parseInt(evt.target.value),

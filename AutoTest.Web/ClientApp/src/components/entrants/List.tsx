@@ -62,7 +62,7 @@ const Pay: FunctionComponent<{
         <Label>Payment Method</Label>
         <Select<PaymentMethod>
           required
-          class="is-fullwidth"
+          fullwidth
           onChange={(evt: OnSelectChange) =>
             setPaymentMethod(Number.parseInt(evt.target.value))
           }

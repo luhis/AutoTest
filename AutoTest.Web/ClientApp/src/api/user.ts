@@ -1,4 +1,4 @@
-import { parseIsoOrThrow } from "ts-date";
+import { formatDateIso, parseIsoOrThrow } from "ts-date";
 
 import { Profile } from "../types/profileModels";
 import { ApiResponse, toApiResponse } from "../types/loadingState";
@@ -37,10 +37,17 @@ export const saveProfile = async (
   profile: Profile,
   token: string | undefined,
 ): Promise<void> => {
+  const saveableProfile = {
+    ...profile,
+    clubMemberships: profile.clubMemberships.map((membership) => ({
+      ...membership,
+      expiry: formatDateIso(membership.expiry),
+    })),
+  };
   const response = await fetch(`/api/profile/`, {
     headers: getHeaders(token),
     method: "PUT",
-    body: JSON.stringify(profile),
+    body: JSON.stringify(saveableProfile),
   });
   throwIfNotOk(response);
 };

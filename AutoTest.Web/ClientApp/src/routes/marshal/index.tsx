@@ -183,7 +183,7 @@ const Marshal: FunctionalComponent<Readonly<Props>> = ({
         <Label>Entrant</Label>
         <Select<number>
           required
-          class="is-fullwidth"
+          fullwidth
           onChange={(event: OnSelectChange) =>
             setEditing((e) => ({
               ...e,
