@@ -5,7 +5,7 @@ import { addClub, deleteClub, getClubs } from "../../api/clubs";
 import { selectClubs } from "./selectors";
 import { AppState } from "..";
 import { canUpdate, isStale, requiresLoading } from "../../types/loadingState";
-import { ADD_CLUB, ClubsActionTypes, GET_CLUBS } from "./types";
+import { ClubsActionTypes } from "./types";
 
 export const GetClubsIfRequired =
   (
@@ -16,14 +16,14 @@ export const GetClubsIfRequired =
     if (requiresLoading(clubs.tag) || isStale(clubs)) {
       if (clubs.tag === "Idle") {
         dispatch({
-          type: GET_CLUBS,
+          type: "GET_CLUBS",
           payload: { tag: "Loading", id: undefined },
         });
       }
       const res = await getClubs(token);
       if (canUpdate(clubs, res)) {
         dispatch({
-          type: GET_CLUBS,
+          type: "GET_CLUBS",
           payload: res,
         });
       }
@@ -39,7 +39,7 @@ export const AddClub =
   async (dispatch) => {
     await addClub(club, token);
     dispatch({
-      type: ADD_CLUB,
+      type: "ADD_CLUB",
       payload: club,
     });
     onSuccess();
@@ -53,11 +53,11 @@ export const DeleteClub =
   async (dispatch) => {
     await deleteClub(clubId, token);
     dispatch({
-      type: GET_CLUBS,
+      type: "GET_CLUBS",
       payload: { tag: "Loading", id: undefined },
     });
     dispatch({
-      type: GET_CLUBS,
+      type: "GET_CLUBS",
       payload: await getClubs(token),
     });
   };
