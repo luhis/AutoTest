@@ -1,7 +1,6 @@
 import { ClubsActionTypes, ClubsState } from "./types";
 import { ifLoaded } from "../../types/loadingState";
 import { neverReached } from "../../types/shared";
-import { CLEAR_CACHE } from "../shared/types";
 
 const initialState: ClubsState = {
   clubs: { tag: "Idle" },
@@ -12,7 +11,7 @@ export const clubsReducer = (
   action: ClubsActionTypes,
 ): ClubsState => {
   switch (action.type) {
-    case CLEAR_CACHE:
+    case "CLEAR_CACHE":
       return {
         ...state,
         clubs: { tag: "Idle" },

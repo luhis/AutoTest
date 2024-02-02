@@ -1,11 +1,8 @@
 import {
   Entrant,
   Event,
-  TestRunFromServer,
-  TestRunUploadState,
   EventNotification,
   Marshal,
-  TestRunFromClient,
   PublicEntrant,
   PublicMarshal,
   Payment,
@@ -19,11 +16,6 @@ export interface EventState {
   readonly events: LoadingState<readonly Event[]>;
   readonly entrants: LoadingState<readonly PublicEntrant[], number>;
   readonly marshals: LoadingState<readonly PublicMarshal[], number>;
-  readonly testRuns: readonly TestRunFromClient[];
-  readonly testRunsFromServer: LoadingState<
-    readonly TestRunFromServer[],
-    { readonly eventId: number; readonly ordinal: number }
-  >;
   readonly notifications: LoadingState<readonly EventNotification[], number>;
 }
 
@@ -88,32 +80,6 @@ interface SetEventStatus {
   };
 }
 
-interface GetTestRuns {
-  readonly type: "GET_TEST_RUNS";
-  readonly payload: LoadingState<
-    readonly TestRunFromServer[],
-    { readonly eventId: number; readonly ordinal: number }
-  >;
-}
-
-interface AddTestRun {
-  readonly type: "ADD_TEST_RUN";
-  readonly payload: TestRunFromClient;
-}
-
-interface UpdateTestRun {
-  readonly type: "UPDATE_TEST_RUN";
-  readonly payload: TestRunFromServer;
-}
-
-interface UpdateTestRunState {
-  readonly type: "UPDATE_TEST_RUN_STATE";
-  readonly payload: {
-    readonly testRunId: number;
-    readonly state: TestRunUploadState;
-  };
-}
-
 interface GetNotifications {
   readonly type: "GET_NOTIFICATIONS";
   readonly payload: LoadingState<readonly EventNotification[], number>;
@@ -131,12 +97,8 @@ export type EventActionTypes =
   | DeleteEntrant
   | AddEvent
   | SetEventStatus
-  | GetTestRuns
   | GetEvents
   | DeleteEvent
-  | AddTestRun
-  | UpdateTestRun
-  | UpdateTestRunState
   | GetNotifications
   | AddNotification
   | GetMarshals

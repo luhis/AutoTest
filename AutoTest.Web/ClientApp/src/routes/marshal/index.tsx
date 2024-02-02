@@ -20,19 +20,20 @@ import { useGoogleAuth } from "../../components/app";
 import Penalties from "../../components/marshal/Penalties";
 import { OnChange, OnSelectChange } from "../../types/inputs";
 import {
-  AddTestRun,
-  SyncTestRuns,
   GetEventsIfRequired,
   GetEntrantsIfRequired,
-  GetTestRunsIfRequired,
 } from "../../store/event/actions";
 import {
-  selectEntrants,
+  AddTestRun,
+  SyncTestRuns,
+  GetTestRunsIfRequired,
+} from "../../store/runs/actions";
+import { selectEntrants, selectEvents } from "../../store/event/selectors";
+import {
   selectRequiresSync,
   selectTestRuns,
-  selectEvents,
   selectTestRunsFromServer,
-} from "../../store/event/selectors";
+} from "../../store/runs/selectors";
 import { keySeed } from "../../settings";
 import ExistingCount from "../../components/marshal/ExistingCount";
 import { findIfLoaded, mapOrDefault } from "../../types/loadingState";

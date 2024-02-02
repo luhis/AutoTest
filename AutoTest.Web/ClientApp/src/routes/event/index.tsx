@@ -133,11 +133,11 @@ const Event: FunctionalComponent<Props> = ({ eventId }) => {
           <Panel.Block>
             <Button.Group>
               <Button onClick={previousStatus}>
-                Back to {EventStatus[(currentEvent?.eventStatus || 0) - 1]}
+                Back to {EventStatus[(currentEvent.eventStatus || 0) - 1]}
               </Button>
-              <p>{EventStatus[currentEvent?.eventStatus || 0]}</p>
+              <p>{EventStatus[currentEvent.eventStatus || 0]}</p>
               <Button onClick={nextStatus}>
-                Forward to {EventStatus[(currentEvent?.eventStatus || 0) + 1]}
+                Forward to {EventStatus[(currentEvent.eventStatus || 0) + 1]}
               </Button>
             </Button.Group>
           </Panel.Block>

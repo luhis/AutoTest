@@ -5,7 +5,6 @@ import {
   Payment,
   PaymentMethod,
   PublicEntrant,
-  TestRunUploadState,
 } from "../../types/models";
 import { ClearCache } from "../../store/event/actions";
 import { eventReducer } from "../../store/event/reducers";
@@ -17,19 +16,6 @@ import { mapOrDefault } from "../../types/loadingState";
 const populatedState: EventState = {
   entrants: { tag: "Error", value: "Fail" },
   marshals: { tag: "Error", value: "Fail" },
-  testRuns: [
-    {
-      created: newValidDate(),
-      entrantId: 1,
-      eventId: 1,
-      ordinal: 1,
-      penalties: [],
-      state: TestRunUploadState.NotSent,
-      testRunId: 1,
-      timeInMS: 1000,
-    },
-  ],
-  testRunsFromServer: { tag: "Error", value: "Fail" },
   events: { tag: "Error", value: "Fail" },
   notifications: { tag: "Error", value: "Fail" },
 };
@@ -63,10 +49,8 @@ describe("Event Reducer", () => {
     );
     expect(finalState.entrants.tag).toBe("Idle");
     expect(finalState.marshals.tag).toBe("Idle");
-    expect(finalState.testRunsFromServer.tag).toBe("Idle");
     expect(finalState.events.tag).toBe("Idle");
     expect(finalState.notifications.tag).toBe("Idle");
-    expect(finalState.testRuns.length).toBe(1);
   });
 
   test("Set Paid unpaid", () => {
@@ -117,27 +101,5 @@ describe("Event Reducer", () => {
     expect(mapOrDefault(finalState.entrants, (a) => a[0].payment, null)).toBe(
       payment,
     );
-  });
-  test("Update test run state", () => {
-    const stateWithEntrant: EventState = {
-      ...populatedState,
-      testRuns: [
-        {
-          state: TestRunUploadState.NotSent,
-          timeInMS: 10000,
-          created: newValidDate(),
-          entrantId: 1,
-          eventId: 1,
-          testRunId: 2,
-          ordinal: 1,
-          penalties: [],
-        },
-      ],
-    };
-    const finalState = eventReducer(stateWithEntrant, {
-      type: "UPDATE_TEST_RUN_STATE",
-      payload: { testRunId: 2, state: TestRunUploadState.Uploaded },
-    });
-    expect(finalState.testRuns[0].state).toBe(TestRunUploadState.Uploaded);
   });
 });

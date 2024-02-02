@@ -18,6 +18,8 @@ import { clubsReducer } from "./clubs/reducers";
 import { EventActionTypes } from "./event/types";
 import { ClubsActionTypes } from "./clubs/types";
 import { ProfileActionTypes } from "./profile/types";
+import { runReducer } from "./runs/reducers";
+import { RunActionTypes } from "./runs/types";
 
 const persistConfig = {
   key: "root",
@@ -41,6 +43,7 @@ export const rootReducer = combineReducers({
   event: eventReducer,
   profile: profileReducer,
   clubs: clubsReducer,
+  runs: runReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
@@ -56,7 +59,11 @@ export default () => {
   return { appStore, persistor };
 };
 
-type AppActionTypes = EventActionTypes | ClubsActionTypes | ProfileActionTypes;
+type AppActionTypes =
+  | EventActionTypes
+  | ClubsActionTypes
+  | ProfileActionTypes
+  | RunActionTypes;
 
 export const useThunkDispatch = () =>
   useDispatch<ThunkDispatch<AppState, unknown, AppActionTypes>>();

@@ -12,14 +12,11 @@ import {
   selectEntrants,
   selectEvents,
   selectMarshals,
-  selectTestRunsFromServer,
 } from "../../store/event/selectors";
 import {
   GetEntrantsIfRequired,
   GetEventsIfRequired,
   GetMarshalsIfRequired,
-  GetTestRunsIfRequired,
-  UpdateTestRun,
 } from "../../store/event/actions";
 import RouteParamsParser from "../../components/shared/RouteParamsParser";
 import Breadcrumbs from "../../components/shared/Breadcrumbs";
@@ -30,6 +27,8 @@ import ifSome from "../../components/shared/ifSome";
 import Penalties from "../../components/shared/Penalties";
 import Modal from "../../components/editRuns/Modal";
 import { useThunkDispatch } from "../../store";
+import { selectTestRunsFromServer } from "../../store/runs/selectors";
+import { GetTestRunsIfRequired, UpdateTestRun } from "../../store/runs/actions";
 
 interface Props {
   readonly eventId: number;

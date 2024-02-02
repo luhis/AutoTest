@@ -1,11 +1,7 @@
 import { AppState } from "..";
-import { MakeAndModel, TestRunUploadState } from "../../types/models";
+import { MakeAndModel } from "../../types/models";
 import { distinct } from "../../lib/array";
 import { mapOrDefault } from "../../types/loadingState";
-
-export const selectRequiresSync = (a: AppState) =>
-  a.event.testRuns.filter((r) => r.state !== TestRunUploadState.Uploaded)
-    .length;
 
 export const selectEntrants = (a: AppState) => a.event.entrants;
 export const selectMarshals = (a: AppState) => a.event.marshals;
@@ -48,11 +44,6 @@ export const selectMakeModelOptions = (
     [],
   );
 
-export const selectTestRuns = (a: AppState) => a.event.testRuns;
-
 export const selectEvents = (a: AppState) => a.event.events;
 
 export const selectNotifications = (a: AppState) => a.event.notifications;
-
-export const selectTestRunsFromServer = (a: AppState) =>
-  a.event.testRunsFromServer;

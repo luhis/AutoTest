@@ -1,15 +1,11 @@
-import { ActionCreator } from "redux";
 import { ThunkAction } from "redux-thunk";
 
 import { EventActionTypes } from "./types";
 import {
-  TestRunUploadState,
   Entrant,
   Event,
   EventNotification,
   Marshal,
-  TestRunFromServer,
-  TestRunFromClient,
   PublicMarshal,
   PublicEntrant,
   Payment,
@@ -23,12 +19,10 @@ import {
 } from "../../api/entrants";
 import { addMarshal, deleteMarshal, getMarshals } from "../../api/marshals";
 import { AppState } from "..";
-import { addTestRun, getTestRuns, updateTestRun } from "../../api/testRuns";
 import {
   requiresLoading,
   idsMatch,
   isStale,
-  ifLoaded,
   canUpdate,
 } from "../../types/loadingState";
 import {
@@ -38,14 +32,7 @@ import {
   setEventStatus,
 } from "../../api/events";
 import { addNotification, getNotifications } from "../../api/notifications";
-import {
-  selectEntrants,
-  selectEvents,
-  selectMarshals,
-  selectTestRuns,
-  selectTestRunsFromServer,
-} from "./selectors";
-import { CLEAR_CACHE } from "../shared/types";
+import { selectEntrants, selectEvents, selectMarshals } from "./selectors";
 
 export const GetMarshalsIfRequired =
   (
@@ -71,7 +58,7 @@ export const GetMarshalsIfRequired =
   };
 
 export const ClearCache = () => ({
-  type: CLEAR_CACHE,
+  type: "CLEAR_CACHE",
 });
 
 export const GetEntrantsIfRequired =
@@ -228,76 +215,6 @@ export const DeleteEvent =
     });
   };
 
-export const GetTestRunsIfRequired =
-  (
-    eventId: number,
-    ordinal: number,
-    token: string | undefined,
-  ): ThunkAction<Promise<void>, AppState, unknown, EventActionTypes> =>
-  async (dispatch, getState) => {
-    const testRuns = selectTestRunsFromServer(getState());
-    const id = { eventId, ordinal };
-    const missMatch = !idsMatch(testRuns, id);
-    if (missMatch) {
-      dispatch({
-        type: "GET_TEST_RUNS",
-        payload: { tag: "Loading", id: id },
-      });
-    }
-    if (requiresLoading(testRuns.tag) || isStale(testRuns) || missMatch) {
-      await GetTestRuns(eventId, ordinal, token)(dispatch, getState, {});
-    }
-  };
-
-const GetTestRuns =
-  (
-    eventId: number,
-    ordinal: number,
-    token: string | undefined,
-  ): ThunkAction<Promise<void>, AppState, unknown, EventActionTypes> =>
-  async (dispatch, getState) => {
-    const testRuns = selectTestRunsFromServer(getState());
-    const res = await getTestRuns(eventId, ordinal, token);
-    if (canUpdate(testRuns, res)) {
-      dispatch({
-        type: "GET_TEST_RUNS",
-        payload: res,
-      });
-    }
-  };
-
-export const AddTestRun =
-  (
-    testRun: TestRunFromClient,
-    token: string | undefined,
-  ): ThunkAction<Promise<void>, AppState, unknown, EventActionTypes> =>
-  async (dispatch, getState) => {
-    dispatch({
-      type: "ADD_TEST_RUN",
-      payload: testRun,
-    });
-    await SyncTestRuns(testRun.eventId, testRun.ordinal, token)(
-      dispatch,
-      getState,
-      {},
-    );
-  };
-
-export const UpdateTestRun =
-  (
-    testRun: TestRunFromServer,
-    token: string | undefined,
-    onSuccess: () => void,
-  ): ThunkAction<Promise<void>, AppState, unknown, EventActionTypes> =>
-  async (dispatch) => {
-    await updateTestRun(testRun, token);
-    onSuccess();
-    dispatch({
-      type: "UPDATE_TEST_RUN",
-      payload: testRun,
-    });
-  };
-
 export const SetPaid =
   (
     { eventId, entrantId }: PublicEntrant,
@@ -336,37 +253,4 @@ export const DeleteMarshal =
       type: "DELETE_MARSHAL",
       payload: { marshalId },
     });
-  };
-
-const UpdateTestRunState: ActionCreator<EventActionTypes> = (
-  testRunId: number,
-  state: TestRunUploadState,
-) => ({
-  type: "UPDATE_TEST_RUN_STATE",
-  payload: { testRunId, state },
-});
-
-export const SyncTestRuns =
-  (
-    eventId: number,
-    ordinal: number,
-    token: string | undefined,
-  ): ThunkAction<Promise<void>, AppState, unknown, EventActionTypes> =>
-  async (dispatch, getState) => {
-    const runs = selectTestRuns(getState());
-    const toUpload = runs.filter(
-      (a) => a.state !== TestRunUploadState.Uploaded,
-    );
-    await Promise.all(
-      toUpload.map(async (element) => {
-        const res = await addTestRun(element, token);
-        ifLoaded(res, () => {
-          dispatch(
-            UpdateTestRunState(element.testRunId, TestRunUploadState.Uploaded),
-          );
-        });
-      }),
-    );
-
-    await GetTestRuns(eventId, ordinal, token)(dispatch, getState, {});
   };

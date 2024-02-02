@@ -1,14 +1,11 @@
 import { EventState, EventActionTypes } from "./types";
-import { Payment, PublicEntrant, TestRunUploadState } from "../../types/models";
+import { Payment, PublicEntrant } from "../../types/models";
 import { ifLoaded, LoadingState } from "../../types/loadingState";
 import { neverReached } from "../../types/shared";
-import { CLEAR_CACHE } from "../shared/types";
 
 const initialState: EventState = {
   entrants: { tag: "Idle" },
   marshals: { tag: "Idle" },
-  testRuns: [],
-  testRunsFromServer: { tag: "Idle" },
   events: { tag: "Idle" },
   notifications: { tag: "Idle" },
 };
@@ -23,31 +20,16 @@ const setPaid = (
   );
 };
 
-// const createNewTestRuns = (
-//     payload: LoadingState<readonly TestRun[], number>
-// ) => {
-//     if (payload.tag === "Loaded") {
-//         return payload.value.map((a) => ({
-//             ...a,
-//             state: TestRunUploadState.Uploaded,
-//             eventId: payload.id,
-//         }));
-//     } else {
-//         return [];
-//     }
-// };
-
 export const eventReducer = (
   state = initialState,
   action: EventActionTypes,
 ): EventState => {
   switch (action.type) {
-    case CLEAR_CACHE:
+    case "CLEAR_CACHE":
       return {
         ...state,
         entrants: { tag: "Idle" },
         marshals: { tag: "Idle" },
-        testRunsFromServer: { tag: "Idle" },
         events: { tag: "Idle" },
         notifications: { tag: "Idle" },
       };
@@ -133,45 +115,6 @@ export const eventReducer = (
       return {
         ...state,
         events: action.payload,
-      };
-    case "ADD_TEST_RUN":
-      return {
-        ...state,
-        testRuns: state.testRuns.concat({
-          ...action.payload,
-          state: TestRunUploadState.NotSent,
-        }),
-      };
-    case "UPDATE_TEST_RUN":
-      return {
-        ...state,
-        testRunsFromServer: ifLoaded(state.testRunsFromServer, (runs) =>
-          runs.map((a) =>
-            a.testRunId === action.payload.testRunId ? action.payload : a,
-          ),
-        ),
-      };
-    case "UPDATE_TEST_RUN_STATE": {
-      const found = state.testRuns.find(
-        (a) => a.testRunId === action.payload.testRunId,
-      );
-      return {
-        ...state,
-        testRuns:
-          found === undefined
-            ? state.testRuns
-            : state.testRuns
-                .filter((a) => a.testRunId !== action.payload.testRunId)
-                .concat({
-                  ...found,
-                  state: action.payload.state,
-                }),
-      };
-    }
-    case "GET_TEST_RUNS":
-      return {
-        ...state,
-        testRunsFromServer: action.payload,
       };
     case "GET_NOTIFICATIONS":
       return {
