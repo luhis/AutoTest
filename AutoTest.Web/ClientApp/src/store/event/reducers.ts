@@ -1,24 +1,4 @@
-import {
-  EventState,
-  EventActionTypes,
-  GET_ENTRANTS,
-  ADD_ENTRANT,
-  ADD_TEST_RUN,
-  UPDATE_TEST_RUN_STATE,
-  GET_EVENTS,
-  SET_PAID,
-  DELETE_ENTRANT,
-  DELETE_EVENT,
-  ADD_EVENT,
-  GET_TEST_RUNS,
-  GET_NOTIFICATIONS,
-  ADD_NOTIFICATION,
-  GET_MARSHALS,
-  ADD_MARSHAL,
-  DELETE_MARSHAL,
-  UPDATE_TEST_RUN,
-  SET_EVENT_STATUS,
-} from "./types";
+import { EventState, EventActionTypes } from "./types";
 import { Payment, PublicEntrant, TestRunUploadState } from "../../types/models";
 import { ifLoaded, LoadingState } from "../../types/loadingState";
 import { neverReached } from "../../types/shared";
@@ -71,12 +51,12 @@ export const eventReducer = (
         events: { tag: "Idle" },
         notifications: { tag: "Idle" },
       };
-    case GET_ENTRANTS:
+    case "GET_ENTRANTS":
       return {
         ...state,
         entrants: action.payload,
       };
-    case ADD_ENTRANT:
+    case "ADD_ENTRANT":
       return {
         ...state,
         entrants: ifLoaded(state.entrants, (c) =>
@@ -85,7 +65,7 @@ export const eventReducer = (
             .concat(action.payload),
         ),
       };
-    case SET_PAID:
+    case "SET_PAID":
       return {
         ...state,
         entrants: setPaid(
@@ -94,19 +74,19 @@ export const eventReducer = (
           action.payload.payment,
         ),
       };
-    case DELETE_ENTRANT:
+    case "DELETE_ENTRANT":
       return {
         ...state,
         entrants: ifLoaded(state.entrants, (v) =>
           v.filter(({ entrantId }) => entrantId !== action.payload.entrantId),
         ),
       };
-    case GET_MARSHALS:
+    case "GET_MARSHALS":
       return {
         ...state,
         marshals: action.payload,
       };
-    case ADD_MARSHAL:
+    case "ADD_MARSHAL":
       return {
         ...state,
         marshals: ifLoaded(state.marshals, (c) =>
@@ -115,14 +95,14 @@ export const eventReducer = (
             .concat(action.payload),
         ),
       };
-    case DELETE_MARSHAL:
+    case "DELETE_MARSHAL":
       return {
         ...state,
         marshals: ifLoaded(state.marshals, (v) =>
           v.filter(({ marshalId }) => marshalId !== action.payload.marshalId),
         ),
       };
-    case SET_EVENT_STATUS:
+    case "SET_EVENT_STATUS":
       return {
         ...state,
         events: ifLoaded(state.events, (e) =>
@@ -133,7 +113,7 @@ export const eventReducer = (
           ),
         ),
       };
-    case ADD_EVENT:
+    case "ADD_EVENT":
       return {
         ...state,
         events: ifLoaded(state.events, (e) =>
@@ -142,19 +122,19 @@ export const eventReducer = (
             .concat(action.payload.event),
         ),
       };
-    case DELETE_EVENT:
+    case "DELETE_EVENT":
       return {
         ...state,
         events: ifLoaded(state.events, (v) =>
           v.filter(({ eventId }) => eventId !== action.payload.eventId),
         ),
       };
-    case GET_EVENTS:
+    case "GET_EVENTS":
       return {
         ...state,
         events: action.payload,
       };
-    case ADD_TEST_RUN:
+    case "ADD_TEST_RUN":
       return {
         ...state,
         testRuns: state.testRuns.concat({
@@ -162,7 +142,7 @@ export const eventReducer = (
           state: TestRunUploadState.NotSent,
         }),
       };
-    case UPDATE_TEST_RUN:
+    case "UPDATE_TEST_RUN":
       return {
         ...state,
         testRunsFromServer: ifLoaded(state.testRunsFromServer, (runs) =>
@@ -171,7 +151,7 @@ export const eventReducer = (
           ),
         ),
       };
-    case UPDATE_TEST_RUN_STATE: {
+    case "UPDATE_TEST_RUN_STATE": {
       const found = state.testRuns.find(
         (a) => a.testRunId === action.payload.testRunId,
       );
@@ -188,17 +168,17 @@ export const eventReducer = (
                 }),
       };
     }
-    case GET_TEST_RUNS:
+    case "GET_TEST_RUNS":
       return {
         ...state,
         testRunsFromServer: action.payload,
       };
-    case GET_NOTIFICATIONS:
+    case "GET_NOTIFICATIONS":
       return {
         ...state,
         notifications: action.payload,
       };
-    case ADD_NOTIFICATION:
+    case "ADD_NOTIFICATION":
       return {
         ...state,
         notifications: ifLoaded(state.notifications, (a) =>

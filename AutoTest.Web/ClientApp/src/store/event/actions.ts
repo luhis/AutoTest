@@ -1,26 +1,7 @@
 import { ActionCreator } from "redux";
 import { ThunkAction } from "redux-thunk";
 
-import {
-  GET_ENTRANTS,
-  ADD_ENTRANT,
-  ADD_TEST_RUN,
-  EventActionTypes,
-  UPDATE_TEST_RUN_STATE,
-  GET_TEST_RUNS,
-  GET_EVENTS,
-  SET_PAID,
-  DELETE_ENTRANT,
-  DELETE_EVENT,
-  ADD_EVENT,
-  GET_NOTIFICATIONS,
-  ADD_NOTIFICATION,
-  ADD_MARSHAL,
-  DELETE_MARSHAL,
-  GET_MARSHALS,
-  UPDATE_TEST_RUN,
-  SET_EVENT_STATUS,
-} from "./types";
+import { EventActionTypes } from "./types";
 import {
   TestRunUploadState,
   Entrant,
@@ -75,14 +56,14 @@ export const GetMarshalsIfRequired =
     if (requiresLoading(clubs.tag) || isStale(clubs)) {
       if (clubs.tag === "Idle") {
         dispatch({
-          type: GET_MARSHALS,
+          type: "GET_MARSHALS",
           payload: { tag: "Loading", id: eventId },
         });
       }
       const res = await getMarshals(eventId);
       if (canUpdate(clubs, res)) {
         dispatch({
-          type: GET_MARSHALS,
+          type: "GET_MARSHALS",
           payload: res,
         });
       }
@@ -101,7 +82,7 @@ export const GetEntrantsIfRequired =
     const entrants = selectEntrants(getState());
     if (!idsMatch(entrants, eventId)) {
       dispatch({
-        type: GET_ENTRANTS,
+        type: "GET_ENTRANTS",
         payload: { tag: "Loading", id: eventId },
       });
     }
@@ -109,7 +90,7 @@ export const GetEntrantsIfRequired =
       const res = await getEntrants(eventId);
       if (canUpdate(entrants, res)) {
         dispatch({
-          type: GET_ENTRANTS,
+          type: "GET_ENTRANTS",
           payload: res,
         });
       }
@@ -125,7 +106,7 @@ export const AddEntrant =
   async (dispatch) => {
     const newEntrant = await addEntrant(entrant, token);
     dispatch({
-      type: ADD_ENTRANT,
+      type: "ADD_ENTRANT",
       payload: newEntrant,
     });
     onSuccess();
@@ -140,7 +121,7 @@ export const AddMarshal =
   async (dispatch) => {
     const newEntrant = await addMarshal(marshal, token);
     dispatch({
-      type: ADD_MARSHAL,
+      type: "ADD_MARSHAL",
       payload: newEntrant,
     });
     onSuccess();
@@ -153,14 +134,14 @@ export const GetEventsIfRequired =
     if (requiresLoading(events.tag) || isStale(events)) {
       if (events.tag === "Idle") {
         dispatch({
-          type: GET_EVENTS,
+          type: "GET_EVENTS",
           payload: { tag: "Loading", id: undefined },
         });
       }
       const res = await getEvents();
       if (canUpdate(events, res)) {
         dispatch({
-          type: GET_EVENTS,
+          type: "GET_EVENTS",
           payload: res,
         });
       }
@@ -173,17 +154,17 @@ export const GetNotifications =
   ): ThunkAction<Promise<void>, AppState, unknown, EventActionTypes> =>
   async (dispatch) => {
     dispatch({
-      type: GET_NOTIFICATIONS,
+      type: "GET_NOTIFICATIONS",
       payload: { tag: "Loading", id: eventId },
     });
     dispatch({
-      type: GET_NOTIFICATIONS,
+      type: "GET_NOTIFICATIONS",
       payload: await getNotifications(eventId),
     });
   };
 
 export const AddNotification = (notification: EventNotification) => ({
-  type: ADD_NOTIFICATION,
+  type: "ADD_NOTIFICATION",
   payload: notification,
 });
 
@@ -196,7 +177,7 @@ export const CreateNotification =
     try {
       await addNotification(notification, token);
       dispatch({
-        type: ADD_NOTIFICATION,
+        type: "ADD_NOTIFICATION",
         payload: notification,
       });
       return true;
@@ -214,7 +195,7 @@ export const SetEventStatus =
   async (dispatch) => {
     await setEventStatus(eventId, eventStatus, token);
     dispatch({
-      type: SET_EVENT_STATUS,
+      type: "SET_EVENT_STATUS",
       payload: { eventId, eventStatus },
     });
   };
@@ -228,7 +209,7 @@ export const AddEvent =
   async (dispatch) => {
     await addEvent(event, token);
     dispatch({
-      type: ADD_EVENT,
+      type: "ADD_EVENT",
       payload: { event },
     });
     onSuccess();
@@ -242,7 +223,7 @@ export const DeleteEvent =
   async (dispatch) => {
     await deleteEvent(eventId, token);
     dispatch({
-      type: DELETE_EVENT,
+      type: "DELETE_EVENT",
       payload: { eventId },
     });
   };
@@ -259,7 +240,7 @@ export const GetTestRunsIfRequired =
     const missMatch = !idsMatch(testRuns, id);
     if (missMatch) {
       dispatch({
-        type: GET_TEST_RUNS,
+        type: "GET_TEST_RUNS",
         payload: { tag: "Loading", id: id },
       });
     }
@@ -279,7 +260,7 @@ const GetTestRuns =
     const res = await getTestRuns(eventId, ordinal, token);
     if (canUpdate(testRuns, res)) {
       dispatch({
-        type: GET_TEST_RUNS,
+        type: "GET_TEST_RUNS",
         payload: res,
       });
     }
@@ -292,7 +273,7 @@ export const AddTestRun =
   ): ThunkAction<Promise<void>, AppState, unknown, EventActionTypes> =>
   async (dispatch, getState) => {
     dispatch({
-      type: ADD_TEST_RUN,
+      type: "ADD_TEST_RUN",
       payload: testRun,
     });
     await SyncTestRuns(testRun.eventId, testRun.ordinal, token)(
@@ -312,7 +293,7 @@ export const UpdateTestRun =
     await updateTestRun(testRun, token);
     onSuccess();
     dispatch({
-      type: UPDATE_TEST_RUN,
+      type: "UPDATE_TEST_RUN",
       payload: testRun,
     });
   };
@@ -326,7 +307,7 @@ export const SetPaid =
   async (dispatch) => {
     await markPaid(eventId, entrantId, payment, token);
     dispatch({
-      type: SET_PAID,
+      type: "SET_PAID",
       payload: { entrantId, payment },
     });
   };
@@ -339,7 +320,7 @@ export const DeleteEntrant =
   async (dispatch) => {
     await deleteEntrant(eventId, entrantId, token);
     dispatch({
-      type: DELETE_ENTRANT,
+      type: "DELETE_ENTRANT",
       payload: { entrantId },
     });
   };
@@ -352,7 +333,7 @@ export const DeleteMarshal =
   async (dispatch) => {
     await deleteMarshal(eventId, marshalId, token);
     dispatch({
-      type: DELETE_MARSHAL,
+      type: "DELETE_MARSHAL",
       payload: { marshalId },
     });
   };
@@ -361,7 +342,7 @@ const UpdateTestRunState: ActionCreator<EventActionTypes> = (
   testRunId: number,
   state: TestRunUploadState,
 ) => ({
-  type: UPDATE_TEST_RUN_STATE,
+  type: "UPDATE_TEST_RUN_STATE",
   payload: { testRunId, state },
 });
 

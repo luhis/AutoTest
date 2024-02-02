@@ -1,6 +1,6 @@
-import { ClearCache } from "../store/event/actions";
-import { ClubsActionTypes, ClubsState } from "../store/clubs/types";
-import { clubsReducer } from "../store/clubs/reducers";
+import { ClearCache } from "../../store/event/actions";
+import { ClubsActionTypes, ClubsState } from "../../store/clubs/types";
+import { clubsReducer } from "../../store/clubs/reducers";
 
 const populatedState: ClubsState = {
   clubs: { tag: "Error", value: "Fail" },

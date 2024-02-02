@@ -1,17 +1,18 @@
 import { newValidDate } from "ts-date";
 
-import { EventType, PaymentMethod, TestRunUploadState } from "../types/models";
-import { ClearCache } from "../store/event/actions";
-import { eventReducer } from "../store/event/reducers";
 import {
-  EventState,
-  EventActionTypes,
-  SET_PAID,
-  UPDATE_TEST_RUN_STATE,
-} from "../store/event/types";
-import { Age } from "../types/profileModels";
-import { InductionTypes } from "../types/shared";
-import { mapOrDefault } from "../types/loadingState";
+  EventType,
+  Payment,
+  PaymentMethod,
+  PublicEntrant,
+  TestRunUploadState,
+} from "../../types/models";
+import { ClearCache } from "../../store/event/actions";
+import { eventReducer } from "../../store/event/reducers";
+import { EventState, EventActionTypes } from "../../store/event/types";
+import { Age } from "../../types/profileModels";
+import { InductionTypes } from "../../types/shared";
+import { mapOrDefault } from "../../types/loadingState";
 
 const populatedState: EventState = {
   entrants: { tag: "Error", value: "Fail" },
@@ -32,6 +33,27 @@ const populatedState: EventState = {
   events: { tag: "Error", value: "Fail" },
   notifications: { tag: "Error", value: "Fail" },
 };
+
+const entrant = (payment: Payment): PublicEntrant => ({
+  entrantId: 2,
+  payment,
+  age: Age.Senior,
+  eventType: EventType.AutoTest,
+  class: "A",
+  club: "BRMC",
+  driverNumber: 1,
+  eventId: 2,
+  familyName: "Family Name",
+  givenName: "Given Name",
+  vehicle: {
+    displacement: 1364,
+    induction: InductionTypes.NA,
+    make: "",
+    model: "",
+    registration: "",
+    year: 2006,
+  },
+});
 
 describe("Event Reducer", () => {
   test("Clear Cache", () => {
@@ -57,34 +79,13 @@ describe("Event Reducer", () => {
       ...populatedState,
       entrants: {
         tag: "Loaded",
-        value: [
-          {
-            entrantId: 2,
-            payment,
-            age: Age.Senior,
-            eventType: EventType.AutoTest,
-            class: "A",
-            club: "BRMC",
-            driverNumber: 1,
-            eventId: 2,
-            familyName: "Family Name",
-            givenName: "Given Name",
-            vehicle: {
-              displacement: 1364,
-              induction: InductionTypes.NA,
-              make: "",
-              model: "",
-              registration: "",
-              year: 2006,
-            },
-          },
-        ],
+        value: [entrant(payment)],
         id: 1,
         loaded: newValidDate(),
       },
     };
     const finalState = eventReducer(stateWithEntrant, {
-      type: SET_PAID,
+      type: "SET_PAID",
       payload: { entrantId: 2, payment: null },
     });
     expect(finalState.entrants.tag).toBe("Loaded");
@@ -103,34 +104,13 @@ describe("Event Reducer", () => {
       ...populatedState,
       entrants: {
         tag: "Loaded",
-        value: [
-          {
-            entrantId: 2,
-            payment: null,
-            age: Age.Senior,
-            eventType: EventType.AutoTest,
-            class: "A",
-            club: "BRMC",
-            driverNumber: 1,
-            eventId: 2,
-            familyName: "Family Name",
-            givenName: "Given Name",
-            vehicle: {
-              displacement: 1364,
-              induction: InductionTypes.NA,
-              make: "",
-              model: "",
-              registration: "",
-              year: 2006,
-            },
-          },
-        ],
+        value: [entrant(payment)],
         id: 1,
         loaded: newValidDate(),
       },
     };
     const finalState = eventReducer(stateWithEntrant, {
-      type: SET_PAID,
+      type: "SET_PAID",
       payload: { entrantId: 2, payment: payment },
     });
     expect(finalState.entrants.tag).toBe("Loaded");
@@ -155,7 +135,7 @@ describe("Event Reducer", () => {
       ],
     };
     const finalState = eventReducer(stateWithEntrant, {
-      type: UPDATE_TEST_RUN_STATE,
+      type: "UPDATE_TEST_RUN_STATE",
       payload: { testRunId: 2, state: TestRunUploadState.Uploaded },
     });
     expect(finalState.testRuns[0].state).toBe(TestRunUploadState.Uploaded);

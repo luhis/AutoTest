@@ -1,5 +1,5 @@
-import { profileReducer } from "../store/profile/reducers";
-import { ProfileState } from "../store/profile/types";
+import { profileReducer } from "../../store/profile/reducers";
+import { ProfileState } from "../../store/profile/types";
 
 const populatedState: ProfileState = {
   profile: { tag: "Idle" },
