@@ -4,9 +4,11 @@ import { useSelector } from "react-redux";
 
 import { getAccessToken } from "../../api/api";
 import { GetProfileIfRequired, SaveProfile } from "../../store/profile/actions";
-import { useGoogleAuth } from "../../components/app";
 import ProfileModal from "../../components/profile/index";
-import { selectProfile } from "../../store/profile/selectors";
+import {
+  selectAccessToken,
+  selectProfile,
+} from "../../store/profile/selectors";
 import { Profile } from "../../types/profileModels";
 import { useThunkDispatch } from "../../store";
 
@@ -15,7 +17,7 @@ interface Props {
 }
 
 const ProfileEditor: FunctionalComponent<Readonly<Props>> = ({ profile }) => {
-  const auth = useGoogleAuth();
+  const auth = useSelector(selectAccessToken);
   const thunkDispatch = useThunkDispatch();
   const [editingProfile, setEditingProfile] = useState<Profile>(profile);
   const save = useCallback(async () => {
@@ -35,7 +37,7 @@ const ProfileEditor: FunctionalComponent<Readonly<Props>> = ({ profile }) => {
 };
 
 const ProfileRoute: FunctionalComponent = () => {
-  const auth = useGoogleAuth();
+  const auth = useSelector(selectAccessToken);
   const thunkDispatch = useThunkDispatch();
   const profile = useSelector(selectProfile);
   useEffect(() => {

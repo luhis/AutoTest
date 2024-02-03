@@ -9,7 +9,6 @@ import save from "save-file";
 import { route } from "preact-router";
 
 import { getAccessToken } from "../../api/api";
-import { useGoogleAuth } from "../../components/app";
 import {
   GetEventsIfRequired,
   GetNotifications,
@@ -28,7 +27,7 @@ import { getDateString } from "../../lib/date";
 import { selectClubs } from "../../store/clubs/selectors";
 import { GetClubsIfRequired } from "../../store/clubs/actions";
 import { useThunkDispatch } from "../../store";
-import { selectAccess } from "../../store/profile/selectors";
+import { selectAccess, selectAccessToken } from "../../store/profile/selectors";
 
 const uid = UUID(keySeed);
 
@@ -38,7 +37,7 @@ interface Props {
 
 const Event: FunctionalComponent<Props> = ({ eventId }) => {
   const dispatch = useThunkDispatch();
-  const auth = useGoogleAuth();
+  const auth = useSelector(selectAccessToken);
   const currentEvent = findIfLoaded(
     useSelector(selectEvents),
     (a) => a.eventId === eventId,

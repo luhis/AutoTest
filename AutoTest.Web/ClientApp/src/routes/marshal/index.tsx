@@ -16,7 +16,6 @@ import {
 } from "../../types/models";
 import ifSome from "../../components/shared/ifSome";
 import { getAccessToken } from "../../api/api";
-import { useGoogleAuth } from "../../components/app";
 import Penalties from "../../components/marshal/Penalties";
 import { OnChange, OnSelectChange } from "../../types/inputs";
 import {
@@ -44,6 +43,7 @@ import { selectClubs } from "../../store/clubs/selectors";
 import { GetClubsIfRequired } from "../../store/clubs/actions";
 import { addPreventDefault } from "../../lib/form";
 import { useThunkDispatch } from "../../store";
+import { selectAccessToken } from "../../store/profile/selectors";
 
 const getNewEditableTest = (ordinal: number): EditableTestRun => ({
   testRunId: uid.uuid(),
@@ -82,7 +82,7 @@ const Marshal: FunctionalComponent<Readonly<Props>> = ({
   const [editing, setEditing] = useState<EditableTestRun>(
     getNewEditableTest(ordinal),
   );
-  const auth = useGoogleAuth();
+  const auth = useSelector(selectAccessToken);
   useEffect(() => {
     const token = getAccessToken(auth);
     void thunkDispatch(GetEntrantsIfRequired(eventId));

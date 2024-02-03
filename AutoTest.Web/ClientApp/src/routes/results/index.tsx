@@ -21,7 +21,6 @@ import {
 } from "../../types/loadingState";
 import { getResults } from "../../api/results";
 import ifSome from "../../components/shared/ifSome";
-import { useGoogleAuth } from "../../components/app";
 import Time from "../../components/results/Time";
 import { getAccessToken } from "../../api/api";
 import { selectEvents, selectNotifications } from "../../store/event/selectors";
@@ -37,7 +36,7 @@ import DriverNumber from "../../components/shared/DriverNumber";
 import { selectClubs } from "../../store/clubs/selectors";
 import { GetClubsIfRequired } from "../../store/clubs/actions";
 import FilterDropdown from "../../components/shared/FilterDropdown";
-import { selectAccess } from "../../store/profile/selectors";
+import { selectAccess, selectAccessToken } from "../../store/profile/selectors";
 import { useThunkDispatch } from "../../store";
 import {
   LeaveEvent,
@@ -77,7 +76,7 @@ const Results: FunctionComponent<
 > = ({ eventId, classFilter, connection }) => {
   const dispatch = useDispatch();
   const thunkDispatch = useThunkDispatch();
-  const auth = useGoogleAuth();
+  const auth = useSelector(selectAccessToken);
   const currentEvent = findIfLoaded(
     useSelector(selectEvents),
     (a) => a.eventId === eventId,

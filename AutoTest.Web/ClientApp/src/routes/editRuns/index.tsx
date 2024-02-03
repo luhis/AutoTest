@@ -6,7 +6,6 @@ import { identity, range } from "@s-libs/micro-dash";
 
 import { Override, TestRunFromServer } from "../../types/models";
 import { findIfLoaded, mapOrDefault } from "../../types/loadingState";
-import { useGoogleAuth } from "../../components/app";
 import { getAccessToken } from "../../api/api";
 import {
   selectEntrants,
@@ -29,6 +28,7 @@ import Modal from "../../components/editRuns/Modal";
 import { useThunkDispatch } from "../../store";
 import { selectTestRunsFromServer } from "../../store/runs/selectors";
 import { GetTestRunsIfRequired, UpdateTestRun } from "../../store/runs/actions";
+import { selectAccessToken } from "../../store/profile/selectors";
 
 interface Props {
   readonly eventId: number;
@@ -36,7 +36,7 @@ interface Props {
 
 const EditRuns: FunctionalComponent<Props> = ({ eventId }) => {
   const thunkDispatch = useThunkDispatch();
-  const auth = useGoogleAuth();
+  const auth = useSelector(selectAccessToken);
   const currentEvent = findIfLoaded(
     useSelector(selectEvents),
     (a) => a.eventId === eventId,

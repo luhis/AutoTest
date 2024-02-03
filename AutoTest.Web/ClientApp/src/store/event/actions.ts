@@ -58,7 +58,7 @@ export const GetMarshalsIfRequired =
   };
 
 export const ClearCache = () => ({
-  type: "CLEAR_CACHE",
+  type: "CLEAR_CACHE" as const,
 });
 
 export const GetEntrantsIfRequired =

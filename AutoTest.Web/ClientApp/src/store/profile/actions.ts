@@ -1,4 +1,5 @@
 import { ThunkAction } from "redux-thunk";
+import { CredentialResponse } from "@react-oauth/google";
 
 import { getProfile, saveProfile } from "../../api/user";
 import { Profile } from "../../types/profileModels";
@@ -61,16 +62,16 @@ export const GetAccess =
   };
 
 export const ResetAccess = (): ProfileActionTypes => ({
-  type: "RESET_ACCESS",
+  type: "RESET_ACCESS" as const,
 });
 
 export const AddClubAdmin = (clubId: number): ProfileActionTypes => ({
-  type: "ADD_CLUB_ADMIN",
+  type: "ADD_CLUB_ADMIN" as const,
   payload: clubId,
 });
 
 export const RemoveClubAdmin = (clubId: number): ProfileActionTypes => ({
-  type: "REMOVE_CLUB_ADMIN",
+  type: "REMOVE_CLUB_ADMIN" as const,
   payload: clubId,
 });
 
@@ -79,15 +80,20 @@ export const AddEventMarshal = (eventId: number): ProfileActionTypes => ({
   payload: eventId,
 });
 export const AddEditableMarshal = (marshalId: number): ProfileActionTypes => ({
-  type: "ADD_EDITABLE_MARSHAL",
+  type: "ADD_EDITABLE_MARSHAL" as const,
   payload: marshalId,
 });
 export const AddEditableEntrant = (entrantId: number): ProfileActionTypes => ({
-  type: "ADD_EDITABLE_ENTRANT",
+  type: "ADD_EDITABLE_ENTRANT" as const,
   payload: entrantId,
 });
 
 export const RemoveEventMarshal = (eventId: number): ProfileActionTypes => ({
-  type: "REMOVE_EVENT_MARSHAL",
+  type: "REMOVE_EVENT_MARSHAL" as const,
   payload: eventId,
+});
+
+export const SetAccessToken = (success: CredentialResponse) => ({
+  type: "SET_ACCESS_TOKEN" as const,
+  payload: success,
 });

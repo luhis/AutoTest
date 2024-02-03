@@ -11,8 +11,10 @@ import { EmergencyContact } from "../../types/shared";
 import EmergencyContactEditor from "../shared/EmergencyContactEditor";
 import { addPreventDefault } from "../../lib/form";
 import DropdownInput from "../shared/DropdownInput";
-import { selectProfile } from "../../store/profile/selectors";
-import { useGoogleAuth } from "../app";
+import {
+  selectAccessToken,
+  selectProfile,
+} from "../../store/profile/selectors";
 import { useThunkDispatch } from "../../store";
 import { getAccessToken } from "../../api/api";
 import { GetProfileIfRequired } from "../../store/profile/actions";
@@ -37,7 +39,7 @@ const MarshalsModal: FunctionComponent<Props> = ({
   fillFromProfile,
   isClubAdmin,
 }) => {
-  const auth = useGoogleAuth();
+  const auth = useSelector(selectAccessToken);
   const thunkDispatch = useThunkDispatch();
   const profile = useSelector(selectProfile);
   useEffect(() => {

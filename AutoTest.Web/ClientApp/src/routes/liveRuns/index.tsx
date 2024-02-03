@@ -8,7 +8,6 @@ import { route } from "preact-router";
 
 import { Override, PublicEntrant, TestRunFromServer } from "../../types/models";
 import { findIfLoaded, LoadingState } from "../../types/loadingState";
-import { useGoogleAuth } from "../../components/app";
 import { getAccessToken } from "../../api/api";
 import { selectEntrants, selectEvents } from "../../store/event/selectors";
 import { GetEventsIfRequired } from "../../store/event/actions";
@@ -25,6 +24,7 @@ import {
   NewTestRun,
   useConnection,
 } from "../../signalR/eventHub";
+import { selectAccessToken } from "../../store/profile/selectors";
 
 interface Props {
   readonly eventId: number;
@@ -46,7 +46,7 @@ const Results: FunctionalComponent<Props> = ({
   connection,
 }) => {
   const thunkDispatch = useThunkDispatch();
-  const auth = useGoogleAuth();
+  const auth = useSelector(selectAccessToken);
   const currentEvent = findIfLoaded(
     useSelector(selectEvents),
     (a) => a.eventId === eventId,

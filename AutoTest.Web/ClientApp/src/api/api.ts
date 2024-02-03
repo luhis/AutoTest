@@ -1,4 +1,4 @@
-import { HookReturnValue } from "react-use-googlelogin/dist/types";
+import { CredentialResponse } from "@react-oauth/google";
 
 export const throwIfNotOk = (response: Response) => {
   if (!response.ok) {
@@ -6,10 +6,10 @@ export const throwIfNotOk = (response: Response) => {
   }
 };
 
-export const getAccessToken = ({
-  googleUser,
-}: HookReturnValue): string | undefined => {
-  return googleUser ? googleUser.tokenId : undefined;
+export const getAccessToken = (
+  t: CredentialResponse | undefined,
+): string | undefined => {
+  return t !== undefined ? t.credential : undefined;
 };
 
 export const getHeaders = (token: string | undefined) => ({

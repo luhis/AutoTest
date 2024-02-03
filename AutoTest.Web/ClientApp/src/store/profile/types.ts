@@ -1,9 +1,17 @@
+import { CredentialResponse } from "@react-oauth/google";
+
 import { Access, Profile } from "../../types/profileModels";
 import { LoadingState } from "../../types/loadingState";
 
 export interface ProfileState {
   readonly profile: LoadingState<Profile>;
   readonly access: Access;
+  readonly accessToken: CredentialResponse | undefined;
+}
+
+interface SetAccessToken {
+  readonly type: "SET_ACCESS_TOKEN";
+  readonly payload: CredentialResponse | undefined;
 }
 
 interface GetProfile {
@@ -59,4 +67,5 @@ export type ProfileActionTypes =
   | AddEventMarshal
   | RemoveEventMarshal
   | AddEditableMarshal
-  | AddEditableEntrant;
+  | AddEditableEntrant
+  | SetAccessToken;
