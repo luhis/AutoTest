@@ -3,6 +3,7 @@ import { ProfileState } from "../../store/profile/types";
 
 const populatedState: ProfileState = {
   profile: { tag: "Idle" },
+  accessToken: undefined,
   access: {
     adminClubs: [1, 2, 3],
     canViewClubs: true,

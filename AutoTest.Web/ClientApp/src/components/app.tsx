@@ -1,11 +1,9 @@
-import { FunctionComponent, h, createContext } from "preact";
+import { FunctionComponent, h } from "preact";
 import { Route, Router } from "preact-router";
-import { useGoogleLogin } from "react-use-googlelogin";
-import { useContext } from "preact/hooks";
 import { Provider } from "react-redux";
 import { Container, Loader } from "react-bulma-components";
 import { PersistGate } from "redux-persist/integration/react";
-import { HookReturnValue } from "react-use-googlelogin/dist/types";
+import { GoogleOAuthProvider } from "@react-oauth/google";
 import { reactAI } from "react-appinsights";
 import {
   ApplicationInsights,
@@ -39,24 +37,6 @@ if ((module as Module).hot) {
   require("preact/debug");
 }
 
-const GoogleAuthContext = createContext<HookReturnValue>({
-  signIn: () => {
-    throw new Error();
-  },
-  signOut: () => {
-    throw new Error();
-  },
-  googleUser: undefined,
-  refreshUser: () => {
-    throw new Error();
-  },
-  isSignedIn: false,
-  isInitialized: false,
-  grantOfflineAccess: () => {
-    throw new Error();
-  },
-}); // Not necessary, but recommended.
-
 if (typeof window !== "undefined") {
   const appInsights = new ApplicationInsights({
     config: {
@@ -71,16 +51,12 @@ if (typeof window !== "undefined") {
 }
 
 const App: FunctionComponent = () => {
-  const googleAuth = useGoogleLogin({
-    clientId: googleKey, // Your clientID from Google.
-  });
-
   const { appStore, persistor } = store();
   return (
     <div id="app">
       <Provider store={appStore}>
         <PersistGate loading={<Loader />} persistor={persistor}>
-          <GoogleAuthContext.Provider value={googleAuth}>
+          <GoogleOAuthProvider clientId={googleKey}>
             <Header />
             <Container fluid>
               <Router>
@@ -99,7 +75,7 @@ const App: FunctionComponent = () => {
                 <NotFoundPage default />
               </Router>
             </Container>
-          </GoogleAuthContext.Provider>
+          </GoogleOAuthProvider>
         </PersistGate>
       </Provider>
     </div>
@@ -107,5 +83,3 @@ const App: FunctionComponent = () => {
 };
 
 export default App;
-
-export const useGoogleAuth = () => useContext(GoogleAuthContext);

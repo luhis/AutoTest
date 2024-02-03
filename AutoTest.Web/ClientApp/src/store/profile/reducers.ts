@@ -15,6 +15,7 @@ const defaultAccess: Access = {
 
 const initialProfileState: ProfileState = {
   profile: { tag: "Idle" },
+  accessToken: undefined,
   access: defaultAccess,
 };
 
@@ -93,6 +94,13 @@ export const profileReducer = (
             action.payload,
           ),
         },
+      };
+    case "SET_ACCESS_TOKEN":
+      // eslint-disable-next-line no-debugger
+      debugger;
+      return {
+        ...state,
+        accessToken: action.payload,
       };
     default: {
       neverReached(action);

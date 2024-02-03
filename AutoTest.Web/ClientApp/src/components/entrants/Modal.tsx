@@ -26,10 +26,12 @@ import DropdownInput from "../shared/DropdownInput";
 import MsaMembershipEditor from "../shared/MsaMembershipEditor";
 import { addPreventDefault } from "../../lib/form";
 import { Age } from "../../types/profileModels";
-import { selectProfile } from "../../store/profile/selectors";
+import {
+  selectAccessToken,
+  selectProfile,
+} from "../../store/profile/selectors";
 import { getAccessToken } from "../../api/api";
 import { useThunkDispatch } from "../../store";
-import { useGoogleAuth } from "../app";
 import { GetProfileIfRequired } from "../../store/profile/actions";
 import { EntrantAgreement } from "../../settings";
 import { FaInfoCircle } from "react-icons/fa";
@@ -83,7 +85,7 @@ const EntrantsModal: FunctionComponent<Props> = ({
   clubMemberships,
   eventTypes,
 }) => {
-  const auth = useGoogleAuth();
+  const auth = useSelector(selectAccessToken);
   const thunkDispatch = useThunkDispatch();
   const classesInUse = useSelector(selectClassOptions);
   const makeAndModels = useSelector(selectMakeModelOptions);

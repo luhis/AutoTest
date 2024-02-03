@@ -5,7 +5,6 @@ import UUID from "uuid-int";
 import { useSelector } from "react-redux";
 
 import { Override, EditingMarshal, PublicMarshal } from "../../types/models";
-import { useGoogleAuth } from "../../components/app";
 import { getAccessToken } from "../../api/api";
 import List from "../../components/marshals/List";
 import EntrantsModal from "../../components/marshals/Modal";
@@ -22,7 +21,11 @@ import {
 } from "../../store/event/selectors";
 import { keySeed } from "../../settings";
 import { findIfLoaded } from "../../types/loadingState";
-import { selectAccess, selectProfile } from "../../store/profile/selectors";
+import {
+  selectAccess,
+  selectAccessToken,
+  selectProfile,
+} from "../../store/profile/selectors";
 import RouteParamsParser from "../../components/shared/RouteParamsParser";
 import Breadcrumbs from "../../components/shared/Breadcrumbs";
 import { GetProfileIfRequired } from "../../store/profile/actions";
@@ -67,7 +70,7 @@ const Marshals: FunctionalComponent<Readonly<Props>> = ({ eventId }) => {
   const [editingMarshal, setEditingMarshal] = useState<
     EditingMarshal | undefined
   >(undefined);
-  const auth = useGoogleAuth();
+  const auth = useSelector(selectAccessToken);
   const thunkDispatch = useThunkDispatch();
   const save = useCallback(async () => {
     if (editingMarshal) {

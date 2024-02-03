@@ -4,7 +4,6 @@ import { Button, Heading } from "react-bulma-components";
 import UUID from "uuid-int";
 import { useSelector } from "react-redux";
 
-import { useGoogleAuth } from "../../components/app";
 import { getAccessToken } from "../../api/api";
 import { Club, EditingClub } from "../../types/models";
 import List from "../../components/clubs/List";
@@ -16,13 +15,13 @@ import {
   DeleteClub,
   GetClubsIfRequired,
 } from "../../store/clubs/actions";
-import { selectAccess } from "../../store/profile/selectors";
+import { selectAccess, selectAccessToken } from "../../store/profile/selectors";
 import { useThunkDispatch } from "../../store";
 
 const uid = UUID(keySeed);
 
 const ClubComponent: FunctionalComponent = () => {
-  const auth = useGoogleAuth();
+  const auth = useSelector(selectAccessToken);
   const thunkDispatch = useThunkDispatch();
   const clubs = useSelector(selectClubs);
   const [editingClub, setEditingClub] = useState<EditingClub | undefined>(

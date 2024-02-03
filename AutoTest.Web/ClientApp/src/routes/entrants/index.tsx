@@ -12,7 +12,6 @@ import {
   Payment,
   PublicEntrant,
 } from "../../types/models";
-import { useGoogleAuth } from "../../components/app";
 import { getAccessToken } from "../../api/api";
 import List from "../../components/entrants/List";
 import EntrantsModal from "../../components/entrants/Modal";
@@ -30,7 +29,11 @@ import {
   LoadingState,
   mapOrDefault,
 } from "../../types/loadingState";
-import { selectAccess, selectProfile } from "../../store/profile/selectors";
+import {
+  selectAccess,
+  selectAccessToken,
+  selectProfile,
+} from "../../store/profile/selectors";
 import RouteParamsParser from "../../components/shared/RouteParamsParser";
 import Breadcrumbs from "../../components/shared/Breadcrumbs";
 import { GetProfileIfRequired } from "../../store/profile/actions";
@@ -110,7 +113,7 @@ const Entrants: FunctionalComponent<Readonly<Props>> = ({ eventId }) => {
   const [editingEntrant, setEditingEntrant] = useState<
     EditingEntrant | undefined
   >(undefined);
-  const auth = useGoogleAuth();
+  const auth = useSelector(selectAccessToken);
   const thunkDispatch = useThunkDispatch();
 
   const save = useCallback(async () => {

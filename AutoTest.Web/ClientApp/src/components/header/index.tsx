@@ -2,8 +2,13 @@ import { FunctionalComponent, h } from "preact";
 import { Navbar, Button } from "react-bulma-components";
 import { useDispatch, useSelector } from "react-redux";
 import { useCallback, useEffect, useState } from "preact/hooks";
+import {
+  CredentialResponse,
+  GoogleLogin,
+  googleLogout,
+} from "@react-oauth/google";
 
-import { selectAccess } from "../../store/profile/selectors";
+import { selectAccess, selectAccessToken } from "../../store/profile/selectors";
 import { ClearCache } from "../../store/event/actions";
 import {
   AddClubAdmin,
@@ -14,8 +19,8 @@ import {
   RemoveClubAdmin,
   RemoveEventMarshal,
   ResetAccess,
+  SetAccessToken,
 } from "../../store/profile/actions";
-import { useGoogleAuth } from "../app";
 import { getAccessToken } from "../../api/api";
 import { useThunkDispatch } from "../../store";
 import {
@@ -30,7 +35,7 @@ import {
 
 const Header: FunctionalComponent = () => {
   const access = useSelector(selectAccess);
-  const auth = useGoogleAuth();
+  const auth = useSelector(selectAccessToken);
 
   const thunkDispatch = useThunkDispatch();
   const dispatch = useDispatch();
@@ -41,13 +46,18 @@ const Header: FunctionalComponent = () => {
   const clearCache = () => {
     dispatch(ClearCache());
   };
-  const signOutAndClear = useCallback(async () => {
-    await auth.signOut();
+  const signOutAndClear = useCallback(() => {
+    googleLogout();
     dispatch(ResetAccess());
-  }, [dispatch, auth]);
-  const signInAndGetAccess = useCallback(async () => {
-    await auth.signIn();
-  }, [auth]);
+  }, [dispatch]);
+
+  const onLogin = useCallback(
+    (credentialResponse: CredentialResponse) => {
+      dispatch(SetAccessToken(credentialResponse));
+      dispatch(GetAccess(credentialResponse.credential));
+    },
+    [dispatch],
+  );
   const [isActive, setIsActive] = useState(false);
   const toggleActive = () => setIsActive((a) => !a);
   return (
@@ -68,9 +78,10 @@ const Header: FunctionalComponent = () => {
           <Navbar.Item>
             <Button.Group>
               {!access.isLoggedIn ? (
-                <Button onClick={signInAndGetAccess}>
-                  Sign in with Google
-                </Button>
+                <GoogleLogin
+                  onSuccess={onLogin}
+                  onError={() => console.log("Auth Error")}
+                />
               ) : (
                 <Button onClick={signOutAndClear}>Sign out</Button>
               )}
@@ -84,7 +95,7 @@ const Header: FunctionalComponent = () => {
 };
 
 const SignalRWrapper: FunctionalComponent = () => {
-  const auth = useGoogleAuth();
+  const auth = useSelector(selectAccessToken);
   const connection = useConnection(getAccessToken(auth));
 
   useEffect(() => {

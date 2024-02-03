@@ -14,7 +14,6 @@ import {
 } from "../../types/models";
 import Modal from "../../components/events/Modal";
 import { getAccessToken } from "../../api/api";
-import { useGoogleAuth } from "../../components/app";
 import List from "../../components/events/List";
 import {
   GetEventsIfRequired,
@@ -26,7 +25,7 @@ import { keySeed } from "../../settings";
 import RouteParamsParser from "../../components/shared/RouteParamsParser";
 import { selectClubs } from "../../store/clubs/selectors";
 import { GetClubsIfRequired } from "../../store/clubs/actions";
-import { selectAccess } from "../../store/profile/selectors";
+import { selectAccess, selectAccessToken } from "../../store/profile/selectors";
 import { useThunkDispatch } from "../../store";
 import { getDateTimeString } from "../../lib/date";
 
@@ -57,7 +56,7 @@ const blankEvent = (clubId: number | undefined): EditingEvent => ({
 
 const Events: FunctionalComponent<Props> = ({ clubId }) => {
   const thunkDispatch = useThunkDispatch();
-  const auth = useGoogleAuth();
+  const auth = useSelector(selectAccessToken);
   const events = useSelector(selectEvents);
   const clubs = useSelector(selectClubs);
   const { adminClubs } = useSelector(selectAccess);
