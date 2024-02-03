@@ -211,7 +211,7 @@ namespace AutoTest.Web
                         }
 
                         builder.AddFrameSrc().Self().From(googleCom);
-                        var style = builder.AddStyleSrc().Self();
+                        var style = builder.AddStyleSrc().Self().From(googleCom);
                         if (env.IsDevelopment())
                         {
                             style.UnsafeInline();
@@ -224,7 +224,7 @@ namespace AutoTest.Web
                         var connect = builder.AddConnectSrc().Self().From(googleCom);
                         if (env.IsDevelopment())
                         {
-                            connect.From("https://localhost:*").From("wss://localhost:*");
+                            connect.From("https://localhost:*").From("ws://localhost:*");
                         }
 
                         builder.AddUpgradeInsecureRequests();
