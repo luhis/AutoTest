@@ -2,6 +2,7 @@ import { FunctionalComponent, h } from "preact";
 import { Navbar, Button } from "react-bulma-components";
 import { useDispatch, useSelector } from "react-redux";
 import { useCallback, useEffect, useState } from "preact/hooks";
+import { Link } from "preact-router";
 import {
   CredentialResponse,
   GoogleLogin,
@@ -68,13 +69,33 @@ const Header: FunctionalComponent = () => {
       </Navbar.Brand>
       <Navbar.Menu>
         <Navbar.Container align="right">
-          <Navbar.Item href="/">Home</Navbar.Item>
+          <Navbar.Item href="/" renderAs={Link} activeClassName="is-active">
+            Home
+          </Navbar.Item>
           {access.canViewClubs ? (
-            <Navbar.Item href="/clubs">Clubs</Navbar.Item>
+            <Navbar.Item
+              href="/clubs"
+              renderAs={Link}
+              activeClassName="is-active"
+            >
+              Clubs
+            </Navbar.Item>
           ) : null}
-          <Navbar.Item href="/events">Events</Navbar.Item>
+          <Navbar.Item
+            href="/events"
+            renderAs={Link}
+            activeClassName="is-active"
+          >
+            Events
+          </Navbar.Item>
           {access.canViewProfile ? (
-            <Navbar.Item href="/profile">Profile</Navbar.Item>
+            <Navbar.Item
+              href="/profile"
+              renderAs={Link}
+              activeClassName="is-active"
+            >
+              Profile
+            </Navbar.Item>
           ) : null}
           <Navbar.Item>
             <Button.Group>
