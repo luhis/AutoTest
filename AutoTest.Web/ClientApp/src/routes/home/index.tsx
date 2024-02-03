@@ -6,7 +6,7 @@ const Home: FunctionalComponent = () => {
     <div>
       <Heading>Home</Heading>
       <p>This is the Mangaji AutoTest app.</p>
-      <Heading>Today's Events</Heading>
+      <Heading>Today&apos;s Events</Heading>
       <Heading>New Events</Heading>
     </div>
   );
