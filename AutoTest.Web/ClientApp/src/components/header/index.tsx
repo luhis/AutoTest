@@ -55,6 +55,7 @@ const Header: FunctionalComponent = () => {
     (credentialResponse: CredentialResponse) => {
       dispatch(SetAccessToken(credentialResponse));
       dispatch(GetAccess(credentialResponse.credential));
+      setIsActive(false);
     },
     [dispatch],
   );

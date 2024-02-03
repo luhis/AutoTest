@@ -31,6 +31,7 @@ namespace AutoTest.Web
         private const string googleCom = "https://*.google.com";
         private const string googleAnal = "https://www.google-analytics.com";
         private const string baseCssHash = "jwMoKfjpMtCZvgc6jvf++3CnNz9TZRnk6Xn0fh2uX3E=";
+        private const string baseCssHash2 = "lmto2U1o7YINyHPg9TOCjIt+o5pSFNU/T2oLxDPF+uw=";
 
         public Startup(IConfiguration configuration, IWebHostEnvironment webHostEnvironment)
         {
@@ -216,7 +217,7 @@ namespace AutoTest.Web
                         }
                         else
                         {
-                            style.WithHash256(baseCssHash);
+                            style.WithHash256(baseCssHash).WithHash256(baseCssHash2);
                         }
 
                         var connect = builder.AddConnectSrc().Self().From(googleCom);
