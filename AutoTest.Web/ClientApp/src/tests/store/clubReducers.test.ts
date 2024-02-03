@@ -1,5 +1,5 @@
 import { ClearCache } from "../../store/event/actions";
-import { ClubsActionTypes, ClubsState } from "../../store/clubs/types";
+import { ClubsState } from "../../store/clubs/types";
 import { clubsReducer } from "../../store/clubs/reducers";
 
 const populatedState: ClubsState = {
@@ -8,10 +8,7 @@ const populatedState: ClubsState = {
 
 describe("Club Reducer", () => {
   test("Clear Cache", () => {
-    const finalState = clubsReducer(
-      populatedState,
-      ClearCache() as ClubsActionTypes,
-    );
+    const finalState = clubsReducer(populatedState, ClearCache());
     expect(finalState.clubs.tag).toBe("Idle");
   });
 });

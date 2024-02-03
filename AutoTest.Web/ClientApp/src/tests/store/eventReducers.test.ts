@@ -8,7 +8,7 @@ import {
 } from "../../types/models";
 import { ClearCache } from "../../store/event/actions";
 import { eventReducer } from "../../store/event/reducers";
-import { EventState, EventActionTypes } from "../../store/event/types";
+import { EventState, } from "../../store/event/types";
 import { Age } from "../../types/profileModels";
 import { InductionTypes } from "../../types/shared";
 import { mapOrDefault } from "../../types/loadingState";
@@ -43,10 +43,7 @@ const entrant = (payment: Payment): PublicEntrant => ({
 
 describe("Event Reducer", () => {
   test("Clear Cache", () => {
-    const finalState = eventReducer(
-      populatedState,
-      ClearCache() as EventActionTypes,
-    );
+    const finalState = eventReducer(populatedState, ClearCache());
     expect(finalState.entrants.tag).toBe("Idle");
     expect(finalState.marshals.tag).toBe("Idle");
     expect(finalState.events.tag).toBe("Idle");

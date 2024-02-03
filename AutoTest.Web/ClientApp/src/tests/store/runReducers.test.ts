@@ -3,6 +3,7 @@ import { newValidDate } from "ts-date";
 import { TestRunUploadState } from "../../types/models";
 import { runReducer } from "../../store/runs/reducers";
 import { RunState } from "../../store/runs/types";
+import { ClearCache } from "../../store/event/actions";
 
 const populatedState: RunState = {
   testRuns: [
@@ -22,7 +23,7 @@ const populatedState: RunState = {
 
 describe("Run Reducer", () => {
   test("Clear Cache", () => {
-    const finalState = runReducer(populatedState, { type: "CLEAR_CACHE" });
+    const finalState = runReducer(populatedState, ClearCache());
     expect(finalState.testRunsFromServer.tag).toBe("Idle");
     expect(finalState.testRuns.length).toBe(1);
   });
