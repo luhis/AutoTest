@@ -1,6 +1,6 @@
 {
-  "name": "ClientApp",
-  "short_name": "ClientApp",
+  "name": "Mangaji AutoTest and AutoSolo",
+  "short_name": "MangajiAutoTest",
   "start_url": "/",
   "display": "standalone",
   "orientation": "portrait",
