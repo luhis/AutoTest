@@ -7,6 +7,7 @@ import { compact, range } from "@s-libs/micro-dash";
 import { newValidDate } from "ts-date";
 import { FaBell } from "react-icons/fa";
 import { route } from "preact-router";
+import save from "save-file";
 
 import {
   EventNotification,
@@ -147,7 +148,44 @@ const Results: FunctionComponent<
     );
   }, [classFilterState, eventId]);
   const allClasses = mapOrDefault(results, (a) => a.map((b) => b.class), []);
+  const headers = ["Class", "Number", "Name", "TotalTime"]
+    .concat(
+      currentEvent
+        ? currentEvent.courses.flatMap((test) =>
+            testRuns.map((run) => `${test.ordinal + 1}.${numberToChar(run)}`),
+          )
+        : [],
+    )
+    .concat("ClassPosition", "Overall");
 
+  const downloadCSV = () => {
+    if (results.tag === "Loaded" && currentEvent) {
+      const csv = [
+        headers.join(","),
+        ...results.value.map((result) =>
+          result.entrantTimes.map((et) =>
+            [
+              et.entrant.class,
+              et.entrant.driverNumber,
+              et.entrant.givenName,
+              et.totalTime,
+            ]
+              .concat(
+                currentEvent.courses.flatMap((test) => {
+                  const runs = et.times.find((a) => a.ordinal === test.ordinal);
+                  return testRuns.map((id) =>
+                    runs ? runs.testRuns[id]?.timeInMS.toFixed(2) || "" : "",
+                  );
+                }),
+              )
+              .concat(et.classPosition, et.position)
+              .join(","),
+          ),
+        ),
+      ].join("\n");
+      void save(csv, `${eventId}-results.csv`);
+    }
+  };
   return (
     <div>
       <Breadcrumbs club={currentClub} event={currentEvent} />
@@ -174,21 +212,9 @@ const Results: FunctionComponent<
       <Table>
         <thead>
           <tr>
-            <th>Class</th>
-            <th>Number</th>
-            <th>Name</th>
-            <th>Total Time</th>
-            {currentEvent
-              ? currentEvent.courses.map((test) =>
-                  testRuns.map((run) => (
-                    <th key={`${test.ordinal}.${run}`}>
-                      {test.ordinal + 1}.{numberToChar(run)}
-                    </th>
-                  )),
-                )
-              : null}
-            <th>Class</th>
-            <th>Overall</th>
+            {headers.map((header) => (
+              <th key={header}>{header}</th>
+            ))}
           </tr>
         </thead>
         {ifSome(
@@ -225,6 +251,7 @@ const Results: FunctionComponent<
             classFilter.length === 0 || classFilter.includes(r.class),
         )}
       </Table>
+      <Button onClick={downloadCSV}>Download CSV</Button>
       {showModal && notifications.tag === "Loaded" ? (
         <NotificationsModal
           cancel={() => setShowModal(false)}
