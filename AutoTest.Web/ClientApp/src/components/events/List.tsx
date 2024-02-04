@@ -29,9 +29,7 @@ const List: FunctionComponent<Props> = ({
       return (
         <Columns>
           <Column>
-            <p key={event.eventId}>
-              {event.startTime.toLocaleDateString()} {event.location}
-            </p>
+            {event.startTime.toLocaleDateString()} {event.location}
           </Column>
           <Column>
             <Field kind="group">

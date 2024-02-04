@@ -1,11 +1,10 @@
-﻿using System;
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
-using AutoTest.Domain.Enums;
 using AutoTest.Domain.Repositories;
 using AutoTest.Domain.StorageModels;
 using AutoTest.Service.Handlers;
 using AutoTest.Service.Messages;
+using AutoTest.Unit.Test.MockData;
 using FluentAssertions;
 using MediatR;
 using Moq;
@@ -34,7 +33,7 @@ namespace AutoTest.Unit.Test.Handlers
             var eventId = 1ul;
             var clubId = 2ul;
             eventsRepository.Setup(a => a.GetById(eventId, CancellationToken.None)).ReturnsAsync(
-                new Event(eventId, clubId, "location", new DateTime(2000, 1, 1), 2, 3, "regs", new[] { EventType.AutoSolo }, "maps", TimingSystem.App, new DateTime(), new DateTime(), 10)
+                Models.GetEvent(eventId, clubId)
                 );
             var club = new Club(clubId, "club", "pay@paypal.com", "www.club.com");
             clubsRepository.Setup(a => a.GetById(clubId, CancellationToken.None)).ReturnsAsync(club);

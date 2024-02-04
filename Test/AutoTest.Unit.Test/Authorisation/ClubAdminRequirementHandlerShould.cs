@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using AutoTest.Domain.StorageModels;
 using AutoTest.Service.Messages;
 using AutoTest.Unit.Test.Fixtures;
+using AutoTest.Unit.Test.MockData;
 using AutoTest.Web.Authorization.Attributes;
 using AutoTest.Web.Authorization.Handlers;
 using FluentAssertions;
@@ -43,7 +44,7 @@ namespace AutoTest.Unit.Test.Authorisation
             var ctx = HttpContextFixture.GetHttpContext(new[] { ("eventId", eventId.ToString()), ("entrantId", entrantId.ToString()) });
             httpContextAccessor.SetupGet(a => a.HttpContext).Returns(ctx);
             mediator.Setup(a => a.Send(Its.EquivalentTo(new GetEvent(eventId)), CancellationToken.None)).ReturnsAsync(
-                new Event(eventId, clubId, "Kestel Farm", new DateTime(), 99, 3, "", new[] { Domain.Enums.EventType.AutoTest }, "", Domain.Enums.TimingSystem.StopWatch, new DateTime(), new DateTime(), 10));
+                Models.GetEvent(eventId, clubId));
             var club = new Club(clubId, "BRMC", "pay@brmc.org", "www.com");
             club.AdminEmails.Add(new("a@a.com"));
             mediator.Setup(a => a.Send(Its.EquivalentTo(new GetClub(clubId)), CancellationToken.None)).ReturnsAsync(
@@ -85,7 +86,7 @@ namespace AutoTest.Unit.Test.Authorisation
             var ctx = HttpContextFixture.GetHttpContext(new[] { ("eventId", eventId.ToString()), ("entrantId", entrantId.ToString()) });
             httpContextAccessor.SetupGet(a => a.HttpContext).Returns(ctx);
             mediator.Setup(a => a.Send(Its.EquivalentTo(new GetEvent(eventId)), CancellationToken.None)).ReturnsAsync(
-                new Event(eventId, clubId, "Kestel Farm", new DateTime(), 99, 3, "", new[] { Domain.Enums.EventType.AutoTest }, "", Domain.Enums.TimingSystem.StopWatch, new DateTime(), new DateTime(), 10));
+                Models.GetEvent(eventId, clubId));
             mediator.Setup(a => a.Send(Its.EquivalentTo(new GetClub(clubId)), CancellationToken.None)).ReturnsAsync(
                 (Club?)null);
             Func<Task> f = () => sut.HandleAsync(ac);
@@ -106,7 +107,7 @@ namespace AutoTest.Unit.Test.Authorisation
             var ctx = HttpContextFixture.GetHttpContext(new[] { ("eventId", eventId.ToString()), ("entrantId", entrantId.ToString()) });
             httpContextAccessor.SetupGet(a => a.HttpContext).Returns(ctx);
             mediator.Setup(a => a.Send(Its.EquivalentTo(new GetEvent(eventId)), CancellationToken.None)).ReturnsAsync(
-                new Event(eventId, clubId, "Kestel Farm", new DateTime(), 99, 3, "", new[] { Domain.Enums.EventType.AutoTest }, "", Domain.Enums.TimingSystem.StopWatch, new DateTime(), new DateTime(), 10));
+                Models.GetEvent(eventId, clubId));
             var club = new Club(clubId, "BRMC", "pay@brmc.org", "www.com");
             club.AdminEmails.Add(new("a@a.com"));
             mediator.Setup(a => a.Send(Its.EquivalentTo(new GetClub(clubId)), CancellationToken.None)).ReturnsAsync(

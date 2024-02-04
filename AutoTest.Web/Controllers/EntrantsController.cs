@@ -19,19 +19,12 @@ namespace AutoTest.Web.Controllers
 
     [ApiController]
     [Route("api/[controller]/{eventId}")]
-    public class EntrantsController : ControllerBase
+    public class EntrantsController(IMediator mediator) : ControllerBase
     {
-        private readonly IMediator mediator;
-
-        public EntrantsController(IMediator mediator)
-        {
-            this.mediator = mediator;
-        }
-
         [HttpGet]
         public async Task<IEnumerable<PublicEntrantModel>> GetEntrants(ulong eventId, CancellationToken cancellationToken)
         {
-            var entrants = await this.mediator.Send(new GetEntrants(eventId), cancellationToken);
+            var entrants = await mediator.Send(new GetEntrants(eventId), cancellationToken);
             return entrants.Select(a => MapClub.Map(a));
         }
 
@@ -39,7 +32,7 @@ namespace AutoTest.Web.Controllers
         [HttpGet("{entrantId}")]
         public async Task<ActionResult<Entrant>> GetEntrant(ulong eventId, ulong entrantId, CancellationToken cancellationToken)
         {
-            var e = await this.mediator.Send(new GetEntrant(eventId, entrantId), cancellationToken);
+            var e = await mediator.Send(new GetEntrant(eventId, entrantId), cancellationToken);
             return e.ToIac();
         }
 
@@ -48,14 +41,14 @@ namespace AutoTest.Web.Controllers
         public async Task<Entrant> PutEntrant(ulong eventId, ulong entrantId, EntrantSaveModel entrantSaveModel, CancellationToken cancellationToken)
         {
             var currentUserEmail = this.User.GetEmailAddress();
-            if (await this.mediator.Send(new IsClubAdmin(eventId, currentUserEmail), cancellationToken))
+            if (await mediator.Send(new IsClubAdmin(eventId, currentUserEmail), cancellationToken))
             {
-                return await this.mediator.Send(new SaveEntrant(MapClub.Map(entrantId, eventId, entrantSaveModel, entrantSaveModel.Email)),
+                return await mediator.Send(new SaveEntrant(MapClub.Map(entrantId, eventId, entrantSaveModel, entrantSaveModel.Email)),
                     cancellationToken);
             }
             else
             {
-                return await this.mediator.Send(new SaveEntrant(MapClub.Map(entrantId, eventId, entrantSaveModel, currentUserEmail)),
+                return await mediator.Send(new SaveEntrant(MapClub.Map(entrantId, eventId, entrantSaveModel, currentUserEmail)),
                     cancellationToken);
             }
         }
@@ -65,17 +58,17 @@ namespace AutoTest.Web.Controllers
         public Task MarkPaid(ulong eventId, ulong entrantId, CancellationToken cancellationToken, PaymentSaveModel? payment)
         {
             var currentUserEmail = this.User.GetEmailAddress();
-            return this.mediator.Send(new MarkPaid(eventId, entrantId, payment != null ? MapClub.Map(payment, currentUserEmail) : null), cancellationToken);
+            return mediator.Send(new MarkPaid(eventId, entrantId, payment != null ? MapClub.Map(payment, currentUserEmail) : null), cancellationToken);
         }
 
         [Authorize(policy: Policies.ClubAdmin)]
         [HttpPut("{entrantId}/[action]")]
         public Task SetEntrantStatus(ulong eventId, ulong entrantId, EntrantStatus status, CancellationToken cancellationToken) =>
-            this.mediator.Send(new SetEntrantStatus(eventId, entrantId, status), cancellationToken);
+            mediator.Send(new SetEntrantStatus(eventId, entrantId, status), cancellationToken);
 
         [Authorize(policy: Policies.ClubAdminOrSelf)]
         [HttpDelete("{entrantId}")]
-        public Task Delete(ulong eventId, ulong entrantId, CancellationToken cancellationToken) => this.mediator.Send(new DeleteEntrant(eventId, entrantId),
+        public Task Delete(ulong eventId, ulong entrantId, CancellationToken cancellationToken) => mediator.Send(new DeleteEntrant(eventId, entrantId),
             cancellationToken);
     }
 }

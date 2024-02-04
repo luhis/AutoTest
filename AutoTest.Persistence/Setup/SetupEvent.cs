@@ -35,6 +35,7 @@
             entity.Property(e => e.MaxEntrants).IsRequired();
             entity.HasOne<Club>().WithMany().HasForeignKey(p => p.ClubId);
             entity.OwnsMany(a => a.Courses, SetupTest.Setup);
+            entity.Property(e => e.Created).IsRequired();
         }
     }
 }

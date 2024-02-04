@@ -18,25 +18,25 @@ namespace AutoTest.Persistence.Repositories
 
         public Task<IEnumerable<TestRun>> GetAll(ulong eventId, CancellationToken cancellationToken)
         {
-            return this._autoTestContext.TestRuns!.Where(
+            return this._autoTestContext.TestRuns.Where(
                 a => a.EventId == eventId).OrderBy(a => a.Created).ToEnumerableAsync(cancellationToken);
         }
 
         Task<IEnumerable<TestRun>> ITestRunsRepository.GetAll(ulong eventId, int ordinal, CancellationToken cancellationToken)
         {
-            return this._autoTestContext.TestRuns!.Where(
+            return this._autoTestContext.TestRuns.Where(
                 a => a.EventId == eventId && a.Ordinal == ordinal).OrderBy(a => a.Created).ToEnumerableAsync(cancellationToken);
         }
 
         Task ITestRunsRepository.AddTestRun(TestRun testRun, CancellationToken cancellationToken)
         {
-            this._autoTestContext.TestRuns!.Add(testRun);
+            this._autoTestContext.TestRuns.Add(testRun);
             return this._autoTestContext.SaveChangesAsync(cancellationToken);
         }
 
         Task ITestRunsRepository.UpdateTestRun(TestRun testRun, CancellationToken cancellationToken)
         {
-            this._autoTestContext.TestRuns!.Update(testRun);
+            this._autoTestContext.TestRuns.Update(testRun);
             return this._autoTestContext.SaveChangesAsync(cancellationToken);
         }
     }

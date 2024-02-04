@@ -14,15 +14,8 @@ namespace AutoTest.Web.Controllers
     [Authorize]
     [ApiController]
     [Route("api/[controller]")]
-    public class ProfileController : ControllerBase
+    public class ProfileController(IMediator mediator) : ControllerBase
     {
-        private readonly IMediator mediator;
-
-        public ProfileController(IMediator mediator)
-        {
-            this.mediator = mediator;
-        }
-
         [HttpGet]
         public Task<Profile> Get(CancellationToken cancellationToken)
         {
@@ -33,7 +26,7 @@ namespace AutoTest.Web.Controllers
         public Task<string> Save(ProfileSaveModel profile, CancellationToken cancellationToken)
         {
             var email = this.User.GetEmailAddress();
-            return this.mediator.Send(new SaveProfile(email, MapClub.Map(email, profile)),
+            return mediator.Send(new SaveProfile(email, MapClub.Map(email, profile)),
                 cancellationToken);
         }
     }

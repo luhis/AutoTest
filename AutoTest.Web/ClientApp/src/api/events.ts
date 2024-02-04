@@ -4,17 +4,18 @@ import { Event, EventStatus, Override } from "../types/models";
 import { ApiResponse, toApiResponse } from "../types/loadingState";
 import { extract, getHeaders, throwIfNotOk } from "./api";
 
+type ApiEvent = Override<
+  Event,
+  {
+    readonly startTime: string;
+    readonly entryCloseDate: string;
+    readonly entryOpenDate: string;
+  }
+>;
+
 export const getEvents = async (): Promise<ApiResponse<readonly Event[]>> =>
   toApiResponse(async () => {
     const response = await fetch("/api/events");
-    type ApiEvent = Override<
-      Event,
-      {
-        readonly startTime: string;
-        readonly entryCloseDate: string;
-        readonly entryOpenDate: string;
-      }
-    >;
     const events = await extract<readonly ApiEvent[]>(response);
 
     return events.map(

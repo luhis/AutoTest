@@ -48,14 +48,14 @@ namespace AutoTest.Persistence
                 }
                 if (this.Events != null && this.Events.SingleOrDefault(a => a.EventId == 1) == null)
                 {
-                    var e = new Event(1, 1, "Kev's Farm", new DateTime(2024, 1, 1), 10, 2, string.Empty, new[] { EventType.AutoTest }, string.Empty, TimingSystem.StopWatch, new DateTime(), DateTime.MaxValue, 10);
+                    var e = new Event(1, 1, "Kev's Farm", new DateTime(2024, 3, 1), 10, 2, string.Empty, new[] { EventType.AutoTest }, string.Empty, TimingSystem.StopWatch, new DateTime(2000, 1, 1), new DateTime(2030, 1, 1), 10, DateTime.UtcNow);
                     e.SetCourses(Enumerable.Range(0, 10).Select(x => new Course(x, "")).ToArray());
                     this.Events.Add(e);
                 }
 
                 if (this.Events != null && this.Events.SingleOrDefault(a => a.EventId == 2) == null)
                 {
-                    var e = new Event(2, 1, "Kev's Farm 2", new DateTime(2024, 1, 1), 10, 2, string.Empty, new[] { EventType.AutoTest }, string.Empty, TimingSystem.StopWatch, new DateTime(), new DateTime(), 10);
+                    var e = new Event(2, 1, "Kev's Farm 2", new DateTime(2024, 1, 1), 10, 2, string.Empty, new[] { EventType.AutoTest }, string.Empty, TimingSystem.StopWatch, new DateTime(2000, 1, 1), new DateTime(2030, 1, 1), 10, DateTime.UtcNow);
                     e.SetCourses(Enumerable.Range(0, 10).Select(x => new Course(x, "")).ToArray());
                     this.Events.Add(e);
                 }

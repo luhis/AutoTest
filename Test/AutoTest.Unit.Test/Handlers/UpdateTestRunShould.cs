@@ -42,5 +42,21 @@ namespace AutoTest.Unit.Test.Handlers
 
             mr.VerifyAll();
         }
+
+        [Fact(Skip = "Todo not implemented")]
+        public async Task NotChangeCreatedDate()
+        {
+            var entrantId = 5ul;
+            var marshalId = 6ul;
+            var penalties = new[] { new Penalty(Domain.Enums.PenaltyEnum.Late, 1) };
+            var tr = new TestRun(1, 2, 3, 4, entrantId, new System.DateTime(2000, 1, 1), marshalId);
+            tr.SetPenalties(penalties);
+            notifier.Setup(a => a.NewTestRun(Its.EquivalentTo(tr), CancellationToken.None)).Returns(Task.CompletedTask);
+            testRuns.Setup(a => a.UpdateTestRun(Its.EquivalentTo(tr), CancellationToken.None)).Returns(Task.CompletedTask);
+
+            await sut.Handle(new(1, 2, 3, 4, entrantId, new System.DateTime(2000, 1, 2), marshalId, penalties), CancellationToken.None);
+
+            mr.VerifyAll();
+        }
     }
 }

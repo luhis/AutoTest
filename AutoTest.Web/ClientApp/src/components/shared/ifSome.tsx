@@ -1,6 +1,7 @@
 import { FunctionalComponent, h, Fragment } from "preact";
-import { LoadingState } from "../../types/loadingState";
 import { Loader } from "react-bulma-components";
+
+import { LoadingState } from "../../types/loadingState";
 
 const ifSome = <T, TT>(
   arr: LoadingState<readonly T[], TT>,

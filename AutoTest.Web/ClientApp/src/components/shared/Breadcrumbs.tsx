@@ -1,5 +1,6 @@
 import { h, FunctionComponent } from "preact";
 import { Breadcrumb } from "react-bulma-components";
+import { Link } from "preact-router";
 
 import { Club, Event } from "../../types/models";
 
@@ -14,14 +15,14 @@ const Breadcrumbs: FunctionComponent<Props> = ({ club, event, test }) => {
     <Breadcrumb>
       {club ? (
         <Breadcrumb.Item>
-          <a href={`/events?clubId=${club.clubId}`}>{club.clubName}</a>
+          <Link href={`/events?clubId=${club.clubId}`}>{club.clubName}</Link>
         </Breadcrumb.Item>
       ) : null}
       {event ? (
         <Breadcrumb.Item>
-          <a href={`/event/${event.eventId}`}>
+          <Link href={`/event/${event.eventId}`}>
             {`${event.location} ${event.startTime.toLocaleDateString()}`}
-          </a>
+          </Link>
         </Breadcrumb.Item>
       ) : null}
       {test ? <Breadcrumb.Item>Test No. {test + 1}</Breadcrumb.Item> : null}

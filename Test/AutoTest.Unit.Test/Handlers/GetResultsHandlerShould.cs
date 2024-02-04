@@ -9,6 +9,7 @@ using AutoTest.Domain.StorageModels;
 using AutoTest.Service.Handlers;
 using AutoTest.Service.Messages;
 using AutoTest.Service.Models;
+using AutoTest.Unit.Test.MockData;
 using MediatR;
 using Moq;
 using Xunit;
@@ -39,7 +40,7 @@ namespace AutoTest.Unit.Test.Handlers
             var eventId = 22ul;
 
             eventsRepository.Setup(a => a.GetById(eventId, CancellationToken.None)).ReturnsAsync(
-                new Event(eventId, 1, "location", new DateTime(2000, 1, 1), 2, 3, "regs", new[] { EventType.AutoSolo }, "maps", TimingSystem.App, new DateTime(), new DateTime(), 10)
+                Models.GetEvent(eventId)
                 );
             var entrant = new Entrant(entrantId, 1, "matt", "mccorry", "a@a.com", EventType.AutoTest, "A", eventId, "BRMC", "1234", Age.Senior, false);
             entrant.SetPayment(new(new DateTime(2000, 1, 1), PaymentMethod.Paypal, new DateTime(2000, 2, 2), "aaa@aa.com"));

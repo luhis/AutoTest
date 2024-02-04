@@ -9,6 +9,7 @@ using MediatR;
 using Moq;
 using Xunit;
 using System;
+using AutoTest.Unit.Test.MockData;
 
 namespace AutoTest.Unit.Test.Handlers
 {
@@ -30,8 +31,8 @@ namespace AutoTest.Unit.Test.Handlers
         {
             var eventId = 11ul;
             var clubId = 2ul;
-            events.Setup(a => a.GetById(eventId, CancellationToken.None)).ReturnsAsync(new Event(eventId, clubId, "location", new DateTime(2000, 1, 1), 2, 3, "regs", new[] { Domain.Enums.EventType.AutoSolo }, "maps", Domain.Enums.TimingSystem.App, new DateTime(), new DateTime(), 10));
-            var toSave = new Event(eventId, clubId, "location", new DateTime(2000, 1, 1), 2, 3, "regs", new[] { Domain.Enums.EventType.AutoSolo }, "maps", Domain.Enums.TimingSystem.App, new DateTime(), new DateTime(), 10);
+            events.Setup(a => a.GetById(eventId, CancellationToken.None)).ReturnsAsync(Models.GetEvent(eventId, clubId));
+            var toSave = Models.GetEvent(eventId, clubId);
             toSave.SetEventStatus(Domain.Enums.EventStatus.Open);
             events.Setup(a => a.Upsert(Its.EquivalentTo(toSave), CancellationToken.None)).Returns(Task.CompletedTask);
 
