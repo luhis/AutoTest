@@ -79,6 +79,7 @@ const Events: FunctionalComponent<Props> = ({ clubId }) => {
             startTime: newValidDateOrThrow(editingEvent.startTime),
             entryOpenDate: newValidDateOrThrow(editingEvent.entryOpenDate),
             entryCloseDate: newValidDateOrThrow(editingEvent.entryCloseDate),
+            created: newValidDate(),
           },
           getAccessToken(auth),
           () => setEditingEvent(undefined),

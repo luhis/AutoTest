@@ -108,10 +108,11 @@ export interface Event {
   readonly entryCloseDate: ValidDate;
   readonly timingSystem: TimingSystem;
   readonly eventStatus: EventStatus;
+  readonly created: ValidDate;
 }
 
 export type EditingEvent = Override<
-  Event,
+  Omit<Event, "created">,
   {
     readonly clubId: number | undefined;
     readonly startTime: string;

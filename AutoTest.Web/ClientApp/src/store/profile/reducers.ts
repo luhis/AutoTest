@@ -96,8 +96,6 @@ export const profileReducer = (
         },
       };
     case "SET_ACCESS_TOKEN":
-      // eslint-disable-next-line no-debugger
-      debugger;
       return {
         ...state,
         accessToken: action.payload,

@@ -4,6 +4,7 @@ import { useEffect } from "preact/hooks";
 import { useDispatch, useSelector } from "react-redux";
 import { formatDateIso, newValidDate } from "ts-date";
 import { Link } from "preact-router";
+import { sortBy } from "@s-libs/micro-dash";
 
 import { GetEventsIfRequired } from "../../store/event/actions";
 import { selectEvents } from "../../store/event/selectors";
@@ -16,7 +17,9 @@ const Home: FunctionalComponent = () => {
     dispatch(GetEventsIfRequired());
   });
   const events = useSelector(selectEvents);
-  //const toSorted = ifLoaded(events, (a) => sortBy(a, (a) => a.createdDate));
+  const tenLatest = ifLoaded(events, (a) =>
+    sortBy(a, (e) => e.created).slice(0, 10),
+  );
   const today = ifLoaded(events, (a) =>
     a.filter(
       (event) =>
@@ -42,7 +45,21 @@ const Home: FunctionalComponent = () => {
           </Columns>
         ),
       )}
-      <Heading>New Events</Heading>
+      <Heading>Newest Events</Heading>
+      {ifSome(
+        tenLatest,
+        (a) => a.eventId,
+        (event) => (
+          <Columns>
+            <Columns.Column>
+              {event.startTime.toLocaleDateString()} {event.location}
+            </Columns.Column>
+            <Columns.Column>
+              <Link href={`/event/${event.eventId}`}>View</Link>
+            </Columns.Column>
+          </Columns>
+        ),
+      )}
     </div>
   );
 };

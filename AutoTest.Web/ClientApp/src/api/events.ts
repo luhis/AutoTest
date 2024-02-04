@@ -10,6 +10,7 @@ type ApiEvent = Override<
     readonly startTime: string;
     readonly entryCloseDate: string;
     readonly entryOpenDate: string;
+    readonly created: string;
   }
 >;
 
@@ -19,11 +20,12 @@ export const getEvents = async (): Promise<ApiResponse<readonly Event[]>> =>
     const events = await extract<readonly ApiEvent[]>(response);
 
     return events.map(
-      ({ startTime, entryCloseDate, entryOpenDate, ...rest }) => ({
+      ({ startTime, entryCloseDate, entryOpenDate, created, ...rest }) => ({
         ...rest,
         startTime: parseIsoOrThrow(startTime),
         entryCloseDate: parseIsoOrThrow(entryCloseDate),
         entryOpenDate: parseIsoOrThrow(entryOpenDate),
+        created: parseIsoOrThrow(created),
       }),
     );
   }, undefined);
