@@ -1,5 +1,6 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
+using AutoTest.Domain.Enums;
 using AutoTest.Domain.StorageModels;
 using AutoTest.Service.Interfaces;
 using AutoTest.Service.Messages;
@@ -8,18 +9,9 @@ using Microsoft.AspNetCore.SignalR;
 
 namespace AutoTest.Web.Hubs
 {
-    public class EventNotifier : IEventNotifier
+    public class EventNotifier(IHubContext<EventHub> eventHub, IMediator mediator) : IEventNotifier
     {
-        private readonly IHubContext<EventHub> eventHub;
-        private readonly IMediator mediator;
-
-        public EventNotifier(IHubContext<EventHub> eventHub, IMediator mediator)
-        {
-            this.eventHub = eventHub;
-            this.mediator = mediator;
-        }
-
-        private IClientProxy GetEventGroup(ulong eventId) => this.eventHub.Clients.Group(EventHub.GetEventKey(eventId));
+        private IClientProxy GetEventGroup(ulong eventId) => eventHub.Clients.Group(EventHub.GetEventKey(eventId));
 
         async Task IEventNotifier.NewTestRun(TestRun testRun, CancellationToken cancellationToken)
         {
@@ -29,9 +21,9 @@ namespace AutoTest.Web.Hubs
             await group.SendAsync("NewTestRun", testRun, cancellationToken);
         }
 
-        Task IEventNotifier.NewNotification(Notification notification, CancellationToken cancellationToken)
-        {
-            return GetEventGroup(notification.EventId).SendAsync(nameof(IEventNotifier.NewNotification), notification, cancellationToken);
-        }
+        Task IEventNotifier.NewNotification(Notification notification, CancellationToken cancellationToken) => GetEventGroup(notification.EventId).SendAsync(nameof(IEventNotifier.NewNotification), notification, cancellationToken);
+
+        Task IEventNotifier.EventStatusChanged(ulong eventId, EventStatus newStatus, CancellationToken cancellationToken)
+       => GetEventGroup(eventId).SendAsync(nameof(IEventNotifier.EventStatusChanged), eventId, newStatus, cancellationToken);
     }
 }
