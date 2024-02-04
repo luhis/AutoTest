@@ -1,25 +1,25 @@
 ﻿using System;
-using AutoTest.Web.Extensions;
-using AutoTest.Web.Hubs;
-using Microsoft.AspNetCore.ResponseCompression;
-using Microsoft.OpenApi.Models;
 using System.Collections.Generic;
 using System.Security.Claims;
+using System.Text;
+using System.Threading.Tasks;
 using AutoTest.Persistence;
 using AutoTest.Service.Messages;
 using AutoTest.Web.Authorization;
 using AutoTest.Web.Authorization.Attributes;
+using AutoTest.Web.Extensions;
+using AutoTest.Web.Hubs;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using WebMarkupMin.AspNetCore3;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
-using System.Text;
-using System.Threading.Tasks;
+using Microsoft.OpenApi.Models;
+using WebMarkupMin.AspNetCore3;
 
 namespace AutoTest.Web
 {

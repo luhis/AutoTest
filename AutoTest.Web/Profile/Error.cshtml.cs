@@ -1,4 +1,4 @@
-namespace AutoTest.Web.Pages
+﻿namespace AutoTest.Web.Pages
 {
     using System.Diagnostics;
     using Microsoft.AspNetCore.Mvc;

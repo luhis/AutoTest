@@ -1,10 +1,10 @@
-﻿using AutoTest.Unit.Test.Fixtures;
-using Xunit;
-using AutoTest.Persistence;
+﻿using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Linq;
+using AutoTest.Persistence;
+using AutoTest.Unit.Test.Fixtures;
 using FluentAssertions;
+using Xunit;
 using static AutoTest.Persistence.DbSetExtensions;
 
 namespace AutoTest.Unit.Test

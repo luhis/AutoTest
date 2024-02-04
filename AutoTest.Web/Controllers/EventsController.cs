@@ -1,15 +1,15 @@
-﻿using AutoTest.Web.Authorization;
-using AutoTest.Web.Mapping;
-using AutoTest.Web.Models;
-using Microsoft.AspNetCore.Authorization;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using AutoTest.Domain.Enums;
 using AutoTest.Domain.StorageModels;
 using AutoTest.Service.Messages;
+using AutoTest.Web.Authorization;
+using AutoTest.Web.Mapping;
+using AutoTest.Web.Models;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using AutoTest.Domain.Enums;
 
 namespace AutoTest.Web.Controllers
 {

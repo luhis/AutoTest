@@ -3,11 +3,11 @@
 namespace AutoTest.Service.Handlers
 {
     using System.Collections.Generic;
-    using AutoTest.Service.Messages;
-    using AutoTest.Domain.StorageModels;
-    using MediatR;
-    using System.Threading.Tasks;
     using System.Threading;
+    using System.Threading.Tasks;
+    using AutoTest.Domain.StorageModels;
+    using AutoTest.Service.Messages;
+    using MediatR;
 
     public class GetClubsHandler : IRequestHandler<GetClubs, IEnumerable<Club>>
     {

@@ -2,11 +2,11 @@
 
 namespace AutoTest.Persistence
 {
+    using System.Linq;
     using AutoTest.Domain.Enums;
     using AutoTest.Domain.StorageModels;
     using AutoTest.Persistence.Setup;
     using Microsoft.EntityFrameworkCore;
-    using System.Linq;
 
     public class AutoTestContext : DbContext
     {

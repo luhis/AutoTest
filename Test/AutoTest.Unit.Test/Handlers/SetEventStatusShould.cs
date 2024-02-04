@@ -1,15 +1,15 @@
-﻿using System.Threading;
+﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 using AutoTest.Domain.Repositories;
 using AutoTest.Domain.StorageModels;
 using AutoTest.Service.Handlers;
 using AutoTest.Service.Messages;
+using AutoTest.Unit.Test.MockData;
 using FluentAssertions.ArgumentMatchers.Moq;
 using MediatR;
 using Moq;
 using Xunit;
-using System;
-using AutoTest.Unit.Test.MockData;
 
 namespace AutoTest.Unit.Test.Handlers
 {

@@ -10,7 +10,7 @@ namespace AutoTest.Web.Models
         public string FamilyName { get; set; } = string.Empty;
 
         public Age Age { get; set; } = Age.Senior;
-        
+
         public bool IsLady { get; set; }
 
         public VehicleSaveModel Vehicle { get; set; } = new VehicleSaveModel();

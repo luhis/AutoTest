@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using System;
+﻿using System;
+using System.Collections.Generic;
 using AutoTest.Domain.Enums;
 
 namespace AutoTest.Domain.StorageModels
