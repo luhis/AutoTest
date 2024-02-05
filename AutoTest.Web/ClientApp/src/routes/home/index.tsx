@@ -7,10 +7,9 @@ import { Link } from "preact-router";
 import preval from "preval.macro";
 
 import { GetEventsIfRequired } from "../../store/event/actions";
-import { selectEvents } from "../../store/event/selectors";
+import { get10LatestEvents, selectEvents } from "../../store/event/selectors";
 import ifSome from "../../components/shared/ifSome";
 import { ifLoaded } from "../../types/loadingState";
-import { Event } from "../../types/models";
 
 // eslint-disable-next-line @typescript-eslint/no-unsafe-call
 const buildDate = preval`module.exports = new Date().toISOString();` as string;
@@ -21,13 +20,7 @@ const Home: FunctionalComponent = () => {
     dispatch(GetEventsIfRequired());
   });
   const events = useSelector(selectEvents);
-  const tenLatest = ifLoaded(events, (a) => {
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-assignment
-    const sorted: readonly Event[] = a.toSorted(
-      (x: Event, y: Event) => x.created.getTime() - y.created.getTime(),
-    );
-    return sorted.slice(0, 10);
-  });
+  const tenLatest = ifLoaded(events, (a) => get10LatestEvents(a));
   const today = ifLoaded(events, (a) =>
     a.filter(
       (event) =>
