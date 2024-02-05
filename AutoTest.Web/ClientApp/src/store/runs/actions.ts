@@ -1,5 +1,6 @@
 import { ThunkAction } from "redux-thunk";
 import { ActionCreator } from "redux";
+import { toast } from "bulma-toast";
 
 import { RunActionTypes } from "./types";
 import { AppState } from "..";
@@ -101,12 +102,19 @@ export const SyncTestRuns =
     );
     await Promise.all(
       toUpload.map(async (element) => {
-        const res = await addTestRun(element, token);
-        ifLoaded(res, () => {
-          dispatch(
-            UpdateTestRunState(element.testRunId, TestRunUploadState.Uploaded),
-          );
-        });
+        try {
+          const res = await addTestRun(element, token);
+          ifLoaded(res, () => {
+            dispatch(
+              UpdateTestRunState(
+                element.testRunId,
+                TestRunUploadState.Uploaded,
+              ),
+            );
+          });
+        } catch (error) {
+          toast({ message: (error as Error).message, type: "is-danger" });
+        }
       }),
     );
 

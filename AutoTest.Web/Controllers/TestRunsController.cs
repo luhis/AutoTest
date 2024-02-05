@@ -6,6 +6,7 @@ using AutoTest.Domain.StorageModels;
 using AutoTest.Service.Messages;
 using AutoTest.Web.Authorization;
 using AutoTest.Web.Authorization.Tooling;
+using AutoTest.Web.Extensions;
 using AutoTest.Web.Models;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -32,11 +33,12 @@ namespace AutoTest.Web.Controllers
 
         [Authorize(Policies.Marshal)]
         [HttpPut("{testRunId}")]
-        public Task Create(ulong eventId, int ordinal, ulong testRunId, TestRunSaveModel testRun, CancellationToken cancellationToken)
+        public async Task<IActionResult> Create(ulong eventId, int ordinal, ulong testRunId, TestRunSaveModel testRun, CancellationToken cancellationToken)
         {
             var emailAddress = this.User.GetEmailAddress();
-            return mediator.Send(
+            var res = await mediator.Send(
                 new AddTestRun(testRunId, eventId, ordinal, testRun.TimeInMS, testRun.EntrantId, testRun.Created, emailAddress, testRun.Penalties.Select(a => new Penalty(a.PenaltyType, a.InstanceCount))), cancellationToken);
+            return res.Match(success => this.Ok().ToIar(), error => this.BadRequest(error).ToIar());
         }
 
         [Authorize(Policies.ClubAdmin)]

@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using AutoTest.Domain.StorageModels;
 using MediatR;
+using OneOf;
+using OneOf.Types;
 
 namespace AutoTest.Service.Messages
 {
-    public class AddTestRun : IRequest
+    public class AddTestRun : IRequest<OneOf<Success, Error<string>>>
     {
         public AddTestRun(ulong testRunId, ulong eventId, int ordinal, int timeInMS, ulong entrantId, DateTime created, string emailAddress, IEnumerable<Penalty> penalties)
         {

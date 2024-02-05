@@ -5,11 +5,15 @@ import { useDispatch, useSelector } from "react-redux";
 import { formatDateIso, newValidDate } from "ts-date";
 import { Link } from "preact-router";
 import { sortBy } from "@s-libs/micro-dash";
+import preval from "preval.macro";
 
 import { GetEventsIfRequired } from "../../store/event/actions";
 import { selectEvents } from "../../store/event/selectors";
 import ifSome from "../../components/shared/ifSome";
 import { ifLoaded } from "../../types/loadingState";
+
+// eslint-disable-next-line @typescript-eslint/no-unsafe-call
+const buildDate = preval`module.exports = new Date().toISOString();` as string;
 
 const Home: FunctionalComponent = () => {
   const dispatch = useDispatch();
@@ -17,8 +21,9 @@ const Home: FunctionalComponent = () => {
     dispatch(GetEventsIfRequired());
   });
   const events = useSelector(selectEvents);
-  const tenLatest = ifLoaded(events, (a) =>
-    sortBy(a, (e) => e.created).slice(0, 10),
+  const tenLatest = ifLoaded(
+    events,
+    (a) => sortBy(a, (e) => e.created).slice(0, 10), // is wrong way around
   );
   const today = ifLoaded(events, (a) =>
     a.filter(
@@ -30,6 +35,7 @@ const Home: FunctionalComponent = () => {
     <div>
       <Heading>Home</Heading>
       <p>This is the Mangaji AutoTest app.</p>
+      <p>Build Date: {buildDate}</p>
       <Heading>Today&apos;s Events</Heading>
       {ifSome(
         today,

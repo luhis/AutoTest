@@ -16,6 +16,8 @@ namespace AutoTest.Web.Controllers
     using MediatR;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
+    using OneOf;
+    using OneOf.Types;
 
     [ApiController]
     [Route("api/[controller]/{eventId}")]
@@ -33,23 +35,25 @@ namespace AutoTest.Web.Controllers
         public async Task<ActionResult<Entrant>> GetEntrant(ulong eventId, ulong entrantId, CancellationToken cancellationToken)
         {
             var e = await mediator.Send(new GetEntrant(eventId, entrantId), cancellationToken);
-            return e.ToIac();
+            return e.ToAr();
         }
+
+        ActionResult<Entrant> Map(OneOf<Entrant, Error<string>> r) => r.Match(succ => succ.ToAr(), error => this.BadRequest(error.Value));
 
         [Authorize(policy: Policies.ClubAdminOrSelf)]
         [HttpPut("{entrantId}")]
-        public async Task<Entrant> PutEntrant(ulong eventId, ulong entrantId, EntrantSaveModel entrantSaveModel, CancellationToken cancellationToken)
+        public async Task<ActionResult<Entrant>> PutEntrant(ulong eventId, ulong entrantId, EntrantSaveModel entrantSaveModel, CancellationToken cancellationToken)
         {
             var currentUserEmail = this.User.GetEmailAddress();
             if (await mediator.Send(new IsClubAdmin(eventId, currentUserEmail), cancellationToken))
             {
-                return await mediator.Send(new SaveEntrant(MapClub.Map(entrantId, eventId, entrantSaveModel, entrantSaveModel.Email)),
-                    cancellationToken);
+                return Map(await mediator.Send(new SaveEntrant(MapClub.Map(entrantId, eventId, entrantSaveModel, entrantSaveModel.Email)),
+                    cancellationToken));
             }
             else
             {
-                return await mediator.Send(new SaveEntrant(MapClub.Map(entrantId, eventId, entrantSaveModel, currentUserEmail)),
-                    cancellationToken);
+                return Map(await mediator.Send(new SaveEntrant(MapClub.Map(entrantId, eventId, entrantSaveModel, currentUserEmail)),
+                    cancellationToken));
             }
         }
 

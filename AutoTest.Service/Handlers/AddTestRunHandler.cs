@@ -6,10 +6,12 @@ using AutoTest.Domain.StorageModels;
 using AutoTest.Service.Interfaces;
 using AutoTest.Service.Messages;
 using MediatR;
+using OneOf.Types;
+using OneOf;
 
 namespace AutoTest.Service.Handlers
 {
-    public class AddTestRunHandler : IRequestHandler<AddTestRun>
+    public class AddTestRunHandler : IRequestHandler<AddTestRun, OneOf<Success, Error<string>>>
     {
         private readonly ITestRunsRepository testRunsRepository;
         private readonly IEventsRepository _eventsRepository;
@@ -24,18 +26,19 @@ namespace AutoTest.Service.Handlers
             _eventsRepository = eventsRepository;
         }
 
-        async Task IRequestHandler<AddTestRun>.Handle(AddTestRun request, CancellationToken cancellationToken)
+        async Task<OneOf<Success, Error<string>>> IRequestHandler<AddTestRun, OneOf<Success, Error<string>>>.Handle(AddTestRun request, CancellationToken cancellationToken)
         {
             var @event = await _eventsRepository.GetById(request.EventId, cancellationToken);
             if (@event!.EventStatus != Domain.Enums.EventStatus.Running)
             {
-                throw new System.Exception("Event must be running to add Test Run");
+                return new Error<string>("Event must be running to add Test Run");
             }
-            var marshalId = await _marshalsRepository.GetMashalIdByEmail(request.EventId, request.EmailAddress, cancellationToken);
+            var marshalId = await _marshalsRepository.GetMarshalIdByEmail(request.EventId, request.EmailAddress, cancellationToken);
             var testRun = new TestRun(request.TestRunId, request.EventId, request.Ordinal, request.TimeInMS, request.EntrantId, request.Created, marshalId);
             testRun.SetPenalties(request.Penalties.ToArray());
             await testRunsRepository.AddTestRun(testRun, cancellationToken);
             await signalRNotifier.NewTestRun(testRun, cancellationToken);
+            return new Success();
         }
     }
 }

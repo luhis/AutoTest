@@ -11,13 +11,15 @@ using FluentAssertions;
 using FluentAssertions.ArgumentMatchers.Moq;
 using MediatR;
 using Moq;
+using OneOf.Types;
+using OneOf;
 using Xunit;
 
 namespace AutoTest.Unit.Test.Handlers
 {
     public class SaveEntrantHandlerShould
     {
-        private readonly IRequestHandler<SaveEntrant, Entrant> sut;
+        private readonly IRequestHandler<SaveEntrant, OneOf<Entrant, Error<string>>> sut;
         private readonly MockRepository mr;
         private readonly Mock<IEntrantsRepository> entrantsRepository;
         private readonly Mock<IEventsRepository> eventsRepository;
@@ -54,7 +56,7 @@ namespace AutoTest.Unit.Test.Handlers
             var res = await sut.Handle(se, CancellationToken.None);
 
             mr.VerifyAll();
-            res.Payment.Should().BeNull();
+            res.AsT0.Payment.Should().BeNull();
         }
 
         [Fact]
@@ -68,10 +70,9 @@ namespace AutoTest.Unit.Test.Handlers
             eventsRepository.Setup(a => a.GetById(eventId, CancellationToken.None)).ReturnsAsync(GetEvent(eventId, DateTime.UtcNow.AddDays(1), DateTime.UtcNow.AddDays(2)));
 
             var se = new SaveEntrant(entrant);
-            Func<Task> act = () => sut.Handle(se, CancellationToken.None);
+            var res = await sut.Handle(se, CancellationToken.None);
 
-            var exception = await act.Should().ThrowAsync<Exception>();
-            exception.WithMessage("Please wait until event open");
+            res.AsT1.Value.Should().Be("Please wait until event open");
             mr.VerifyAll();
         }
 
@@ -86,10 +87,9 @@ namespace AutoTest.Unit.Test.Handlers
             eventsRepository.Setup(a => a.GetById(eventId, CancellationToken.None)).ReturnsAsync(GetEvent(eventId, DateTime.UtcNow.AddDays(-2), DateTime.UtcNow.AddDays(-1)));
 
             var se = new SaveEntrant(entrant);
-            Func<Task> act = () => sut.Handle(se, CancellationToken.None);
-            var exception = await act.Should().ThrowAsync<Exception>();
-            exception.WithMessage("Event is now closed");
+            var res = await sut.Handle(se, CancellationToken.None);
 
+            res.AsT1.Value.Should().Be("Event is now closed");
             mr.VerifyAll();
         }
 
@@ -105,10 +105,9 @@ namespace AutoTest.Unit.Test.Handlers
             entrantsRepository.Setup(a => a.GetEntrantCount(eventId, CancellationToken.None)).ReturnsAsync(10);
 
             var se = new SaveEntrant(entrant);
-            Func<Task> act = () => sut.Handle(se, CancellationToken.None);
-            var exception = await act.Should().ThrowAsync<Exception>();
-            exception.WithMessage("Too many entrants");
+            var res = await sut.Handle(se, CancellationToken.None);
 
+            res.AsT1.Value.Should().Be("Too many entrants");
             mr.VerifyAll();
         }
 
@@ -124,10 +123,9 @@ namespace AutoTest.Unit.Test.Handlers
             entrantsRepository.Setup(a => a.GetEntrantCount(eventId, CancellationToken.None)).ReturnsAsync(1);
 
             var se = new SaveEntrant(entrant);
-            Func<Task> act = () => sut.Handle(se, CancellationToken.None);
-            var exception = await act.Should().ThrowAsync<Exception>();
-            exception.WithMessage("Event Type invalid");
+            var res = await sut.Handle(se, CancellationToken.None);
 
+            res.AsT1.Value.Should().Be("Event Type invalid");
             mr.VerifyAll();
         }
 
@@ -150,7 +148,7 @@ namespace AutoTest.Unit.Test.Handlers
             var res = await sut.Handle(se, CancellationToken.None);
 
             mr.VerifyAll();
-            res.Payment.Should().NotBeNull();
+            res.AsT0.Payment.Should().NotBeNull();
         }
     }
 }

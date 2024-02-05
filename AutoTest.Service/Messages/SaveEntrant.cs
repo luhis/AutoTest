@@ -1,9 +1,11 @@
 ﻿using AutoTest.Domain.StorageModels;
+using OneOf;
+using OneOf.Types;
 using MediatR;
 
 namespace AutoTest.Service.Messages
 {
-    public class SaveEntrant : IRequest<Entrant>
+    public class SaveEntrant : IRequest<OneOf<Entrant, Error<string>>>
     {
         public SaveEntrant(Entrant entrant)
         {

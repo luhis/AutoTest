@@ -1,21 +1,20 @@
 ﻿using System.Linq;
 using AutoTest.Web.Authorization.Tooling;
 using AutoTest.Web.Mapping;
+using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
+using AutoTest.Domain.StorageModels;
+using AutoTest.Service.Messages;
+using AutoTest.Web.Authorization;
+using AutoTest.Web.Extensions;
+using AutoTest.Web.Models;
+using MediatR;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 
 namespace AutoTest.Web.Controllers
 {
-    using System.Collections.Generic;
-    using System.Threading;
-    using System.Threading.Tasks;
-    using AutoTest.Domain.StorageModels;
-    using AutoTest.Service.Messages;
-    using AutoTest.Web.Authorization;
-    using AutoTest.Web.Extensions;
-    using AutoTest.Web.Models;
-    using MediatR;
-    using Microsoft.AspNetCore.Authorization;
-    using Microsoft.AspNetCore.Mvc;
-
     [ApiController]
     [Route("api/[controller]/{eventId:long}")]
     public class MarshalsController : ControllerBase
@@ -39,14 +38,13 @@ namespace AutoTest.Web.Controllers
         public async Task<ActionResult<Marshal>> GetMarshal(ulong eventId, ulong marshalId, CancellationToken cancellationToken)
         {
             var r = await this.mediator.Send(new GetMarshal(eventId, marshalId), cancellationToken);
-            return r.ToIac();
+            return r.ToAr();
         }
 
         [Authorize(policy: Policies.ClubAdminOrSelf)]
         [HttpPut("{marshalId}")]
         public async Task<Marshal> PutMarshal(ulong eventId, ulong marshalId, MarshalSaveModel entrantSaveModel, CancellationToken cancellationToken)
         {
-            // todo cannot create new
             var currentUserEmail = this.User.GetEmailAddress();
             if (await this.mediator.Send(new IsClubAdmin(eventId, currentUserEmail), cancellationToken))
             {

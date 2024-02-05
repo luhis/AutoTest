@@ -1,4 +1,5 @@
 import { ThunkAction } from "redux-thunk";
+import { toast } from "bulma-toast";
 
 import { EventActionTypes } from "./types";
 import {
@@ -18,6 +19,13 @@ import {
   markPaid,
 } from "../../api/entrants";
 import { addMarshal, deleteMarshal, getMarshals } from "../../api/marshals";
+import { addNotification, getNotifications } from "../../api/notifications";
+import {
+  addEvent,
+  deleteEvent,
+  getEvents,
+  setEventStatus,
+} from "../../api/events";
 import { AppState } from "..";
 import {
   requiresLoading,
@@ -25,13 +33,6 @@ import {
   isStale,
   canUpdate,
 } from "../../types/loadingState";
-import {
-  addEvent,
-  deleteEvent,
-  getEvents,
-  setEventStatus,
-} from "../../api/events";
-import { addNotification, getNotifications } from "../../api/notifications";
 import { selectEntrants, selectEvents, selectMarshals } from "./selectors";
 
 export const GetMarshalsIfRequired =
@@ -91,12 +92,16 @@ export const AddEntrant =
     onSuccess: () => void,
   ): ThunkAction<Promise<void>, AppState, unknown, EventActionTypes> =>
   async (dispatch) => {
-    const newEntrant = await addEntrant(entrant, token);
-    dispatch({
-      type: "ADD_ENTRANT",
-      payload: newEntrant,
-    });
-    onSuccess();
+    try {
+      const newEntrant = await addEntrant(entrant, token);
+      dispatch({
+        type: "ADD_ENTRANT",
+        payload: newEntrant,
+      });
+      onSuccess();
+    } catch (error) {
+      toast({ message: (error as Error).message, type: "is-danger" });
+    }
   };
 
 export const AddMarshal =

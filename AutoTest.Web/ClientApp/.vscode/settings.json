@@ -10,6 +10,7 @@
     "persistor",
     "preact",
     "Precaching",
+    "preval",
     "Regs",
     "Renderable",
     "signalr",

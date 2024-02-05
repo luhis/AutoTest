@@ -26,7 +26,7 @@ namespace AutoTest.Persistence.Repositories
             return _autoTestContext.Marshals!.Where(a => a.EventId == eventId);
         }
 
-        Task<ulong> IMarshalsRepository.GetMashalIdByEmail(ulong eventId, string emailAddress, CancellationToken cancellationToken)
+        Task<ulong> IMarshalsRepository.GetMarshalIdByEmail(ulong eventId, string emailAddress, CancellationToken cancellationToken)
         {
             return _autoTestContext.Marshals!.Where(a => a.EventId == eventId && a.Email == emailAddress).Select(a => a.MarshalId).SingleAsync(cancellationToken);
         }
