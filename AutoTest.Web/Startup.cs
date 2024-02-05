@@ -94,29 +94,27 @@ namespace AutoTest.Web
                     }
                 };
             });
-            services.AddAuthorization(o =>
-            {
-                o.AddPolicy(Policies.Admin, p =>
+            services.AddAuthorizationBuilder()
+                .AddPolicy(Policies.Admin, p =>
                 {
                     p.RequireAuthenticatedUser();
                     p.RequireClaim(ClaimTypes.Email, this.AdminEmails);
-                });
-                o.AddPolicy(Policies.ClubAdmin, p =>
+                })
+                .AddPolicy(Policies.ClubAdmin, p =>
                 {
                     p.RequireAuthenticatedUser();
                     p.AddRequirements(new ClubAdminRequirement());
-                });
-                o.AddPolicy(Policies.ClubAdminOrSelf, p =>
+                })
+                .AddPolicy(Policies.ClubAdminOrSelf, p =>
                 {
                     p.RequireAuthenticatedUser();
                     p.AddRequirements(new ClubAdminOrSelfRequirement());
-                });
-                o.AddPolicy(Policies.Marshal, p =>
+                })
+                .AddPolicy(Policies.Marshal, p =>
                 {
                     p.RequireAuthenticatedUser();
                     p.AddRequirements(new MarshalRequirement());
                 });
-            });
 
             services.AddWebMarkupMin(options =>
                 {
