@@ -4,7 +4,7 @@ Paperless AutoTestApp
 # Development
 
 To develop this project, you need a few tools:
-- DotNet 5 SDK
+- DotNet 8 SDK
 - CosmosDB Emulator
 - Yarn
 
