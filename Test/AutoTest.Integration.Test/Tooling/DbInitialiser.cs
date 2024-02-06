@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Linq;
+using System.Threading.Tasks;
 using AutoTest.Domain.Enums;
 using AutoTest.Domain.StorageModels;
 using AutoTest.Persistence;
@@ -10,15 +12,35 @@ namespace AutoTest.Integration.Test.Tooling
         public static void InitializeDbForTests(AutoTestContext db)
         {
             var clubId = 1ul;
-            var club = new Club(clubId, "BHMC", "", "www.club.com");
-            club.SetAdminEmails(new[] { new AuthorisationEmail("user@test.com") });
-            db.Clubs.Add(club);
+            if (!db.Clubs.Where(a => a.ClubId == clubId).Any())
+            {
+                var club = new Club(clubId, "BHMC", "", "www.club.com");
+                club.SetAdminEmails(new[] { new AuthorisationEmail("user@test.com") });
+                db.Clubs.Add(club);
+            }
             var eventId = 22ul;
-            db.Events.Add(new Event(eventId, clubId, "", DateTime.Today, 10, 2, "", new[] { EventType.AutoTest }, string.Empty, TimingSystem.StopWatch, DateTime.Today.Date, DateTime.Today.Date.AddDays(7), 10, DateTime.UtcNow));
-            db.Marshals.Add(new Marshal(1, "Dave", "Marshal", "test@test.com", eventId, 123, "role"));
-            db.Entrants.Add(new Entrant(1, 2, "Dave", "Entrant", "test@test.com", EventType.AutoTest, "A", eventId, "BRMC", "123", Age.Senior, false));
-            db.Notifications.Add(new Notification(1, eventId, "test message", new DateTime(), "Test User"));
-            db.TestRuns.Add(new TestRun(1, eventId, 2, 60_000, 1, new DateTime(), 1));
+            if (!db.Events.Where(a => a.EventId == eventId).Any())
+            {
+                var @event = new Event(eventId, clubId, "", DateTime.Today, 10, 2, "", new[] { EventType.AutoTest }, string.Empty, TimingSystem.StopWatch, DateTime.Today.Date, DateTime.Today.Date.AddDays(7), 10, DateTime.UtcNow);
+                @event.SetCourses(Enumerable.Range(0, 10).Select(a => new Course(a, "")).ToArray());
+                db.Events.Add(@event);
+            }
+            if (!db.Marshals.Where(a => a.MarshalId == 1).Any())
+            {
+                db.Marshals.Add(new Marshal(1, "Dave", "Marshal", "test@test.com", eventId, 123, "role"));
+            }
+            if (!db.Entrants.Where(a => a.EntrantId == 1).Any())
+            {
+                db.Entrants.Add(new Entrant(1, 2, "Dave", "Entrant", "test@test.com", EventType.AutoTest, "A", eventId, "BRMC", "123", Age.Senior, false));
+            }
+            if (!db.Notifications.Where(a => a.NotificationId == 1).Any())
+            {
+                db.Notifications.Add(new Notification(1, eventId, "test message", new DateTime(), "Test User"));
+            };
+            if (!db.TestRuns.Where(a => a.TestRunId == 1).Any())
+            {
+                db.TestRuns.Add(new TestRun(1, eventId, 2, 60_000, 1, new DateTime(), 1));
+            }
             db.SaveChanges();
         }
     }

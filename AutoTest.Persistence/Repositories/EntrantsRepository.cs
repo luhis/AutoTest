@@ -52,7 +52,7 @@ namespace AutoTest.Persistence.Repositories
 
         public Task<int> GetEntrantCount(ulong eventId, CancellationToken cancellationToken)
         {
-            return this._autoTestContext.Entrants!.Where(a => a.EventId == eventId).CountAsync();
+            return this._autoTestContext.Entrants!.Where(a => a.EventId == eventId).CountAsync(cancellationToken);
         }
     }
 }
