@@ -1,6 +1,9 @@
-﻿using System.Net.Http;
+﻿using System.Collections.Generic;
+using System.Net.Http;
 using System.Threading.Tasks;
+using AutoTest.Domain.StorageModels;
 using AutoTest.Integration.Test.Fixtures;
+using AutoTest.Integration.Test.Tooling;
 using AutoTest.Web;
 using FluentAssertions;
 using Xunit;
@@ -21,6 +24,8 @@ namespace AutoTest.Integration.Test.Controllers
         {
             var res = await unAuthorisedClient.GetAsync("/api/events/");
             res.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);
+            var content = await res.DeserialiseAsync<IEnumerable<Event>>();
+            content.Should().NotBeEmpty();
         }
     }
 }

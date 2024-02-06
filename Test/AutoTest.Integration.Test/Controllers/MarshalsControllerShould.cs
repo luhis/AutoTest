@@ -22,7 +22,7 @@ namespace AutoTest.Integration.Test.Controllers
             var res = await unAuthorisedClient.GetAsync("/api/marshals/22");
             res.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);
             var content = await res.DeserialiseAsync<IEnumerable<PublicMarshalModel>>();
-            content.Should().NotBeNull();
+            content.Should().NotBeEmpty();
         }
 
         [Fact]

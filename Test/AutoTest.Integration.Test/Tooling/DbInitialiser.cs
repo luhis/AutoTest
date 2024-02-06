@@ -17,6 +17,8 @@ namespace AutoTest.Integration.Test.Tooling
             db.Events.Add(new Event(eventId, clubId, "", DateTime.Today, 10, 2, "", new[] { EventType.AutoTest }, string.Empty, TimingSystem.StopWatch, DateTime.Today.Date, DateTime.Today.Date.AddDays(7), 10, DateTime.UtcNow));
             db.Marshals.Add(new Marshal(1, "Dave", "Marshal", "test@test.com", eventId, 123, "role"));
             db.Entrants.Add(new Entrant(1, 2, "Dave", "Entrant", "test@test.com", EventType.AutoTest, "A", eventId, "BRMC", "123", Age.Senior, false));
+            db.Notifications.Add(new Notification(1, eventId, "test message", new DateTime(), "Test User"));
+            db.TestRuns.Add(new TestRun(1, eventId, 2, 60_000, 1, new DateTime(), 1));
             db.SaveChanges();
         }
     }
