@@ -8,6 +8,11 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.AspNetCore.Mvc.Authorization;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.Extensions.Options;
+using System.Net.Http;
+using System.Net.Http.Headers;
 
 namespace AutoTest.Integration.Test.Fixtures
 {
@@ -20,29 +25,36 @@ namespace AutoTest.Integration.Test.Fixtures
             typeof(DbContextOptions<AutoTestContext>)
         };
 
+        public HttpClient GetAuthorisedClient()
+        {
+            var c = this.CreateClient(
+                        new WebApplicationFactoryClientOptions() { AllowAutoRedirect = false });
+            c.DefaultRequestHeaders.Authorization =
+                new AuthenticationHeaderValue(scheme: "TestScheme");
+            return c;
+        }
+
         protected override void ConfigureWebHost(IWebHostBuilder builder)
         {
             builder.ConfigureTestServices(services =>
             {
-                var dbContextDescriptor = services.Single(
-                    d => d.ServiceType ==
-                        typeof(DbContextOptions<AutoTestContext>));
-
-                services.Remove(dbContextDescriptor);
+                var descriptor = services.Where(
+                    d => ToRemove.Contains(d.ServiceType)).ToList();
+                foreach (var d in descriptor)
+                {
+                    services.Remove(d);
+                }
 
                 services.AddDbContext<AutoTestContext>((container, options) =>
                 {
                     options.UseInMemoryDatabase("InMemoryDbForTesting");
                 });
-                services.AddMvc(options =>
+                services.AddAuthentication(o =>
                 {
-                    {
-                        options.Filters.Clear();
-                        options.Filters.Add(new AllowAnonymousFilter());
-                        options.Filters.Add(new FakeUserFilter());
-                    }
-                })
-                .AddApplicationPart(typeof(TStartup).Assembly);
+                    o.DefaultAuthenticateScheme = "TestScheme";
+                    o.DefaultChallengeScheme = "TestScheme";
+                }).AddScheme<AuthenticationSchemeOptions, TestAuthHandler>(
+                "TestScheme", options => { });
             });
 
             builder.UseEnvironment("Development");

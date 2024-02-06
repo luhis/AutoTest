@@ -1,7 +1,7 @@
 ﻿using System.Net.Http;
-using System.Text.Json;
 using System.Threading.Tasks;
 using AutoTest.Integration.Test.Fixtures;
+using AutoTest.Integration.Test.Tooling;
 using AutoTest.Web;
 using AutoTest.Web.Models;
 using FluentAssertions;
@@ -13,12 +13,11 @@ namespace AutoTest.Integration.Test.Controllers
     {
         private readonly HttpClient unAuthorisedClient;
         private readonly HttpClient authorisedClient;
-        private readonly JsonSerializerOptions options = new JsonSerializerOptions() { PropertyNamingPolicy = JsonNamingPolicy.CamelCase };
 
         public AccessControllerShould(CustomWebApplicationFactory<Startup> fixture, AuthdCustomWebApplicationFactory<Startup> fixture2)
         {
             this.unAuthorisedClient = fixture.GetUnAuthorisedClient();
-            this.authorisedClient = fixture2.CreateClient();
+            this.authorisedClient = fixture2.GetAuthorisedClient();
         }
 
         [Fact]
@@ -26,8 +25,7 @@ namespace AutoTest.Integration.Test.Controllers
         {
             var res = await unAuthorisedClient.GetAsync("/api/access/");
             res.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);
-            var content = await res.Content.ReadAsStringAsync();
-            var accessModel = JsonSerializer.Deserialize<AccessModel>(content, options);
+            var accessModel = await res.DeserialiseAsync<AccessModel>();
             accessModel.Should().NotBeNull();
             accessModel.Should().BeEquivalentTo(new AccessModel(false, false, false, false, [], [], [], []));
         }
@@ -37,8 +35,7 @@ namespace AutoTest.Integration.Test.Controllers
         {
             var res = await authorisedClient.GetAsync("/api/access/");
             res.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);
-            var content = await res.Content.ReadAsStringAsync();
-            var accessModel = JsonSerializer.Deserialize<AccessModel>(content, options);
+            var accessModel = await res.DeserialiseAsync<AccessModel>();
             accessModel.Should().NotBeNull();
             accessModel.Should().BeEquivalentTo(new AccessModel(false, true, true, true, [], [], [], []));
         }
