@@ -1,7 +1,7 @@
 ﻿using AutoTest.Domain.StorageModels;
+using MediatR;
 using OneOf;
 using OneOf.Types;
-using MediatR;
 
 namespace AutoTest.Service.Messages
 {

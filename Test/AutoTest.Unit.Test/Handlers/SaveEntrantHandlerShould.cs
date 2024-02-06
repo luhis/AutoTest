@@ -11,8 +11,8 @@ using FluentAssertions;
 using FluentAssertions.ArgumentMatchers.Moq;
 using MediatR;
 using Moq;
-using OneOf.Types;
 using OneOf;
+using OneOf.Types;
 using Xunit;
 
 namespace AutoTest.Unit.Test.Handlers

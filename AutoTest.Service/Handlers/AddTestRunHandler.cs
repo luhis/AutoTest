@@ -6,8 +6,8 @@ using AutoTest.Domain.StorageModels;
 using AutoTest.Service.Interfaces;
 using AutoTest.Service.Messages;
 using MediatR;
-using OneOf.Types;
 using OneOf;
+using OneOf.Types;
 
 namespace AutoTest.Service.Handlers
 {
