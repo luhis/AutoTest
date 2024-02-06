@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Net.Http;
 using AutoTest.Integration.Test.Tooling;
 using AutoTest.Persistence;
@@ -15,14 +17,26 @@ namespace AutoTest.Integration.Test.Fixtures
         : WebApplicationFactory<TStartup>
         where TStartup : class
     {
+        private static readonly IReadOnlyList<Type> ToRemove = new[]
+{
+            typeof(DbContextOptions<AutoTestContext>)
+        };
+
         public HttpClient GetUnAuthorisedClient()
             => this.CreateClient(
                 new WebApplicationFactoryClientOptions() { AllowAutoRedirect = false });
 
         protected override void ConfigureWebHost(IWebHostBuilder builder)
         {
-            builder.ConfigureServices(services =>
+            builder.ConfigureTestServices(services =>
             {
+                var descriptor = services.Where(
+                    d => ToRemove.Contains(d.ServiceType)).ToList();
+                foreach (var d in descriptor)
+                {
+                    services.Remove(d);
+                }
+
                 // Add ApplicationDbContext using an in-memory database for testing.
                 services.AddDbContext<AutoTestContext>(options =>
                 {
