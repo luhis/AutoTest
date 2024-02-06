@@ -1,7 +1,7 @@
 import { HubConnectionBuilder, LogLevel } from "@microsoft/signalr";
 import { useMemo } from "preact/hooks";
 
-const getBaseConn = () =>
+const getBaseConnection = () =>
   new HubConnectionBuilder()
     .withUrl("/resultsHub")
     .withAutomaticReconnect()
@@ -9,7 +9,8 @@ const getBaseConn = () =>
 
 export const useConnection = () => {
   return useMemo(
-    () => (typeof window !== "undefined" ? getBaseConn().build() : undefined),
+    () =>
+      typeof window !== "undefined" ? getBaseConnection().build() : undefined,
     [],
   );
 };
@@ -19,3 +20,4 @@ export const LeaveEvent = "LeaveEvent";
 export const NewNotification = "NewNotification";
 export const NewResults = "NewResults";
 export const NewTestRun = "NewTestRun";
+export const EventStatusChanged = "EventStatusChanged";

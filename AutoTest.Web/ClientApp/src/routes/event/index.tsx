@@ -128,15 +128,21 @@ const Event: FunctionalComponent<Props> = ({ eventId }) => {
       <Heading>Event {currentEvent?.location}</Heading>
       {!canNotEdit ? (
         <Panel>
-          <Panel.Header>Event Actions</Panel.Header>
+          <Panel.Header>Event Status</Panel.Header>
           <Panel.Block>
             <Button.Group>
-              <Button onClick={previousStatus}>
-                Back to {EventStatus[(currentEvent.eventStatus || 0) - 1]}
+              <Button
+                onClick={previousStatus}
+                disabled={currentEvent.eventStatus === EventStatus.Open}
+              >
+                Back
               </Button>
-              <p>{EventStatus[currentEvent.eventStatus || 0]}</p>
-              <Button onClick={nextStatus}>
-                Forward to {EventStatus[(currentEvent.eventStatus || 0) + 1]}
+              <p>{EventStatus[currentEvent.eventStatus]}</p>
+              <Button
+                onClick={nextStatus}
+                disabled={currentEvent.eventStatus === EventStatus.Finalised}
+              >
+                Forward
               </Button>
             </Button.Group>
           </Panel.Block>

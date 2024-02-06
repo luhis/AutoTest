@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using AutoTest.Integration.Test.Tooling;
 using AutoTest.Persistence;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Hosting;
@@ -10,6 +11,7 @@ using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 
 namespace AutoTest.Integration.Test.Fixtures
 {
@@ -45,7 +47,7 @@ namespace AutoTest.Integration.Test.Fixtures
 
                 services.AddDbContext<AutoTestContext>((container, options) =>
                 {
-                    options.UseInMemoryDatabase("InMemoryDbForTesting");
+                    options.UseInMemoryDatabase("InMemoryDbForTestingAuth");
                 });
                 services.AddAuthentication(o =>
                 {
@@ -53,6 +55,29 @@ namespace AutoTest.Integration.Test.Fixtures
                     o.DefaultChallengeScheme = TestScheme;
                 }).AddScheme<AuthenticationSchemeOptions, TestAuthHandler>(
                 TestScheme, options => { });
+                var sp = services.BuildServiceProvider();
+
+                using var scope = sp.CreateScope();
+                var scopedServices = scope.ServiceProvider;
+                var db = scopedServices.GetRequiredService<AutoTestContext>();
+                var logger = scopedServices
+                    .GetRequiredService<ILogger<CustomWebApplicationFactory<TStartup>>>();
+
+                // Ensure the database is created.
+                db.Database.EnsureCreated();
+
+                try
+                {
+                    // Seed the database with test data.
+                    DbInitialiser.InitializeDbForTests(db);
+                }
+                catch (Exception ex)
+                {
+                    logger.LogError(
+                        ex,
+                        "An error occurred seeding the database with test messages. Error: {Message}",
+                        ex.Message);
+                }
             });
         }
     }
