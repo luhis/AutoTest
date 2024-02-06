@@ -21,7 +21,7 @@ namespace AutoTest.Integration.Test.Fixtures
 
         protected override void ConfigureWebHost(IWebHostBuilder builder)
         {
-            builder.ConfigureTestServices(services =>
+            builder.ConfigureServices(services =>
             {
                 // Add ApplicationDbContext using an in-memory database for testing.
                 services.AddDbContext<AutoTestContext>(options =>
