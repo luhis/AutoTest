@@ -9,13 +9,16 @@ using Xunit;
 
 namespace AutoTest.Integration.Test.Controllers
 {
-    public class AccessControllerShould : IClassFixture<CustomWebApplicationFactory<Startup>>
+    public class AccessControllerShould : IClassFixture<CustomWebApplicationFactory<Startup>>, IClassFixture<AuthdCustomWebApplicationFactory<Startup>>
     {
         private readonly HttpClient unAuthorisedClient;
+        private readonly HttpClient authorisedClient;
+        private readonly JsonSerializerOptions options = new JsonSerializerOptions() { PropertyNamingPolicy = JsonNamingPolicy.CamelCase };
 
-        public AccessControllerShould(CustomWebApplicationFactory<Startup> fixture)
+        public AccessControllerShould(CustomWebApplicationFactory<Startup> fixture, AuthdCustomWebApplicationFactory<Startup> fixture2)
         {
             this.unAuthorisedClient = fixture.GetUnAuthorisedClient();
+            this.authorisedClient = fixture2.CreateClient();
         }
 
         [Fact]
@@ -24,9 +27,20 @@ namespace AutoTest.Integration.Test.Controllers
             var res = await unAuthorisedClient.GetAsync("/api/access/");
             res.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);
             var content = await res.Content.ReadAsStringAsync();
-            var accessModel = JsonSerializer.Deserialize<AccessModel>(content, new JsonSerializerOptions() { });
+            var accessModel = JsonSerializer.Deserialize<AccessModel>(content, options);
             accessModel.Should().NotBeNull();
-            accessModel.Should().BeEquivalentTo(new AccessModel(false, false, false, false, null!, null!, null!, null!));
+            accessModel.Should().BeEquivalentTo(new AccessModel(false, false, false, false, [], [], [], []));
+        }
+
+        [Fact]
+        public async Task GetAuthorised()
+        {
+            var res = await authorisedClient.GetAsync("/api/access/");
+            res.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);
+            var content = await res.Content.ReadAsStringAsync();
+            var accessModel = JsonSerializer.Deserialize<AccessModel>(content, options);
+            accessModel.Should().NotBeNull();
+            accessModel.Should().BeEquivalentTo(new AccessModel(false, true, true, true, [], [], [], []));
         }
     }
 }
