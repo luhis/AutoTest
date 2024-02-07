@@ -2,6 +2,6 @@
 {
     public enum PenaltyEnum
     {
-        Late = 0, NoAttendance = 1, WrongTest = 2, HitBarrier = 3, FailToStop = 4
+        HitBarrier = 0, FailToStop = 1, WrongTest = 2, Late = 3, NoAttendance = 4
     }
 }

@@ -38,18 +38,19 @@ export type TestRunFromClient = Omit<TestRunFromServer, "marshalId"> & {
 };
 
 export enum PenaltyType {
-  Late = 0,
-  NoAttendance = 1,
+  HitBarrier = 0,
+  FailToStop = 1,
   WrongTest = 2,
-  HitBarrier = 3,
-  FailToStop = 4,
+  Late = 3,
+  NoAttendance = 4,
 }
 
 export enum EventType {
   AutoTest = 0,
-  AutoSolo = 1,
-  PCA = 2,
+  PCA = 1,
+  AutoSolo = 2,
   Trial = 3,
+  Spring = 4,
 }
 
 export enum EventStatus {

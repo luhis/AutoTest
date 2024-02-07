@@ -2,6 +2,6 @@
 {
     public enum EventType
     {
-        AutoTest = 0, AutoSolo = 1, PCA = 2, Trial = 3
+        AutoTest = 0, PCA = 1, AutoSolo = 2, Trial = 3, Sprint = 4
     }
 }

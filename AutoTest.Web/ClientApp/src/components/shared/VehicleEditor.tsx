@@ -1,5 +1,5 @@
 import { h, FunctionComponent, Fragment } from "preact";
-import { Form, Icon } from "react-bulma-components";
+import { Columns, Form, Icon } from "react-bulma-components";
 const { Input, Field, Label, Control, Radio } = Form;
 
 import { InductionTypes, Vehicle } from "../../types/shared";
@@ -7,6 +7,7 @@ import { OnChange } from "../../types/inputs";
 import { MakeAndModel } from "../../types/models";
 import DropdownInput from "./DropdownInput";
 import { distinct } from "../../lib/array";
+import FormColumn from "./FormColumn";
 
 interface Props {
   readonly vehicle: Vehicle;
@@ -63,44 +64,48 @@ const VehicleEditor: FunctionComponent<Props> = ({
           />
         </Control>
       </Field>
-      <Field kind="group">
-        <Control fullwidth={true}>
-          <Label>Registration</Label>
-          <Input
-            required
-            fullwidth
-            value={vehicle.registration}
-            onChange={(e: OnChange) =>
-              setField({
-                ...vehicle,
-                registration: e.target.value.toLocaleUpperCase(),
-              })
-            }
-          />
-        </Control>
-        <Control fullwidth={true}>
-          <Label>Displacement (CC)</Label>
+      <Columns>
+        <FormColumn>
           <Control>
+            <Label>Registration</Label>
             <Input
               required
               fullwidth
-              type="number"
-              step={1}
-              value={vehicle.displacement}
+              value={vehicle.registration}
               onChange={(e: OnChange) =>
                 setField({
                   ...vehicle,
-                  displacement: Math.floor(e.target.valueAsNumber),
+                  registration: e.target.value.toLocaleUpperCase(),
                 })
               }
-              min={1}
             />
-            <Icon align="right" size="small">
-              CC
-            </Icon>
           </Control>
-        </Control>
-      </Field>
+        </FormColumn>
+        <FormColumn>
+          <Control>
+            <Label>Displacement (CC)</Label>
+            <Control>
+              <Input
+                required
+                fullwidth
+                type="number"
+                step={1}
+                value={vehicle.displacement}
+                onChange={(e: OnChange) =>
+                  setField({
+                    ...vehicle,
+                    displacement: Math.floor(e.target.valueAsNumber),
+                  })
+                }
+                min={1}
+              />
+              <Icon align="right" size="small">
+                CC
+              </Icon>
+            </Control>
+          </Control>
+        </FormColumn>
+      </Columns>
       <Field>
         <Label>Induction</Label>
         <Radio

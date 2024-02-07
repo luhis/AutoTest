@@ -137,7 +137,7 @@ const Event: FunctionalComponent<Props> = ({ eventId }) => {
               >
                 Back
               </Button>
-              <p>{EventStatus[currentEvent.eventStatus]}</p>
+              {EventStatus[currentEvent.eventStatus]}
               <Button
                 onClick={nextStatus}
                 disabled={currentEvent.eventStatus === EventStatus.Finalised}

@@ -1,5 +1,5 @@
 import { h, FunctionComponent } from "preact";
-import { Modal, Button, Form, Dropdown } from "react-bulma-components";
+import { Modal, Button, Form, Dropdown, Columns } from "react-bulma-components";
 import { useSelector } from "react-redux";
 const { Control, Field, Label, Input, Help, Checkbox, Radio, Select } = Form;
 import { isEmpty } from "@s-libs/micro-dash";
@@ -35,6 +35,7 @@ import { useThunkDispatch } from "../../store";
 import { GetProfileIfRequired } from "../../store/profile/actions";
 import { EntrantAgreement } from "../../settings";
 import { FaInfoCircle } from "react-icons/fa";
+import FormColumn from "../shared/FormColumn";
 
 const FillProfileButton: FunctionComponent<{
   readonly clubMemberships: readonly ClubMembership[];
@@ -134,33 +135,37 @@ const EntrantsModal: FunctionComponent<Props> = ({
               />
             </Control>
           </Field>
-          <Field kind="group">
-            <Control fullwidth={true}>
-              <Label>Age</Label>
-              <Radio
-                checked={entrant.age === Age.Junior}
-                onChange={() => setField({ age: Age.Junior })}
-              >
-                Junior
-              </Radio>
-              <Radio
-                checked={entrant.age === Age.Senior}
-                onChange={() => setField({ age: Age.Senior })}
-              >
-                Senior
-              </Radio>
-            </Control>
-            <Control fullwidth={true}>
-              <Label>Lady?</Label>
-              <Checkbox
-                checked={entrant.isLady}
-                onChange={() => setField({ isLady: !entrant.isLady })}
-              >
-                Is Lady{" "}
-                <FaInfoCircle title="Used for fastest lady awards (if given)"></FaInfoCircle>
-              </Checkbox>
-            </Control>
-          </Field>
+          <Columns>
+            <FormColumn>
+              <Control fullwidth={true}>
+                <Label>Age</Label>
+                <Radio
+                  checked={entrant.age === Age.Junior}
+                  onChange={() => setField({ age: Age.Junior })}
+                >
+                  Junior
+                </Radio>
+                <Radio
+                  checked={entrant.age === Age.Senior}
+                  onChange={() => setField({ age: Age.Senior })}
+                >
+                  Senior
+                </Radio>
+              </Control>
+            </FormColumn>
+            <FormColumn>
+              <Control fullwidth={true}>
+                <Label>Lady?</Label>
+                <Checkbox
+                  checked={entrant.isLady}
+                  onChange={() => setField({ isLady: !entrant.isLady })}
+                >
+                  Is Lady{" "}
+                  <FaInfoCircle title="Used for fastest lady awards (if given)"></FaInfoCircle>
+                </Checkbox>
+              </Control>
+            </FormColumn>
+          </Columns>
           <Field>
             <Label>Email</Label>
             <Input
@@ -210,40 +215,44 @@ const EntrantsModal: FunctionComponent<Props> = ({
               })
             }
           />
-          <Field kind="group">
-            <Control fullwidth>
-              <Label>Event Type</Label>
-              <Select<EventType>
-                required
-                fullwidth
-                value={entrant.eventType}
-                onChange={(evt: OnSelectChange) => {
-                  setField({
-                    eventType: Number.parseInt(evt.target.value),
-                  });
-                }}
-              >
-                {eventTypes.map((a) => (
-                  <option key={a} value={a}>
-                    {EventType[a]}
-                  </option>
-                ))}
-              </Select>
-            </Control>
-            <Control fullwidth>
-              <Label>Class</Label>
-              <DropdownInput
-                required
-                value={entrant.class}
-                options={classesInUse}
-                setValue={(e) => {
-                  setField({
-                    class: e.toLocaleUpperCase(),
-                  });
-                }}
-              />
-            </Control>
-          </Field>
+          <Columns>
+            <FormColumn>
+              <Control fullwidth>
+                <Label>Event Type</Label>
+                <Select<EventType>
+                  required
+                  fullwidth
+                  value={entrant.eventType}
+                  onChange={(evt: OnSelectChange) => {
+                    setField({
+                      eventType: Number.parseInt(evt.target.value),
+                    });
+                  }}
+                >
+                  {eventTypes.map((a) => (
+                    <option key={a} value={a}>
+                      {EventType[a]}
+                    </option>
+                  ))}
+                </Select>
+              </Control>
+            </FormColumn>
+            <FormColumn>
+              <Control fullwidth>
+                <Label>Class</Label>
+                <DropdownInput
+                  required
+                  value={entrant.class}
+                  options={classesInUse}
+                  setValue={(e) => {
+                    setField({
+                      class: e.toLocaleUpperCase(),
+                    });
+                  }}
+                />
+              </Control>
+            </FormColumn>
+          </Columns>
           <VehicleEditor
             vehicle={entrant.vehicle}
             setField={(e: Vehicle) =>

@@ -1,5 +1,5 @@
 import { h, FunctionComponent } from "preact";
-import { Button, Form, Heading } from "react-bulma-components";
+import { Button, Columns, Form, Heading } from "react-bulma-components";
 const { Label, Input, Field, Radio, Checkbox, Control } = Form;
 import { useState } from "preact/hooks";
 
@@ -11,6 +11,7 @@ import VehicleEditor from "../shared/VehicleEditor";
 import MembershipList from "../shared/MembershipList";
 import MsaMembershipEditor from "../shared/MsaMembershipEditor";
 import { addPreventDefault } from "../../lib/form";
+import FormColumn from "../shared/FormColumn";
 
 interface Props {
   readonly profile: Profile;
@@ -40,32 +41,36 @@ const ProfileComp: FunctionComponent<Props> = ({ save, profile, setField }) => {
           onChange={(e: OnChange) => setField({ familyName: e.target.value })}
         />
       </Field>
-      <Field kind="group">
-        <Control fullwidth={true}>
-          <Label>Age</Label>
-          <Radio
-            checked={profile.age === Age.Junior}
-            onChange={() => setField({ age: Age.Junior })}
-          >
-            Junior
-          </Radio>
-          <Radio
-            checked={profile.age === Age.Senior}
-            onChange={() => setField({ age: Age.Senior })}
-          >
-            Senior
-          </Radio>
-        </Control>
-        <Control fullwidth={true}>
-          <Label>Lady?</Label>
-          <Checkbox
-            checked={profile.isLady}
-            onChange={() => setField({ isLady: !profile.isLady })}
-          >
-            Is Lady
-          </Checkbox>
-        </Control>
-      </Field>
+      <Columns>
+        <FormColumn>
+          <Control>
+            <Label>Age</Label>
+            <Radio
+              checked={profile.age === Age.Junior}
+              onChange={() => setField({ age: Age.Junior })}
+            >
+              Junior
+            </Radio>
+            <Radio
+              checked={profile.age === Age.Senior}
+              onChange={() => setField({ age: Age.Senior })}
+            >
+              Senior
+            </Radio>
+          </Control>
+        </FormColumn>
+        <FormColumn>
+          <Control>
+            <Label>Lady?</Label>
+            <Checkbox
+              checked={profile.isLady}
+              onChange={() => setField({ isLady: !profile.isLady })}
+            >
+              Is Lady
+            </Checkbox>
+          </Control>
+        </FormColumn>
+      </Columns>
       <MsaMembershipEditor
         licenseTypes={[]}
         membership={profile.msaMembership}
