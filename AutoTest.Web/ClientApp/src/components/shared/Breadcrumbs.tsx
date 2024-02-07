@@ -25,7 +25,11 @@ const Breadcrumbs: FunctionComponent<Props> = ({ club, event, test }) => {
           </Link>
         </Breadcrumb.Item>
       ) : null}
-      {test ? <Breadcrumb.Item>Test No. {test + 1}</Breadcrumb.Item> : null}
+      {test !== undefined ? (
+        <Breadcrumb.Item>
+          <span className="pl-3">Test No. {test + 1}</span>
+        </Breadcrumb.Item>
+      ) : null}
     </Breadcrumb>
   );
 };
