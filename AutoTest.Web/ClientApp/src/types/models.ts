@@ -50,7 +50,7 @@ export enum EventType {
   PCA = 1,
   AutoSolo = 2,
   Trial = 3,
-  Spring = 4,
+  Sprint = 4,
 }
 
 export enum EventStatus {

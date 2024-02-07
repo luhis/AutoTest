@@ -30,7 +30,7 @@ const VehicleEditor: FunctionComponent<Props> = ({
   const setInduction = (e: OnChange) =>
     setField({
       ...vehicle,
-      induction: e.target.valueAsNumber as InductionTypes,
+      induction: Number.parseInt(e.target.value) as InductionTypes,
     });
   return (
     <Fragment>
@@ -111,14 +111,14 @@ const VehicleEditor: FunctionComponent<Props> = ({
         <Radio
           checked={vehicle.induction === InductionTypes.NA}
           onChange={setInduction}
-          value={"NA"}
+          value={InductionTypes.NA}
         >
           NA
         </Radio>
         <Radio
           checked={vehicle.induction === InductionTypes.Forced}
           onChange={setInduction}
-          value={"Forced"}
+          value={InductionTypes.Forced}
         >
           Forced
         </Radio>
