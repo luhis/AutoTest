@@ -37,15 +37,15 @@ namespace AutoTest.Service.Handlers
                 return new Error<string>("Event is now closed");
             }
             var entrantCount = await entrantsRepository.GetEntrantCount(request.Entrant.EventId, cancellationToken);
-            if (@event.MaxEntrants <= entrantCount)
-            {
-                return new Error<string>("Too many entrants");
-            }
             if (!@event.EventTypes.Contains(request.Entrant.EventType))
             {
                 return new Error<string>("Event Type invalid");
             }
             var existing = await entrantsRepository.GetById(request.Entrant.EventId, request.Entrant.EntrantId, cancellationToken);
+            if (existing == null && @event.MaxEntrants <= entrantCount)
+            {
+                request.Entrant.SetEntrantStatus(Domain.Enums.EntrantStatus.Reserve);
+            }
             request.Entrant.SetPayment(existing?.Payment);
             if (existing != null)
                 request.Entrant.SetEntrantStatus(existing.EntrantStatus);

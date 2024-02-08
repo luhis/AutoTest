@@ -67,10 +67,13 @@ const App: FunctionComponent = () => {
                 <Route path="/event/:eventId" component={Event} />
                 <Route path="/entrants/:eventId" component={Entrant} />
                 <Route path="/marshals/:eventId" component={Marshals} />
-                <Route path="/results/:eventId" component={Results} />
+                <Route path="/results/:eventId/:params?" component={Results} />
                 <Route path="/tests/:eventId" component={Tests} />
                 <Route path="/marshal/:eventId/:ordinal" component={Marshal} />
-                <Route path="/liveRuns/:eventId/" component={LiveRuns} />
+                <Route
+                  path="/liveRuns/:eventId/:params?"
+                  component={LiveRuns}
+                />
                 <Route path="/editRuns/:eventId/" component={EditRuns} />
                 <NotFoundPage default />
               </Router>

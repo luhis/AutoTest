@@ -1,6 +1,7 @@
 import { newValidDate } from "ts-date";
 
 import {
+  EntrantStatus,
   EventType,
   Payment,
   PaymentMethod,
@@ -39,6 +40,7 @@ const entrant = (payment: Payment): PublicEntrant => ({
     registration: "",
     year: 2006,
   },
+  entrantStatus: EntrantStatus.Live,
 });
 
 describe("Event Reducer", () => {

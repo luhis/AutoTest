@@ -53,6 +53,12 @@ export enum EventType {
   Sprint = 4,
 }
 
+export enum EntrantStatus {
+  Live = 0,
+  Withdrawn = 1,
+  Reserve = 2,
+}
+
 export enum EventStatus {
   Open = 0,
   Running = 1,
@@ -143,6 +149,7 @@ export interface PublicEntrant {
   readonly driverNumber: number;
   readonly club: string;
   readonly payment: Payment | null;
+  readonly entrantStatus: EntrantStatus;
 }
 
 export type AcceptDeclaration = {
@@ -161,7 +168,7 @@ export type Entrant = {
 } & PublicEntrant;
 
 export type EditingEntrant = Override<
-  Omit<Entrant, "driverNumber">,
+  Omit<Entrant, "driverNumber" | "entrantStatus">,
   {
     readonly isNew: boolean;
   }

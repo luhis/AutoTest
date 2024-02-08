@@ -64,10 +64,7 @@ const Results: FunctionalComponent<Props> = ({
   const [testFilterState, setTestFilterState] =
     useState<readonly number[]>(testFilter);
   useEffect(() => {
-    route(
-      `/liveRuns/${eventId}?testFilter=${testFilterState.join(",")}`,
-      false,
-    );
+    route(`/liveRuns/${eventId}?testFilter=${testFilterState.join(",")}`);
   }, [testFilterState, eventId]);
   useEffect(() => {
     if (connection) {

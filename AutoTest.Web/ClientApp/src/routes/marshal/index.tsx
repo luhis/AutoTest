@@ -9,6 +9,7 @@ import { identity } from "@s-libs/micro-dash";
 
 import {
   EditableTestRun,
+  EntrantStatus,
   Override,
   PenaltyType,
   TestRunUploadState,
@@ -35,7 +36,7 @@ import {
 } from "../../store/runs/selectors";
 import { keySeed } from "../../settings";
 import ExistingCount from "../../components/marshal/ExistingCount";
-import { findIfLoaded, mapOrDefault } from "../../types/loadingState";
+import { findIfLoaded, ifLoaded, mapOrDefault } from "../../types/loadingState";
 import RouteParamsParser from "../../components/shared/RouteParamsParser";
 import Breadcrumbs from "../../components/shared/Breadcrumbs";
 import SyncButton from "../../components/marshal/SyncButton";
@@ -65,7 +66,9 @@ const Marshal: FunctionalComponent<Readonly<Props>> = ({
   ordinal,
 }) => {
   const thunkDispatch = useThunkDispatch();
-  const entrants = useSelector(selectEntrants);
+  const liveEntrants = ifLoaded(useSelector(selectEntrants), (e) =>
+    e.filter((a) => a.entrantStatus === EntrantStatus.Live),
+  );
   const testRuns = useSelector(selectTestRuns);
   const testRunsFromServer = useSelector(selectTestRunsFromServer);
   const requiresSync = useSelector(selectRequiresSync);
@@ -197,7 +200,7 @@ const Marshal: FunctionalComponent<Readonly<Props>> = ({
             - Please Select -
           </option>
           {ifSome(
-            entrants,
+            liveEntrants,
             (a) => a.entrantId,
             (a) => (
               <option value={a.entrantId}>

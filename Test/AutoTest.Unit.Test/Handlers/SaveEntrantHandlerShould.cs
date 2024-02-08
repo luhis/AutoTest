@@ -103,11 +103,14 @@ namespace AutoTest.Unit.Test.Handlers
 
             eventsRepository.Setup(a => a.GetById(eventId, CancellationToken.None)).ReturnsAsync(GetEvent(eventId, DateTime.UtcNow.AddDays(-2), DateTime.UtcNow.AddDays(1)));
             entrantsRepository.Setup(a => a.GetEntrantCount(eventId, CancellationToken.None)).ReturnsAsync(10);
+            entrantsRepository.Setup(a => a.GetById(eventId, entrantId, CancellationToken.None)).ReturnsAsync((Entrant?)null);
+            entrantsRepository.Setup(a => a.Upsert(entrant, CancellationToken.None)).Returns(Task.CompletedTask);
+            authorisationNotifier.Setup(a => a.AddEditableEntrant(entrantId, new[] { "a@a.com" }, CancellationToken.None)).Returns(Task.CompletedTask);
 
             var se = new SaveEntrant(entrant);
             var res = await sut.Handle(se, CancellationToken.None);
 
-            res.AsT1.Value.Should().Be("Too many entrants");
+            res.AsT0.Should().Be(entrant);
             mr.VerifyAll();
         }
 

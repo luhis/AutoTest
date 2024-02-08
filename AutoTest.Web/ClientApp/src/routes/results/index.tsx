@@ -142,10 +142,7 @@ const Results: FunctionComponent<
   const [classFilterState, setClassFilter] =
     useState<readonly string[]>(classFilter);
   useEffect(() => {
-    route(
-      `/results/${eventId}?classFilter=${classFilterState.join(",")}`,
-      false,
-    );
+    route(`/results/${eventId}?classFilter=${classFilterState.join(",")}`);
   }, [classFilterState, eventId]);
   const allClasses = mapOrDefault(results, (a) => a.map((b) => b.class), []);
   const headers = ["Class", "Number", "Name", "TotalTime"]
