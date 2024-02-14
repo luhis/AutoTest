@@ -167,6 +167,8 @@ export type Entrant = {
   readonly isLady: boolean;
 } & PublicEntrant;
 
+export type SaveEntrant = Omit<Entrant, "entrantStatus">; // todo can i remove driver number?
+
 export type EditingEntrant = Override<
   Omit<Entrant, "driverNumber" | "entrantStatus">,
   {

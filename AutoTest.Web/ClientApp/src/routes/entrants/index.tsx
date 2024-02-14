@@ -7,7 +7,6 @@ import { newValidDate } from "ts-date";
 
 import {
   EditingEntrant,
-  EntrantStatus,
   EventType,
   Override,
   Payment,
@@ -124,7 +123,6 @@ const Entrants: FunctionalComponent<Readonly<Props>> = ({ eventId }) => {
           {
             ...editingEntrant,
             driverNumber: getDriverNumber(entrants, editingEntrant),
-            entrantStatus: EntrantStatus.Live, // todo have a think about the 3 models, public, editing, from server
           },
           getAccessToken(auth),
           clearEditingEntrant,

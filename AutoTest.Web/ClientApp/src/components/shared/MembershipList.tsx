@@ -34,7 +34,7 @@ const MembershipList: FunctionComponent<Props> = ({
   const currentTime = newValidDate();
   return (
     <Fragment>
-      <Label>Memberships</Label>
+      <Label>Club Memberships</Label>
       {memberships.map((a, i) => (
         <Level key={`${a.clubName}`}>
           <Level.Item align="left">{a.clubName}</Level.Item>

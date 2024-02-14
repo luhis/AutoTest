@@ -1,6 +1,12 @@
 import { parseIsoOrThrow } from "ts-date";
 
-import { Entrant, Override, Payment, PublicEntrant } from "../types/models";
+import {
+  Entrant,
+  Override,
+  Payment,
+  PublicEntrant,
+  SaveEntrant,
+} from "../types/models";
 import { ApiResponse, toApiResponse } from "../types/loadingState";
 import { extract, getHeaders, throwIfNotOk } from "./api";
 
@@ -53,7 +59,7 @@ export const getEntrant = async (
 };
 
 export const addEntrant = async (
-  entrant: Entrant,
+  entrant: SaveEntrant,
   token: string | undefined,
 ): Promise<Entrant> => {
   const { entrantId, eventId, ...rest } = entrant;

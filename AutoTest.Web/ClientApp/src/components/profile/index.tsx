@@ -71,15 +71,6 @@ const ProfileComp: FunctionComponent<Props> = ({ save, profile, setField }) => {
           </Control>
         </FormColumn>
       </Columns>
-      <MsaMembershipEditor
-        licenseTypes={[]}
-        membership={profile.msaMembership}
-        setField={(e: MsaMembership) =>
-          setField({
-            msaMembership: e,
-          })
-        }
-      />
 
       <VehicleEditor
         vehicle={profile.vehicle}
@@ -97,6 +88,15 @@ const ProfileComp: FunctionComponent<Props> = ({ save, profile, setField }) => {
             emergencyContact: e,
           });
         }}
+      />
+      <MsaMembershipEditor
+        licenseTypes={[]}
+        membership={profile.msaMembership}
+        setField={(e: MsaMembership) =>
+          setField({
+            msaMembership: e,
+          })
+        }
       />
       <MembershipList
         memberships={profile.clubMemberships}

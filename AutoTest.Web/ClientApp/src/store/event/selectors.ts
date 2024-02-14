@@ -12,7 +12,10 @@ export const selectAllRoles = (state: AppState): readonly string[] =>
     [],
   );
 
-export const selectLicenseTypeOptions = (_: AppState): readonly string[] => []; //todo put in a new api to serve up license types
+export const selectLicenseTypeOptions = (_: AppState): readonly string[] => [
+  "Clubman",
+];
+
 export const selectClubOptions = (state: AppState): readonly string[] =>
   mapOrDefault(
     selectEntrants(state),

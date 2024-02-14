@@ -3,7 +3,6 @@ import { toast } from "bulma-toast";
 
 import { EventActionTypes } from "./types";
 import {
-  Entrant,
   Event,
   EventNotification,
   Marshal,
@@ -11,6 +10,7 @@ import {
   PublicEntrant,
   Payment,
   EventStatus,
+  SaveEntrant,
 } from "../../types/models";
 import {
   addEntrant,
@@ -87,7 +87,7 @@ export const GetEntrantsIfRequired =
 
 export const AddEntrant =
   (
-    entrant: Entrant,
+    entrant: SaveEntrant,
     token: string | undefined,
     onSuccess: () => void,
   ): ThunkAction<Promise<void>, AppState, unknown, EventActionTypes> =>
