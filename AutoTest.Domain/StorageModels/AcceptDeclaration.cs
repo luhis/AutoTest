@@ -19,6 +19,6 @@ namespace AutoTest.Domain.StorageModels
 
         public string Email { get; } = string.Empty;
 
-        public DateTime Timestamp { get; } = DateTime.UtcNow;
+        public DateTime Timestamp { get; }
     }
 }
