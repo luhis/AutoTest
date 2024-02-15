@@ -2,7 +2,6 @@ import { newValidDate } from "ts-date";
 
 import {
   EntrantStatus,
-  EventType,
   Payment,
   PaymentMethod,
   PublicEntrant,
@@ -25,9 +24,8 @@ const entrant = (payment: Payment): PublicEntrant => ({
   entrantId: 2,
   payment,
   age: Age.Senior,
-  eventType: EventType.AutoTest,
   class: "A",
-  club: "BRMC",
+  entrantClub: { club: "BRMC" },
   driverNumber: 1,
   eventId: 2,
   familyName: "Family Name",
@@ -40,7 +38,7 @@ const entrant = (payment: Payment): PublicEntrant => ({
     registration: "",
     year: 2006,
   },
-  entrantStatus: EntrantStatus.Live,
+  entrantStatus: EntrantStatus.Entered,
 });
 
 describe("Event Reducer", () => {

@@ -4,7 +4,12 @@ import { FaMoneyBill } from "react-icons/fa";
 const { Field, Control } = Form;
 
 import ifSome from "../shared/ifSome";
-import { Payment, PaymentMethod, PublicEntrant } from "../../types/models";
+import {
+  EntrantStatus,
+  Payment,
+  PaymentMethod,
+  PublicEntrant,
+} from "../../types/models";
 import { LoadingState } from "../../types/loadingState";
 import NumberPlate from "../shared/NumberPlate";
 import DeleteButton from "../shared/DeleteButton";
@@ -45,7 +50,7 @@ const List: FunctionComponent<Props> = ({
           <NumberPlate registration={entrant.vehicle.registration} />
         </Columns.Column>
         <Columns.Column>{`${entrant.givenName} ${entrant.familyName}`}</Columns.Column>
-        <Columns.Column>{entrant.entrantStatus}</Columns.Column>
+        <Columns.Column>{EntrantStatus[entrant.entrantStatus]}</Columns.Column>
         <Columns.Column>
           {entrant.payment !== null
             ? `Paid (${startCase(PaymentMethod[entrant.payment.method])} ${TimeAgo(entrant.payment.timestamp)})`

@@ -9,7 +9,6 @@ using AutoTest.Service.Messages;
 using AutoTest.Unit.Test.Fixtures;
 using FluentAssertions;
 using MediatR;
-using MockQueryable.Moq;
 using Moq;
 using Xunit;
 
@@ -33,8 +32,8 @@ namespace AutoTest.Unit.Test.Handlers
         public async Task GetEntrants()
         {
             var marshals = new[] {
-                new Entrant(1, 22, "Joe", "Bloggs", "test@test.com", Domain.Enums.EventType.AutoTest, "A", 99, "BRMC", "123456", Domain.Enums.Age.Senior, false),
-                new Entrant(2, 22, "Joe", "Bloggs", "a@a.com", Domain.Enums.EventType.AutoTest, "A", 99, "BRMC", "123456", Domain.Enums.Age.Senior, false)
+                new Entrant(1, 22, "Joe", "Bloggs", "test@test.com", "A", 99, Domain.Enums.Age.Senior, false),
+                new Entrant(2, 22, "Joe", "Bloggs", "a@a.com", "A", 99, Domain.Enums.Age.Senior, false)
             };
             db.Entrants!.AddRange(marshals);
             await db.SaveChangesAsync();

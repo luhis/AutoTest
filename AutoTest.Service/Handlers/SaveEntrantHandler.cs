@@ -37,10 +37,6 @@ namespace AutoTest.Service.Handlers
                 return new Error<string>("Event is now closed");
             }
             var entrantCount = await entrantsRepository.GetEntrantCount(request.Entrant.EventId, cancellationToken);
-            if (!@event.EventTypes.Contains(request.Entrant.EventType))
-            {
-                return new Error<string>("Event Type invalid");
-            }
             var existing = await entrantsRepository.GetById(request.Entrant.EventId, request.Entrant.EntrantId, cancellationToken);
             if (existing == null && @event.MaxEntrants <= entrantCount)
             {

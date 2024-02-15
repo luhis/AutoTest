@@ -17,6 +17,7 @@ namespace AutoTest.Unit.Test.Handlers
         private readonly Mock<IEntrantsRepository> entrantsRepository;
 
         private readonly Payment testPayment = new(new System.DateTime(2000, 1, 1), Domain.Enums.PaymentMethod.Paypal, new System.DateTime(2000, 2, 2), "test@test.com");
+        private static readonly EntrantClub entrantClub = new EntrantClub("BHMC", "1234");
 
         public MarkPaidShould()
         {
@@ -30,7 +31,7 @@ namespace AutoTest.Unit.Test.Handlers
         {
             var entrantId = 1ul;
             var eventId = 22ul;
-            var entrant = new Entrant(entrantId, 1, "matt", "mccorry", "a@a.com", Domain.Enums.EventType.AutoTest, "A", eventId, "BRMC", "1234", Domain.Enums.Age.Senior, false);
+            var entrant = new Entrant(entrantId, 1, "matt", "mccorry", "a@a.com", "A", eventId, Domain.Enums.Age.Senior, false);
             entrant.SetPayment(testPayment);
             entrantsRepository.Setup(a => a.GetById(eventId, entrantId, CancellationToken.None)).ReturnsAsync(entrant);
             entrantsRepository.Setup(a => a.Update(entrant, CancellationToken.None)).Returns(Task.CompletedTask);
@@ -46,7 +47,7 @@ namespace AutoTest.Unit.Test.Handlers
         {
             var entrantId = 1ul;
             var eventId = 22ul;
-            var entrant = new Entrant(entrantId, 1, "matt", "mccorry", "a@a.com", Domain.Enums.EventType.AutoTest, "A", eventId, "BRMC", "1234", Domain.Enums.Age.Senior, false);
+            var entrant = new Entrant(entrantId, 1, "matt", "mccorry", "a@a.com", "A", eventId, Domain.Enums.Age.Senior, false);
             entrantsRepository.Setup(a => a.GetById(eventId, entrantId, CancellationToken.None)).ReturnsAsync(entrant);
             entrantsRepository.Setup(a => a.Update(entrant, CancellationToken.None)).Returns(Task.CompletedTask);
 

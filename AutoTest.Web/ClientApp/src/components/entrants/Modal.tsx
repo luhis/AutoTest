@@ -1,13 +1,13 @@
 import { h, FunctionComponent } from "preact";
 import { Modal, Button, Form, Dropdown, Columns } from "react-bulma-components";
 import { useSelector } from "react-redux";
-const { Control, Field, Label, Input, Help, Checkbox, Radio, Select } = Form;
+const { Control, Field, Label, Input, Help, Checkbox, Radio } = Form;
 import { isEmpty } from "@s-libs/micro-dash";
 import { useState, useEffect } from "preact/hooks";
 import { newValidDate } from "ts-date";
 
 import { EditingEntrant, EventType } from "../../types/models";
-import { OnChange, OnSelectChange } from "../../types/inputs";
+import { OnChange } from "../../types/inputs";
 import {
   selectClassOptions,
   selectClubOptions,
@@ -84,7 +84,6 @@ const EntrantsModal: FunctionComponent<Props> = ({
   fillFromProfile,
   isClubAdmin,
   clubMemberships,
-  eventTypes,
 }) => {
   const auth = useSelector(selectAccessToken);
   const thunkDispatch = useThunkDispatch();
@@ -188,19 +187,29 @@ const EntrantsModal: FunctionComponent<Props> = ({
               <Label>Club</Label>
               <DropdownInput
                 required
-                value={entrant.club}
+                value={entrant.entrantClub.club}
                 options={clubOptions}
-                setValue={(e) => setField({ club: e })}
+                setValue={(e) =>
+                  setField({
+                    entrantClub: {
+                      ...entrant.entrantClub,
+                      club: e,
+                    },
+                  })
+                }
               />
             </Control>
             <Control fullwidth={true}>
               <Label>Club Number</Label>
               <Input
                 required
-                value={entrant.clubNumber}
+                value={entrant.entrantClub.clubNumber}
                 onChange={(e: OnChange) =>
                   setField({
-                    clubNumber: e.target.value,
+                    entrantClub: {
+                      ...entrant.entrantClub,
+                      clubNumber: e.target.value,
+                    },
                   })
                 }
               />
@@ -215,44 +224,21 @@ const EntrantsModal: FunctionComponent<Props> = ({
               })
             }
           />
-          <Columns>
-            <FormColumn>
-              <Control fullwidth>
-                <Label>Event Type</Label>
-                <Select<EventType>
-                  required
-                  fullwidth
-                  value={entrant.eventType}
-                  onChange={(evt: OnSelectChange) => {
-                    setField({
-                      eventType: Number.parseInt(evt.target.value),
-                    });
-                  }}
-                >
-                  {eventTypes.map((a) => (
-                    <option key={a} value={a}>
-                      {EventType[a]}
-                    </option>
-                  ))}
-                </Select>
-              </Control>
-            </FormColumn>
-            <FormColumn>
-              <Control fullwidth>
-                <Label>Class</Label>
-                <DropdownInput
-                  required
-                  value={entrant.class}
-                  options={classesInUse}
-                  setValue={(e) => {
-                    setField({
-                      class: e.toLocaleUpperCase(),
-                    });
-                  }}
-                />
-              </Control>
-            </FormColumn>
-          </Columns>
+          <Field>
+            <Control fullwidth>
+              <Label>Class</Label>
+              <DropdownInput
+                required
+                value={entrant.class}
+                options={classesInUse}
+                setValue={(e) => {
+                  setField({
+                    class: e.toLocaleUpperCase(),
+                  });
+                }}
+              />
+            </Control>
+          </Field>
           <VehicleEditor
             vehicle={entrant.vehicle}
             setField={(e: Vehicle) =>

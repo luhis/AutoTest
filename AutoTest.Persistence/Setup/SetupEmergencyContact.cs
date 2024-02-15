@@ -31,6 +31,15 @@ namespace AutoTest.Persistence.Setup
             entity.Property(e => e.MsaLicense).IsRequired();
         }
     }
+    public static class SetupEntrantClub
+    {
+        public static void Setup<T>(OwnedNavigationBuilder<T, EntrantClub> entity) where T : class
+        {
+            entity.WithOwner();
+            entity.Property(e => e.Club).IsRequired();
+            entity.Property(e => e.ClubNumber).IsRequired();
+        }
+    }
     public static class SetupAcceptDeclaration
     {
         public static void Setup<T>(OwnedNavigationBuilder<T, AcceptDeclaration> entity) where T : class

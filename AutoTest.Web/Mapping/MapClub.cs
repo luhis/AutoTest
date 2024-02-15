@@ -33,6 +33,11 @@ namespace AutoTest.Web.Mapping
             return new AcceptDeclaration(acceptDeclaration.Email, acceptDeclaration.TimeStamp, acceptDeclaration.IsAccepted);
         }
 
+        public static EntrantClub Map(EntrantClubSaveModel acceptDeclaration)
+        {
+            return new EntrantClub(acceptDeclaration.Club, acceptDeclaration.ClubNumber);
+        }
+
         public static Vehicle Map(VehicleSaveModel vehicle)
         {
             return new Vehicle(vehicle.Make, vehicle.Model, vehicle.Year,
@@ -53,16 +58,16 @@ namespace AutoTest.Web.Mapping
 
         public static Entrant Map(ulong entrantId, ulong eventId, EntrantSaveModel entrant, string email)
         {
-            var e = new Entrant(entrantId, entrant.DriverNumber, entrant.GivenName, entrant.FamilyName, email, entrant.EventType, entrant.Class, eventId,
-                entrant.Club, entrant.ClubNumber, entrant.Age, entrant.IsLady);
+            var e = new Entrant(entrantId, entrant.DriverNumber, entrant.GivenName, entrant.FamilyName, email, entrant.Class, eventId, entrant.Age, entrant.IsLady);
             e.SetVehicle(Map(entrant.Vehicle));
             e.SetEmergencyContact(Map(entrant.EmergencyContact));
             e.SetMsaMembership(Map(entrant.MsaMembership));
             e.SetAcceptDeclaration(Map(entrant.AcceptDeclaration));
+            e.SetEntrantClub(Map(entrant.EntrantClub));
             return e;
         }
 
-        public static PublicEntrantModel Map(Entrant a) => new PublicEntrantModel(a.EntrantId, a.DriverNumber, a.GivenName, a.FamilyName, a.EventType, a.Class, a.EventId, a.Club, a.Vehicle, a.Payment, a.IsLady);
+        public static PublicEntrantModel Map(Entrant a) => new PublicEntrantModel(a.EntrantId, a.DriverNumber, a.GivenName, a.FamilyName, a.Class, a.EventId, new EntrantClub(a.EntrantClub.Club, ""), a.Vehicle, a.Payment, a.IsLady, a.EntrantStatus);
 
         public static Marshal Map(ulong marshalId, ulong eventId, MarshalSaveModel entrant, string email)
         {

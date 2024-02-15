@@ -67,7 +67,7 @@ const Marshal: FunctionalComponent<Readonly<Props>> = ({
 }) => {
   const thunkDispatch = useThunkDispatch();
   const liveEntrants = ifLoaded(useSelector(selectEntrants), (e) =>
-    e.filter((a) => a.entrantStatus === EntrantStatus.Live),
+    e.filter((a) => a.entrantStatus === EntrantStatus.Entered),
   );
   const testRuns = useSelector(selectTestRuns);
   const testRunsFromServer = useSelector(selectTestRunsFromServer);

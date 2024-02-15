@@ -8,13 +8,13 @@ namespace AutoTest.Web.Models
         ushort driverNumber,
         string givenName,
         string familyName,
-        EventType eventType,
         string @class,
         ulong eventId,
-        string club,
+        EntrantClub entrantClub,
         Vehicle vehicle,
         Payment? payment,
-        bool isLady)
+        bool isLady,
+        EntrantStatus entrantStatus)
     {
         public ulong EntrantId { get; } = entrantId;
 
@@ -24,18 +24,18 @@ namespace AutoTest.Web.Models
 
         public string FamilyName { get; } = familyName;
 
-        public EventType EventType { get; } = eventType;
-
         public string Class { get; } = @class;
 
         public ulong EventId { get; } = eventId;
 
-        public string Club { get; } = club;
+        public EntrantClub EntrantClub { get; } = entrantClub;
 
         public Vehicle Vehicle { get; } = vehicle;
 
         public Payment? Payment { get; } = payment;
 
         public bool IsLady { get; } = isLady;
+
+        public EntrantStatus EntrantStatus { get; } = entrantStatus;
     }
 }

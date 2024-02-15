@@ -2,6 +2,6 @@
 {
     public enum EntrantStatus
     {
-        Live = 0, Withdrawn = 1, Reserve = 2
+        Entered = 0, Withdrawn = 1, Reserve = 2
     }
 }

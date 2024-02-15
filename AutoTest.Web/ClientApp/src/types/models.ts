@@ -54,7 +54,7 @@ export enum EventType {
 }
 
 export enum EntrantStatus {
-  Live = 0,
+  Entered = 0,
   Withdrawn = 1,
   Reserve = 2,
 }
@@ -137,17 +137,18 @@ export interface Payment {
   readonly timestamp: ValidDate;
 }
 
+type EntrantClub = { readonly club: string; readonly clubNumber: string }
+
 export interface PublicEntrant {
   readonly entrantId: number;
   readonly eventId: number;
   readonly class: string;
-  readonly eventType: EventType;
   readonly givenName: string;
   readonly familyName: string;
   readonly age: Age;
   readonly vehicle: Vehicle;
   readonly driverNumber: number;
-  readonly club: string;
+  readonly entrantClub: Omit<EntrantClub, "clubNumber">;
   readonly payment: Payment | null;
   readonly entrantStatus: EntrantStatus;
 }
@@ -159,13 +160,13 @@ export type AcceptDeclaration = {
 };
 
 export type Entrant = {
+  readonly entrantClub: EntrantClub;
   readonly msaMembership: MsaMembership;
   readonly emergencyContact: EmergencyContact;
-  readonly clubNumber: string;
   readonly email: string;
   readonly acceptDeclaration: AcceptDeclaration | null;
   readonly isLady: boolean;
-} & PublicEntrant;
+} & Omit<PublicEntrant, "club">;
 
 export type SaveEntrant = Omit<Entrant, "entrantStatus">; // todo can i remove driver number?
 

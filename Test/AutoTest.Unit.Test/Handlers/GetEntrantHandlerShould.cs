@@ -29,7 +29,7 @@ namespace AutoTest.Unit.Test.Handlers
         {
             var eventId = 1ul;
             var entrantId = (ushort)2u;
-            var entrant = new Entrant(1, entrantId, "Joe", "Bloggs", "a@a.com", Domain.Enums.EventType.AutoTest, "A", 99, "BRMC", "123456", Domain.Enums.Age.Senior, false);
+            var entrant = new Entrant(1, entrantId, "Joe", "Bloggs", "a@a.com", "A", 99, Domain.Enums.Age.Senior, false);
             profileRepository.Setup(a => a.GetById(eventId, entrantId, CancellationToken.None)).ReturnsAsync(entrant);
 
             var res = await sut.Handle(new(eventId, entrantId), CancellationToken.None);

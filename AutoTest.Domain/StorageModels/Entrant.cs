@@ -5,17 +5,14 @@ namespace AutoTest.Domain.StorageModels
     public class Entrant
     {
         public Entrant(ulong entrantId, ushort driverNumber, string givenName, string familyName, string email,
-        EventType eventType, string @class, ulong eventId, string club, string clubNumber, Age age, bool isLady)
+        string @class, ulong eventId, Age age, bool isLady)
         {
             EntrantId = entrantId;
             GivenName = givenName;
             FamilyName = familyName;
             Email = email;
-            EventType = eventType;
             Class = @class;
             EventId = eventId;
-            Club = club;
-            ClubNumber = clubNumber;
             Age = age;
             DriverNumber = driverNumber;
             IsLady = isLady;
@@ -33,15 +30,13 @@ namespace AutoTest.Domain.StorageModels
 
         public ulong EventId { get; }
 
-        public string Club { get; }
-
-        public string ClubNumber { get; } // make a club obj?
-
         public string Email { get; }
 
         public Age Age { get; }
 
         public bool IsLady { get; }
+
+        public EntrantClub EntrantClub { get; private set; } = new EntrantClub();
 
         public Vehicle Vehicle { get; private set; } = new Vehicle();
 
@@ -54,7 +49,6 @@ namespace AutoTest.Domain.StorageModels
         public Payment? Payment { get; private set; } = null;
 
         public EntrantStatus EntrantStatus { get; private set; }
-        public EventType EventType { get; private set; }
 
         public void SetVehicle(Vehicle vehicle) => Vehicle = vehicle;
 
@@ -69,6 +63,11 @@ namespace AutoTest.Domain.StorageModels
         public void SetEntrantStatus(EntrantStatus newStatus)
         {
             this.EntrantStatus = newStatus;
+        }
+
+        public void SetEntrantClub(EntrantClub newStatus)
+        {
+            this.EntrantClub = newStatus;
         }
     }
 }

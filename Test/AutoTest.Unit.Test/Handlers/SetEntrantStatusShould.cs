@@ -29,8 +29,8 @@ namespace AutoTest.Unit.Test.Handlers
         {
             var eventId = 11ul;
             var entrantId = 11ul;
-            entrants.Setup(a => a.GetById(eventId, entrantId, CancellationToken.None)).ReturnsAsync(new Entrant(entrantId, 22, "joe", "bloggs", "joe@bloggs.com", Domain.Enums.EventType.AutoTest, "A", eventId, "BRMC", "1234", Domain.Enums.Age.Senior, false));
-            var toSave = new Entrant(entrantId, 22, "joe", "bloggs", "joe@bloggs.com", Domain.Enums.EventType.AutoTest, "A", eventId, "BRMC", "1234", Domain.Enums.Age.Senior, false);
+            entrants.Setup(a => a.GetById(eventId, entrantId, CancellationToken.None)).ReturnsAsync(new Entrant(entrantId, 22, "joe", "bloggs", "joe@bloggs.com", "A", eventId, Domain.Enums.Age.Senior, false));
+            var toSave = new Entrant(entrantId, 22, "joe", "bloggs", "joe@bloggs.com", "A", eventId, Domain.Enums.Age.Senior, false);
             toSave.SetEntrantStatus(Domain.Enums.EntrantStatus.Withdrawn);
             entrants.Setup(a => a.Upsert(Its.EquivalentTo(toSave, o => o.Excluding(a => a.EmergencyContact).Excluding(a => a.MsaMembership).Excluding(a => a.AcceptDeclaration)), CancellationToken.None)).Returns(Task.CompletedTask);
 

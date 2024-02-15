@@ -19,7 +19,7 @@ export const selectLicenseTypeOptions = (_: AppState): readonly string[] => [
 export const selectClubOptions = (state: AppState): readonly string[] =>
   mapOrDefault(
     selectEntrants(state),
-    (a) => distinct(a.map((entrant) => entrant.club).sort()),
+    (a) => distinct(a.map((entrant) => entrant.entrantClub.club).sort()),
     [],
   );
 

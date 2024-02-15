@@ -7,7 +7,6 @@ import { newValidDate } from "ts-date";
 
 import {
   EditingEntrant,
-  EventType,
   Override,
   Payment,
   PublicEntrant,
@@ -71,7 +70,6 @@ const getDriverNumber = (
 const blankEntrant = (eventId: number): EditingEntrant => ({
   entrantId: uid.uuid(),
   eventId: eventId,
-  eventType: EventType.AutoTest,
   class: "",
   givenName: "",
   familyName: "",
@@ -92,8 +90,7 @@ const blankEntrant = (eventId: number): EditingEntrant => ({
     name: "",
     phone: "",
   },
-  club: "",
-  clubNumber: "",
+  entrantClub: { club: "", clubNumber: "" },
   payment: null,
   acceptDeclaration: null,
 });
