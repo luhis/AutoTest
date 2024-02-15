@@ -11,3 +11,6 @@ export const MarshalAgreement =
 
 export const EntrantAgreement =
   "https://www.motorsportuk.org/wp-content/uploads/2022/02/2022-03-01-signing-on-declaration-competitor-table.pdf";
+
+export const ClubmanLicenseLocation =
+  "https://www.motorsportuk.org/competitors/rs-clubman-licence/";

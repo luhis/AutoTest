@@ -2,6 +2,7 @@ import { h, FunctionComponent } from "preact";
 import { Button, Columns, Form, Heading } from "react-bulma-components";
 const { Label, Input, Field, Radio, Checkbox, Control } = Form;
 import { useState } from "preact/hooks";
+import { useSelector } from "react-redux";
 
 import { Age, Profile } from "../../types/profileModels";
 import { OnChange } from "../../types/inputs";
@@ -12,6 +13,7 @@ import MembershipList from "../shared/MembershipList";
 import MsaMembershipEditor from "../shared/MsaMembershipEditor";
 import { addPreventDefault } from "../../lib/form";
 import FormColumn from "../shared/FormColumn";
+import { selectLicenseTypeOptions } from "../../store/event/selectors";
 
 interface Props {
   readonly profile: Profile;
@@ -22,6 +24,7 @@ interface Props {
 const ProfileComp: FunctionComponent<Props> = ({ save, profile, setField }) => {
   const [saving, setSaving] = useState(false);
   const formSave = addPreventDefault(save, setSaving);
+  const licenseTypes = useSelector(selectLicenseTypeOptions);
   return (
     <form onSubmit={formSave}>
       <Heading>Profile</Heading>
@@ -90,7 +93,7 @@ const ProfileComp: FunctionComponent<Props> = ({ save, profile, setField }) => {
         }}
       />
       <MsaMembershipEditor
-        licenseTypes={[]}
+        licenseTypes={licenseTypes}
         membership={profile.msaMembership}
         setField={(e: MsaMembership) =>
           setField({

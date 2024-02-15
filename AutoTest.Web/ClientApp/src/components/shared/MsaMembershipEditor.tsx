@@ -1,19 +1,17 @@
 import { h, FunctionComponent, Fragment } from "preact";
 import { Form } from "react-bulma-components";
-const { Input, Field, Label, Control } = Form;
+const { Input, Field, Label, Control, Help } = Form;
 
 import { MsaMembership } from "../../types/shared";
 import { OnChange } from "../../types/inputs";
 import DropdownInput from "./DropdownInput";
+import { ClubmanLicenseLocation } from "../../settings";
 
 interface Props {
   readonly membership: MsaMembership;
   readonly licenseTypes: readonly string[];
   readonly setField: (k: MsaMembership) => void;
 }
-
-const clubmanLicenseLocation =
-  "https://www.motorsportuk.org/competitors/rs-clubman-licence/";
 
 const MsaMembershipEditor: FunctionComponent<Props> = ({
   membership,
@@ -36,6 +34,11 @@ const MsaMembershipEditor: FunctionComponent<Props> = ({
               })
             }
           />
+          <Help>
+            <a target="_blank" href={ClubmanLicenseLocation} rel="noreferrer">
+              Get a clubman license
+            </a>
+          </Help>
         </Control>
         <Control fullwidth={true}>
           <Label>MSA License</Label>
@@ -54,7 +57,6 @@ const MsaMembershipEditor: FunctionComponent<Props> = ({
           />
         </Control>
       </Field>
-      <a href={clubmanLicenseLocation}>Get a clubman license</a>
     </Fragment>
   );
 };
