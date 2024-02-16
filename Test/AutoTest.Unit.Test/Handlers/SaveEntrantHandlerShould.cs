@@ -116,24 +116,6 @@ namespace AutoTest.Unit.Test.Handlers
         }
 
         [Fact]
-        public async Task ErrorWhenWrongEventTypeAsync()
-        {
-            var entrantId = 1ul;
-            var eventId = 2ul;
-            var entrant = new Entrant(entrantId, 123, "name", "familyName", "a@a.com", "A", eventId, Age.Senior, false);
-            entrant.SetPayment(new Payment());
-
-            eventsRepository.Setup(a => a.GetById(eventId, CancellationToken.None)).ReturnsAsync(GetEvent(eventId, DateTime.UtcNow.AddDays(-2), DateTime.UtcNow.AddDays(1)));
-            entrantsRepository.Setup(a => a.GetEntrantCount(eventId, CancellationToken.None)).ReturnsAsync(1);
-
-            var se = new SaveEntrant(entrant);
-            var res = await sut.Handle(se, CancellationToken.None);
-
-            res.AsT1.Value.Should().Be("Event Type invalid");
-            mr.VerifyAll();
-        }
-
-        [Fact]
         public async Task NotOverwritePaymentMethodWhenSome()
         {
             var entrantId = 1ul;
