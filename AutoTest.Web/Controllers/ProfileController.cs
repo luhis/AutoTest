@@ -26,7 +26,7 @@ namespace AutoTest.Web.Controllers
         public Task<string> Save(ProfileSaveModel profile, CancellationToken cancellationToken)
         {
             var email = this.User.GetEmailAddress();
-            return mediator.Send(new SaveProfile(email, MapClub.Map(email, profile)),
+            return mediator.Send(new SaveProfile(email, MapProfile.Map(email, profile)),
                 cancellationToken);
         }
     }

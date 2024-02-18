@@ -1,20 +1,20 @@
 ﻿using AutoTest.Domain.StorageModels;
 using AutoTest.Web.Mapping;
-using AutoTest.Web.Models;
 using FluentAssertions;
 using Xunit;
 
 namespace AutoTest.Unit.Test.Mappers
 {
-    public class ProfileMapperShould
+    public class ClubMapperShould
     {
         [Fact]
         public void MapSaveModel()
         {
-            var model = new ProfileSaveModel();
-            var res = MapProfile.Map("a@a.com", model);
+            var clubId = 1ul;
+            var model = new Web.Models.ClubSaveModel();
+            var res = MapClub.Map(clubId, model);
 
-            var expected = new Profile("a@a.com", "", "", Domain.Enums.Age.Senior, false);
+            var expected = new Club(clubId, "", "", "");
 
             res.Should().BeEquivalentTo(expected);
         }

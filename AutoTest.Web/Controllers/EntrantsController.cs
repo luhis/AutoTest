@@ -27,7 +27,7 @@ namespace AutoTest.Web.Controllers
         public async Task<IEnumerable<PublicEntrantModel>> GetEntrants(ulong eventId, CancellationToken cancellationToken)
         {
             var entrants = await mediator.Send(new GetEntrants(eventId), cancellationToken);
-            return entrants.Select(a => MapClub.Map(a));
+            return entrants.Select(a => MapEntrant.Map(a));
         }
 
         [Authorize(policy: Policies.ClubAdminOrSelf)]
@@ -47,12 +47,12 @@ namespace AutoTest.Web.Controllers
             var currentUserEmail = this.User.GetEmailAddress();
             if (await mediator.Send(new IsClubAdmin(eventId, currentUserEmail), cancellationToken))
             {
-                return Map(await mediator.Send(new SaveEntrant(MapClub.Map(entrantId, eventId, entrantSaveModel, entrantSaveModel.Email)),
+                return Map(await mediator.Send(new SaveEntrant(MapEntrant.Map(entrantId, eventId, entrantSaveModel, entrantSaveModel.Email)),
                     cancellationToken));
             }
             else
             {
-                return Map(await mediator.Send(new SaveEntrant(MapClub.Map(entrantId, eventId, entrantSaveModel, currentUserEmail)),
+                return Map(await mediator.Send(new SaveEntrant(MapEntrant.Map(entrantId, eventId, entrantSaveModel, currentUserEmail)),
                     cancellationToken));
             }
         }

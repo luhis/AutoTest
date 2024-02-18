@@ -30,7 +30,7 @@ namespace AutoTest.Web.Controllers
         public async Task<IEnumerable<PublicMarshalModel>> GetMarshals(ulong eventId, CancellationToken cancellationToken)
         {
             var marshals = await this.mediator.Send(new GetMarshals(eventId), cancellationToken);
-            return marshals.Select(a => MapClub.Map(a));
+            return marshals.Select(a => MapMarshal.Map(a));
         }
 
         [Authorize(policy: Policies.ClubAdminOrSelf)]
@@ -48,12 +48,12 @@ namespace AutoTest.Web.Controllers
             var currentUserEmail = this.User.GetEmailAddress();
             if (await this.mediator.Send(new IsClubAdmin(eventId, currentUserEmail), cancellationToken))
             {
-                return await this.mediator.Send(new SaveMarshal(MapClub.Map(marshalId, eventId, entrantSaveModel, entrantSaveModel.Email)),
+                return await this.mediator.Send(new SaveMarshal(MapMarshal.Map(marshalId, eventId, entrantSaveModel, entrantSaveModel.Email)),
                 cancellationToken);
             }
             else
             {
-                return await this.mediator.Send(new SaveMarshal(MapClub.Map(marshalId, eventId, entrantSaveModel, currentUserEmail)),
+                return await this.mediator.Send(new SaveMarshal(MapMarshal.Map(marshalId, eventId, entrantSaveModel, currentUserEmail)),
                     cancellationToken);
             }
         }
