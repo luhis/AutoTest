@@ -16,8 +16,8 @@ namespace AutoTest.Unit.Test.Mappers
             {
                 ClubId = 1,
                 Location = "Kestrel Farm",
-                TestCount = 1,
-                MaxAttemptsPerTest = 1,
+                CourseCount = 1,
+                MaxAttemptsPerCourse = 1,
                 MaxEntrants = 2,
                 EventTypes = new[] { EventType.AutoTest }
             };
