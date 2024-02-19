@@ -19,7 +19,7 @@ namespace AutoTest.Service.Handlers
 
         Task<IEnumerable<Notification>> IRequestHandler<GetNotifications, IEnumerable<Notification>>.Handle(GetNotifications request, CancellationToken cancellationToken)
         {
-            return notificationsRepository.GetNotificaitons(request.EventId, cancellationToken);
+            return notificationsRepository.GetNotifications(request.EventId, cancellationToken);
         }
     }
 }

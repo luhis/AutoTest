@@ -16,13 +16,13 @@ namespace AutoTest.Persistence.Repositories
             _autoTestContext = autoTestContext;
         }
 
-        async Task INotificationsRepository.AddNotificaiton(Notification notification, CancellationToken cancellationToken)
+        async Task INotificationsRepository.AddNotification(Notification notification, CancellationToken cancellationToken)
         {
             await _autoTestContext.Notifications!.Upsert(notification, a => a.NotificationId == notification.NotificationId, cancellationToken);
             await this._autoTestContext.SaveChangesAsync(cancellationToken);
         }
 
-        Task<IEnumerable<Notification>> INotificationsRepository.GetNotificaitons(ulong eventId, CancellationToken cancellationToken)
+        Task<IEnumerable<Notification>> INotificationsRepository.GetNotifications(ulong eventId, CancellationToken cancellationToken)
         {
             return _autoTestContext.Notifications!.Where(a => a.EventId == eventId).OrderByDescending(a => a.Created).ToEnumerableAsync(cancellationToken);
         }

@@ -1,6 +1,7 @@
 ﻿using AutoTest.Domain.Enums;
 using AutoTest.Unit.Test.MockData;
 using AutoTest.Web.Mapping;
+using AutoTest.Web.Models.Save;
 using FluentAssertions;
 using Xunit;
 
@@ -12,7 +13,7 @@ namespace AutoTest.Unit.Test.Mappers
         public void MapSaveModel()
         {
             var eventId = 1ul;
-            var model = new Web.Models.EventSaveModel()
+            var model = new EventSaveModel()
             {
                 ClubId = 1,
                 Location = "Kestrel Farm",

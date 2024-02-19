@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-using System.Threading.Tasks;
 using AutoTest.Domain.Enums;
 using AutoTest.Domain.StorageModels;
 using AutoTest.Persistence;

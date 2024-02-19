@@ -31,7 +31,7 @@ namespace AutoTest.Unit.Test.Handlers
         {
             var notification = new Notification(1, 2, "message", new System.DateTime(2000, 1, 1), "test user");
             notifier.Setup(a => a.NewNotification(notification, CancellationToken.None)).Returns(Task.CompletedTask);
-            notificationRepository.Setup(a => a.AddNotificaiton(notification, CancellationToken.None)).Returns(Task.CompletedTask);
+            notificationRepository.Setup(a => a.AddNotification(notification, CancellationToken.None)).Returns(Task.CompletedTask);
 
             await sut.Handle(new(notification), CancellationToken.None);
 

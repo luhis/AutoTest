@@ -20,7 +20,7 @@ namespace AutoTest.Service.Handlers
 
         public async Task Handle(AddNotification request, CancellationToken cancellationToken)
         {
-            await notificationsRepository.AddNotificaiton(request.Notification, cancellationToken);
+            await notificationsRepository.AddNotification(request.Notification, cancellationToken);
             await signalRNotifier.NewNotification(request.Notification, cancellationToken);
         }
     }

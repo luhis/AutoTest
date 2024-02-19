@@ -1,6 +1,6 @@
 ﻿using AutoTest.Domain.StorageModels;
 using AutoTest.Web.Mapping;
-using AutoTest.Web.Models;
+using AutoTest.Web.Models.Save;
 using FluentAssertions;
 using Xunit;
 
