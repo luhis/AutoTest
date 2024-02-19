@@ -34,5 +34,5 @@ export const addNotification = async (
       body: JSON.stringify(rest),
     },
   );
-  throwIfNotOk(response);
+  await throwIfNotOk(response);
 };

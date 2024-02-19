@@ -1,13 +1,13 @@
 ﻿using System.Collections.Generic;
 
-namespace AutoTest.Web.Models
+namespace AutoTest.Web.Models.Display
 {
     public record AccessModel
     {
         public AccessModel(bool isRootAdmin, bool isLoggedIn, bool canViewClubs, bool canViewProfile, IEnumerable<ulong> adminClubs, IEnumerable<ulong> marshalEvents, IEnumerable<ulong> editableEntrants, IEnumerable<ulong> editableMarshals)
         {
             IsRootAdmin = isRootAdmin;
-            this.CanViewClubs = canViewClubs;
+            CanViewClubs = canViewClubs;
             CanViewProfile = canViewProfile;
             IsLoggedIn = isLoggedIn;
             AdminClubs = adminClubs;

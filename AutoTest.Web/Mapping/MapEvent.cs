@@ -1,6 +1,6 @@
 ﻿using System;
 using AutoTest.Domain.StorageModels;
-using AutoTest.Web.Models;
+using AutoTest.Web.Models.Save;
 
 namespace AutoTest.Web.Mapping
 {

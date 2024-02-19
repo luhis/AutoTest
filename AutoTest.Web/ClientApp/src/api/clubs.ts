@@ -22,7 +22,7 @@ export const addClub = async (
     method: "PUT",
     body: JSON.stringify(rest),
   });
-  throwIfNotOk(response);
+  await throwIfNotOk(response);
 };
 
 export const deleteClub = async (
@@ -33,5 +33,5 @@ export const deleteClub = async (
     headers: getHeaders(token),
     method: "DELETE",
   });
-  throwIfNotOk(response);
+  await throwIfNotOk(response);
 };

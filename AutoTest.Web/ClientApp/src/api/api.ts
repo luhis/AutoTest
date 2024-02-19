@@ -1,8 +1,24 @@
 import { CredentialResponse } from "@react-oauth/google";
+import { startCase } from "@s-libs/micro-dash";
 
-export const throwIfNotOk = (response: Response) => {
+type ValidationResponse = {
+  readonly type: string;
+  readonly title: string;
+  readonly status: number;
+  readonly traceId: string;
+  readonly errors: { readonly [field: string]: string };
+};
+
+export const throwIfNotOk = async (response: Response) => {
   if (!response.ok) {
-    throw new Error(`Network response was not ok ${response.status}`);
+    if (response.status === 400) {
+      const validationError = (await response.json()) as ValidationResponse;
+      throw new Error(
+        `Validation errors with fields: ${Object.keys(validationError.errors).map(startCase).join(", ")}`,
+      );
+    } else {
+      throw new Error(`Network response was not ok ${response.status}`);
+    }
   }
 };
 
@@ -19,6 +35,6 @@ export const getHeaders = (token: string | undefined) => ({
 });
 
 export const extract = async <T>(response: Response): Promise<T> => {
-  throwIfNotOk(response);
+  await throwIfNotOk(response);
   return (await response.json()) as T;
 };

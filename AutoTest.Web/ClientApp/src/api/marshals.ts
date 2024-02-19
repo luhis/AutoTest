@@ -45,5 +45,5 @@ export const deleteMarshal = async (
     headers: getHeaders(token),
     method: "DELETE",
   });
-  throwIfNotOk(response);
+  await throwIfNotOk(response);
 };

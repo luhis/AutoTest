@@ -1,5 +1,4 @@
 ﻿using AutoTest.Web.Mapping;
-using AutoTest.Web.Models;
 
 namespace AutoTest.Web.Controllers
 {
@@ -9,6 +8,7 @@ namespace AutoTest.Web.Controllers
     using AutoTest.Domain.StorageModels;
     using AutoTest.Service.Messages;
     using AutoTest.Web.Authorization;
+    using AutoTest.Web.Models.Save;
     using MediatR;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;

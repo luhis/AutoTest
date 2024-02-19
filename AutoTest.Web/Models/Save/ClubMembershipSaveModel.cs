@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace AutoTest.Web.Models
+namespace AutoTest.Web.Models.Save
 {
     public class ClubMembershipSaveModel
     {

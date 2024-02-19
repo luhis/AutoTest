@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using AutoTest.Domain.Enums;
 
-namespace AutoTest.Web.Models
+namespace AutoTest.Web.Models.Save
 {
     public class EventSaveModel
     {
@@ -28,7 +28,7 @@ namespace AutoTest.Web.Models
 
         public string Maps { get; set; } = string.Empty;
 
-        [Required]
+        [Required, MinLength(1)]
         public ICollection<EventType> EventTypes { get; set; } = Array.Empty<EventType>();
 
         [Required]

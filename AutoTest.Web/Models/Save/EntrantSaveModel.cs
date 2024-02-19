@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using AutoTest.Domain.Enums;
 
-namespace AutoTest.Web.Models
+namespace AutoTest.Web.Models.Save
 {
     public class EntrantSaveModel
     {
@@ -40,6 +40,7 @@ namespace AutoTest.Web.Models
 
         [Required]
         public AcceptDeclarationSaveModel AcceptDeclaration { get; set; } = new AcceptDeclarationSaveModel();
+
         [Required]
         public EntrantClubSaveModel EntrantClub { get; set; } = new EntrantClubSaveModel();
 

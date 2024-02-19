@@ -137,7 +137,7 @@ export interface Payment {
   readonly timestamp: ValidDate;
 }
 
-type EntrantClub = { readonly club: string; readonly clubNumber: string }
+type EntrantClub = { readonly club: string; readonly clubNumber: string };
 
 export interface PublicEntrant {
   readonly entrantId: number;

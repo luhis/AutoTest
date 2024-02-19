@@ -40,7 +40,7 @@ export const addEvent = async (
     method: "PUT",
     body: JSON.stringify(rest),
   });
-  throwIfNotOk(response);
+  await throwIfNotOk(response);
 };
 
 export const setEventStatus = async (
@@ -53,7 +53,7 @@ export const setEventStatus = async (
     method: "PUT",
     body: eventStatus.toString(),
   });
-  throwIfNotOk(response);
+  await throwIfNotOk(response);
 };
 
 export const deleteEvent = async (
@@ -64,5 +64,5 @@ export const deleteEvent = async (
     headers: getHeaders(token),
     method: "DELETE",
   });
-  throwIfNotOk(response);
+  await throwIfNotOk(response);
 };

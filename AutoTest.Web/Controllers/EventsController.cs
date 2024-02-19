@@ -6,7 +6,7 @@ using AutoTest.Domain.StorageModels;
 using AutoTest.Service.Messages;
 using AutoTest.Web.Authorization;
 using AutoTest.Web.Mapping;
-using AutoTest.Web.Models;
+using AutoTest.Web.Models.Save;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

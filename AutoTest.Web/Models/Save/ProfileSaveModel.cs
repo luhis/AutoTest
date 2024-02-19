@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using AutoTest.Domain.Enums;
 
-namespace AutoTest.Web.Models
+namespace AutoTest.Web.Models.Save
 {
     public class ProfileSaveModel
     {

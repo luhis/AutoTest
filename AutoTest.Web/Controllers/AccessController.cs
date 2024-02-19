@@ -8,7 +8,7 @@ namespace AutoTest.Web.Controllers
     using System.Threading.Tasks;
     using AutoTest.Service.Messages;
     using AutoTest.Web.Authorization.Tooling;
-    using AutoTest.Web.Models;
+    using AutoTest.Web.Models.Display;
     using MediatR;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;

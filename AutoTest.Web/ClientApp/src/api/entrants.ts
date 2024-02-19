@@ -85,7 +85,7 @@ export const markPaid = async (
       body: JSON.stringify(payment),
     },
   );
-  throwIfNotOk(response);
+  await throwIfNotOk(response);
 };
 
 export const deleteEntrant = async (
@@ -97,5 +97,5 @@ export const deleteEntrant = async (
     headers: getHeaders(token),
     method: "DELETE",
   });
-  throwIfNotOk(response);
+  await throwIfNotOk(response);
 };

@@ -13,7 +13,7 @@ export const getProfile = async (
     const response = await fetch("/api/profile", {
       headers: getHeaders(token),
     });
-    throwIfNotOk(response);
+    await throwIfNotOk(response);
     type ApiProfile = Override<
       Profile,
       {
@@ -49,5 +49,5 @@ export const saveProfile = async (
     method: "PUT",
     body: JSON.stringify(saveableProfile),
   });
-  throwIfNotOk(response);
+  await throwIfNotOk(response);
 };

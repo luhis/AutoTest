@@ -1,5 +1,5 @@
 import { ThunkAction } from "redux-thunk";
-import { toast } from "bulma-toast";
+import { showError } from "../../lib/apiErrorToast";
 
 import { EventActionTypes } from "./types";
 import {
@@ -100,7 +100,7 @@ export const AddEntrant =
       });
       onSuccess();
     } catch (error) {
-      toast({ message: (error as Error).message, type: "is-danger" });
+      showError(error);
     }
   };
 
@@ -199,12 +199,16 @@ export const AddEvent =
     onSuccess: () => void,
   ): ThunkAction<Promise<void>, AppState, unknown, EventActionTypes> =>
   async (dispatch) => {
-    await addEvent(event, token);
-    dispatch({
-      type: "ADD_EVENT",
-      payload: { event },
-    });
-    onSuccess();
+    try {
+      await addEvent(event, token);
+      dispatch({
+        type: "ADD_EVENT",
+        payload: { event },
+      });
+      onSuccess();
+    } catch (error) {
+      showError(error);
+    }
   };
 
 export const DeleteEvent =

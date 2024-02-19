@@ -6,6 +6,7 @@ import { selectClubs } from "./selectors";
 import { AppState } from "..";
 import { canUpdate, isStale, requiresLoading } from "../../types/loadingState";
 import { ClubsActionTypes } from "./types";
+import { showError } from "../../lib/apiErrorToast";
 
 export const GetClubsIfRequired =
   (
@@ -37,12 +38,16 @@ export const AddClub =
     onSuccess: () => void,
   ): ThunkAction<Promise<void>, AppState, unknown, ClubsActionTypes> =>
   async (dispatch) => {
-    await addClub(club, token);
-    dispatch({
-      type: "ADD_CLUB",
-      payload: club,
-    });
-    onSuccess();
+    try {
+      await addClub(club, token);
+      dispatch({
+        type: "ADD_CLUB",
+        payload: club,
+      });
+      onSuccess();
+    } catch (error) {
+      showError(error);
+    }
   };
 
 export const DeleteClub =

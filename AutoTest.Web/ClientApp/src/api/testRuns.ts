@@ -1,3 +1,5 @@
+import { parseIsoOrThrow } from "ts-date";
+
 import {
   Override,
   TestRunFromClient,
@@ -5,7 +7,6 @@ import {
 } from "../types/models";
 import { ApiResponse, toApiResponse } from "../types/loadingState";
 import { extract, getHeaders, throwIfNotOk } from "./api";
-import { parseIsoOrThrow } from "ts-date";
 
 type TestRunApi = Override<TestRunFromServer, { readonly created: string }>;
 
@@ -50,7 +51,7 @@ export const addTestRun = async (
         headers: getHeaders(token),
       },
     );
-    throwIfNotOk(response);
+    await throwIfNotOk(response);
   }, undefined);
 
 export const updateTestRun = async (
@@ -67,5 +68,5 @@ export const updateTestRun = async (
         headers: getHeaders(token),
       },
     );
-    throwIfNotOk(response);
+    await throwIfNotOk(response);
   }, undefined);

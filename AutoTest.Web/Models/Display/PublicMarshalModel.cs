@@ -1,4 +1,4 @@
-﻿namespace AutoTest.Web.Models
+﻿namespace AutoTest.Web.Models.Display
 {
     public record PublicMarshalModel
     {
@@ -16,8 +16,8 @@
 
         public string FamilyName { get; }
 
-
         public ulong EventId { get; }
+
         public string Role { get; }
     }
 }

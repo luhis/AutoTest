@@ -8,6 +8,7 @@ import { getAccess } from "../../api/access";
 import { selectProfile } from "./selectors";
 import { AppState } from "..";
 import { isStale, requiresLoading } from "../../types/loadingState";
+import { showError } from "../../lib/apiErrorToast";
 
 export const GetProfileIfRequired =
   (
@@ -41,8 +42,12 @@ export const SaveProfile =
     token: string | undefined,
   ): ThunkAction<Promise<void>, AppState, unknown, ProfileActionTypes> =>
   async (dispatch, getState) => {
-    await saveProfile(profile, token);
-    await GetProfile(token)(dispatch, getState, undefined);
+    try {
+      await saveProfile(profile, token);
+      await GetProfile(token)(dispatch, getState, undefined);
+    } catch (error) {
+      showError(error);
+    }
   };
 
 export const GetAccess =

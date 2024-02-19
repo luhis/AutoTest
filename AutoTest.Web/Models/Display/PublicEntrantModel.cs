@@ -1,7 +1,7 @@
 ﻿using AutoTest.Domain.Enums;
 using AutoTest.Domain.StorageModels;
 
-namespace AutoTest.Web.Models
+namespace AutoTest.Web.Models.Display
 {
     public class PublicEntrantModel(
         ulong entrantId,

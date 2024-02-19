@@ -1,6 +1,5 @@
 import { ThunkAction } from "redux-thunk";
 import { ActionCreator } from "redux";
-import { toast } from "bulma-toast";
 
 import { RunActionTypes } from "./types";
 import { AppState } from "..";
@@ -18,6 +17,7 @@ import {
   requiresLoading,
 } from "../../types/loadingState";
 import { addTestRun, getTestRuns, updateTestRun } from "../../api/testRuns";
+import { showError } from "../../lib/apiErrorToast";
 
 export const GetTestRunsIfRequired =
   (
@@ -81,12 +81,16 @@ export const UpdateTestRun =
     onSuccess: () => void,
   ): ThunkAction<Promise<void>, AppState, unknown, RunActionTypes> =>
   async (dispatch) => {
-    await updateTestRun(testRun, token);
-    onSuccess();
-    dispatch({
-      type: "UPDATE_TEST_RUN",
-      payload: testRun,
-    });
+    try {
+      await updateTestRun(testRun, token);
+      onSuccess();
+      dispatch({
+        type: "UPDATE_TEST_RUN",
+        payload: testRun,
+      });
+    } catch (error) {
+      showError(error);
+    }
   };
 
 export const SyncTestRuns =
@@ -113,7 +117,7 @@ export const SyncTestRuns =
             );
           });
         } catch (error) {
-          toast({ message: (error as Error).message, type: "is-danger" });
+          showError(error);
         }
       }),
     );

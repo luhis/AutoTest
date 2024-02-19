@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 
-namespace AutoTest.Web.Models
+namespace AutoTest.Web.Models.Save
 {
     public class TestRunSaveModel
     {
