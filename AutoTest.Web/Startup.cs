@@ -31,9 +31,8 @@ namespace AutoTest.Web
         private const string swagger2Hash = "edNyF0T6h+RbJ9Kl1HXk6KaORyz6MmKnkP3XL/kRb4o=";
         private const string googleCom = "https://*.google.com";
         private const string googleAnal = "https://www.google-analytics.com";
-        private const string baseCssHash = "jwMoKfjpMtCZvgc6jvf++3CnNz9TZRnk6Xn0fh2uX3E=";
-        private const string baseCssHash2 = "lmto2U1o7YINyHPg9TOCjIt+o5pSFNU/T2oLxDPF+uw=";
-        private const IReadOnlyList<string> toastHashes = ["E/nvqET/9zpctDshjbx7JreRM/gAx3JcoKF+f+rglGY=", "u3OrwPmUPyFEOg2MH8iSt1Kq+OEIL7vVcAdbanb0T68="];
+        private readonly IReadOnlyList<string> baseCssHashs = ["jwMoKfjpMtCZvgc6jvf++3CnNz9TZRnk6Xn0fh2uX3E=", "lmto2U1o7YINyHPg9TOCjIt+o5pSFNU/T2oLxDPF+uw="];
+        private readonly IReadOnlyList<string> toastHashes = ["E/nvqET/9zpctDshjbx7JreRM/gAx3JcoKF+f+rglGY=", "u3OrwPmUPyFEOg2MH8iSt1Kq+OEIL7vVcAdbanb0T68="];
 
         public Startup(IConfiguration configuration, IWebHostEnvironment webHostEnvironment)
         {
@@ -217,7 +216,14 @@ namespace AutoTest.Web
                         }
                         else
                         {
-                            style.WithHash256(baseCssHash).WithHash256(baseCssHash2).WithHash256(toastHashes.First());
+                            foreach (var h in baseCssHashs)
+                            {
+                                style.WithHash256(h);
+                            }
+                            foreach (var h in toastHashes)
+                            {
+                                style.WithHash256(h);
+                            }
                         }
 
                         var connect = builder.AddConnectSrc().Self().From(googleCom);
