@@ -1,5 +1,4 @@
 import {
-  Entrant,
   Event,
   EventNotification,
   Marshal,
@@ -26,7 +25,7 @@ interface GetEntrants {
 
 interface AddEntrant {
   readonly type: "ADD_ENTRANT";
-  readonly payload: Entrant;
+  readonly payload: PublicEntrant;
 }
 
 interface DeleteEntrant {

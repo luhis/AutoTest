@@ -10,6 +10,19 @@ import {
 import { ApiResponse, toApiResponse } from "../types/loadingState";
 import { extract, getHeaders, throwIfNotOk } from "./api";
 
+const mapToPublicEntrant = ({ payment, ...rest }: ApiEntrant) =>
+  <PublicEntrant>{
+    ...rest,
+    payment:
+      payment !== null
+        ? {
+            ...payment,
+            paidAt: parseIsoOrThrow(payment.paidAt),
+            timestamp: parseIsoOrThrow(payment.timestamp),
+          }
+        : null,
+  };
+
 export const getEntrants = async (
   eventId: number,
 ): Promise<ApiResponse<readonly PublicEntrant[], number>> =>
@@ -18,20 +31,7 @@ export const getEntrants = async (
       headers: getHeaders(undefined),
     });
     const res = await extract<readonly ApiEntrant[]>(response);
-    return res.map(
-      ({ payment, ...rest }) =>
-        <PublicEntrant>{
-          ...rest,
-          payment:
-            payment !== null
-              ? {
-                  ...payment,
-                  paidAt: parseIsoOrThrow(payment.paidAt),
-                  timestamp: parseIsoOrThrow(payment.timestamp),
-                }
-              : null,
-        },
-    );
+    return res.map(mapToPublicEntrant);
   }, eventId);
 
 type ApiEntrant = Override<
@@ -61,14 +61,14 @@ export const getEntrant = async (
 export const addEntrant = async (
   entrant: SaveEntrant,
   token: string | undefined,
-): Promise<Entrant> => {
+): Promise<PublicEntrant> => {
   const { entrantId, eventId, ...rest } = entrant;
   const response = await fetch(`/api/entrants/${eventId}/${entrantId}`, {
     headers: getHeaders(token),
     method: "PUT",
     body: JSON.stringify(rest),
   });
-  return await extract(response);
+  return mapToPublicEntrant(await extract<ApiEntrant>(response));
 };
 
 export const markPaid = async (
