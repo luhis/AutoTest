@@ -216,6 +216,7 @@ namespace AutoTest.Web
                         }
                         else
                         {
+                            style.UnsafeHashes();
                             foreach (var h in baseCssHashs)
                             {
                                 style.WithHash256(h);
