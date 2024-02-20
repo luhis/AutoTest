@@ -9,7 +9,6 @@ using AutoTest.Web;
 using AutoTest.Web.Models.Save;
 using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
 using Xunit;
 
 namespace AutoTest.Integration.Test.Controllers

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
@@ -32,6 +33,7 @@ namespace AutoTest.Web
         private const string googleAnal = "https://www.google-analytics.com";
         private const string baseCssHash = "jwMoKfjpMtCZvgc6jvf++3CnNz9TZRnk6Xn0fh2uX3E=";
         private const string baseCssHash2 = "lmto2U1o7YINyHPg9TOCjIt+o5pSFNU/T2oLxDPF+uw=";
+        private const IReadOnlyList<string> toastHashes = ["E/nvqET/9zpctDshjbx7JreRM/gAx3JcoKF+f+rglGY=", "u3OrwPmUPyFEOg2MH8iSt1Kq+OEIL7vVcAdbanb0T68="];
 
         public Startup(IConfiguration configuration, IWebHostEnvironment webHostEnvironment)
         {
@@ -215,7 +217,7 @@ namespace AutoTest.Web
                         }
                         else
                         {
-                            style.WithHash256(baseCssHash).WithHash256(baseCssHash2);
+                            style.WithHash256(baseCssHash).WithHash256(baseCssHash2).WithHash256(toastHashes.First());
                         }
 
                         var connect = builder.AddConnectSrc().Self().From(googleCom);
