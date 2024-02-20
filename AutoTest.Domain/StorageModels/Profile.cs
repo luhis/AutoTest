@@ -5,7 +5,6 @@ namespace AutoTest.Domain.StorageModels
 {
     public class Profile
     {
-
         public Profile(string emailAddress, string givenName, string familyName, Age age, bool isLady)
         {
             EmailAddress = emailAddress;
@@ -28,6 +27,7 @@ namespace AutoTest.Domain.StorageModels
         public Vehicle Vehicle { get; private set; } = new Vehicle();
 
         public EmergencyContact EmergencyContact { get; private set; } = new EmergencyContact();
+
         public MsaMembership MsaMembership { get; private set; } = new MsaMembership();
 
         public ICollection<ClubMembership> ClubMemberships { get; private set; } = new List<ClubMembership>();

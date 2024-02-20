@@ -12,10 +12,6 @@ namespace AutoTest.Web.Models.Save
         public string Model { get; set; } = string.Empty;
 
         [Required]
-        [Range(1800, int.MaxValue)]
-        public int Year { get; set; }
-
-        [Required]
         public string Registration { get; set; } = string.Empty;
 
 

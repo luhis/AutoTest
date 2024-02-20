@@ -8,11 +8,10 @@ namespace AutoTest.Domain.StorageModels
         {
         }
 
-        public Vehicle(string make, string model, int year, int displacement, Induction induction, string registration)
+        public Vehicle(string make, string model, int displacement, Induction induction, string registration)
         {
             Make = make;
             Model = model;
-            Year = year;
             Displacement = displacement;
             Registration = registration;
             Induction = induction;
@@ -21,8 +20,6 @@ namespace AutoTest.Domain.StorageModels
         public string Make { get; } = string.Empty;
 
         public string Model { get; } = string.Empty;
-
-        public int Year { get; }
 
         public string Registration { get; } = string.Empty;
 

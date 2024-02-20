@@ -7,7 +7,7 @@ namespace AutoTest.Web.Mapping
     {
         public static Vehicle Map(VehicleSaveModel vehicle)
         {
-            return new Vehicle(vehicle.Make, vehicle.Model, vehicle.Year,
+            return new Vehicle(vehicle.Make, vehicle.Model,
                 vehicle.Displacement, vehicle.Induction, vehicle.Registration);
         }
     }
