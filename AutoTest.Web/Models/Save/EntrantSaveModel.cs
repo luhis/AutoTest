@@ -18,12 +18,6 @@ namespace AutoTest.Web.Models.Save
         public string Class { get; set; } = string.Empty;
 
         [Required]
-        public string Club { get; set; } = string.Empty;
-
-        [Required]
-        public string ClubNumber { get; set; } = string.Empty;
-
-        [Required]
         public string Email { get; set; } = string.Empty;
 
         [Required]
