@@ -12,20 +12,11 @@ using Microsoft.AspNetCore.Routing;
 
 namespace AutoTest.Web.Authorization.Handlers
 {
-    public class ClubAdminOrSelfRequirementClubAdminHandler : AuthorizationHandler<ClubAdminOrSelfRequirement>
+    public class ClubAdminOrSelfRequirementClubAdminHandler(IHttpContextAccessor httpContextAccessor, IMediator mediator) : AuthorizationHandler<ClubAdminOrSelfRequirement>
     {
-        private readonly IHttpContextAccessor _httpContextAccessor;
-        private readonly IMediator mediator;
-
-        public ClubAdminOrSelfRequirementClubAdminHandler(IHttpContextAccessor httpContextAccessor, IMediator mediator)
-        {
-            _httpContextAccessor = httpContextAccessor;
-            this.mediator = mediator;
-        }
-
         protected override async Task HandleRequirementAsync(AuthorizationHandlerContext context, ClubAdminOrSelfRequirement requirement)
         {
-            var routeData = _httpContextAccessor.HttpContext!.GetRouteData();
+            var routeData = httpContextAccessor.HttpContext!.GetRouteData();
             if (routeData != null)
             {
                 var eventId = AuthTools.GetEventId(routeData);
@@ -41,13 +32,16 @@ namespace AutoTest.Web.Authorization.Handlers
                 var club = await mediator.Send(new GetClub(@event.ClubId));
                 if (club == null)
                 {
-                    throw new NullReferenceException(nameof(club));
+                    context.Fail(new AuthorizationFailureReason(this, "Cannot find club"));
                 }
-                var emails = club.AdminEmails.Select(b => b.Email).ToHashSet(StringComparer.InvariantCultureIgnoreCase);
-                var email = context.User.GetEmailAddress();
-                if (emails.Contains(email))
+                else
                 {
-                    context.Succeed(requirement);
+                    var emails = club.AdminEmails.Select(b => b.Email).ToHashSet(StringComparer.InvariantCultureIgnoreCase);
+                    var email = context.User.GetEmailAddress();
+                    if (emails.Contains(email))
+                    {
+                        context.Succeed(requirement);
+                    }
                 }
             }
         }

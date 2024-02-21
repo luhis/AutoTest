@@ -8,20 +8,11 @@ using Microsoft.AspNetCore.Routing;
 
 namespace AutoTest.Web.Authorization.Handlers
 {
-    public class ClubAdminOrSelfRequirementSelfHander : AuthorizationHandler<ClubAdminOrSelfRequirement>
+    public class ClubAdminOrSelfRequirementSelfHander(IHttpContextAccessor httpContextAccessor, IMediator mediator) : AuthorizationHandler<ClubAdminOrSelfRequirement>
     {
-        private readonly IHttpContextAccessor _httpContextAccessor;
-        private readonly IMediator mediator;
-
-        public ClubAdminOrSelfRequirementSelfHander(IHttpContextAccessor httpContextAccessor, IMediator mediator)
-        {
-            _httpContextAccessor = httpContextAccessor;
-            this.mediator = mediator;
-        }
-
         protected override async Task HandleRequirementAsync(AuthorizationHandlerContext context, ClubAdminOrSelfRequirement requirement)
         {
-            var routeData = _httpContextAccessor.HttpContext!.GetRouteData();
+            var routeData = httpContextAccessor.HttpContext!.GetRouteData();
             if (routeData != null)
             {
                 var emailFromRoute = await AuthTools.GetExistingEmail(routeData, mediator);

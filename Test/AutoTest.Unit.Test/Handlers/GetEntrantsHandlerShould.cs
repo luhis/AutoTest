@@ -18,7 +18,6 @@ namespace AutoTest.Unit.Test.Handlers
         private readonly MockRepository mr;
         private readonly IRequestHandler<GetEntrants, IEnumerable<Entrant>> sut;
         private readonly Mock<IEntrantsRepository> profileRepository;
-        private static readonly EntrantClub entrantClub = new EntrantClub("BHMC", "123456");
 
         public GetEntrantsHandlerShould()
         {

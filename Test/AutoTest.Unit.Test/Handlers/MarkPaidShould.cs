@@ -17,7 +17,6 @@ namespace AutoTest.Unit.Test.Handlers
         private readonly Mock<IEntrantsRepository> entrantsRepository;
 
         private readonly Payment testPayment = new(new System.DateTime(2000, 1, 1), Domain.Enums.PaymentMethod.Paypal, new System.DateTime(2000, 2, 2), "test@test.com");
-        private static readonly EntrantClub entrantClub = new EntrantClub("BHMC", "1234");
 
         public MarkPaidShould()
         {

@@ -1,4 +1,4 @@
-import { FunctionalComponent, h } from "preact";
+import { FunctionalComponent, h, Fragment } from "preact";
 import { useCallback, useEffect, useState } from "preact/hooks";
 import { useSelector } from "react-redux";
 
@@ -46,7 +46,9 @@ const ProfileRoute: FunctionalComponent = () => {
 
   return profile.tag === "Loaded" ? (
     <ProfileEditor profile={profile.value} />
-  ) : null;
+  ) : (
+    <Fragment>Loading...</Fragment>
+  );
 };
 
 export default ProfileRoute;

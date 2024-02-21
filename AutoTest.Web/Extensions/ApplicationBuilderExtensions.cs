@@ -21,9 +21,9 @@ namespace AutoTest.Web.Extensions
                     if (cacheExtensions.Any(path.EndsWith))
                     {
                         var maxAge = TimeSpan.FromDays(7);
-                        r.Context.Response.Headers.Append(KeyValuePair.Create<string, StringValues>(
+                        _ = r.Context.Response.Headers.Append(KeyValuePair.Create<string, StringValues>(
                             "Cache-Control",
-                            "max-age=" + maxAge.TotalSeconds.ToString("0")));
+                            $"max-age={maxAge.TotalSeconds: 0}"));
                     }
                 }
             };

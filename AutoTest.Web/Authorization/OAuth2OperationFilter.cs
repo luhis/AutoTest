@@ -24,7 +24,7 @@ namespace AutoTest.Web.Authorization
 
             operation.Security.Add(new OpenApiSecurityRequirement()
             {
-                [oauth2SecurityScheme] = new[] { "email" }
+                [oauth2SecurityScheme] = ["email"]
             });
         }
     }
