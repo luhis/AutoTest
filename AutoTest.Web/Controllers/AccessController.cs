@@ -23,7 +23,7 @@ namespace AutoTest.Web.Controllers
         public AccessController(IConfiguration configuration, IMediator mediator)
         {
             this.mediator = mediator;
-            this.RootAdminEmails = new HashSet<string>(configuration.GetSection("RootAdminIds").Get<IEnumerable<string>>() ?? Enumerable.Empty<string>(), StringComparer.InvariantCultureIgnoreCase);
+            this.RootAdminEmails = new HashSet<string>(configuration.GetSection("RootAdminIds").Get<IEnumerable<string>>() ?? [], StringComparer.InvariantCultureIgnoreCase);
         }
 
         private HashSet<string> RootAdminEmails { get; }

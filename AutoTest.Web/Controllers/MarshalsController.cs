@@ -47,16 +47,9 @@ namespace AutoTest.Web.Controllers
         public async Task<Marshal> PutMarshal(ulong eventId, ulong marshalId, MarshalSaveModel entrantSaveModel, CancellationToken cancellationToken)
         {
             var currentUserEmail = this.User.GetEmailAddress();
-            if (await this.mediator.Send(new IsClubAdmin(eventId, currentUserEmail), cancellationToken))
-            {
-                return await this.mediator.Send(new SaveMarshal(MapMarshal.Map(marshalId, eventId, entrantSaveModel, entrantSaveModel.Email)),
+            var isClubAdmin = await this.mediator.Send(new IsClubAdmin(eventId, currentUserEmail), cancellationToken);
+            return await this.mediator.Send(new SaveMarshal(MapMarshal.Map(marshalId, eventId, entrantSaveModel, isClubAdmin ? entrantSaveModel.Email : currentUserEmail)),
                 cancellationToken);
-            }
-            else
-            {
-                return await this.mediator.Send(new SaveMarshal(MapMarshal.Map(marshalId, eventId, entrantSaveModel, currentUserEmail)),
-                    cancellationToken);
-            }
         }
 
         [Authorize(policy: Policies.ClubAdminOrSelf)]

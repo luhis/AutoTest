@@ -42,7 +42,7 @@ namespace AutoTest.Web.Controllers
         }
 
         [Authorize(Policies.ClubAdmin)]
-        [HttpPut("{testRunId}/update")]
+        [HttpPut("{testRunId}/[action]")]
         public Task Update(ulong eventId, int ordinal, ulong testRunId, TestRunUpdateModel testRun, CancellationToken cancellationToken) =>
             mediator.Send(new UpdateTestRun(testRunId, eventId, ordinal, testRun.TimeInMS, testRun.EntrantId, testRun.Created, testRun.MarshalId, testRun.Penalties.Select(a => new Penalty(a.PenaltyType, a.InstanceCount))), cancellationToken);
     }

@@ -2,13 +2,8 @@
 
 namespace AutoTest.Service.Messages
 {
-    public class DeleteEvent : IRequest
+    public class DeleteEvent(ulong eventId) : IRequest
     {
-        public DeleteEvent(ulong eventId)
-        {
-            this.EventId = eventId;
-        }
-
-        public ulong EventId { get; }
+        public ulong EventId { get; } = eventId;
     }
 }

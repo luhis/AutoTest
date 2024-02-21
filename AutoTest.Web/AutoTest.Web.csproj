@@ -26,12 +26,15 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Azure.Storage.Files.Shares" Version="12.1.0" />
+    <PackageReference Include="Azure.Storage.Queues" Version="12.11.1" />
     <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.22.0" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.2" />
     <PackageReference Include="Microsoft.AspNetCore.ResponseCompression" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.SignalR.Protocols.MessagePack" Version="8.0.2" />
     <PackageReference Include="Microsoft.AspNetCore.SpaServices.Extensions" Version="8.0.2" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Cosmos" Version="8.0.2" />
+    <PackageReference Include="Microsoft.Extensions.Azure" Version="1.5.0" />
     <PackageReference Include="Microsoft.VisualStudio.Threading.Analyzers" Version="17.9.28" />
     <PackageReference Include="NetEscapades.AspNetCore.SecurityHeaders" Version="0.21.0" />
     <PackageReference Include="WebMarkupMin.AspNetCore3" Version="2.15.0" />
