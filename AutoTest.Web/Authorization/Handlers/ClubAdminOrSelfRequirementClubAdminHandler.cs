@@ -42,6 +42,10 @@ namespace AutoTest.Web.Authorization.Handlers
                     {
                         context.Succeed(requirement);
                     }
+                    else
+                    {
+                        context.Fail(new AuthorizationFailureReason(this, "Wrong Email"));
+                    }
                 }
             }
         }
