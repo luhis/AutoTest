@@ -89,9 +89,10 @@ namespace AutoTest.Unit.Test.Authorisation
                 Models.GetEvent(eventId, clubId));
             mediator.Setup(a => a.Send(Its.EquivalentTo(new GetClub(clubId)), CancellationToken.None)).ReturnsAsync(
                 (Club?)null);
-            Func<Task> f = () => sut.HandleAsync(ac);
+            await sut.HandleAsync(ac);
 
-            await f.Should().ThrowAsync<NullReferenceException>().WithMessage("club");
+            ac.HasFailed.Should().BeTrue();
+            ac.FailureReasons.Should().BeEquivalentTo([new AuthorizationFailureReason(sut, "Club not found")]);
             mr.VerifyAll();
         }
 

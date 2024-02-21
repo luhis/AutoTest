@@ -61,9 +61,10 @@ namespace AutoTest.Unit.Test.Authorisation
             mediator.Setup(a => a.Send(Its.EquivalentTo(new GetEvent(eventId)), CancellationToken.None)).ReturnsAsync(
                 (Event?)null);
 
-            Func<Task> f = () => sut.HandleAsync(ac);
+            await sut.HandleAsync(ac);
 
-            await f.Should().ThrowAsync<Exception>().WithMessage("Cannot find event");
+            ac.HasFailed.Should().BeTrue();
+            ac.FailureReasons.Should().BeEquivalentTo([new AuthorizationFailureReason(sut, "Cannot find event")]);
             mr.VerifyAll();
         }
 

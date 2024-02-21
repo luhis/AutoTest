@@ -96,7 +96,8 @@ namespace AutoTest.Unit.Test.Authorisation
                 club);
             await sut.HandleAsync(ac);
 
-            ac.HasSucceeded.Should().BeFalse();
+            ac.HasFailed.Should().BeTrue();
+            ac.FailureReasons.Should().BeEquivalentTo([new AuthorizationFailureReason(sut, "Wrong Email")]);
             mr.VerifyAll();
         }
 
@@ -116,9 +117,10 @@ namespace AutoTest.Unit.Test.Authorisation
             mediator.Setup(a => a.Send(Its.EquivalentTo(new GetClub(clubId)), CancellationToken.None)).ReturnsAsync(
                 (Club?)null);
 
-            Func<Task> a = () => sut.HandleAsync(ac);
+            await sut.HandleAsync(ac);
 
-            await a.Should().ThrowAsync<NullReferenceException>().WithMessage("club");
+            ac.HasFailed.Should().BeTrue();
+            ac.FailureReasons.Should().BeEquivalentTo([new AuthorizationFailureReason(sut, "Cannot find club")]);
             mr.VerifyAll();
         }
     }
