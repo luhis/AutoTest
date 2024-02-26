@@ -12,6 +12,8 @@
     <Nullable>enable</Nullable>
     <UserSecretsId>9baa697e-94c6-4813-8d03-8247fd7bfb88</UserSecretsId>
     <TieredCompilation>true</TieredCompilation>
+    <AnalysisLevel>latest-recommended</AnalysisLevel>
+    <EnforceCodeStyleInBuild>True</EnforceCodeStyleInBuild>
   </PropertyGroup>
 
   <ItemGroup>

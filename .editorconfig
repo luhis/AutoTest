@@ -163,6 +163,8 @@ dotnet_style_prefer_inferred_anonymous_type_member_names = true:suggestion
 dotnet_style_prefer_compound_assignment = true:suggestion
 dotnet_style_prefer_simplified_interpolation = true:suggestion
 dotnet_style_namespace_match_folder = true:suggestion
+dotnet_diagnostic.CA1711.severity = suggestion
+dotnet_diagnostic.CA1848.severity = silent
 
 # CSharp code style settings:
 [*.cs]
@@ -261,6 +263,18 @@ csharp_style_unused_value_expression_statement_preference = discard_variable:sil
 
 # CS0618: Type or member is obsolete
 dotnet_diagnostic.CS0618.severity = none
+
+# CA1859: Use concrete types when possible for improved performance
+dotnet_diagnostic.CA1859.severity = suggestion
+
+# CA1716: Identifiers should not match keywords
+dotnet_diagnostic.CA1716.severity = suggestion
+
+# CA2201: Do not raise reserved exception types
+dotnet_diagnostic.CA2201.severity = suggestion
+
+# CA1861: Avoid constant arrays as arguments
+dotnet_diagnostic.CA1861.severity = suggestion
 
 [src/CodeStyle/**.{cs,vb}]
 # warning RS0005: Do not use generic CodeAction.Create to create CodeAction
