@@ -44,12 +44,12 @@ namespace AutoTest.Service.Handlers
 
         private static IEnumerable<string> GetNewItems(IEnumerable<string> oldValues, IEnumerable<string> newValues)
         {
-            return newValues.Where(v => !oldValues.Any(ov => ov.Equals(v, StringComparison.InvariantCultureIgnoreCase)));
+            return newValues.Where(v => !oldValues.Any(ov => ov.Equals(v, StringComparison.OrdinalIgnoreCase)));
         }
 
         private static IEnumerable<string> GetRemovedItems(IEnumerable<string> oldValues, IEnumerable<string> newValues)
         {
-            return oldValues.Where(v => !newValues.Any(ov => ov.Equals(v, StringComparison.InvariantCultureIgnoreCase)));
+            return oldValues.Where(v => !newValues.Any(ov => ov.Equals(v, StringComparison.OrdinalIgnoreCase)));
         }
     }
 }

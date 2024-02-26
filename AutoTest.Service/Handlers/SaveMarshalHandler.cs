@@ -24,7 +24,7 @@ namespace AutoTest.Service.Handlers
             var existing = await _marshalRepository.GetById(request.Marshal.EventId, request.Marshal.MarshalId, cancellationToken);
 
             await _marshalRepository.Upsert(request.Marshal, cancellationToken);
-            if (existing == null || !existing!.Email.Equals(request.Marshal.Email, System.StringComparison.InvariantCultureIgnoreCase))
+            if (existing == null || !existing!.Email.Equals(request.Marshal.Email, System.StringComparison.OrdinalIgnoreCase))
             {
                 await signalRNotifier.NewEventMarshal(request.Marshal.EventId, new[] { request.Marshal.Email }, cancellationToken);
                 if (existing != null)
