@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Globalization;
     using System.Linq;
     using AutoTest.Domain.Enums;
     using AutoTest.Domain.StorageModels;
@@ -24,7 +25,7 @@
             entity.Property(e => e.Maps).IsRequired();
             entity.Property(e => e.EventTypes).IsRequired().HasConversion(
                 a => string.Join(",", a.Select(t => (int)t)),
-                a => a!.Split(",", StringSplitOptions.None).Where(a => !string.IsNullOrEmpty(a)).Select(e => (EventType)int.Parse(e)).ToArray());
+                a => a!.Split(",", StringSplitOptions.None).Where(a => !string.IsNullOrEmpty(a)).Select(e => (EventType)int.Parse(e, CultureInfo.InvariantCulture)).ToArray());
             var valueComparer = new ValueComparer<ICollection<EventType>>(
                 (c1, c2) => c1!.SequenceEqual(c2!),
                 c => c.Aggregate(0, (a, v) => HashCode.Combine(a, v.GetHashCode())),

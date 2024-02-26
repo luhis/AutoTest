@@ -47,7 +47,7 @@ namespace AutoTest.Persistence.Repositories
         Task IEventsRepository.Delete(Event @event, CancellationToken cancellationToken)
         {
             this._autoTestContext.Events!.Remove(@event);
-            return this._autoTestContext.SaveChangesAsync();
+            return this._autoTestContext.SaveChangesAsync(cancellationToken);
         }
     }
 }
