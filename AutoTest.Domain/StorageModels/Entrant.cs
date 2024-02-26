@@ -46,7 +46,7 @@ namespace AutoTest.Domain.StorageModels
 
         public AcceptDeclaration AcceptDeclaration { get; private set; } = new AcceptDeclaration();
 
-        public Payment? Payment { get; private set; } = null;
+        public Payment? Payment { get; private set; }
 
         public EntrantStatus EntrantStatus { get; private set; }
 

@@ -38,7 +38,7 @@ namespace AutoTest.Unit.Test.Authorisation
                  "a@a.com");
             var entrantId = 99ul;
             var eventId = 1ul;
-            var ctx = HttpContextFixture.GetHttpContext(new[] { ("eventId", eventId.ToString()), ("entrantId", entrantId.ToString()) });
+            var ctx = HttpContextFixture.GetHttpContext(new[] { ("eventId", $"{eventId}"), ("entrantId", $"{entrantId}") });
             httpContextAccessor.SetupGet(a => a.HttpContext).Returns(ctx);
             mediator.Setup(a => a.Send(Its.EquivalentTo(new GetEntrant(eventId, entrantId)), CancellationToken.None)).ReturnsAsync(
                 new Entrant(entrantId, 1, "Joe", "Bloggs", "a@a.com", "A", eventId, Domain.Enums.Age.Senior, false));
@@ -57,7 +57,7 @@ namespace AutoTest.Unit.Test.Authorisation
                 "notA@a.com");
             var entrantId = 99ul;
             var eventId = 1ul;
-            var ctx = HttpContextFixture.GetHttpContext(new[] { ("eventId", eventId.ToString()), ("entrantId", entrantId.ToString()) });
+            var ctx = HttpContextFixture.GetHttpContext(new[] { ("eventId", $"{eventId}"), ("entrantId", $"{entrantId}") });
             httpContextAccessor.SetupGet(a => a.HttpContext).Returns(ctx);
             mediator.Setup(a => a.Send(Its.EquivalentTo(new GetEntrant(eventId, entrantId)), CancellationToken.None)).ReturnsAsync(
                 new Entrant(entrantId, 1, "Joe", "Bloggs", "a@a.com", "A", eventId, Domain.Enums.Age.Senior, false));

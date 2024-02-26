@@ -11,8 +11,8 @@ namespace AutoTest.Domain.Repositories
 
         Task<IEnumerable<Event>> GetAll(CancellationToken cancellationToken);
 
-        Task Upsert(Event @event, CancellationToken cancellationToken);
+        Task Upsert(Event evnt, CancellationToken cancellationToken);
 
-        Task Delete(Event @event, CancellationToken cancellationToken);
+        Task Delete(Event evnt, CancellationToken cancellationToken);
     }
 }

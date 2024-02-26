@@ -15,7 +15,7 @@ namespace AutoTest.Domain.StorageModels
             IsAccepted = isAccepted;
         }
 
-        public bool IsAccepted { get; } = false;
+        public bool IsAccepted { get; }
 
         public string Email { get; } = string.Empty;
 

@@ -29,7 +29,7 @@ namespace AutoTest.Unit.Test.Authorisation
         public void GetEventId()
         {
             var rd = new RouteData(new RouteValueDictionary());
-            rd.Values.Add("eventId", 1.ToString());
+            rd.Values.Add("eventId", $"{1}");
             var res = AuthTools.GetEventId(rd);
 
             res.Should().Be(1ul);
@@ -62,8 +62,8 @@ namespace AutoTest.Unit.Test.Authorisation
             var eventId = 1ul;
             var entrantId = 2ul;
             var rd = new RouteData(new RouteValueDictionary());
-            rd.Values.Add("eventId", eventId.ToString());
-            rd.Values.Add("entrantId", entrantId.ToString());
+            rd.Values.Add("eventId", $"{eventId}");
+            rd.Values.Add("entrantId", $"{entrantId}");
             mediator.Setup(a => a.Send(Its.EquivalentTo(new GetEntrant(eventId, entrantId)), CancellationToken.None)).ReturnsAsync(
                 new Entrant(entrantId, 22, "Joe", "Bloggs", "a@a.com", "A", 99, Domain.Enums.Age.Senior, false));
 
@@ -79,8 +79,8 @@ namespace AutoTest.Unit.Test.Authorisation
             var eventId = 1ul;
             var entrantId = 2ul;
             var rd = new RouteData(new RouteValueDictionary());
-            rd.Values.Add("eventId", eventId.ToString());
-            rd.Values.Add("entrantId", entrantId.ToString());
+            rd.Values.Add("eventId", $"{eventId}");
+            rd.Values.Add("entrantId", $"{entrantId}");
             mediator.Setup(a => a.Send(Its.EquivalentTo(new GetEntrant(eventId, entrantId)), CancellationToken.None)).ReturnsAsync((Entrant?)
                 null);
 
@@ -96,8 +96,8 @@ namespace AutoTest.Unit.Test.Authorisation
             var eventId = 1ul;
             var marshalId = 2ul;
             var rd = new RouteData(new RouteValueDictionary());
-            rd.Values.Add("eventId", eventId.ToString());
-            rd.Values.Add("marshalId", marshalId.ToString());
+            rd.Values.Add("eventId", $"{eventId}");
+            rd.Values.Add("marshalId", $"{marshalId}");
             mediator.Setup(a => a.Send(Its.EquivalentTo(new GetMarshal(eventId, marshalId)), CancellationToken.None)).ReturnsAsync(
                 new Marshal(marshalId, "Joe", "Bloggs", "a@a.com", eventId, 9876543, "role"));
 
@@ -113,8 +113,8 @@ namespace AutoTest.Unit.Test.Authorisation
             var eventId = 1ul;
             var marshalId = 2ul;
             var rd = new RouteData(new RouteValueDictionary());
-            rd.Values.Add("eventId", eventId.ToString());
-            rd.Values.Add("marshalId", marshalId.ToString());
+            rd.Values.Add("eventId", $"{eventId}");
+            rd.Values.Add("marshalId", $"{marshalId}");
             mediator.Setup(a => a.Send(Its.EquivalentTo(new GetMarshal(eventId, marshalId)), CancellationToken.None)).ReturnsAsync((Marshal?)null);
 
             var email = await AuthTools.GetExistingEmail(rd, mediator.Object);

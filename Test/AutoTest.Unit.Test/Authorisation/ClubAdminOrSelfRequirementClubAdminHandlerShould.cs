@@ -1,5 +1,4 @@
-﻿using System;
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
 using AutoTest.Domain.StorageModels;
 using AutoTest.Service.Messages;
@@ -41,7 +40,7 @@ namespace AutoTest.Unit.Test.Authorisation
             var entrantId = 99ul;
             var eventId = 1ul;
             var clubId = 88ul;
-            var ctx = HttpContextFixture.GetHttpContext(new[] { ("eventId", eventId.ToString()), ("entrantId", entrantId.ToString()) });
+            var ctx = HttpContextFixture.GetHttpContext(new[] { ("eventId", $"{eventId}"), ("entrantId", $"{entrantId}") });
             httpContextAccessor.SetupGet(a => a.HttpContext).Returns(ctx);
             mediator.Setup(a => a.Send(Its.EquivalentTo(new GetEvent(eventId)), CancellationToken.None)).ReturnsAsync(
                 Models.GetEvent(eventId, clubId));
@@ -65,7 +64,7 @@ namespace AutoTest.Unit.Test.Authorisation
             var entrantId = 99ul;
             var eventId = 1ul;
             var clubId = 88ul;
-            var ctx = HttpContextFixture.GetHttpContext(new[] { ("eventId", eventId.ToString()), ("entrantId", entrantId.ToString()) });
+            var ctx = HttpContextFixture.GetHttpContext(new[] { ("eventId", $"{eventId}"), ("entrantId", $"{entrantId}") });
             httpContextAccessor.SetupGet(a => a.HttpContext).Returns(ctx);
             mediator.Setup(a => a.Send(Its.EquivalentTo(new GetEvent(eventId)), CancellationToken.None)).ReturnsAsync((Event?)null);
             var club = new Club(clubId, "BRMC", "pay@brmc.org", "www.com");
@@ -86,7 +85,7 @@ namespace AutoTest.Unit.Test.Authorisation
             var entrantId = 99ul;
             var eventId = 1ul;
             var clubId = 88ul;
-            var ctx = HttpContextFixture.GetHttpContext(new[] { ("eventId", eventId.ToString()), ("entrantId", entrantId.ToString()) });
+            var ctx = HttpContextFixture.GetHttpContext(new[] { ("eventId", $"{eventId}"), ("entrantId", $"{entrantId}") });
             httpContextAccessor.SetupGet(a => a.HttpContext).Returns(ctx);
             mediator.Setup(a => a.Send(Its.EquivalentTo(new GetEvent(eventId)), CancellationToken.None)).ReturnsAsync(
                 Models.GetEvent(eventId, clubId));
@@ -110,7 +109,7 @@ namespace AutoTest.Unit.Test.Authorisation
             var entrantId = 99ul;
             var eventId = 1ul;
             var clubId = 88ul;
-            var ctx = HttpContextFixture.GetHttpContext(new[] { ("eventId", eventId.ToString()), ("entrantId", entrantId.ToString()) });
+            var ctx = HttpContextFixture.GetHttpContext(new[] { ("eventId", $"{eventId}"), ("entrantId", $"{entrantId}") });
             httpContextAccessor.SetupGet(a => a.HttpContext).Returns(ctx);
             mediator.Setup(a => a.Send(Its.EquivalentTo(new GetEvent(eventId)), CancellationToken.None)).ReturnsAsync(
                 Models.GetEvent(eventId, clubId));
