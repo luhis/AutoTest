@@ -7,45 +7,38 @@ using Microsoft.EntityFrameworkCore;
 
 namespace AutoTest.Persistence.Repositories
 {
-    public class MarshalsRepository : IMarshalsRepository
+    public class MarshalsRepository(AutoTestContext autoTestContext) : IMarshalsRepository
     {
-        private readonly AutoTestContext _autoTestContext;
-
-        public MarshalsRepository(AutoTestContext autoTestContext)
-        {
-            _autoTestContext = autoTestContext;
-        }
-
         IQueryable<Marshal> IMarshalsRepository.GetByEmail(string emailAddress)
         {
-            return _autoTestContext.Marshals!.Where(a => a.Email == emailAddress);
+            return autoTestContext.Marshals!.Where(a => a.Email == emailAddress);
         }
 
         IQueryable<Marshal> IMarshalsRepository.GetByEventId(ulong eventId)
         {
-            return _autoTestContext.Marshals!.Where(a => a.EventId == eventId);
+            return autoTestContext.Marshals!.Where(a => a.EventId == eventId);
         }
 
         Task<ulong> IMarshalsRepository.GetMarshalIdByEmail(ulong eventId, string emailAddress, CancellationToken cancellationToken)
         {
-            return _autoTestContext.Marshals!.Where(a => a.EventId == eventId && a.Email == emailAddress).Select(a => a.MarshalId).SingleAsync(cancellationToken);
+            return autoTestContext.Marshals!.Where(a => a.EventId == eventId && a.Email == emailAddress).Select(a => a.MarshalId).SingleAsync(cancellationToken);
         }
 
         Task<Marshal?> IMarshalsRepository.GetById(ulong eventId, ulong marshalId, CancellationToken cancellationToken)
         {
-            return _autoTestContext.Marshals!.SingleOrDefaultAsync(a => a.EventId == eventId && a.MarshalId == marshalId, cancellationToken);
+            return autoTestContext.Marshals!.SingleOrDefaultAsync(a => a.EventId == eventId && a.MarshalId == marshalId, cancellationToken);
         }
 
         async Task IMarshalsRepository.Upsert(Marshal marshal, CancellationToken cancellationToken)
         {
-            await this._autoTestContext.Marshals!.Upsert(marshal, a => a.MarshalId == marshal.MarshalId, cancellationToken);
-            await this._autoTestContext.SaveChangesAsync(cancellationToken);
+            await autoTestContext.Marshals!.Upsert(marshal, a => a.MarshalId == marshal.MarshalId, cancellationToken);
+            await autoTestContext.SaveChangesAsync(cancellationToken);
         }
 
         Task IMarshalsRepository.Remove(Marshal marshal, CancellationToken cancellationToken)
         {
-            this._autoTestContext.Marshals!.Remove(marshal);
-            return this._autoTestContext.SaveChangesAsync(cancellationToken);
+            autoTestContext.Marshals!.Remove(marshal);
+            return autoTestContext.SaveChangesAsync(cancellationToken);
         }
     }
 }

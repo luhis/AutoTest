@@ -8,31 +8,24 @@ using Microsoft.EntityFrameworkCore;
 
 namespace AutoTest.Persistence.Repositories
 {
-    public class EventsRepository : IEventsRepository
+    public class EventsRepository(AutoTestContext autoTestContext) : IEventsRepository
     {
-        private readonly AutoTestContext _autoTestContext;
-
-        public EventsRepository(AutoTestContext autoTestContext)
-        {
-            _autoTestContext = autoTestContext;
-        }
-
         async Task<Event?> IEventsRepository.GetById(ulong eventId, CancellationToken cancellationToken)
         {
-            return await _autoTestContext.Events!.Where(a => a.EventId == eventId).SingleOrDefaultAsync(cancellationToken);
+            return await autoTestContext.Events!.Where(a => a.EventId == eventId).SingleOrDefaultAsync(cancellationToken);
         }
 
         Task<IEnumerable<Event>> IEventsRepository.GetAll(CancellationToken cancellationToken)
         {
-            return _autoTestContext.Events!.OrderBy(a => a.StartTime).ToEnumerableAsync(cancellationToken);
+            return autoTestContext.Events!.OrderBy(a => a.StartTime).ToEnumerableAsync(cancellationToken);
         }
 
         async Task IEventsRepository.Upsert(Event @event, CancellationToken cancellationToken)
         {
             SyncTests(@event);
-            await this._autoTestContext.Events!.Upsert(@event, a => a.EventId == @event.EventId, cancellationToken);
+            await autoTestContext.Events!.Upsert(@event, a => a.EventId == @event.EventId, cancellationToken);
 
-            await this._autoTestContext.SaveChangesAsync(cancellationToken);
+            await autoTestContext.SaveChangesAsync(cancellationToken);
         }
 
         private static void SyncTests(Event @event)
@@ -46,8 +39,8 @@ namespace AutoTest.Persistence.Repositories
 
         Task IEventsRepository.Delete(Event @event, CancellationToken cancellationToken)
         {
-            this._autoTestContext.Events!.Remove(@event);
-            return this._autoTestContext.SaveChangesAsync(cancellationToken);
+            autoTestContext.Events!.Remove(@event);
+            return autoTestContext.SaveChangesAsync(cancellationToken);
         }
     }
 }
