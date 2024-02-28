@@ -7,17 +7,8 @@ using MediatR;
 
 namespace AutoTest.Service.Handlers
 {
-    public class AddNotificationHandler : IRequestHandler<AddNotification>
+    public class AddNotificationHandler(INotificationsRepository notificationsRepository, IEventNotifier signalRNotifier) : IRequestHandler<AddNotification>
     {
-        private readonly INotificationsRepository notificationsRepository;
-        private readonly IEventNotifier signalRNotifier;
-
-        public AddNotificationHandler(INotificationsRepository notificationsRepository, IEventNotifier signalRNotifier)
-        {
-            this.notificationsRepository = notificationsRepository;
-            this.signalRNotifier = signalRNotifier;
-        }
-
         public async Task Handle(AddNotification request, CancellationToken cancellationToken)
         {
             await notificationsRepository.AddNotification(request.Notification, cancellationToken);

@@ -48,7 +48,7 @@ export const setEventStatus = async (
   eventStatus: EventStatus,
   token: string | undefined,
 ): Promise<void> => {
-  const response = await fetch(`/api/events/setEventStatus/${eventId}`, {
+  const response = await fetch(`/api/events/${eventId}/setEventStatus`, {
     headers: getHeaders(token),
     method: "PUT",
     body: eventStatus.toString(),

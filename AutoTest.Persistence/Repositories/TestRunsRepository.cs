@@ -7,37 +7,30 @@ using AutoTest.Domain.StorageModels;
 
 namespace AutoTest.Persistence.Repositories
 {
-    public class TestRunsRepository : ITestRunsRepository
+    public class TestRunsRepository(AutoTestContext autoTestContext) : ITestRunsRepository
     {
-        private readonly AutoTestContext _autoTestContext;
-
-        public TestRunsRepository(AutoTestContext autoTestContext)
-        {
-            _autoTestContext = autoTestContext;
-        }
-
         public Task<IEnumerable<TestRun>> GetAll(ulong eventId, CancellationToken cancellationToken)
         {
-            return this._autoTestContext.TestRuns.Where(
+            return autoTestContext.TestRuns.Where(
                 a => a.EventId == eventId).OrderBy(a => a.Created).ToEnumerableAsync(cancellationToken);
         }
 
         Task<IEnumerable<TestRun>> ITestRunsRepository.GetAll(ulong eventId, int ordinal, CancellationToken cancellationToken)
         {
-            return this._autoTestContext.TestRuns.Where(
+            return autoTestContext.TestRuns.Where(
                 a => a.EventId == eventId && a.Ordinal == ordinal).OrderBy(a => a.Created).ToEnumerableAsync(cancellationToken);
         }
 
         Task ITestRunsRepository.AddTestRun(TestRun testRun, CancellationToken cancellationToken)
         {
-            this._autoTestContext.TestRuns.Add(testRun);
-            return this._autoTestContext.SaveChangesAsync(cancellationToken);
+            autoTestContext.TestRuns.Add(testRun);
+            return autoTestContext.SaveChangesAsync(cancellationToken);
         }
 
         Task ITestRunsRepository.UpdateTestRun(TestRun testRun, CancellationToken cancellationToken)
         {
-            this._autoTestContext.TestRuns.Update(testRun);
-            return this._autoTestContext.SaveChangesAsync(cancellationToken);
+            autoTestContext.TestRuns.Update(testRun);
+            return autoTestContext.SaveChangesAsync(cancellationToken);
         }
     }
 }
