@@ -9,18 +9,11 @@ namespace AutoTest.Service.Handlers
     using AutoTest.Service.Messages;
     using MediatR;
 
-    public class GetAllEventsHandler : IRequestHandler<GetAllEvents, IEnumerable<Event>>
+    public class GetAllEventsHandler(IEventsRepository eventsRepository) : IRequestHandler<GetAllEvents, IEnumerable<Event>>
     {
-        private readonly IEventsRepository _eventsRepository;
-
-        public GetAllEventsHandler(IEventsRepository eventsRepository)
-        {
-            _eventsRepository = eventsRepository;
-        }
-
         Task<IEnumerable<Event>> IRequestHandler<GetAllEvents, IEnumerable<Event>>.Handle(GetAllEvents request, CancellationToken cancellationToken)
         {
-            return this._eventsRepository.GetAll(cancellationToken);
+            return eventsRepository.GetAll(cancellationToken);
         }
     }
 }

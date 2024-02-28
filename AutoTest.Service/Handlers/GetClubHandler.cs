@@ -11,15 +11,8 @@ using MediatR;
 
 namespace AutoTest.Service.Handlers
 {
-    public class GetClubHandler : IRequestHandler<GetClub, Club?>
+    public class GetClubHandler(IClubsRepository clubRepository) : IRequestHandler<GetClub, Club?>
     {
-        private readonly IClubsRepository clubRepository;
-
-        public GetClubHandler(IClubsRepository clubRepository)
-        {
-            this.clubRepository = clubRepository;
-        }
-
         Task<Club?> IRequestHandler<GetClub, Club?>.Handle(GetClub request, CancellationToken cancellationToken)
         {
             return clubRepository.GetById(request.ClubId, cancellationToken);

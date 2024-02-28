@@ -11,21 +11,9 @@ using MediatR;
 
 namespace AutoTest.Service.Handlers
 {
-    public class GetResultsHandler : IRequestHandler<GetResults, IEnumerable<Result>>
+    public class GetResultsHandler(ITestRunsRepository testRunsRepository, IEventsRepository eventsRepository, IEntrantsRepository entrantsRepository) : IRequestHandler<GetResults, IEnumerable<Result>>
     {
-        private readonly ITestRunsRepository testRunsRepository;
-        private readonly ITotalTimeCalculator totalTimeCalculator;
-        private readonly IEventsRepository eventsRepository;
-        private readonly IEntrantsRepository entrantsRepository;
-
-        public GetResultsHandler(ITestRunsRepository testRunsRepository, IEventsRepository eventsRepository, IEntrantsRepository entrantsRepository)
-        {
-            this.testRunsRepository = testRunsRepository;
-            this.eventsRepository = eventsRepository;
-            this.entrantsRepository = entrantsRepository;
-            totalTimeCalculator = new AutoTestTotalTimeCalculator();
-        }
-
+        private readonly ITotalTimeCalculator totalTimeCalculator = new AutoTestTotalTimeCalculator();
         private readonly TimeCalculatorConfig _timeCalculatorConfig = new(5_000, 5_000, 5_000, 20_000);
 
         async Task<IEnumerable<Result>> IRequestHandler<GetResults, IEnumerable<Result>>.Handle(GetResults request, CancellationToken cancellationToken)

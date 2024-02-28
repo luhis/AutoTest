@@ -6,21 +6,13 @@ using MediatR;
 
 namespace AutoTest.Service.Handlers
 {
-    public class MarkPaidHandler : IRequestHandler<MarkPaid>
+    public class MarkPaidHandler(IEntrantsRepository entrantsRepository) : IRequestHandler<MarkPaid>
     {
-        private readonly IEntrantsRepository _entrantsRepository;
-
-        public MarkPaidHandler(IEntrantsRepository entrantsRepository)
-        {
-            _entrantsRepository = entrantsRepository;
-        }
-
-
         async Task IRequestHandler<MarkPaid>.Handle(MarkPaid request, CancellationToken cancellationToken)
         {
-            var found = (await _entrantsRepository.GetById(request.EventId, request.EntrantId, cancellationToken))!;// await this._autoTestContext.Entrants!.SingleAsync(a => a.EventId == request.EventId && a.EntrantId == request.EntrantId, cancellationToken);
+            var found = (await entrantsRepository.GetById(request.EventId, request.EntrantId, cancellationToken))!;// await this._autoTestContext.Entrants!.SingleAsync(a => a.EventId == request.EventId && a.EntrantId == request.EntrantId, cancellationToken);
             found.SetPayment(request.Payment);
-            await _entrantsRepository.Update(found, cancellationToken);
+            await entrantsRepository.Update(found, cancellationToken);
         }
     }
 }

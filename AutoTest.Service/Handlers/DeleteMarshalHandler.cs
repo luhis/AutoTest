@@ -7,24 +7,15 @@ using MediatR;
 
 namespace AutoTest.Service.Handlers
 {
-    public class DeleteMarshalHandler : IRequestHandler<DeleteMarshal>
+    public class DeleteMarshalHandler(IMarshalsRepository marshalsRepository, IAuthorisationNotifier signalRNotifier) : IRequestHandler<DeleteMarshal>
     {
-        private readonly IAuthorisationNotifier authorisationNotifier;
-        private readonly IMarshalsRepository _marshalsRepository;
-
-        public DeleteMarshalHandler(IMarshalsRepository marshalsRepository, IAuthorisationNotifier signalRNotifier)
-        {
-            _marshalsRepository = marshalsRepository;
-            this.authorisationNotifier = signalRNotifier;
-        }
-
         async Task IRequestHandler<DeleteMarshal>.Handle(DeleteMarshal request, CancellationToken cancellationToken)
         {
-            var found = await _marshalsRepository.GetById(request.EventId, request.MarshalId, cancellationToken);
+            var found = await marshalsRepository.GetById(request.EventId, request.MarshalId, cancellationToken);
             if (found != null)
             {
-                await _marshalsRepository.Remove(found, cancellationToken);
-                await authorisationNotifier.RemoveEventMarshal(request.MarshalId, new[] { found.Email }, cancellationToken);
+                await marshalsRepository.Remove(found, cancellationToken);
+                await signalRNotifier.RemoveEventMarshal(request.MarshalId, new[] { found.Email }, cancellationToken);
             }
         }
     }

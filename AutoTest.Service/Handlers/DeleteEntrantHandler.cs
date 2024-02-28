@@ -7,23 +7,16 @@ using MediatR;
 
 namespace AutoTest.Service.Handlers
 {
-    public class DeleteEntrantHandler : IRequestHandler<DeleteEntrant>
+    public class DeleteEntrantHandler(IEntrantsRepository entrantsRepository) : IRequestHandler<DeleteEntrant>
     {
-        private readonly IEntrantsRepository _autoTestContext;
-
-        public DeleteEntrantHandler(IEntrantsRepository entrantsRepository)
-        {
-            _autoTestContext = entrantsRepository;
-        }
-
         async Task IRequestHandler<DeleteEntrant>.Handle(DeleteEntrant request, CancellationToken cancellationToken)
         {
-            var found = await this._autoTestContext.GetById(request.EventId, request.EntrantId, cancellationToken);
+            var found = await entrantsRepository.GetById(request.EventId, request.EntrantId, cancellationToken);
             if (found == null)
             {
                 throw new NullReferenceException();
             }
-            await this._autoTestContext.Delete(found, cancellationToken);
+            await entrantsRepository.Delete(found, cancellationToken);
         }
     }
 }

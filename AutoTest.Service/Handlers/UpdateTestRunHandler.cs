@@ -9,17 +9,8 @@ using MediatR;
 
 namespace AutoTest.Service.Handlers
 {
-    public class UpdateTestRunHandler : IRequestHandler<UpdateTestRun>
+    public class UpdateTestRunHandler(ITestRunsRepository testRunsRepository, IEventNotifier signalRNotifier) : IRequestHandler<UpdateTestRun>
     {
-        private readonly ITestRunsRepository testRunsRepository;
-        private readonly IEventNotifier signalRNotifier;
-
-        public UpdateTestRunHandler(ITestRunsRepository testRunsRepository, IEventNotifier signalRNotifier)
-        {
-            this.testRunsRepository = testRunsRepository;
-            this.signalRNotifier = signalRNotifier;
-        }
-
         async Task IRequestHandler<UpdateTestRun>.Handle(UpdateTestRun request, CancellationToken cancellationToken)
         {
             var testRun = new TestRun(request.TestRunId, request.EventId, request.Ordinal, request.TimeInMS, request.EntrantId, request.Created, request.MarshalId);

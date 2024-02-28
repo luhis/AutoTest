@@ -11,22 +11,11 @@ using OneOf.Types;
 
 namespace AutoTest.Service.Handlers
 {
-    public class SaveEntrantHandler : IRequestHandler<SaveEntrant, OneOf<Entrant, Error<string>>>
+    public class SaveEntrantHandler(IEntrantsRepository entrantsRepository, IEventsRepository eventsRepository, IAuthorisationNotifier authorisationNotifier) : IRequestHandler<SaveEntrant, OneOf<Entrant, Error<string>>>
     {
-        private readonly IAuthorisationNotifier authorisationNotifier;
-        private readonly IEntrantsRepository entrantsRepository;
-        private readonly IEventsRepository _eventsRepository;
-
-        public SaveEntrantHandler(IEntrantsRepository entrantsRepository, IEventsRepository eventsRepository, IAuthorisationNotifier authorisationNotifier)
-        {
-            this.entrantsRepository = entrantsRepository;
-            _eventsRepository = eventsRepository;
-            this.authorisationNotifier = authorisationNotifier;
-        }
-
         async Task<OneOf<Entrant, Error<string>>> IRequestHandler<SaveEntrant, OneOf<Entrant, Error<string>>>.Handle(SaveEntrant request, CancellationToken cancellationToken)
         {
-            var @event = await _eventsRepository.GetById(request.Entrant.EventId, cancellationToken);
+            var @event = await eventsRepository.GetById(request.Entrant.EventId, cancellationToken);
             var now = DateTime.UtcNow;
             if (@event!.EntryOpenDate > now)
             {

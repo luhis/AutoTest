@@ -8,15 +8,8 @@ using MediatR;
 
 namespace AutoTest.Service.Handlers
 {
-    public class GetNotificationsHandler : IRequestHandler<GetNotifications, IEnumerable<Notification>>
+    public class GetNotificationsHandler(INotificationsRepository notificationsRepository) : IRequestHandler<GetNotifications, IEnumerable<Notification>>
     {
-        private readonly INotificationsRepository notificationsRepository;
-
-        public GetNotificationsHandler(INotificationsRepository notificationsRepository)
-        {
-            this.notificationsRepository = notificationsRepository;
-        }
-
         Task<IEnumerable<Notification>> IRequestHandler<GetNotifications, IEnumerable<Notification>>.Handle(GetNotifications request, CancellationToken cancellationToken)
         {
             return notificationsRepository.GetNotifications(request.EventId, cancellationToken);

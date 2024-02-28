@@ -13,18 +13,11 @@ using MediatR;
 
 namespace AutoTest.Service.Handlers
 {
-    public class GetEditableMarshalsHandler : IRequestHandler<GetEditableMarshals, IEnumerable<ulong>>
+    public class GetEditableMarshalsHandler(IMarshalsRepository marshalsRepository) : IRequestHandler<GetEditableMarshals, IEnumerable<ulong>>
     {
-        private readonly IMarshalsRepository marshalsRepository;
-
-        public GetEditableMarshalsHandler(IMarshalsRepository marshalsRepository)
-        {
-            this.marshalsRepository = marshalsRepository;
-        }
-
         Task<IEnumerable<ulong>> IRequestHandler<GetEditableMarshals, IEnumerable<ulong>>.Handle(GetEditableMarshals request, CancellationToken cancellationToken)
         {
-            return this.marshalsRepository.GetByEmail(request.EmailAddress).Select(a => a.MarshalId).ToEnumerableAsync(cancellationToken);
+            return marshalsRepository.GetByEmail(request.EmailAddress).Select(a => a.MarshalId).ToEnumerableAsync(cancellationToken);
         }
     }
 }

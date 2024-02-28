@@ -7,20 +7,13 @@ using MediatR;
 
 namespace AutoTest.Service.Handlers
 {
-    public class DeleteEventHandler : IRequestHandler<DeleteEvent>
+    public class DeleteEventHandler(IEventsRepository autoTestContext) : IRequestHandler<DeleteEvent>
     {
-        private readonly IEventsRepository eventsRepository;
-
-        public DeleteEventHandler(IEventsRepository autoTestContext)
-        {
-            eventsRepository = autoTestContext;
-        }
-
         async Task IRequestHandler<DeleteEvent>.Handle(DeleteEvent request, CancellationToken cancellationToken)
         {
-            var found = await this.eventsRepository.GetById(request.EventId, cancellationToken);
+            var found = await autoTestContext.GetById(request.EventId, cancellationToken);
 
-            await this.eventsRepository.Delete(found!, cancellationToken);
+            await autoTestContext.Delete(found!, cancellationToken);
         }
     }
 }

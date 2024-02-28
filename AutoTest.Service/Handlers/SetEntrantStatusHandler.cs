@@ -6,20 +6,13 @@ using MediatR;
 
 namespace AutoTest.Service.Handlers
 {
-    public class SetEntrantStatusHandler : IRequestHandler<SetEntrantStatus>
+    public class SetEntrantStatusHandler(IEntrantsRepository entrantsRepository) : IRequestHandler<SetEntrantStatus>
     {
-        private readonly IEntrantsRepository _entrantsRepository;
-
-        public SetEntrantStatusHandler(IEntrantsRepository entrantsRepository)
-        {
-            _entrantsRepository = entrantsRepository;
-        }
-
         async Task IRequestHandler<SetEntrantStatus>.Handle(SetEntrantStatus request, CancellationToken cancellationToken)
         {
-            var entrant = await _entrantsRepository.GetById(request.EventId, request.EntrantId, cancellationToken);
+            var entrant = await entrantsRepository.GetById(request.EventId, request.EntrantId, cancellationToken);
             entrant!.SetEntrantStatus(request.Status);
-            await _entrantsRepository.Upsert(entrant, cancellationToken);
+            await entrantsRepository.Upsert(entrant, cancellationToken);
         }
     }
 }

@@ -11,17 +11,8 @@ namespace AutoTest.Service.Handlers
     using AutoTest.Service.Messages;
     using MediatR;
 
-    public class SaveClubHandler : IRequestHandler<SaveClub, ulong>
+    public class SaveClubHandler(IClubsRepository clubRepository, IAuthorisationNotifier signalRNotifier) : IRequestHandler<SaveClub, ulong>
     {
-        private readonly IClubsRepository clubRepository;
-        private readonly IAuthorisationNotifier signalRNotifier;
-
-        public SaveClubHandler(IClubsRepository clubRepository, IAuthorisationNotifier signalRNotifier)
-        {
-            this.clubRepository = clubRepository;
-            this.signalRNotifier = signalRNotifier;
-        }
-
         async Task<ulong> IRequestHandler<SaveClub, ulong>.Handle(SaveClub request, CancellationToken cancellationToken)
         {
             var existing = await clubRepository.GetById(request.Club.ClubId, cancellationToken);

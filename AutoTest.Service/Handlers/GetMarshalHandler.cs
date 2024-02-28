@@ -7,18 +7,11 @@ using MediatR;
 
 namespace AutoTest.Service.Handlers
 {
-    public class GetMarshalHandler : IRequestHandler<GetMarshal, Marshal?>
+    public class GetMarshalHandler(IMarshalsRepository marshalsRepository) : IRequestHandler<GetMarshal, Marshal?>
     {
-        private readonly IMarshalsRepository marshalsRepository;
-
-        public GetMarshalHandler(IMarshalsRepository marshalsRepository)
-        {
-            this.marshalsRepository = marshalsRepository;
-        }
-
         Task<Marshal?> IRequestHandler<GetMarshal, Marshal?>.Handle(GetMarshal request, CancellationToken cancellationToken)
         {
-            return this.marshalsRepository.GetById(request.EventId, request.MarshalId, cancellationToken)!;
+            return marshalsRepository.GetById(request.EventId, request.MarshalId, cancellationToken)!;
         }
     }
 }

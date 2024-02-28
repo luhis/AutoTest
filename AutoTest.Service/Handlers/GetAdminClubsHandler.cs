@@ -11,17 +11,8 @@ using Microsoft.Extensions.Caching.Memory;
 
 namespace AutoTest.Service.Handlers
 {
-    public class GetAdminClubsHandler : IRequestHandler<GetAdminClubs, IEnumerable<ulong>>
+    public class GetAdminClubsHandler(IClubsRepository clubsRepository, IMemoryCache cache) : IRequestHandler<GetAdminClubs, IEnumerable<ulong>>
     {
-        private readonly IClubsRepository clubsRepository;
-        private readonly IMemoryCache cache;
-
-        public GetAdminClubsHandler(IClubsRepository clubsRepository, IMemoryCache cache)
-        {
-            this.clubsRepository = clubsRepository;
-            this.cache = cache;
-        }
-
         async Task<IEnumerable<ulong>> IRequestHandler<GetAdminClubs, IEnumerable<ulong>>.Handle(GetAdminClubs request, CancellationToken cancellationToken)
         {
             // todo this is very ineficcient, but the only other option at this time is SQL
@@ -33,14 +24,14 @@ namespace AutoTest.Service.Handlers
 
         private async Task<IEnumerable<(ulong ClubId, IEnumerable<AuthorisationEmail> AdminEmails)>> GetOrCreate(CancellationToken cancellationToken)
         {
-            if (this.cache.TryGetValue<IEnumerable<(ulong ClubId, IEnumerable<AuthorisationEmail> AdminEmails)>>(cacheKey, out var o) && o != null)
+            if (cache.TryGetValue<IEnumerable<(ulong ClubId, IEnumerable<AuthorisationEmail> AdminEmails)>>(cacheKey, out var o) && o != null)
             {
                 return o;
             }
             else
             {
                 var r = await GetClubAdminEmails(cancellationToken);
-                this.cache.Set(cacheKey, r, TimeSpan.FromSeconds(30));
+                cache.Set(cacheKey, r, TimeSpan.FromSeconds(30));
                 return r;
             }
         }

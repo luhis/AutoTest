@@ -11,18 +11,11 @@ using MediatR;
 
 namespace AutoTest.Service.Handlers
 {
-    public class GetEventHandler : IRequestHandler<GetEvent, Event?>
+    public class GetEventHandler(IEventsRepository entrantsRepository) : IRequestHandler<GetEvent, Event?>
     {
-        private readonly IEventsRepository entrantsRepository;
-
-        public GetEventHandler(IEventsRepository entrantsRepository)
-        {
-            this.entrantsRepository = entrantsRepository;
-        }
-
         Task<Event?> IRequestHandler<GetEvent, Event?>.Handle(GetEvent request, CancellationToken cancellationToken)
         {
-            return this.entrantsRepository.GetById(request.EventId, cancellationToken);
+            return entrantsRepository.GetById(request.EventId, cancellationToken);
         }
     }
 }

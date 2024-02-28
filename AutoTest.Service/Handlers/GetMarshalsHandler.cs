@@ -10,18 +10,11 @@ using MediatR;
 
 namespace AutoTest.Service.Handlers
 {
-    public class GetMarshalsHandler : IRequestHandler<GetMarshals, IEnumerable<Marshal>>
+    public class GetMarshalsHandler(IMarshalsRepository marshalsRepository) : IRequestHandler<GetMarshals, IEnumerable<Marshal>>
     {
-        private readonly IMarshalsRepository marshalsRepository;
-
-        public GetMarshalsHandler(IMarshalsRepository autoTestContext)
-        {
-            this.marshalsRepository = autoTestContext;
-        }
-
         async Task<IEnumerable<Marshal>> IRequestHandler<GetMarshals, IEnumerable<Marshal>>.Handle(GetMarshals request, CancellationToken cancellationToken)
         {
-            var partial = await this.marshalsRepository.GetByEventId(request.EventId).OrderByDescending(a => a.FamilyName).ToEnumerableAsync(cancellationToken);
+            var partial = await marshalsRepository.GetByEventId(request.EventId).OrderByDescending(a => a.FamilyName).ToEnumerableAsync(cancellationToken);
             return partial.OrderBy(a => a.FamilyName).ThenBy(a => a.GivenName);
         }
     }
