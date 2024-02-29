@@ -26,12 +26,18 @@ namespace AutoTest.Web.Controllers
             mediator.Send(new SaveEvent(MapEvent.Map(eventId, @event)), cancellationToken);
 
         [Authorize(policy: Policies.ClubAdmin)]
-        [HttpPut("[action]/{eventId}")]
+        [HttpPut("{eventId}/[action]")]
         public Task SetEventStatus(ulong eventId, [FromBody] EventStatus status, CancellationToken cancellationToken) =>
             mediator.Send(new SetEventStatus(eventId, status), cancellationToken);
 
         [Authorize(policy: Policies.ClubAdmin)]
         [HttpDelete("{eventId}")]
         public Task Delete(ulong eventId, CancellationToken cancellationToken) => mediator.Send(new DeleteEvent(eventId), cancellationToken);
+
+        [HttpGet("{eventId}/[action]")]
+        public Task<string> Regulations(ulong eventId, CancellationToken cancellationToken) => mediator.Send(new GetRegs(eventId), cancellationToken);
+
+        [HttpGet("{eventId}/[action]")]
+        public Task<string> Maps(ulong eventId, CancellationToken cancellationToken) => mediator.Send(new GetMaps(eventId), cancellationToken);
     }
 }

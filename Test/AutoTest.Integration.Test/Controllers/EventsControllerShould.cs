@@ -41,5 +41,23 @@ namespace AutoTest.Integration.Test.Controllers
             var content = await res.DeserialiseAsync<ProblemDetails>();
             content.Should().NotBeNull();
         }
+
+        [Fact]
+        public async Task GetMaps()
+        {
+            var res = await unAuthorisedClient.GetAsync("/api/events/1/maps");
+            res.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);
+            var content = await res.Content.ReadAsStringAsync();
+            content.Should().NotBeNull();
+        }
+
+        [Fact]
+        public async Task GetRegulations()
+        {
+            var res = await unAuthorisedClient.GetAsync("/api/events/1/regulations");
+            res.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);
+            var content = await res.Content.ReadAsStringAsync();
+            content.Should().NotBeNull();
+        }
     }
 }
