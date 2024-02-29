@@ -16,6 +16,7 @@ namespace AutoTest.Persistence
             services.AddScoped<IMarshalsRepository, MarshalsRepository>();
             services.AddScoped<IProfileRepository, ProfileRepository>();
             services.AddScoped<INotificationsRepository, NotificationRepository>();
+            services.AddScoped<IFileRepository, FileRepository>();
         }
     }
 }
