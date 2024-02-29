@@ -7,24 +7,17 @@ using AutoTest.Domain.StorageModels;
 
 namespace AutoTest.Persistence.Repositories
 {
-    public class NotificationRepository : INotificationsRepository
+    public class NotificationRepository(AutoTestContext autoTestContext) : INotificationsRepository
     {
-        private readonly AutoTestContext _autoTestContext;
-
-        public NotificationRepository(AutoTestContext autoTestContext)
-        {
-            _autoTestContext = autoTestContext;
-        }
-
         async Task INotificationsRepository.AddNotification(Notification notification, CancellationToken cancellationToken)
         {
-            await _autoTestContext.Notifications!.Upsert(notification, a => a.NotificationId == notification.NotificationId, cancellationToken);
-            await this._autoTestContext.SaveChangesAsync(cancellationToken);
+            await autoTestContext.Notifications!.Upsert(notification, a => a.NotificationId == notification.NotificationId, cancellationToken);
+            await autoTestContext.SaveChangesAsync(cancellationToken);
         }
 
         Task<IEnumerable<Notification>> INotificationsRepository.GetNotifications(ulong eventId, CancellationToken cancellationToken)
         {
-            return _autoTestContext.Notifications!.Where(a => a.EventId == eventId).OrderByDescending(a => a.Created).ToEnumerableAsync(cancellationToken);
+            return autoTestContext.Notifications!.Where(a => a.EventId == eventId).OrderByDescending(a => a.Created).ToEnumerableAsync(cancellationToken);
         }
     }
 }

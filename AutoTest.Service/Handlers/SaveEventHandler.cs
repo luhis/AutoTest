@@ -6,17 +6,12 @@ using MediatR;
 
 namespace AutoTest.Service.Handlers
 {
-    public class SaveEventHandler : IRequestHandler<SaveEvent, ulong>
+    public class SaveEventHandler(IEventsRepository eventsRepository) : IRequestHandler<SaveEvent, ulong>
     {
-        private readonly IEventsRepository eventsRepository;
-
-        public SaveEventHandler(IEventsRepository eventsRepository)
-        {
-            this.eventsRepository = eventsRepository;
-        }
-
         async Task<ulong> IRequestHandler<SaveEvent, ulong>.Handle(SaveEvent request, CancellationToken cancellationToken)
         {
+            // await fileRepository.SaveMaps(request.Event.EventId, request.Event.Maps, cancellationToken);
+            // await fileRepository.SaveRegs(request.Event.EventId, request.Event.Regulations, cancellationToken);
             await eventsRepository.Upsert(request.Event, cancellationToken);
             return request.Event.EventId;
         }

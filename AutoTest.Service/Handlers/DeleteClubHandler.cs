@@ -7,15 +7,8 @@ namespace AutoTest.Service.Handlers
     using AutoTest.Service.Messages;
     using MediatR;
 
-    public class DeleteClubHandler : IRequestHandler<DeleteClub>
+    public class DeleteClubHandler(IClubsRepository clubRepository) : IRequestHandler<DeleteClub>
     {
-        private readonly IClubsRepository clubRepository;
-
-        public DeleteClubHandler(IClubsRepository clubRepository)
-        {
-            this.clubRepository = clubRepository;
-        }
-
         async Task IRequestHandler<DeleteClub>.Handle(DeleteClub request, CancellationToken cancellationToken)
         {
             await clubRepository.Delete(request.ClubId, cancellationToken);
