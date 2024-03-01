@@ -24,7 +24,6 @@ namespace AutoTest.Unit.Test.Handlers
         private readonly Mock<IEntrantsRepository> entrantsRepository;
         private readonly Mock<IEventsRepository> eventsRepository;
         private readonly Mock<IAuthorisationNotifier> authorisationNotifier;
-        private static readonly EntrantClub entrantClub = new EntrantClub("BHMC", "123456");
 
         public SaveEntrantHandlerShould()
         {
