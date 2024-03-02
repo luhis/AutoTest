@@ -31,7 +31,7 @@
     "@types/react": "file:./src/types/fake-empty",
     "@types/react-redux": "7.1.33",
     "bulma": "0.9.4",
-    "bulma-toast": "2.4.3",
+    "bulma-toast": "2.4.4",
     "cross-env": "^7.0.3",
     "encoding": "^0.1.13",
     "javascript-time-ago": "^2.5.9",
