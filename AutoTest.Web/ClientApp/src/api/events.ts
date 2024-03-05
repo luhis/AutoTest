@@ -66,3 +66,15 @@ export const deleteEvent = async (
   });
   await throwIfNotOk(response);
 };
+
+export const getMaps = async (eventId: number): Promise<string> => {
+  const response = await fetch(`/api/events/${eventId}/maps`);
+  await throwIfNotOk(response);
+  return response.text();
+};
+
+export const getRegs = async (eventId: number): Promise<string> => {
+  const response = await fetch(`/api/events/${eventId}/regs`);
+  await throwIfNotOk(response);
+  return response.text();
+};

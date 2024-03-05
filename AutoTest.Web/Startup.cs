@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,6 +14,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
+using Microsoft.Extensions.Azure;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -61,6 +61,10 @@ namespace AutoTest.Web
             services.AddHttpContextAccessor();
             services.AddApplicationInsightsTelemetry();
             services.AddMemoryCache();
+            services.AddAzureClients(bulder =>
+            {
+                bulder.AddBlobServiceClient(this.Configuration.GetConnectionString("BlobStorageConnectionString"));
+            });
 
             services.AddAuthentication(x =>
             {
