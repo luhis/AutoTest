@@ -16,14 +16,14 @@ namespace AutoTest.Unit.Test.Handlers
     {
         private readonly MockRepository mr;
         private readonly Mock<IEventsRepository> eventsRepository;
-        //private readonly Mock<IFileRepository> fileRepository;
+        private readonly Mock<IFileRepository> fileRepository;
         private readonly IRequestHandler<SaveEvent, ulong> sut;
         public SaveEventHandlerShould()
         {
             mr = new MockRepository(MockBehavior.Strict);
             eventsRepository = mr.Create<IEventsRepository>();
-            //fileRepository = mr.Create<IFileRepository>();
-            sut = new SaveEventHandler(eventsRepository.Object);//, fileRepository.Object);
+            fileRepository = mr.Create<IFileRepository>();
+            sut = new SaveEventHandler(eventsRepository.Object, fileRepository.Object);
         }
 
         [Fact]
@@ -37,7 +37,8 @@ namespace AutoTest.Unit.Test.Handlers
 
             var entrantFromDb = new Entrant(entrantId, 123, "name", "familyName", "a@a.com", "A", eventId, Age.Senior, false);
             eventsRepository.Setup(a => a.Upsert(evt, CancellationToken.None)).Returns(Task.CompletedTask);
-            //fileRepository.Setup(a => a.SaveMaps(2, "", CancellationToken.None)).ReturnsAsync("");
+            fileRepository.Setup(a => a.SaveMaps(2, "", CancellationToken.None)).Returns(Task.CompletedTask);
+            fileRepository.Setup(a => a.SaveRegs(2, "regs", CancellationToken.None)).Returns(Task.CompletedTask);
 
             var se = new SaveEvent(evt);
             var res = await sut.Handle(se, CancellationToken.None);

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
+using AutoTest.Domain.Repositories;
 using AutoTest.Integration.Test.Tooling;
 using AutoTest.Persistence;
 using Microsoft.AspNetCore.Hosting;
@@ -10,6 +11,7 @@ using Microsoft.AspNetCore.TestHost;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Moq;
 
 namespace AutoTest.Integration.Test.Fixtures
 {
@@ -17,6 +19,11 @@ namespace AutoTest.Integration.Test.Fixtures
         : WebApplicationFactory<TStartup>
         where TStartup : class
     {
+        public CustomWebApplicationFactory()
+        {
+            this.Mr = new MockRepository(MockBehavior.Strict);
+            this.IFileRepository = Mr.Create<IFileRepository>();
+        }
         private static readonly IReadOnlyList<Type> ToRemove = new[]
         {
             typeof(DbContextOptions<AutoTestContext>)
@@ -25,6 +32,8 @@ namespace AutoTest.Integration.Test.Fixtures
         public HttpClient GetUnAuthorisedClient()
             => this.CreateClient(
                 new WebApplicationFactoryClientOptions() { AllowAutoRedirect = false });
+        public MockRepository Mr { get; }
+        public Mock<IFileRepository> IFileRepository { get; }
 
         protected override void ConfigureWebHost(IWebHostBuilder builder)
         {
@@ -37,6 +46,7 @@ namespace AutoTest.Integration.Test.Fixtures
                     services.Remove(d);
                 }
 
+                services.AddSingleton(IFileRepository.Object);
                 // Add ApplicationDbContext using an in-memory database for testing.
                 services.AddDbContext<AutoTestContext>(options =>
                 {
