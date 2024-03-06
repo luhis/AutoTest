@@ -10,20 +10,20 @@ namespace AutoTest.Persistence.Repositories
 {
     public class EventsRepository(AutoTestContext autoTestContext) : IEventsRepository
     {
-        async Task<Event?> IEventsRepository.GetById(ulong eventId, CancellationToken cancellationToken)
+        Task<Event?> IEventsRepository.GetById(ulong eventId, CancellationToken cancellationToken)
         {
-            return await autoTestContext.Events!.Where(a => a.EventId == eventId).SingleOrDefaultAsync(cancellationToken);
+            return autoTestContext.Events.Where(a => a.EventId == eventId).SingleOrDefaultAsync(cancellationToken);
         }
 
         Task<IEnumerable<Event>> IEventsRepository.GetAll(CancellationToken cancellationToken)
         {
-            return autoTestContext.Events!.OrderBy(a => a.StartTime).ToEnumerableAsync(cancellationToken);
+            return autoTestContext.Events.OrderBy(a => a.StartTime).ToEnumerableAsync(cancellationToken);
         }
 
         async Task IEventsRepository.Upsert(Event @event, CancellationToken cancellationToken)
         {
             SyncTests(@event);
-            await autoTestContext.Events!.Upsert(@event, a => a.EventId == @event.EventId, cancellationToken);
+            await autoTestContext.Events.Upsert(@event, a => a.EventId == @event.EventId, cancellationToken);
 
             await autoTestContext.SaveChangesAsync(cancellationToken);
         }
@@ -39,7 +39,7 @@ namespace AutoTest.Persistence.Repositories
 
         Task IEventsRepository.Delete(Event @event, CancellationToken cancellationToken)
         {
-            autoTestContext.Events!.Remove(@event);
+            autoTestContext.Events.Remove(@event);
             return autoTestContext.SaveChangesAsync(cancellationToken);
         }
     }

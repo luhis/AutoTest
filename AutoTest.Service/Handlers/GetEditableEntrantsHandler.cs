@@ -12,7 +12,7 @@ namespace AutoTest.Service.Handlers
     {
         Task<IEnumerable<ulong>> IRequestHandler<GetEditableEntrants, IEnumerable<ulong>>.Handle(GetEditableEntrants request, CancellationToken cancellationToken)
         {
-            return autoTestContext.Entrants!.Where(a => a.Email == request.EmailAddress).Select(a => a.EntrantId).ToEnumerableAsync(cancellationToken);
+            return autoTestContext.Entrants.Where(a => a.Email == request.EmailAddress).Select(a => a.EntrantId).ToEnumerableAsync(cancellationToken);
         }
     }
 }

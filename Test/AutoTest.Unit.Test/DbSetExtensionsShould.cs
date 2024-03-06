@@ -15,11 +15,11 @@ namespace AutoTest.Unit.Test
         public async Task Insert()
         {
             var db = InMemDbFixture.GetDbContext();
-            var method = await db.Marshals!.Upsert(new Domain.StorageModels.Marshal(1, "", "", "", 2, 3, ""), a => a.MarshalId == 1, CancellationToken.None);
+            var method = await db.Marshals.Upsert(new Domain.StorageModels.Marshal(1, "", "", "", 2, 3, ""), a => a.MarshalId == 1, CancellationToken.None);
 
             await db.SaveChangesAsync();
 
-            db.Marshals!.Count().Should().Be(1);
+            db.Marshals.Count().Should().Be(1);
             method.Should().Be(UpdateStatus.Add);
         }
 
@@ -28,14 +28,14 @@ namespace AutoTest.Unit.Test
         {
 
             var db = InMemDbFixture.GetDbContext();
-            db.Marshals!.Add(new Domain.StorageModels.Marshal(1, "", "", "", 2, 3, ""));
+            db.Marshals.Add(new Domain.StorageModels.Marshal(1, "", "", "", 2, 3, ""));
             await db.SaveChangesAsync();
             db.ChangeTracker.Clear();
-            var method = await db.Marshals!.Upsert(new Domain.StorageModels.Marshal(1, "", "", "", 2, 3, ""), a => a.MarshalId == 1ul, CancellationToken.None);
+            var method = await db.Marshals.Upsert(new Domain.StorageModels.Marshal(1, "", "", "", 2, 3, ""), a => a.MarshalId == 1ul, CancellationToken.None);
 
             await db.SaveChangesAsync();
 
-            db.Marshals!.Count().Should().Be(1);
+            db.Marshals.Count().Should().Be(1);
             method.Should().Be(UpdateStatus.Update);
         }
     }

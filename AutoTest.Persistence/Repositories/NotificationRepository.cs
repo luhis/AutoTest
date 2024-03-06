@@ -11,13 +11,13 @@ namespace AutoTest.Persistence.Repositories
     {
         async Task INotificationsRepository.AddNotification(Notification notification, CancellationToken cancellationToken)
         {
-            await autoTestContext.Notifications!.Upsert(notification, a => a.NotificationId == notification.NotificationId, cancellationToken);
+            await autoTestContext.Notifications.Upsert(notification, a => a.NotificationId == notification.NotificationId, cancellationToken);
             await autoTestContext.SaveChangesAsync(cancellationToken);
         }
 
         Task<IEnumerable<Notification>> INotificationsRepository.GetNotifications(ulong eventId, CancellationToken cancellationToken)
         {
-            return autoTestContext.Notifications!.Where(a => a.EventId == eventId).OrderByDescending(a => a.Created).ToEnumerableAsync(cancellationToken);
+            return autoTestContext.Notifications.Where(a => a.EventId == eventId).OrderByDescending(a => a.Created).ToEnumerableAsync(cancellationToken);
         }
     }
 }

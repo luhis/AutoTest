@@ -35,7 +35,7 @@ namespace AutoTest.Unit.Test.Handlers
                 new Entrant(1, 22, "Joe", "Bloggs", "test@test.com", "A", 99, Domain.Enums.Age.Senior, false),
                 new Entrant(2, 22, "Joe", "Bloggs", "a@a.com", "A", 99, Domain.Enums.Age.Senior, false)
             };
-            db.Entrants!.AddRange(marshals);
+            db.Entrants.AddRange(marshals);
             await db.SaveChangesAsync();
 
             var res = await sut.Handle(new("test@test.com"), CancellationToken.None);

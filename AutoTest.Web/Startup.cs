@@ -20,7 +20,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
-using WebMarkupMin.AspNetCore3;
+using WebMarkupMin.AspNetCore8;
 
 namespace AutoTest.Web
 {

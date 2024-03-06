@@ -11,12 +11,12 @@ namespace AutoTest.Persistence.Repositories
     {
         Task<Profile?> IProfileRepository.Get(string email, CancellationToken cancellationToken)
         {
-            return autoTestContext.Users!.Where(a => a.EmailAddress == email).SingleOrDefaultAsync(cancellationToken);
+            return autoTestContext.Users.Where(a => a.EmailAddress == email).SingleOrDefaultAsync(cancellationToken);
         }
 
         async Task IProfileRepository.Upsert(Profile profile, CancellationToken cancellationToken)
         {
-            await autoTestContext.Users!.Upsert(profile, a => a.EmailAddress == profile.EmailAddress, cancellationToken);
+            await autoTestContext.Users.Upsert(profile, a => a.EmailAddress == profile.EmailAddress, cancellationToken);
             await autoTestContext.SaveChangesAsync(cancellationToken);
         }
     }
