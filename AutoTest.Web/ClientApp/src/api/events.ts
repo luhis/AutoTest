@@ -67,26 +67,14 @@ export const deleteEvent = async (
   await throwIfNotOk(response);
 };
 
-export const maps = async (
-  eventId: number,
-  token: string | undefined,
-): Promise<string> => {
-  const response = await fetch(`/api/events/${eventId}/maps`, {
-    headers: getHeaders(token),
-    method: "GET",
-  });
+export const getMaps = async (eventId: number): Promise<string> => {
+  const response = await fetch(`/api/events/${eventId}/maps`);
   await throwIfNotOk(response);
   return response.text();
 };
 
-export const regs = async (
-  eventId: number,
-  token: string | undefined,
-): Promise<string> => {
-  const response = await fetch(`/api/events/${eventId}/regs`, {
-    headers: getHeaders(token),
-    method: "GET",
-  });
+export const getRegs = async (eventId: number): Promise<string> => {
+  const response = await fetch(`/api/events/${eventId}/regs`);
   await throwIfNotOk(response);
   return response.text();
 };

@@ -28,6 +28,7 @@ import { selectClubs } from "../../store/clubs/selectors";
 import { GetClubsIfRequired } from "../../store/clubs/actions";
 import { useThunkDispatch } from "../../store";
 import { selectAccess, selectAccessToken } from "../../store/profile/selectors";
+import { getMaps, getRegs } from "../../api/events";
 
 const uid = UUID(keySeed);
 
@@ -68,30 +69,32 @@ const Event: FunctionalComponent<Props> = ({ eventId }) => {
       }
     }
   }, [auth, dispatch, showAddNotificationModal]);
-  const saveRegs = useCallback(
-    () =>
-      currentEvent
-        ? save(
-            currentEvent.regulations,
-            `${currentEvent.location}-${getDateString(
-              currentEvent.startTime,
-            )}-regs.pdf`,
-          )
-        : Promise.resolve(),
-    [currentEvent],
-  );
-  const saveMaps = useCallback(
-    () =>
-      currentEvent
-        ? save(
-            currentEvent.maps,
-            `${currentEvent.location}-${getDateString(
-              currentEvent.startTime,
-            )}-maps.pdf`,
-          )
-        : Promise.resolve(),
-    [currentEvent],
-  );
+  const saveRegs = useCallback(async () => {
+    if (currentEvent) {
+      const data = await getRegs(eventId);
+      return save(
+        data,
+        `${currentEvent.location}-${getDateString(
+          currentEvent.startTime,
+        )}-regs.pdf`,
+      );
+    } else {
+      return Promise.resolve();
+    }
+  }, [currentEvent, eventId]);
+  const saveMaps = useCallback(async () => {
+    if (currentEvent) {
+      const data = await getMaps(eventId);
+      return save(
+        data,
+        `${currentEvent.location}-${getDateString(
+          currentEvent.startTime,
+        )}-maps.pdf`,
+      );
+    } else {
+      return Promise.resolve();
+    }
+  }, [currentEvent]);
   const { adminClubs, marshalEvents } = useSelector(selectAccess);
   const canNotEdit =
     currentEvent === undefined || !adminClubs.includes(currentEvent.clubId);
