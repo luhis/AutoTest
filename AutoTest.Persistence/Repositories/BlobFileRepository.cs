@@ -10,7 +10,8 @@ namespace AutoTest.Persistence.Repositories
 {
     public class BlobFileRepository(BlobServiceClient service) : IFileRepository
     {
-        private readonly BlobContainerClient _client = service.GetBlobContainerClient("AutoTest");
+        private const string ContainerName = "autotest";
+        private readonly BlobContainerClient _client = service.GetBlobContainerClient(ContainerName);
 
         private static string GetMapFileName(ulong eventId) => $"Maps/{eventId}";
         private static string GetRegsFileName(ulong eventId) => $"Regs/{eventId}";
@@ -33,16 +34,26 @@ namespace AutoTest.Persistence.Repositories
             return reference.DownloadContentAsync(cancellationToken);
         }
 
-        Task IFileRepository.SaveMaps(ulong eventId, string data, CancellationToken cancellationToken)
+        private async Task CreateContainerIfNotExists(CancellationToken cancellationToken)
         {
-            var reference = _client.GetBlobClient(GetMapFileName(eventId));
-            return reference.UploadAsync(BinaryData.FromString(data), true, cancellationToken);
+            if (!await _client.ExistsAsync(cancellationToken))
+            {
+                await service.CreateBlobContainerAsync(ContainerName, cancellationToken: cancellationToken);
+            }
         }
 
-        Task IFileRepository.SaveRegs(ulong eventId, string data, CancellationToken cancellationToken)
+        async Task IFileRepository.SaveMaps(ulong eventId, string data, CancellationToken cancellationToken)
         {
+            await CreateContainerIfNotExists(cancellationToken);
+            var reference = _client.GetBlobClient(GetMapFileName(eventId));
+            await reference.UploadAsync(BinaryData.FromString(data), true, cancellationToken);
+        }
+
+        async Task IFileRepository.SaveRegs(ulong eventId, string data, CancellationToken cancellationToken)
+        {
+            await CreateContainerIfNotExists(cancellationToken);
             var reference = _client.GetBlobClient(GetRegsFileName(eventId));
-            return reference.UploadAsync(BinaryData.FromString(data), true, cancellationToken);
+            await reference.UploadAsync(BinaryData.FromString(data), true, cancellationToken);
         }
     }
 }
