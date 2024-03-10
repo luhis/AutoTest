@@ -1,4 +1,4 @@
-import { Fragment, FunctionalComponent, h } from "preact";
+import { FunctionalComponent, h } from "preact";
 import { useCallback, useEffect, useState } from "preact/hooks";
 import { Heading, Form, Button } from "react-bulma-components";
 import UUID from "uuid-int";
@@ -40,6 +40,7 @@ import { findIfLoaded, ifLoaded, mapOrDefault } from "../../types/loadingState";
 import RouteParamsParser from "../../components/shared/RouteParamsParser";
 import Breadcrumbs from "../../components/shared/Breadcrumbs";
 import SyncButton from "../../components/marshal/SyncButton";
+import StopWatch from "../../components/marshal/StopWatch";
 import { selectClubs } from "../../store/clubs/selectors";
 import { GetClubsIfRequired } from "../../store/clubs/actions";
 import { addPreventDefault } from "../../lib/form";
@@ -236,7 +237,14 @@ const Marshal: FunctionalComponent<Readonly<Props>> = ({
             }
           />
         ) : (
-          <Fragment></Fragment>
+          <StopWatch
+            setTime={(n) =>
+              setEditing((a) => ({
+                ...a,
+                timeInMS: n.toString(),
+              }))
+            }
+          ></StopWatch>
         )}
       </Field>
       <Field>
