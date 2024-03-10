@@ -6,11 +6,11 @@ using MediatR;
 
 namespace AutoTest.Service.Handlers
 {
-    public class SaveProfileHandler(IProfileRepository autoTestContext) : IRequestHandler<SaveProfile, string>
+    public class SaveProfileHandler(IProfileRepository profileRepository) : IRequestHandler<SaveProfile, string>
     {
         async Task<string> IRequestHandler<SaveProfile, string>.Handle(SaveProfile request, CancellationToken cancellationToken)
         {
-            await autoTestContext.Upsert(request.Profile, cancellationToken);
+            await profileRepository.Upsert(request.Profile, cancellationToken);
             return request.Profile.EmailAddress;
         }
     }
