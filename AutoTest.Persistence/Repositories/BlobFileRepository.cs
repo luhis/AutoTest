@@ -55,5 +55,19 @@ namespace AutoTest.Persistence.Repositories
             var reference = _client.GetBlobClient(GetRegsFileName(eventId));
             await reference.UploadAsync(BinaryData.FromString(data), true, cancellationToken);
         }
+
+        async Task IFileRepository.DeleteRegs(ulong eventId, CancellationToken cancellationToken)
+        {
+            await CreateContainerIfNotExists(cancellationToken);
+            var reference = _client.GetBlobClient(GetRegsFileName(eventId));
+            await reference.DeleteAsync(cancellationToken: cancellationToken);
+        }
+
+        async Task IFileRepository.DeleteMaps(ulong eventId, CancellationToken cancellationToken)
+        {
+            await CreateContainerIfNotExists(cancellationToken);
+            var reference = _client.GetBlobClient(GetMapFileName(eventId));
+            await reference.DeleteAsync(cancellationToken: cancellationToken);
+        }
     }
 }
