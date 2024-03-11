@@ -6,7 +6,12 @@ import { isNil } from "@s-libs/micro-dash";
 import { useState } from "preact/hooks";
 import prettyBytes from "pretty-bytes";
 
-import { EditingEvent, Club, EventType } from "../../types/models";
+import {
+  EditingEvent,
+  Club,
+  EventType,
+  TimingSystem,
+} from "../../types/models";
 import { OnChange, OnSelectChange } from "../../types/inputs";
 import { LoadingState } from "../../types/loadingState";
 import ifSome from "../shared/ifSome";
@@ -24,6 +29,9 @@ interface Props {
 const getFileLength = (data: string | null) =>
   data ? atob(data.split("base64,")[1]).length : 0;
 const eventTypes = Object.keys(EventType)
+  .map((a) => Number.parseInt(a))
+  .filter((key) => !isNaN(key));
+const timingSystems = Object.keys(TimingSystem)
   .map((a) => Number.parseInt(a))
   .filter((key) => !isNaN(key));
 
@@ -110,6 +118,28 @@ const ModalX: FunctionComponent<Props> = ({
                 })
               }
             />
+          </Field>
+          <Field>
+            <Label>Timing System</Label>
+            <Select
+              required
+              fullwidth
+              onChange={(evt: OnSelectChange) =>
+                setField({
+                  timingSystem: Number.parseInt(evt.target.value),
+                })
+              }
+              value={event.timingSystem}
+            >
+              <option disabled value={undefined}>
+                - Please Select -
+              </option>
+              {timingSystems.map((a) => (
+                <option value={a} key={a}>
+                  {TimingSystem[a]}
+                </option>
+              ))}
+            </Select>
           </Field>
           <Field>
             <Label>Attempts</Label>
