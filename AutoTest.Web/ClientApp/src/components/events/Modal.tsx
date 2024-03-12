@@ -136,7 +136,7 @@ const ModalX: FunctionComponent<Props> = ({
               </option>
               {timingSystems.map((a) => (
                 <option value={a} key={a}>
-                  {TimingSystem[a]}
+                  {startCase(TimingSystem[a])}
                 </option>
               ))}
             </Select>
