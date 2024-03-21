@@ -1,5 +1,11 @@
 import { FunctionalComponent, h } from "preact";
-import { StateUpdater, useCallback, useEffect, useState } from "preact/hooks";
+import {
+  StateUpdater,
+  useCallback,
+  useEffect,
+  useState,
+  Dispatch,
+} from "preact/hooks";
 import { Form, Heading, Table } from "react-bulma-components";
 import { useSelector } from "react-redux";
 import { identity, range } from "@s-libs/micro-dash";
@@ -145,7 +151,7 @@ const EditRuns: FunctionalComponent<Props> = ({ eventId }) => {
         <Modal
           run={editing}
           entrants={mapOrDefault(entrants, identity, [])}
-          setField={setEditing as StateUpdater<TestRunFromServer>}
+          setField={setEditing as Dispatch<StateUpdater<TestRunFromServer>>}
           cancel={clearEditingRun}
           save={save}
         />
