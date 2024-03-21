@@ -1,7 +1,7 @@
 import { h, FunctionComponent } from "preact";
 import { Modal, Button, Form } from "react-bulma-components";
 const { Label, Field, Input, Select } = Form;
-import { StateUpdater, useState } from "preact/hooks";
+import { Dispatch, StateUpdater, useState } from "preact/hooks";
 
 import {
   PublicEntrant,
@@ -18,7 +18,7 @@ interface Props {
   readonly entrants: readonly PublicEntrant[];
   readonly save: () => Promise<void>;
   readonly cancel: () => void;
-  readonly setField: StateUpdater<TestRunFromServer>;
+  readonly setField: Dispatch<StateUpdater<TestRunFromServer>>;
 }
 
 const findByPenaltyType = (
@@ -27,7 +27,7 @@ const findByPenaltyType = (
 ) => penalties.find((penalty) => penalty.penaltyType === penaltyType);
 
 const increase = (
-  setField: StateUpdater<TestRunFromServer>,
+  setField: Dispatch<StateUpdater<TestRunFromServer>>,
   penaltyType: PenaltyType,
 ) => {
   setField((a) => {
@@ -51,7 +51,7 @@ const increase = (
   });
 };
 const decrease = (
-  setField: StateUpdater<TestRunFromServer>,
+  setField: Dispatch<StateUpdater<TestRunFromServer>>,
   penaltyType: PenaltyType,
 ) => {
   setField((a) => {

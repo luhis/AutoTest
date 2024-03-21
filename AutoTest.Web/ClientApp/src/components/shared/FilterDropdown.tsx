@@ -1,7 +1,7 @@
 import { h, RenderableProps } from "preact";
 import classNames from "classnames";
 import { Dropdown } from "react-bulma-components";
-import { StateUpdater } from "preact/hooks";
+import { Dispatch, StateUpdater } from "preact/hooks";
 
 import { toggleValue } from "../../lib/form";
 
@@ -9,7 +9,7 @@ interface Props<T> {
   readonly filterName: string;
   readonly options: readonly T[];
   readonly selected: readonly T[];
-  readonly setFilter: StateUpdater<readonly T[]>;
+  readonly setFilter: Dispatch<StateUpdater<readonly T[]>>;
 }
 
 const FilterDropdown = <T extends string | number>({
