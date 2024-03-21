@@ -80,6 +80,6 @@
     "preact-render-to-string": "6.4.0",
     "prettier": "3.2.5",
     "sirv-cli": "2.0.2",
-    "typescript": "5.4.2"
+    "typescript": "5.4.3"
   }
 }
