@@ -24,6 +24,7 @@
             entity.OwnsOne(a => a.AcceptDeclaration, SetupAcceptDeclaration.Setup);
             entity.OwnsOne(a => a.Payment, SetupPayment.Setup);
             entity.OwnsOne(a => a.EntrantClub, SetupEntrantClub.Setup);
+            entity.HasOne<Entrant>().WithMany().HasForeignKey(p => p.DoubleDrivenWith);
         }
     }
 }

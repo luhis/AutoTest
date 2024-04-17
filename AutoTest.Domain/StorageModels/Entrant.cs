@@ -48,6 +48,8 @@ namespace AutoTest.Domain.StorageModels
 
         public Payment? Payment { get; private set; }
 
+        public ulong? DoubleDrivenWith { get; private set; }
+
         public EntrantStatus EntrantStatus { get; private set; }
 
         public void SetVehicle(Vehicle vehicle) => Vehicle = vehicle;
@@ -68,6 +70,11 @@ namespace AutoTest.Domain.StorageModels
         public void SetEntrantClub(EntrantClub newStatus)
         {
             this.EntrantClub = newStatus;
+        }
+
+        public void SetDoubleDrivenWith(ulong entrantId)
+        {
+            this.DoubleDrivenWith = entrantId;
         }
     }
 }
