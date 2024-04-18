@@ -8,5 +8,7 @@ namespace AutoTest.Unit.Test.MockData
         public static Event GetEvent(ulong eventId, ulong clubId = 1) => new Event(eventId, clubId, "Kestrel Farm", new System.DateTime(), 1, 1, "", new EventType[] { EventType.AutoTest }, "", TimingSystem.StopWatch, new System.DateTime(), new System.DateTime(), 2, new System.DateTime());
 
         public static Profile GetProfile(string email) => new Profile(email, "First", "Last", Age.Junior, false);
+
+        public static Entrant GetEntrant(ulong entrantId, ulong eventId) => new Entrant(entrantId, 1, "Joe", "Bloggs", "a@a.com", "A", eventId, Domain.Enums.Age.Senior, false, null);
     }
 }

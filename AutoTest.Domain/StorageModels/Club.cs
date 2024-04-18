@@ -2,23 +2,15 @@
 
 namespace AutoTest.Domain.StorageModels
 {
-    public class Club
+    public class Club(ulong clubId, string clubName, string clubPaymentAddress, string website)
     {
-        public Club(ulong clubId, string clubName, string clubPaymentAddress, string website)
-        {
-            ClubId = clubId;
-            ClubName = clubName;
-            ClubPaymentAddress = clubPaymentAddress;
-            Website = website;
-        }
+        public ulong ClubId { get; } = clubId;
 
-        public ulong ClubId { get; }
+        public string ClubName { get; } = clubName;
 
-        public string ClubName { get; }
+        public string ClubPaymentAddress { get; } = clubPaymentAddress;
 
-        public string ClubPaymentAddress { get; }
-
-        public string Website { get; }
+        public string Website { get; } = website;
 
         public ICollection<AuthorisationEmail> AdminEmails { get; private set; } = new List<AuthorisationEmail>();
 

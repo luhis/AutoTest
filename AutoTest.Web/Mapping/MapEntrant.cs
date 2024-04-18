@@ -8,7 +8,7 @@ namespace AutoTest.Web.Mapping
     {
         public static Entrant Map(ulong entrantId, ulong eventId, EntrantSaveModel entrant, string email)
         {
-            var e = new Entrant(entrantId, entrant.DriverNumber, entrant.GivenName, entrant.FamilyName, email, entrant.Class, eventId, entrant.Age, entrant.IsLady);
+            var e = new Entrant(entrantId, entrant.DriverNumber, entrant.GivenName, entrant.FamilyName, email, entrant.Class, eventId, entrant.Age, entrant.IsLady, entrant.DoubleDrivenWith);
             e.SetVehicle(MapVehicle.Map(entrant.Vehicle));
             e.SetEmergencyContact(MapEmergencyContact.Map(entrant.EmergencyContact));
             e.SetMsaMembership(MapMsaMembership.Map(entrant.MsaMembership));

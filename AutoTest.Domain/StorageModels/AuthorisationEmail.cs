@@ -1,12 +1,7 @@
 ﻿namespace AutoTest.Domain.StorageModels
 {
-    public class AuthorisationEmail
+    public class AuthorisationEmail(string email)
     {
-        public AuthorisationEmail(string email)
-        {
-            this.Email = email;
-        }
-
-        public string Email { get; }
+        public string Email { get; } = email;
     }
 }

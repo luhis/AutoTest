@@ -93,6 +93,7 @@ const blankEntrant = (eventId: number): EditingEntrant => ({
   entrantClub: { club: "", clubNumber: "" },
   payment: null,
   acceptDeclaration: null,
+  doubleDrivenWith: null,
 });
 
 const Entrants: FunctionalComponent<Readonly<Props>> = ({ eventId }) => {

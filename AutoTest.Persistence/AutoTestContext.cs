@@ -62,14 +62,14 @@ namespace AutoTest.Persistence
                 var entrantClub = new EntrantClub("BHMC", "69");
                 if (this.Entrants.SingleOrDefault(a => a.EntrantId == 1) == null)
                 {
-                    var e = new Entrant(1, 1, "Matt", "McCorry", "test@email.com", "A", 1, Age.Senior, false);
+                    var e = new Entrant(1, 1, "Matt", "McCorry", "test@email.com", "A", 1, Age.Senior, false, null);
                     e.SetVehicle(new Vehicle("Vauxhall", "Corsa", 1229, Induction.NA, "AA05AAA"));
                     e.SetMsaMembership(new MsaMembership("Clubman", 1234));
                     this.Entrants.Add(e);
                 }
                 if (this.Entrants.SingleOrDefault(a => a.EntrantId == 2) == null)
                 {
-                    var e = new Entrant(2, 2, "Matt", "McCorry", "test@email.com", "A", 2, Age.Senior, false);
+                    var e = new Entrant(2, 2, "Matt", "McCorry", "test@email.com", "A", 2, Age.Senior, false, null);
                     e.SetVehicle(new Vehicle("Vauxhall", "Corsa", 1229, Induction.NA, "AA05AAA"));
                     e.SetMsaMembership(new MsaMembership("Clubman", 1234));
                     this.Entrants.Add(e);

@@ -166,6 +166,7 @@ export type Entrant = {
   readonly email: string;
   readonly acceptDeclaration: AcceptDeclaration | null;
   readonly isLady: boolean;
+  readonly doubleDrivenWith: number | null;
 } & Omit<PublicEntrant, "club">;
 
 export type SaveEntrant = Omit<Entrant, "entrantStatus">; // todo can i remove driver number?

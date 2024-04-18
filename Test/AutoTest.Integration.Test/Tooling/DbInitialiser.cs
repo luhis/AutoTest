@@ -30,7 +30,7 @@ namespace AutoTest.Integration.Test.Tooling
             }
             if (!db.Entrants.Where(a => a.EntrantId == 1).Any())
             {
-                db.Entrants.Add(new Entrant(1, 2, "Dave", "Entrant", "test@test.com", "A", eventId, Age.Senior, false));
+                db.Entrants.Add(new Entrant(1, 2, "Dave", "Entrant", "test@test.com", "A", eventId, Age.Senior, false, null));
             }
             if (!db.Notifications.Where(a => a.NotificationId == 1).Any())
             {

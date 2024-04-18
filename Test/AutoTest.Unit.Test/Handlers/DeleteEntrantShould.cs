@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using AutoTest.Domain.Repositories;
 using AutoTest.Service.Handlers;
 using AutoTest.Service.Messages;
+using AutoTest.Unit.Test.MockData;
 using MediatR;
 using Moq;
 using Xunit;
@@ -27,7 +28,7 @@ namespace AutoTest.Unit.Test.Handlers
         {
             var eventId = 1ul;
             var entrantId = 2ul;
-            var entrant = new Domain.StorageModels.Entrant(entrantId, 22, "joe", "bloggs", "joe@bloggs.com", "A", eventId, Domain.Enums.Age.Senior, false);
+            var entrant = Models.GetEntrant(entrantId, eventId);
             entrants.Setup(a => a.GetById(eventId, entrantId, CancellationToken.None)).ReturnsAsync(entrant);
             entrants.Setup(a => a.Delete(entrant, CancellationToken.None)).Returns(Task.CompletedTask);
 

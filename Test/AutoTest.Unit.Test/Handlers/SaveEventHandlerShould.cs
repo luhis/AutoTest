@@ -6,6 +6,7 @@ using AutoTest.Domain.Repositories;
 using AutoTest.Domain.StorageModels;
 using AutoTest.Service.Handlers;
 using AutoTest.Service.Messages;
+using AutoTest.Unit.Test.MockData;
 using MediatR;
 using Moq;
 using Xunit;
@@ -31,11 +32,11 @@ namespace AutoTest.Unit.Test.Handlers
         {
             var entrantId = 1ul;
             var eventId = 2ul;
-            var entrant = new Entrant(entrantId, 123, "name", "familyName", "a@a.com", "A", eventId, Age.Senior, false);
+            var entrant = Models.GetEntrant(entrantId, eventId);
             entrant.SetPayment(new Payment());
             var evt = new Event(eventId, 1, "location", DateTime.UtcNow, 2, 2, "regs", [], "", TimingSystem.StopWatch, DateTime.UtcNow, DateTime.UtcNow, 22, DateTime.UtcNow);
 
-            var entrantFromDb = new Entrant(entrantId, 123, "name", "familyName", "a@a.com", "A", eventId, Age.Senior, false);
+            var entrantFromDb = Models.GetEntrant(entrantId, eventId);
             eventsRepository.Setup(a => a.Upsert(evt, CancellationToken.None)).Returns(Task.CompletedTask);
             //fileRepository.Setup(a => a.SaveMaps(2, "", CancellationToken.None)).ReturnsAsync("");
 

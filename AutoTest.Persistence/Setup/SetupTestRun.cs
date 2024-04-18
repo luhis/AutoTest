@@ -17,7 +17,7 @@
             entity.HasOne<Marshal>().WithMany().HasForeignKey(p => p.MarshalId);
             entity.OwnsMany(a => a.Penalties, SetupPenalty);
         }
-        public static void SetupPenalty(OwnedNavigationBuilder<TestRun, Penalty> entity)
+        public static void SetupPenalty<T>(OwnedNavigationBuilder<T, Penalty> entity) where T : class
         {
             entity.Property(e => e.InstanceCount).IsRequired();
             entity.Property(e => e.PenaltyType).IsRequired();

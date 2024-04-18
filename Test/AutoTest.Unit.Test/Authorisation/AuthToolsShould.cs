@@ -65,7 +65,7 @@ namespace AutoTest.Unit.Test.Authorisation
             rd.Values.Add("eventId", $"{eventId}");
             rd.Values.Add("entrantId", $"{entrantId}");
             mediator.Setup(a => a.Send(Its.EquivalentTo(new GetEntrant(eventId, entrantId)), CancellationToken.None)).ReturnsAsync(
-                new Entrant(entrantId, 22, "Joe", "Bloggs", "a@a.com", "A", 99, Domain.Enums.Age.Senior, false));
+                new Entrant(entrantId, 22, "Joe", "Bloggs", "a@a.com", "A", 99, Domain.Enums.Age.Senior, false, null));
 
             var email = await AuthTools.GetExistingEmail(rd, mediator.Object);
 

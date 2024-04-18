@@ -15,15 +15,8 @@ namespace AutoTest.Web.Controllers
 {
     [ApiController]
     [Route("api/[controller]/{eventId}")]
-    public class NotificationsController : ControllerBase
+    public class NotificationsController(IMediator mediator) : ControllerBase
     {
-        private readonly IMediator mediator;
-
-        public NotificationsController(IMediator mediator)
-        {
-            this.mediator = mediator;
-        }
-
         [Authorize(policy: Policies.ClubAdmin)]
         [HttpPut("{notificationId}")]
         public Task Add(ulong notificationId, ulong eventId, NotificationSaveModel notification, CancellationToken cancellationToken)

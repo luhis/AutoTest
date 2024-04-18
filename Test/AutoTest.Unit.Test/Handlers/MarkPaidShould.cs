@@ -4,6 +4,7 @@ using AutoTest.Domain.Repositories;
 using AutoTest.Domain.StorageModels;
 using AutoTest.Service.Handlers;
 using AutoTest.Service.Messages;
+using AutoTest.Unit.Test.MockData;
 using MediatR;
 using Moq;
 using Xunit;
@@ -30,7 +31,7 @@ namespace AutoTest.Unit.Test.Handlers
         {
             var entrantId = 1ul;
             var eventId = 22ul;
-            var entrant = new Entrant(entrantId, 1, "matt", "mccorry", "a@a.com", "A", eventId, Domain.Enums.Age.Senior, false);
+            var entrant = Models.GetEntrant(entrantId, eventId);
             entrant.SetPayment(testPayment);
             entrantsRepository.Setup(a => a.GetById(eventId, entrantId, CancellationToken.None)).ReturnsAsync(entrant);
             entrantsRepository.Setup(a => a.Update(entrant, CancellationToken.None)).Returns(Task.CompletedTask);
@@ -46,7 +47,7 @@ namespace AutoTest.Unit.Test.Handlers
         {
             var entrantId = 1ul;
             var eventId = 22ul;
-            var entrant = new Entrant(entrantId, 1, "matt", "mccorry", "a@a.com", "A", eventId, Domain.Enums.Age.Senior, false);
+            var entrant = Models.GetEntrant(entrantId, eventId);
             entrantsRepository.Setup(a => a.GetById(eventId, entrantId, CancellationToken.None)).ReturnsAsync(entrant);
             entrantsRepository.Setup(a => a.Update(entrant, CancellationToken.None)).Returns(Task.CompletedTask);
 

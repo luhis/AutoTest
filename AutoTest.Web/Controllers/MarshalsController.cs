@@ -18,19 +18,12 @@ namespace AutoTest.Web.Controllers
 {
     [ApiController]
     [Route("api/[controller]/{eventId:long}")]
-    public class MarshalsController : ControllerBase
+    public class MarshalsController(IMediator mediator) : ControllerBase
     {
-        private readonly IMediator mediator;
-
-        public MarshalsController(IMediator mediator)
-        {
-            this.mediator = mediator;
-        }
-
         [HttpGet]
         public async Task<IEnumerable<PublicMarshalModel>> GetMarshals(ulong eventId, CancellationToken cancellationToken)
         {
-            var marshals = await this.mediator.Send(new GetMarshals(eventId), cancellationToken);
+            var marshals = await mediator.Send(new GetMarshals(eventId), cancellationToken);
             return marshals.Select(a => MapMarshal.Map(a));
         }
 
@@ -38,7 +31,7 @@ namespace AutoTest.Web.Controllers
         [HttpGet("{marshalId}")]
         public async Task<ActionResult<Marshal>> GetMarshal(ulong eventId, ulong marshalId, CancellationToken cancellationToken)
         {
-            var r = await this.mediator.Send(new GetMarshal(eventId, marshalId), cancellationToken);
+            var r = await mediator.Send(new GetMarshal(eventId, marshalId), cancellationToken);
             return r.ToAr();
         }
 
@@ -47,13 +40,13 @@ namespace AutoTest.Web.Controllers
         public async Task<Marshal> PutMarshal(ulong eventId, ulong marshalId, MarshalSaveModel entrantSaveModel, CancellationToken cancellationToken)
         {
             var currentUserEmail = this.User.GetEmailAddress();
-            var isClubAdmin = await this.mediator.Send(new IsClubAdmin(eventId, currentUserEmail), cancellationToken);
-            return await this.mediator.Send(new SaveMarshal(MapMarshal.Map(marshalId, eventId, entrantSaveModel, isClubAdmin ? entrantSaveModel.Email : currentUserEmail)),
+            var isClubAdmin = await mediator.Send(new IsClubAdmin(eventId, currentUserEmail), cancellationToken);
+            return await mediator.Send(new SaveMarshal(MapMarshal.Map(marshalId, eventId, entrantSaveModel, isClubAdmin ? entrantSaveModel.Email : currentUserEmail)),
                 cancellationToken);
         }
 
         [Authorize(policy: Policies.ClubAdminOrSelf)]
         [HttpDelete("{marshalId}")]
-        public Task Delete(ulong eventId, ulong marshalId, CancellationToken cancellationToken) => this.mediator.Send(new DeleteMarshal(eventId, marshalId), cancellationToken);
+        public Task Delete(ulong eventId, ulong marshalId, CancellationToken cancellationToken) => mediator.Send(new DeleteMarshal(eventId, marshalId), cancellationToken);
     }
 }

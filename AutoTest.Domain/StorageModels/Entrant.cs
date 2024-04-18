@@ -2,39 +2,26 @@
 
 namespace AutoTest.Domain.StorageModels
 {
-    public class Entrant
+    public class Entrant(ulong entrantId, ushort driverNumber, string givenName, string familyName, string email,
+    string @class, ulong eventId, Age age, bool isLady, ulong? doubleDrivenWith)
     {
-        public Entrant(ulong entrantId, ushort driverNumber, string givenName, string familyName, string email,
-        string @class, ulong eventId, Age age, bool isLady)
-        {
-            EntrantId = entrantId;
-            GivenName = givenName;
-            FamilyName = familyName;
-            Email = email;
-            Class = @class;
-            EventId = eventId;
-            Age = age;
-            DriverNumber = driverNumber;
-            IsLady = isLady;
-        }
+        public ulong EntrantId { get; } = entrantId;
 
-        public ulong EntrantId { get; }
+        public ushort DriverNumber { get; } = driverNumber;
 
-        public ushort DriverNumber { get; }
+        public string GivenName { get; } = givenName;
 
-        public string GivenName { get; }
+        public string FamilyName { get; } = familyName;
 
-        public string FamilyName { get; }
+        public string Class { get; } = @class;
 
-        public string Class { get; }
+        public ulong EventId { get; } = eventId;
 
-        public ulong EventId { get; }
+        public string Email { get; } = email;
 
-        public string Email { get; }
+        public Age Age { get; } = age;
 
-        public Age Age { get; }
-
-        public bool IsLady { get; }
+        public bool IsLady { get; } = isLady;
 
         public EntrantClub EntrantClub { get; private set; } = new EntrantClub();
 
@@ -48,7 +35,7 @@ namespace AutoTest.Domain.StorageModels
 
         public Payment? Payment { get; private set; }
 
-        public ulong? DoubleDrivenWith { get; private set; }
+        public ulong? DoubleDrivenWith { get; private set; } = doubleDrivenWith;
 
         public EntrantStatus EntrantStatus { get; private set; }
 
@@ -70,11 +57,6 @@ namespace AutoTest.Domain.StorageModels
         public void SetEntrantClub(EntrantClub newStatus)
         {
             this.EntrantClub = newStatus;
-        }
-
-        public void SetDoubleDrivenWith(ulong entrantId)
-        {
-            this.DoubleDrivenWith = entrantId;
         }
     }
 }

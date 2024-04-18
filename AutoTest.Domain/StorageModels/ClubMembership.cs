@@ -2,19 +2,12 @@
 
 namespace AutoTest.Domain.StorageModels
 {
-    public class ClubMembership
+    public class ClubMembership(string clubName, string membershipNumber, DateOnly expiry)
     {
-        public ClubMembership(string clubName, string membershipNumber, DateOnly expiry)
-        {
-            ClubName = clubName;
-            MembershipNumber = membershipNumber;
-            Expiry = expiry;
-        }
+        public string ClubName { get; } = clubName;
 
-        public string ClubName { get; }
+        public string MembershipNumber { get; } = membershipNumber;
 
-        public string MembershipNumber { get; }
-
-        public DateOnly Expiry { get; }
+        public DateOnly Expiry { get; } = expiry;
     }
 }

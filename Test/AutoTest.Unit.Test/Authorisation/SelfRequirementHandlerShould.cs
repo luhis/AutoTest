@@ -1,8 +1,8 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
-using AutoTest.Domain.StorageModels;
 using AutoTest.Service.Messages;
 using AutoTest.Unit.Test.Fixtures;
+using AutoTest.Unit.Test.MockData;
 using AutoTest.Web.Authorization.Attributes;
 using AutoTest.Web.Authorization.Handlers;
 using FluentAssertions;
@@ -41,7 +41,7 @@ namespace AutoTest.Unit.Test.Authorisation
             var ctx = HttpContextFixture.GetHttpContext(new[] { ("eventId", $"{eventId}"), ("entrantId", $"{entrantId}") });
             httpContextAccessor.SetupGet(a => a.HttpContext).Returns(ctx);
             mediator.Setup(a => a.Send(Its.EquivalentTo(new GetEntrant(eventId, entrantId)), CancellationToken.None)).ReturnsAsync(
-                new Entrant(entrantId, 1, "Joe", "Bloggs", "a@a.com", "A", eventId, Domain.Enums.Age.Senior, false));
+                Models.GetEntrant(entrantId, eventId));
 
             await sut.HandleAsync(ac);
 
@@ -60,7 +60,7 @@ namespace AutoTest.Unit.Test.Authorisation
             var ctx = HttpContextFixture.GetHttpContext(new[] { ("eventId", $"{eventId}"), ("entrantId", $"{entrantId}") });
             httpContextAccessor.SetupGet(a => a.HttpContext).Returns(ctx);
             mediator.Setup(a => a.Send(Its.EquivalentTo(new GetEntrant(eventId, entrantId)), CancellationToken.None)).ReturnsAsync(
-                new Entrant(entrantId, 1, "Joe", "Bloggs", "a@a.com", "A", eventId, Domain.Enums.Age.Senior, false));
+                Models.GetEntrant(entrantId, eventId));
 
             await sut.HandleAsync(ac);
 

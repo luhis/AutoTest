@@ -32,8 +32,8 @@ namespace AutoTest.Unit.Test.Handlers
         public async Task GetEntrants()
         {
             var marshals = new[] {
-                new Entrant(1, 22, "Joe", "Bloggs", "test@test.com", "A", 99, Domain.Enums.Age.Senior, false),
-                new Entrant(2, 22, "Joe", "Bloggs", "a@a.com", "A", 99, Domain.Enums.Age.Senior, false)
+                new Entrant(1, 22, "Joe", "Bloggs", "test@test.com", "A", 99, Domain.Enums.Age.Senior, false, null),
+                new Entrant(2, 22, "Joe", "Bloggs", "a@a.com", "A", 99, Domain.Enums.Age.Senior, false, null)
             };
             db.Entrants.AddRange(marshals);
             await db.SaveChangesAsync();

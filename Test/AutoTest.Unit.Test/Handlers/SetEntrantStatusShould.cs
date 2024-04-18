@@ -4,6 +4,7 @@ using AutoTest.Domain.Repositories;
 using AutoTest.Domain.StorageModels;
 using AutoTest.Service.Handlers;
 using AutoTest.Service.Messages;
+using AutoTest.Unit.Test.MockData;
 using FluentAssertions.ArgumentMatchers.Moq;
 using MediatR;
 using Moq;
@@ -29,8 +30,8 @@ namespace AutoTest.Unit.Test.Handlers
         {
             var eventId = 11ul;
             var entrantId = 11ul;
-            entrants.Setup(a => a.GetById(eventId, entrantId, CancellationToken.None)).ReturnsAsync(new Entrant(entrantId, 22, "joe", "bloggs", "joe@bloggs.com", "A", eventId, Domain.Enums.Age.Senior, false));
-            var toSave = new Entrant(entrantId, 22, "joe", "bloggs", "joe@bloggs.com", "A", eventId, Domain.Enums.Age.Senior, false);
+            entrants.Setup(a => a.GetById(eventId, entrantId, CancellationToken.None)).ReturnsAsync(Models.GetEntrant(entrantId, eventId));
+            var toSave = Models.GetEntrant(entrantId, eventId);
             toSave.SetEntrantStatus(Domain.Enums.EntrantStatus.Withdrawn);
             entrants.Setup(a => a.Upsert(Its.EquivalentTo(toSave, o => o.Excluding(a => a.EmergencyContact).Excluding(a => a.MsaMembership).Excluding(a => a.AcceptDeclaration)), CancellationToken.None)).Returns(Task.CompletedTask);
 

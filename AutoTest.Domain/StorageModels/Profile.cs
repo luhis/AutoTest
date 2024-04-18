@@ -3,26 +3,17 @@ using AutoTest.Domain.Enums;
 
 namespace AutoTest.Domain.StorageModels
 {
-    public class Profile
+    public class Profile(string emailAddress, string givenName, string familyName, Age age, bool isLady)
     {
-        public Profile(string emailAddress, string givenName, string familyName, Age age, bool isLady)
-        {
-            EmailAddress = emailAddress;
-            GivenName = givenName;
-            FamilyName = familyName;
-            Age = age;
-            IsLady = isLady;
-        }
+        public string EmailAddress { get; } = emailAddress;
 
-        public string EmailAddress { get; }
+        public string GivenName { get; } = givenName;
 
-        public string GivenName { get; }
+        public string FamilyName { get; } = familyName;
 
-        public string FamilyName { get; }
+        public Age Age { get; } = age;
 
-        public Age Age { get; }
-
-        public bool IsLady { get; }
+        public bool IsLady { get; } = isLady;
 
         public Vehicle Vehicle { get; private set; } = new Vehicle();
 

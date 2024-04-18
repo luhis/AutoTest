@@ -16,15 +16,8 @@ namespace AutoTest.Web.Controllers
 {
     [ApiController]
     [Route("api/events/{eventId}/tests/{ordinal:int}/testRuns")]
-    public class TestRunsController : ControllerBase
+    public class TestRunsController(IMediator mediator) : ControllerBase
     {
-        private readonly IMediator mediator;
-
-        public TestRunsController(IMediator mediator)
-        {
-            this.mediator = mediator;
-        }
-
         [HttpGet]
         public Task<IEnumerable<TestRun>> GetRuns(ulong eventId, int ordinal, CancellationToken cancellationToken)
         {

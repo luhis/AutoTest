@@ -2,16 +2,10 @@
 
 namespace AutoTest.Domain.StorageModels
 {
-    public class Penalty
+    public class Penalty(PenaltyEnum penaltyType, int instanceCount)
     {
-        public Penalty(PenaltyEnum penaltyType, int instanceCount)
-        {
-            PenaltyType = penaltyType;
-            InstanceCount = instanceCount;
-        }
+        public PenaltyEnum PenaltyType { get; } = penaltyType;
 
-        public PenaltyEnum PenaltyType { get; }
-
-        public int InstanceCount { get; }
+        public int InstanceCount { get; } = instanceCount;
     }
 }

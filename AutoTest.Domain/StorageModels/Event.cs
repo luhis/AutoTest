@@ -4,37 +4,19 @@ using AutoTest.Domain.Enums;
 
 namespace AutoTest.Domain.StorageModels
 {
-    public class Event
+    public class Event(ulong eventId, ulong clubId, string location, DateTime startTime, int courseCount, int maxAttemptsPerCourse, string regulations, ICollection<EventType> eventTypes, string maps, TimingSystem timingSystem, DateTime entryOpenDate, DateTime entryCloseDate, uint maxEntrants, DateTime created)
     {
-        public Event(ulong eventId, ulong clubId, string location, DateTime startTime, int courseCount, int maxAttemptsPerCourse, string regulations, ICollection<EventType> eventTypes, string maps, TimingSystem timingSystem, DateTime entryOpenDate, DateTime entryCloseDate, uint maxEntrants, DateTime created)
-        {
-            EventId = eventId;
-            ClubId = clubId;
-            Location = location;
-            StartTime = startTime;
-            CourseCount = courseCount;
-            MaxAttemptsPerCourse = maxAttemptsPerCourse;
-            Regulations = regulations;
-            EventTypes = eventTypes;
-            Maps = maps;
-            TimingSystem = timingSystem;
-            EntryOpenDate = entryOpenDate;
-            EntryCloseDate = entryCloseDate;
-            MaxEntrants = maxEntrants;
-            Created = created;
-        }
+        public ulong EventId { get; } = eventId;
 
-        public ulong EventId { get; }
+        public ulong ClubId { get; } = clubId;
 
-        public ulong ClubId { get; }
+        public string Location { get; } = location;
 
-        public string Location { get; }
+        public DateTime StartTime { get; } = startTime;
 
-        public DateTime StartTime { get; }
+        public int CourseCount { get; } = courseCount;
 
-        public int CourseCount { get; }
-
-        public int MaxAttemptsPerCourse { get; }
+        public int MaxAttemptsPerCourse { get; } = maxAttemptsPerCourse;
 
         public ICollection<Course> Courses { get; private set; } = new List<Course>();
 
@@ -47,24 +29,24 @@ namespace AutoTest.Domain.StorageModels
             Courses = courses;
         }
 
-        public string Regulations { get; }
+        public string Regulations { get; } = regulations;
 
-        public string Maps { get; }
+        public string Maps { get; } = maps;
 
         public EventStatus EventStatus { get; private set; }
 
-        public ICollection<EventType> EventTypes { get; private set; } = new List<EventType>();
+        public ICollection<EventType> EventTypes { get; private set; } = eventTypes;
         public void SetEventTypes(ICollection<EventType> eventTypes) => EventTypes = eventTypes;
 
-        public TimingSystem TimingSystem { get; }
+        public TimingSystem TimingSystem { get; } = timingSystem;
 
-        public DateTime EntryOpenDate { get; }
+        public DateTime EntryOpenDate { get; } = entryOpenDate;
 
-        public DateTime EntryCloseDate { get; }
+        public DateTime EntryCloseDate { get; } = entryCloseDate;
 
-        public DateTime Created { get; }
+        public DateTime Created { get; } = created;
 
-        public uint MaxEntrants { get; }
+        public uint MaxEntrants { get; } = maxEntrants;
 
         public void SetEventStatus(EventStatus eventStatus) => this.EventStatus = eventStatus;
 

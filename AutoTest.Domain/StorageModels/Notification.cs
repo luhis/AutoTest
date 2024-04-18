@@ -2,25 +2,16 @@
 
 namespace AutoTest.Domain.StorageModels
 {
-    public class Notification
+    public class Notification(ulong notificationId, ulong eventId, string message, DateTime created, string createdBy)
     {
-        public Notification(ulong notificationId, ulong eventId, string message, DateTime created, string createdBy)
-        {
-            Message = message;
-            Created = created;
-            CreatedBy = createdBy;
-            EventId = eventId;
-            NotificationId = notificationId;
-        }
+        public ulong NotificationId { get; } = notificationId;
 
-        public ulong NotificationId { get; }
+        public string Message { get; } = message;
 
-        public string Message { get; }
+        public DateTime Created { get; } = created;
 
-        public DateTime Created { get; }
+        public string CreatedBy { get; } = createdBy;
 
-        public string CreatedBy { get; }
-
-        public ulong EventId { get; }
+        public ulong EventId { get; } = eventId;
     }
 }

@@ -1,16 +1,16 @@
 import { h, FunctionComponent } from "preact";
-import { Modal, Button, Form, Dropdown, Columns } from "react-bulma-components";
+import { Modal, Button, Form, Columns } from "react-bulma-components";
 import { useSelector } from "react-redux";
-const { Control, Field, Label, Input, Help, Checkbox, Radio } = Form;
-import { isEmpty } from "@s-libs/micro-dash";
+const { Control, Field, Label, Input, Help, Checkbox, Radio, Select } = Form;
 import { useState, useEffect } from "preact/hooks";
 import { newValidDate } from "ts-date";
 
 import { EditingEntrant, EventType } from "../../types/models";
-import { OnChange } from "../../types/inputs";
+import { OnChange, OnSelectChange } from "../../types/inputs";
 import {
   selectClassOptions,
   selectClubOptions,
+  selectEntrants,
   selectLicenseTypeOptions,
   selectMakeModelOptions,
 } from "../../store/event/selectors";
@@ -36,34 +36,8 @@ import { GetProfileIfRequired } from "../../store/profile/actions";
 import { EntrantAgreement } from "../../settings";
 import { FaInfoCircle } from "react-icons/fa";
 import FormColumn from "../shared/FormColumn";
-
-const FillProfileButton: FunctionComponent<{
-  readonly clubMemberships: readonly ClubMembership[];
-  readonly fillFromProfile: (club: ClubMembership | undefined) => void;
-}> = ({ clubMemberships, fillFromProfile }) => {
-  if (isEmpty(clubMemberships) || clubMemberships.length === 1) {
-    return (
-      <Button onClick={() => fillFromProfile(clubMemberships[0])}>
-        Fill from Profile
-      </Button>
-    );
-  } else {
-    return (
-      <Dropdown color="secondary" label="Fill from Profile">
-        {clubMemberships.map((a) => (
-          <Dropdown.Item
-            renderAs="a"
-            key={a.clubName}
-            value={a.clubName}
-            onClick={() => fillFromProfile(a)}
-          >
-            {a.clubName} {a.membershipNumber}
-          </Dropdown.Item>
-        ))}
-      </Dropdown>
-    );
-  }
-};
+import ifSome from "../shared/ifSome";
+import FillProfileButton from "./subComponents/FillProfileButton";
 
 interface Props {
   readonly entrant: EditingEntrant;
@@ -88,6 +62,7 @@ const EntrantsModal: FunctionComponent<Props> = ({
   const auth = useSelector(selectAccessToken);
   const thunkDispatch = useThunkDispatch();
   const classesInUse = useSelector(selectClassOptions);
+  const entrants = useSelector(selectEntrants);
   const makeAndModels = useSelector(selectMakeModelOptions);
   const licenseTypes = useSelector(selectLicenseTypeOptions);
   const clubOptions = useSelector(selectClubOptions);
@@ -237,6 +212,33 @@ const EntrantsModal: FunctionComponent<Props> = ({
                   });
                 }}
               />
+            </Control>
+          </Field>
+          <Field>
+            <Control fullwidth>
+              <Label>Double Driven With</Label>
+              <Select<number>
+                required
+                fullwidth
+                onChange={(event: OnSelectChange) =>
+                  setField({
+                    doubleDrivenWith: Number.parseInt(event.target.value),
+                  })
+                }
+                value={entrant.doubleDrivenWith}
+              >
+                <option value={undefined}>- None -</option>
+                {ifSome(
+                  entrants,
+                  (a) => a.entrantId,
+                  (a) => (
+                    <option value={a.entrantId}>
+                      {a.driverNumber}. {a.vehicle.registration} - {a.givenName}{" "}
+                      {a.familyName}
+                    </option>
+                  ),
+                )}
+              </Select>
             </Control>
           </Field>
           <VehicleEditor

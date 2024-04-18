@@ -16,7 +16,7 @@ namespace AutoTest.Unit.Test.Mappers
             var model = new EntrantSaveModel();
             var res = MapEntrant.Map(entrantId, eventId, model, "a@a.com");
 
-            var expected = new Entrant(entrantId, model.DriverNumber, model.GivenName, model.FamilyName, "a@a.com", model.Class, eventId, model.Age, model.IsLady);
+            var expected = new Entrant(entrantId, model.DriverNumber, model.GivenName, model.FamilyName, "a@a.com", model.Class, eventId, model.Age, model.IsLady, null);
 
             res.Should().BeEquivalentTo(expected);
         }
