@@ -1,41 +1,17 @@
 import { h, FunctionComponent, Fragment } from "preact";
 import { Form, Button, Icon } from "react-bulma-components";
-import {
-  FaPlus,
-  FaMinus,
-  FaClock,
-  FaCarCrash,
-  FaStopCircle,
-  FaDirections,
-  FaUserSlash,
-} from "react-icons/fa";
+import { FaPlus, FaMinus } from "react-icons/fa";
 const { Field, Label } = Form;
 
 import { startCase } from "../../lib/string";
 import { PenaltyType, Penalty } from "../../types/models";
+import TypeIcon from "./TypeIcon";
 
 interface Props {
   readonly penalties: readonly Penalty[];
   readonly increase: (a: PenaltyType) => void;
   readonly decrease: (a: PenaltyType) => void;
 }
-
-const TypeIcon: FunctionComponent<{ readonly type: PenaltyType }> = ({
-  type,
-}) => {
-  switch (type) {
-    case PenaltyType.HitBarrier:
-      return <FaCarCrash size="medium" />;
-    case PenaltyType.Late:
-      return <FaClock size="medium" />;
-    case PenaltyType.NoAttendance:
-      return <FaUserSlash size="medium" />;
-    case PenaltyType.WrongTest:
-      return <FaDirections size="medium" />;
-    case PenaltyType.FailToStop:
-      return <FaStopCircle size="medium" />;
-  }
-};
 
 const PenaltyItem: FunctionComponent<
   Props & { readonly penaltyType: PenaltyType }
