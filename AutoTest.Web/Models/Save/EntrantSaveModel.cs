@@ -41,7 +41,6 @@ namespace AutoTest.Web.Models.Save
         [Required]
         public bool IsLady { get; set; }
 
-        [Required]
         public ulong? DoubleDrivenWith { get; set; }
     }
 }
