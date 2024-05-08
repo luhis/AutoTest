@@ -58,7 +58,7 @@
     "@teamsupercell/typings-for-css-modules-loader": "2.5.2",
     "@types/enzyme": "3.10.18",
     "@types/jest": "29.5.12",
-    "@types/webpack-env": "1.18.4",
+    "@types/webpack-env": "1.18.5",
     "@typescript-eslint/eslint-plugin": "7.8.0",
     "@typescript-eslint/parser": "7.8.0",
     "css-loader": "7.1.1",
