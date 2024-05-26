@@ -9675,12 +9675,10 @@ preact-cli@3.5.1:
     workbox-strategies "^6.5.3"
     workbox-webpack-plugin "^6.5.3"
 
-preact-render-to-string@6.5.2:
-  version "6.5.2"
-  resolved "https://registry.yarnpkg.com/preact-render-to-string/-/preact-render-to-string-6.5.2.tgz#e6ebea3e554554f4de90ecde7144ba7385c702f0"
-  integrity sha512-zxmF4knV5XDk5ABm26Tvmi3Xoayedt9RmV/EuVYEm2/WVjFEYqf4w1zV7QC2bxFuSO8pu+T07KbNKeRbhMkYrw==
-  dependencies:
-    pretty-format "^3.8.0"
+preact-render-to-string@6.5.3:
+  version "6.5.3"
+  resolved "https://registry.yarnpkg.com/preact-render-to-string/-/preact-render-to-string-6.5.3.tgz#ee7b20728ece579c3a093eb4022597bb004946dd"
+  integrity sha512-TWRSivNYMB3DMcFvrhwdGFkfSvPhUkd5r1q5q+1oQA21wnfEaxJe2X5U1BqLsuOA/v79sFRkg+qSeDkMHOqdvQ==
 
 preact-router@4.1.2:
   version "4.1.2"
@@ -9750,11 +9748,6 @@ pretty-format@^29.0.0, pretty-format@^29.7.0:
     "@jest/schemas" "^29.6.3"
     ansi-styles "^5.0.0"
     react-is "^18.0.0"
-
-pretty-format@^3.8.0:
-  version "3.8.0"
-  resolved "https://registry.yarnpkg.com/pretty-format/-/pretty-format-3.8.0.tgz#bfbed56d5e9a776645f4b1ff7aa1a3ac4fa3c385"
-  integrity sha512-WuxUnVtlWL1OfZFQFuqvnvs6MiAGk9UNsBostyBOB0Is9wb5uRESevA6rnl/rkksXaGX3GzZhPup5d6Vp1nFew==
 
 preval.macro@^5.0.0:
   version "5.0.0"
