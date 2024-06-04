@@ -15,5 +15,9 @@ namespace AutoTest.Web.Controllers
         [HttpGet("{eventId}")]
         public Task<IEnumerable<Result>> GetResults(ulong eventId, CancellationToken cancellationToken) =>
             mediator.Send(new GetResults(eventId), cancellationToken);
+
+        [HttpGet("{eventId}/awards")]
+        public Task<Awards> GetAwards(ulong eventId, CancellationToken cancellationToken) =>
+            mediator.Send(new GetAwards(eventId), cancellationToken);
     }
 }

@@ -14,5 +14,7 @@
         public int Barrier { get; }
         public int Late { get; }
         public int NoTest { get; }
+
+        public static readonly TimeCalculatorConfig DefaultValues = new(5_000, 5_000, 5_000, 20_000);
     }
 }

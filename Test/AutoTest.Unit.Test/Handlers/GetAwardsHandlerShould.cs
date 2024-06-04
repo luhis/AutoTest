@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+﻿using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -15,25 +15,25 @@ using Xunit;
 
 namespace AutoTest.Unit.Test.Handlers
 {
-    public class GetResultsHandlerShould
+    public class GetAwardsHandlerShould
     {
-        private readonly IRequestHandler<GetResults, IEnumerable<Result>> sut;
+        private readonly IRequestHandler<GetAwards, Awards> sut;
         private readonly MockRepository mr;
         private readonly Mock<ITestRunsRepository> testRunsRepository;
         private readonly Mock<IEventsRepository> eventsRepository;
         private readonly Mock<IEntrantsRepository> entrantsRepository;
 
-        public GetResultsHandlerShould()
+        public GetAwardsHandlerShould()
         {
             mr = new MockRepository(MockBehavior.Strict);
             testRunsRepository = mr.Create<ITestRunsRepository>();
             eventsRepository = mr.Create<IEventsRepository>();
             entrantsRepository = mr.Create<IEntrantsRepository>();
-            sut = new GetResultsHandler(testRunsRepository.Object, eventsRepository.Object, entrantsRepository.Object);
+            sut = new GetAwardsHandler(testRunsRepository.Object, eventsRepository.Object, entrantsRepository.Object);
         }
 
         [Fact]
-        public async Task GetResults()
+        public async Task GetAwards()
         {
             var entrantId = 1ul;
             var eventId = 22ul;
@@ -45,10 +45,9 @@ namespace AutoTest.Unit.Test.Handlers
             entrantsRepository.Setup(a => a.GetByEventId(eventId, CancellationToken.None)).ReturnsAsync(new[] { entrant });
             testRunsRepository.Setup(a => a.GetAll(eventId, CancellationToken.None)).ReturnsAsync(Enumerable.Empty<TestRun>());
 
-            var results = await sut.Handle(new(eventId), CancellationToken.None);
+            var res = await sut.Handle(new(eventId), CancellationToken.None);
 
-            results.Should().HaveCount(1);
-            results.Should().BeEquivalentTo(new[] { new Result("A", new[] { new EntrantTimes(entrant, 0, Enumerable.Empty<TestTime>(), 0, 0) { } }) });
+            res.Should().BeEquivalentTo(new Awards(new EntrantTimes(entrant, 0, Enumerable.Empty<TestTime>(), 0, 0), Array.Empty<Result>()));
 
             mr.VerifyAll();
         }
