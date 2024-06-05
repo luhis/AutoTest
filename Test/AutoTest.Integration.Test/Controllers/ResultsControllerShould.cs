@@ -27,5 +27,14 @@ namespace AutoTest.Integration.Test.Controllers
             var content = await res.DeserialiseAsync<IEnumerable<Result>>();
             content.Should().NotBeEmpty();
         }
+
+        [Fact]
+        public async Task GetAwards()
+        {
+            var res = await unAuthorisedClient.GetAsync("/api/results/22/awards");
+            res.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);
+            var content = await res.DeserialiseAsync<Awards>();
+            content.Should().NotBeNull();
+        }
     }
 }
