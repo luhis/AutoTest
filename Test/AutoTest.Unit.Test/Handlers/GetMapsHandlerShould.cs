@@ -1,4 +1,5 @@
 ﻿using System.Threading;
+using System.Threading.Tasks;
 using AutoTest.Domain.Repositories;
 using AutoTest.Service.Handlers;
 using AutoTest.Service.Messages;
@@ -23,13 +24,13 @@ namespace AutoTest.Unit.Test.Handlers
         }
 
         [Fact]
-        public void Get()
+        public async Task Get()
         {
             fs.Setup(a => a.GetMaps(11, CancellationToken.None)).ReturnsAsync("data");
 
-            var maps = sut.Handle(new GetMaps(11), CancellationToken.None);
+            var maps = await sut.Handle(new GetMaps(11), CancellationToken.None);
 
-            maps.Should().NotBeNull();
+            maps.Should().BeEquivalentTo("data");
             mr.VerifyAll();
         }
     }

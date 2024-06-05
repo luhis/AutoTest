@@ -74,8 +74,8 @@ namespace AutoTest.Unit.Test.Handlers
             events.Setup(a => a.GetById(eventId, CancellationToken.None)).ReturnsAsync(@event);
 
             var res = await sut.Handle(new(1, eventId, 3, 4, entrantId, new DateTime(2000, 1, 1), "marshal@email.com", penalties), CancellationToken.None);
-            res.AsT1.Value.Should().Be("Event must be running to add Test Run");
 
+            res.AsT1.Value.Should().Be("Event must be running to add Test Run");
             mr.VerifyAll();
         }
     }

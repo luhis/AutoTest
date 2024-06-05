@@ -42,12 +42,15 @@ namespace AutoTest.Unit.Test.Handlers
                 Models.GetEvent(eventId)
                 );
             var entrant = Models.GetEntrant(entrantId, eventId);
-            entrantsRepository.Setup(a => a.GetByEventId(eventId, CancellationToken.None)).ReturnsAsync(new[] { entrant });
+            var entrant2 = Models.GetEntrant(entrantId + 1, eventId);
+            entrantsRepository.Setup(a => a.GetByEventId(eventId, CancellationToken.None)).ReturnsAsync(new[] { entrant, entrant2 });
             testRunsRepository.Setup(a => a.GetAll(eventId, CancellationToken.None)).ReturnsAsync(Enumerable.Empty<TestRun>());
 
             var res = await sut.Handle(new(eventId), CancellationToken.None);
 
-            res.Should().BeEquivalentTo(new Awards(new EntrantTimes(entrant, 0, Enumerable.Empty<TestTime>(), 0, 0), Array.Empty<Result>()));
+            res.Should().BeEquivalentTo(new Awards(new EntrantTimes(entrant, 0, Enumerable.Empty<TestTime>(), 0, 0), new[] {
+                new Result("A", new[] { new EntrantTimes(entrant2, 0, Enumerable.Empty<TestTime>(), 1, 0) })
+            }));
 
             mr.VerifyAll();
         }

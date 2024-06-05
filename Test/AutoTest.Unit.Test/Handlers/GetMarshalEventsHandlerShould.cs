@@ -28,7 +28,7 @@ namespace AutoTest.Unit.Test.Handlers
         }
 
         [Fact]
-        public async Task GetMarshals()
+        public async Task GetMarshalEvents()
         {
             var eventId = 1ul;
             var marshals = new[] {
