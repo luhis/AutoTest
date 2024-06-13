@@ -34,7 +34,7 @@
     <PackageReference Include="Microsoft.AspNetCore.SignalR.Protocols.MessagePack" Version="8.0.6" />
     <PackageReference Include="Microsoft.AspNetCore.SpaServices.Extensions" Version="8.0.6" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Cosmos" Version="8.0.6" />
-    <PackageReference Include="Microsoft.Extensions.Azure" Version="1.7.3" />
+    <PackageReference Include="Microsoft.Extensions.Azure" Version="1.7.4" />
     <PackageReference Include="Microsoft.VisualStudio.Threading.Analyzers" Version="17.10.48" />
     <PackageReference Include="NetEscapades.AspNetCore.SecurityHeaders" Version="0.21.0" />
     <PackageReference Include="WebMarkupMin.AspNetCore8" Version="2.16.0" />
