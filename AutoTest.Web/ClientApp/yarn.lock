@@ -1603,13 +1603,12 @@
     estree-walker "^1.0.1"
     picomatch "^2.2.2"
 
-"@s-libs/micro-dash@17.1.0":
-  version "17.1.0"
-  resolved "https://registry.yarnpkg.com/@s-libs/micro-dash/-/micro-dash-17.1.0.tgz#9873a3a77681bf3430f3a15e0f3dce8d6f6ee889"
-  integrity sha512-vnrChv6KQG/kgRSNmxH0IqcGx4gYlvnmkfzuKotQNZZMBTnDZOzHYr487LPRq1Rr0ohRDuDsz6WssSolyoowQg==
+"@s-libs/micro-dash@18.0.0":
+  version "18.0.0"
+  resolved "https://registry.yarnpkg.com/@s-libs/micro-dash/-/micro-dash-18.0.0.tgz#ee900bf5af25e512256380a8c65574abe0acf46f"
+  integrity sha512-/EiBrhJIDVBI3DpWPaezO065VOQ/UUiLx3BLtkNx59S7T5AuYUxLp64fw3uR8Uk5qkIwQimhFMlvn/S1NkZanA==
   dependencies:
     tslib "^2.3.0"
-    utility-types "^3.10.0"
 
 "@sinclair/typebox@^0.27.8":
   version "0.27.8"
@@ -12135,11 +12134,6 @@ utila@~0.4:
   version "0.4.0"
   resolved "https://registry.yarnpkg.com/utila/-/utila-0.4.0.tgz#8a16a05d445657a3aea5eecc5b12a4fa5379772c"
   integrity sha512-Z0DbgELS9/L/75wZbro8xAnT50pBVFQZ+hUEueGDU5FN51YSCYM+jdxsfCiHjwNP/4LCDD0i/graKpeBnOXKRA==
-
-utility-types@^3.10.0:
-  version "3.11.0"
-  resolved "https://registry.yarnpkg.com/utility-types/-/utility-types-3.11.0.tgz#607c40edb4f258915e901ea7995607fdf319424c"
-  integrity sha512-6Z7Ma2aVEWisaL6TvBCy7P8rm2LQoPv6dJ7ecIaIixHcwfbJ0x7mWdbcwlIM5IGQxPZSFYeqRCqlOOeKoJYMkw==
 
 utils-merge@1.0.1:
   version "1.0.1"

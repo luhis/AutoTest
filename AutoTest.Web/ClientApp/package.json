@@ -26,7 +26,7 @@
   "dependencies": {
     "@microsoft/signalr-protocol-msgpack": "8.0.0",
     "@react-oauth/google": "^0.12.1",
-    "@s-libs/micro-dash": "17.1.0",
+    "@s-libs/micro-dash": "18.0.0",
     "@types/preval.macro": "^3.0.2",
     "@types/react": "file:./src/types/fake-empty",
     "@types/react-redux": "7.1.33",
