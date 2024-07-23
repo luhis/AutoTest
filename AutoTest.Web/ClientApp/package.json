@@ -35,7 +35,7 @@
     "cross-env": "^7.0.3",
     "encoding": "^0.1.13",
     "javascript-time-ago": "^2.5.9",
-    "preact": "10.22.1",
+    "preact": "10.23.0",
     "preact-router": "4.1.2",
     "pretty-bytes": "^6.1.1",
     "preval.macro": "^5.0.0",
