@@ -8,7 +8,7 @@ using AutoTest.Service.Handlers;
 using AutoTest.Service.Messages;
 using FluentAssertions;
 using MediatR;
-using MockQueryable.Moq;
+using MockQueryable;
 using Moq;
 using Xunit;
 
