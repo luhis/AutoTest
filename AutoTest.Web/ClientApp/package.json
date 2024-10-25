@@ -57,7 +57,7 @@
     "@redux-devtools/extension": "3.3.0",
     "@teamsupercell/typings-for-css-modules-loader": "2.5.2",
     "@types/enzyme": "3.10.18",
-    "@types/jest": "29.5.13",
+    "@types/jest": "29.5.14",
     "@types/webpack-env": "1.18.5",
     "@typescript-eslint/eslint-plugin": "7.18.0",
     "@typescript-eslint/parser": "7.18.0",
