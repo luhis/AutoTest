@@ -47,7 +47,7 @@
     "react-timer-hook": "^3.0.7",
     "redux": "4.2.1",
     "redux-persist": "6.0.0",
-    "redux-thunk": "2.4.2",
+    "redux-thunk": "3.1.0",
     "regenerator-runtime": "0.14.1",
     "save-file": "2.3.1",
     "ts-date": "3.1.0",
