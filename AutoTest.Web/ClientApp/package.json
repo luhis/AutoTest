@@ -30,7 +30,7 @@
     "@types/preval.macro": "^3.0.2",
     "@types/react": "file:./src/types/fake-empty",
     "@types/react-redux": "7.1.34",
-    "bulma": "0.9.4",
+    "bulma": "1.0.4",
     "bulma-toast": "2.4.4",
     "cross-env": "^7.0.3",
     "encoding": "^0.1.13",
