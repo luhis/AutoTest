@@ -35,7 +35,7 @@ namespace AutoTest.Integration.Test.Tooling
             if (!db.Notifications.Where(a => a.NotificationId == 1).Any())
             {
                 db.Notifications.Add(new Notification(1, eventId, "test message", new DateTime(), "Test User"));
-            };
+            }
             if (!db.TestRuns.Where(a => a.TestRunId == 1).Any())
             {
                 db.TestRuns.Add(new TestRun(1, eventId, 2, 60_000, 1, new DateTime(), 1));
