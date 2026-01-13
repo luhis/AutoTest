@@ -1451,24 +1451,24 @@
   resolved "https://registry.yarnpkg.com/@microsoft/dynamicproto-js/-/dynamicproto-js-1.1.11.tgz#c737e1a50db9453354729ddaeb2c3b16927ed92e"
   integrity sha512-gNw9z9LbqLV+WadZ6/MMrWwO3e0LuoUH1wve/1iPsBNbgqeVCiB0EZFNNj2lysxS2gkqoF9hmyVaG3MoM1BkxA==
 
-"@microsoft/signalr-protocol-msgpack@8.0.7":
-  version "8.0.7"
-  resolved "https://registry.yarnpkg.com/@microsoft/signalr-protocol-msgpack/-/signalr-protocol-msgpack-8.0.7.tgz#54302f89883831f84531962d6c1944e790c510fd"
-  integrity sha512-yrGt0E9l8X9HSF9P8gmnkVi+IDGNP6seU5/YAiFzIisH4VpvayVcf7Z1Lbu7nNwM/GzFgtFIa7jBivLQCCcyEQ==
+"@microsoft/signalr-protocol-msgpack@10.0.0":
+  version "10.0.0"
+  resolved "https://registry.yarnpkg.com/@microsoft/signalr-protocol-msgpack/-/signalr-protocol-msgpack-10.0.0.tgz#ac9eff3545149551d73b4fd19b8737c36b8b32dc"
+  integrity sha512-N4h4BD+y9kw/iszpDaDaIRJpxaRSA5uBtveM6HUIwmwkeJIPOoMrPNvmj77UrjZHAsbVwa/acLiWnPDfffO3yQ==
   dependencies:
-    "@microsoft/signalr" ">=8.0.7"
+    "@microsoft/signalr" ">=10.0.0"
     "@msgpack/msgpack" "^2.7.0"
 
-"@microsoft/signalr@>=8.0.7":
-  version "8.0.7"
-  resolved "https://registry.yarnpkg.com/@microsoft/signalr/-/signalr-8.0.7.tgz#94419ddbf9418753e493f4ae4c13990316ec2ea5"
-  integrity sha512-PHcdMv8v5hJlBkRHAuKG5trGViQEkPYee36LnJQx4xHOQ5LL4X0nEWIxOp5cCtZ7tu+30quz5V3k0b1YNuc6lw==
+"@microsoft/signalr@>=10.0.0":
+  version "10.0.0"
+  resolved "https://registry.yarnpkg.com/@microsoft/signalr/-/signalr-10.0.0.tgz#465837ced767af7f7cc05988ea95afe8bb58d493"
+  integrity sha512-0BRqz/uCx3JdrOqiqgFhih/+hfTERaUfCZXFB52uMaZJrKaPRzHzMuqVsJC/V3pt7NozcNXGspjKiQEK+X7P2w==
   dependencies:
     abort-controller "^3.0.0"
     eventsource "^2.0.2"
     fetch-cookie "^2.0.3"
     node-fetch "^2.6.7"
-    ws "^7.4.5"
+    ws "^7.5.10"
 
 "@msgpack/msgpack@^2.7.0":
   version "2.8.0"
@@ -12929,10 +12929,10 @@ ws@^6.1.0:
   dependencies:
     async-limiter "~1.0.0"
 
-ws@^7.3.1, ws@^7.4.5:
-  version "7.5.9"
-  resolved "https://registry.yarnpkg.com/ws/-/ws-7.5.9.tgz#54fa7db29f4c7cec68b1ddd3a89de099942bb591"
-  integrity sha512-F+P9Jil7UiSKSkppIiD94dN07AwvFixvLIj1Og1Rl9GGMuNipJnV9JzjD6XuqmAeiswGvUmNLjr5cFuXwNS77Q==
+ws@^7.3.1, ws@^7.5.10:
+  version "7.5.10"
+  resolved "https://registry.yarnpkg.com/ws/-/ws-7.5.10.tgz#58b5c20dc281633f6c19113f39b349bd8bd558d9"
+  integrity sha512-+dbF1tHwZpXcbOJdVOkzLDxZP1ailvSxM6ZweXTegylPny803bFhA+vqBYw4s31NSAk4S2Qz+AKXK9a4wkdjcQ==
 
 ws@^8.11.0, ws@^8.13.0:
   version "8.16.0"
