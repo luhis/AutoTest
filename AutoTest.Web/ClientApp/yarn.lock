@@ -1603,10 +1603,10 @@
     estree-walker "^1.0.1"
     picomatch "^2.2.2"
 
-"@s-libs/micro-dash@18.0.0":
-  version "18.0.0"
-  resolved "https://registry.yarnpkg.com/@s-libs/micro-dash/-/micro-dash-18.0.0.tgz#ee900bf5af25e512256380a8c65574abe0acf46f"
-  integrity sha512-/EiBrhJIDVBI3DpWPaezO065VOQ/UUiLx3BLtkNx59S7T5AuYUxLp64fw3uR8Uk5qkIwQimhFMlvn/S1NkZanA==
+"@s-libs/micro-dash@^21.0.0":
+  version "21.0.0"
+  resolved "https://registry.yarnpkg.com/@s-libs/micro-dash/-/micro-dash-21.0.0.tgz#efe2199d4810eb1093003c9c78da15cddeca12f7"
+  integrity sha512-LTnry0KTWukkor6k+3cCsXXu5JXz1ruFOQsFovOlbjSOcM+iiF4RvToObqHOd8OFKlzEsr0WKBGunttHBXxhDg==
   dependencies:
     tslib "^2.3.0"
 
