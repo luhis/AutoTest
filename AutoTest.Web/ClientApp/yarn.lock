@@ -9780,10 +9780,10 @@ preact-cli@3.5.1:
     workbox-strategies "^6.5.3"
     workbox-webpack-plugin "^6.5.3"
 
-preact-render-to-string@6.5.13:
-  version "6.5.13"
-  resolved "https://registry.yarnpkg.com/preact-render-to-string/-/preact-render-to-string-6.5.13.tgz#cb9eb4a0df3576e7bfd78ef5f3d3bd57480e79ee"
-  integrity sha512-iGPd+hKPMFKsfpR2vL4kJ6ZPcFIoWZEcBf0Dpm3zOpdVvj77aY8RlLiQji5OMrngEyaxGogeakTb54uS2FvA6w==
+preact-render-to-string@6.7.0:
+  version "6.7.0"
+  resolved "https://registry.yarnpkg.com/preact-render-to-string/-/preact-render-to-string-6.7.0.tgz#fe10abba7461a439b1846d4ce3c51b87ecf48fe2"
+  integrity sha512-Z4WR8fmLMRpdYqJ9i7vrlXSsSrxVJydwrkEXHapexfARbWfGb7vGcnvNQnIzN0cXciMVOlz/XLoiMCi9gUsy9Q==
 
 preact-router@4.1.2:
   version "4.1.2"
