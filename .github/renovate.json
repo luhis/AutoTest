@@ -1,7 +1,7 @@
 {
   
   "extends": [
-    "config:base",
+    "config:recommended",
     "group:definitelyTyped",
     "group:fortawesome",
     "group:linters",
@@ -30,5 +30,8 @@
   "postUpdateOptions": [
     "yarnDedupeHighest"
   ],
-  "rebaseWhen": "behind-base-branch"
+  "rebaseWhen": "behind-base-branch",,
+  "automerge": true,
+  "automergeType": "branch",
+  "schedule": ["after 1am and before 2am"]
 }
