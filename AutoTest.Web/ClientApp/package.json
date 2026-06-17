@@ -33,7 +33,6 @@
     "bulma": "0.9.4",
     "bulma-toast": "2.4.4",
     "cross-env": "^7.0.3",
-    "encoding": "^0.1.13",
     "javascript-time-ago": "^2.5.9",
     "preact": "10.24.3",
     "preact-router": "4.1.2",
