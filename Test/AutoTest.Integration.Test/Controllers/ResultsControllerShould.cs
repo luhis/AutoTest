@@ -5,7 +5,7 @@ using AutoTest.Integration.Test.Fixtures;
 using AutoTest.Integration.Test.Tooling;
 using AutoTest.Service.Models;
 using AutoTest.Web;
-using FluentAssertions;
+using AwesomeAssertions;
 using Xunit;
 
 namespace AutoTest.Integration.Test.Controllers
