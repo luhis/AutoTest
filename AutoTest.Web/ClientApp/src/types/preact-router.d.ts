@@ -9,6 +9,6 @@ declare module "preact-router" {
 
 declare module "preact-router/match" {
   export interface LinkProps {
-    href?: string;
+    readonly href?: string;
   }
 }

@@ -52,7 +52,6 @@ export const selectEvents = (a: AppState) => a.event.events;
 export const selectNotifications = (a: AppState) => a.event.notifications;
 
 export const get10LatestEvents = (arr: readonly Event[]) => {
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-assignment
   const sorted: readonly Event[] = arr.toSorted(
     (x: Event, y: Event) => y.created.getTime() - x.created.getTime(),
   );

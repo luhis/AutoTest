@@ -173,7 +173,7 @@ export const CreateNotification =
         payload: notification,
       });
       return true;
-    } catch (e) {
+    } catch {
       return false;
     }
   };

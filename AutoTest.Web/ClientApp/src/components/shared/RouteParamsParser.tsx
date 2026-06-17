@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/ban-types */
 import { h, FunctionComponent } from "preact";
 import { useMemo } from "preact/hooks";
 

@@ -11,7 +11,6 @@ import { get10LatestEvents, selectEvents } from "../../store/event/selectors";
 import ifSome from "../../components/shared/ifSome";
 import { ifLoaded } from "../../types/loadingState";
 
-// eslint-disable-next-line @typescript-eslint/no-unsafe-call
 const buildDate = preval`module.exports = new Date().toISOString();` as string;
 
 const Home: FunctionalComponent = () => {
