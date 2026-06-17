@@ -33,5 +33,7 @@
   "rebaseWhen": "behind-base-branch",
   "automerge": true,
   "automergeType": "branch",
-  "schedule": ["after 1am and before 2am"]
+  "automergeSchedule": [
+    "* 0-3 * * *"
+  ]
 }
