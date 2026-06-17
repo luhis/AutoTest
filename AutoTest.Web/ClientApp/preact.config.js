@@ -33,12 +33,9 @@ export default {
             "src",
             "index"
         );
-        const critters = helpers.getPluginsByName(config, 'Critters')[0];
+        const critters = helpers.getPluginsByName(config, "Critters")[0];
         if (critters) {
-            // The default strategy in Preact CLI is "media",
-            // but there are 6 different loading techniques:
-            // https://github.com/GoogleChromeLabs/critters#preloadstrategy
-            critters.plugin.options.preload = 'default';
+            config.plugins.splice(critters.index, 1);
         }
 
         envVars(config, env, helpers);
