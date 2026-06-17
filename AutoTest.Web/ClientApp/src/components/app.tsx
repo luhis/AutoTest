@@ -27,7 +27,7 @@ import EditRuns from "../routes/editRuns";
 import store from "../store";
 import { appInsightsKey, googleKey } from "../settings";
 
-import "bulma/css/bulma.css";
+import "bulma/css/bulma.min.css";
 
 interface Module {
   readonly hot: boolean | undefined;
