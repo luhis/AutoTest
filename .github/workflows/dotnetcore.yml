@@ -3,8 +3,18 @@ name: .NET Core
 on:
   push:
     branches: [ master ]
+    paths-ignore:
+      - "AutoTest.Web/ClientApp/**"
+      - "**/*.md"
   pull_request:
     branches: [ master ]
+    paths-ignore:
+      - "AutoTest.Web/ClientApp/**"
+      - "**/*.md"
+
+concurrency:
+  group: dotnet-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   build:
@@ -17,11 +27,12 @@ jobs:
       uses: actions/setup-dotnet@v4
       with:
         dotnet-version: 8.0.x
+        cache: true
     - name: Install dependencies
       run: dotnet restore
     - name: Build
-      run: dotnet build ./AutoTest.Web
+      run: dotnet build ./AutoTest.Web --configuration Release --no-restore
     - name: Test Unit
-      run: dotnet test ./Test/AutoTest.Unit.Test
+      run: dotnet test ./Test/AutoTest.Unit.Test --configuration Release --no-restore
     - name: Test Integration
-      run: dotnet test ./Test/AutoTest.Integration.Test
+      run: dotnet test ./Test/AutoTest.Integration.Test --configuration Release --no-restore

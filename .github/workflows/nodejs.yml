@@ -6,8 +6,19 @@ name: Node.js CI
 on:
   push:
     branches: [ master ]
+    paths:
+      - "AutoTest.Web/ClientApp/**"
+      - ".github/workflows/nodejs.yml"
   pull_request:
     branches: [ master ]
+    paths:
+      - "AutoTest.Web/ClientApp/**"
+      - ".github/workflows/nodejs.yml"
+
+concurrency:
+  group: node-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 env:
     CI: true
 
@@ -26,7 +37,9 @@ jobs:
       uses: actions/setup-node@v4
       with:
         node-version: ${{ matrix.node-version }}
+        cache: yarn
+        cache-dependency-path: AutoTest.Web/ClientApp/yarn.lock
     - run: yarn --cwd ./AutoTest.Web/ClientApp install --frozen-lockfile
     - run: yarn --cwd ./AutoTest.Web/ClientApp lint
-    - run: yarn --cwd ./AutoTest.Web/ClientApp build
+    - run: yarn --cwd ./AutoTest.Web/ClientApp preact-cli build --no-esm
     - run: yarn --cwd ./AutoTest.Web/ClientApp test
