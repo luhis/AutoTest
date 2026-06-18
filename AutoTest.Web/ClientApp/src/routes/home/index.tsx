@@ -17,7 +17,7 @@ const buildDate = preval`module.exports = new Date().toISOString();` as string;
 const Home: FunctionalComponent = () => {
   const thunkDispatch = useThunkDispatch();
   useEffect(() => {
-    thunkDispatch(GetEventsIfRequired());
+    void thunkDispatch(GetEventsIfRequired());
   });
   const events = useSelector(selectEvents);
   const tenLatest = ifLoaded(events, (a) => get10LatestEvents(a));

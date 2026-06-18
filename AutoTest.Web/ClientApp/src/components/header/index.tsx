@@ -53,8 +53,8 @@ const Header: FunctionalComponent = () => {
 
   const onLogin = useCallback(
     (credentialResponse: CredentialResponse) => {
-      thunkDispatch(SetAccessToken(credentialResponse));
-      thunkDispatch(GetAccess(credentialResponse.credential));
+      void thunkDispatch(SetAccessToken(credentialResponse));
+      void thunkDispatch(GetAccess(credentialResponse.credential));
       setIsActive(false);
     },
     [thunkDispatch],

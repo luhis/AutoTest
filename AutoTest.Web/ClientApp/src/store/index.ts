@@ -1,4 +1,4 @@
-import { combineReducers } from "redux";
+import { combineReducers, Reducer } from "redux";
 import {
   configureStore,
   ThunkDispatch as ToolkitThunkDispatch,
@@ -44,8 +44,8 @@ export const rootReducer = combineReducers({
 
 const persistedReducer = persistReducer(
   persistConfig,
-  rootReducer as any,
-) as any;
+  rootReducer as unknown as Reducer<AppState>,
+);
 
 export type AppState = ReturnType<typeof rootReducer>;
 
@@ -58,8 +58,7 @@ export default () => {
         immutableCheck: false,
       }),
   });
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const persistor = persistStore(appStore as any);
+  const persistor = persistStore(appStore);
   return { appStore, persistor };
 };
 
