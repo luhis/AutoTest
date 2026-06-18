@@ -17,11 +17,6 @@ namespace AutoTest.Integration.Test.Fixtures
         : WebApplicationFactory<TStartup>
         where TStartup : class
     {
-        private static readonly IReadOnlyList<Type> ToRemove = new[]
-        {
-            typeof(DbContextOptions<AutoTestContext>)
-        };
-
         public HttpClient GetUnAuthorisedClient()
             => this.CreateClient(
                 new WebApplicationFactoryClientOptions() { AllowAutoRedirect = false });
@@ -30,9 +25,11 @@ namespace AutoTest.Integration.Test.Fixtures
         {
             builder.ConfigureTestServices(services =>
             {
-                var descriptor = services.Where(
-                    d => ToRemove.Contains(d.ServiceType)).ToList();
-                foreach (var d in descriptor)
+                var descriptors = services.Where(d =>
+                    d.ServiceType == typeof(DbContextOptions<AutoTestContext>) ||
+                    d.ServiceType == typeof(AutoTestContext) ||
+                    (d.ServiceType.Namespace != null && d.ServiceType.Namespace.StartsWith("Microsoft.EntityFrameworkCore", StringComparison.Ordinal))).ToList();
+                foreach (var d in descriptors)
                 {
                     services.Remove(d);
                 }
