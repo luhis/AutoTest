@@ -1,7 +1,7 @@
 import { FunctionalComponent, h } from "preact";
 import { Columns, Heading } from "react-bulma-components";
 import { useEffect } from "preact/hooks";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { formatDateIso, newValidDate } from "ts-date";
 import { Link } from "preact-router";
 import preval from "preval.macro";
@@ -10,13 +10,14 @@ import { GetEventsIfRequired } from "../../store/event/actions";
 import { get10LatestEvents, selectEvents } from "../../store/event/selectors";
 import ifSome from "../../components/shared/ifSome";
 import { ifLoaded } from "../../types/loadingState";
+import { useThunkDispatch } from "../../store";
 
 const buildDate = preval`module.exports = new Date().toISOString();` as string;
 
 const Home: FunctionalComponent = () => {
-  const dispatch = useDispatch();
+  const thunkDispatch = useThunkDispatch();
   useEffect(() => {
-    dispatch(GetEventsIfRequired());
+    thunkDispatch(GetEventsIfRequired());
   });
   const events = useSelector(selectEvents);
   const tenLatest = ifLoaded(events, (a) => get10LatestEvents(a));

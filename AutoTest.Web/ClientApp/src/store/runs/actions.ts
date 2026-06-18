@@ -1,4 +1,4 @@
-import { ThunkAction } from "redux-thunk";
+import { ThunkAction } from "@reduxjs/toolkit";
 import { ActionCreator } from "redux";
 
 import { RunActionTypes } from "./types";
