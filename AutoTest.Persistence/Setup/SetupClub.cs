@@ -8,6 +8,7 @@ public class ClubConfig : IEntityTypeConfiguration<Club>
 {
     public void Configure(EntityTypeBuilder<Club> builder)
     {
+        builder.HasDiscriminator<string>(nameof(Club));
         builder.HasKey(e => e.ClubId);
         builder.Property(e => e.ClubId).ValueGeneratedNever().IsRequired();
         builder.Property(e => e.ClubName).IsRequired();

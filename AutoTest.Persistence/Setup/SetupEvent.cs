@@ -14,6 +14,7 @@ public class EventConfig : IEntityTypeConfiguration<Event>
 {
     public void Configure(EntityTypeBuilder<Event> builder)
     {
+        builder.HasDiscriminator<string>(nameof(Event));
         builder.HasKey(e => e.EventId);
         builder.Property(e => e.EventId).ValueGeneratedNever().IsRequired();
         builder.Property(e => e.Location).IsRequired();
