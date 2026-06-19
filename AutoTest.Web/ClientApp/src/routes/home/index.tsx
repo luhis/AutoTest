@@ -18,7 +18,7 @@ const Home: FunctionalComponent = () => {
   const thunkDispatch = useThunkDispatch();
   useEffect(() => {
     void thunkDispatch(GetEventsIfRequired());
-  });
+  }, [thunkDispatch]);
   const events = useSelector(selectEvents);
   const tenLatest = ifLoaded(events, (a) => get10LatestEvents(a));
   const today = ifLoaded(events, (a) =>

@@ -225,7 +225,7 @@ const ModalX: FunctionComponent<Props> = ({
               accept=".pdf"
             />
             <Help>
-              {!isNil(event.maps)
+              {!isNil(event.regulations)
                 ? `Present: ${prettyBytes(getFileLength(event.regulations))}`
                 : "Missing"}
             </Help>

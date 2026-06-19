@@ -101,7 +101,7 @@ const Header: FunctionalComponent = () => {
               {!access.isLoggedIn ? (
                 <GoogleLogin
                   onSuccess={onLogin}
-                  onError={() => console.log("Auth Error")}
+                  onError={() => console.error("Auth Error")}
                 />
               ) : (
                 <Button onClick={signOutAndClear}>Sign out</Button>

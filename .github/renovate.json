@@ -1,5 +1,5 @@
 {
-  
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
     "config:recommended",
     "group:definitelyTyped",
@@ -25,6 +25,16 @@
       "sourceUrlPrefixes": [
         "https://github.com/RicoSuter/NSwag"
       ]
+    },
+    {
+      "matchManagers": [
+        "npm"
+      ],
+      "matchPackagePatterns": [
+        ".*"
+      ],
+      "groupName": "npm dependencies",
+      "commitMessageTopic": "npm dependency {{depName}}"
     }
   ],
   "postUpdateOptions": [

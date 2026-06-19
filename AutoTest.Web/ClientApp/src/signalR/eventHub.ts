@@ -20,4 +20,3 @@ export const LeaveEvent = "LeaveEvent";
 export const NewNotification = "NewNotification";
 export const NewResults = "NewResults";
 export const NewTestRun = "NewTestRun";
-export const EventStatusChanged = "EventStatusChanged";
