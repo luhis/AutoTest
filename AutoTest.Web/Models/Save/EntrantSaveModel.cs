@@ -24,19 +24,19 @@ public class EntrantSaveModel
     public Age Age { get; set; } = Age.Senior;
 
     [Required]
-    public VehicleSaveModel Vehicle { get; set; } = new VehicleSaveModel();
+    public VehicleSaveModel Vehicle { get; set; } = new();
 
     [Required]
-    public MsaMembershipSaveModel MsaMembership { get; set; } = new MsaMembershipSaveModel();
+    public MsaMembershipSaveModel MsaMembership { get; set; } = new();
 
     [Required]
-    public EmergencyContactSaveModel EmergencyContact { get; set; } = new EmergencyContactSaveModel();
+    public EmergencyContactSaveModel EmergencyContact { get; set; } = new();
 
     [Required]
-    public AcceptDeclarationSaveModel AcceptDeclaration { get; set; } = new AcceptDeclarationSaveModel();
+    public AcceptDeclarationSaveModel AcceptDeclaration { get; set; } = new();
 
     [Required]
-    public EntrantClubSaveModel EntrantClub { get; set; } = new EntrantClubSaveModel();
+    public EntrantClubSaveModel EntrantClub { get; set; } = new();
 
     [Required]
     public bool IsLady { get; set; }

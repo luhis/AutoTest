@@ -15,6 +15,6 @@ public class IsClubAdminHandler(IClubsRepository clubsRepository, IEventsReposit
         var @event = await eventsRepository.GetById(request.EventId, cancellationToken);
 
         var club = await clubsRepository.GetById(@event!.ClubId, cancellationToken);
-        return club != null && club.AdminEmails.Select(a => a.Email).Contains(request.EmailAddress, StringComparer.InvariantCultureIgnoreCase);
+        return club is not null && club.AdminEmails.Select(a => a.Email).Contains(request.EmailAddress, StringComparer.InvariantCultureIgnoreCase);
     }
 }

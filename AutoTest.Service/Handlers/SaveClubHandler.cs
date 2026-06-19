@@ -16,7 +16,7 @@ public class SaveClubHandler(IClubsRepository clubRepository, IAuthorisationNoti
     {
         var existing = await clubRepository.GetById(request.Club.ClubId, cancellationToken);
         await clubRepository.Upsert(request.Club, cancellationToken);
-        if (existing != null && existing.AdminEmails != request.Club.AdminEmails)
+        if (existing is not null && existing.AdminEmails != request.Club.AdminEmails)
         {
             var newEmails = GetNewItems(existing.AdminEmails.Select(a => a.Email), request.Club.AdminEmails.Select(a => a.Email));
             if (newEmails.Any())

@@ -24,7 +24,7 @@ public class GetAdminClubsHandler(IClubsRepository clubsRepository, IMemoryCache
 
     private async Task<IEnumerable<(ulong ClubId, IEnumerable<AuthorisationEmail> AdminEmails)>> GetOrCreate(CancellationToken cancellationToken)
     {
-        if (cache.TryGetValue<IEnumerable<(ulong ClubId, IEnumerable<AuthorisationEmail> AdminEmails)>>(cacheKey, out var o) && o != null)
+        if (cache.TryGetValue<IEnumerable<(ulong ClubId, IEnumerable<AuthorisationEmail> AdminEmails)>>(cacheKey, out var o) && o is not null)
         {
             return o;
         }

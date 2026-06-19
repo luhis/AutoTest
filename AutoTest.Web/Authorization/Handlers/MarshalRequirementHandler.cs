@@ -17,11 +17,11 @@ public class MarshalRequirementHandler(IHttpContextAccessor httpContextAccessor,
     protected override async Task HandleRequirementAsync(AuthorizationHandlerContext context, MarshalRequirement requirement)
     {
         var routeData = httpContextAccessor.HttpContext!.GetRouteData();
-        if (routeData != null)
+        if (routeData is not null)
         {
             var eventId = ulong.Parse((string)routeData.Values[RouteParams.EventId]!, CultureInfo.InvariantCulture);
             var @event = await mediator.Send(new GetEvent(eventId));
-            if (@event == null)
+            if (@event is null)
             {
                 context.Fail(new AuthorizationFailureReason(this, "Cannot find event"));
             }

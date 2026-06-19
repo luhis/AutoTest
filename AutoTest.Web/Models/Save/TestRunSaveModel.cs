@@ -18,5 +18,5 @@ public class TestRunSaveModel
     public ulong EntrantId { get; set; }
 
     [Required]
-    public IEnumerable<PenaltySaveModel> Penalties { get; set; } = Enumerable.Empty<PenaltySaveModel>();
+    public IEnumerable<PenaltySaveModel> Penalties { get; set; } = [];
 }

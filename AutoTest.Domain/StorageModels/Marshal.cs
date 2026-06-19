@@ -15,9 +15,9 @@ public class Marshal(ulong marshalId, string givenName, string familyName, strin
     public string Role { get; } = role;
 
     public string Email { get; } = email;
-    public AcceptDeclaration AcceptDeclaration { get; private set; } = new AcceptDeclaration();
+    public AcceptDeclaration AcceptDeclaration { get; private set; } = new();
 
-    public EmergencyContact EmergencyContact { get; private set; } = new EmergencyContact();
+    public EmergencyContact EmergencyContact { get; private set; } = new();
 
     public void SetEmergencyContact(EmergencyContact emergencyContact) => EmergencyContact = emergencyContact;
 

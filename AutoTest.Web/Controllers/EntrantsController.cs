@@ -62,7 +62,7 @@ public class EntrantsController(IMediator mediator) : ControllerBase
     public Task MarkPaid(ulong eventId, ulong entrantId, PaymentSaveModel? payment, CancellationToken cancellationToken)
     {
         var currentUserEmail = User.GetEmailAddress();
-        return mediator.Send(new MarkPaid(eventId, entrantId, payment != null ? MapClub.Map(payment, currentUserEmail) : null), cancellationToken);
+        return mediator.Send(new MarkPaid(eventId, entrantId, payment is not null ? MapClub.Map(payment, currentUserEmail) : null), cancellationToken);
     }
 
     [Authorize(policy: Policies.ClubAdmin)]

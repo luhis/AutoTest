@@ -29,7 +29,7 @@ public class EventSaveModel
     public string Maps { get; set; } = string.Empty;
 
     [Required, MinLength(1)]
-    public ICollection<EventType> EventTypes { get; set; } = Array.Empty<EventType>();
+    public ICollection<EventType> EventTypes { get; set; } = [];
 
     [Required]
     public DateTime EntryOpenDate { get; set; }

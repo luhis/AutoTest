@@ -23,15 +23,15 @@ string @class, ulong eventId, Age age, bool isLady, ulong? doubleDrivenWith)
 
     public bool IsLady { get; } = isLady;
 
-    public EntrantClub EntrantClub { get; private set; } = new EntrantClub();
+    public EntrantClub EntrantClub { get; private set; } = new();
 
-    public Vehicle Vehicle { get; private set; } = new Vehicle();
+    public Vehicle Vehicle { get; private set; } = new();
 
-    public EmergencyContact EmergencyContact { get; private set; } = new EmergencyContact();
+    public EmergencyContact EmergencyContact { get; private set; } = new();
 
-    public MsaMembership MsaMembership { get; private set; } = new MsaMembership();
+    public MsaMembership MsaMembership { get; private set; } = new();
 
-    public AcceptDeclaration AcceptDeclaration { get; private set; } = new AcceptDeclaration();
+    public AcceptDeclaration AcceptDeclaration { get; private set; } = new();
 
     public Payment? Payment { get; private set; }
 

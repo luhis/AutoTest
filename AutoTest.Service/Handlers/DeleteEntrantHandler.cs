@@ -12,7 +12,7 @@ public class DeleteEntrantHandler(IEntrantsRepository entrantsRepository) : IReq
     async Task IRequestHandler<DeleteEntrant>.Handle(DeleteEntrant request, CancellationToken cancellationToken)
     {
         var found = await entrantsRepository.GetById(request.EventId, request.EntrantId, cancellationToken);
-        if (found == null)
+        if (found is null)
         {
             throw new NullReferenceException();
         }

@@ -15,15 +15,15 @@ public class SaveMarshalHandler(IMarshalsRepository marshalRepository, IAuthoris
         var existing = await marshalRepository.GetById(request.Marshal.EventId, request.Marshal.MarshalId, cancellationToken);
 
         await marshalRepository.Upsert(request.Marshal, cancellationToken);
-        if (existing == null || !existing!.Email.Equals(request.Marshal.Email, System.StringComparison.OrdinalIgnoreCase))
+        if (existing is null || !existing!.Email.Equals(request.Marshal.Email, System.StringComparison.OrdinalIgnoreCase))
         {
-            await signalRNotifier.NewEventMarshal(request.Marshal.EventId, new[] { request.Marshal.Email }, cancellationToken);
-            if (existing != null)
+            await signalRNotifier.NewEventMarshal(request.Marshal.EventId, [request.Marshal.Email], cancellationToken);
+            if (existing is not null)
             {
-                await signalRNotifier.RemoveEventMarshal(request.Marshal.EventId, new[] { existing.Email }, cancellationToken);
+                await signalRNotifier.RemoveEventMarshal(request.Marshal.EventId, [existing.Email], cancellationToken);
             }
         }
-        await signalRNotifier.AddEditableMarshal(request.Marshal.MarshalId, new[] { request.Marshal.Email }, cancellationToken);
+        await signalRNotifier.AddEditableMarshal(request.Marshal.MarshalId, [request.Marshal.Email], cancellationToken);
         return request.Marshal;
     }
 }

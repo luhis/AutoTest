@@ -17,12 +17,12 @@ public class ClubAdminOrSelfRequirementClubAdminHandler(IHttpContextAccessor htt
     protected override async Task HandleRequirementAsync(AuthorizationHandlerContext context, ClubAdminOrSelfRequirement requirement)
     {
         var routeData = httpContextAccessor.HttpContext!.GetRouteData();
-        if (routeData != null)
+        if (routeData is not null)
         {
             var eventId = AuthTools.GetEventId(routeData);
 
             var @event = await mediator.Send(new GetEvent(eventId), CancellationToken.None);
-            if (@event == null)
+            if (@event is null)
             {
                 // new event
                 context.Succeed(requirement);
@@ -30,7 +30,7 @@ public class ClubAdminOrSelfRequirementClubAdminHandler(IHttpContextAccessor htt
             }
 
             var club = await mediator.Send(new GetClub(@event.ClubId));
-            if (club == null)
+            if (club is null)
             {
                 context.Fail(new AuthorizationFailureReason(this, "Cannot find club"));
             }

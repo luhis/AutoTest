@@ -2,7 +2,7 @@
 
 public static class RouteParams
 {
-    public static readonly string EventId = "eventId";
-    public static readonly string EntrantId = "entrantId";
-    public static readonly string MarshalId = "marshalId";
+    public const string EventId = "eventId";
+    public const string EntrantId = "entrantId";
+    public const string MarshalId = "marshalId";
 }

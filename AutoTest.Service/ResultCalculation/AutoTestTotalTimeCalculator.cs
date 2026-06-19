@@ -26,7 +26,7 @@ public class AutoTestTotalTimeCalculator : ITotalTimeCalculator
     private static int GetInstanceCount(IEnumerable<Penalty> penalties, PenaltyEnum type) =>
         penalties.Where(a => a.PenaltyType == type).Select(a => a.InstanceCount).Sum();
 
-    private static TestRun? GetFastestCorrectRun(TimeCalculatorConfig config, IEnumerable<TestRun> allTestRuns) => allTestRuns.Where(a => !IsInCorrectRun(a)).OrderBy(a => GetFinalTime(config, a, Enumerable.Empty<TestRun>())).FirstOrDefault();
+    private static TestRun? GetFastestCorrectRun(TimeCalculatorConfig config, IEnumerable<TestRun> allTestRuns) => allTestRuns.Where(a => !IsInCorrectRun(a)).OrderBy(a => GetFinalTime(config, a, [])).FirstOrDefault();
 
     private static readonly IReadOnlySet<PenaltyEnum> InCorrectTypes = new HashSet<PenaltyEnum>() { PenaltyEnum.WrongTest, PenaltyEnum.NoAttendance };
     private static bool IsInCorrectRun(TestRun tr) => tr.Penalties.Any(a =>

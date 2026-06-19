@@ -12,10 +12,10 @@ public class DeleteMarshalHandler(IMarshalsRepository marshalsRepository, IAutho
     async Task IRequestHandler<DeleteMarshal>.Handle(DeleteMarshal request, CancellationToken cancellationToken)
     {
         var found = await marshalsRepository.GetById(request.EventId, request.MarshalId, cancellationToken);
-        if (found != null)
+        if (found is not null)
         {
             await marshalsRepository.Remove(found, cancellationToken);
-            await signalRNotifier.RemoveEventMarshal(request.MarshalId, new[] { found.Email }, cancellationToken);
+            await signalRNotifier.RemoveEventMarshal(request.MarshalId, [found.Email], cancellationToken);
         }
     }
 }

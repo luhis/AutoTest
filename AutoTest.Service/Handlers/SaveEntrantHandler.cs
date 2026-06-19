@@ -27,16 +27,16 @@ public class SaveEntrantHandler(IEntrantsRepository entrantsRepository, IEventsR
         }
         var entrantCount = await entrantsRepository.GetEntrantCount(request.Entrant.EventId, cancellationToken);
         var existing = await entrantsRepository.GetById(request.Entrant.EventId, request.Entrant.EntrantId, cancellationToken);
-        if (existing == null && @event.MaxEntrants <= entrantCount)
+        if (existing is null && @event.MaxEntrants <= entrantCount)
         {
             request.Entrant.SetEntrantStatus(Domain.Enums.EntrantStatus.Reserve);
         }
         request.Entrant.SetPayment(existing?.Payment);
-        if (existing != null)
+        if (existing is not null)
             request.Entrant.SetEntrantStatus(existing.EntrantStatus);
 
         await entrantsRepository.Upsert(request.Entrant, cancellationToken);
-        await authorisationNotifier.AddEditableEntrant(request.Entrant.EntrantId, new[] { request.Entrant.Email }, cancellationToken);
+        await authorisationNotifier.AddEditableEntrant(request.Entrant.EntrantId, [request.Entrant.Email], cancellationToken);
         return request.Entrant;
     }
 }

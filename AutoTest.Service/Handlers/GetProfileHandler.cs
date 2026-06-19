@@ -13,6 +13,6 @@ public class GetProfileHandler(IProfileRepository profileRepository) : IRequestH
     async Task<Profile> IRequestHandler<GetProfile, Profile>.Handle(GetProfile request, CancellationToken cancellationToken)
     {
         var found = await profileRepository.Get(request.EmailAddress, cancellationToken);
-        return found == null ? new Profile(request.EmailAddress, "", "", Age.Senior, false) : found;
+        return found is null ? new Profile(request.EmailAddress, "", "", Age.Senior, false) : found;
     }
 }

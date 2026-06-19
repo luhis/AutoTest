@@ -15,11 +15,11 @@ public class Profile(string emailAddress, string givenName, string familyName, A
 
     public bool IsLady { get; } = isLady;
 
-    public Vehicle Vehicle { get; private set; } = new Vehicle();
+    public Vehicle Vehicle { get; private set; } = new();
 
-    public EmergencyContact EmergencyContact { get; private set; } = new EmergencyContact();
+    public EmergencyContact EmergencyContact { get; private set; } = new();
 
-    public MsaMembership MsaMembership { get; private set; } = new MsaMembership();
+    public MsaMembership MsaMembership { get; private set; } = new();
 
     public ICollection<ClubMembership> ClubMemberships { get; private set; } = new List<ClubMembership>();
 

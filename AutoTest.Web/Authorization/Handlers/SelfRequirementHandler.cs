@@ -13,12 +13,12 @@ public class SelfRequirementHandler(IHttpContextAccessor httpContextAccessor, IM
     protected override async Task HandleRequirementAsync(AuthorizationHandlerContext context, SelfRequirement requirement)
     {
         var routeData = httpContextAccessor.HttpContext!.GetRouteData();
-        if (routeData != null)
+        if (routeData is not null)
         {
             var emailFromRoute = await AuthTools.GetExistingEmail(routeData, mediator);
 
             var email = context.User.GetEmailAddress();
-            if (emailFromRoute != null && emailFromRoute.Equals(email, System.StringComparison.OrdinalIgnoreCase))
+            if (emailFromRoute is not null && emailFromRoute.Equals(email, System.StringComparison.OrdinalIgnoreCase))
             {
                 context.Succeed(requirement);
             }

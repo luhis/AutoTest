@@ -13,7 +13,7 @@ public class ClubAdminOrSelfRequirementSelfHander(IHttpContextAccessor httpConte
     protected override async Task HandleRequirementAsync(AuthorizationHandlerContext context, ClubAdminOrSelfRequirement requirement)
     {
         var routeData = httpContextAccessor.HttpContext!.GetRouteData();
-        if (routeData != null)
+        if (routeData is not null)
         {
             var emailFromRoute = await AuthTools.GetExistingEmail(routeData, mediator);
 

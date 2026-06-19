@@ -18,7 +18,7 @@ public record MarshalSaveModel
     public string Role { get; set; } = string.Empty;
 
     [Required]
-    public EmergencyContactSaveModel EmergencyContact { get; set; } = new EmergencyContactSaveModel();
+    public EmergencyContactSaveModel EmergencyContact { get; set; } = new();
 
     [Required]
     public string Email { get; set; } = string.Empty;

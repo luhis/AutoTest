@@ -16,8 +16,8 @@ public static class ApplicationBuilderExtensions
             OnPrepareResponse = r =>
             {
                 var path = r.File.PhysicalPath ?? "";
-                var cacheExtensions =
-                    new[] { ".css", ".js", ".gif", ".jpg", ".png", ".svg", ".ico", ".json" };
+                string[] cacheExtensions =
+                    [".css", ".js", ".gif", ".jpg", ".png", ".svg", ".ico", ".json"];
                 if (cacheExtensions.Any(path.EndsWith))
                 {
                     var maxAge = TimeSpan.FromDays(7);

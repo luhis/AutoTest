@@ -7,15 +7,8 @@ using Microsoft.AspNetCore.SignalR;
 
 namespace AutoTest.Web.Hubs;
 
-public class AuthorisationNotifier : IAuthorisationNotifier
+public class AuthorisationNotifier(IHubContext<AuthorisationHub> authorisationHub) : IAuthorisationNotifier
 {
-    private readonly IHubContext<AuthorisationHub> authorisationHub;
-
-    public AuthorisationNotifier(IHubContext<AuthorisationHub> authorisationHub)
-    {
-        this.authorisationHub = authorisationHub;
-    }
-
     Task IAuthorisationNotifier.AddEditableEntrant(ulong eventId, IEnumerable<string> newEmails, CancellationToken cancellationToken)
     {
         var groups = newEmails.Select(e => GetEmailGroup(e));

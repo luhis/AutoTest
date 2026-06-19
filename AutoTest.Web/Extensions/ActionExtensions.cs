@@ -6,7 +6,7 @@ public static class ActionExtensions
 {
     public static ActionResult<T> ToAr<T>(this T? o)
     {
-        return o == null ? new NotFoundResult() : o;
+        return o is null ? new NotFoundResult() : o;
     }
     public static IActionResult ToIar(this IActionResult o)
     {

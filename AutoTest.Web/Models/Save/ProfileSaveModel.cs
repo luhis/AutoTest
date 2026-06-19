@@ -19,14 +19,14 @@ public class ProfileSaveModel
     public bool IsLady { get; set; }
 
     [Required]
-    public VehicleSaveModel Vehicle { get; set; } = new VehicleSaveModel();
+    public VehicleSaveModel Vehicle { get; set; } = new();
 
     [Required]
-    public EmergencyContactSaveModel EmergencyContact { get; set; } = new EmergencyContactSaveModel();
+    public EmergencyContactSaveModel EmergencyContact { get; set; } = new();
 
     [Required]
-    public MsaMembershipSaveModel MsaMembership { get; set; } = new MsaMembershipSaveModel();
+    public MsaMembershipSaveModel MsaMembership { get; set; } = new();
 
     [Required]
-    public ICollection<ClubMembershipSaveModel> ClubMemberships { get; set; } = new List<ClubMembershipSaveModel>();
+    public ICollection<ClubMembershipSaveModel> ClubMemberships { get; set; } = [];
 }
