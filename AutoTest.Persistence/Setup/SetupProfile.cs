@@ -1,22 +1,23 @@
 ﻿using AutoTest.Domain.StorageModels;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace AutoTest.Persistence.Setup
+namespace AutoTest.Persistence.Setup;
+
+public class ProfileConfig : IEntityTypeConfiguration<Profile>
 {
-    public static class SetupProfile
+    public void Configure(EntityTypeBuilder<Profile> builder)
     {
-        public static void Setup(EntityTypeBuilder<Profile> entity)
-        {
-            entity.HasKey(e => e.EmailAddress);
-            entity.Property(e => e.EmailAddress).ValueGeneratedNever().IsRequired();
-            entity.Property(e => e.GivenName).IsRequired();
-            entity.Property(e => e.FamilyName).IsRequired();
-            entity.Property(e => e.Age).IsRequired();
-            entity.Property(e => e.IsLady).IsRequired();
-            entity.OwnsOne(a => a.Vehicle, SetupVehicle.Setup);
-            entity.OwnsOne(a => a.EmergencyContact, SetupEmergencyContact.Setup);
-            entity.OwnsMany(a => a.ClubMemberships, SetupClubMembership.Setup);
-            entity.OwnsOne(a => a.MsaMembership, SetupMsaMembership.Setup);
-        }
+        builder.HasDiscriminator<string>(nameof(Profile));
+        builder.HasKey(e => e.EmailAddress);
+        builder.Property(e => e.EmailAddress).ValueGeneratedNever().IsRequired();
+        builder.Property(e => e.GivenName).IsRequired();
+        builder.Property(e => e.FamilyName).IsRequired();
+        builder.Property(e => e.Age).IsRequired();
+        builder.Property(e => e.IsLady).IsRequired();
+        builder.OwnsOne(a => a.Vehicle, SetupVehicle.Setup);
+        builder.OwnsOne(a => a.EmergencyContact, SetupEmergencyContact.Setup);
+        builder.OwnsMany(a => a.ClubMemberships, SetupClubMembership.Setup);
+        builder.OwnsOne(a => a.MsaMembership, SetupMsaMembership.Setup);
     }
 }

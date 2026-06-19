@@ -1,17 +1,16 @@
 ﻿using System;
 
-namespace AutoTest.Domain.StorageModels
+namespace AutoTest.Domain.StorageModels;
+
+public class Notification(ulong notificationId, ulong eventId, string message, DateTime created, string createdBy)
 {
-    public class Notification(ulong notificationId, ulong eventId, string message, DateTime created, string createdBy)
-    {
-        public ulong NotificationId { get; } = notificationId;
+    public ulong NotificationId { get; } = notificationId;
 
-        public string Message { get; } = message;
+    public string Message { get; } = message;
 
-        public DateTime Created { get; } = created;
+    public DateTime Created { get; } = created;
 
-        public string CreatedBy { get; } = createdBy;
+    public string CreatedBy { get; } = createdBy;
 
-        public ulong EventId { get; } = eventId;
-    }
+    public ulong EventId { get; } = eventId;
 }
