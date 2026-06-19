@@ -1,10 +1,9 @@
-﻿namespace AutoTest.Service.Messages
-{
-    using System.Collections.Generic;
-    using AutoTest.Domain.StorageModels;
-    using MediatR;
+﻿using System.Collections.Generic;
+using AutoTest.Domain.StorageModels;
+using MediatR;
 
-    public class GetClubs : IRequest<IEnumerable<Club>>
-    {
-    }
+namespace AutoTest.Service.Messages;
+
+public class GetClubs : IRequest<IEnumerable<Club>>
+{
 }

@@ -11,39 +11,38 @@ using MediatR;
 using Moq;
 using Xunit;
 
-namespace AutoTest.Unit.Test.Handlers
+namespace AutoTest.Unit.Test.Handlers;
+
+public class SaveEventHandlerShould
 {
-    public class SaveEventHandlerShould
+    private readonly MockRepository mr;
+    private readonly Mock<IEventsRepository> eventsRepository;
+    //private readonly Mock<IFileRepository> fileRepository;
+    private readonly IRequestHandler<SaveEvent, ulong> sut;
+    public SaveEventHandlerShould()
     {
-        private readonly MockRepository mr;
-        private readonly Mock<IEventsRepository> eventsRepository;
-        //private readonly Mock<IFileRepository> fileRepository;
-        private readonly IRequestHandler<SaveEvent, ulong> sut;
-        public SaveEventHandlerShould()
-        {
-            mr = new MockRepository(MockBehavior.Strict);
-            eventsRepository = mr.Create<IEventsRepository>();
-            //fileRepository = mr.Create<IFileRepository>();
-            sut = new SaveEventHandler(eventsRepository.Object);//, fileRepository.Object);
-        }
+        mr = new MockRepository(MockBehavior.Strict);
+        eventsRepository = mr.Create<IEventsRepository>();
+        //fileRepository = mr.Create<IFileRepository>();
+        sut = new SaveEventHandler(eventsRepository.Object);//, fileRepository.Object);
+    }
 
-        [Fact]
-        public async Task Save()
-        {
-            var entrantId = 1ul;
-            var eventId = 2ul;
-            var entrant = Models.GetEntrant(entrantId, eventId);
-            entrant.SetPayment(new Payment());
-            var evt = new Event(eventId, 1, "location", DateTime.UtcNow, 2, 2, "regs", [], "", TimingSystem.StopWatch, DateTime.UtcNow, DateTime.UtcNow, 22, DateTime.UtcNow);
+    [Fact]
+    public async Task Save()
+    {
+        var entrantId = 1ul;
+        var eventId = 2ul;
+        var entrant = Models.GetEntrant(entrantId, eventId);
+        entrant.SetPayment(new Payment());
+        var evt = new Event(eventId, 1, "location", DateTime.UtcNow, 2, 2, "regs", [], "", TimingSystem.StopWatch, DateTime.UtcNow, DateTime.UtcNow, 22, DateTime.UtcNow);
 
-            var entrantFromDb = Models.GetEntrant(entrantId, eventId);
-            eventsRepository.Setup(a => a.Upsert(evt, CancellationToken.None)).Returns(Task.CompletedTask);
-            //fileRepository.Setup(a => a.SaveMaps(2, "", CancellationToken.None)).ReturnsAsync("");
+        var entrantFromDb = Models.GetEntrant(entrantId, eventId);
+        eventsRepository.Setup(a => a.Upsert(evt, CancellationToken.None)).Returns(Task.CompletedTask);
+        //fileRepository.Setup(a => a.SaveMaps(2, "", CancellationToken.None)).ReturnsAsync("");
 
-            var se = new SaveEvent(evt);
-            var res = await sut.Handle(se, CancellationToken.None);
+        var se = new SaveEvent(evt);
+        var res = await sut.Handle(se, CancellationToken.None);
 
-            mr.VerifyAll();
-        }
+        mr.VerifyAll();
     }
 }

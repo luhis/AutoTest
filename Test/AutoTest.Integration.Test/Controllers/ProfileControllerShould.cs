@@ -7,33 +7,32 @@ using AutoTest.Web;
 using AwesomeAssertions;
 using Xunit;
 
-namespace AutoTest.Integration.Test.Controllers
+namespace AutoTest.Integration.Test.Controllers;
+
+public class ProfileControllerShould : IClassFixture<CustomWebApplicationFactory<Startup>>, IClassFixture<AuthdCustomWebApplicationFactory<Startup>>
 {
-    public class ProfileControllerShould : IClassFixture<CustomWebApplicationFactory<Startup>>, IClassFixture<AuthdCustomWebApplicationFactory<Startup>>
+    private readonly HttpClient unAuthorisedClient;
+    private readonly HttpClient authorisedClient;
+
+    public ProfileControllerShould(CustomWebApplicationFactory<Startup> fixture, AuthdCustomWebApplicationFactory<Startup> fixture2)
     {
-        private readonly HttpClient unAuthorisedClient;
-        private readonly HttpClient authorisedClient;
+        this.unAuthorisedClient = fixture.GetUnAuthorisedClient();
+        this.authorisedClient = fixture2.GetAuthorisedClient();
+    }
 
-        public ProfileControllerShould(CustomWebApplicationFactory<Startup> fixture, AuthdCustomWebApplicationFactory<Startup> fixture2)
-        {
-            this.unAuthorisedClient = fixture.GetUnAuthorisedClient();
-            this.authorisedClient = fixture2.GetAuthorisedClient();
-        }
+    [Fact]
+    public async Task GetProfileUnauthorized()
+    {
+        var res = await unAuthorisedClient.GetAsync("/api/profile");
+        res.StatusCode.Should().Be(System.Net.HttpStatusCode.Unauthorized);
+    }
 
-        [Fact]
-        public async Task GetProfileUnauthorized()
-        {
-            var res = await unAuthorisedClient.GetAsync("/api/profile");
-            res.StatusCode.Should().Be(System.Net.HttpStatusCode.Unauthorized);
-        }
-
-        [Fact]
-        public async Task GetProfile()
-        {
-            var res = await authorisedClient.GetAsync("/api/profile");
-            res.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);
-            var content = await res.DeserialiseAsync<Profile>();
-            content.Should().BeEquivalentTo(new Profile("user@test.com", "", "", Domain.Enums.Age.Senior, false));
-        }
+    [Fact]
+    public async Task GetProfile()
+    {
+        var res = await authorisedClient.GetAsync("/api/profile");
+        res.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);
+        var content = await res.DeserialiseAsync<Profile>();
+        content.Should().BeEquivalentTo(new Profile("user@test.com", "", "", Domain.Enums.Age.Senior, false));
     }
 }

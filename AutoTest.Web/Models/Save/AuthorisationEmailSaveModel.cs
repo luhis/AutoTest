@@ -1,10 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace AutoTest.Web.Models.Save
+namespace AutoTest.Web.Models.Save;
+
+public class AuthorisationEmailSaveModel
 {
-    public class AuthorisationEmailSaveModel
-    {
-        [Required]
-        public string Email { get; set; } = string.Empty;
-    }
+    [Required]
+    public string Email { get; set; } = string.Empty;
 }

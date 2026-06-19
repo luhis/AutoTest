@@ -1,19 +1,18 @@
-﻿namespace AutoTest.Web
+﻿using System.Threading.Tasks;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Hosting;
+
+namespace AutoTest.Web;
+
+public static class Program
 {
-    using System.Threading.Tasks;
-    using Microsoft.AspNetCore.Hosting;
-    using Microsoft.Extensions.Hosting;
+    public static Task Main(string[] args) => CreateHostBuilder(args).Build().RunAsync();
 
-    public static class Program
-    {
-        public static Task Main(string[] args) => CreateHostBuilder(args).Build().RunAsync();
-
-        private static IHostBuilder CreateHostBuilder(string[] args) =>
-            Host.CreateDefaultBuilder(args)
-                .ConfigureWebHostDefaults(webBuilder =>
-                {
-                    webBuilder.UseStartup<Startup>();
-                    webBuilder.ConfigureKestrel(serverOptions => serverOptions.AddServerHeader = false);
-                });
-    }
+    private static IHostBuilder CreateHostBuilder(string[] args) =>
+        Host.CreateDefaultBuilder(args)
+            .ConfigureWebHostDefaults(webBuilder =>
+            {
+                webBuilder.UseStartup<Startup>();
+                webBuilder.ConfigureKestrel(serverOptions => serverOptions.AddServerHeader = false);
+            });
 }

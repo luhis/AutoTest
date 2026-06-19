@@ -1,14 +1,13 @@
-﻿namespace AutoTest.Service.Messages
+﻿using MediatR;
+
+namespace AutoTest.Service.Messages;
+
+public class DeleteClub : IRequest
 {
-    using MediatR;
-
-    public class DeleteClub : IRequest
+    public DeleteClub(ulong clubId)
     {
-        public DeleteClub(ulong clubId)
-        {
-            this.ClubId = clubId;
-        }
-
-        public ulong ClubId { get; }
+        this.ClubId = clubId;
     }
+
+    public ulong ClubId { get; }
 }

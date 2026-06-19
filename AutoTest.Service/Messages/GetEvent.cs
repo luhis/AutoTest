@@ -5,15 +5,14 @@
 using AutoTest.Domain.StorageModels;
 using MediatR;
 
-namespace AutoTest.Service.Messages
-{
-    public class GetEvent : IRequest<Event?>
-    {
-        public GetEvent(ulong eventId)
-        {
-            EventId = eventId;
-        }
+namespace AutoTest.Service.Messages;
 
-        public ulong EventId { get; }
+public class GetEvent : IRequest<Event?>
+{
+    public GetEvent(ulong eventId)
+    {
+        EventId = eventId;
     }
+
+    public ulong EventId { get; }
 }

@@ -4,13 +4,12 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 
-namespace AutoTest.Persistence
+namespace AutoTest.Persistence;
+
+public static class QueryableExtensions
 {
-    public static class QueryableExtensions
+    public static async Task<IEnumerable<T>> ToEnumerableAsync<T>(this IQueryable<T> q, CancellationToken cancellationToken)
     {
-        public static async Task<IEnumerable<T>> ToEnumerableAsync<T>(this IQueryable<T> q, CancellationToken cancellationToken)
-        {
-            return await q.ToArrayAsync(cancellationToken);
-        }
+        return await q.ToArrayAsync(cancellationToken);
     }
 }

@@ -4,21 +4,20 @@ using AutoTest.Web.Models.Save;
 using FluentAssertions;
 using Xunit;
 
-namespace AutoTest.Unit.Test.Mappers
+namespace AutoTest.Unit.Test.Mappers;
+
+public class MarshalMapperShould
 {
-    public class MarshalMapperShould
+    [Fact]
+    public void MapSaveModel()
     {
-        [Fact]
-        public void MapSaveModel()
-        {
-            var entrantId = 1ul;
-            var eventId = 2ul;
-            var model = new MarshalSaveModel();
-            var res = MapMarshal.Map(entrantId, eventId, model, "a@a.com");
+        var entrantId = 1ul;
+        var eventId = 2ul;
+        var model = new MarshalSaveModel();
+        var res = MapMarshal.Map(entrantId, eventId, model, "a@a.com");
 
-            var expected = new Marshal(entrantId, model.GivenName, model.FamilyName, "a@a.com", eventId, 0, "");
+        var expected = new Marshal(entrantId, model.GivenName, model.FamilyName, "a@a.com", eventId, 0, "");
 
-            res.Should().BeEquivalentTo(expected);
-        }
+        res.Should().BeEquivalentTo(expected);
     }
 }

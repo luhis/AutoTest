@@ -1,14 +1,13 @@
 ﻿using AutoTest.Domain.StorageModels;
 using AutoTest.Web.Models.Save;
 
-namespace AutoTest.Web.Mapping
+namespace AutoTest.Web.Mapping;
+
+public static class MapVehicle
 {
-    public static class MapVehicle
+    public static Vehicle Map(VehicleSaveModel vehicle)
     {
-        public static Vehicle Map(VehicleSaveModel vehicle)
-        {
-            return new Vehicle(vehicle.Make, vehicle.Model,
-                vehicle.Displacement, vehicle.Induction, vehicle.Registration);
-        }
+        return new Vehicle(vehicle.Make, vehicle.Model,
+            vehicle.Displacement, vehicle.Induction, vehicle.Registration);
     }
 }

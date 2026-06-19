@@ -11,62 +11,61 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
-namespace AutoTest.Integration.Test.Fixtures
+namespace AutoTest.Integration.Test.Fixtures;
+
+public class CustomWebApplicationFactory<TStartup>
+    : WebApplicationFactory<TStartup>
+    where TStartup : class
 {
-    public class CustomWebApplicationFactory<TStartup>
-        : WebApplicationFactory<TStartup>
-        where TStartup : class
+    public HttpClient GetUnAuthorisedClient()
+        => this.CreateClient(
+            new WebApplicationFactoryClientOptions() { AllowAutoRedirect = false });
+
+    protected override void ConfigureWebHost(IWebHostBuilder builder)
     {
-        public HttpClient GetUnAuthorisedClient()
-            => this.CreateClient(
-                new WebApplicationFactoryClientOptions() { AllowAutoRedirect = false });
-
-        protected override void ConfigureWebHost(IWebHostBuilder builder)
+        builder.ConfigureTestServices(services =>
         {
-            builder.ConfigureTestServices(services =>
+            var descriptors = services.Where(d =>
+                d.ServiceType == typeof(DbContextOptions<AutoTestContext>) ||
+                d.ServiceType == typeof(AutoTestContext) ||
+                (d.ServiceType.Namespace != null && d.ServiceType.Namespace.StartsWith("Microsoft.EntityFrameworkCore", StringComparison.Ordinal))).ToList();
+            foreach (var d in descriptors)
             {
-                var descriptors = services.Where(d =>
-                    d.ServiceType == typeof(DbContextOptions<AutoTestContext>) ||
-                    d.ServiceType == typeof(AutoTestContext) ||
-                    (d.ServiceType.Namespace != null && d.ServiceType.Namespace.StartsWith("Microsoft.EntityFrameworkCore", StringComparison.Ordinal))).ToList();
-                foreach (var d in descriptors)
-                {
-                    services.Remove(d);
-                }
+                services.Remove(d);
+            }
 
-                // Add ApplicationDbContext using an in-memory database for testing.
-                services.AddDbContext<AutoTestContext>(options =>
-                {
-                    options.UseInMemoryDatabase("InMemoryDbForTestingNoAuth");
-                });
-
-                // Build the service provider.
-                var sp = services.BuildServiceProvider();
-
-                // Create a scope to obtain a reference to the database
-                // context (ApplicationDbContext).
-                using var scope = sp.CreateScope();
-                var scopedServices = scope.ServiceProvider;
-                var db = scopedServices.GetRequiredService<AutoTestContext>();
-                var logger = scopedServices
-                    .GetRequiredService<ILogger<CustomWebApplicationFactory<TStartup>>>();
-
-                // Ensure the database is created.
-                db.Database.EnsureCreated();
-
-                try
-                {
-                    // Seed the database with test data.
-                    DbInitialiser.InitializeDbForTests(db);
-                }
-                catch (Exception ex)
-                {
-                    logger.LogError(
-                        ex,
-                        "An error occurred seeding the database with test messages. Error: {Message}",
-                        ex.Message);
-                }
+            // Add ApplicationDbContext using an in-memory database for testing.
+            services.AddDbContext<AutoTestContext>(options =>
+            {
+                options.UseInMemoryDatabase("InMemoryDbForTestingNoAuth");
             });
-        }
+
+            // Build the service provider.
+            var sp = services.BuildServiceProvider();
+
+            // Create a scope to obtain a reference to the database
+            // context (ApplicationDbContext).
+            using var scope = sp.CreateScope();
+            var scopedServices = scope.ServiceProvider;
+            var db = scopedServices.GetRequiredService<AutoTestContext>();
+            var logger = scopedServices
+                .GetRequiredService<ILogger<CustomWebApplicationFactory<TStartup>>>();
+
+            // Ensure the database is created.
+            db.Database.EnsureCreated();
+
+            try
+            {
+                // Seed the database with test data.
+                DbInitialiser.InitializeDbForTests(db);
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(
+                    ex,
+                    "An error occurred seeding the database with test messages. Error: {Message}",
+                    ex.Message);
+            }
+        });
     }
 }

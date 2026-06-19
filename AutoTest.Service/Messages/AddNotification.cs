@@ -1,15 +1,14 @@
 ﻿using AutoTest.Domain.StorageModels;
 using MediatR;
 
-namespace AutoTest.Service.Messages
-{
-    public class AddNotification : IRequest
-    {
-        public AddNotification(Notification notification)
-        {
-            Notification = notification;
-        }
+namespace AutoTest.Service.Messages;
 
-        public Notification Notification { get; }
+public class AddNotification : IRequest
+{
+    public AddNotification(Notification notification)
+    {
+        Notification = notification;
     }
+
+    public Notification Notification { get; }
 }

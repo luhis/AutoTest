@@ -9,52 +9,51 @@ using MediatR;
 using Moq;
 using Xunit;
 
-namespace AutoTest.Unit.Test.Handlers
+namespace AutoTest.Unit.Test.Handlers;
+
+public class MarkPaidShould
 {
-    public class MarkPaidShould
+    private readonly IRequestHandler<MarkPaid> sut;
+    private readonly MockRepository mr;
+    private readonly Mock<IEntrantsRepository> entrantsRepository;
+
+    private readonly Payment testPayment = new(new System.DateTime(2000, 1, 1), Domain.Enums.PaymentMethod.Paypal, new System.DateTime(2000, 2, 2), "test@test.com");
+
+    public MarkPaidShould()
     {
-        private readonly IRequestHandler<MarkPaid> sut;
-        private readonly MockRepository mr;
-        private readonly Mock<IEntrantsRepository> entrantsRepository;
+        mr = new MockRepository(MockBehavior.Strict);
+        entrantsRepository = mr.Create<IEntrantsRepository>();
+        sut = new MarkPaidHandler(entrantsRepository.Object);
+    }
 
-        private readonly Payment testPayment = new(new System.DateTime(2000, 1, 1), Domain.Enums.PaymentMethod.Paypal, new System.DateTime(2000, 2, 2), "test@test.com");
+    [Fact]
+    public async Task MarkNotPaid()
+    {
+        var entrantId = 1ul;
+        var eventId = 22ul;
+        var entrant = Models.GetEntrant(entrantId, eventId);
+        entrant.SetPayment(testPayment);
+        entrantsRepository.Setup(a => a.GetById(eventId, entrantId, CancellationToken.None)).ReturnsAsync(entrant);
+        entrantsRepository.Setup(a => a.Update(entrant, CancellationToken.None)).Returns(Task.CompletedTask);
 
-        public MarkPaidShould()
-        {
-            mr = new MockRepository(MockBehavior.Strict);
-            entrantsRepository = mr.Create<IEntrantsRepository>();
-            sut = new MarkPaidHandler(entrantsRepository.Object);
-        }
+        await sut.Handle(new(eventId, entrantId, null), CancellationToken.None);
 
-        [Fact]
-        public async Task MarkNotPaid()
-        {
-            var entrantId = 1ul;
-            var eventId = 22ul;
-            var entrant = Models.GetEntrant(entrantId, eventId);
-            entrant.SetPayment(testPayment);
-            entrantsRepository.Setup(a => a.GetById(eventId, entrantId, CancellationToken.None)).ReturnsAsync(entrant);
-            entrantsRepository.Setup(a => a.Update(entrant, CancellationToken.None)).Returns(Task.CompletedTask);
+        mr.VerifyAll();
+        entrantsRepository.Verify(a => a.Update(It.Is<Entrant>(a => a.Payment == null), CancellationToken.None));
+    }
 
-            await sut.Handle(new(eventId, entrantId, null), CancellationToken.None);
+    [Fact]
+    public async Task MarkPaid()
+    {
+        var entrantId = 1ul;
+        var eventId = 22ul;
+        var entrant = Models.GetEntrant(entrantId, eventId);
+        entrantsRepository.Setup(a => a.GetById(eventId, entrantId, CancellationToken.None)).ReturnsAsync(entrant);
+        entrantsRepository.Setup(a => a.Update(entrant, CancellationToken.None)).Returns(Task.CompletedTask);
 
-            mr.VerifyAll();
-            entrantsRepository.Verify(a => a.Update(It.Is<Entrant>(a => a.Payment == null), CancellationToken.None));
-        }
+        await sut.Handle(new(eventId, entrantId, testPayment), CancellationToken.None);
 
-        [Fact]
-        public async Task MarkPaid()
-        {
-            var entrantId = 1ul;
-            var eventId = 22ul;
-            var entrant = Models.GetEntrant(entrantId, eventId);
-            entrantsRepository.Setup(a => a.GetById(eventId, entrantId, CancellationToken.None)).ReturnsAsync(entrant);
-            entrantsRepository.Setup(a => a.Update(entrant, CancellationToken.None)).Returns(Task.CompletedTask);
-
-            await sut.Handle(new(eventId, entrantId, testPayment), CancellationToken.None);
-
-            mr.VerifyAll();
-            entrantsRepository.Verify(a => a.Update(It.Is<Entrant>(a => a.Payment != null), CancellationToken.None));
-        }
+        mr.VerifyAll();
+        entrantsRepository.Verify(a => a.Update(It.Is<Entrant>(a => a.Payment != null), CancellationToken.None));
     }
 }

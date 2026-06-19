@@ -5,17 +5,16 @@
 using AutoTest.Domain.StorageModels;
 using MediatR;
 
-namespace AutoTest.Service.Messages
-{
-    public class GetMarshal : IRequest<Marshal?>
-    {
-        public GetMarshal(ulong eventId, ulong marshalId)
-        {
-            EventId = eventId;
-            MarshalId = marshalId;
-        }
+namespace AutoTest.Service.Messages;
 
-        public ulong EventId { get; }
-        public ulong MarshalId { get; }
+public class GetMarshal : IRequest<Marshal?>
+{
+    public GetMarshal(ulong eventId, ulong marshalId)
+    {
+        EventId = eventId;
+        MarshalId = marshalId;
     }
+
+    public ulong EventId { get; }
+    public ulong MarshalId { get; }
 }

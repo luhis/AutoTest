@@ -1,24 +1,23 @@
 ﻿using System;
 
-namespace AutoTest.Domain.StorageModels
+namespace AutoTest.Domain.StorageModels;
+
+public class AcceptDeclaration
 {
-    public class AcceptDeclaration
+    public AcceptDeclaration()
     {
-        public AcceptDeclaration()
-        {
 
-        }
-        public AcceptDeclaration(string email, DateTime timestamp, bool isAccepted)
-        {
-            Email = email;
-            Timestamp = timestamp;
-            IsAccepted = isAccepted;
-        }
-
-        public bool IsAccepted { get; }
-
-        public string Email { get; } = string.Empty;
-
-        public DateTime Timestamp { get; }
     }
+    public AcceptDeclaration(string email, DateTime timestamp, bool isAccepted)
+    {
+        Email = email;
+        Timestamp = timestamp;
+        IsAccepted = isAccepted;
+    }
+
+    public bool IsAccepted { get; }
+
+    public string Email { get; } = string.Empty;
+
+    public DateTime Timestamp { get; }
 }

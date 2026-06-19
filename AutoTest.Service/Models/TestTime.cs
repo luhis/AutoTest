@@ -1,18 +1,17 @@
 ﻿using System.Collections.Generic;
 using AutoTest.Domain.StorageModels;
 
-namespace AutoTest.Service.Models
+namespace AutoTest.Service.Models;
+
+public class TestTime
 {
-    public class TestTime
+    public TestTime(int ordinal, IEnumerable<TestRun> testRuns)
     {
-        public TestTime(int ordinal, IEnumerable<TestRun> testRuns)
-        {
-            Ordinal = ordinal;
-            TestRuns = testRuns;
-        }
-
-        public int Ordinal { get; }
-
-        public IEnumerable<TestRun> TestRuns { get; }
+        Ordinal = ordinal;
+        TestRuns = testRuns;
     }
+
+    public int Ordinal { get; }
+
+    public IEnumerable<TestRun> TestRuns { get; }
 }

@@ -9,13 +9,12 @@ using AutoTest.Domain.StorageModels;
 using AutoTest.Service.Messages;
 using MediatR;
 
-namespace AutoTest.Service.Handlers
+namespace AutoTest.Service.Handlers;
+
+public class GetEventHandler(IEventsRepository entrantsRepository) : IRequestHandler<GetEvent, Event?>
 {
-    public class GetEventHandler(IEventsRepository entrantsRepository) : IRequestHandler<GetEvent, Event?>
+    Task<Event?> IRequestHandler<GetEvent, Event?>.Handle(GetEvent request, CancellationToken cancellationToken)
     {
-        Task<Event?> IRequestHandler<GetEvent, Event?>.Handle(GetEvent request, CancellationToken cancellationToken)
-        {
-            return entrantsRepository.GetById(request.EventId, cancellationToken);
-        }
+        return entrantsRepository.GetById(request.EventId, cancellationToken);
     }
 }

@@ -1,7 +1,6 @@
-﻿namespace AutoTest.Domain.Enums
+﻿namespace AutoTest.Domain.Enums;
+
+public enum Induction
 {
-    public enum Induction
-    {
-        NA = 0, Forced = 1
-    }
+    NA = 0, Forced = 1
 }

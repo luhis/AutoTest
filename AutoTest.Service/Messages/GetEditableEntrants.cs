@@ -5,15 +5,14 @@
 using System.Collections.Generic;
 using MediatR;
 
-namespace AutoTest.Service.Messages
-{
-    public record GetEditableEntrants : IRequest<IEnumerable<ulong>>
-    {
-        public string EmailAddress { get; }
+namespace AutoTest.Service.Messages;
 
-        public GetEditableEntrants(string emailAddress)
-        {
-            EmailAddress = emailAddress;
-        }
+public record GetEditableEntrants : IRequest<IEnumerable<ulong>>
+{
+    public string EmailAddress { get; }
+
+    public GetEditableEntrants(string emailAddress)
+    {
+        EmailAddress = emailAddress;
     }
 }

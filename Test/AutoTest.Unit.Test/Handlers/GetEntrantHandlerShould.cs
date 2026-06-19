@@ -9,33 +9,32 @@ using MediatR;
 using Moq;
 using Xunit;
 
-namespace AutoTest.Unit.Test.Handlers
+namespace AutoTest.Unit.Test.Handlers;
+
+public class GetEntrantHandlerShould
 {
-    public class GetEntrantHandlerShould
+    private readonly MockRepository mr;
+    private readonly IRequestHandler<GetEntrant, Entrant?> sut;
+    private readonly Mock<IEntrantsRepository> profileRepository;
+
+    public GetEntrantHandlerShould()
     {
-        private readonly MockRepository mr;
-        private readonly IRequestHandler<GetEntrant, Entrant?> sut;
-        private readonly Mock<IEntrantsRepository> profileRepository;
+        mr = new MockRepository(MockBehavior.Strict);
+        profileRepository = mr.Create<IEntrantsRepository>();
+        sut = new GetEntrantHandler(profileRepository.Object);
+    }
 
-        public GetEntrantHandlerShould()
-        {
-            mr = new MockRepository(MockBehavior.Strict);
-            profileRepository = mr.Create<IEntrantsRepository>();
-            sut = new GetEntrantHandler(profileRepository.Object);
-        }
+    [Fact]
+    public async Task GetMarshals()
+    {
+        var eventId = 1ul;
+        var entrantId = (ushort)2u;
+        var entrant = new Entrant(1, entrantId, "Joe", "Bloggs", "a@a.com", "A", 99, Domain.Enums.Age.Senior, false, null);
+        profileRepository.Setup(a => a.GetById(eventId, entrantId, CancellationToken.None)).ReturnsAsync(entrant);
 
-        [Fact]
-        public async Task GetMarshals()
-        {
-            var eventId = 1ul;
-            var entrantId = (ushort)2u;
-            var entrant = new Entrant(1, entrantId, "Joe", "Bloggs", "a@a.com", "A", 99, Domain.Enums.Age.Senior, false, null);
-            profileRepository.Setup(a => a.GetById(eventId, entrantId, CancellationToken.None)).ReturnsAsync(entrant);
+        var res = await sut.Handle(new(eventId, entrantId), CancellationToken.None);
 
-            var res = await sut.Handle(new(eventId, entrantId), CancellationToken.None);
-
-            res.Should().BeEquivalentTo(entrant);
-            mr.VerifyAll();
-        }
+        res.Should().BeEquivalentTo(entrant);
+        mr.VerifyAll();
     }
 }

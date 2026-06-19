@@ -8,25 +8,24 @@ using Moq;
 using Moq.AutoMock;
 using Xunit;
 
-namespace AutoTest.Unit.Test.Handlers
+namespace AutoTest.Unit.Test.Handlers;
+
+public class AddNotificationShould
 {
-    public class AddNotificationShould
+    [Fact]
+    public async Task NotifyOnNewNotification()
     {
-        [Fact]
-        public async Task NotifyOnNewNotification()
-        {
-            var mocker = new AutoMocker(MockBehavior.Strict);
-            var sut = mocker.CreateInstance<AddNotificationHandler>();
+        var mocker = new AutoMocker(MockBehavior.Strict);
+        var sut = mocker.CreateInstance<AddNotificationHandler>();
 
-            var notifier = mocker.GetMock<IEventNotifier>();
-            var notification = new Notification(1, 2, "message", new System.DateTime(2000, 1, 1), "test user");
-            notifier.Setup(a => a.NewNotification(notification, CancellationToken.None)).Returns(Task.CompletedTask);
-            var notificationRepository = mocker.GetMock<INotificationsRepository>();
-            notificationRepository.Setup(a => a.AddNotification(notification, CancellationToken.None)).Returns(Task.CompletedTask);
+        var notifier = mocker.GetMock<IEventNotifier>();
+        var notification = new Notification(1, 2, "message", new System.DateTime(2000, 1, 1), "test user");
+        notifier.Setup(a => a.NewNotification(notification, CancellationToken.None)).Returns(Task.CompletedTask);
+        var notificationRepository = mocker.GetMock<INotificationsRepository>();
+        notificationRepository.Setup(a => a.AddNotification(notification, CancellationToken.None)).Returns(Task.CompletedTask);
 
-            await sut.Handle(new(notification), CancellationToken.None);
+        await sut.Handle(new(notification), CancellationToken.None);
 
-            mocker.VerifyAll();
-        }
+        mocker.VerifyAll();
     }
 }

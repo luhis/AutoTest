@@ -1,15 +1,14 @@
-﻿namespace AutoTest.Service.Messages
+﻿using AutoTest.Domain.StorageModels;
+using MediatR;
+
+namespace AutoTest.Service.Messages;
+
+public class SaveClub : IRequest<ulong>
 {
-    using AutoTest.Domain.StorageModels;
-    using MediatR;
-
-    public class SaveClub : IRequest<ulong>
+    public SaveClub(Club club)
     {
-        public SaveClub(Club club)
-        {
-            this.Club = club;
-        }
-
-        public Club Club { get; }
+        this.Club = club;
     }
+
+    public Club Club { get; }
 }

@@ -1,17 +1,16 @@
 ﻿using MediatR;
 
-namespace AutoTest.Service.Messages
+namespace AutoTest.Service.Messages;
+
+public class DeleteMarshal : IRequest
 {
-    public class DeleteMarshal : IRequest
+    public DeleteMarshal(ulong eventId, ulong marshalId)
     {
-        public DeleteMarshal(ulong eventId, ulong marshalId)
-        {
-            MarshalId = marshalId;
-            EventId = eventId;
-        }
-
-        public ulong EventId { get; }
-
-        public ulong MarshalId { get; }
+        MarshalId = marshalId;
+        EventId = eventId;
     }
+
+    public ulong EventId { get; }
+
+    public ulong MarshalId { get; }
 }

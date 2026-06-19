@@ -1,15 +1,14 @@
-﻿namespace AutoTest.Service.Messages
+﻿using System.Collections.Generic;
+using MediatR;
+
+namespace AutoTest.Service.Messages;
+
+public record GetMarshalEvents : IRequest<IEnumerable<ulong>>
 {
-    using System.Collections.Generic;
-    using MediatR;
+    public string EmailAddress { get; }
 
-    public record GetMarshalEvents : IRequest<IEnumerable<ulong>>
+    public GetMarshalEvents(string emailAddress)
     {
-        public string EmailAddress { get; }
-
-        public GetMarshalEvents(string emailAddress)
-        {
-            EmailAddress = emailAddress;
-        }
+        EmailAddress = emailAddress;
     }
 }

@@ -11,35 +11,34 @@ using MediatR;
 using Moq;
 using Xunit;
 
-namespace AutoTest.Unit.Test.Handlers
+namespace AutoTest.Unit.Test.Handlers;
+
+public class GetEntrantsHandlerShould
 {
-    public class GetEntrantsHandlerShould
+    private readonly MockRepository mr;
+    private readonly IRequestHandler<GetEntrants, IEnumerable<Entrant>> sut;
+    private readonly Mock<IEntrantsRepository> profileRepository;
+
+    public GetEntrantsHandlerShould()
     {
-        private readonly MockRepository mr;
-        private readonly IRequestHandler<GetEntrants, IEnumerable<Entrant>> sut;
-        private readonly Mock<IEntrantsRepository> profileRepository;
+        mr = new MockRepository(MockBehavior.Strict);
+        profileRepository = mr.Create<IEntrantsRepository>();
+        sut = new GetEntrantsHandler(profileRepository.Object);
+    }
 
-        public GetEntrantsHandlerShould()
-        {
-            mr = new MockRepository(MockBehavior.Strict);
-            profileRepository = mr.Create<IEntrantsRepository>();
-            sut = new GetEntrantsHandler(profileRepository.Object);
-        }
+    [Fact]
+    public async Task GetMarshals()
+    {
+        var eventId = 1ul;
+        var marshals = new[] {
+            new Entrant(1, 22, "Joe", "Bloggs", "a@a.com", "A", 99, Domain.Enums.Age.Senior, false, null),
+            new Entrant(2, 22, "Joe", "Bloggs", "a@a.com", "A", 99, Domain.Enums.Age.Senior, false, null)
+        };
+        profileRepository.Setup(a => a.GetAll(eventId, CancellationToken.None)).ReturnsAsync(marshals);
 
-        [Fact]
-        public async Task GetMarshals()
-        {
-            var eventId = 1ul;
-            var marshals = new[] {
-                new Entrant(1, 22, "Joe", "Bloggs", "a@a.com", "A", 99, Domain.Enums.Age.Senior, false, null),
-                new Entrant(2, 22, "Joe", "Bloggs", "a@a.com", "A", 99, Domain.Enums.Age.Senior, false, null)
-            };
-            profileRepository.Setup(a => a.GetAll(eventId, CancellationToken.None)).ReturnsAsync(marshals);
+        var res = await sut.Handle(new(eventId), CancellationToken.None);
 
-            var res = await sut.Handle(new(eventId), CancellationToken.None);
-
-            res.Should().BeEquivalentTo(marshals.OrderBy(a => a.FamilyName), o => o.WithStrictOrdering());
-            mr.VerifyAll();
-        }
+        res.Should().BeEquivalentTo(marshals.OrderBy(a => a.FamilyName), o => o.WithStrictOrdering());
+        mr.VerifyAll();
     }
 }

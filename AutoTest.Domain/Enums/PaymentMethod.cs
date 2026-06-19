@@ -1,7 +1,6 @@
-﻿namespace AutoTest.Domain.Enums
+﻿namespace AutoTest.Domain.Enums;
+
+public enum PaymentMethod
 {
-    public enum PaymentMethod
-    {
-        Bacs = 0, Paypal = 1, Complementary = 2
-    }
+    Bacs = 0, Paypal = 1, Complementary = 2
 }

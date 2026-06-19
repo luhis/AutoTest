@@ -1,18 +1,17 @@
-﻿namespace AutoTest.Domain.StorageModels
+﻿namespace AutoTest.Domain.StorageModels;
+
+public class EntrantClub
 {
-    public class EntrantClub
+    public EntrantClub() { }
+
+    public EntrantClub(string club, string clubNumber)
     {
-        public EntrantClub() { }
-
-        public EntrantClub(string club, string clubNumber)
-        {
-            Club = club;
-            ClubNumber = clubNumber;
-        }
-
-
-        public string Club { get; } = string.Empty;
-
-        public string ClubNumber { get; } = string.Empty;
+        Club = club;
+        ClubNumber = clubNumber;
     }
+
+
+    public string Club { get; } = string.Empty;
+
+    public string ClubNumber { get; } = string.Empty;
 }

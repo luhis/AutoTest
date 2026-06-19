@@ -7,13 +7,12 @@ using AutoTest.Persistence;
 using AutoTest.Service.Messages;
 using MediatR;
 
-namespace AutoTest.Service.Handlers
+namespace AutoTest.Service.Handlers;
+
+public class GetMarshalEventsHandler(IMarshalsRepository marshalsRepository) : IRequestHandler<GetMarshalEvents, IEnumerable<ulong>>
 {
-    public class GetMarshalEventsHandler(IMarshalsRepository marshalsRepository) : IRequestHandler<GetMarshalEvents, IEnumerable<ulong>>
+    Task<IEnumerable<ulong>> IRequestHandler<GetMarshalEvents, IEnumerable<ulong>>.Handle(GetMarshalEvents request, CancellationToken cancellationToken)
     {
-        Task<IEnumerable<ulong>> IRequestHandler<GetMarshalEvents, IEnumerable<ulong>>.Handle(GetMarshalEvents request, CancellationToken cancellationToken)
-        {
-            return marshalsRepository.GetByEmail(request.EmailAddress).Select(a => a.EventId).Distinct().ToEnumerableAsync(cancellationToken);
-        }
+        return marshalsRepository.GetByEmail(request.EmailAddress).Select(a => a.EventId).Distinct().ToEnumerableAsync(cancellationToken);
     }
 }

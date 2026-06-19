@@ -1,23 +1,23 @@
-﻿namespace AutoTest.Web.Models.Display
+﻿
+namespace AutoTest.Web.Models.Display;
+
+public record PublicMarshalModel
 {
-    public record PublicMarshalModel
+    public PublicMarshalModel(ulong marshalId, string givenName, string familyName, ulong eventId, string role)
     {
-        public PublicMarshalModel(ulong marshalId, string givenName, string familyName, ulong eventId, string role)
-        {
-            MarshalId = marshalId;
-            GivenName = givenName;
-            FamilyName = familyName;
-            EventId = eventId;
-            Role = role;
-        }
-        public ulong MarshalId { get; }
-
-        public string GivenName { get; }
-
-        public string FamilyName { get; }
-
-        public ulong EventId { get; }
-
-        public string Role { get; }
+        MarshalId = marshalId;
+        GivenName = givenName;
+        FamilyName = familyName;
+        EventId = eventId;
+        Role = role;
     }
+    public ulong MarshalId { get; }
+
+    public string GivenName { get; }
+
+    public string FamilyName { get; }
+
+    public ulong EventId { get; }
+
+    public string Role { get; }
 }

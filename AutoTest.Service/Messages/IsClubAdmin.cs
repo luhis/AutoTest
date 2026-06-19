@@ -4,17 +4,16 @@
 
 using MediatR;
 
-namespace AutoTest.Service.Messages
-{
-    public class IsClubAdmin : IRequest<bool>
-    {
-        public IsClubAdmin(ulong eventId, string emailAddress)
-        {
-            EventId = eventId;
-            EmailAddress = emailAddress;
-        }
+namespace AutoTest.Service.Messages;
 
-        public ulong EventId { get; }
-        public string EmailAddress { get; }
+public class IsClubAdmin : IRequest<bool>
+{
+    public IsClubAdmin(ulong eventId, string emailAddress)
+    {
+        EventId = eventId;
+        EmailAddress = emailAddress;
     }
+
+    public ulong EventId { get; }
+    public string EmailAddress { get; }
 }

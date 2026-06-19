@@ -1,20 +1,19 @@
-﻿namespace AutoTest.Domain.StorageModels
+﻿namespace AutoTest.Domain.StorageModels;
+
+public class MsaMembership
 {
-    public class MsaMembership
+    public MsaMembership()
     {
-        public MsaMembership()
-        {
-        }
-
-        public MsaMembership(string msaLicenseType, uint msaLicense)
-        {
-            MsaLicenseType = msaLicenseType;
-            MsaLicense = msaLicense;
-        }
-
-
-        public string MsaLicenseType { get; } = string.Empty;
-
-        public uint MsaLicense { get; }
     }
+
+    public MsaMembership(string msaLicenseType, uint msaLicense)
+    {
+        MsaLicenseType = msaLicenseType;
+        MsaLicense = msaLicense;
+    }
+
+
+    public string MsaLicenseType { get; } = string.Empty;
+
+    public uint MsaLicense { get; }
 }

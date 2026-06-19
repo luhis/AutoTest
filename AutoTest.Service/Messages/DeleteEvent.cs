@@ -1,9 +1,8 @@
 ﻿using MediatR;
 
-namespace AutoTest.Service.Messages
+namespace AutoTest.Service.Messages;
+
+public class DeleteEvent(ulong eventId) : IRequest
 {
-    public class DeleteEvent(ulong eventId) : IRequest
-    {
-        public ulong EventId { get; } = eventId;
-    }
+    public ulong EventId { get; } = eventId;
 }

@@ -1,15 +1,14 @@
-﻿namespace AutoTest.Service.Messages
+﻿using System.Collections.Generic;
+using MediatR;
+
+namespace AutoTest.Service.Messages;
+
+public class GetAdminClubs : IRequest<IEnumerable<ulong>>
 {
-    using System.Collections.Generic;
-    using MediatR;
+    public string EmailAddress { get; }
 
-    public class GetAdminClubs : IRequest<IEnumerable<ulong>>
+    public GetAdminClubs(string emailAddress)
     {
-        public string EmailAddress { get; }
-
-        public GetAdminClubs(string emailAddress)
-        {
-            EmailAddress = emailAddress;
-        }
+        EmailAddress = emailAddress;
     }
 }

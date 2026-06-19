@@ -8,15 +8,14 @@ using AutoTest.Domain.StorageModels;
 using AutoTest.Service.Messages;
 using MediatR;
 
-namespace AutoTest.Service.Handlers
-{
-    public class GetTestsHandler(IEventsRepository eventsRepository) : IRequestHandler<GetTests, IEnumerable<Course>>
-    {
-        async Task<IEnumerable<Course>> IRequestHandler<GetTests, IEnumerable<Course>>.Handle(GetTests request, CancellationToken cancellationToken)
-        {
-            var @event = await eventsRepository.GetById(request.EventId, cancellationToken);
+namespace AutoTest.Service.Handlers;
 
-            return @event!.Courses.OrderBy(a => a.Ordinal);
-        }
+public class GetTestsHandler(IEventsRepository eventsRepository) : IRequestHandler<GetTests, IEnumerable<Course>>
+{
+    async Task<IEnumerable<Course>> IRequestHandler<GetTests, IEnumerable<Course>>.Handle(GetTests request, CancellationToken cancellationToken)
+    {
+        var @event = await eventsRepository.GetById(request.EventId, cancellationToken);
+
+        return @event!.Courses.OrderBy(a => a.Ordinal);
     }
 }

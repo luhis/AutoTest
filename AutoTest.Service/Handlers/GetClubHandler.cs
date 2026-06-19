@@ -9,13 +9,12 @@ using AutoTest.Domain.StorageModels;
 using AutoTest.Service.Messages;
 using MediatR;
 
-namespace AutoTest.Service.Handlers
+namespace AutoTest.Service.Handlers;
+
+public class GetClubHandler(IClubsRepository clubRepository) : IRequestHandler<GetClub, Club?>
 {
-    public class GetClubHandler(IClubsRepository clubRepository) : IRequestHandler<GetClub, Club?>
+    Task<Club?> IRequestHandler<GetClub, Club?>.Handle(GetClub request, CancellationToken cancellationToken)
     {
-        Task<Club?> IRequestHandler<GetClub, Club?>.Handle(GetClub request, CancellationToken cancellationToken)
-        {
-            return clubRepository.GetById(request.ClubId, cancellationToken);
-        }
+        return clubRepository.GetById(request.ClubId, cancellationToken);
     }
 }

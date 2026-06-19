@@ -1,10 +1,9 @@
 ﻿using System.Collections.Generic;
 using AutoTest.Domain.StorageModels;
 
-namespace AutoTest.Service.ResultCalculation
+namespace AutoTest.Service.ResultCalculation;
+
+public interface ITotalTimeCalculator
 {
-    public interface ITotalTimeCalculator
-    {
-        int GetTotalTime(TimeCalculatorConfig config, IEnumerable<TestRun> testRuns, IEnumerable<TestRun> allTestRuns);
-    }
+    int GetTotalTime(TimeCalculatorConfig config, IEnumerable<TestRun> testRuns, IEnumerable<TestRun> allTestRuns);
 }

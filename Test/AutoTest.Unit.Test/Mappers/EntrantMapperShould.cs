@@ -4,21 +4,20 @@ using AutoTest.Web.Models.Save;
 using FluentAssertions;
 using Xunit;
 
-namespace AutoTest.Unit.Test.Mappers
+namespace AutoTest.Unit.Test.Mappers;
+
+public class EntrantMapperShould
 {
-    public class EntrantMapperShould
+    [Fact]
+    public void MapSaveModel()
     {
-        [Fact]
-        public void MapSaveModel()
-        {
-            var entrantId = 1ul;
-            var eventId = 2ul;
-            var model = new EntrantSaveModel();
-            var res = MapEntrant.Map(entrantId, eventId, model, "a@a.com");
+        var entrantId = 1ul;
+        var eventId = 2ul;
+        var model = new EntrantSaveModel();
+        var res = MapEntrant.Map(entrantId, eventId, model, "a@a.com");
 
-            var expected = new Entrant(entrantId, model.DriverNumber, model.GivenName, model.FamilyName, "a@a.com", model.Class, eventId, model.Age, model.IsLady, null);
+        var expected = new Entrant(entrantId, model.DriverNumber, model.GivenName, model.FamilyName, "a@a.com", model.Class, eventId, model.Age, model.IsLady, null);
 
-            res.Should().BeEquivalentTo(expected);
-        }
+        res.Should().BeEquivalentTo(expected);
     }
 }

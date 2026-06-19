@@ -5,15 +5,14 @@
 using AutoTest.Domain.StorageModels;
 using MediatR;
 
-namespace AutoTest.Service.Messages
-{
-    public class GetClub : IRequest<Club?>
-    {
-        public GetClub(ulong clubId)
-        {
-            ClubId = clubId;
-        }
+namespace AutoTest.Service.Messages;
 
-        public ulong ClubId { get; }
+public class GetClub : IRequest<Club?>
+{
+    public GetClub(ulong clubId)
+    {
+        ClubId = clubId;
     }
+
+    public ulong ClubId { get; }
 }

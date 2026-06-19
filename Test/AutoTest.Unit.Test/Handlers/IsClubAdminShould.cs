@@ -10,38 +10,37 @@ using MediatR;
 using Moq;
 using Xunit;
 
-namespace AutoTest.Unit.Test.Handlers
+namespace AutoTest.Unit.Test.Handlers;
+
+public class IsClubAdminShould
 {
-    public class IsClubAdminShould
+    private readonly IRequestHandler<IsClubAdmin, bool> sut;
+    private readonly Mock<IClubsRepository> clubsRepository;
+    private readonly MockRepository mr;
+    private readonly Mock<IEventsRepository> eventsRepository;
+
+    public IsClubAdminShould()
     {
-        private readonly IRequestHandler<IsClubAdmin, bool> sut;
-        private readonly Mock<IClubsRepository> clubsRepository;
-        private readonly MockRepository mr;
-        private readonly Mock<IEventsRepository> eventsRepository;
+        mr = new MockRepository(MockBehavior.Strict);
+        eventsRepository = mr.Create<IEventsRepository>();
+        clubsRepository = mr.Create<IClubsRepository>();
+        sut = new IsClubAdminHandler(clubsRepository.Object, eventsRepository.Object);
+    }
 
-        public IsClubAdminShould()
-        {
-            mr = new MockRepository(MockBehavior.Strict);
-            eventsRepository = mr.Create<IEventsRepository>();
-            clubsRepository = mr.Create<IClubsRepository>();
-            sut = new IsClubAdminHandler(clubsRepository.Object, eventsRepository.Object);
-        }
+    [Fact]
+    public async Task ReturnFalse()
+    {
+        var eventId = 1ul;
+        var clubId = 2ul;
+        eventsRepository.Setup(a => a.GetById(eventId, CancellationToken.None)).ReturnsAsync(
+            Models.GetEvent(eventId, clubId)
+            );
+        var club = new Club(clubId, "club", "pay@paypal.com", "www.club.com");
+        clubsRepository.Setup(a => a.GetById(clubId, CancellationToken.None)).ReturnsAsync(club);
 
-        [Fact]
-        public async Task ReturnFalse()
-        {
-            var eventId = 1ul;
-            var clubId = 2ul;
-            eventsRepository.Setup(a => a.GetById(eventId, CancellationToken.None)).ReturnsAsync(
-                Models.GetEvent(eventId, clubId)
-                );
-            var club = new Club(clubId, "club", "pay@paypal.com", "www.club.com");
-            clubsRepository.Setup(a => a.GetById(clubId, CancellationToken.None)).ReturnsAsync(club);
+        var res = await sut.Handle(new(eventId, "a@a.com"), CancellationToken.None);
 
-            var res = await sut.Handle(new(eventId, "a@a.com"), CancellationToken.None);
-
-            res.Should().BeFalse();
-            mr.VerifyAll();
-        }
+        res.Should().BeFalse();
+        mr.VerifyAll();
     }
 }

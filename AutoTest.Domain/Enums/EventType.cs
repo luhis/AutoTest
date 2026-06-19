@@ -1,7 +1,6 @@
-﻿namespace AutoTest.Domain.Enums
+﻿namespace AutoTest.Domain.Enums;
+
+public enum EventType
 {
-    public enum EventType
-    {
-        AutoTest = 0, PCA = 1, AutoSolo = 2, Trial = 3, Sprint = 4
-    }
+    AutoTest = 0, PCA = 1, AutoSolo = 2, Trial = 3, Sprint = 4
 }

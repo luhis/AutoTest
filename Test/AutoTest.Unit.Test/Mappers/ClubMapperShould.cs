@@ -4,20 +4,19 @@ using AutoTest.Web.Models.Save;
 using FluentAssertions;
 using Xunit;
 
-namespace AutoTest.Unit.Test.Mappers
+namespace AutoTest.Unit.Test.Mappers;
+
+public class ClubMapperShould
 {
-    public class ClubMapperShould
+    [Fact]
+    public void MapSaveModel()
     {
-        [Fact]
-        public void MapSaveModel()
-        {
-            var clubId = 1ul;
-            var model = new ClubSaveModel();
-            var res = MapClub.Map(clubId, model);
+        var clubId = 1ul;
+        var model = new ClubSaveModel();
+        var res = MapClub.Map(clubId, model);
 
-            var expected = new Club(clubId, "", "", "");
+        var expected = new Club(clubId, "", "", "");
 
-            res.Should().BeEquivalentTo(expected);
-        }
+        res.Should().BeEquivalentTo(expected);
     }
 }

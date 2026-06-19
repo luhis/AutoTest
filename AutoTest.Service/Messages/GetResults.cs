@@ -2,15 +2,14 @@
 using AutoTest.Service.Models;
 using MediatR;
 
-namespace AutoTest.Service.Messages
-{
-    public class GetResults : IRequest<IEnumerable<Result>>
-    {
-        public GetResults(ulong eventId)
-        {
-            EventId = eventId;
-        }
+namespace AutoTest.Service.Messages;
 
-        public ulong EventId { get; }
+public class GetResults : IRequest<IEnumerable<Result>>
+{
+    public GetResults(ulong eventId)
+    {
+        EventId = eventId;
     }
+
+    public ulong EventId { get; }
 }

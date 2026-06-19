@@ -1,7 +1,6 @@
-﻿namespace AutoTest.Domain.Enums
+﻿namespace AutoTest.Domain.Enums;
+
+public enum EntrantStatus
 {
-    public enum EntrantStatus
-    {
-        Entered = 0, Withdrawn = 1, Reserve = 2
-    }
+    Entered = 0, Withdrawn = 1, Reserve = 2
 }

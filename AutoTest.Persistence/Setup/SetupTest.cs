@@ -1,14 +1,14 @@
-﻿namespace AutoTest.Persistence.Setup
-{
-    using AutoTest.Domain.StorageModels;
-    using Microsoft.EntityFrameworkCore.Metadata.Builders;
+﻿using AutoTest.Domain.StorageModels;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-    public static class SetupTest
+namespace AutoTest.Persistence.Setup;
+
+
+public static class SetupTest
+{
+    public static void Setup<T>(OwnedNavigationBuilder<T, Course> entity) where T : class
     {
-        public static void Setup<T>(OwnedNavigationBuilder<T, Course> entity) where T : class
-        {
-            entity.Property(e => e.Ordinal).IsRequired();
-            entity.Property(e => e.MapLocation).IsRequired();
-        }
+        entity.Property(e => e.Ordinal).IsRequired();
+        entity.Property(e => e.MapLocation).IsRequired();
     }
 }

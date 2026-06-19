@@ -9,25 +9,24 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace AutoTest.Web.Controllers
-{
-    [Authorize]
-    [ApiController]
-    [Route("api/[controller]")]
-    public class ProfileController(IMediator mediator) : ControllerBase
-    {
-        [HttpGet]
-        public Task<Profile> Get(CancellationToken cancellationToken)
-        {
-            return mediator.Send(new GetProfile(this.User.GetEmailAddress()), cancellationToken);
-        }
+namespace AutoTest.Web.Controllers;
 
-        [HttpPut]
-        public Task<string> Save(ProfileSaveModel profile, CancellationToken cancellationToken)
-        {
-            var email = this.User.GetEmailAddress();
-            return mediator.Send(new SaveProfile(email, MapProfile.Map(email, profile)),
-                cancellationToken);
-        }
+[Authorize]
+[ApiController]
+[Route("api/[controller]")]
+public class ProfileController(IMediator mediator) : ControllerBase
+{
+    [HttpGet]
+    public Task<Profile> Get(CancellationToken cancellationToken)
+    {
+        return mediator.Send(new GetProfile(this.User.GetEmailAddress()), cancellationToken);
+    }
+
+    [HttpPut]
+    public Task<string> Save(ProfileSaveModel profile, CancellationToken cancellationToken)
+    {
+        var email = this.User.GetEmailAddress();
+        return mediator.Send(new SaveProfile(email, MapProfile.Map(email, profile)),
+            cancellationToken);
     }
 }

@@ -8,24 +8,23 @@ using AutoTest.Web;
 using AwesomeAssertions;
 using Xunit;
 
-namespace AutoTest.Integration.Test.Controllers
+namespace AutoTest.Integration.Test.Controllers;
+
+public class NotificationsControllerShould : IClassFixture<CustomWebApplicationFactory<Startup>>
 {
-    public class NotificationsControllerShould : IClassFixture<CustomWebApplicationFactory<Startup>>
+    private readonly HttpClient unAuthorisedClient;
+
+    public NotificationsControllerShould(CustomWebApplicationFactory<Startup> fixture)
     {
-        private readonly HttpClient unAuthorisedClient;
+        this.unAuthorisedClient = fixture.GetUnAuthorisedClient();
+    }
 
-        public NotificationsControllerShould(CustomWebApplicationFactory<Startup> fixture)
-        {
-            this.unAuthorisedClient = fixture.GetUnAuthorisedClient();
-        }
-
-        [Fact]
-        public async Task GetResults()
-        {
-            var res = await unAuthorisedClient.GetAsync("/api/notifications/22");
-            res.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);
-            var content = await res.DeserialiseAsync<IEnumerable<Notification>>();
-            content.Should().NotBeEmpty();
-        }
+    [Fact]
+    public async Task GetResults()
+    {
+        var res = await unAuthorisedClient.GetAsync("/api/notifications/22");
+        res.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);
+        var content = await res.DeserialiseAsync<IEnumerable<Notification>>();
+        content.Should().NotBeEmpty();
     }
 }

@@ -12,31 +12,30 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace AutoTest.Web.Controllers
+namespace AutoTest.Web.Controllers;
+
+[ApiController]
+[Route("api/events/{eventId}/tests/{ordinal:int}/testRuns")]
+public class TestRunsController(IMediator mediator) : ControllerBase
 {
-    [ApiController]
-    [Route("api/events/{eventId}/tests/{ordinal:int}/testRuns")]
-    public class TestRunsController(IMediator mediator) : ControllerBase
+    [HttpGet]
+    public Task<IEnumerable<TestRun>> GetRuns(ulong eventId, int ordinal, CancellationToken cancellationToken)
     {
-        [HttpGet]
-        public Task<IEnumerable<TestRun>> GetRuns(ulong eventId, int ordinal, CancellationToken cancellationToken)
-        {
-            return mediator.Send(new GetTestRuns(eventId, ordinal), cancellationToken);
-        }
-
-        [Authorize(Policies.Marshal)]
-        [HttpPut("{testRunId}")]
-        public async Task<IActionResult> Create(ulong eventId, int ordinal, ulong testRunId, TestRunSaveModel testRun, CancellationToken cancellationToken)
-        {
-            var emailAddress = this.User.GetEmailAddress();
-            var res = await mediator.Send(
-                new AddTestRun(testRunId, eventId, ordinal, testRun.TimeInMS, testRun.EntrantId, testRun.Created, emailAddress, testRun.Penalties.Select(a => new Penalty(a.PenaltyType, a.InstanceCount))), cancellationToken);
-            return res.Match(success => this.Ok().ToIar(), error => this.BadRequest(error).ToIar());
-        }
-
-        [Authorize(Policies.ClubAdmin)]
-        [HttpPut("{testRunId}/[action]")]
-        public Task Update(ulong eventId, int ordinal, ulong testRunId, TestRunUpdateModel testRun, CancellationToken cancellationToken) =>
-            mediator.Send(new UpdateTestRun(testRunId, eventId, ordinal, testRun.TimeInMS, testRun.EntrantId, testRun.Created, testRun.MarshalId, testRun.Penalties.Select(a => new Penalty(a.PenaltyType, a.InstanceCount))), cancellationToken);
+        return mediator.Send(new GetTestRuns(eventId, ordinal), cancellationToken);
     }
+
+    [Authorize(Policies.Marshal)]
+    [HttpPut("{testRunId}")]
+    public async Task<IActionResult> Create(ulong eventId, int ordinal, ulong testRunId, TestRunSaveModel testRun, CancellationToken cancellationToken)
+    {
+        var emailAddress = this.User.GetEmailAddress();
+        var res = await mediator.Send(
+            new AddTestRun(testRunId, eventId, ordinal, testRun.TimeInMS, testRun.EntrantId, testRun.Created, emailAddress, testRun.Penalties.Select(a => new Penalty(a.PenaltyType, a.InstanceCount))), cancellationToken);
+        return res.Match(success => this.Ok().ToIar(), error => this.BadRequest(error).ToIar());
+    }
+
+    [Authorize(Policies.ClubAdmin)]
+    [HttpPut("{testRunId}/[action]")]
+    public Task Update(ulong eventId, int ordinal, ulong testRunId, TestRunUpdateModel testRun, CancellationToken cancellationToken) =>
+        mediator.Send(new UpdateTestRun(testRunId, eventId, ordinal, testRun.TimeInMS, testRun.EntrantId, testRun.Created, testRun.MarshalId, testRun.Penalties.Select(a => new Penalty(a.PenaltyType, a.InstanceCount))), cancellationToken);
 }

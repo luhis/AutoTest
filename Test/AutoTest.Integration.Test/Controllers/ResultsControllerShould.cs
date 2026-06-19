@@ -8,33 +8,32 @@ using AutoTest.Web;
 using AwesomeAssertions;
 using Xunit;
 
-namespace AutoTest.Integration.Test.Controllers
+namespace AutoTest.Integration.Test.Controllers;
+
+public class ResultsControllerShould : IClassFixture<CustomWebApplicationFactory<Startup>>
 {
-    public class ResultsControllerShould : IClassFixture<CustomWebApplicationFactory<Startup>>
+    private readonly HttpClient unAuthorisedClient;
+
+    public ResultsControllerShould(CustomWebApplicationFactory<Startup> fixture)
     {
-        private readonly HttpClient unAuthorisedClient;
+        this.unAuthorisedClient = fixture.GetUnAuthorisedClient();
+    }
 
-        public ResultsControllerShould(CustomWebApplicationFactory<Startup> fixture)
-        {
-            this.unAuthorisedClient = fixture.GetUnAuthorisedClient();
-        }
+    [Fact]
+    public async Task GetResults()
+    {
+        var res = await unAuthorisedClient.GetAsync("/api/results/22");
+        res.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);
+        var content = await res.DeserialiseAsync<IEnumerable<Result>>();
+        content.Should().NotBeEmpty();
+    }
 
-        [Fact]
-        public async Task GetResults()
-        {
-            var res = await unAuthorisedClient.GetAsync("/api/results/22");
-            res.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);
-            var content = await res.DeserialiseAsync<IEnumerable<Result>>();
-            content.Should().NotBeEmpty();
-        }
-
-        [Fact]
-        public async Task GetAwards()
-        {
-            var res = await unAuthorisedClient.GetAsync("/api/results/22/awards");
-            res.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);
-            var content = await res.DeserialiseAsync<Awards>();
-            content.Should().NotBeNull();
-        }
+    [Fact]
+    public async Task GetAwards()
+    {
+        var res = await unAuthorisedClient.GetAsync("/api/results/22/awards");
+        res.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);
+        var content = await res.DeserialiseAsync<Awards>();
+        content.Should().NotBeNull();
     }
 }

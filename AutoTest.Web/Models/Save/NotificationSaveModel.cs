@@ -1,15 +1,14 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace AutoTest.Web.Models.Save
+namespace AutoTest.Web.Models.Save;
+
+public class NotificationSaveModel
 {
-    public class NotificationSaveModel
-    {
 
-        [Required]
-        public string Message { get; set; } = string.Empty;
+    [Required]
+    public string Message { get; set; } = string.Empty;
 
-        [Required]
-        public DateTime Created { get; set; }
-    }
+    [Required]
+    public DateTime Created { get; set; }
 }

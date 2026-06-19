@@ -8,24 +8,23 @@ using AutoTest.Web;
 using AwesomeAssertions;
 using Xunit;
 
-namespace AutoTest.Integration.Test.Controllers
+namespace AutoTest.Integration.Test.Controllers;
+
+public class ClubsControllerShould : IClassFixture<CustomWebApplicationFactory<Startup>>
 {
-    public class ClubsControllerShould : IClassFixture<CustomWebApplicationFactory<Startup>>
+    private readonly HttpClient unAuthorisedClient;
+
+    public ClubsControllerShould(CustomWebApplicationFactory<Startup> fixture)
     {
-        private readonly HttpClient unAuthorisedClient;
+        this.unAuthorisedClient = fixture.GetUnAuthorisedClient();
+    }
 
-        public ClubsControllerShould(CustomWebApplicationFactory<Startup> fixture)
-        {
-            this.unAuthorisedClient = fixture.GetUnAuthorisedClient();
-        }
-
-        [Fact]
-        public async Task GetResults()
-        {
-            var res = await unAuthorisedClient.GetAsync("/api/clubs/");
-            res.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);
-            var content = await res.DeserialiseAsync<IEnumerable<Club>>();
-            content.Should().NotBeEmpty();
-        }
+    [Fact]
+    public async Task GetResults()
+    {
+        var res = await unAuthorisedClient.GetAsync("/api/clubs/");
+        res.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);
+        var content = await res.DeserialiseAsync<IEnumerable<Club>>();
+        content.Should().NotBeEmpty();
     }
 }

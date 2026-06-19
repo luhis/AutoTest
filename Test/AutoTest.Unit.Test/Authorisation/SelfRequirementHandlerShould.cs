@@ -13,59 +13,58 @@ using Microsoft.AspNetCore.Http;
 using Moq;
 using Xunit;
 
-namespace AutoTest.Unit.Test.Authorisation
+namespace AutoTest.Unit.Test.Authorisation;
+
+public class SelfRequirementHandlerShould
 {
-    public class SelfRequirementHandlerShould
+    private readonly AuthorizationHandler<SelfRequirement> sut;
+    private readonly MockRepository mr;
+    private readonly Mock<IMediator> mediator;
+    private readonly Mock<IHttpContextAccessor> httpContextAccessor;
+
+    public SelfRequirementHandlerShould()
     {
-        private readonly AuthorizationHandler<SelfRequirement> sut;
-        private readonly MockRepository mr;
-        private readonly Mock<IMediator> mediator;
-        private readonly Mock<IHttpContextAccessor> httpContextAccessor;
+        mr = new MockRepository(MockBehavior.Strict);
+        mediator = mr.Create<IMediator>();
+        httpContextAccessor = mr.Create<IHttpContextAccessor>();
+        sut = new SelfRequirementHandler(httpContextAccessor.Object, mediator.Object);
+    }
 
-        public SelfRequirementHandlerShould()
-        {
-            mr = new MockRepository(MockBehavior.Strict);
-            mediator = mr.Create<IMediator>();
-            httpContextAccessor = mr.Create<IHttpContextAccessor>();
-            sut = new SelfRequirementHandler(httpContextAccessor.Object, mediator.Object);
-        }
+    [Fact]
+    public async Task ShouldPassIfEmailMatches()
+    {
+        var ac = AuthorizationHandlerContextFixture.GetAuthContext(
+            new[] { new SelfRequirement() },
+             "a@a.com");
+        var entrantId = 99ul;
+        var eventId = 1ul;
+        var ctx = HttpContextFixture.GetHttpContext(new[] { ("eventId", $"{eventId}"), ("entrantId", $"{entrantId}") });
+        httpContextAccessor.SetupGet(a => a.HttpContext).Returns(ctx);
+        mediator.Setup(a => a.Send(Its.EquivalentTo(new GetEntrant(eventId, entrantId)), CancellationToken.None)).ReturnsAsync(
+            Models.GetEntrant(entrantId, eventId));
 
-        [Fact]
-        public async Task ShouldPassIfEmailMatches()
-        {
-            var ac = AuthorizationHandlerContextFixture.GetAuthContext(
-                new[] { new SelfRequirement() },
-                 "a@a.com");
-            var entrantId = 99ul;
-            var eventId = 1ul;
-            var ctx = HttpContextFixture.GetHttpContext(new[] { ("eventId", $"{eventId}"), ("entrantId", $"{entrantId}") });
-            httpContextAccessor.SetupGet(a => a.HttpContext).Returns(ctx);
-            mediator.Setup(a => a.Send(Its.EquivalentTo(new GetEntrant(eventId, entrantId)), CancellationToken.None)).ReturnsAsync(
-                Models.GetEntrant(entrantId, eventId));
+        await sut.HandleAsync(ac);
 
-            await sut.HandleAsync(ac);
+        ac.HasSucceeded.Should().BeTrue();
+        mr.VerifyAll();
+    }
 
-            ac.HasSucceeded.Should().BeTrue();
-            mr.VerifyAll();
-        }
+    [Fact]
+    public async Task ShouldFailIfEmailsDontMatch()
+    {
+        var ac = AuthorizationHandlerContextFixture.GetAuthContext(
+            new[] { new SelfRequirement() },
+            "notA@a.com");
+        var entrantId = 99ul;
+        var eventId = 1ul;
+        var ctx = HttpContextFixture.GetHttpContext(new[] { ("eventId", $"{eventId}"), ("entrantId", $"{entrantId}") });
+        httpContextAccessor.SetupGet(a => a.HttpContext).Returns(ctx);
+        mediator.Setup(a => a.Send(Its.EquivalentTo(new GetEntrant(eventId, entrantId)), CancellationToken.None)).ReturnsAsync(
+            Models.GetEntrant(entrantId, eventId));
 
-        [Fact]
-        public async Task ShouldFailIfEmailsDontMatch()
-        {
-            var ac = AuthorizationHandlerContextFixture.GetAuthContext(
-                new[] { new SelfRequirement() },
-                "notA@a.com");
-            var entrantId = 99ul;
-            var eventId = 1ul;
-            var ctx = HttpContextFixture.GetHttpContext(new[] { ("eventId", $"{eventId}"), ("entrantId", $"{entrantId}") });
-            httpContextAccessor.SetupGet(a => a.HttpContext).Returns(ctx);
-            mediator.Setup(a => a.Send(Its.EquivalentTo(new GetEntrant(eventId, entrantId)), CancellationToken.None)).ReturnsAsync(
-                Models.GetEntrant(entrantId, eventId));
+        await sut.HandleAsync(ac);
 
-            await sut.HandleAsync(ac);
-
-            ac.HasSucceeded.Should().BeFalse();
-            mr.VerifyAll();
-        }
+        ac.HasSucceeded.Should().BeFalse();
+        mr.VerifyAll();
     }
 }

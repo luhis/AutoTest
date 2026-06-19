@@ -1,7 +1,6 @@
-﻿namespace AutoTest.Domain.Enums
+﻿namespace AutoTest.Domain.Enums;
+
+public enum TimingSystem
 {
-    public enum TimingSystem
-    {
-        StopWatch = 0, App = 1
-    }
+    StopWatch = 0, App = 1
 }

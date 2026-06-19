@@ -6,13 +6,12 @@ using AutoTest.Persistence;
 using AutoTest.Service.Messages;
 using MediatR;
 
-namespace AutoTest.Service.Handlers
+namespace AutoTest.Service.Handlers;
+
+public class GetEditableEntrantsHandler(AutoTestContext autoTestContext) : IRequestHandler<GetEditableEntrants, IEnumerable<ulong>>
 {
-    public class GetEditableEntrantsHandler(AutoTestContext autoTestContext) : IRequestHandler<GetEditableEntrants, IEnumerable<ulong>>
+    Task<IEnumerable<ulong>> IRequestHandler<GetEditableEntrants, IEnumerable<ulong>>.Handle(GetEditableEntrants request, CancellationToken cancellationToken)
     {
-        Task<IEnumerable<ulong>> IRequestHandler<GetEditableEntrants, IEnumerable<ulong>>.Handle(GetEditableEntrants request, CancellationToken cancellationToken)
-        {
-            return autoTestContext.Entrants.Where(a => a.Email == request.EmailAddress).Select(a => a.EntrantId).ToEnumerableAsync(cancellationToken);
-        }
+        return autoTestContext.Entrants.Where(a => a.Email == request.EmailAddress).Select(a => a.EntrantId).ToEnumerableAsync(cancellationToken);
     }
 }
