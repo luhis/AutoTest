@@ -1,17 +1,17 @@
 ﻿using AutoTest.Domain.StorageModels;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace AutoTest.Persistence.Setup
+namespace AutoTest.Persistence.Setup;
+
+public class NotificationConfig : IEntityTypeConfiguration<Notification>
 {
-    public static class SetupNotification
+    public void Configure(EntityTypeBuilder<Notification> builder)
     {
-        public static void Setup(EntityTypeBuilder<Notification> entity)
-        {
-            entity.HasKey(e => e.NotificationId);
-            entity.Property(e => e.Message).IsRequired();
-            entity.Property(e => e.Created).IsRequired();
-            entity.Property(e => e.CreatedBy).IsRequired();
-            entity.HasOne<Event>().WithMany().HasForeignKey(p => p.EventId);
-        }
+        builder.HasKey(e => e.NotificationId);
+        builder.Property(e => e.Message).IsRequired();
+        builder.Property(e => e.Created).IsRequired();
+        builder.Property(e => e.CreatedBy).IsRequired();
+        builder.HasOne<Event>().WithMany().HasForeignKey(p => p.EventId);
     }
 }
