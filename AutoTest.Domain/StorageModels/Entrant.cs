@@ -5,7 +5,8 @@ namespace AutoTest.Domain.StorageModels
     public class Entrant(ulong entrantId, ushort driverNumber, string givenName, string familyName, string email,
     string @class, ulong eventId, Age age, bool isLady, ulong? doubleDrivenWith)
     {
-        public ulong EntrantId { get; } = entrantId;
+        public Entrant() : this(0, 0, string.Empty, string.Empty, string.Empty, string.Empty, 0, default, false, null) { }
+        public ulong EntrantId { get; set; } = entrantId;
 
         public ushort DriverNumber { get; } = driverNumber;
 

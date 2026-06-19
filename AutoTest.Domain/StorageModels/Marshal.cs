@@ -2,7 +2,8 @@
 {
     public class Marshal(ulong marshalId, string givenName, string familyName, string email, ulong eventId, uint registrationNumber, string role)
     {
-        public ulong MarshalId { get; } = marshalId;
+        public Marshal() : this(0, string.Empty, string.Empty, string.Empty, 0, 0, string.Empty) { }
+        public ulong MarshalId { get; set; } = marshalId;
 
         public string GivenName { get; } = givenName;
 

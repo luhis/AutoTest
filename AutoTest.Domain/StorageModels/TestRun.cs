@@ -5,9 +5,10 @@ namespace AutoTest.Domain.StorageModels
 {
     public class TestRun(ulong testRunId, ulong eventId, int ordinal, int timeInMS, ulong entrantId, DateTime created, ulong marshalId)
     {
+        public TestRun() : this(0, 0, 0, 0, 0, default, 0) { }
         public int Ordinal { get; set; } = ordinal;
 
-        public ulong TestRunId { get; } = testRunId;
+        public ulong TestRunId { get; set; } = testRunId;
 
         public ulong EventId { get; } = eventId;
 

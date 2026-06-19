@@ -4,7 +4,8 @@ namespace AutoTest.Domain.StorageModels
 {
     public class Club(ulong clubId, string clubName, string clubPaymentAddress, string website)
     {
-        public ulong ClubId { get; } = clubId;
+        public Club() : this(0, string.Empty, string.Empty, string.Empty) { }
+        public ulong ClubId { get; set; } = clubId;
 
         public string ClubName { get; } = clubName;
 

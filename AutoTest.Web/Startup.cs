@@ -264,7 +264,9 @@ namespace AutoTest.Web
                     spa.Options.SourcePath = "ClientApp/build/";
                 }
             });
-            autoTestContext.SeedDatabase();
+#pragma warning disable VSTHRD002 // Synchronously waiting on tasks may cause deadlocks - safe during startup
+            autoTestContext.SeedDatabaseAsync().Wait();
+#pragma warning restore VSTHRD002
         }
     }
 }
