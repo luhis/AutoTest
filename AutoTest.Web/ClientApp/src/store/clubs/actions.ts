@@ -1,4 +1,4 @@
-import { ThunkAction } from "redux-thunk";
+import { ThunkAction } from "@reduxjs/toolkit";
 
 import { EditingClub } from "src/types/models";
 import { addClub, deleteClub, getClubs } from "../../api/clubs";

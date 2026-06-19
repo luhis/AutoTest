@@ -1,4 +1,4 @@
-import { ThunkAction } from "redux-thunk";
+import { ThunkAction } from "@reduxjs/toolkit";
 import { showError } from "../../lib/apiErrorToast";
 
 import { EventActionTypes } from "./types";

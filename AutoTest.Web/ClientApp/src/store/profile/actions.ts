@@ -1,4 +1,4 @@
-import { ThunkAction } from "redux-thunk";
+import { ThunkAction } from "@reduxjs/toolkit";
 import { CredentialResponse } from "@react-oauth/google";
 
 import { getProfile, saveProfile } from "../../api/user";

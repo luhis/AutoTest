@@ -1,12 +1,8 @@
+import { combineReducers, Reducer } from "redux";
 import {
-  createStore,
-  combineReducers,
-  applyMiddleware,
-  Store,
-  AnyAction,
-} from "redux";
-import thunk, { ThunkDispatch } from "redux-thunk";
-import { composeWithDevTools } from "@redux-devtools/extension";
+  configureStore,
+  ThunkDispatch as ToolkitThunkDispatch,
+} from "@reduxjs/toolkit";
 import storage from "redux-persist/lib/storage";
 import { persistStore, persistReducer, createTransform } from "redux-persist";
 import { parseIsoOrThrow } from "ts-date";
@@ -46,15 +42,22 @@ export const rootReducer = combineReducers({
   runs: runReducer,
 });
 
-const persistedReducer = persistReducer(persistConfig, rootReducer);
+const persistedReducer = persistReducer(
+  persistConfig,
+  rootReducer as unknown as Reducer<AppState>,
+);
 
-export type AppState = ReturnType<typeof persistedReducer>;
+export type AppState = ReturnType<typeof rootReducer>;
 
 export default () => {
-  const appStore: Store<AppState, AnyAction> = createStore(
-    persistedReducer,
-    composeWithDevTools(applyMiddleware(thunk)),
-  );
+  const appStore = configureStore({
+    reducer: persistedReducer,
+    middleware: (getDefaultMiddleware) =>
+      getDefaultMiddleware({
+        serializableCheck: false,
+        immutableCheck: false,
+      }),
+  });
   const persistor = persistStore(appStore);
   return { appStore, persistor };
 };
@@ -66,4 +69,4 @@ type AppActionTypes =
   | RunActionTypes;
 
 export const useThunkDispatch = () =>
-  useDispatch<ThunkDispatch<AppState, unknown, AppActionTypes>>();
+  useDispatch<ToolkitThunkDispatch<AppState, unknown, AppActionTypes>>();

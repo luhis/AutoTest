@@ -1,6 +1,6 @@
 import { FunctionalComponent, h } from "preact";
 import { Navbar, Button } from "react-bulma-components";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { useCallback, useEffect, useState } from "preact/hooks";
 import { Link } from "preact-router";
 import {
@@ -39,26 +39,25 @@ const Header: FunctionalComponent = () => {
   const auth = useSelector(selectAccessToken);
 
   const thunkDispatch = useThunkDispatch();
-  const dispatch = useDispatch();
 
   useEffect(() => {
     void thunkDispatch(GetAccess(getAccessToken(auth)));
   }, [thunkDispatch, auth]);
   const clearCache = () => {
-    dispatch(ClearCache());
+    thunkDispatch(ClearCache());
   };
   const signOutAndClear = useCallback(() => {
     googleLogout();
-    dispatch(ResetAccess());
-  }, [dispatch]);
+    thunkDispatch(ResetAccess());
+  }, [thunkDispatch]);
 
   const onLogin = useCallback(
     (credentialResponse: CredentialResponse) => {
-      dispatch(SetAccessToken(credentialResponse));
-      dispatch(GetAccess(credentialResponse.credential));
+      void thunkDispatch(SetAccessToken(credentialResponse));
+      void thunkDispatch(GetAccess(credentialResponse.credential));
       setIsActive(false);
     },
-    [dispatch],
+    [thunkDispatch],
   );
   const [isActive, setIsActive] = useState(false);
   const toggleActive = () => setIsActive((a) => !a);
@@ -134,29 +133,29 @@ const SignalRWrapper: FunctionalComponent = () => {
     }
   }, [connection]);
 
-  const dispatch = useDispatch();
+  const thunkDispatch = useThunkDispatch();
   useEffect(() => {
     if (connection) {
       connection.on(NewClubAdminTag, (clubId: number) => {
-        dispatch(AddClubAdmin(clubId));
+        thunkDispatch(AddClubAdmin(clubId));
       });
       connection.on(RemoveClubAdminTag, (clubId: number) => {
-        dispatch(RemoveClubAdmin(clubId));
+        thunkDispatch(RemoveClubAdmin(clubId));
       });
       connection.on(NewEventMarshalTag, (eventId: number) => {
-        dispatch(AddEventMarshal(eventId));
+        thunkDispatch(AddEventMarshal(eventId));
       });
       connection.on(RemoveEventMarshalTag, (eventId: number) => {
-        dispatch(RemoveEventMarshal(eventId));
+        thunkDispatch(RemoveEventMarshal(eventId));
       });
       connection.on(AddEditableEntrantTag, (entrantId: number) => {
-        dispatch(AddEditableEntrant(entrantId));
+        thunkDispatch(AddEditableEntrant(entrantId));
       });
       connection.on(AddEditableMarshalTag, (marshalId: number) => {
-        dispatch(AddEditableMarshal(marshalId));
+        thunkDispatch(AddEditableMarshal(marshalId));
       });
     }
-  }, [connection, dispatch]);
+  }, [connection, thunkDispatch]);
   return <Header />;
 };
 
