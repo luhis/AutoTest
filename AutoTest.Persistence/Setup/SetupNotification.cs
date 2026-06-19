@@ -8,7 +8,7 @@ public class NotificationConfig : IEntityTypeConfiguration<Notification>
 {
     public void Configure(EntityTypeBuilder<Notification> builder)
     {
-        builder.HasDiscriminator<string>(nameof(Notification));
+        builder.HasDiscriminatorInJsonId();
         builder.HasKey(e => e.NotificationId);
         builder.Property(e => e.Message).IsRequired();
         builder.Property(e => e.Created).IsRequired();

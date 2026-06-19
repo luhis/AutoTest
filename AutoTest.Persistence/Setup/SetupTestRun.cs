@@ -8,7 +8,7 @@ public class TestRunConfig : IEntityTypeConfiguration<TestRun>
 {
     public void Configure(EntityTypeBuilder<TestRun> builder)
     {
-        builder.HasDiscriminator<string>(nameof(TestRun));
+        builder.HasDiscriminatorInJsonId();
         builder.HasKey(e => e.TestRunId);
         builder.Property(e => e.TestRunId).ValueGeneratedNever().IsRequired();
         builder.Property(e => e.TimeInMS).IsRequired();

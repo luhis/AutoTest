@@ -8,7 +8,7 @@ public class ProfileConfig : IEntityTypeConfiguration<Profile>
 {
     public void Configure(EntityTypeBuilder<Profile> builder)
     {
-        builder.HasDiscriminator<string>(nameof(Profile));
+        builder.HasDiscriminatorInJsonId();
         builder.HasKey(e => e.EmailAddress);
         builder.Property(e => e.EmailAddress).ValueGeneratedNever().IsRequired();
         builder.Property(e => e.GivenName).IsRequired();

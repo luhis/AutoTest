@@ -8,7 +8,7 @@ public class MarshalConfig : IEntityTypeConfiguration<Marshal>
 {
     public void Configure(EntityTypeBuilder<Marshal> builder)
     {
-        builder.HasDiscriminator<string>(nameof(Marshal));
+        builder.HasDiscriminatorInJsonId();
         builder.HasKey(e => e.MarshalId);
         builder.Property(e => e.MarshalId).ValueGeneratedNever().IsRequired();
         builder.Property(e => e.RegistrationNumber).IsRequired();

@@ -8,7 +8,7 @@ public class EntrantConfig : IEntityTypeConfiguration<Entrant>
 {
     public void Configure(EntityTypeBuilder<Entrant> builder)
     {
-        builder.HasDiscriminator<string>(nameof(Entrant));
+        builder.HasDiscriminatorInJsonId();
         builder.HasKey(e => e.EntrantId);
         builder.Property(e => e.EntrantId).ValueGeneratedNever().IsRequired();
         builder.Property(e => e.DriverNumber).IsRequired();
