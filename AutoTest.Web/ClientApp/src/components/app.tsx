@@ -29,11 +29,7 @@ import { appInsightsKey, googleKey } from "../settings";
 
 import "bulma/css/bulma.css";
 
-interface Module {
-  readonly hot: boolean | undefined;
-}
-
-if ((module as Module).hot) {
+if ((module as unknown as { readonly hot?: boolean }).hot) {
   require("preact/debug");
 }
 
