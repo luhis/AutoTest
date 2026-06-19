@@ -5,15 +5,15 @@ namespace AutoTest.Domain.StorageModels;
 
 public class Profile(string emailAddress, string givenName, string familyName, Age age, bool isLady)
 {
-    public string EmailAddress { get; set; } = emailAddress;
+    public string EmailAddress { get; } = emailAddress;
 
-    public string GivenName { get; set; } = givenName;
+    public string GivenName { get; } = givenName;
 
-    public string FamilyName { get; set; } = familyName;
+    public string FamilyName { get; } = familyName;
 
-    public Age Age { get; set; } = age;
+    public Age Age { get; } = age;
 
-    public bool IsLady { get; set; } = isLady;
+    public bool IsLady { get; } = isLady;
 
     public Vehicle Vehicle { get; private set; } = new Vehicle();
 
