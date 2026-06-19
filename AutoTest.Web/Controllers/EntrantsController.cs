@@ -38,13 +38,13 @@ public class EntrantsController(IMediator mediator) : ControllerBase
         return e.ToAr();
     }
 
-    ActionResult<Entrant> Map(OneOf<Entrant, Error<string>> r) => r.Match(succ => succ.ToAr(), error => this.BadRequest(error.Value));
+    ActionResult<Entrant> Map(OneOf<Entrant, Error<string>> r) => r.Match(succ => succ.ToAr(), error => BadRequest(error.Value));
 
     [Authorize(policy: Policies.ClubAdminOrSelf)]
     [HttpPut("{entrantId}")]
     public async Task<ActionResult<Entrant>> PutEntrant(ulong eventId, ulong entrantId, EntrantSaveModel entrantSaveModel, CancellationToken cancellationToken)
     {
-        var currentUserEmail = this.User.GetEmailAddress();
+        var currentUserEmail = User.GetEmailAddress();
         if (await mediator.Send(new IsClubAdmin(eventId, currentUserEmail), cancellationToken))
         {
             return Map(await mediator.Send(new SaveEntrant(MapEntrant.Map(entrantId, eventId, entrantSaveModel, entrantSaveModel.Email)),
@@ -61,7 +61,7 @@ public class EntrantsController(IMediator mediator) : ControllerBase
     [HttpPut("{entrantId}/[action]")]
     public Task MarkPaid(ulong eventId, ulong entrantId, PaymentSaveModel? payment, CancellationToken cancellationToken)
     {
-        var currentUserEmail = this.User.GetEmailAddress();
+        var currentUserEmail = User.GetEmailAddress();
         return mediator.Send(new MarkPaid(eventId, entrantId, payment != null ? MapClub.Map(payment, currentUserEmail) : null), cancellationToken);
     }
 

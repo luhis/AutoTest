@@ -4,7 +4,6 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace AutoTest.Persistence;
 
-
 public static class DiModule
 {
     public static void AddPersistence(this IServiceCollection services)

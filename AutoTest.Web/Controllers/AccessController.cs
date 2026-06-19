@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using AutoTest.Service.Messages;
 using AutoTest.Web.Authorization.Tooling;
@@ -22,7 +21,7 @@ public class AccessController(IConfiguration configuration, IMediator mediator) 
     [HttpGet]
     public async Task<AccessModel> GetAccessAsync()
     {
-        var identity = this.User.Identity;
+        var identity = User.Identity;
         var isAuthenticated = identity is { IsAuthenticated: true };
         var email = User.GetEmailAddress();
         var adminClubs = await mediator.Send(new GetAdminClubs(email));

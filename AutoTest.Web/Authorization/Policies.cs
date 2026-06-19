@@ -1,5 +1,4 @@
-﻿
-namespace AutoTest.Web.Authorization;
+﻿namespace AutoTest.Web.Authorization;
 
 public static class Policies
 {

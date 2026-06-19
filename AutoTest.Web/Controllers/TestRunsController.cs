@@ -28,10 +28,10 @@ public class TestRunsController(IMediator mediator) : ControllerBase
     [HttpPut("{testRunId}")]
     public async Task<IActionResult> Create(ulong eventId, int ordinal, ulong testRunId, TestRunSaveModel testRun, CancellationToken cancellationToken)
     {
-        var emailAddress = this.User.GetEmailAddress();
+        var emailAddress = User.GetEmailAddress();
         var res = await mediator.Send(
             new AddTestRun(testRunId, eventId, ordinal, testRun.TimeInMS, testRun.EntrantId, testRun.Created, emailAddress, testRun.Penalties.Select(a => new Penalty(a.PenaltyType, a.InstanceCount))), cancellationToken);
-        return res.Match(success => this.Ok().ToIar(), error => this.BadRequest(error).ToIar());
+        return res.Match(success => Ok().ToIar(), error => BadRequest(error).ToIar());
     }
 
     [Authorize(Policies.ClubAdmin)]

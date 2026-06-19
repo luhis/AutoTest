@@ -7,7 +7,7 @@ public class SaveProfile : IRequest<string>
 {
     public SaveProfile(string emailAddress, Profile profile)
     {
-        this.Profile = profile;
+        Profile = profile;
         EmailAddress = emailAddress;
     }
 

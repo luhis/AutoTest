@@ -5,7 +5,7 @@ using AutoTest.Domain.Repositories;
 
 namespace AutoTest.Persistence.Repositories;
 
-public class FileRepository : IFileRepository, IDisposable
+public class FileRepository : IFileRepository
 {
     //private DocumentClient _client;
     //private string _databaseId = "AutoTestDB";
@@ -99,9 +99,9 @@ public class FileRepository : IFileRepository, IDisposable
         //return "";
     }
 
-    public void Dispose()
-    {
-        //_client.Dispose();
-        GC.SuppressFinalize(this);
-    }
+    //public void Dispose()
+    //{
+    //    //_client.Dispose();
+    //    GC.SuppressFinalize(this);
+    //}
 }

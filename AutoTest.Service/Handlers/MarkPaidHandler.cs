@@ -10,7 +10,7 @@ public class MarkPaidHandler(IEntrantsRepository entrantsRepository) : IRequestH
 {
     async Task IRequestHandler<MarkPaid>.Handle(MarkPaid request, CancellationToken cancellationToken)
     {
-        var found = (await entrantsRepository.GetById(request.EventId, request.EntrantId, cancellationToken))!;// await this._autoTestContext.Entrants!.SingleAsync(a => a.EventId == request.EventId && a.EntrantId == request.EntrantId, cancellationToken);
+        var found = (await entrantsRepository.GetById(request.EventId, request.EntrantId, cancellationToken))!;
         found.SetPayment(request.Payment);
         await entrantsRepository.Update(found, cancellationToken);
     }
