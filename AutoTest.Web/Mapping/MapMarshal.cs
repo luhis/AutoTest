@@ -15,5 +15,4 @@ public static class MapMarshal
     }
 
     public static PublicMarshalModel Map(Marshal a) => new PublicMarshalModel(a.MarshalId, a.GivenName, a.FamilyName, a.EventId, a.Role);
-
 }

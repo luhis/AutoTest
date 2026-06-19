@@ -28,5 +28,4 @@ public static class MapEntrant
     }
 
     public static PublicEntrantModel Map(Entrant a) => new PublicEntrantModel(a.EntrantId, a.DriverNumber, a.GivenName, a.FamilyName, a.Class, a.EventId, new EntrantClub(a.EntrantClub.Club, ""), a.Vehicle, a.Payment, a.IsLady, a.EntrantStatus);
-
 }

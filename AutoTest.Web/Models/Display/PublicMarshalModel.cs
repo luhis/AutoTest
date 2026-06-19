@@ -1,5 +1,4 @@
-﻿
-namespace AutoTest.Web.Models.Display;
+﻿namespace AutoTest.Web.Models.Display;
 
 public record PublicMarshalModel
 {

@@ -28,7 +28,7 @@ public class AuthorisationNotifier : IAuthorisationNotifier
         return Task.WhenAll(groups.Select(a => a.SendAsync(nameof(IAuthorisationNotifier.AddEditableMarshal), eventId, cancellationToken)));
     }
 
-    private IClientProxy GetEmailGroup(string email) => this.authorisationHub.Clients.Group(AuthorisationHub.GetEmailKey(email));
+    private IClientProxy GetEmailGroup(string email) => authorisationHub.Clients.Group(AuthorisationHub.GetEmailKey(email));
 
     Task IAuthorisationNotifier.NewClubAdmin(ulong clubId, IEnumerable<string> newEmails, CancellationToken cancellationToken)
     {

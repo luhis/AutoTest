@@ -29,5 +29,4 @@ public class ProfileSaveModel
 
     [Required]
     public ICollection<ClubMembershipSaveModel> ClubMemberships { get; set; } = new List<ClubMembershipSaveModel>();
-
 }

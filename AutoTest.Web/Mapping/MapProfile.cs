@@ -6,7 +6,6 @@ namespace AutoTest.Web.Mapping;
 
 public static class MapProfile
 {
-
     private static ClubMembership Map(ClubMembershipSaveModel membership)
     {
         return new ClubMembership(membership.ClubName, membership.MembershipNumber, membership.Expiry);

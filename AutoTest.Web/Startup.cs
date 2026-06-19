@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
@@ -35,12 +34,12 @@ public class Startup
 
     public Startup(IConfiguration configuration, IWebHostEnvironment webHostEnvironment)
     {
-        this.Configuration = configuration;
-        this.AdminEmails = new HashSet<string>(configuration.GetSection("RootAdminIds").Get<IEnumerable<string>>()!);
+        Configuration = configuration;
+        AdminEmails = new HashSet<string>(configuration.GetSection("RootAdminIds").Get<IEnumerable<string>>()!);
         var authSection = configuration.GetSection("Authentication");
-        this.ClientSecret = authSection["ClientSecret"] ?? "";
-        this.ClientId = authSection["ClientId"] ?? "";
-        this.env = webHostEnvironment;
+        ClientSecret = authSection["ClientSecret"] ?? "";
+        ClientId = authSection["ClientId"] ?? "";
+        env = webHostEnvironment;
     }
 
     public IConfiguration Configuration { get; }
@@ -50,13 +49,12 @@ public class Startup
     private readonly string ClientId;
     private readonly IWebHostEnvironment env;
 
-    // This method gets called by the runtime. Use this method to add services to the container.
     public void ConfigureServices(IServiceCollection services)
     {
         services.AddControllersWithViews(o => o.AllowEmptyInputInBodyModelBinding = true);
         services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(typeof(GetClubs).Assembly));
         services.AddPersistence();
-        services.AddWeb(this.Configuration);
+        services.AddWeb(Configuration);
         services.AddHttpContextAccessor();
         services.AddApplicationInsightsTelemetry();
         services.AddMemoryCache();
@@ -82,12 +80,10 @@ public class Startup
                 OnMessageReceived = context =>
                 {
                     var accessToken = context.Request.Query["access_token"];
-                    // If the request is for our hub...
                     var path = context.HttpContext.Request.Path;
                     if (!string.IsNullOrEmpty(accessToken) &&
                         path.StartsWithSegments("/authorisationHub"))
                     {
-                        // Read the token out of the query string
                         context.Token = accessToken;
                     }
                     return Task.CompletedTask;
@@ -98,7 +94,7 @@ public class Startup
             .AddPolicy(Policies.Admin, p =>
             {
                 p.RequireAuthenticatedUser();
-                p.RequireClaim(ClaimTypes.Email, this.AdminEmails);
+                p.RequireClaim(ClaimTypes.Email, AdminEmails);
             })
             .AddPolicy(Policies.ClubAdmin, p =>
             {
@@ -130,7 +126,6 @@ public class Startup
                 })
             .AddHttpCompression();
 
-        // In production, the React files will be served from this directory
         services.AddSpaStaticFiles(configuration =>
         {
             configuration.RootPath = "ClientApp/build";
@@ -166,10 +161,8 @@ public class Startup
                     options.EnableDetailedErrors = true;
                 }
             }).AddMessagePackProtocol();
-        services.AddApplicationInsightsTelemetry();
     }
 
-    // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env, AutoTestContext autoTestContext)
     {
         if (env.IsDevelopment())
@@ -179,7 +172,6 @@ public class Startup
         else
         {
             app.UseExceptionHandler("/Error");
-            // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
             app.UseHsts();
         }
 
@@ -235,7 +227,6 @@ public class Startup
                     builder.AddUpgradeInsecureRequests();
                 }));
 
-
         app.UseEndpoints(endpoints =>
         {
             endpoints.MapHub<EventHub>("/resultsHub");
@@ -247,7 +238,6 @@ public class Startup
         app.UseSwagger();
         app.UseSwaggerUI(c =>
         {
-            //c.OAuthClientId("implicit");
             c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
             c.OAuthConfigObject.ClientId = ClientId;
         });
