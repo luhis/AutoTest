@@ -30,7 +30,7 @@ const VehicleEditor: FunctionComponent<Props> = ({
   const setInduction = (e: OnChange) =>
     setField({
       ...vehicle,
-      induction: Number.parseInt(e.target.value) as InductionTypes,
+      induction: Number.parseInt(e.target.value),
     });
   return (
     <Fragment>
