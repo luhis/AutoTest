@@ -8,13 +8,13 @@ namespace AutoTest.Domain.StorageModels
         public Profile() : this(string.Empty, string.Empty, string.Empty, default, false) { }
         public string EmailAddress { get; set; } = emailAddress;
 
-        public string GivenName { get; } = givenName;
+        public string GivenName { get; set; } = givenName;
 
-        public string FamilyName { get; } = familyName;
+        public string FamilyName { get; set; } = familyName;
 
-        public Age Age { get; } = age;
+        public Age Age { get; set; } = age;
 
-        public bool IsLady { get; } = isLady;
+        public bool IsLady { get; set; } = isLady;
 
         public Vehicle Vehicle { get; private set; } = new Vehicle();
 
