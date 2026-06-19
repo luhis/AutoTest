@@ -15,14 +15,13 @@ namespace AutoTest.Unit.Test.Authorisation;
 
 public class AuthToolsShould
 {
-
     private readonly MockRepository mr;
     private readonly Mock<IMediator> mediator;
 
     public AuthToolsShould()
     {
-        this.mr = new MockRepository(MockBehavior.Strict);
-        this.mediator = mr.Create<IMediator>();
+        mr = new MockRepository(MockBehavior.Strict);
+        mediator = mr.Create<IMediator>();
     }
 
     [Fact]
