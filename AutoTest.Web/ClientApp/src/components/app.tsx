@@ -4,11 +4,8 @@ import { Provider } from "react-redux";
 import { Container, Loader } from "react-bulma-components";
 import { PersistGate } from "redux-persist/integration/react";
 import { GoogleOAuthProvider } from "@react-oauth/google";
-import { reactAI } from "react-appinsights";
-import {
-  ApplicationInsights,
-  ITelemetryPlugin,
-} from "@microsoft/applicationinsights-web";
+import { ReactPlugin } from "@microsoft/applicationinsights-react-js";
+import { ApplicationInsights } from "@microsoft/applicationinsights-web";
 
 import Home from "../routes/home";
 import Profile from "../routes/profile";
@@ -34,15 +31,18 @@ if ((module as unknown as { readonly hot?: boolean }).hot) {
 }
 
 if (typeof window !== "undefined") {
+  const reactPlugin = new ReactPlugin();
+
   const appInsights = new ApplicationInsights({
     config: {
       instrumentationKey: appInsightsKey,
-      extensions: [reactAI as ITelemetryPlugin],
+      extensions: [reactPlugin],
       extensionConfig: {
-        [reactAI.extensionId]: { debug: false },
+        [reactPlugin.identifier]: { enableAutoRouteTracking: true },
       },
     },
   });
+
   appInsights.loadAppInsights();
 }
 

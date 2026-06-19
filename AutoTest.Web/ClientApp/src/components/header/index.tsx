@@ -51,6 +51,8 @@ const Header: FunctionalComponent = () => {
     thunkDispatch(ResetAccess());
   }, [thunkDispatch]);
 
+  const [isActive, setIsActive] = useState(false);
+
   const onLogin = useCallback(
     (credentialResponse: CredentialResponse) => {
       void thunkDispatch(SetAccessToken(credentialResponse));
@@ -59,7 +61,6 @@ const Header: FunctionalComponent = () => {
     },
     [thunkDispatch],
   );
-  const [isActive, setIsActive] = useState(false);
   const toggleActive = () => setIsActive((a) => !a);
   return (
     <Navbar active={isActive}>

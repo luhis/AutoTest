@@ -114,6 +114,8 @@ const Entrants: FunctionalComponent<Readonly<Props>> = ({ eventId }) => {
   const auth = useSelector(selectAccessToken);
   const thunkDispatch = useThunkDispatch();
 
+  const clearEditingEntrant = () => setEditingEntrant(undefined);
+
   const save = useCallback(async () => {
     if (editingEntrant) {
       await thunkDispatch(
@@ -176,7 +178,6 @@ const Entrants: FunctionalComponent<Readonly<Props>> = ({ eventId }) => {
     thunkDispatch(GetClubsIfRequired(getAccessToken(auth)));
     void thunkDispatch(GetEntrantsIfRequired(eventId));
   }, [eventId, thunkDispatch, auth]);
-  const clearEditingEntrant = () => setEditingEntrant(undefined);
 
   const newEntrant = useCallback(async () => {
     await thunkDispatch(GetProfileIfRequired(getAccessToken(auth)));

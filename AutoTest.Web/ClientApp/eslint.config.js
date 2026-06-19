@@ -1,6 +1,7 @@
 const path = require("node:path");
 const { FlatCompat } = require("@eslint/eslintrc");
 const js = require("@eslint/js");
+const functional = require("eslint-plugin-functional").default;
 
 const compat = new FlatCompat({
   baseDirectory: __dirname,
@@ -12,11 +13,12 @@ module.exports = [
   {
     ignores: ["build/**"],
   },
+  functional.configs.lite,
   ...compat.config({
     env: {
       browser: true,
     },
-    plugins: ["@typescript-eslint", "ts-immutable"],
+    plugins: ["@typescript-eslint"],
     extends: [
       "eslint:recommended",
       "plugin:@typescript-eslint/eslint-recommended",
@@ -25,7 +27,6 @@ module.exports = [
       "plugin:react/recommended",
       "plugin:react-hooks/recommended",
       "plugin:prettier/recommended",
-      "plugin:ts-immutable/recommended",
     ],
     parser: "@typescript-eslint/parser",
     parserOptions: {
@@ -36,6 +37,9 @@ module.exports = [
       tsconfigRootDir: path.resolve(__dirname),
     },
     rules: {
+      "functional/no-return-void": "off",
+      "functional/no-mixed-types": "off",
+      "functional/functional-parameters": "off",
       "react/no-unknown-property": ["error", { ignore: ["class"] }],
       "react/prop-types": ["off"],
       "@typescript-eslint/explicit-function-return-type": "off",
@@ -53,7 +57,6 @@ module.exports = [
       "no-shadow": "off",
       "no-implicit-globals": "error",
       eqeqeq: "error",
-      "react-hooks/immutability": "off",
     },
     settings: {
       react: {
