@@ -5,7 +5,6 @@ namespace AutoTest.Domain.StorageModels;
 
 public class Profile(string emailAddress, string givenName, string familyName, Age age, bool isLady)
 {
-    public Profile() : this(string.Empty, string.Empty, string.Empty, default, false) { }
     public string EmailAddress { get; set; } = emailAddress;
 
     public string GivenName { get; set; } = givenName;

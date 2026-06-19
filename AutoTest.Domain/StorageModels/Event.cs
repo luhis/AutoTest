@@ -6,8 +6,7 @@ namespace AutoTest.Domain.StorageModels;
 
 public class Event(ulong eventId, ulong clubId, string location, DateTime startTime, int courseCount, int maxAttemptsPerCourse, string regulations, ICollection<EventType> eventTypes, string maps, TimingSystem timingSystem, DateTime entryOpenDate, DateTime entryCloseDate, uint maxEntrants, DateTime created)
 {
-    public Event() : this(0, 0, string.Empty, default, 0, 0, string.Empty, Array.Empty<EventType>(), string.Empty, default, default, default, 0, default) { }
-    public ulong EventId { get; set; } = eventId;
+    public ulong EventId { get; } = eventId;
 
     public ulong ClubId { get; } = clubId;
 
