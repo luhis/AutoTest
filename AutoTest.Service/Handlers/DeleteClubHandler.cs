@@ -1,15 +1,16 @@
-﻿using System.Threading;
+using System.Threading;
 using System.Threading.Tasks;
 using AutoTest.Domain.Repositories;
 using AutoTest.Service.Messages;
-using MediatR;
+using Mediator;
 
 namespace AutoTest.Service.Handlers;
 
-public class DeleteClubHandler(IClubsRepository clubRepository) : IRequestHandler<DeleteClub>
+public sealed class DeleteClubHandler(IClubsRepository clubRepository) : IRequestHandler<DeleteClub>
 {
-    async Task IRequestHandler<DeleteClub>.Handle(DeleteClub request, CancellationToken cancellationToken)
+    public async ValueTask<Unit> Handle(DeleteClub request, CancellationToken cancellationToken)
     {
         await clubRepository.Delete(request.ClubId, cancellationToken);
+        return Unit.Value;
     }
 }

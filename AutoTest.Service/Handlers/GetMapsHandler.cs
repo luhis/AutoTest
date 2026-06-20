@@ -1,15 +1,15 @@
-﻿using System.Threading;
+using System.Threading;
 using System.Threading.Tasks;
 using AutoTest.Domain.Repositories;
 using AutoTest.Service.Messages;
-using MediatR;
+using Mediator;
 
 namespace AutoTest.Service.Handlers;
 
-public class GetMapsHandler(IFileRepository fileRepository) : IRequestHandler<GetMaps, string>
+public sealed class GetMapsHandler(IFileRepository fileRepository) : IRequestHandler<GetMaps, string>
 {
-    Task<string> IRequestHandler<GetMaps, string>.Handle(GetMaps request, CancellationToken cancellationToken)
+    public async ValueTask<string> Handle(GetMaps request, CancellationToken cancellationToken)
     {
-        return fileRepository.GetMaps(request.EventId, cancellationToken);
+        return await fileRepository.GetMaps(request.EventId, cancellationToken);
     }
 }

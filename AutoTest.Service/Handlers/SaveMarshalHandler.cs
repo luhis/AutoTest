@@ -1,16 +1,16 @@
-﻿using System.Threading;
+using System.Threading;
 using System.Threading.Tasks;
 using AutoTest.Domain.Repositories;
 using AutoTest.Domain.StorageModels;
 using AutoTest.Service.Interfaces;
 using AutoTest.Service.Messages;
-using MediatR;
+using Mediator;
 
 namespace AutoTest.Service.Handlers;
 
-public class SaveMarshalHandler(IMarshalsRepository marshalRepository, IAuthorisationNotifier signalRNotifier) : IRequestHandler<SaveMarshal, Marshal>
+public sealed class SaveMarshalHandler(IMarshalsRepository marshalRepository, IAuthorisationNotifier signalRNotifier) : IRequestHandler<SaveMarshal, Marshal>
 {
-    async Task<Marshal> IRequestHandler<SaveMarshal, Marshal>.Handle(SaveMarshal request, CancellationToken cancellationToken)
+    public async ValueTask<Marshal> Handle(SaveMarshal request, CancellationToken cancellationToken)
     {
         var existing = await marshalRepository.GetById(request.Marshal.EventId, request.Marshal.MarshalId, cancellationToken);
 

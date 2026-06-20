@@ -1,5 +1,5 @@
-﻿using AutoTest.Service.Models;
-using MediatR;
+using AutoTest.Service.Models;
+using Mediator;
 
 namespace AutoTest.Service.Messages;
 

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
@@ -6,13 +6,13 @@ using System.Threading.Tasks;
 using AutoTest.Domain.Repositories;
 using AutoTest.Service.Interfaces;
 using AutoTest.Service.Messages;
-using MediatR;
+using Mediator;
 
 namespace AutoTest.Service.Handlers;
 
-public class SaveClubHandler(IClubsRepository clubRepository, IAuthorisationNotifier signalRNotifier) : IRequestHandler<SaveClub, ulong>
+public sealed class SaveClubHandler(IClubsRepository clubRepository, IAuthorisationNotifier signalRNotifier) : IRequestHandler<SaveClub, ulong>
 {
-    async Task<ulong> IRequestHandler<SaveClub, ulong>.Handle(SaveClub request, CancellationToken cancellationToken)
+    public async ValueTask<ulong> Handle(SaveClub request, CancellationToken cancellationToken)
     {
         var existing = await clubRepository.GetById(request.Club.ClubId, cancellationToken);
         await clubRepository.Upsert(request.Club, cancellationToken);

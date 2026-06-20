@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
@@ -6,14 +6,14 @@ using System.Threading.Tasks;
 using AutoTest.Domain.Repositories;
 using AutoTest.Domain.StorageModels;
 using AutoTest.Service.Messages;
-using MediatR;
+using Mediator;
 using Microsoft.Extensions.Caching.Memory;
 
 namespace AutoTest.Service.Handlers;
 
-public class GetAdminClubsHandler(IClubsRepository clubsRepository, IMemoryCache cache) : IRequestHandler<GetAdminClubs, IEnumerable<ulong>>
+public sealed class GetAdminClubsHandler(IClubsRepository clubsRepository, IMemoryCache cache) : IRequestHandler<GetAdminClubs, IEnumerable<ulong>>
 {
-    async Task<IEnumerable<ulong>> IRequestHandler<GetAdminClubs, IEnumerable<ulong>>.Handle(GetAdminClubs request, CancellationToken cancellationToken)
+    public async ValueTask<IEnumerable<ulong>> Handle(GetAdminClubs request, CancellationToken cancellationToken)
     {
         // todo this is very ineficcient, but the only other option at this time is SQL
         var clubAdminEmails = await GetOrCreate(cancellationToken);

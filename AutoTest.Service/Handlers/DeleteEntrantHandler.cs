@@ -1,15 +1,15 @@
-﻿using System;
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoTest.Domain.Repositories;
 using AutoTest.Service.Messages;
-using MediatR;
+using Mediator;
 
 namespace AutoTest.Service.Handlers;
 
-public class DeleteEntrantHandler(IEntrantsRepository entrantsRepository) : IRequestHandler<DeleteEntrant>
+public sealed class DeleteEntrantHandler(IEntrantsRepository entrantsRepository) : IRequestHandler<DeleteEntrant>
 {
-    async Task IRequestHandler<DeleteEntrant>.Handle(DeleteEntrant request, CancellationToken cancellationToken)
+    public async ValueTask<Unit> Handle(DeleteEntrant request, CancellationToken cancellationToken)
     {
         var found = await entrantsRepository.GetById(request.EventId, request.EntrantId, cancellationToken);
         if (found is null)
@@ -17,5 +17,6 @@ public class DeleteEntrantHandler(IEntrantsRepository entrantsRepository) : IReq
             throw new NullReferenceException();
         }
         await entrantsRepository.Delete(found, cancellationToken);
+        return Unit.Value;
     }
 }

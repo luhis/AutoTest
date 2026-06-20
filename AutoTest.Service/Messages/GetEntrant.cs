@@ -1,5 +1,5 @@
-﻿using AutoTest.Domain.StorageModels;
-using MediatR;
+using AutoTest.Domain.StorageModels;
+using Mediator;
 
 namespace AutoTest.Service.Messages;
 
