@@ -236,12 +236,15 @@ public class Startup
                 name: "default",
                 pattern: "{controller}/{action=Index}/{id?}");
         });
-        app.UseSwagger();
-        app.UseSwaggerUI(c =>
+        if (env.IsDevelopment())
         {
-            c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
-            c.OAuthConfigObject.ClientId = ClientId;
-        });
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
+                c.OAuthConfigObject.ClientId = ClientId;
+            });
+        }
         app.UseSpa(spa =>
         {
             if (env.IsDevelopment())
