@@ -11,6 +11,11 @@
     <TieredCompilation>true</TieredCompilation>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(PublishProfile)' != '' OR '$(SelfContained)' == 'true'">
+    <SelfContained>true</SelfContained>
+    <RuntimeIdentifier>linux-x64</RuntimeIdentifier>
+  </PropertyGroup>
+
   <ItemGroup>
     <Compile Remove="ClientApp\**" />
     <Content Remove="ClientApp\**" />
