@@ -1,11 +1,11 @@
-﻿using System.Threading;
+using System.Threading;
 using System.Threading.Tasks;
 using AutoTest.Domain.Repositories;
 using AutoTest.Service.Handlers;
 using AutoTest.Service.Interfaces;
 using AutoTest.Service.Messages;
 using FluentAssertions.ArgumentMatchers.Moq;
-using MediatR;
+using Mediator;
 using Moq;
 using Xunit;
 

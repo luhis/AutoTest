@@ -1,11 +1,11 @@
-﻿using System.Threading;
+using System.Threading;
 using System.Threading.Tasks;
 using AutoTest.Domain.StorageModels;
 using AutoTest.Service.Messages;
 using AutoTest.Web.Authorization.Tooling;
 using AutoTest.Web.Mapping;
 using AutoTest.Web.Models.Save;
-using MediatR;
+using Mediator;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -19,7 +19,7 @@ public class ProfileController(IMediator mediator) : ControllerBase
     [HttpGet]
     public Task<Profile> Get(CancellationToken cancellationToken)
     {
-        return mediator.Send(new GetProfile(User.GetEmailAddress()), cancellationToken);
+        return mediator.Send(new GetProfile(User.GetEmailAddress()), cancellationToken).AsTask();
     }
 
     [HttpPut]
@@ -27,6 +27,6 @@ public class ProfileController(IMediator mediator) : ControllerBase
     {
         var email = User.GetEmailAddress();
         return mediator.Send(new SaveProfile(email, MapProfile.Map(email, profile)),
-            cancellationToken);
+            cancellationToken).AsTask();
     }
 }

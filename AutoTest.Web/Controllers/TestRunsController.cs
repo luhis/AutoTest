@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -8,7 +8,7 @@ using AutoTest.Web.Authorization;
 using AutoTest.Web.Authorization.Tooling;
 using AutoTest.Web.Extensions;
 using AutoTest.Web.Models.Save;
-using MediatR;
+using Mediator;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -21,7 +21,7 @@ public class TestRunsController(IMediator mediator) : ControllerBase
     [HttpGet]
     public Task<IEnumerable<TestRun>> GetRuns(ulong eventId, int ordinal, CancellationToken cancellationToken)
     {
-        return mediator.Send(new GetTestRuns(eventId, ordinal), cancellationToken);
+        return mediator.Send(new GetTestRuns(eventId, ordinal), cancellationToken).AsTask();
     }
 
     [Authorize(Policies.Marshal)]
@@ -37,5 +37,5 @@ public class TestRunsController(IMediator mediator) : ControllerBase
     [Authorize(Policies.ClubAdmin)]
     [HttpPut("{testRunId}/[action]")]
     public Task Update(ulong eventId, int ordinal, ulong testRunId, TestRunUpdateModel testRun, CancellationToken cancellationToken) =>
-        mediator.Send(new UpdateTestRun(testRunId, eventId, ordinal, testRun.TimeInMS, testRun.EntrantId, testRun.Created, testRun.MarshalId, testRun.Penalties.Select(a => new Penalty(a.PenaltyType, a.InstanceCount))), cancellationToken);
+        mediator.Send(new UpdateTestRun(testRunId, eventId, ordinal, testRun.TimeInMS, testRun.EntrantId, testRun.Created, testRun.MarshalId, testRun.Penalties.Select(a => new Penalty(a.PenaltyType, a.InstanceCount))), cancellationToken).AsTask();
 }

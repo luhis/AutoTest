@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoTest.Domain.StorageModels;
@@ -7,7 +7,7 @@ using AutoTest.Web.Authorization;
 using AutoTest.Web.Authorization.Tooling;
 using AutoTest.Web.Mapping;
 using AutoTest.Web.Models.Save;
-using MediatR;
+using Mediator;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -22,12 +22,12 @@ public class NotificationsController(IMediator mediator) : ControllerBase
     public Task Add(ulong notificationId, ulong eventId, NotificationSaveModel notification, CancellationToken cancellationToken)
     {
         var email = User.GetEmailAddress();
-        return mediator.Send(new AddNotification(MapClub.Map(notificationId, eventId, email, notification)), cancellationToken);
+        return mediator.Send(new AddNotification(MapClub.Map(notificationId, eventId, email, notification)), cancellationToken).AsTask();
     }
 
     [HttpGet]
     public Task<IEnumerable<Notification>> GetAll(ulong eventId, CancellationToken cancellationToken)
     {
-        return mediator.Send(new GetNotifications(eventId), cancellationToken);
+        return mediator.Send(new GetNotifications(eventId), cancellationToken).AsTask();
     }
 }

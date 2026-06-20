@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -9,7 +9,7 @@ using AutoTest.Service.Messages;
 using AutoTest.Service.Models;
 using AutoTest.Unit.Test.MockData;
 using FluentAssertions;
-using MediatR;
+using Mediator;
 using Moq;
 using Xunit;
 

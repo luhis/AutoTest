@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -11,7 +11,7 @@ using AutoTest.Web.Extensions;
 using AutoTest.Web.Mapping;
 using AutoTest.Web.Models.Display;
 using AutoTest.Web.Models.Save;
-using MediatR;
+using Mediator;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using OneOf;
@@ -62,16 +62,16 @@ public class EntrantsController(IMediator mediator) : ControllerBase
     public Task MarkPaid(ulong eventId, ulong entrantId, PaymentSaveModel? payment, CancellationToken cancellationToken)
     {
         var currentUserEmail = User.GetEmailAddress();
-        return mediator.Send(new MarkPaid(eventId, entrantId, payment is not null ? MapClub.Map(payment, currentUserEmail) : null), cancellationToken);
+        return mediator.Send(new MarkPaid(eventId, entrantId, payment is not null ? MapClub.Map(payment, currentUserEmail) : null), cancellationToken).AsTask();
     }
 
     [Authorize(policy: Policies.ClubAdmin)]
     [HttpPut("{entrantId}/[action]")]
     public Task SetEntrantStatus(ulong eventId, ulong entrantId, EntrantStatus status, CancellationToken cancellationToken) =>
-        mediator.Send(new SetEntrantStatus(eventId, entrantId, status), cancellationToken);
+        mediator.Send(new SetEntrantStatus(eventId, entrantId, status), cancellationToken).AsTask();
 
     [Authorize(policy: Policies.ClubAdminOrSelf)]
     [HttpDelete("{entrantId}")]
     public Task Delete(ulong eventId, ulong entrantId, CancellationToken cancellationToken) => mediator.Send(new DeleteEntrant(eventId, entrantId),
-        cancellationToken);
+        cancellationToken).AsTask();
 }

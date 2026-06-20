@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
@@ -10,7 +10,7 @@ using AutoTest.Service.Messages;
 using AutoTest.Unit.Test.MockData;
 using FluentAssertions;
 using FluentAssertions.ArgumentMatchers.Moq;
-using MediatR;
+using Mediator;
 using Moq;
 using Moq.AutoMock;
 using OneOf;

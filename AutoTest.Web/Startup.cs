@@ -18,7 +18,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
-using Microsoft.OpenApi.Models;
+using Microsoft.OpenApi;
+using Mediator;
 using WebMarkupMin.AspNetCoreLatest;
 
 namespace AutoTest.Web;
@@ -52,7 +53,7 @@ public class Startup
     public void ConfigureServices(IServiceCollection services)
     {
         services.AddControllersWithViews(o => o.AllowEmptyInputInBodyModelBinding = true);
-        services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(typeof(GetClubs).Assembly));
+        services.AddMediator(options => options.ServiceLifetime = ServiceLifetime.Transient);
         services.AddPersistence();
         services.AddWeb(Configuration);
         services.AddHttpContextAccessor();

@@ -1,10 +1,10 @@
-﻿using System.Threading;
+using System.Threading;
 using System.Threading.Tasks;
 using AutoTest.Domain.Enums;
 using AutoTest.Domain.StorageModels;
 using AutoTest.Service.Interfaces;
 using AutoTest.Service.Messages;
-using MediatR;
+using Mediator;
 using Microsoft.AspNetCore.SignalR;
 
 namespace AutoTest.Web.Hubs;
