@@ -1,5 +1,5 @@
-﻿using AutoTest.Domain.Enums;
-using MediatR;
+using AutoTest.Domain.Enums;
+using Mediator;
 
 namespace AutoTest.Service.Messages;
 

@@ -1,16 +1,16 @@
-﻿using System;
+using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoTest.Domain.Repositories;
 using AutoTest.Service.Messages;
-using MediatR;
+using Mediator;
 
 namespace AutoTest.Service.Handlers;
 
-public class IsClubAdminHandler(IClubsRepository clubsRepository, IEventsRepository eventsRepository) : IRequestHandler<IsClubAdmin, bool>
+public sealed class IsClubAdminHandler(IClubsRepository clubsRepository, IEventsRepository eventsRepository) : IRequestHandler<IsClubAdmin, bool>
 {
-    async Task<bool> IRequestHandler<IsClubAdmin, bool>.Handle(IsClubAdmin request, CancellationToken cancellationToken)
+    public async ValueTask<bool> Handle(IsClubAdmin request, CancellationToken cancellationToken)
     {
         var @event = await eventsRepository.GetById(request.EventId, cancellationToken);
 

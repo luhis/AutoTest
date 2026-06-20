@@ -1,17 +1,17 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoTest.Domain.Repositories;
 using AutoTest.Domain.StorageModels;
 using AutoTest.Service.Messages;
-using MediatR;
+using Mediator;
 
 namespace AutoTest.Service.Handlers;
 
-public class GetAllEventsHandler(IEventsRepository eventsRepository) : IRequestHandler<GetAllEvents, IEnumerable<Event>>
+public sealed class GetAllEventsHandler(IEventsRepository eventsRepository) : IRequestHandler<GetAllEvents, IEnumerable<Event>>
 {
-    Task<IEnumerable<Event>> IRequestHandler<GetAllEvents, IEnumerable<Event>>.Handle(GetAllEvents request, CancellationToken cancellationToken)
+    public async ValueTask<IEnumerable<Event>> Handle(GetAllEvents request, CancellationToken cancellationToken)
     {
-        return eventsRepository.GetAll(cancellationToken);
+        return await eventsRepository.GetAll(cancellationToken);
     }
 }

@@ -1,8 +1,8 @@
-﻿using System;
+using System;
 using System.Globalization;
 using System.Threading.Tasks;
 using AutoTest.Service.Messages;
-using MediatR;
+using Mediator;
 using Microsoft.AspNetCore.Routing;
 
 namespace AutoTest.Web.Authorization;

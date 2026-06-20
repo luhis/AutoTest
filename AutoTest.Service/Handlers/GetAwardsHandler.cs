@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -6,16 +6,16 @@ using AutoTest.Domain.Repositories;
 using AutoTest.Service.Messages;
 using AutoTest.Service.Models;
 using AutoTest.Service.ResultCalculation;
-using MediatR;
+using Mediator;
 
 namespace AutoTest.Service.Handlers;
 
-public class GetAwardsHandler(ITestRunsRepository testRunsRepository, IEventsRepository eventsRepository, IEntrantsRepository entrantsRepository) : IRequestHandler<GetAwards, Awards>
+public sealed class GetAwardsHandler(ITestRunsRepository testRunsRepository, IEventsRepository eventsRepository, IEntrantsRepository entrantsRepository) : IRequestHandler<GetAwards, Awards>
 {
     private readonly ITotalTimeCalculator totalTimeCalculator = new AutoTestTotalTimeCalculator();
     private readonly TimeCalculatorConfig _timeCalculatorConfig = TimeCalculatorConfig.DefaultValues;
 
-    async Task<Awards> IRequestHandler<GetAwards, Awards>.Handle(GetAwards request, CancellationToken cancellationToken)
+    public async ValueTask<Awards> Handle(GetAwards request, CancellationToken cancellationToken)
     {
         var @event = await eventsRepository.GetById(request.EventId, cancellationToken);
 

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
@@ -8,7 +8,7 @@ using AutoTest.Domain.StorageModels;
 using AutoTest.Service.Handlers;
 using AutoTest.Service.Messages;
 using FluentAssertions;
-using MediatR;
+using Mediator;
 using Microsoft.Extensions.Caching.Memory;
 using Moq;
 using Xunit;

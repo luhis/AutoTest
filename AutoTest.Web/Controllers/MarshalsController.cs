@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -10,7 +10,7 @@ using AutoTest.Web.Extensions;
 using AutoTest.Web.Mapping;
 using AutoTest.Web.Models.Display;
 using AutoTest.Web.Models.Save;
-using MediatR;
+using Mediator;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -47,5 +47,5 @@ public class MarshalsController(IMediator mediator) : ControllerBase
 
     [Authorize(policy: Policies.ClubAdminOrSelf)]
     [HttpDelete("{marshalId}")]
-    public Task Delete(ulong eventId, ulong marshalId, CancellationToken cancellationToken) => mediator.Send(new DeleteMarshal(eventId, marshalId), cancellationToken);
+    public Task Delete(ulong eventId, ulong marshalId, CancellationToken cancellationToken) => mediator.Send(new DeleteMarshal(eventId, marshalId), cancellationToken).AsTask();
 }

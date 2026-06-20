@@ -1,19 +1,19 @@
-﻿using System.Linq;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoTest.Domain.Repositories;
 using AutoTest.Domain.StorageModels;
 using AutoTest.Service.Interfaces;
 using AutoTest.Service.Messages;
-using MediatR;
+using Mediator;
 using OneOf;
 using OneOf.Types;
 
 namespace AutoTest.Service.Handlers;
 
-public class AddTestRunHandler(ITestRunsRepository testRunsRepository, IEventNotifier signalRNotifier, IMarshalsRepository marshalsRepository, IEventsRepository eventsRepository) : IRequestHandler<AddTestRun, OneOf<Success, Error<string>>>
+public sealed class AddTestRunHandler(ITestRunsRepository testRunsRepository, IEventNotifier signalRNotifier, IMarshalsRepository marshalsRepository, IEventsRepository eventsRepository) : IRequestHandler<AddTestRun, OneOf<Success, Error<string>>>
 {
-    async Task<OneOf<Success, Error<string>>> IRequestHandler<AddTestRun, OneOf<Success, Error<string>>>.Handle(AddTestRun request, CancellationToken cancellationToken)
+    public async ValueTask<OneOf<Success, Error<string>>> Handle(AddTestRun request, CancellationToken cancellationToken)
     {
         var @event = await eventsRepository.GetById(request.EventId, cancellationToken);
         if (@event!.EventStatus != Domain.Enums.EventStatus.Running)

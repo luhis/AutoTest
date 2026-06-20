@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoTest.Domain.Repositories;
@@ -8,7 +8,7 @@ using AutoTest.Service.Interfaces;
 using AutoTest.Service.Messages;
 using AutoTest.Unit.Test.MockData;
 using FluentAssertions.ArgumentMatchers.Moq;
-using MediatR;
+using Mediator;
 using Moq;
 using Xunit;
 

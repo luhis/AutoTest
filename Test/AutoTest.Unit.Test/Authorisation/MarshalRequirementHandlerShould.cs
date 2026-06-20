@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
@@ -10,7 +10,7 @@ using AutoTest.Web.Authorization.Attributes;
 using AutoTest.Web.Authorization.Handlers;
 using FluentAssertions;
 using FluentAssertions.ArgumentMatchers.Moq;
-using MediatR;
+using Mediator;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Moq;

@@ -1,4 +1,4 @@
-﻿using System.Threading;
+using System.Threading;
 using System.Threading.Tasks;
 using AutoTest.Domain.StorageModels;
 using AutoTest.Service.Interfaces;
@@ -7,7 +7,7 @@ using AutoTest.Service.Models;
 using AutoTest.Unit.Test.MockData;
 using AutoTest.Web.Hubs;
 using FluentAssertions.ArgumentMatchers.Moq;
-using MediatR;
+using Mediator;
 using Microsoft.AspNetCore.SignalR;
 using Moq;
 using Xunit;

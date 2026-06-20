@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using AutoTest.Service.Models;
-using MediatR;
+using Mediator;
 
 namespace AutoTest.Service.Messages;
 

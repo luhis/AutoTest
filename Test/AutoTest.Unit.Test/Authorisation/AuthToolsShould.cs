@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoTest.Domain.StorageModels;
@@ -6,7 +6,7 @@ using AutoTest.Service.Messages;
 using AutoTest.Web.Authorization;
 using FluentAssertions;
 using FluentAssertions.ArgumentMatchers.Moq;
-using MediatR;
+using Mediator;
 using Microsoft.AspNetCore.Routing;
 using Moq;
 using Xunit;

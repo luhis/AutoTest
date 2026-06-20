@@ -1,19 +1,19 @@
-﻿using System;
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoTest.Domain.Repositories;
 using AutoTest.Domain.StorageModels;
 using AutoTest.Service.Interfaces;
 using AutoTest.Service.Messages;
-using MediatR;
+using Mediator;
 using OneOf;
 using OneOf.Types;
 
 namespace AutoTest.Service.Handlers;
 
-public class SaveEntrantHandler(IEntrantsRepository entrantsRepository, IEventsRepository eventsRepository, IAuthorisationNotifier authorisationNotifier) : IRequestHandler<SaveEntrant, OneOf<Entrant, Error<string>>>
+public sealed class SaveEntrantHandler(IEntrantsRepository entrantsRepository, IEventsRepository eventsRepository, IAuthorisationNotifier authorisationNotifier) : IRequestHandler<SaveEntrant, OneOf<Entrant, Error<string>>>
 {
-    async Task<OneOf<Entrant, Error<string>>> IRequestHandler<SaveEntrant, OneOf<Entrant, Error<string>>>.Handle(SaveEntrant request, CancellationToken cancellationToken)
+    public async ValueTask<OneOf<Entrant, Error<string>>> Handle(SaveEntrant request, CancellationToken cancellationToken)
     {
         var @event = await eventsRepository.GetById(request.Entrant.EventId, cancellationToken);
         var now = DateTime.UtcNow;

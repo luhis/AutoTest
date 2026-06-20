@@ -1,17 +1,17 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoTest.Persistence;
 using AutoTest.Service.Messages;
-using MediatR;
+using Mediator;
 
 namespace AutoTest.Service.Handlers;
 
-public class GetEditableEntrantsHandler(AutoTestContext autoTestContext) : IRequestHandler<GetEditableEntrants, IEnumerable<ulong>>
+public sealed class GetEditableEntrantsHandler(AutoTestContext autoTestContext) : IRequestHandler<GetEditableEntrants, IEnumerable<ulong>>
 {
-    Task<IEnumerable<ulong>> IRequestHandler<GetEditableEntrants, IEnumerable<ulong>>.Handle(GetEditableEntrants request, CancellationToken cancellationToken)
+    public async ValueTask<IEnumerable<ulong>> Handle(GetEditableEntrants request, CancellationToken cancellationToken)
     {
-        return autoTestContext.Entrants.Where(a => a.Email == request.EmailAddress).Select(a => a.EntrantId).ToEnumerableAsync(cancellationToken);
+        return await autoTestContext.Entrants.Where(a => a.Email == request.EmailAddress).Select(a => a.EntrantId).ToEnumerableAsync(cancellationToken);
     }
 }

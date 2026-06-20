@@ -1,17 +1,18 @@
-﻿using System.Threading;
+using System.Threading;
 using System.Threading.Tasks;
 using AutoTest.Domain.Repositories;
 using AutoTest.Service.Messages;
-using MediatR;
+using Mediator;
 
 namespace AutoTest.Service.Handlers;
 
-public class MarkPaidHandler(IEntrantsRepository entrantsRepository) : IRequestHandler<MarkPaid>
+public sealed class MarkPaidHandler(IEntrantsRepository entrantsRepository) : IRequestHandler<MarkPaid>
 {
-    async Task IRequestHandler<MarkPaid>.Handle(MarkPaid request, CancellationToken cancellationToken)
+    public async ValueTask<Unit> Handle(MarkPaid request, CancellationToken cancellationToken)
     {
         var found = (await entrantsRepository.GetById(request.EventId, request.EntrantId, cancellationToken))!;
         found.SetPayment(request.Payment);
         await entrantsRepository.Update(found, cancellationToken);
+        return Unit.Value;
     }
 }

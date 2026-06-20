@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using MediatR;
+using System.Collections.Generic;
+using Mediator;
 
 namespace AutoTest.Service.Messages;
 
