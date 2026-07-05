@@ -1,8 +1,10 @@
 ﻿using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.SignalR;
 
 namespace AutoTest.Web.Hubs;
 
+[Authorize]
 public class EventHub : Hub
 {
     public static string GetEventKey(ulong eventId) => $"eventId:{eventId}";

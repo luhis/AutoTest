@@ -15,19 +15,19 @@ using Xunit;
 
 namespace AutoTest.Unit.Test.Authorisation;
 
-public class ClubAdminOrSelfRequirementSelfHanderShould
+public class ClubAdminOrSelfRequirementSelfHandlerShould
 {
     private readonly AuthorizationHandler<ClubAdminOrSelfRequirement> sut;
     private readonly MockRepository mr;
     private readonly Mock<IMediator> mediator;
     private readonly Mock<IHttpContextAccessor> httpContextAccessor;
 
-    public ClubAdminOrSelfRequirementSelfHanderShould()
+    public ClubAdminOrSelfRequirementSelfHandlerShould()
     {
         mr = new MockRepository(MockBehavior.Strict);
         mediator = mr.Create<IMediator>();
         httpContextAccessor = mr.Create<IHttpContextAccessor>();
-        sut = new ClubAdminOrSelfRequirementSelfHander(httpContextAccessor.Object, mediator.Object);
+        sut = new ClubAdminOrSelfRequirementSelfHandler(httpContextAccessor.Object, mediator.Object);
     }
 
     [Fact]
