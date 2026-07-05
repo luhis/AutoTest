@@ -16,11 +16,10 @@ public static class DiModule
         var config = configuration.GetSection("Cosmos");
         var endpoint = config.GetValue<string>("Endpoint") ?? "";
         var key = config.GetValue<string>("Key") ?? "";
-        System.Diagnostics.Trace.TraceInformation($"Cosmos config, endpoint: {endpoint} key: {key}");
         collection.AddScoped<IAuthorizationHandler, MarshalRequirementHandler>();
         collection.AddScoped<IAuthorizationHandler, ClubAdminRequirementHandler>();
         collection.AddScoped<IAuthorizationHandler, SelfRequirementHandler>();
-        collection.AddScoped<IAuthorizationHandler, ClubAdminOrSelfRequirementSelfHander>();
+        collection.AddScoped<IAuthorizationHandler, ClubAdminOrSelfRequirementSelfHandler>();
         collection.AddScoped<IAuthorizationHandler, ClubAdminOrSelfRequirementClubAdminHandler>();
         collection.AddScoped<IEventNotifier, EventNotifier>();
         collection.AddScoped<IAuthorisationNotifier, AuthorisationNotifier>();
