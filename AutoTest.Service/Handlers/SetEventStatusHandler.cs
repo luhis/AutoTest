@@ -1,3 +1,4 @@
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoTest.Domain.Repositories;
@@ -11,8 +12,9 @@ public sealed class SetEventStatusHandler(IEventsRepository eventRepository, IEv
 {
     public async ValueTask<Unit> Handle(SetEventStatus request, CancellationToken cancellationToken)
     {
-        var @event = await eventRepository.GetById(request.EventId, cancellationToken);
-        @event!.SetEventStatus(request.Status);
+        var @event = await eventRepository.GetById(request.EventId, cancellationToken)
+            ?? throw new InvalidOperationException($"Event with id {request.EventId} not found");
+        @event.SetEventStatus(request.Status);
         await eventRepository.Upsert(@event, cancellationToken);
         await eventNotifier.EventStatusChanged(request.EventId, request.Status, cancellationToken);
         return Unit.Value;

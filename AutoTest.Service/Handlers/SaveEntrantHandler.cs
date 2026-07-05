@@ -15,9 +15,10 @@ public sealed class SaveEntrantHandler(IEntrantsRepository entrantsRepository, I
 {
     public async ValueTask<OneOf<Entrant, Error<string>>> Handle(SaveEntrant request, CancellationToken cancellationToken)
     {
-        var @event = await eventsRepository.GetById(request.Entrant.EventId, cancellationToken);
+        var @event = await eventsRepository.GetById(request.Entrant.EventId, cancellationToken)
+            ?? throw new InvalidOperationException($"Event with id {request.Entrant.EventId} not found");
         var now = DateTime.UtcNow;
-        if (@event!.EntryOpenDate > now)
+        if (@event.EntryOpenDate > now)
         {
             return new Error<string>("Please wait until event open");
         }

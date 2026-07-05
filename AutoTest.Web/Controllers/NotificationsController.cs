@@ -22,7 +22,7 @@ public class NotificationsController(IMediator mediator) : ControllerBase
     public Task Add(ulong notificationId, ulong eventId, NotificationSaveModel notification, CancellationToken cancellationToken)
     {
         var email = User.GetEmailAddress();
-        return mediator.Send(new AddNotification(MapClub.Map(notificationId, eventId, email, notification)), cancellationToken).AsTask();
+        return mediator.Send(new AddNotification(MapNotification.Map(notificationId, eventId, email, notification)), cancellationToken).AsTask();
     }
 
     [HttpGet]

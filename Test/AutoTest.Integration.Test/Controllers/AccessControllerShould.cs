@@ -27,7 +27,7 @@ public class AccessControllerShould : IClassFixture<CustomWebApplicationFactory<
         res.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);
         var accessModel = await res.DeserialiseAsync<AccessModel>();
         accessModel.Should().NotBeNull();
-        accessModel.Should().BeEquivalentTo(new AccessModel(false, false, false, false, [], [], [], []));
+        accessModel.Should().BeEquivalentTo(new AccessModel(false, false, [], [], [], []));
     }
 
     [Fact]
@@ -37,6 +37,6 @@ public class AccessControllerShould : IClassFixture<CustomWebApplicationFactory<
         res.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);
         var accessModel = await res.DeserialiseAsync<AccessModel>();
         accessModel.Should().NotBeNull();
-        accessModel.Should().BeEquivalentTo(new AccessModel(false, true, true, true, [1ul], [], [], []));
+        accessModel.Should().BeEquivalentTo(new AccessModel(false, true, [1ul], [], [], []));
     }
 }

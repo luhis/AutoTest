@@ -12,15 +12,4 @@ public static class MapClub
         c.SetAdminEmails(model.AdminEmails.Select(a => new AuthorisationEmail(a.Email)).ToArray());
         return c;
     }
-
-    public static Payment Map(PaymentSaveModel payment, string currentUserEmail)
-    {
-        return new Payment(payment.PaidAt, payment.Method, payment.Timestamp, currentUserEmail);
-    }
-
-    public static Notification Map(ulong notificationId, ulong eventId, string emailAddress, NotificationSaveModel notification)
-    {
-        var p = new Notification(notificationId, eventId, notification.Message, notification.Created, emailAddress);
-        return p;
-    }
 }

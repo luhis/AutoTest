@@ -11,7 +11,10 @@ using AutoTest.Web.Extensions;
 using AutoTest.Web.Hubs;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
 using Microsoft.Extensions.Configuration;
@@ -59,6 +62,15 @@ public class Startup
         services.AddHttpContextAccessor();
         services.AddApplicationInsightsTelemetry();
         services.AddMemoryCache();
+        services.AddCors(options =>
+        {
+            options.AddDefaultPolicy(policy =>
+            {
+                policy.AllowAnyHeader()
+                    .AllowAnyMethod()
+                    .WithOrigins("https://localhost:44357", "http://localhost:44357");
+            });
+        });
 
         services.AddAuthentication(x =>
         {
@@ -164,23 +176,45 @@ public class Startup
             }).AddMessagePackProtocol();
     }
 
-    public void Configure(IApplicationBuilder app, IWebHostEnvironment env, AutoTestContext autoTestContext)
+    public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
     {
+        app.UseExceptionHandler(errorApp =>
+        {
+            errorApp.Run(async context =>
+            {
+                var exceptionFeature = context.Features.Get<IExceptionHandlerFeature>();
+                if (exceptionFeature != null)
+                {
+                    var problemDetails = new ProblemDetails
+                    {
+                        Status = StatusCodes.Status500InternalServerError,
+                        Title = "An error occurred while processing your request.",
+                    };
+                    context.Response.StatusCode = StatusCodes.Status500InternalServerError;
+                    context.Response.ContentType = "application/problem+json";
+                    await context.Response.WriteAsJsonAsync(problemDetails);
+                }
+            });
+        });
+
         if (env.IsDevelopment())
         {
             app.UseDeveloperExceptionPage();
         }
         else
         {
-            app.UseExceptionHandler("/Error");
             app.UseHsts();
         }
 
-        app.UseHttpsRedirection();
+        if (!env.IsProduction())
+        {
+            app.UseHttpsRedirection();
+        }
         app.UseResponseCompression();
         app.UseSpaStaticFileCaching();
 
         app.UseRouting();
+        app.UseCors();
         app.UseAuthentication().UseAuthorization();
         app.UseWebMarkupMin();
         app.UseSecurityHeaders(
@@ -257,8 +291,5 @@ public class Startup
                 spa.Options.SourcePath = "ClientApp/build/";
             }
         });
-#pragma warning disable VSTHRD002 // Synchronously waiting on tasks may cause deadlocks - safe during startup
-        autoTestContext.SeedDatabaseAsync().Wait();
-#pragma warning restore VSTHRD002
     }
 }

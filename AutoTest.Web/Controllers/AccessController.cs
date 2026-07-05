@@ -28,6 +28,6 @@ public class AccessController(IConfiguration configuration, IMediator mediator) 
         var marshalEvents = await mediator.Send(new GetMarshalEvents(email));
         var editableEntrants = await mediator.Send(new GetEditableEntrants(email));
         var editableMarshals = await mediator.Send(new GetEditableMarshals(email));
-        return new AccessModel(RootAdminEmails.Contains(email), isAuthenticated, isAuthenticated, isAuthenticated, adminClubs, marshalEvents, editableEntrants, editableMarshals);
+        return new AccessModel(RootAdminEmails.Contains(email), isAuthenticated, adminClubs, marshalEvents, editableEntrants, editableMarshals);
     }
 }
