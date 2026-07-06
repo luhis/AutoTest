@@ -39,8 +39,13 @@ export const toApiResponse = async <T, TT>(
       loaded: newValidDate(),
     };
   } catch (e) {
-    //todo can i split between network and backend errors?
-    return { tag: "Error", value: (e as Error).toString() };
+    const message =
+      e instanceof Error
+        ? e.message
+        : typeof e === "string"
+          ? e
+          : "An unknown error occurred";
+    return { tag: "Error", value: message };
   }
 };
 
@@ -71,26 +76,26 @@ export const findIfLoaded = <T, TT>(
 };
 
 export const ifLoaded = <T, TT>(
-  entrants: LoadingState<T, TT>,
+  state: LoadingState<T, TT>,
   f: (_: T) => T,
 ) => {
-  if (entrants.tag === "Loaded") {
+  if (state.tag === "Loaded") {
     return {
-      ...entrants,
-      value: f(entrants.value),
+      ...state,
+      value: f(state.value),
     };
   } else {
-    return entrants;
+    return state;
   }
 };
 
 export const mapOrDefault = <T, TT, TTT>(
-  entrants: LoadingState<T, TT>,
+  state: LoadingState<T, TT>,
   f: (_: T) => TTT,
   defaultValue: TTT,
 ) => {
-  if (entrants.tag === "Loaded") {
-    return f(entrants.value);
+  if (state.tag === "Loaded") {
+    return f(state.value);
   } else {
     return defaultValue;
   }
