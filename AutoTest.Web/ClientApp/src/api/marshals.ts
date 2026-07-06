@@ -24,10 +24,10 @@ export const getMarshal = async (
 };
 
 export const addMarshal = async (
-  entrant: Marshal,
+  marshal: Marshal,
   token: string | undefined,
 ): Promise<Marshal> => {
-  const { marshalId, eventId, ...rest } = entrant;
+  const { marshalId, eventId, ...rest } = marshal;
   const response = await fetch(`/api/marshals/${eventId}/${marshalId}`, {
     headers: getHeaders(token),
     method: "PUT",

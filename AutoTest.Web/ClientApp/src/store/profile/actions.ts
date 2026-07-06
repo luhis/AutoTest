@@ -81,7 +81,7 @@ export const RemoveClubAdmin = (clubId: number): ProfileActionTypes => ({
 });
 
 export const AddEventMarshal = (eventId: number): ProfileActionTypes => ({
-  type: "ADD_EVENT_MARSHAL",
+  type: "ADD_EVENT_MARSHAL" as const,
   payload: eventId,
 });
 export const AddEditableMarshal = (marshalId: number): ProfileActionTypes => ({

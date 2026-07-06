@@ -6,8 +6,11 @@ export const addPreventDefault =
     const f = async () => {
       setSavingStatus(true);
       e.preventDefault();
-      await save();
-      setSavingStatus(false);
+      try {
+        await save();
+      } finally {
+        setSavingStatus(false);
+      }
     };
     void f();
   };
