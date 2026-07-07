@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Net.Http;
+using System.Threading;
 using System.Threading.Tasks;
 using AutoTest.Domain.StorageModels;
 using AutoTest.Integration.Test.Fixtures;
@@ -19,7 +20,7 @@ public class EntrantsControllerShould(CustomWebApplicationFactory<Startup> fixtu
     [Fact]
     public async Task GetResults()
     {
-        var res = await unAuthorisedClient.GetAsync("/api/entrants/22");
+        var res = await unAuthorisedClient.GetAsync("/api/entrants/22", CancellationToken.None);
         res.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);
         var content = await res.DeserialiseAsync<IEnumerable<PublicEntrantModel>>();
         content.Should().NotBeEmpty();
@@ -28,7 +29,7 @@ public class EntrantsControllerShould(CustomWebApplicationFactory<Startup> fixtu
     [Fact]
     public async Task GetSingle()
     {
-        var res = await authorisedClient.GetAsync("/api/entrants/22/1");
+        var res = await authorisedClient.GetAsync("/api/entrants/22/1", CancellationToken.None);
         res.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);
         var content = await res.DeserialiseAsync<Entrant>();
         content.Should().NotBeNull();
@@ -37,7 +38,7 @@ public class EntrantsControllerShould(CustomWebApplicationFactory<Startup> fixtu
     [Fact]
     public async Task NotFound()
     {
-        var res = await authorisedClient.GetAsync("/api/entrants/22/9999");
+        var res = await authorisedClient.GetAsync("/api/entrants/22/9999", CancellationToken.None);
         res.StatusCode.Should().Be(System.Net.HttpStatusCode.NotFound);
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Net.Http;
+using System.Threading;
 using System.Threading.Tasks;
 using AutoTest.Integration.Test.Fixtures;
 using AutoTest.Integration.Test.Tooling;
@@ -22,7 +23,7 @@ public class ResultsControllerShould : IClassFixture<CustomWebApplicationFactory
     [Fact]
     public async Task GetResults()
     {
-        var res = await unAuthorisedClient.GetAsync("/api/results/22");
+        var res = await unAuthorisedClient.GetAsync("/api/results/22", CancellationToken.None);
         res.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);
         var content = await res.DeserialiseAsync<IEnumerable<Result>>();
         content.Should().NotBeEmpty();
@@ -31,7 +32,7 @@ public class ResultsControllerShould : IClassFixture<CustomWebApplicationFactory
     [Fact]
     public async Task GetAwards()
     {
-        var res = await unAuthorisedClient.GetAsync("/api/results/22/awards");
+        var res = await unAuthorisedClient.GetAsync("/api/results/22/awards", CancellationToken.None);
         res.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);
         var content = await res.DeserialiseAsync<Awards>();
         content.Should().NotBeNull();

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Net.Http;
+using System.Threading;
 using System.Threading.Tasks;
 using AutoTest.Domain.StorageModels;
 using AutoTest.Integration.Test.Fixtures;
@@ -19,7 +20,7 @@ public class MarshalsControllerShould(CustomWebApplicationFactory<Startup> fixtu
     [Fact]
     public async Task GetResults()
     {
-        var res = await unAuthorisedClient.GetAsync("/api/marshals/22");
+        var res = await unAuthorisedClient.GetAsync("/api/marshals/22", CancellationToken.None);
         res.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);
         var content = await res.DeserialiseAsync<IEnumerable<PublicMarshalModel>>();
         content.Should().NotBeEmpty();
@@ -28,7 +29,7 @@ public class MarshalsControllerShould(CustomWebApplicationFactory<Startup> fixtu
     [Fact]
     public async Task GetSingle()
     {
-        var res = await authorisedClient.GetAsync("/api/marshals/22/1");
+        var res = await authorisedClient.GetAsync("/api/marshals/22/1", CancellationToken.None);
         res.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);
         var content = await res.DeserialiseAsync<Marshal>();
         content.Should().NotBeNull();
@@ -37,7 +38,7 @@ public class MarshalsControllerShould(CustomWebApplicationFactory<Startup> fixtu
     [Fact]
     public async Task NotFound()
     {
-        var res = await authorisedClient.GetAsync("/api/marshals/22/9999");
+        var res = await authorisedClient.GetAsync("/api/marshals/22/9999", CancellationToken.None);
         res.StatusCode.Should().Be(System.Net.HttpStatusCode.NotFound);
     }
 }
