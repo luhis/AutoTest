@@ -11,9 +11,8 @@
     <TieredCompilation>true</TieredCompilation>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(PublishProfile)' != '' OR '$(SelfContained)' == 'true'">
-    <SelfContained>true</SelfContained>
-    <RuntimeIdentifier>linux-x64</RuntimeIdentifier>
+  <PropertyGroup>
+    <SelfContained>false</SelfContained>
   </PropertyGroup>
 
   <ItemGroup>

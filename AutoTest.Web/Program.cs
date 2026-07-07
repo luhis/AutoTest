@@ -4,6 +4,7 @@ using AutoTest.Persistence;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 
 namespace AutoTest.Web;
 
@@ -13,11 +14,29 @@ public static class Program
     {
         var host = CreateHostBuilder(args).Build();
 
-        using var scope = host.Services.CreateScope();
-        var autoTestContext = scope.ServiceProvider.GetRequiredService<AutoTestContext>();
-        await autoTestContext.SeedDatabaseAsync();
+        var logger = host.Services.GetRequiredService<ILoggerFactory>().CreateLogger("AutoTest.Startup");
+        try
+        {
+            logger.LogInformation("Starting AutoTest application...");
+            if (logger.IsEnabled(LogLevel.Information))
+            {
+                logger.LogInformation("Environment: {Environment}", Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT"));
+            }
 
-        await host.RunAsync();
+            using var scope = host.Services.CreateScope();
+            var autoTestContext = scope.ServiceProvider.GetRequiredService<AutoTestContext>();
+            logger.LogInformation("Seeding database...");
+            await autoTestContext.SeedDatabaseAsync();
+            logger.LogInformation("Database seeded successfully.");
+
+            logger.LogInformation("Starting web host...");
+            await host.RunAsync();
+        }
+        catch (Exception ex)
+        {
+            logger.LogCritical(ex, "Application terminated unexpectedly");
+            throw;
+        }
     }
 
     private static IHostBuilder CreateHostBuilder(string[] args) =>

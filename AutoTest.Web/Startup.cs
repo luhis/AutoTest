@@ -62,6 +62,7 @@ public class Startup
         services.AddHttpContextAccessor();
         services.AddApplicationInsightsTelemetry();
         services.AddMemoryCache();
+        services.AddHealthChecks();
         services.AddCors(options =>
         {
             options.AddDefaultPolicy(policy =>
@@ -266,6 +267,7 @@ public class Startup
         {
             endpoints.MapHub<EventHub>("/resultsHub");
             endpoints.MapHub<AuthorisationHub>("/authorisationHub");
+            endpoints.MapHealthChecks("/healthz");
             endpoints.MapControllerRoute(
                 name: "default",
                 pattern: "{controller}/{action=Index}/{id?}");
