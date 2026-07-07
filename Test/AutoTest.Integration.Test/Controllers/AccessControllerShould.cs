@@ -1,4 +1,5 @@
 ﻿using System.Net.Http;
+using System.Threading;
 using System.Threading.Tasks;
 using AutoTest.Integration.Test.Fixtures;
 using AutoTest.Integration.Test.Tooling;
@@ -23,7 +24,7 @@ public class AccessControllerShould : IClassFixture<CustomWebApplicationFactory<
     [Fact]
     public async Task GetUnauthorised()
     {
-        var res = await unAuthorisedClient.GetAsync("/api/access/");
+        var res = await unAuthorisedClient.GetAsync("/api/access/", CancellationToken.None);
         res.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);
         var accessModel = await res.DeserialiseAsync<AccessModel>();
         accessModel.Should().NotBeNull();
@@ -33,7 +34,7 @@ public class AccessControllerShould : IClassFixture<CustomWebApplicationFactory<
     [Fact]
     public async Task GetAuthorised()
     {
-        var res = await authorisedClient.GetAsync("/api/access/");
+        var res = await authorisedClient.GetAsync("/api/access/", CancellationToken.None);
         res.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);
         var accessModel = await res.DeserialiseAsync<AccessModel>();
         accessModel.Should().NotBeNull();

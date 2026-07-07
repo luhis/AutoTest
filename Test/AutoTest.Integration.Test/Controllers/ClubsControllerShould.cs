@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Net.Http;
+using System.Threading;
 using System.Threading.Tasks;
 using AutoTest.Domain.StorageModels;
 using AutoTest.Integration.Test.Fixtures;
@@ -22,7 +23,7 @@ public class ClubsControllerShould : IClassFixture<CustomWebApplicationFactory<S
     [Fact]
     public async Task GetResults()
     {
-        var res = await unAuthorisedClient.GetAsync("/api/clubs/");
+        var res = await unAuthorisedClient.GetAsync("/api/clubs/", CancellationToken.None);
         res.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);
         var content = await res.DeserialiseAsync<IEnumerable<Club>>();
         content.Should().NotBeEmpty();

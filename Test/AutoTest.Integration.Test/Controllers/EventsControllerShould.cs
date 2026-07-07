@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Net.Http;
 using System.Net.Http.Json;
+using System.Threading;
 using System.Threading.Tasks;
 using AutoTest.Domain.StorageModels;
 using AutoTest.Integration.Test.Fixtures;
@@ -27,7 +28,7 @@ public class EventsControllerShould : IClassFixture<CustomWebApplicationFactory<
     [Fact]
     public async Task GetAll()
     {
-        var res = await unAuthorisedClient.GetAsync("/api/events/");
+        var res = await unAuthorisedClient.GetAsync("/api/events/", CancellationToken.None);
         res.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);
         var content = await res.DeserialiseAsync<IEnumerable<Event>>();
         content.Should().NotBeEmpty();
@@ -36,7 +37,7 @@ public class EventsControllerShould : IClassFixture<CustomWebApplicationFactory<
     [Fact]
     public async Task AddFailValidation()
     {
-        var res = await authorisedClient.PutAsync("/api/events/22", JsonContent.Create(new EventSaveModel() { ClubId = 1 }));
+        var res = await authorisedClient.PutAsync("/api/events/22", JsonContent.Create(new EventSaveModel() { ClubId = 1 }), CancellationToken.None);
         res.StatusCode.Should().Be(System.Net.HttpStatusCode.BadRequest);
         var content = await res.DeserialiseAsync<ProblemDetails>();
         content.Should().NotBeNull();
@@ -45,18 +46,18 @@ public class EventsControllerShould : IClassFixture<CustomWebApplicationFactory<
     [Fact]
     public async Task GetMaps()
     {
-        var res = await unAuthorisedClient.GetAsync("/api/events/1/maps");
+        var res = await unAuthorisedClient.GetAsync("/api/events/1/maps", CancellationToken.None);
         res.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);
-        var content = await res.Content.ReadAsStringAsync();
+        var content = await res.Content.ReadAsStringAsync(CancellationToken.None);
         content.Should().NotBeNull();
     }
 
     [Fact]
     public async Task GetRegulations()
     {
-        var res = await unAuthorisedClient.GetAsync("/api/events/1/regulations");
+        var res = await unAuthorisedClient.GetAsync("/api/events/1/regulations", CancellationToken.None);
         res.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);
-        var content = await res.Content.ReadAsStringAsync();
+        var content = await res.Content.ReadAsStringAsync(CancellationToken.None);
         content.Should().NotBeNull();
     }
 }
