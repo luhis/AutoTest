@@ -12,73 +12,102 @@
   "packageRules": [
     {
       "description": "Group all ASP.NET Core packages",
-      "matchPackagePatterns": ["^Microsoft\\.AspNetCore"],
-      "groupName": "ASP.NET Core"
+      "groupName": "ASP.NET Core",
+      "matchPackageNames": [
+        "/^Microsoft\\.AspNetCore/"
+      ]
     },
     {
       "description": "Group all EF Core packages",
-      "matchPackagePatterns": ["^Microsoft\\.EntityFrameworkCore"],
-      "groupName": "Entity Framework Core"
+      "groupName": "Entity Framework Core",
+      "matchPackageNames": [
+        "/^Microsoft\\.EntityFrameworkCore/"
+      ]
     },
     {
       "description": "Group all Azure SDK packages",
-      "matchPackagePatterns": ["^Azure\\.", "^Microsoft\\.Azure"],
-      "groupName": "Azure SDK"
+      "groupName": "Azure SDK",
+      "matchPackageNames": [
+        "/^Azure\\./",
+        "/^Microsoft\\.Azure/"
+      ]
     },
     {
       "description": "Group all xUnit packages",
-      "matchPackagePatterns": ["^xunit"],
-      "groupName": "xUnit"
+      "groupName": "xUnit",
+      "matchPackageNames": [
+        "/^xunit/"
+      ]
     },
     {
       "description": "Group all Moq packages",
-      "matchPackagePatterns": ["^Moq"],
-      "groupName": "Moq"
+      "groupName": "Moq",
+      "matchPackageNames": [
+        "/^Moq/"
+      ]
     },
     {
       "description": "Group all Mediator packages",
-      "matchPackagePatterns": ["^Mediator\\."],
-      "groupName": "Mediator"
+      "groupName": "Mediator",
+      "matchPackageNames": [
+        "/^Mediator\\./"
+      ]
     },
     {
       "description": "Group all Preact packages",
-      "matchPackagePatterns": ["^preact"],
-      "groupName": "Preact"
+      "groupName": "Preact",
+      "matchPackageNames": [
+        "/^preact/"
+      ]
     },
     {
       "description": "Group all Redux packages",
-      "matchPackagePatterns": ["^@reduxjs|^react-redux|^redux"],
-      "groupName": "Redux"
+      "groupName": "Redux",
+      "matchPackageNames": [
+        "/^@reduxjs|^react-redux|^redux/"
+      ]
     },
     {
       "description": "Group all Bulma packages",
-      "matchPackagePatterns": ["^bulma|^react-bulma"],
-      "groupName": "Bulma"
+      "groupName": "Bulma",
+      "matchPackageNames": [
+        "/^bulma|^react-bulma/"
+      ]
     },
     {
       "description": "Group all ESLint packages",
-      "matchPackagePatterns": ["^eslint|^@typescript-eslint"],
-      "groupName": "ESLint"
+      "groupName": "ESLint",
+      "matchPackageNames": [
+        "/^eslint|^@typescript-eslint/"
+      ]
     },
     {
       "description": "Group all Jest packages",
-      "matchPackagePatterns": ["^jest|^@types/jest|^ts-jest"],
-      "groupName": "Jest"
+      "groupName": "Jest",
+      "matchPackageNames": [
+        "/^jest|^@types/jest|^ts-jest/"
+      ]
     },
     {
       "description": "Group all Microsoft Application Insights packages",
-      "matchPackagePatterns": ["^@microsoft/applicationinsights"],
-      "groupName": "Application Insights"
+      "groupName": "Application Insights",
+      "matchPackageNames": [
+        "/^@microsoft/applicationinsights/"
+      ]
     },
     {
       "description": "Group all SignalR packages",
-      "matchPackagePatterns": ["^@microsoft/signalr"],
-      "groupName": "SignalR"
+      "groupName": "SignalR",
+      "matchPackageNames": [
+        "/^@microsoft/signalr/"
+      ]
     },
     {
       "description": "Group all preact-cli related packages",
-      "matchPackagePatterns": ["^preact-cli|^preact-render"],
-      "groupName": "preact-cli"
+      "groupName": "preact-cli",
+      "matchPackageNames": [
+        "/^preact-cli|^preact-render/"
+      ]
     },
     {
       "description": "Automerge minor and patch updates for dev dependencies",
@@ -93,8 +122,10 @@
     },
     {
       "description": "Group all React-related packages (Preact compat)",
-      "matchPackagePatterns": ["^react-|^@types/react"],
-      "groupName": "React/Preact compat"
+      "groupName": "React/Preact compat",
+      "matchPackageNames": [
+        "/^react-|^@types/react/"
+      ]
     }
   ],
   "postUpdateOptions": ["yarnDedupeHighest"],
