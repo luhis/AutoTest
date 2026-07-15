@@ -241,6 +241,9 @@ dotnet_diagnostic.RS0037.severity = none
 
 # VSTHRD200: Use "Async" suffix for async methods
 dotnet_diagnostic.VSTHRD200.severity = none
+
+# VSTHRD103: Use AsyncSuffix when method returns awaitable type (false positive for EF Core Add/AddRange which are in-memory)
+dotnet_diagnostic.VSTHRD103.severity = none
 csharp_using_directive_placement = outside_namespace:silent
 csharp_prefer_simple_using_statement = true:suggestion
 csharp_style_namespace_declarations = block_scoped:silent
