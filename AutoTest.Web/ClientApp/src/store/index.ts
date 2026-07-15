@@ -63,10 +63,7 @@ export default () => {
 };
 
 type AppActionTypes =
-  | EventActionTypes
-  | ClubsActionTypes
-  | ProfileActionTypes
-  | RunActionTypes;
+  EventActionTypes | ClubsActionTypes | ProfileActionTypes | RunActionTypes;
 
 export const useThunkDispatch = () =>
   useDispatch<ToolkitThunkDispatch<AppState, unknown, AppActionTypes>>();

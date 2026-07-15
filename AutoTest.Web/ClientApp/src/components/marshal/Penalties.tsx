@@ -2,8 +2,8 @@ import { h, FunctionComponent, Fragment } from "preact";
 import { Form, Button, Icon } from "react-bulma-components";
 import { FaPlus, FaMinus } from "react-icons/fa";
 const { Field, Label } = Form;
+import { startCase } from "@s-libs/micro-dash";
 
-import { startCase } from "../../lib/string";
 import { PenaltyType, Penalty } from "../../types/models";
 import TypeIcon from "./TypeIcon";
 

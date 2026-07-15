@@ -6,8 +6,8 @@ export interface EmergencyContact {
 }
 
 export enum InductionTypes {
-  "NA" = 0,
-  "Forced" = 1,
+  NA = 0,
+  Forced = 1,
 }
 
 export interface Vehicle {

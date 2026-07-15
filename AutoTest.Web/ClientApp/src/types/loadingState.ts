@@ -75,10 +75,7 @@ export const findIfLoaded = <T, TT>(
   }
 };
 
-export const ifLoaded = <T, TT>(
-  state: LoadingState<T, TT>,
-  f: (_: T) => T,
-) => {
+export const ifLoaded = <T, TT>(state: LoadingState<T, TT>, f: (_: T) => T) => {
   if (state.tag === "Loaded") {
     return {
       ...state,

@@ -1,6 +1,7 @@
 import { FunctionComponent, h } from "preact";
 import { Columns, Button, Form, Dropdown } from "react-bulma-components";
 import { FaMoneyBill } from "react-icons/fa";
+import { startCase } from "@s-libs/micro-dash";
 const { Field, Control } = Form;
 
 import ifSome from "../shared/ifSome";
@@ -14,7 +15,6 @@ import { LoadingState } from "../../types/loadingState";
 import NumberPlate from "../shared/NumberPlate";
 import DeleteButton from "../shared/DeleteButton";
 import DriverNumber from "../shared/DriverNumber";
-import { startCase } from "../../lib/string";
 import TimeAgo from "../shared/TimeAgo";
 import Pay from "./subComponents/Pay";
 
