@@ -48,7 +48,6 @@
     "regenerator-runtime": "0.14.1",
     "save-file": "2.3.1",
     "ts-date": "3.1.0",
-    "tslib": "^2.8.1",
     "uuid-int": "3.1.0"
   },
   "devDependencies": {
