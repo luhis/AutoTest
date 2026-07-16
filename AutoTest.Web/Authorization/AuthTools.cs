@@ -15,10 +15,6 @@ public static class AuthTools
         {
             return ulong.Parse((string)eventIdString, CultureInfo.InvariantCulture);
         }
-        else if (routeData.Values.TryGetValue(RouteParams.EntrantId, out var entrantIdString) && entrantIdString is not null)
-        {
-            throw new ArgumentException("i don't think this route is used anymore");
-        }
         throw new ArgumentException("Don't know how to get EventId from this request");
     }
 

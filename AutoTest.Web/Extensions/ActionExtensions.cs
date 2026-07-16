@@ -8,8 +8,4 @@ public static class ActionExtensions
     {
         return o is null ? new NotFoundResult() : o;
     }
-    public static IActionResult ToIar(this IActionResult o)
-    {
-        return o;
-    }
 }

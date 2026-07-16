@@ -1,51 +1,25 @@
-using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoTest.Domain.Repositories;
 using AutoTest.Service.Messages;
 using AutoTest.Service.Models;
-using AutoTest.Service.ResultCalculation;
 using Mediator;
 
 namespace AutoTest.Service.Handlers;
 
 public sealed class GetAwardsHandler(ITestRunsRepository testRunsRepository, IEventsRepository eventsRepository, IEntrantsRepository entrantsRepository) : IRequestHandler<GetAwards, Awards>
 {
-    private readonly ITotalTimeCalculator totalTimeCalculator = new AutoTestTotalTimeCalculator();
-    private readonly TimeCalculatorConfig _timeCalculatorConfig = TimeCalculatorConfig.DefaultValues;
-
     public async ValueTask<Awards> Handle(GetAwards request, CancellationToken cancellationToken)
     {
-        var @event = await eventsRepository.GetById(request.EventId, cancellationToken) ?? throw new InvalidOperationException("Event not found");
+        var @event = await eventsRepository.GetById(request.EventId, cancellationToken) ?? throw new System.InvalidOperationException("Event not found");
+        var entrantsAndRuns = await CompetitionData.GetEntrantsAndRuns(request.EventId, eventsRepository, entrantsRepository, testRunsRepository, cancellationToken);
+        var entrantTimes = CompetitionData.ToEntrantTimes(entrantsAndRuns, @event.Courses.ToArray());
 
-        var courses = @event.Courses;
-        var entrants = await entrantsRepository.GetByEventId(request.EventId, cancellationToken);
-        var testRuns = await testRunsRepository.GetAll(request.EventId, cancellationToken);
+        var ftd = entrantTimes.First();
+        var groupedByClass = entrantTimes.Skip(1).GroupBy(t => t.Entrant.Class);
 
-        var entrantsAndRuns = entrants.Select(
-            entrant =>
-            {
-                var runs = testRuns.Where(r => r.EntrantId == entrant.EntrantId).GroupBy(a => a.Ordinal)
-                    .SelectMany(a => a.OrderBy(run => run.Created).Take(2));
-                return new
-                {
-                    entrant,
-                    runs,
-                    totalTime = totalTimeCalculator.GetTotalTime(_timeCalculatorConfig, runs, testRuns)
-                };
-            }).OrderBy(a => a.totalTime).ToArray();
-
-        var ftd = entrantsAndRuns.First();
-
-        var ftdExcluded = entrantsAndRuns.Skip(1);
-
-        var groupedByClass = ftdExcluded.GroupBy(entrantAndRuns => entrantAndRuns.entrant.Class);
-        var testsDict = courses.ToDictionary(a => a.Ordinal, a => a);
-        return new Awards(new EntrantTimes(ftd.entrant, ftd.totalTime, ftd.runs.GroupBy(a => a.Ordinal).Select(r =>
-                new TestTime(testsDict[r.Key].Ordinal, r)), Array.IndexOf(entrantsAndRuns, ftd), 0), groupedByClass.Select(entrantsByClass =>
-            new Result(entrantsByClass.Key, entrantsByClass.Select((x, index) =>
-            new EntrantTimes(x.entrant, x.totalTime, x.runs.GroupBy(a => a.Ordinal).Select(r =>
-                new TestTime(testsDict[r.Key].Ordinal, r)), Array.IndexOf(entrantsAndRuns, x), index)))).ToArray());
+        return new Awards(ftd, groupedByClass.Select(entrantsByClass =>
+            new Result(entrantsByClass.Key, entrantsByClass)).ToArray());
     }
 }

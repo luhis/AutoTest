@@ -6,7 +6,6 @@ using AutoTest.Domain.StorageModels;
 using AutoTest.Service.Messages;
 using AutoTest.Web.Authorization;
 using AutoTest.Web.Authorization.Tooling;
-using AutoTest.Web.Extensions;
 using AutoTest.Web.Models.Save;
 using Mediator;
 using Microsoft.AspNetCore.Authorization;
@@ -31,7 +30,7 @@ public class TestRunsController(IMediator mediator) : ControllerBase
         var emailAddress = User.GetEmailAddress();
         var res = await mediator.Send(
             new AddTestRun(testRunId, eventId, ordinal, testRun.TimeInMS, testRun.EntrantId, testRun.Created, emailAddress, testRun.Penalties.Select(a => new Penalty(a.PenaltyType, a.InstanceCount))), cancellationToken);
-        return res.Match(success => Ok().ToIar(), error => BadRequest(error).ToIar());
+        return res.Match<IActionResult>(success => Ok(), error => BadRequest(error));
     }
 
     [Authorize(Policies.ClubAdmin)]

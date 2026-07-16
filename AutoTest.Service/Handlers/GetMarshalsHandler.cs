@@ -14,7 +14,7 @@ public sealed class GetMarshalsHandler(IMarshalsRepository marshalsRepository) :
 {
     public async ValueTask<IEnumerable<Marshal>> Handle(GetMarshals request, CancellationToken cancellationToken)
     {
-        var partial = await marshalsRepository.GetByEventId(request.EventId).OrderByDescending(a => a.FamilyName).ToEnumerableAsync(cancellationToken);
-        return partial.OrderBy(a => a.FamilyName).ThenBy(a => a.GivenName);
+        var partial = await marshalsRepository.GetByEventId(request.EventId).OrderBy(a => a.FamilyName).ToEnumerableAsync(cancellationToken);
+        return partial.ThenBy(a => a.GivenName);
     }
 }
