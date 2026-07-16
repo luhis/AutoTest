@@ -59,7 +59,10 @@ public class Startup
         services.AddPersistence();
         services.AddWeb(Configuration);
         services.AddHttpContextAccessor();
-        services.AddApplicationInsightsTelemetry();
+        if (env.IsProduction())
+        {
+            services.AddApplicationInsightsTelemetry();
+        }
         services.AddMemoryCache();
         services.AddHealthChecks();
         services.AddCors(options =>
