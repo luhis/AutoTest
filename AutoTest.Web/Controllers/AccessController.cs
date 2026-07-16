@@ -24,10 +24,11 @@ public class AccessController(IConfiguration configuration, IMediator mediator) 
         var identity = User.Identity;
         var isAuthenticated = identity is { IsAuthenticated: true };
         var email = User.GetEmailAddress();
-        var adminClubs = await mediator.Send(new GetAdminClubs(email));
-        var marshalEvents = await mediator.Send(new GetMarshalEvents(email));
-        var editableEntrants = await mediator.Send(new GetEditableEntrants(email));
-        var editableMarshals = await mediator.Send(new GetEditableMarshals(email));
-        return new AccessModel(RootAdminEmails.Contains(email), isAuthenticated, adminClubs, marshalEvents, editableEntrants, editableMarshals);
+        var adminClubsTask = mediator.Send(new GetAdminClubs(email)).AsTask();
+        var marshalEventsTask = mediator.Send(new GetMarshalEvents(email)).AsTask();
+        var editableEntrantsTask = mediator.Send(new GetEditableEntrants(email)).AsTask();
+        var editableMarshalsTask = mediator.Send(new GetEditableMarshals(email)).AsTask();
+        await Task.WhenAll(adminClubsTask, marshalEventsTask, editableEntrantsTask, editableMarshalsTask);
+        return new AccessModel(RootAdminEmails.Contains(email), isAuthenticated, adminClubsTask.Result, marshalEventsTask.Result, editableEntrantsTask.Result, editableMarshalsTask.Result);
     }
 }
