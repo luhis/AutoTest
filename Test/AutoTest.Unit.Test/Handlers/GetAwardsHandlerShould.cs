@@ -54,7 +54,7 @@ public class GetAwardsHandlerShould
         var res = await sut.Handle(new(eventId), CancellationToken.None);
 
         res.Should().BeEquivalentTo(new Awards(new EntrantTimes(entrant, 0, Enumerable.Empty<TestTime>(), 0, 0), new[] {
-            new Result("A", new[] { new EntrantTimes(entrant2, 0, Enumerable.Empty<TestTime>(), 1, 0) })
+            new Result("A", new[] { new EntrantTimes(entrant2, 0, Enumerable.Empty<TestTime>(), 1, 1) })
         }));
 
         mr.VerifyAll();

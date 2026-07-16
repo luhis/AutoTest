@@ -30,8 +30,8 @@ jobs:
     - name: Install dependencies
       run: dotnet restore
     - name: Build
-      run: dotnet build ./AutoTest.Web --configuration Release --no-restore
+      run: dotnet build --configuration Release --no-restore
     - name: Test Unit
-      run: dotnet test ./Test/AutoTest.Unit.Test --configuration Release --no-restore
+      run: dotnet test ./Test/AutoTest.Unit.Test --configuration Release --no-restore --logger "console;verbosity=detailed"
     - name: Test Integration
-      run: dotnet test ./Test/AutoTest.Integration.Test --configuration Release --no-restore
+      run: dotnet test ./Test/AutoTest.Integration.Test --configuration Release --no-restore --logger "console;verbosity=detailed"

@@ -64,7 +64,9 @@ public class CompetitionDataShould
         eventsRepository.Setup(r => r.GetById(eventId, cancellationToken)).ReturnsAsync(
             new Event(eventId, 1, "Farm", DateTime.MinValue, 1, 1, "", new[] { EventType.AutoTest }, "", TimingSystem.StopWatch, DateTime.MinValue, DateTime.MaxValue, 50, DateTime.MinValue));
         entrantsRepository.Setup(r => r.GetByEventId(eventId, cancellationToken)).ReturnsAsync(new[] { entrant1, entrant2 });
-        testRunsRepository.Setup(r => r.GetAll(eventId, cancellationToken)).ReturnsAsync(Array.Empty<TestRun>());
+        var run1 = new TestRun(1, eventId, 1, 5000, 1, DateTime.MinValue, 99);
+        var run2 = new TestRun(2, eventId, 1, 10000, 2, DateTime.MinValue, 99);
+        testRunsRepository.Setup(r => r.GetAll(eventId, cancellationToken)).ReturnsAsync(new[] { run1, run2 });
         totalTimeCalculator.Setup(r => r.GetTotalTime(It.IsAny<TimeCalculatorConfig>(), It.IsAny<IEnumerable<TestRun>>(), It.IsAny<IEnumerable<TestRun>>()))
             .Returns((TimeCalculatorConfig c, IEnumerable<TestRun> runs, IEnumerable<TestRun> all) =>
             {
