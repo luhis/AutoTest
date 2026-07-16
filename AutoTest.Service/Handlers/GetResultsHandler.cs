@@ -18,9 +18,9 @@ public sealed class GetResultsHandler(ITestRunsRepository testRunsRepository, IE
 
     public async ValueTask<IEnumerable<Result>> Handle(GetResults request, CancellationToken cancellationToken)
     {
-        var @event = await eventsRepository.GetById(request.EventId, cancellationToken);
+        var @event = await eventsRepository.GetById(request.EventId, cancellationToken) ?? throw new InvalidOperationException("Event not found");
 
-        var courses = @event!.Courses;
+        var courses = @event.Courses;
         var entrants = await entrantsRepository.GetByEventId(request.EventId, cancellationToken);
         var testRuns = await testRunsRepository.GetAll(request.EventId, cancellationToken);
 

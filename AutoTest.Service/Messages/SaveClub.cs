@@ -7,7 +7,7 @@ public class SaveClub : IRequest<ulong>
 {
     public SaveClub(Club club)
     {
-        this.Club = club;
+        Club = club;
     }
 
     public Club Club { get; }

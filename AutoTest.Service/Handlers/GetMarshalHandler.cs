@@ -11,6 +11,6 @@ public sealed class GetMarshalHandler(IMarshalsRepository marshalsRepository) : 
 {
     public async ValueTask<Marshal?> Handle(GetMarshal request, CancellationToken cancellationToken)
     {
-        return await marshalsRepository.GetById(request.EventId, request.MarshalId, cancellationToken)!;
+        return await marshalsRepository.GetById(request.EventId, request.MarshalId, cancellationToken);
     }
 }

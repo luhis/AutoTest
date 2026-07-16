@@ -14,7 +14,7 @@ public class AutoTestContext : DbContext
     public AutoTestContext(DbContextOptions<AutoTestContext> options)
         : base(options)
     {
-        this.ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
+        ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
     }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -37,53 +37,53 @@ public class AutoTestContext : DbContext
 
     public async Task SeedDatabaseAsync()
     {
-        await this.Database.EnsureCreatedAsync();
-        if (!this.Database.IsInMemory())
+        await Database.EnsureCreatedAsync();
+        if (!Database.IsInMemory())
         {
-            if (await this.Clubs.FindAsync(1UL, CancellationToken.None) is null)
+            if (await Clubs.FindAsync(1UL, CancellationToken.None) is null)
             {
                 var brmc = new Club(1, "Brighton and Hove Motor Club", "bhmc@paypal.com", "https://www.bhmc.club");
                 brmc.SetAdminEmails([new AuthorisationEmail("mccorry@gmail.com"), new AuthorisationEmail("briandyer68@hotmail.com")]);
-                this.Clubs.Add(brmc);
+                Clubs.Add(brmc);
             }
 
-            if (await this.Events.FindAsync(2UL, CancellationToken.None) is null)
+            if (await Events.FindAsync(2UL, CancellationToken.None) is null)
             {
                 var e1 = new Event(2, 1, "Kev's Farm", new DateTime(2024, 3, 1), 10, 2, string.Empty, [EventType.AutoTest], string.Empty, TimingSystem.StopWatch, new DateTime(2000, 1, 1), new DateTime(2030, 1, 1), 10, DateTime.UtcNow);
                 e1.SetCourses(Enumerable.Range(0, 10).Select(x => new Course(x, "")).ToArray());
-                this.Events.Add(e1);
+                Events.Add(e1);
             }
 
-            if (await this.Events.FindAsync(3UL, CancellationToken.None) is null)
+            if (await Events.FindAsync(3UL, CancellationToken.None) is null)
             {
                 var e2 = new Event(3, 1, "Kev's Farm 2", new DateTime(2024, 1, 1), 10, 2, string.Empty, [EventType.AutoTest], string.Empty, TimingSystem.StopWatch, new DateTime(2000, 1, 1), new DateTime(2030, 1, 1), 10, DateTime.UtcNow);
                 e2.SetCourses(Enumerable.Range(0, 10).Select(x => new Course(x, "")).ToArray());
-                this.Events.Add(e2);
+                Events.Add(e2);
             }
 
-            if (await this.Entrants.FindAsync(4UL, CancellationToken.None) is null)
+            if (await Entrants.FindAsync(4UL, CancellationToken.None) is null)
             {
                 var en1 = new Entrant(4, 1, "Matt", "McCorry", "test@email.com", "A", 1, Age.Senior, false, null);
                 en1.SetVehicle(new Vehicle("Vauxhall", "Corsa", 1229, Induction.NA, "AA05AAA"));
                 en1.SetMsaMembership(new MsaMembership("Clubman", 1234));
-                this.Entrants.Add(en1);
+                Entrants.Add(en1);
             }
 
-            if (await this.Entrants.FindAsync(5UL, CancellationToken.None) is null)
+            if (await Entrants.FindAsync(5UL, CancellationToken.None) is null)
             {
                 var en2 = new Entrant(5, 2, "Matt", "McCorry", "test@email.com", "A", 2, Age.Senior, false, null);
                 en2.SetVehicle(new Vehicle("Vauxhall", "Corsa", 1229, Induction.NA, "AA05AAA"));
                 en2.SetMsaMembership(new MsaMembership("Clubman", 1234));
-                this.Entrants.Add(en2);
+                Entrants.Add(en2);
             }
 
-            if (await this.Marshals.FindAsync(6UL, CancellationToken.None) is null)
+            if (await Marshals.FindAsync(6UL, CancellationToken.None) is null)
             {
                 var m = new Marshal(6, "Matt", "McCorry", "mccorry@gmail.com", 2, 69, "Play");
-                this.Marshals.Add(m);
+                Marshals.Add(m);
             }
 
-            await this.SaveChangesAsync();
+            await SaveChangesAsync();
         }
     }
 }

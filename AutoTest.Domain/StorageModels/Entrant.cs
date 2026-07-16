@@ -51,11 +51,11 @@ string @class, ulong eventId, Age age, bool isLady, ulong? doubleDrivenWith)
 
     public void SetEntrantStatus(EntrantStatus newStatus)
     {
-        this.EntrantStatus = newStatus;
+        EntrantStatus = newStatus;
     }
 
     public void SetEntrantClub(EntrantClub newStatus)
     {
-        this.EntrantClub = newStatus;
+        EntrantClub = newStatus;
     }
 }

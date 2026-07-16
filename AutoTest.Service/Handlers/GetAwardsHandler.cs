@@ -17,9 +17,9 @@ public sealed class GetAwardsHandler(ITestRunsRepository testRunsRepository, IEv
 
     public async ValueTask<Awards> Handle(GetAwards request, CancellationToken cancellationToken)
     {
-        var @event = await eventsRepository.GetById(request.EventId, cancellationToken);
+        var @event = await eventsRepository.GetById(request.EventId, cancellationToken) ?? throw new InvalidOperationException("Event not found");
 
-        var courses = @event!.Courses;
+        var courses = @event.Courses;
         var entrants = await entrantsRepository.GetByEventId(request.EventId, cancellationToken);
         var testRuns = await testRunsRepository.GetAll(request.EventId, cancellationToken);
 

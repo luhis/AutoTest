@@ -9,7 +9,7 @@ public class SaveEntrant : IRequest<OneOf<Entrant, Error<string>>>
 {
     public SaveEntrant(Entrant entrant)
     {
-        this.Entrant = entrant;
+        Entrant = entrant;
     }
 
     public Entrant Entrant { get; } // swap for tighter model without payment?

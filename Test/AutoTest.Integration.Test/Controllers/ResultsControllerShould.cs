@@ -17,7 +17,7 @@ public class ResultsControllerShould : IClassFixture<CustomWebApplicationFactory
 
     public ResultsControllerShould(CustomWebApplicationFactory<Startup> fixture)
     {
-        this.unAuthorisedClient = fixture.GetUnAuthorisedClient();
+        unAuthorisedClient = fixture.GetUnAuthorisedClient();
     }
 
     [Fact]

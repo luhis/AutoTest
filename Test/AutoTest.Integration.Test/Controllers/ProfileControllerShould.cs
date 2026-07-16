@@ -17,8 +17,8 @@ public class ProfileControllerShould : IClassFixture<CustomWebApplicationFactory
 
     public ProfileControllerShould(CustomWebApplicationFactory<Startup> fixture, AuthdCustomWebApplicationFactory<Startup> fixture2)
     {
-        this.unAuthorisedClient = fixture.GetUnAuthorisedClient();
-        this.authorisedClient = fixture2.GetAuthorisedClient();
+        unAuthorisedClient = fixture.GetUnAuthorisedClient();
+        authorisedClient = fixture2.GetAuthorisedClient();
     }
 
     [Fact]

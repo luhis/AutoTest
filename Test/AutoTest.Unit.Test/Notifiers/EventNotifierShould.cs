@@ -26,7 +26,7 @@ public class EventNotifierShould
         mr = new MockRepository(MockBehavior.Strict);
         eventHub = mr.Create<IHubContext<EventHub>>();
         mediator = mr.Create<IMediator>();
-        this.sut = new EventNotifier(eventHub.Object, mediator.Object);
+        sut = new EventNotifier(eventHub.Object, mediator.Object);
     }
 
     [Fact]

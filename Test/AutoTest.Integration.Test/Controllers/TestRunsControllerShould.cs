@@ -17,7 +17,7 @@ public class TestRunsControllerShould : IClassFixture<CustomWebApplicationFactor
 
     public TestRunsControllerShould(CustomWebApplicationFactory<Startup> fixture)
     {
-        this.unAuthorisedClient = fixture.GetUnAuthorisedClient();
+        unAuthorisedClient = fixture.GetUnAuthorisedClient();
     }
 
     [Fact]

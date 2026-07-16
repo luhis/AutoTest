@@ -6,7 +6,7 @@ public class DeleteClub : IRequest
 {
     public DeleteClub(ulong clubId)
     {
-        this.ClubId = clubId;
+        ClubId = clubId;
     }
 
     public ulong ClubId { get; }

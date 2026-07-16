@@ -7,7 +7,7 @@ public class SaveEvent : IRequest<ulong>
 {
     public SaveEvent(Event @event)
     {
-        this.Event = @event;
+        Event = @event;
     }
 
     public Event Event { get; }

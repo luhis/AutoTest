@@ -17,7 +17,7 @@ public class NotificationsControllerShould : IClassFixture<CustomWebApplicationF
 
     public NotificationsControllerShould(CustomWebApplicationFactory<Startup> fixture)
     {
-        this.unAuthorisedClient = fixture.GetUnAuthorisedClient();
+        unAuthorisedClient = fixture.GetUnAuthorisedClient();
     }
 
     [Fact]

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
@@ -13,8 +14,8 @@ public sealed class GetTestsHandler(IEventsRepository eventsRepository) : IReque
 {
     public async ValueTask<IEnumerable<Course>> Handle(GetTests request, CancellationToken cancellationToken)
     {
-        var @event = await eventsRepository.GetById(request.EventId, cancellationToken);
+        var @event = await eventsRepository.GetById(request.EventId, cancellationToken) ?? throw new InvalidOperationException("Event not found");
 
-        return @event!.Courses.OrderBy(a => a.Ordinal);
+        return @event.Courses.OrderBy(a => a.Ordinal);
     }
 }

@@ -12,9 +12,9 @@ public sealed class IsClubAdminHandler(IClubsRepository clubsRepository, IEvents
 {
     public async ValueTask<bool> Handle(IsClubAdmin request, CancellationToken cancellationToken)
     {
-        var @event = await eventsRepository.GetById(request.EventId, cancellationToken);
+        var @event = await eventsRepository.GetById(request.EventId, cancellationToken) ?? throw new InvalidOperationException("Event not found");
 
-        var club = await clubsRepository.GetById(@event!.ClubId, cancellationToken);
+        var club = await clubsRepository.GetById(@event.ClubId, cancellationToken);
         return club is not null && club.AdminEmails.Select(a => a.Email).Contains(request.EmailAddress, StringComparer.InvariantCultureIgnoreCase);
     }
 }

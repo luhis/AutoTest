@@ -22,7 +22,7 @@ public class Event(ulong eventId, ulong clubId, string location, DateTime startT
 
     public void SetCourses(ICollection<Course> courses)
     {
-        if (courses.Count != this.CourseCount)
+        if (courses.Count != CourseCount)
         {
             throw new ArgumentException("Invalid number of courses", nameof(courses));
         }
@@ -48,6 +48,6 @@ public class Event(ulong eventId, ulong clubId, string location, DateTime startT
 
     public uint MaxEntrants { get; } = maxEntrants;
 
-    public void SetEventStatus(EventStatus eventStatus) => this.EventStatus = eventStatus;
+    public void SetEventStatus(EventStatus eventStatus) => EventStatus = eventStatus;
 
 }

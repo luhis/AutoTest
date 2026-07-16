@@ -23,7 +23,7 @@ public class AuthdCustomWebApplicationFactory<TStartup>
 
     public HttpClient GetAuthorisedClient()
     {
-        var c = this.CreateClient(
+        var c = CreateClient(
                     new WebApplicationFactoryClientOptions() { AllowAutoRedirect = false });
         c.DefaultRequestHeaders.Authorization =
             new AuthenticationHeaderValue(scheme: TestScheme);

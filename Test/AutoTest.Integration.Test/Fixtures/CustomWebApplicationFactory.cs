@@ -18,7 +18,7 @@ public class CustomWebApplicationFactory<TStartup>
     where TStartup : class
 {
     public HttpClient GetUnAuthorisedClient()
-        => this.CreateClient(
+        => CreateClient(
             new WebApplicationFactoryClientOptions() { AllowAutoRedirect = false });
 
     protected override void ConfigureWebHost(IWebHostBuilder builder)

@@ -9,8 +9,8 @@ public class EmergencyContact
 
     public EmergencyContact(string name, string phone)
     {
-        this.Name = name;
-        this.Phone = phone;
+        Name = name;
+        Phone = phone;
     }
 
     public string Name { get; } = string.Empty;

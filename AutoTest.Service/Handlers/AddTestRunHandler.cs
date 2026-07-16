@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -15,8 +16,8 @@ public sealed class AddTestRunHandler(ITestRunsRepository testRunsRepository, IE
 {
     public async ValueTask<OneOf<Success, Error<string>>> Handle(AddTestRun request, CancellationToken cancellationToken)
     {
-        var @event = await eventsRepository.GetById(request.EventId, cancellationToken);
-        if (@event!.EventStatus != Domain.Enums.EventStatus.Running)
+        var @event = await eventsRepository.GetById(request.EventId, cancellationToken) ?? throw new InvalidOperationException("Event not found");
+        if (@event.EventStatus != Domain.Enums.EventStatus.Running)
         {
             return new Error<string>("Event must be running to add Test Run");
         }

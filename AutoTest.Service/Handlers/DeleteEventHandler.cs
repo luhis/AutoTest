@@ -1,3 +1,4 @@
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoTest.Domain.Repositories;
@@ -10,9 +11,9 @@ public sealed class DeleteEventHandler(IEventsRepository eventsRepository) : IRe
 {
     public async ValueTask<Unit> Handle(DeleteEvent request, CancellationToken cancellationToken)
     {
-        var found = await eventsRepository.GetById(request.EventId, cancellationToken);
+        var found = await eventsRepository.GetById(request.EventId, cancellationToken) ?? throw new InvalidOperationException("Event not found");
 
-        await eventsRepository.Delete(found!, cancellationToken);
+        await eventsRepository.Delete(found, cancellationToken);
         return Unit.Value;
     }
 }

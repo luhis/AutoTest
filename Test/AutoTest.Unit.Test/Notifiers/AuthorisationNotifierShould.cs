@@ -18,7 +18,7 @@ public class AuthorisationNotifierShould
     {
         mr = new MockRepository(MockBehavior.Strict);
         eventHub = mr.Create<IHubContext<AuthorisationHub>>();
-        this.sut = new AuthorisationNotifier(eventHub.Object);
+        sut = new AuthorisationNotifier(eventHub.Object);
     }
 
     [Fact]

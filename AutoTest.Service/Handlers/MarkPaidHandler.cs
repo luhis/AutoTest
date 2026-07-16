@@ -1,3 +1,4 @@
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoTest.Domain.Repositories;
@@ -10,7 +11,7 @@ public sealed class MarkPaidHandler(IEntrantsRepository entrantsRepository) : IR
 {
     public async ValueTask<Unit> Handle(MarkPaid request, CancellationToken cancellationToken)
     {
-        var found = (await entrantsRepository.GetById(request.EventId, request.EntrantId, cancellationToken))!;
+        var found = await entrantsRepository.GetById(request.EventId, request.EntrantId, cancellationToken) ?? throw new InvalidOperationException("Entrant not found");
         found.SetPayment(request.Payment);
         await entrantsRepository.Update(found, cancellationToken);
         return Unit.Value;

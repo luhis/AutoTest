@@ -7,7 +7,7 @@ public class SaveMarshal : IRequest<Marshal>
 {
     public SaveMarshal(Marshal marshal)
     {
-        this.Marshal = marshal;
+        Marshal = marshal;
     }
 
     public Marshal Marshal { get; }

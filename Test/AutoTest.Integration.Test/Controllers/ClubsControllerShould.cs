@@ -17,7 +17,7 @@ public class ClubsControllerShould : IClassFixture<CustomWebApplicationFactory<S
 
     public ClubsControllerShould(CustomWebApplicationFactory<Startup> fixture)
     {
-        this.unAuthorisedClient = fixture.GetUnAuthorisedClient();
+        unAuthorisedClient = fixture.GetUnAuthorisedClient();
     }
 
     [Fact]
