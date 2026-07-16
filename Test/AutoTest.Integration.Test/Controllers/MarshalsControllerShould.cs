@@ -18,7 +18,7 @@ public class MarshalsControllerShould(CustomWebApplicationFactory<Startup> fixtu
     private readonly HttpClient authorisedClient = fixture2.GetAuthorisedClient();
 
     [Fact]
-    public async Task GetResults()
+    public async Task GetMarshals()
     {
         var res = await unAuthorisedClient.GetAsync("/api/marshals/22", CancellationToken.None);
         res.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);

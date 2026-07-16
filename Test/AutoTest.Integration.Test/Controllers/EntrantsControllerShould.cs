@@ -18,7 +18,7 @@ public class EntrantsControllerShould(CustomWebApplicationFactory<Startup> fixtu
     private readonly HttpClient authorisedClient = fixture2.GetAuthorisedClient();
 
     [Fact]
-    public async Task GetResults()
+    public async Task GetEntrants()
     {
         var res = await unAuthorisedClient.GetAsync("/api/entrants/22", CancellationToken.None);
         res.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);

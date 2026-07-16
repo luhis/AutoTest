@@ -21,7 +21,7 @@ public class ClubsControllerShould : IClassFixture<CustomWebApplicationFactory<S
     }
 
     [Fact]
-    public async Task GetResults()
+    public async Task GetClubs()
     {
         var res = await unAuthorisedClient.GetAsync("/api/clubs/", CancellationToken.None);
         res.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);

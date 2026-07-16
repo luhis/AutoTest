@@ -21,7 +21,7 @@ public class NotificationsControllerShould : IClassFixture<CustomWebApplicationF
     }
 
     [Fact]
-    public async Task GetResults()
+    public async Task GetNotifications()
     {
         var res = await unAuthorisedClient.GetAsync("/api/notifications/22", CancellationToken.None);
         res.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);

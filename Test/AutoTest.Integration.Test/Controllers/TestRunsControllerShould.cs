@@ -21,7 +21,7 @@ public class TestRunsControllerShould : IClassFixture<CustomWebApplicationFactor
     }
 
     [Fact]
-    public async Task GetResults()
+    public async Task GetTestRuns()
     {
         var res = await unAuthorisedClient.GetAsync("api/events/22/tests/2/testRuns", CancellationToken.None);
         res.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);
