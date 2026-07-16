@@ -4,7 +4,6 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using AutoTest.Persistence;
-using AutoTest.Service.Messages;
 using AutoTest.Web.Authorization;
 using AutoTest.Web.Authorization.Attributes;
 using AutoTest.Web.Extensions;
