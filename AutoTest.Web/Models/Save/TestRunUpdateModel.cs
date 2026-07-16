@@ -4,21 +4,21 @@ using System.ComponentModel.DataAnnotations;
 
 namespace AutoTest.Web.Models.Save;
 
-public class TestRunUpdateModel
+public record TestRunUpdateModel
 {
     [Required]
     [Range(1, int.MaxValue)]
-    public int TimeInMS { get; set; }
+    public int TimeInMS { get; init; }
 
     [Required]
-    public DateTime Created { get; set; }
+    public DateTime Created { get; init; }
 
     [Required]
-    public ulong EntrantId { get; set; }
+    public ulong EntrantId { get; init; }
 
     [Required]
-    public ulong MarshalId { get; set; }
+    public ulong MarshalId { get; init; }
 
     [Required]
-    public IEnumerable<PenaltySaveModel> Penalties { get; set; } = [];
+    public IEnumerable<PenaltySaveModel> Penalties { get; init; } = [];
 }

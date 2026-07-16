@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -7,6 +8,7 @@ using AutoTest.Domain.StorageModels;
 using AutoTest.Service.Handlers;
 using AutoTest.Service.Messages;
 using AutoTest.Service.Models;
+using AutoTest.Service.ResultCalculation;
 using AutoTest.Unit.Test.MockData;
 using FluentAssertions;
 using Mediator;
@@ -22,6 +24,7 @@ public class GetAwardsHandlerShould
     private readonly Mock<ITestRunsRepository> testRunsRepository;
     private readonly Mock<IEventsRepository> eventsRepository;
     private readonly Mock<IEntrantsRepository> entrantsRepository;
+    private readonly Mock<ITotalTimeCalculator> totalTimeCalculator;
 
     public GetAwardsHandlerShould()
     {
@@ -29,7 +32,8 @@ public class GetAwardsHandlerShould
         testRunsRepository = mr.Create<ITestRunsRepository>();
         eventsRepository = mr.Create<IEventsRepository>();
         entrantsRepository = mr.Create<IEntrantsRepository>();
-        sut = new GetAwardsHandler(testRunsRepository.Object, eventsRepository.Object, entrantsRepository.Object);
+        totalTimeCalculator = mr.Create<ITotalTimeCalculator>();
+        sut = new GetAwardsHandler(testRunsRepository.Object, eventsRepository.Object, entrantsRepository.Object, totalTimeCalculator.Object);
     }
 
     [Fact]
@@ -45,6 +49,7 @@ public class GetAwardsHandlerShould
         var entrant2 = Models.GetEntrant(entrantId + 1, eventId);
         entrantsRepository.Setup(a => a.GetByEventId(eventId, CancellationToken.None)).ReturnsAsync(new[] { entrant, entrant2 });
         testRunsRepository.Setup(a => a.GetAll(eventId, CancellationToken.None)).ReturnsAsync(Enumerable.Empty<TestRun>());
+        totalTimeCalculator.Setup(a => a.GetTotalTime(It.IsAny<AutoTest.Service.ResultCalculation.TimeCalculatorConfig>(), It.IsAny<IEnumerable<TestRun>>(), It.IsAny<IEnumerable<TestRun>>())).Returns(0);
 
         var res = await sut.Handle(new(eventId), CancellationToken.None);
 

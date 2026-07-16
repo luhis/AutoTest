@@ -2,8 +2,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using AutoTest.Domain.Repositories;
 using AutoTest.Domain.StorageModels;
 using AutoTest.Persistence;
+using AutoTest.Persistence.Repositories;
 using AutoTest.Service.Handlers;
 using AutoTest.Service.Messages;
 using AutoTest.Unit.Test.Fixtures;
@@ -17,14 +19,14 @@ namespace AutoTest.Unit.Test.Handlers;
 public class GetEditableEntrantsHandlerShould
 {
     private readonly MockRepository mr;
-    private readonly AutoTestContext db;
     private readonly IRequestHandler<GetEditableEntrants, IEnumerable<ulong>> sut;
+    private readonly AutoTestContext db;
 
     public GetEditableEntrantsHandlerShould()
     {
         mr = new MockRepository(MockBehavior.Strict);
         db = InMemDbFixture.GetDbContext();
-        sut = new GetEditableEntrantsHandler(db);
+        sut = new GetEditableEntrantsHandler(new EntrantsRepository(db));
     }
 
     [Fact]

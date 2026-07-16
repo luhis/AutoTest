@@ -10,10 +10,9 @@ namespace AutoTest.Service.Models;
 
 public static class CompetitionData
 {
-    private static readonly ITotalTimeCalculator TotalTimeCalculator = new AutoTestTotalTimeCalculator();
     private static readonly TimeCalculatorConfig TimeCalculatorConfig = TimeCalculatorConfig.DefaultValues;
 
-    public static async Task<EntrantRuns[]> GetEntrantsAndRuns(ulong eventId, IEventsRepository eventsRepository, IEntrantsRepository entrantsRepository, ITestRunsRepository testRunsRepository, CancellationToken cancellationToken)
+    public static async Task<EntrantRuns[]> GetEntrantsAndRuns(ulong eventId, IEventsRepository eventsRepository, IEntrantsRepository entrantsRepository, ITestRunsRepository testRunsRepository, ITotalTimeCalculator totalTimeCalculator, CancellationToken cancellationToken)
     {
         var @event = await eventsRepository.GetById(eventId, cancellationToken) ?? throw new InvalidOperationException("Event not found");
 
@@ -28,7 +27,7 @@ public static class CompetitionData
                 return new EntrantRuns(
                     entrant,
                     runs.ToArray(),
-                    TotalTimeCalculator.GetTotalTime(TimeCalculatorConfig, runs, testRuns));
+                    totalTimeCalculator.GetTotalTime(TimeCalculatorConfig, runs, testRuns));
             }).OrderBy(a => a.TotalTime).ToArray();
     }
 

@@ -14,7 +14,7 @@ public sealed class DeleteEntrantHandler(IEntrantsRepository entrantsRepository)
         var found = await entrantsRepository.GetById(request.EventId, request.EntrantId, cancellationToken);
         if (found is null)
         {
-            throw new NullReferenceException();
+            throw new InvalidOperationException("Entrant not found");
         }
         await entrantsRepository.Delete(found, cancellationToken);
         return Unit.Value;

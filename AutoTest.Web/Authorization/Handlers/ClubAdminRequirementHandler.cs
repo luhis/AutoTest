@@ -16,7 +16,7 @@ public class ClubAdminRequirementHandler(IHttpContextAccessor httpContextAccesso
 {
     protected override async Task HandleRequirementAsync(AuthorizationHandlerContext context, ClubAdminRequirement requirement)
     {
-        var routeData = httpContextAccessor.HttpContext!.GetRouteData();
+        var routeData = httpContextAccessor.HttpContext?.GetRouteData();
         if (routeData is not null)
         {
             var eventId = AuthTools.GetEventId(routeData);

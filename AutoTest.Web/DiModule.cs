@@ -1,5 +1,6 @@
 ﻿using AutoTest.Persistence;
 using AutoTest.Service.Interfaces;
+using AutoTest.Service.ResultCalculation;
 using AutoTest.Web.Authorization.Handlers;
 using AutoTest.Web.Hubs;
 using Microsoft.AspNetCore.Authorization;
@@ -23,6 +24,7 @@ public static class DiModule
         collection.AddScoped<IAuthorizationHandler, ClubAdminOrSelfRequirementClubAdminHandler>();
         collection.AddScoped<IEventNotifier, EventNotifier>();
         collection.AddScoped<IAuthorisationNotifier, AuthorisationNotifier>();
+        collection.AddScoped<ITotalTimeCalculator, AutoTestTotalTimeCalculator>();
         collection.AddDbContext<AutoTestContext>(o => o.UseCosmos(
             endpoint,
             key,

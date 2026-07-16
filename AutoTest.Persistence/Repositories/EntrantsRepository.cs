@@ -25,6 +25,11 @@ public class EntrantsRepository(AutoTestContext autoTestContext) : IEntrantsRepo
         return autoTestContext.Entrants.Where(a => a.EventId == eventId).OrderBy(a => a.DriverNumber).ToEnumerableAsync(cancellationToken);
     }
 
+    Task<IEnumerable<ulong>> IEntrantsRepository.GetEntrantIdsByEmail(string email, CancellationToken cancellationToken)
+    {
+        return autoTestContext.Entrants.Where(a => a.Email == email).Select(a => a.EntrantId).ToEnumerableAsync(cancellationToken);
+    }
+
     async Task IEntrantsRepository.Upsert(Entrant entrant, CancellationToken cancellationToken)
     {
         await autoTestContext.Entrants.Upsert(entrant, a => a.EntrantId == entrant.EntrantId, cancellationToken);

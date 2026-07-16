@@ -6,11 +6,11 @@ namespace AutoTest.Web.Mapping;
 
 public static class MapMarshal
 {
-    public static Marshal Map(ulong marshalId, ulong eventId, MarshalSaveModel entrant, string email)
+    public static Marshal Map(ulong marshalId, ulong eventId, MarshalSaveModel marshal, string email)
     {
-        var e = new Marshal(marshalId, entrant.GivenName, entrant.FamilyName, email, eventId,
-            entrant.RegistrationNumber, entrant.Role);
-        e.SetEmergencyContact(MapEmergencyContact.Map(entrant.EmergencyContact));
+        var e = new Marshal(marshalId, marshal.GivenName, marshal.FamilyName, email, eventId,
+            marshal.RegistrationNumber, marshal.Role);
+        e.SetEmergencyContact(MapEmergencyContact.Map(marshal.EmergencyContact));
         return e;
     }
 

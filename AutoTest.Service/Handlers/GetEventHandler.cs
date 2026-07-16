@@ -7,10 +7,10 @@ using Mediator;
 
 namespace AutoTest.Service.Handlers;
 
-public sealed class GetEventHandler(IEventsRepository entrantsRepository) : IRequestHandler<GetEvent, Event?>
+public sealed class GetEventHandler(IEventsRepository eventsRepository) : IRequestHandler<GetEvent, Event?>
 {
     public async ValueTask<Event?> Handle(GetEvent request, CancellationToken cancellationToken)
     {
-        return await entrantsRepository.GetById(request.EventId, cancellationToken);
+        return await eventsRepository.GetById(request.EventId, cancellationToken);
     }
 }

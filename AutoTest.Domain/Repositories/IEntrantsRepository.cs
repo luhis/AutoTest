@@ -13,6 +13,8 @@ public interface IEntrantsRepository
 
     Task<IEnumerable<Entrant>> GetAll(ulong eventId, CancellationToken cancellationToken);
 
+    Task<IEnumerable<ulong>> GetEntrantIdsByEmail(string email, CancellationToken cancellationToken);
+
     Task Upsert(Entrant entrant, CancellationToken cancellationToken);
 
     Task Update(Entrant entrant, CancellationToken cancellationToken);
