@@ -27,7 +27,7 @@ public class DeleteMarshalShould
     }
 
     [Fact]
-    public async Task ReturnBlankProfileIfNone()
+    public async Task DeleteMarshal()
     {
         var eventId = 1ul;
         var marshalId = 2ul;

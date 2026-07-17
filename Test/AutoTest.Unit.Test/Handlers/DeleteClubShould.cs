@@ -23,7 +23,7 @@ public class DeleteClubShould
     }
 
     [Fact]
-    public async Task ReturnBlankProfileIfNone()
+    public async Task DeleteClub()
     {
         var clubId = 1ul;
         clubs.Setup(a => a.Delete(clubId, CancellationToken.None)).Returns(Task.CompletedTask);

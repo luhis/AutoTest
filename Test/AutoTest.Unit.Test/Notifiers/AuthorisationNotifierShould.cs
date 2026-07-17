@@ -21,18 +21,21 @@ public class AuthorisationNotifierShould
         sut = new AuthorisationNotifier(eventHub.Object);
     }
 
+    private void SetupHubSend(string groupName, string methodName, object[] args)
+    {
+        var clientProxy = mr.Create<IClientProxy>();
+        var clients = mr.Create<IHubClients>();
+        clients.Setup(a => a.Group(groupName)).Returns(clientProxy.Object);
+        eventHub.Setup(a => a.Clients).Returns(clients.Object);
+        clientProxy.Setup(a => a.SendCoreAsync(methodName, args, CancellationToken.None)).Returns(Task.CompletedTask);
+    }
+
     [Fact]
     public async Task AddEditableEntrant()
     {
         var eventId = 1ul;
         var email = "a@a.com";
-        var clientProxy = mr.Create<IClientProxy>();
-        var clients = mr.Create<IHubClients>();
-        clients.Setup(a => a.Group($"email:{email}")).Returns(clientProxy.Object);
-        eventHub.Setup(a => a.Clients).Returns(clients.Object);
-        clientProxy.Setup(a => a.SendCoreAsync("AddEditableEntrant",
-            new object[] { eventId },
-            CancellationToken.None)).Returns(Task.CompletedTask);
+        SetupHubSend($"email:{email}", "AddEditableEntrant", new object[] { eventId });
 
         await sut.AddEditableEntrant(eventId, new[] { email }, CancellationToken.None);
 
@@ -44,13 +47,7 @@ public class AuthorisationNotifierShould
     {
         var eventId = 1ul;
         var email = "a@a.com";
-        var clientProxy = mr.Create<IClientProxy>();
-        var clients = mr.Create<IHubClients>();
-        clients.Setup(a => a.Group($"email:{email}")).Returns(clientProxy.Object);
-        eventHub.Setup(a => a.Clients).Returns(clients.Object);
-        clientProxy.Setup(a => a.SendCoreAsync("AddEditableMarshal",
-            new object[] { eventId },
-            CancellationToken.None)).Returns(Task.CompletedTask);
+        SetupHubSend($"email:{email}", "AddEditableMarshal", new object[] { eventId });
 
         await sut.AddEditableMarshal(eventId, new[] { email }, CancellationToken.None);
 
@@ -62,13 +59,7 @@ public class AuthorisationNotifierShould
     {
         var clubId = 1ul;
         var email = "a@a.com";
-        var clientProxy = mr.Create<IClientProxy>();
-        var clients = mr.Create<IHubClients>();
-        clients.Setup(a => a.Group($"email:{email}")).Returns(clientProxy.Object);
-        eventHub.Setup(a => a.Clients).Returns(clients.Object);
-        clientProxy.Setup(a => a.SendCoreAsync("NewClubAdmin",
-            new object[] { clubId },
-            CancellationToken.None)).Returns(Task.CompletedTask);
+        SetupHubSend($"email:{email}", "NewClubAdmin", new object[] { clubId });
 
         await sut.NewClubAdmin(clubId, new[] { email }, CancellationToken.None);
 
@@ -80,13 +71,7 @@ public class AuthorisationNotifierShould
     {
         var clubId = 1ul;
         var email = "a@a.com";
-        var clientProxy = mr.Create<IClientProxy>();
-        var clients = mr.Create<IHubClients>();
-        clients.Setup(a => a.Group($"email:{email}")).Returns(clientProxy.Object);
-        eventHub.Setup(a => a.Clients).Returns(clients.Object);
-        clientProxy.Setup(a => a.SendCoreAsync("RemoveClubAdmin",
-            new object[] { clubId },
-            CancellationToken.None)).Returns(Task.CompletedTask);
+        SetupHubSend($"email:{email}", "RemoveClubAdmin", new object[] { clubId });
 
         await sut.RemoveClubAdmin(clubId, new[] { email }, CancellationToken.None);
 
@@ -98,13 +83,7 @@ public class AuthorisationNotifierShould
     {
         var eventId = 1ul;
         var email = "a@a.com";
-        var clientProxy = mr.Create<IClientProxy>();
-        var clients = mr.Create<IHubClients>();
-        clients.Setup(a => a.Group($"email:{email}")).Returns(clientProxy.Object);
-        eventHub.Setup(a => a.Clients).Returns(clients.Object);
-        clientProxy.Setup(a => a.SendCoreAsync("NewEventMarshal",
-            new object[] { eventId },
-            CancellationToken.None)).Returns(Task.CompletedTask);
+        SetupHubSend($"email:{email}", "NewEventMarshal", new object[] { eventId });
 
         await sut.NewEventMarshal(eventId, new[] { email }, CancellationToken.None);
 
@@ -116,13 +95,7 @@ public class AuthorisationNotifierShould
     {
         var eventId = 1ul;
         var email = "a@a.com";
-        var clientProxy = mr.Create<IClientProxy>();
-        var clients = mr.Create<IHubClients>();
-        clients.Setup(a => a.Group($"email:{email}")).Returns(clientProxy.Object);
-        eventHub.Setup(a => a.Clients).Returns(clients.Object);
-        clientProxy.Setup(a => a.SendCoreAsync("RemoveEventMarshal",
-            new object[] { eventId },
-            CancellationToken.None)).Returns(Task.CompletedTask);
+        SetupHubSend($"email:{email}", "RemoveEventMarshal", new object[] { eventId });
 
         await sut.RemoveEventMarshal(eventId, new[] { email }, CancellationToken.None);
 

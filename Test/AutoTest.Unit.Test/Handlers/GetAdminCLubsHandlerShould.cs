@@ -15,7 +15,6 @@ using Xunit;
 
 namespace AutoTest.Unit.Test.Handlers;
 
-public delegate void CallbackDelegate(object p1, out object p2);
 public class GetAdminClubsHandlerShould
 {
     private readonly IRequestHandler<GetAdminClubs, IEnumerable<ulong>> sut;

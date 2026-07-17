@@ -24,7 +24,7 @@ public class DeleteEventShould
     }
 
     [Fact]
-    public async Task ReturnBlankProfileIfNone()
+    public async Task DeleteEvent()
     {
         var eventId = 1ul;
         var @event = Models.GetEvent(eventId);
