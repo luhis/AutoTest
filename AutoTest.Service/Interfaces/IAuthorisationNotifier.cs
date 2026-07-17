@@ -6,7 +6,6 @@ namespace AutoTest.Service.Interfaces;
 
 public interface IAuthorisationNotifier
 {
-
     Task NewClubAdmin(ulong clubId, IEnumerable<string> newEmails, CancellationToken cancellationToken);
     Task RemoveClubAdmin(ulong clubId, IEnumerable<string> newEmails, CancellationToken cancellationToken);
     Task NewEventMarshal(ulong eventId, IEnumerable<string> newEmails, CancellationToken cancellationToken);

@@ -3,7 +3,6 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace AutoTest.Persistence.Setup;
 
-
 public static class SetupAuthorisationEmails
 {
     public static void Setup<T>(OwnedNavigationBuilder<T, AuthorisationEmail> entity) where T : class

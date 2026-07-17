@@ -3,7 +3,6 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace AutoTest.Persistence.Setup;
 
-
 public static class SetupTest
 {
     public static void Setup<T>(OwnedNavigationBuilder<T, Course> entity) where T : class

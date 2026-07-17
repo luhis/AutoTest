@@ -4,7 +4,6 @@ namespace AutoTest.Web.Models.Save;
 
 public record MarshalSaveModel
 {
-
     [Required]
     public string GivenName { get; set; } = string.Empty;
 

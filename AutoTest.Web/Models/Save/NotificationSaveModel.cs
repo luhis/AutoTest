@@ -5,7 +5,6 @@ namespace AutoTest.Web.Models.Save;
 
 public class NotificationSaveModel
 {
-
     [Required]
     public string Message { get; set; } = string.Empty;
 

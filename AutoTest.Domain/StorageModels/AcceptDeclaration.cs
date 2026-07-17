@@ -6,7 +6,6 @@ public class AcceptDeclaration
 {
     public AcceptDeclaration()
     {
-
     }
     public AcceptDeclaration(string email, DateTime timestamp, bool isAccepted)
     {

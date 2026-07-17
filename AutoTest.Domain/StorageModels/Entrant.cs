@@ -54,8 +54,8 @@ string @class, ulong eventId, Age age, bool isLady, ulong? doubleDrivenWith)
         EntrantStatus = newStatus;
     }
 
-    public void SetEntrantClub(EntrantClub newStatus)
+    public void SetEntrantClub(EntrantClub entrantClub)
     {
-        EntrantClub = newStatus;
+        EntrantClub = entrantClub;
     }
 }

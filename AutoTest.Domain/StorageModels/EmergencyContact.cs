@@ -4,7 +4,6 @@ public class EmergencyContact
 {
     public EmergencyContact()
     {
-
     }
 
     public EmergencyContact(string name, string phone)
