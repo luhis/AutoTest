@@ -50,16 +50,11 @@
     <Exec WorkingDirectory="$(SpaRoot)" Command="yarn install --frozen-lockfile --network-timeout 1000000" />
     <Exec WorkingDirectory="$(SpaRoot)" Command="yarn build" />
 
-    <!-- Copy SPA build output into publish directory -->
-    <ItemGroup>
-      <DistFiles Include="$(SpaRoot)build\**" />
-    </ItemGroup>
-    <Copy SourceFiles="@(DistFiles)" DestinationFiles="@(DistFiles->'$(PublishDir)ClientApp\build\%(RecursiveDir)%(Filename)%(Extension)')" SkipUnchangedFiles="true" />
-
     <!-- Include the newly-built files in the publish output -->
     <ItemGroup>
-      <ResolvedFileToPublish Include="$(PublishDir)ClientApp\build\**" Exclude="@(ResolvedFileToPublish)">
-        <RelativePath>ClientApp\build\%(RecursiveDir)%(Filename)%(Extension)</RelativePath>
+      <DistFiles Include="$(SpaRoot)build\**" />
+      <ResolvedFileToPublish Include="@(DistFiles->'%(FullPath)')" Exclude="@(ResolvedFileToPublish)">
+        <RelativePath>ClientApp\build\%(DistFiles.RecursiveDir)%(DistFiles.Filename)%(DistFiles.Extension)</RelativePath>
         <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
         <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
       </ResolvedFileToPublish>
