@@ -1,15 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http;
 using AutoTest.Integration.Test.Tooling;
 using AutoTest.Persistence;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.AspNetCore.TestHost;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
 
 namespace AutoTest.Integration.Test.Fixtures;
 
@@ -25,47 +20,11 @@ public class CustomWebApplicationFactory<TStartup>
     {
         builder.ConfigureTestServices(services =>
         {
-            var descriptors = services.Where(d =>
-                d.ServiceType == typeof(DbContextOptions<AutoTestContext>) ||
-                d.ServiceType == typeof(AutoTestContext) ||
-                (d.ServiceType.Namespace != null && d.ServiceType.Namespace.StartsWith("Microsoft.EntityFrameworkCore", StringComparison.Ordinal))).ToList();
-            foreach (var d in descriptors)
-            {
-                services.Remove(d);
-            }
+            TestDatabaseInitializer.ConfigureInMemoryDatabase(services, "InMemoryDbForTestingNoAuth");
 
-            // Add ApplicationDbContext using an in-memory database for testing.
-            services.AddDbContext<AutoTestContext>(options =>
-            {
-                options.UseInMemoryDatabase("InMemoryDbForTestingNoAuth");
-            });
-
-            // Build the service provider.
             var sp = services.BuildServiceProvider();
-
-            // Create a scope to obtain a reference to the database
-            // context (ApplicationDbContext).
             using var scope = sp.CreateScope();
-            var scopedServices = scope.ServiceProvider;
-            var db = scopedServices.GetRequiredService<AutoTestContext>();
-            var logger = scopedServices
-                .GetRequiredService<ILogger<CustomWebApplicationFactory<TStartup>>>();
-
-            // Ensure the database is created.
-            db.Database.EnsureCreated();
-
-            try
-            {
-                // Seed the database with test data.
-                DbInitialiser.InitializeDbForTests(db);
-            }
-            catch (Exception ex)
-            {
-                logger.LogError(
-                    ex,
-                    "An error occurred seeding the database with test messages. Error: {Message}",
-                    ex.Message);
-            }
+            TestDatabaseInitializer.SeedDatabase(scope.ServiceProvider, typeof(CustomWebApplicationFactory<TStartup>));
         });
     }
 }

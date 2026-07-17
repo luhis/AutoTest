@@ -11,14 +11,9 @@ using Xunit;
 
 namespace AutoTest.Integration.Test.Controllers;
 
-public class ClubsControllerShould : IClassFixture<CustomWebApplicationFactory<Startup>>
+public class ClubsControllerShould(CustomWebApplicationFactory<Startup> fixture) : IClassFixture<CustomWebApplicationFactory<Startup>>
 {
-    private readonly HttpClient unAuthorisedClient;
-
-    public ClubsControllerShould(CustomWebApplicationFactory<Startup> fixture)
-    {
-        unAuthorisedClient = fixture.GetUnAuthorisedClient();
-    }
+    private readonly HttpClient unAuthorisedClient = fixture.GetUnAuthorisedClient();
 
     [Fact]
     public async Task GetClubs()

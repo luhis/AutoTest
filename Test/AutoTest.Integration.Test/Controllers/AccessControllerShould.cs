@@ -10,16 +10,10 @@ using Xunit;
 
 namespace AutoTest.Integration.Test.Controllers;
 
-public class AccessControllerShould : IClassFixture<CustomWebApplicationFactory<Startup>>, IClassFixture<AuthdCustomWebApplicationFactory<Startup>>
+public class AccessControllerShould(CustomWebApplicationFactory<Startup> fixture, AuthdCustomWebApplicationFactory<Startup> fixture2) : IClassFixture<CustomWebApplicationFactory<Startup>>, IClassFixture<AuthdCustomWebApplicationFactory<Startup>>
 {
-    private readonly HttpClient unAuthorisedClient;
-    private readonly HttpClient authorisedClient;
-
-    public AccessControllerShould(CustomWebApplicationFactory<Startup> fixture, AuthdCustomWebApplicationFactory<Startup> fixture2)
-    {
-        unAuthorisedClient = fixture.GetUnAuthorisedClient();
-        authorisedClient = fixture2.GetAuthorisedClient();
-    }
+    private readonly HttpClient unAuthorisedClient = fixture.GetUnAuthorisedClient();
+    private readonly HttpClient authorisedClient = fixture2.GetAuthorisedClient();
 
     [Fact]
     public async Task GetUnauthorised()

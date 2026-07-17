@@ -10,16 +10,10 @@ using Xunit;
 
 namespace AutoTest.Integration.Test.Controllers;
 
-public class ProfileControllerShould : IClassFixture<CustomWebApplicationFactory<Startup>>, IClassFixture<AuthdCustomWebApplicationFactory<Startup>>
+public class ProfileControllerShould(CustomWebApplicationFactory<Startup> fixture, AuthdCustomWebApplicationFactory<Startup> fixture2) : IClassFixture<CustomWebApplicationFactory<Startup>>, IClassFixture<AuthdCustomWebApplicationFactory<Startup>>
 {
-    private readonly HttpClient unAuthorisedClient;
-    private readonly HttpClient authorisedClient;
-
-    public ProfileControllerShould(CustomWebApplicationFactory<Startup> fixture, AuthdCustomWebApplicationFactory<Startup> fixture2)
-    {
-        unAuthorisedClient = fixture.GetUnAuthorisedClient();
-        authorisedClient = fixture2.GetAuthorisedClient();
-    }
+    private readonly HttpClient unAuthorisedClient = fixture.GetUnAuthorisedClient();
+    private readonly HttpClient authorisedClient = fixture2.GetAuthorisedClient();
 
     [Fact]
     public async Task GetProfileUnauthorized()

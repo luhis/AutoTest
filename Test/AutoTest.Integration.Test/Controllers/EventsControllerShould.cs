@@ -14,16 +14,10 @@ using Xunit;
 
 namespace AutoTest.Integration.Test.Controllers;
 
-public class EventsControllerShould : IClassFixture<CustomWebApplicationFactory<Startup>>, IClassFixture<AuthdCustomWebApplicationFactory<Startup>>
+public class EventsControllerShould(CustomWebApplicationFactory<Startup> fixture, AuthdCustomWebApplicationFactory<Startup> fixture2) : IClassFixture<CustomWebApplicationFactory<Startup>>, IClassFixture<AuthdCustomWebApplicationFactory<Startup>>
 {
-    private readonly HttpClient unAuthorisedClient;
-    private readonly HttpClient authorisedClient;
-
-    public EventsControllerShould(CustomWebApplicationFactory<Startup> fixture, AuthdCustomWebApplicationFactory<Startup> fixture2)
-    {
-        unAuthorisedClient = fixture.GetUnAuthorisedClient();
-        authorisedClient = fixture2.GetAuthorisedClient();
-    }
+    private readonly HttpClient unAuthorisedClient = fixture.GetUnAuthorisedClient();
+    private readonly HttpClient authorisedClient = fixture2.GetAuthorisedClient();
 
     [Fact]
     public async Task GetAll()
@@ -37,7 +31,7 @@ public class EventsControllerShould : IClassFixture<CustomWebApplicationFactory<
     [Fact]
     public async Task AddFailValidation()
     {
-        var res = await authorisedClient.PutAsync("/api/events/22", JsonContent.Create(new EventSaveModel() { ClubId = 1 }), CancellationToken.None);
+        var res = await authorisedClient.PutAsync($"/api/events/{TestIds.EventId}", JsonContent.Create(new EventSaveModel() { ClubId = TestIds.ClubId }), CancellationToken.None);
         res.StatusCode.Should().Be(System.Net.HttpStatusCode.BadRequest);
         var content = await res.DeserialiseAsync<ProblemDetails>();
         content.Should().NotBeNull();
@@ -46,7 +40,7 @@ public class EventsControllerShould : IClassFixture<CustomWebApplicationFactory<
     [Fact]
     public async Task GetMaps()
     {
-        var res = await unAuthorisedClient.GetAsync("/api/events/1/maps", CancellationToken.None);
+        var res = await unAuthorisedClient.GetAsync($"/api/events/{TestIds.ClubId}/maps", CancellationToken.None);
         res.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);
         var content = await res.Content.ReadAsStringAsync(CancellationToken.None);
         content.Should().NotBeNull();
@@ -55,7 +49,7 @@ public class EventsControllerShould : IClassFixture<CustomWebApplicationFactory<
     [Fact]
     public async Task GetRegulations()
     {
-        var res = await unAuthorisedClient.GetAsync("/api/events/1/regulations", CancellationToken.None);
+        var res = await unAuthorisedClient.GetAsync($"/api/events/{TestIds.ClubId}/regulations", CancellationToken.None);
         res.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);
         var content = await res.Content.ReadAsStringAsync(CancellationToken.None);
         content.Should().NotBeNull();

@@ -11,19 +11,14 @@ using Xunit;
 
 namespace AutoTest.Integration.Test.Controllers;
 
-public class TestRunsControllerShould : IClassFixture<CustomWebApplicationFactory<Startup>>
+public class TestRunsControllerShould(CustomWebApplicationFactory<Startup> fixture) : IClassFixture<CustomWebApplicationFactory<Startup>>
 {
-    private readonly HttpClient unAuthorisedClient;
-
-    public TestRunsControllerShould(CustomWebApplicationFactory<Startup> fixture)
-    {
-        unAuthorisedClient = fixture.GetUnAuthorisedClient();
-    }
+    private readonly HttpClient unAuthorisedClient = fixture.GetUnAuthorisedClient();
 
     [Fact]
     public async Task GetTestRuns()
     {
-        var res = await unAuthorisedClient.GetAsync("api/events/22/tests/2/testRuns", CancellationToken.None);
+        var res = await unAuthorisedClient.GetAsync($"/api/events/{TestIds.EventId}/tests/{TestIds.TestNumber}/testRuns", CancellationToken.None);
         res.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);
         var content = await res.DeserialiseAsync<IEnumerable<TestRun>>();
         content.Should().NotBeEmpty();

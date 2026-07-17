@@ -11,19 +11,14 @@ using Xunit;
 
 namespace AutoTest.Integration.Test.Controllers;
 
-public class NotificationsControllerShould : IClassFixture<CustomWebApplicationFactory<Startup>>
+public class NotificationsControllerShould(CustomWebApplicationFactory<Startup> fixture) : IClassFixture<CustomWebApplicationFactory<Startup>>
 {
-    private readonly HttpClient unAuthorisedClient;
-
-    public NotificationsControllerShould(CustomWebApplicationFactory<Startup> fixture)
-    {
-        unAuthorisedClient = fixture.GetUnAuthorisedClient();
-    }
+    private readonly HttpClient unAuthorisedClient = fixture.GetUnAuthorisedClient();
 
     [Fact]
     public async Task GetNotifications()
     {
-        var res = await unAuthorisedClient.GetAsync("/api/notifications/22", CancellationToken.None);
+        var res = await unAuthorisedClient.GetAsync($"/api/notifications/{TestIds.EventId}", CancellationToken.None);
         res.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);
         var content = await res.DeserialiseAsync<IEnumerable<Notification>>();
         content.Should().NotBeEmpty();

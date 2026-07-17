@@ -11,19 +11,14 @@ using Xunit;
 
 namespace AutoTest.Integration.Test.Controllers;
 
-public class ResultsControllerShould : IClassFixture<CustomWebApplicationFactory<Startup>>
+public class ResultsControllerShould(CustomWebApplicationFactory<Startup> fixture) : IClassFixture<CustomWebApplicationFactory<Startup>>
 {
-    private readonly HttpClient unAuthorisedClient;
-
-    public ResultsControllerShould(CustomWebApplicationFactory<Startup> fixture)
-    {
-        unAuthorisedClient = fixture.GetUnAuthorisedClient();
-    }
+    private readonly HttpClient unAuthorisedClient = fixture.GetUnAuthorisedClient();
 
     [Fact]
     public async Task GetResults()
     {
-        var res = await unAuthorisedClient.GetAsync("/api/results/22", CancellationToken.None);
+        var res = await unAuthorisedClient.GetAsync($"/api/results/{TestIds.EventId}", CancellationToken.None);
         res.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);
         var content = await res.DeserialiseAsync<IEnumerable<Result>>();
         content.Should().NotBeEmpty();
@@ -32,7 +27,7 @@ public class ResultsControllerShould : IClassFixture<CustomWebApplicationFactory
     [Fact]
     public async Task GetAwards()
     {
-        var res = await unAuthorisedClient.GetAsync("/api/results/22/awards", CancellationToken.None);
+        var res = await unAuthorisedClient.GetAsync($"/api/results/{TestIds.EventId}/awards", CancellationToken.None);
         res.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);
         var content = await res.DeserialiseAsync<Awards>();
         content.Should().NotBeNull();
