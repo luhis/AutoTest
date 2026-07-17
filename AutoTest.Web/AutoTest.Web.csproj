@@ -16,13 +16,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="ClientApp\**" />
-    <Content Remove="ClientApp\**" />
-    <EmbeddedResource Remove="ClientApp\**" />
-    <None Remove="ClientApp\**" />
-  </ItemGroup>
-
-  <ItemGroup>
     <None Include="..\.editorconfig" Link=".editorconfig" />
   </ItemGroup>
 
@@ -57,11 +50,16 @@
     <Exec WorkingDirectory="$(SpaRoot)" Command="yarn install --frozen-lockfile --network-timeout 1000000" />
     <Exec WorkingDirectory="$(SpaRoot)" Command="yarn build" />
 
+    <!-- Copy SPA build output into publish directory -->
+    <ItemGroup>
+      <DistFiles Include="$(SpaRoot)build\**" />
+    </ItemGroup>
+    <Copy SourceFiles="@(DistFiles)" DestinationFiles="@(DistFiles->'$(PublishDir)ClientApp\build\%(RecursiveDir)%(Filename)%(Extension)')" SkipUnchangedFiles="true" />
+
     <!-- Include the newly-built files in the publish output -->
     <ItemGroup>
-      <DistFiles Include="$(SpaRoot)build\**; $(SpaRoot)build-ssr\**" />
-      <ResolvedFileToPublish Include="@(DistFiles->'%(FullPath)')" Exclude="@(ResolvedFileToPublish)">
-        <RelativePath>%(DistFiles.Identity)</RelativePath>
+      <ResolvedFileToPublish Include="$(PublishDir)ClientApp\build\**" Exclude="@(ResolvedFileToPublish)">
+        <RelativePath>ClientApp\build\%(RecursiveDir)%(Filename)%(Extension)</RelativePath>
         <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
         <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
       </ResolvedFileToPublish>

@@ -144,7 +144,7 @@ public class Startup
 
         services.AddSpaStaticFiles(configuration =>
         {
-            configuration.RootPath = "../ClientApp/build";
+            configuration.RootPath = "ClientApp/build";
         });
         services.AddSwaggerGen(c =>
         {
@@ -292,7 +292,7 @@ public class Startup
             }
             else
             {
-                spa.Options.SourcePath = "../ClientApp/build/";
+                spa.Options.SourcePath = "ClientApp/build/";
             }
         });
     }
