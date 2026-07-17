@@ -2,7 +2,7 @@
 
 namespace AutoTest.Web.Authorization.Tooling;
 
-public static class GetEmail
+public static class ClaimsPrincipalExtensions
 {
     public static string GetEmailAddress(this ClaimsPrincipal user)
     {

@@ -3,14 +3,4 @@ using Mediator;
 
 namespace AutoTest.Service.Messages;
 
-public class GetEntrant : IRequest<Entrant?>
-{
-    public GetEntrant(ulong eventId, ulong entrantId)
-    {
-        EventId = eventId;
-        EntrantId = entrantId;
-    }
-
-    public ulong EventId { get; }
-    public ulong EntrantId { get; }
-}
+public record GetEntrant(ulong EventId, ulong EntrantId) : IRequest<Entrant?>;

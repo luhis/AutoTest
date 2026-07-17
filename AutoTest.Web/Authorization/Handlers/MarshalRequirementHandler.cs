@@ -27,7 +27,7 @@ public class MarshalRequirementHandler(IHttpContextAccessor httpContextAccessor,
             }
             else
             {
-                var emails = (await mediator.Send(new GetMarshals(eventId))).Select(a => a.Email).ToHashSet(StringComparer.InvariantCultureIgnoreCase);
+                var emails = (await mediator.Send(new GetMarshals(eventId))).Select(a => a.Email).ToHashSet(StringComparer.OrdinalIgnoreCase);
                 var email = context.User.GetEmailAddress();
                 if (emails.Contains(email))
                 {

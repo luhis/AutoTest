@@ -45,16 +45,9 @@ public class EntrantsController(IMediator mediator) : ControllerBase
     public async Task<ActionResult<Entrant>> PutEntrant(ulong eventId, ulong entrantId, EntrantSaveModel entrantSaveModel, CancellationToken cancellationToken)
     {
         var currentUserEmail = User.GetEmailAddress();
-        if (await mediator.Send(new IsClubAdmin(eventId, currentUserEmail), cancellationToken))
-        {
-            return Map(await mediator.Send(new SaveEntrant(MapEntrant.Map(entrantId, eventId, entrantSaveModel, entrantSaveModel.Email)),
-                cancellationToken));
-        }
-        else
-        {
-            return Map(await mediator.Send(new SaveEntrant(MapEntrant.Map(entrantId, eventId, entrantSaveModel, currentUserEmail)),
-                cancellationToken));
-        }
+        var isClubAdmin = await mediator.Send(new IsClubAdmin(eventId, currentUserEmail), cancellationToken);
+        return Map(await mediator.Send(new SaveEntrant(MapEntrant.Map(entrantId, eventId, entrantSaveModel, isClubAdmin ? entrantSaveModel.Email : currentUserEmail)),
+            cancellationToken));
     }
 
     [Authorize(policy: Policies.ClubAdmin)]

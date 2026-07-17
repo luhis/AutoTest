@@ -3,12 +3,4 @@ using Mediator;
 
 namespace AutoTest.Service.Messages;
 
-public class GetProfile : IRequest<Profile>
-{
-    public GetProfile(string emailAddress)
-    {
-        EmailAddress = emailAddress;
-    }
-
-    public string EmailAddress { get; }
-}
+public record GetProfile(string EmailAddress) : IRequest<Profile>;

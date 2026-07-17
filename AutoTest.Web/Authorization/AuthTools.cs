@@ -1,8 +1,12 @@
 using System;
 using System.Globalization;
+using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using AutoTest.Service.Messages;
+using AutoTest.Web.Authorization.Tooling;
 using Mediator;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Routing;
 
 namespace AutoTest.Web.Authorization;
@@ -37,5 +41,39 @@ public static class AuthTools
             }
         }
         throw new ArgumentException("Don't know how to get Email from this request");
+    }
+
+    public enum ClubAdminResult
+    {
+        NewEvent,
+        ClubNotFound,
+        IsAdmin,
+        NotAdmin
+    }
+
+    public static async Task<ClubAdminResult> CheckClubAdmin(ulong eventId, string email, IMediator mediator)
+    {
+        var @event = await mediator.Send(new GetEvent(eventId), CancellationToken.None);
+        if (@event is null)
+        {
+            return ClubAdminResult.NewEvent;
+        }
+
+        var club = await mediator.Send(new GetClub(@event.ClubId));
+        if (club is null)
+        {
+            return ClubAdminResult.ClubNotFound;
+        }
+
+        var emails = club.AdminEmails.Select(b => b.Email).ToHashSet(StringComparer.OrdinalIgnoreCase);
+        return emails.Contains(email) ? ClubAdminResult.IsAdmin : ClubAdminResult.NotAdmin;
+    }
+
+    public static async Task<bool> IsSelf(AuthorizationHandlerContext context, RouteData routeData, IMediator mediator)
+    {
+        var emailFromRoute = await GetExistingEmail(routeData, mediator);
+        var email = context.User.GetEmailAddress();
+        return emailFromRoute is not null &&
+            emailFromRoute.Equals(email, StringComparison.OrdinalIgnoreCase);
     }
 }

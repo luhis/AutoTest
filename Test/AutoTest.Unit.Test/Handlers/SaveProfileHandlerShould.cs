@@ -14,7 +14,7 @@ namespace AutoTest.Unit.Test.Handlers;
 
 public class SaveProfileHandlerShould
 {
-    private readonly IRequestHandler<SaveProfile, string> sut;
+    private readonly IRequestHandler<SaveProfile, Profile> sut;
     private readonly MockRepository mr;
     private readonly Mock<IProfileRepository> testRuns;
 
@@ -32,7 +32,7 @@ public class SaveProfileHandlerShould
         var profile = Models.GetProfile("aa@aa.com");
         testRuns.Setup(a => a.Upsert(Its.EquivalentTo(profile), CancellationToken.None)).Returns(Task.CompletedTask);
 
-        await sut.Handle(new("aa@aa.com", profile), CancellationToken.None);
+        await sut.Handle(new(profile), CancellationToken.None);
 
         mr.VerifyAll();
     }

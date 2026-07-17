@@ -15,6 +15,6 @@ public sealed class IsClubAdminHandler(IClubsRepository clubsRepository, IEvents
         var @event = await eventsRepository.GetById(request.EventId, cancellationToken) ?? throw new InvalidOperationException("Event not found");
 
         var club = await clubsRepository.GetById(@event.ClubId, cancellationToken);
-        return club is not null && club.AdminEmails.Select(a => a.Email).Contains(request.EmailAddress, StringComparer.InvariantCultureIgnoreCase);
+        return club is not null && club.AdminEmails.Select(a => a.Email).Contains(request.EmailAddress, StringComparer.OrdinalIgnoreCase);
     }
 }

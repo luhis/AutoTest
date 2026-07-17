@@ -3,14 +3,4 @@ using Mediator;
 
 namespace AutoTest.Service.Messages;
 
-public class GetMarshal : IRequest<Marshal?>
-{
-    public GetMarshal(ulong eventId, ulong marshalId)
-    {
-        EventId = eventId;
-        MarshalId = marshalId;
-    }
-
-    public ulong EventId { get; }
-    public ulong MarshalId { get; }
-}
+public record GetMarshal(ulong EventId, ulong MarshalId) : IRequest<Marshal?>;

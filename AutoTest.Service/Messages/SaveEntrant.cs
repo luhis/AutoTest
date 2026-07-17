@@ -5,12 +5,4 @@ using OneOf.Types;
 
 namespace AutoTest.Service.Messages;
 
-public class SaveEntrant : IRequest<OneOf<Entrant, Error<string>>>
-{
-    public SaveEntrant(Entrant entrant)
-    {
-        Entrant = entrant;
-    }
-
-    public Entrant Entrant { get; } // swap for tighter model without payment?
-}
+public record SaveEntrant(Entrant Entrant) : IRequest<OneOf<Entrant, Error<string>>>;

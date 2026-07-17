@@ -1,14 +1,7 @@
 using System.Collections.Generic;
 using AutoTest.Domain.StorageModels;
 using Mediator;
+
 namespace AutoTest.Service.Messages;
 
-public class GetMarshals : IRequest<IEnumerable<Marshal>>
-{
-    public GetMarshals(ulong eventId)
-    {
-        EventId = eventId;
-    }
-
-    public ulong EventId { get; }
-}
+public record GetMarshals(ulong EventId) : IRequest<IEnumerable<Marshal>>;

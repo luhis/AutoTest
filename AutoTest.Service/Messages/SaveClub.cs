@@ -3,12 +3,4 @@ using Mediator;
 
 namespace AutoTest.Service.Messages;
 
-public class SaveClub : IRequest<ulong>
-{
-    public SaveClub(Club club)
-    {
-        Club = club;
-    }
-
-    public Club Club { get; }
-}
+public record SaveClub(Club Club) : IRequest<ulong>;

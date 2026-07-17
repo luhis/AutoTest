@@ -23,10 +23,10 @@ public class ProfileController(IMediator mediator) : ControllerBase
     }
 
     [HttpPut]
-    public Task<string> Save(ProfileSaveModel profile, CancellationToken cancellationToken)
+    public Task<Profile> Save(ProfileSaveModel profile, CancellationToken cancellationToken)
     {
         var email = User.GetEmailAddress();
-        return mediator.Send(new SaveProfile(email, MapProfile.Map(email, profile)),
+        return mediator.Send(new SaveProfile(MapProfile.Map(email, profile)),
             cancellationToken).AsTask();
     }
 }

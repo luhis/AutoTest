@@ -4,12 +4,4 @@ using Mediator;
 
 namespace AutoTest.Service.Messages;
 
-public class GetTests : IRequest<IEnumerable<Course>>
-{
-    public GetTests(ulong eventId)
-    {
-        EventId = eventId;
-    }
-
-    public ulong EventId { get; }
-}
+public record GetTests(ulong EventId) : IRequest<IEnumerable<Course>>;

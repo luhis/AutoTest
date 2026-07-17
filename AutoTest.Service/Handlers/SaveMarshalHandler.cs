@@ -15,7 +15,7 @@ public sealed class SaveMarshalHandler(IMarshalsRepository marshalRepository, IA
         var existing = await marshalRepository.GetById(request.Marshal.EventId, request.Marshal.MarshalId, cancellationToken);
 
         await marshalRepository.Upsert(request.Marshal, cancellationToken);
-        if (existing is null || !existing!.Email.Equals(request.Marshal.Email, System.StringComparison.OrdinalIgnoreCase))
+        if (existing is null || !existing.Email.Equals(request.Marshal.Email, System.StringComparison.OrdinalIgnoreCase))
         {
             await signalRNotifier.NewEventMarshal(request.Marshal.EventId, [request.Marshal.Email], cancellationToken);
             if (existing is not null)

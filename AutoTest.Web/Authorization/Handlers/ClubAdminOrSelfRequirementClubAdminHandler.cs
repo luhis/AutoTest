@@ -1,8 +1,5 @@
-using System;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using AutoTest.Service.Messages;
 using AutoTest.Web.Authorization.Attributes;
 using AutoTest.Web.Authorization.Tooling;
 using Mediator;
@@ -17,36 +14,26 @@ public class ClubAdminOrSelfRequirementClubAdminHandler(IHttpContextAccessor htt
     protected override async Task HandleRequirementAsync(AuthorizationHandlerContext context, ClubAdminOrSelfRequirement requirement)
     {
         var routeData = httpContextAccessor.HttpContext?.GetRouteData();
-        if (routeData is not null)
+        if (routeData is null)
         {
-            var eventId = AuthTools.GetEventId(routeData);
+            return;
+        }
 
-            var @event = await mediator.Send(new GetEvent(eventId), CancellationToken.None);
-            if (@event is null)
-            {
-                // new event
+        var eventId = AuthTools.GetEventId(routeData);
+        var email = context.User.GetEmailAddress();
+        var result = await AuthTools.CheckClubAdmin(eventId, email, mediator);
+        switch (result)
+        {
+            case AuthTools.ClubAdminResult.NewEvent:
+            case AuthTools.ClubAdminResult.IsAdmin:
                 context.Succeed(requirement);
-                return;
-            }
-
-            var club = await mediator.Send(new GetClub(@event.ClubId));
-            if (club is null)
-            {
+                break;
+            case AuthTools.ClubAdminResult.ClubNotFound:
                 context.Fail(new AuthorizationFailureReason(this, "Cannot find club"));
-            }
-            else
-            {
-                var emails = club.AdminEmails.Select(b => b.Email).ToHashSet(StringComparer.InvariantCultureIgnoreCase);
-                var email = context.User.GetEmailAddress();
-                if (emails.Contains(email))
-                {
-                    context.Succeed(requirement);
-                }
-                else
-                {
-                    context.Fail(new AuthorizationFailureReason(this, "Wrong Email"));
-                }
-            }
+                break;
+            case AuthTools.ClubAdminResult.NotAdmin:
+                context.Fail(new AuthorizationFailureReason(this, "Wrong Email"));
+                break;
         }
     }
 }

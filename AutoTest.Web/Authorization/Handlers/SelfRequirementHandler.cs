@@ -1,3 +1,4 @@
+using System.Threading;
 using System.Threading.Tasks;
 using AutoTest.Web.Authorization.Attributes;
 using AutoTest.Web.Authorization.Tooling;
@@ -13,19 +14,15 @@ public class SelfRequirementHandler(IHttpContextAccessor httpContextAccessor, IM
     protected override async Task HandleRequirementAsync(AuthorizationHandlerContext context, SelfRequirement requirement)
     {
         var routeData = httpContextAccessor.HttpContext?.GetRouteData();
-        if (routeData is not null)
+        if (routeData is null)
         {
-            var emailFromRoute = await AuthTools.GetExistingEmail(routeData, mediator);
+            context.Fail();
+            return;
+        }
 
-            var email = context.User.GetEmailAddress();
-            if (emailFromRoute is not null && emailFromRoute.Equals(email, System.StringComparison.OrdinalIgnoreCase))
-            {
-                context.Succeed(requirement);
-            }
-            else
-            {
-                context.Fail();
-            }
+        if (await AuthTools.IsSelf(context, routeData, mediator))
+        {
+            context.Succeed(requirement);
         }
         else
         {

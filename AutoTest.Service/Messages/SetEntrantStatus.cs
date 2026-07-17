@@ -3,16 +3,4 @@ using Mediator;
 
 namespace AutoTest.Service.Messages;
 
-public class SetEntrantStatus : IRequest
-{
-    public SetEntrantStatus(ulong eventId, ulong entrantId, EntrantStatus status)
-    {
-        EventId = eventId;
-        EntrantId = entrantId;
-        Status = status;
-    }
-
-    public ulong EventId { get; }
-    public ulong EntrantId { get; }
-    public EntrantStatus Status { get; }
-}
+public record SetEntrantStatus(ulong EventId, ulong EntrantId, EntrantStatus Status) : IRequest;
