@@ -4,12 +4,12 @@ on:
   push:
     branches: [ master ]
     paths-ignore:
-      - "AutoTest.Web/ClientApp/**"
+      - "ClientApp/**"
       - "**/*.md"
   pull_request:
     branches: [ master ]
     paths-ignore:
-      - "AutoTest.Web/ClientApp/**"
+      - "ClientApp/**"
       - "**/*.md"
 
 concurrency:

@@ -7,12 +7,12 @@ on:
   push:
     branches: [ master ]
     paths:
-      - "AutoTest.Web/ClientApp/**"
+      - "ClientApp/**"
       - ".github/workflows/client-ci.yml"
   pull_request:
     branches: [ master ]
     paths:
-      - "AutoTest.Web/ClientApp/**"
+      - "ClientApp/**"
       - ".github/workflows/client-ci.yml"
 
 concurrency:
@@ -35,8 +35,8 @@ jobs:
       with:
         node-version: ${{ env.NODE_VERSION }}
         cache: yarn
-        cache-dependency-path: AutoTest.Web/ClientApp/yarn.lock
-    - run: yarn --cwd ./AutoTest.Web/ClientApp install --frozen-lockfile
-    - run: yarn --cwd ./AutoTest.Web/ClientApp lint
-    - run: yarn --cwd ./AutoTest.Web/ClientApp preact-cli build --no-esm
-    - run: yarn --cwd ./AutoTest.Web/ClientApp test
+        cache-dependency-path: ClientApp/yarn.lock
+    - run: yarn --cwd ./ClientApp install --frozen-lockfile
+    - run: yarn --cwd ./ClientApp lint
+    - run: yarn --cwd ./ClientApp preact-cli build --no-esm
+    - run: yarn --cwd ./ClientApp test
