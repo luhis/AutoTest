@@ -9,7 +9,7 @@ using AutoTest.Persistence.Repositories;
 using AutoTest.Service.Handlers;
 using AutoTest.Service.Messages;
 using AutoTest.Unit.Test.Fixtures;
-using FluentAssertions;
+using AwesomeAssertions;
 using Mediator;
 using Moq;
 using Xunit;

@@ -6,7 +6,7 @@ using AutoTest.Domain.StorageModels;
 using AutoTest.Service.Handlers;
 using AutoTest.Service.Messages;
 using AutoTest.Unit.Test.MockData;
-using FluentAssertions;
+using AwesomeAssertions;
 using Mediator;
 using Moq;
 using Xunit;

@@ -8,7 +8,7 @@ using AutoTest.Domain.Repositories;
 using AutoTest.Domain.StorageModels;
 using AutoTest.Service.Models;
 using AutoTest.Service.ResultCalculation;
-using FluentAssertions;
+using AwesomeAssertions;
 using Moq;
 using Xunit;
 

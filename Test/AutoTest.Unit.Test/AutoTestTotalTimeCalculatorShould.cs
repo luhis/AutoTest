@@ -1,9 +1,9 @@
-﻿using System;
+using System;
 using System.Linq;
 using AutoTest.Domain.Enums;
 using AutoTest.Domain.StorageModels;
 using AutoTest.Service.ResultCalculation;
-using FluentAssertions;
+using AwesomeAssertions;
 using Xunit;
 
 namespace AutoTest.Unit.Test;

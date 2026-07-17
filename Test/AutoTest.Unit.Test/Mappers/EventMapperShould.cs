@@ -1,8 +1,8 @@
-﻿using AutoTest.Domain.Enums;
+using AutoTest.Domain.Enums;
 using AutoTest.Unit.Test.MockData;
 using AutoTest.Web.Mapping;
 using AutoTest.Web.Models.Save;
-using FluentAssertions;
+using AwesomeAssertions;
 using Xunit;
 
 namespace AutoTest.Unit.Test.Mappers;

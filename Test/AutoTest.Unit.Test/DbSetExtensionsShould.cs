@@ -1,9 +1,9 @@
-﻿using System.Linq;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoTest.Persistence;
 using AutoTest.Unit.Test.Fixtures;
-using FluentAssertions;
+using AwesomeAssertions;
 using Xunit;
 using static AutoTest.Persistence.DbSetExtensions;
 

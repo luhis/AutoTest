@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using AutoTest.Domain.Repositories;
 using AutoTest.Service.Handlers;
 using AutoTest.Service.Messages;
-using FluentAssertions;
+using AwesomeAssertions;
 using Mediator;
 using Moq;
 using Xunit;

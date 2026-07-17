@@ -6,7 +6,7 @@ using AutoTest.Domain.Repositories;
 using AutoTest.Domain.StorageModels;
 using AutoTest.Persistence.Repositories;
 using AutoTest.Unit.Test.Fixtures;
-using FluentAssertions;
+using AwesomeAssertions;
 using Xunit;
 
 namespace AutoTest.Unit.Test.Handlers;

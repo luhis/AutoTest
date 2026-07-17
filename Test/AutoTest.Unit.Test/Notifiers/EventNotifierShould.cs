@@ -6,7 +6,7 @@ using AutoTest.Service.Messages;
 using AutoTest.Service.Models;
 using AutoTest.Unit.Test.MockData;
 using AutoTest.Web.Hubs;
-using FluentAssertions.ArgumentMatchers.Moq;
+using AwesomeAssertions.ArgumentMatchers.Moq;
 using Mediator;
 using Microsoft.AspNetCore.SignalR;
 using Moq;

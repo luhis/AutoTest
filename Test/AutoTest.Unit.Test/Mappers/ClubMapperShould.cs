@@ -1,7 +1,7 @@
-﻿using AutoTest.Domain.StorageModels;
+using AutoTest.Domain.StorageModels;
 using AutoTest.Web.Mapping;
 using AutoTest.Web.Models.Save;
-using FluentAssertions;
+using AwesomeAssertions;
 using Xunit;
 
 namespace AutoTest.Unit.Test.Mappers;

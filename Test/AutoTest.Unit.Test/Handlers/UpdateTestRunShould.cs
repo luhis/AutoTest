@@ -5,7 +5,7 @@ using AutoTest.Domain.StorageModels;
 using AutoTest.Service.Handlers;
 using AutoTest.Service.Interfaces;
 using AutoTest.Service.Messages;
-using FluentAssertions.ArgumentMatchers.Moq;
+using AwesomeAssertions.ArgumentMatchers.Moq;
 using Mediator;
 using Moq;
 using Xunit;

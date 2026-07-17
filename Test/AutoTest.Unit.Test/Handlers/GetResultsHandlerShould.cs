@@ -9,7 +9,7 @@ using AutoTest.Service.Messages;
 using AutoTest.Service.Models;
 using AutoTest.Service.ResultCalculation;
 using AutoTest.Unit.Test.MockData;
-using FluentAssertions;
+using AwesomeAssertions;
 using Mediator;
 using Moq;
 using Xunit;
