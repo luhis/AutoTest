@@ -12,7 +12,6 @@ public class MsaMembership
         MsaLicense = msaLicense;
     }
 
-
     public string MsaLicenseType { get; } = string.Empty;
 
     public uint MsaLicense { get; }

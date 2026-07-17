@@ -22,9 +22,9 @@ public static class MapEntrant
         return new AcceptDeclaration(acceptDeclaration.Email, acceptDeclaration.TimeStamp, acceptDeclaration.IsAccepted);
     }
 
-    private static EntrantClub Map(EntrantClubSaveModel acceptDeclaration)
+    private static EntrantClub Map(EntrantClubSaveModel entrantClub)
     {
-        return new EntrantClub(acceptDeclaration.Club, acceptDeclaration.ClubNumber);
+        return new EntrantClub(entrantClub.Club, entrantClub.ClubNumber);
     }
 
     public static PublicEntrantModel Map(Entrant a) => new PublicEntrantModel(a.EntrantId, a.DriverNumber, a.GivenName, a.FamilyName, a.Class, a.EventId, new EntrantClub(a.EntrantClub.Club, ""), a.Vehicle, a.Payment, a.IsLady, a.EntrantStatus);

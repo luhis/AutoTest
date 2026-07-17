@@ -37,11 +37,11 @@ public class MarshalsController(IMediator mediator) : ControllerBase
 
     [Authorize(policy: Policies.ClubAdminOrSelf)]
     [HttpPut("{marshalId}")]
-    public async Task<Marshal> PutMarshal(ulong eventId, ulong marshalId, MarshalSaveModel entrantSaveModel, CancellationToken cancellationToken)
+    public async Task<Marshal> PutMarshal(ulong eventId, ulong marshalId, MarshalSaveModel marshalSaveModel, CancellationToken cancellationToken)
     {
         var currentUserEmail = User.GetEmailAddress();
         var isClubAdmin = await mediator.Send(new IsClubAdmin(eventId, currentUserEmail), cancellationToken);
-        return await mediator.Send(new SaveMarshal(MapMarshal.Map(marshalId, eventId, entrantSaveModel, isClubAdmin ? entrantSaveModel.Email : currentUserEmail)),
+        return await mediator.Send(new SaveMarshal(MapMarshal.Map(marshalId, eventId, marshalSaveModel, isClubAdmin ? marshalSaveModel.Email : currentUserEmail)),
             cancellationToken);
     }
 

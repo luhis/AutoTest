@@ -15,7 +15,7 @@ public sealed class GetAdminClubsHandler(IClubsRepository clubsRepository, IMemo
 {
     public async ValueTask<IEnumerable<ulong>> Handle(GetAdminClubs request, CancellationToken cancellationToken)
     {
-        // todo this is very ineficcient, but the only other option at this time is SQL
+        // TODO: this is very inefficient, but the only other option at this time is SQL
         var clubAdminEmails = await GetOrCreate(cancellationToken);
         return clubAdminEmails.Where(a => a.AdminEmails.Any(e => e.Email == request.EmailAddress)).Select(a => a.ClubId).Distinct();
     }

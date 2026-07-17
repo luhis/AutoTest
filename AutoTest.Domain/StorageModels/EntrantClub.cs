@@ -10,7 +10,6 @@ public class EntrantClub
         ClubNumber = clubNumber;
     }
 
-
     public string Club { get; } = string.Empty;
 
     public string ClubNumber { get; } = string.Empty;

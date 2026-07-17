@@ -4,5 +4,4 @@ namespace AutoTest.Web.Authorization.Attributes;
 
 public class SelfRequirement : IAuthorizationRequirement
 {
-
 }

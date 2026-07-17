@@ -6,5 +6,4 @@ namespace AutoTest.Service.Messages;
 
 public class GetAllEvents : IRequest<IEnumerable<Event>>
 {
-
 }

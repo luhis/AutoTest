@@ -8,7 +8,6 @@ public class Marshal(ulong marshalId, string givenName, string familyName, strin
 
     public string FamilyName { get; } = familyName;
 
-
     public ulong EventId { get; } = eventId;
 
     public uint RegistrationNumber { get; } = registrationNumber;
