@@ -1,6 +1,5 @@
 
 using System.Collections.Generic;
-using System.Threading;
 using System.Threading.Tasks;
 using AutoTest.Domain.Repositories;
 using AutoTest.Domain.StorageModels;

@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Net.Http;
-using System.Threading;
 using System.Threading.Tasks;
 using AutoTest.Domain.StorageModels;
 using AutoTest.Integration.Test.Fixtures;

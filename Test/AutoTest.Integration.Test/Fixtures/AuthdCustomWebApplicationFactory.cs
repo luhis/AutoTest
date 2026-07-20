@@ -1,7 +1,5 @@
 using System.Net.Http;
 using System.Net.Http.Headers;
-using AutoTest.Integration.Test.Tooling;
-using AutoTest.Persistence;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;

@@ -1,13 +1,10 @@
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
 using AutoTest.Domain.Repositories;
 using AutoTest.Domain.StorageModels;
 using AutoTest.Service.Handlers;
 using AutoTest.Service.Interfaces;
 using AutoTest.Service.Messages;
-using AutoTest.Web.Hubs;
 using AwesomeAssertions.ArgumentMatchers.Moq;
 using Mediator;
 using Moq;
