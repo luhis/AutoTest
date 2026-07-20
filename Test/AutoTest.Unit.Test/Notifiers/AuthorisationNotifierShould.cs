@@ -1,4 +1,6 @@
-﻿using System.Threading;
+﻿using System;
+using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 using AutoTest.Service.Interfaces;
 using AutoTest.Web.Hubs;
@@ -30,74 +32,23 @@ public class AuthorisationNotifierShould
         clientProxy.Setup(a => a.SendCoreAsync(methodName, args, CancellationToken.None)).Returns(Task.CompletedTask);
     }
 
-    [Fact]
-    public async Task AddEditableEntrant()
+    public static IEnumerable<object[]> NotifierTestData => new[]
     {
-        var eventId = 1ul;
-        var email = "a@a.com";
-        SetupHubSend($"email:{email}", "AddEditableEntrant", new object[] { eventId });
+        new object[] { "AddEditableEntrant", 1ul, (Func<IAuthorisationNotifier, ulong, IEnumerable<string>, CancellationToken, Task>)((n, id, e, ct) => n.AddEditableEntrant(id, e, ct)) },
+        new object[] { "AddEditableMarshal", 1ul, (Func<IAuthorisationNotifier, ulong, IEnumerable<string>, CancellationToken, Task>)((n, id, e, ct) => n.AddEditableMarshal(id, e, ct)) },
+        new object[] { "NewClubAdmin", 1ul, (Func<IAuthorisationNotifier, ulong, IEnumerable<string>, CancellationToken, Task>)((n, id, e, ct) => n.NewClubAdmin(id, e, ct)) },
+        new object[] { "RemoveClubAdmin", 1ul, (Func<IAuthorisationNotifier, ulong, IEnumerable<string>, CancellationToken, Task>)((n, id, e, ct) => n.RemoveClubAdmin(id, e, ct)) },
+        new object[] { "NewEventMarshal", 1ul, (Func<IAuthorisationNotifier, ulong, IEnumerable<string>, CancellationToken, Task>)((n, id, e, ct) => n.NewEventMarshal(id, e, ct)) },
+        new object[] { "RemoveEventMarshal", 1ul, (Func<IAuthorisationNotifier, ulong, IEnumerable<string>, CancellationToken, Task>)((n, id, e, ct) => n.RemoveEventMarshal(id, e, ct)) },
+    };
 
-        await sut.AddEditableEntrant(eventId, new[] { email }, CancellationToken.None);
-
-        mr.VerifyAll();
-    }
-
-    [Fact]
-    public async Task AddEditableMarshal()
+    [Theory]
+    [MemberData(nameof(NotifierTestData))]
+    public async Task SendsSignalRMessageToCorrectMethod(string methodName, ulong id, Func<IAuthorisationNotifier, ulong, IEnumerable<string>, CancellationToken, Task> invoke)
     {
-        var eventId = 1ul;
-        var email = "a@a.com";
-        SetupHubSend($"email:{email}", "AddEditableMarshal", new object[] { eventId });
+        SetupHubSend("email:a@a.com", methodName, new object[] { id });
 
-        await sut.AddEditableMarshal(eventId, new[] { email }, CancellationToken.None);
-
-        mr.VerifyAll();
-    }
-
-    [Fact]
-    public async Task NewClubAdmin()
-    {
-        var clubId = 1ul;
-        var email = "a@a.com";
-        SetupHubSend($"email:{email}", "NewClubAdmin", new object[] { clubId });
-
-        await sut.NewClubAdmin(clubId, new[] { email }, CancellationToken.None);
-
-        mr.VerifyAll();
-    }
-
-    [Fact]
-    public async Task RemoveClubAdmin()
-    {
-        var clubId = 1ul;
-        var email = "a@a.com";
-        SetupHubSend($"email:{email}", "RemoveClubAdmin", new object[] { clubId });
-
-        await sut.RemoveClubAdmin(clubId, new[] { email }, CancellationToken.None);
-
-        mr.VerifyAll();
-    }
-
-    [Fact]
-    public async Task NewEventMarshal()
-    {
-        var eventId = 1ul;
-        var email = "a@a.com";
-        SetupHubSend($"email:{email}", "NewEventMarshal", new object[] { eventId });
-
-        await sut.NewEventMarshal(eventId, new[] { email }, CancellationToken.None);
-
-        mr.VerifyAll();
-    }
-
-    [Fact]
-    public async Task RemoveEventMarshal()
-    {
-        var eventId = 1ul;
-        var email = "a@a.com";
-        SetupHubSend($"email:{email}", "RemoveEventMarshal", new object[] { eventId });
-
-        await sut.RemoveEventMarshal(eventId, new[] { email }, CancellationToken.None);
+        await invoke(sut, id, new[] { "a@a.com" }, CancellationToken.None);
 
         mr.VerifyAll();
     }

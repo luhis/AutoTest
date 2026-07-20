@@ -38,15 +38,40 @@ public class SaveEntrantHandlerShould
     static Event GetEvent(ulong eventId, DateTime open, DateTime close) =>
         new Event(eventId, 1, "", DateTime.UtcNow, 3, 2, "", new[] { EventType.AutoTest }, "", TimingSystem.StopWatch, open, close, 10, new DateTime());
 
-    [Fact]
-    public async Task NotOverwritePaymentMethodWhenNone()
+    [Theory]
+    [InlineData(1, 2, "Please wait until event open")]
+    [InlineData(-2, -1, "Event is now closed")]
+    public async Task ErrorWhenEntryTimingInvalid(int openOffsetDays, int closeOffsetDays, string expectedError)
     {
         var entrantId = 1ul;
         var eventId = 2ul;
         var entrant = Models.GetEntrant(entrantId, eventId);
         entrant.SetPayment(new Payment());
 
+        eventsRepository.Setup(a => a.GetById(eventId, CancellationToken.None)).ReturnsAsync(GetEvent(eventId, DateTime.UtcNow.AddDays(openOffsetDays), DateTime.UtcNow.AddDays(closeOffsetDays)));
+
+        var se = new SaveEntrant(entrant);
+        var res = await sut.Handle(se, CancellationToken.None);
+
+        res.AsT1.Value.Should().Be(expectedError);
+        mr.VerifyAll();
+    }
+
+    [Theory]
+    [InlineData(true, false)]
+    [InlineData(false, true)]
+    public async Task NotOverwritePaymentMethod(bool entrantHasPayment, bool dbHasPayment)
+    {
+        var entrantId = 1ul;
+        var eventId = 2ul;
+        var entrant = Models.GetEntrant(entrantId, eventId);
+        if (entrantHasPayment)
+            entrant.SetPayment(new Payment());
+
         var entrantFromDb = Models.GetEntrant(entrantId, eventId);
+        if (dbHasPayment)
+            entrantFromDb.SetPayment(new Payment());
+
         entrantsRepository.Setup(a => a.GetById(eventId, entrantId, CancellationToken.None)).ReturnsAsync(entrantFromDb);
         entrantsRepository.Setup(a => a.Upsert(entrant, CancellationToken.None)).Returns(Task.CompletedTask);
         eventsRepository.Setup(a => a.GetById(eventId, CancellationToken.None)).ReturnsAsync(GetEvent(eventId, DateTime.UtcNow.AddDays(-2), DateTime.UtcNow.AddDays(2)));
@@ -57,41 +82,10 @@ public class SaveEntrantHandlerShould
         var res = await sut.Handle(se, CancellationToken.None);
 
         mr.VerifyAll();
-        res.AsT0.Payment.Should().BeNull();
-    }
-
-    [Fact]
-    public async Task ErrorWhenBeforeEntryStartAsync()
-    {
-        var entrantId = 1ul;
-        var eventId = 2ul;
-        var entrant = Models.GetEntrant(entrantId, eventId);
-        entrant.SetPayment(new Payment());
-
-        eventsRepository.Setup(a => a.GetById(eventId, CancellationToken.None)).ReturnsAsync(GetEvent(eventId, DateTime.UtcNow.AddDays(1), DateTime.UtcNow.AddDays(2)));
-
-        var se = new SaveEntrant(entrant);
-        var res = await sut.Handle(se, CancellationToken.None);
-
-        res.AsT1.Value.Should().Be("Please wait until event open");
-        mr.VerifyAll();
-    }
-
-    [Fact]
-    public async Task ErrorWhenAfterEntryCloseAsync()
-    {
-        var entrantId = 1ul;
-        var eventId = 2ul;
-        var entrant = Models.GetEntrant(entrantId, eventId);
-        entrant.SetPayment(new Payment());
-
-        eventsRepository.Setup(a => a.GetById(eventId, CancellationToken.None)).ReturnsAsync(GetEvent(eventId, DateTime.UtcNow.AddDays(-2), DateTime.UtcNow.AddDays(-1)));
-
-        var se = new SaveEntrant(entrant);
-        var res = await sut.Handle(se, CancellationToken.None);
-
-        res.AsT1.Value.Should().Be("Event is now closed");
-        mr.VerifyAll();
+        if (entrantHasPayment)
+            res.AsT0.Payment.Should().BeNull();
+        else
+            res.AsT0.Payment.Should().NotBeNull();
     }
 
     [Fact]
@@ -113,27 +107,5 @@ public class SaveEntrantHandlerShould
 
         res.AsT0.Should().Be(entrant);
         mr.VerifyAll();
-    }
-
-    [Fact]
-    public async Task NotOverwritePaymentMethodWhenSome()
-    {
-        var entrantId = 1ul;
-        var eventId = 2ul;
-        var entrant = Models.GetEntrant(entrantId, eventId);
-
-        var entrantFromDb = Models.GetEntrant(entrantId, eventId);
-        entrantFromDb.SetPayment(new Payment());
-        entrantsRepository.Setup(a => a.GetById(eventId, entrantId, CancellationToken.None)).ReturnsAsync(entrantFromDb);
-        entrantsRepository.Setup(a => a.Upsert(entrant, CancellationToken.None)).Returns(Task.CompletedTask);
-        eventsRepository.Setup(a => a.GetById(eventId, CancellationToken.None)).ReturnsAsync(GetEvent(eventId, DateTime.UtcNow.AddDays(-2), DateTime.UtcNow.AddDays(2)));
-        entrantsRepository.Setup(a => a.GetEntrantCount(eventId, CancellationToken.None)).ReturnsAsync(0);
-        authorisationNotifier.Setup(a => a.AddEditableEntrant(entrantId, Its.EquivalentTo(new[] { "a@a.com" }), CancellationToken.None)).Returns(Task.CompletedTask);
-
-        var se = new SaveEntrant(entrant);
-        var res = await sut.Handle(se, CancellationToken.None);
-
-        mr.VerifyAll();
-        res.AsT0.Payment.Should().NotBeNull();
     }
 }

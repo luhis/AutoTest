@@ -29,37 +29,29 @@ public class SaveClubHandlerShould
         sut = new SaveClubHandler(clubsRepository.Object, signalRNotifier.Object);
     }
 
-    [Fact]
-    public async Task InvokeSignalRMessageNewClubAdmin()
+    [Theory]
+    [InlineData(true, false)]
+    [InlineData(false, true)]
+    public async Task InvokeSignalRMessage(bool newClubHasEmail, bool dbClubHasEmail)
     {
         var clubId = 1ul;
         var club = new Club(clubId, "My Club", "pay@pal.com", "clubsite.com");
-        club.AdminEmails.Add(new AuthorisationEmail("test@test.com"));
+        if (newClubHasEmail)
+            club.AdminEmails.Add(new AuthorisationEmail("test@test.com"));
 
         var clubFromDb = new Club(clubId, "My Club", "pay@pal.com", "clubsite.com");
+        if (dbClubHasEmail)
+            clubFromDb.AdminEmails.Add(new AuthorisationEmail("test@test.com"));
+
         clubsRepository.Setup(a => a.GetById(clubId, CancellationToken.None)).ReturnsAsync(clubFromDb);
         clubsRepository.Setup(a => a.Upsert(club, CancellationToken.None)).Returns(Task.CompletedTask);
-        signalRNotifier.Setup(a => a.NewClubAdmin(clubId, Its.EquivalentTo<IEnumerable<string>>(new[] { "test@test.com" }), CancellationToken.None)).Returns(Task.CompletedTask);
+
+        if (newClubHasEmail && !dbClubHasEmail)
+            signalRNotifier.Setup(a => a.NewClubAdmin(clubId, Its.EquivalentTo<IEnumerable<string>>(new[] { "test@test.com" }), CancellationToken.None)).Returns(Task.CompletedTask);
+        if (!newClubHasEmail && dbClubHasEmail)
+            signalRNotifier.Setup(a => a.RemoveClubAdmin(clubId, Its.EquivalentTo<IEnumerable<string>>(new[] { "test@test.com" }), CancellationToken.None)).Returns(Task.CompletedTask);
+
         var se = new SaveClub(club);
-
-        var res = await sut.Handle(se, CancellationToken.None);
-
-        mr.VerifyAll();
-    }
-
-    [Fact]
-    public async Task InvokeSignalRMessageRemoveClubAdmin()
-    {
-        var clubId = 1ul;
-        var club = new Club(clubId, "My Club", "pay@pal.com", "clubsite.com");
-
-        var clubFromDb = new Club(clubId, "My Club", "pay@pal.com", "clubsite.com");
-        clubFromDb.AdminEmails.Add(new AuthorisationEmail("test@test.com"));
-        clubsRepository.Setup(a => a.GetById(clubId, CancellationToken.None)).ReturnsAsync(clubFromDb);
-        clubsRepository.Setup(a => a.Upsert(club, CancellationToken.None)).Returns(Task.CompletedTask);
-        signalRNotifier.Setup(a => a.RemoveClubAdmin(clubId, Its.EquivalentTo<IEnumerable<string>>(new[] { "test@test.com" }), CancellationToken.None)).Returns(Task.CompletedTask);
-        var se = new SaveClub(club);
-
         var res = await sut.Handle(se, CancellationToken.None);
 
         mr.VerifyAll();
