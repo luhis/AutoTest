@@ -35,6 +35,7 @@ public class EventsControllerShould(CustomWebApplicationFactory<Startup> fixture
         res.StatusCode.Should().Be(System.Net.HttpStatusCode.BadRequest);
         var content = await res.DeserialiseAsync<ProblemDetails>();
         content.Status.Should().Be(400);
+        content.Title.Should().Be("One or more validation errors occurred.");
     }
 
     [Fact]
@@ -43,7 +44,7 @@ public class EventsControllerShould(CustomWebApplicationFactory<Startup> fixture
         var res = await unAuthorisedClient.GetAsync($"/api/events/{TestIds.ClubId}/maps", CancellationToken.None);
         res.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);
         var content = await res.Content.ReadAsStringAsync(CancellationToken.None);
-        content.Should().NotBeNull();
+        content.Should().Be("");
     }
 
     [Fact]
@@ -52,6 +53,6 @@ public class EventsControllerShould(CustomWebApplicationFactory<Startup> fixture
         var res = await unAuthorisedClient.GetAsync($"/api/events/{TestIds.ClubId}/regulations", CancellationToken.None);
         res.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);
         var content = await res.Content.ReadAsStringAsync(CancellationToken.None);
-        content.Should().NotBeNull();
+        content.Should().Be("");
     }
 }

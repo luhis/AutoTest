@@ -21,6 +21,7 @@ public class NotificationsControllerShould(CustomWebApplicationFactory<Startup> 
         var res = await unAuthorisedClient.GetAsync($"/api/notifications/{TestIds.EventId}", CancellationToken.None);
         res.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);
         var content = await res.DeserialiseAsync<IEnumerable<Notification>>();
-        content.Should().NotBeEmpty();
+        content.Should().NotBeEmpty().And.ContainSingle()
+            .Which.Should().BeEquivalentTo(new { NotificationId = TestIds.NotificationId, EventId = TestIds.EventId, Message = "test message" });
     }
 }

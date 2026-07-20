@@ -21,6 +21,7 @@ public class TestRunsControllerShould(CustomWebApplicationFactory<Startup> fixtu
         var res = await unAuthorisedClient.GetAsync($"/api/events/{TestIds.EventId}/tests/{TestIds.TestNumber}/testRuns", CancellationToken.None);
         res.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);
         var content = await res.DeserialiseAsync<IEnumerable<TestRun>>();
-        content.Should().NotBeEmpty();
+        content.Should().NotBeEmpty().And.ContainSingle()
+            .Which.Should().BeEquivalentTo(new { TestRunId = TestIds.TestRunId, EventId = TestIds.EventId, Ordinal = TestIds.TestNumber });
     }
 }

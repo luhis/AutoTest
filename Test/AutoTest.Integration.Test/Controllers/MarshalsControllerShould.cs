@@ -23,7 +23,8 @@ public class MarshalsControllerShould(CustomWebApplicationFactory<Startup> fixtu
         var res = await unAuthorisedClient.GetAsync($"/api/marshals/{TestIds.EventId}", CancellationToken.None);
         res.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);
         var content = await res.DeserialiseAsync<IEnumerable<PublicMarshalModel>>();
-        content.Should().NotBeEmpty();
+        content.Should().NotBeEmpty().And.ContainSingle()
+            .Which.Should().BeEquivalentTo(new { GivenName = "Dave", FamilyName = "Marshal" });
     }
 
     [Fact]

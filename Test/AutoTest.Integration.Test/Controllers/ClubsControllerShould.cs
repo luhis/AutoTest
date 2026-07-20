@@ -21,6 +21,7 @@ public class ClubsControllerShould(CustomWebApplicationFactory<Startup> fixture)
         var res = await unAuthorisedClient.GetAsync("/api/clubs/", CancellationToken.None);
         res.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);
         var content = await res.DeserialiseAsync<IEnumerable<Club>>();
-        content.Should().NotBeEmpty();
+        content.Should().NotBeEmpty().And.ContainSingle()
+            .Which.Should().BeEquivalentTo(new { ClubId = TestIds.ClubId, ClubName = "BHMC" });
     }
 }

@@ -23,7 +23,8 @@ public class EntrantsControllerShould(CustomWebApplicationFactory<Startup> fixtu
         var res = await unAuthorisedClient.GetAsync($"/api/entrants/{TestIds.EventId}", CancellationToken.None);
         res.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);
         var content = await res.DeserialiseAsync<IEnumerable<PublicEntrantModel>>();
-        content.Should().NotBeEmpty();
+        content.Should().NotBeEmpty().And.ContainSingle()
+            .Which.Should().BeEquivalentTo(new { GivenName = "Dave", FamilyName = "Entrant" });
     }
 
     [Fact]
