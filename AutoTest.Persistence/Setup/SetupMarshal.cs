@@ -19,6 +19,6 @@ public class MarshalConfig : IEntityTypeConfiguration<Marshal>
         builder.HasOne<Event>().WithMany().HasForeignKey(p => p.EventId);
         builder.OwnsOne(a => a.EmergencyContact, SetupEmergencyContact.Setup);
         builder.OwnsOne(a => a.AcceptDeclaration, SetupAcceptDeclaration.Setup);
-        ///builder.HasIndex(a => new { a.FamilyName, a.GivenName });
+        //builder.HasIndex(a => new { a.FamilyName, a.GivenName });
     }
 }

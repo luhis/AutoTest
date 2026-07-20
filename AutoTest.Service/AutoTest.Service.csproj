@@ -1,7 +1,4 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <NoWarn></NoWarn>
-  </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Mediator.Abstractions" Version="3.0.2" />
