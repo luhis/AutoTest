@@ -21,7 +21,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi;
-using Mediator;
 using WebMarkupMin.AspNetCoreLatest;
 
 namespace AutoTest.Web;
