@@ -18,13 +18,13 @@ public class GetMarshalsHandlerShould
 {
     private readonly MockRepository mr;
     private readonly IRequestHandler<GetMarshals, IEnumerable<Marshal>> sut;
-    private readonly Mock<IMarshalsRepository> profileRepository;
+    private readonly Mock<IMarshalsRepository> marshalsRepository;
 
     public GetMarshalsHandlerShould()
     {
         mr = new MockRepository(MockBehavior.Strict);
-        profileRepository = mr.Create<IMarshalsRepository>();
-        sut = new GetMarshalsHandler(profileRepository.Object);
+        marshalsRepository = mr.Create<IMarshalsRepository>();
+        sut = new GetMarshalsHandler(marshalsRepository.Object);
     }
 
     [Fact]
@@ -36,7 +36,7 @@ public class GetMarshalsHandlerShould
             new Marshal(2, "a", "a", "a@a.com", eventId, 212312, "")
         };
         var mock = marshals.BuildMock();
-        profileRepository.Setup(a => a.GetByEventId(eventId)).Returns(mock);
+        marshalsRepository.Setup(a => a.GetByEventId(eventId)).Returns(mock);
 
         var res = await sut.Handle(new(eventId), CancellationToken.None);
 

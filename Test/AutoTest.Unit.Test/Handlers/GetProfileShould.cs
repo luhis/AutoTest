@@ -33,7 +33,7 @@ public class GetProfileShould
 
         var res = await sut.Handle(new(email), CancellationToken.None);
 
-        res.EmailAddress.Should().BeEquivalentTo(email);
+        res.EmailAddress.Should().Be(email);
         mr.VerifyAll();
     }
 

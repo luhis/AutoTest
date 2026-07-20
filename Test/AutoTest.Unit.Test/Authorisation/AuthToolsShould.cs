@@ -68,7 +68,7 @@ public class AuthToolsShould
 
         var email = await AuthTools.GetExistingEmail(rd, mediator.Object);
 
-        email.Should().BeEquivalentTo("a@a.com");
+        email.Should().Be("a@a.com");
         mr.VerifyAll();
     }
 
@@ -102,7 +102,7 @@ public class AuthToolsShould
 
         var email = await AuthTools.GetExistingEmail(rd, mediator.Object);
 
-        email.Should().BeEquivalentTo("a@a.com");
+        email.Should().Be("a@a.com");
         mr.VerifyAll();
     }
 

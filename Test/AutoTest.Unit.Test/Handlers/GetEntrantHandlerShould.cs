@@ -15,22 +15,22 @@ public class GetEntrantHandlerShould
 {
     private readonly MockRepository mr;
     private readonly IRequestHandler<GetEntrant, Entrant?> sut;
-    private readonly Mock<IEntrantsRepository> profileRepository;
+    private readonly Mock<IEntrantsRepository> entrantsRepository;
 
     public GetEntrantHandlerShould()
     {
         mr = new MockRepository(MockBehavior.Strict);
-        profileRepository = mr.Create<IEntrantsRepository>();
-        sut = new GetEntrantHandler(profileRepository.Object);
+        entrantsRepository = mr.Create<IEntrantsRepository>();
+        sut = new GetEntrantHandler(entrantsRepository.Object);
     }
 
     [Fact]
-    public async Task GetMarshals()
+    public async Task GetEntrant()
     {
         var eventId = 1ul;
         var entrantId = (ushort)2u;
         var entrant = new Entrant(1, entrantId, "Joe", "Bloggs", "a@a.com", "A", 99, Domain.Enums.Age.Senior, false, null);
-        profileRepository.Setup(a => a.GetById(eventId, entrantId, CancellationToken.None)).ReturnsAsync(entrant);
+        entrantsRepository.Setup(a => a.GetById(eventId, entrantId, CancellationToken.None)).ReturnsAsync(entrant);
 
         var res = await sut.Handle(new(eventId, entrantId), CancellationToken.None);
 

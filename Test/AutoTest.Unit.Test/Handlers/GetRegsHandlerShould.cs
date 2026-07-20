@@ -30,7 +30,7 @@ public class GetRegsHandlerShould
 
         var regs = await sut.Handle(new GetRegs(11), CancellationToken.None);
 
-        regs.Should().BeEquivalentTo("data");
+        regs.Should().Be("data");
         mr.VerifyAll();
     }
 }

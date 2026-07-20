@@ -18,13 +18,13 @@ public class GetEditableMarshalsHandlerShould
 {
     private readonly MockRepository mr;
     private readonly IRequestHandler<GetEditableMarshals, IEnumerable<ulong>> sut;
-    private readonly Mock<IMarshalsRepository> profileRepository;
+    private readonly Mock<IMarshalsRepository> marshalsRepository;
 
     public GetEditableMarshalsHandlerShould()
     {
         mr = new MockRepository(MockBehavior.Strict);
-        profileRepository = mr.Create<IMarshalsRepository>();
-        sut = new GetEditableMarshalsHandler(profileRepository.Object);
+        marshalsRepository = mr.Create<IMarshalsRepository>();
+        sut = new GetEditableMarshalsHandler(marshalsRepository.Object);
     }
 
     [Fact]
@@ -36,7 +36,7 @@ public class GetEditableMarshalsHandlerShould
             new Marshal(2, "a", "a", "a@a.com", eventId, 212312, "")
         };
         var mock = marshals.BuildMock();
-        profileRepository.Setup(a => a.GetByEmail("test@test.com")).Returns(mock);
+        marshalsRepository.Setup(a => a.GetByEmail("test@test.com")).Returns(mock);
 
         var res = await sut.Handle(new("test@test.com"), CancellationToken.None);
 

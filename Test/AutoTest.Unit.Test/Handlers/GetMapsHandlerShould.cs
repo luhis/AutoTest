@@ -30,7 +30,7 @@ public class GetMapsHandlerShould
 
         var maps = await sut.Handle(new GetMaps(11), CancellationToken.None);
 
-        maps.Should().BeEquivalentTo("data");
+        maps.Should().Be("data");
         mr.VerifyAll();
     }
 }

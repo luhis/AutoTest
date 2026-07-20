@@ -32,7 +32,7 @@ public class EntrantsControllerShould(CustomWebApplicationFactory<Startup> fixtu
         var res = await authorisedClient.GetAsync($"/api/entrants/{TestIds.EventId}/{TestIds.EntrantId}", CancellationToken.None);
         res.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);
         var content = await res.DeserialiseAsync<Entrant>();
-        content.Should().NotBeNull();
+        content.Should().BeEquivalentTo(new Entrant(TestIds.EntrantId, 2, "Dave", "Entrant", "test@test.com", "A", TestIds.EventId, Domain.Enums.Age.Senior, false, null));
     }
 
     [Fact]

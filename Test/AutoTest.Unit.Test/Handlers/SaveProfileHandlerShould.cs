@@ -16,21 +16,20 @@ public class SaveProfileHandlerShould
 {
     private readonly IRequestHandler<SaveProfile, Profile> sut;
     private readonly MockRepository mr;
-    private readonly Mock<IProfileRepository> testRuns;
+    private readonly Mock<IProfileRepository> profileRepository;
 
     public SaveProfileHandlerShould()
     {
         mr = new MockRepository(MockBehavior.Strict);
-        testRuns = mr.Create<IProfileRepository>();
-        sut = new SaveProfileHandler(testRuns.Object);
+        profileRepository = mr.Create<IProfileRepository>();
+        sut = new SaveProfileHandler(profileRepository.Object);
     }
 
     [Fact]
     public async Task SaveProfile()
     {
-        var penalties = new[] { new Penalty(Domain.Enums.PenaltyEnum.Late, 1) };
         var profile = Models.GetProfile("aa@aa.com");
-        testRuns.Setup(a => a.Upsert(Its.EquivalentTo(profile), CancellationToken.None)).Returns(Task.CompletedTask);
+        profileRepository.Setup(a => a.Upsert(Its.EquivalentTo(profile), CancellationToken.None)).Returns(Task.CompletedTask);
 
         await sut.Handle(new(profile), CancellationToken.None);
 

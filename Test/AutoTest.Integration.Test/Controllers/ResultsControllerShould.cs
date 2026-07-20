@@ -31,5 +31,6 @@ public class ResultsControllerShould(CustomWebApplicationFactory<Startup> fixtur
         res.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);
         var content = await res.DeserialiseAsync<Awards>();
         content.Should().NotBeNull();
+        content.Ftd.Should().NotBeNull();
     }
 }

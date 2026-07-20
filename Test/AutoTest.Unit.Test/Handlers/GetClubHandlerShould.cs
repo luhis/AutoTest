@@ -15,20 +15,20 @@ public class GetClubHandlerShould
 {
     private readonly MockRepository mr;
     private readonly IRequestHandler<GetClub, Club?> sut;
-    private readonly Mock<IClubsRepository> profileRepository;
+    private readonly Mock<IClubsRepository> clubsRepository;
 
     public GetClubHandlerShould()
     {
         mr = new MockRepository(MockBehavior.Strict);
-        profileRepository = mr.Create<IClubsRepository>();
-        sut = new GetClubHandler(profileRepository.Object);
+        clubsRepository = mr.Create<IClubsRepository>();
+        sut = new GetClubHandler(clubsRepository.Object);
     }
 
     [Fact]
     public async Task ReturnNullIfNotClub()
     {
         var clubId = 1ul;
-        profileRepository.Setup(a => a.GetById(clubId, CancellationToken.None)).ReturnsAsync((Club?)null);
+        clubsRepository.Setup(a => a.GetById(clubId, CancellationToken.None)).ReturnsAsync((Club?)null);
 
         var res = await sut.Handle(new(clubId), CancellationToken.None);
 
@@ -41,7 +41,7 @@ public class GetClubHandlerShould
     {
         var clubId = 1ul;
         var club = new Club(clubId, "First", "Last", "");
-        profileRepository.Setup(a => a.GetById(clubId, CancellationToken.None)).ReturnsAsync(club);
+        clubsRepository.Setup(a => a.GetById(clubId, CancellationToken.None)).ReturnsAsync(club);
 
         var res = await sut.Handle(new(clubId), CancellationToken.None);
 

@@ -45,8 +45,6 @@ public class AddTestRunShould
         var marshalId = 6ul;
         var eventId = 1ul;
         var clubId = 2ul;
-        var tr = new TestRun(1, eventId, 3, 4, entrantId, new DateTime(2000, 1, 1), marshalId);
-        tr.SetPenalties(penalties);
         marshalsRepository.Setup(a => a.GetMarshalIdByEmail(eventId, "marshal@email.com", CancellationToken.None)).ReturnsAsync(marshalId);
         var @event = Models.GetEvent(eventId, clubId);
         @event.SetEventStatus(Domain.Enums.EventStatus.Running);
@@ -64,11 +62,8 @@ public class AddTestRunShould
     public async Task ShouldNotAddTestRunWhenNotRunning()
     {
         var entrantId = 5ul;
-        var marshalId = 6ul;
         var eventId = 1ul;
         var clubId = 2ul;
-        var tr = new TestRun(1, eventId, 3, 4, entrantId, new DateTime(2000, 1, 1), marshalId);
-        tr.SetPenalties(penalties);
         var @event = Models.GetEvent(eventId, clubId);
         eventsRepository.Setup(a => a.GetById(eventId, CancellationToken.None)).ReturnsAsync(@event);
 

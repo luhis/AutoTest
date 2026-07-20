@@ -15,15 +15,15 @@ public class DeleteMarshalShould
 {
     private readonly IRequestHandler<DeleteMarshal> sut;
     private readonly MockRepository mr;
-    private readonly Mock<IMarshalsRepository> entrants;
+    private readonly Mock<IMarshalsRepository> marshalsRepository;
     private readonly Mock<IAuthorisationNotifier> signalRNotifier;
 
     public DeleteMarshalShould()
     {
         mr = new MockRepository(MockBehavior.Strict);
-        entrants = mr.Create<IMarshalsRepository>();
+        marshalsRepository = mr.Create<IMarshalsRepository>();
         signalRNotifier = mr.Create<IAuthorisationNotifier>();
-        sut = new DeleteMarshalHandler(entrants.Object, signalRNotifier.Object);
+        sut = new DeleteMarshalHandler(marshalsRepository.Object, signalRNotifier.Object);
     }
 
     [Fact]
@@ -31,9 +31,9 @@ public class DeleteMarshalShould
     {
         var eventId = 1ul;
         var marshalId = 2ul;
-        var entrant = new Domain.StorageModels.Marshal(marshalId, "joe", "bloggs", "joe@bloggs.com", eventId, 1234, "");
-        entrants.Setup(a => a.GetById(eventId, marshalId, CancellationToken.None)).ReturnsAsync(entrant);
-        entrants.Setup(a => a.Remove(entrant, CancellationToken.None)).Returns(Task.CompletedTask);
+        var marshal = new Domain.StorageModels.Marshal(marshalId, "joe", "bloggs", "joe@bloggs.com", eventId, 1234, "");
+        marshalsRepository.Setup(a => a.GetById(eventId, marshalId, CancellationToken.None)).ReturnsAsync(marshal);
+        marshalsRepository.Setup(a => a.Remove(marshal, CancellationToken.None)).Returns(Task.CompletedTask);
         signalRNotifier.Setup(a => a.RemoveEventMarshal(marshalId, Its.EquivalentTo(new[] { "joe@bloggs.com" }), CancellationToken.None)).Returns(Task.CompletedTask);
 
         await sut.Handle(new(eventId, marshalId), CancellationToken.None);

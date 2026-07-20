@@ -32,7 +32,7 @@ public class MarshalsControllerShould(CustomWebApplicationFactory<Startup> fixtu
         var res = await authorisedClient.GetAsync($"/api/marshals/{TestIds.EventId}/{TestIds.MarshalId}", CancellationToken.None);
         res.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);
         var content = await res.DeserialiseAsync<Marshal>();
-        content.Should().NotBeNull();
+        content.Should().BeEquivalentTo(new Marshal(TestIds.MarshalId, "Dave", "Marshal", "test@test.com", TestIds.EventId, 123, "role"));
     }
 
     [Fact]

@@ -29,7 +29,6 @@ public class GetTestsHandlerShould
     [Fact]
     public async Task GetTests()
     {
-        var penalties = new[] { new Penalty(Domain.Enums.PenaltyEnum.Late, 1) };
         var @event = Models.GetEvent(1);
         @event.SetCourses(new[] { new Course(0, "a") });
         eventsRepository.Setup(a => a.GetById(1, CancellationToken.None)).ReturnsAsync(@event);

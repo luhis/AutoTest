@@ -34,7 +34,7 @@ public class EventsControllerShould(CustomWebApplicationFactory<Startup> fixture
         var res = await authorisedClient.PutAsync($"/api/events/{TestIds.EventId}", JsonContent.Create(new EventSaveModel() { ClubId = TestIds.ClubId }), CancellationToken.None);
         res.StatusCode.Should().Be(System.Net.HttpStatusCode.BadRequest);
         var content = await res.DeserialiseAsync<ProblemDetails>();
-        content.Should().NotBeNull();
+        content.Status.Should().Be(400);
     }
 
     [Fact]

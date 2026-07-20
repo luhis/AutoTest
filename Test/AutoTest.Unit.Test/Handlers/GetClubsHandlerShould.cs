@@ -16,21 +16,21 @@ public class GetClubsHandlerShould
 {
     private readonly MockRepository mr;
     private readonly IRequestHandler<GetClubs, IEnumerable<Club>> sut;
-    private readonly Mock<IClubsRepository> profileRepository;
+    private readonly Mock<IClubsRepository> clubsRepository;
 
     public GetClubsHandlerShould()
     {
         mr = new MockRepository(MockBehavior.Strict);
-        profileRepository = mr.Create<IClubsRepository>();
-        sut = new GetClubsHandler(profileRepository.Object);
+        clubsRepository = mr.Create<IClubsRepository>();
+        sut = new GetClubsHandler(clubsRepository.Object);
     }
 
     [Fact]
-    public async Task ReturnExistingProfileIfSome()
+    public async Task ReturnExistingClubs()
     {
         var clubId = 1ul;
         var clubs = new[] { new Club(clubId, "First", "Last", "") };
-        profileRepository.Setup(a => a.GetAll(CancellationToken.None)).ReturnsAsync(clubs);
+        clubsRepository.Setup(a => a.GetAll(CancellationToken.None)).ReturnsAsync(clubs);
 
         var res = await sut.Handle(new(), CancellationToken.None);
 

@@ -17,28 +17,28 @@ public class GetEntrantsHandlerShould
 {
     private readonly MockRepository mr;
     private readonly IRequestHandler<GetEntrants, IEnumerable<Entrant>> sut;
-    private readonly Mock<IEntrantsRepository> profileRepository;
+    private readonly Mock<IEntrantsRepository> entrantsRepository;
 
     public GetEntrantsHandlerShould()
     {
         mr = new MockRepository(MockBehavior.Strict);
-        profileRepository = mr.Create<IEntrantsRepository>();
-        sut = new GetEntrantsHandler(profileRepository.Object);
+        entrantsRepository = mr.Create<IEntrantsRepository>();
+        sut = new GetEntrantsHandler(entrantsRepository.Object);
     }
 
     [Fact]
-    public async Task GetMarshals()
+    public async Task GetEntrants()
     {
         var eventId = 1ul;
-        var marshals = new[] {
+        var entrants = new[] {
             new Entrant(1, 22, "Joe", "Bloggs", "a@a.com", "A", 99, Domain.Enums.Age.Senior, false, null),
             new Entrant(2, 22, "Joe", "Bloggs", "a@a.com", "A", 99, Domain.Enums.Age.Senior, false, null)
         };
-        profileRepository.Setup(a => a.GetAll(eventId, CancellationToken.None)).ReturnsAsync(marshals);
+        entrantsRepository.Setup(a => a.GetAll(eventId, CancellationToken.None)).ReturnsAsync(entrants);
 
         var res = await sut.Handle(new(eventId), CancellationToken.None);
 
-        res.Should().BeEquivalentTo(marshals.OrderBy(a => a.FamilyName), o => o.WithStrictOrdering());
+        res.Should().BeEquivalentTo(entrants.OrderBy(a => a.FamilyName), o => o.WithStrictOrdering());
         mr.VerifyAll();
     }
 }

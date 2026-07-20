@@ -21,7 +21,6 @@ public class AccessControllerShould(CustomWebApplicationFactory<Startup> fixture
         var res = await unAuthorisedClient.GetAsync("/api/access/", CancellationToken.None);
         res.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);
         var accessModel = await res.DeserialiseAsync<AccessModel>();
-        accessModel.Should().NotBeNull();
         accessModel.Should().BeEquivalentTo(new AccessModel(false, false, [], [], [], []));
     }
 
@@ -31,7 +30,6 @@ public class AccessControllerShould(CustomWebApplicationFactory<Startup> fixture
         var res = await authorisedClient.GetAsync("/api/access/", CancellationToken.None);
         res.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);
         var accessModel = await res.DeserialiseAsync<AccessModel>();
-        accessModel.Should().NotBeNull();
         accessModel.Should().BeEquivalentTo(new AccessModel(false, true, [1ul], [], [], []));
     }
 }
