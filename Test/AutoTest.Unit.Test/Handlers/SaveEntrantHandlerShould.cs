@@ -89,7 +89,7 @@ public class SaveEntrantHandlerShould
     }
 
     [Fact]
-    public async Task ErrorWhenTooManyEntrantsAsync()
+    public async Task ErrorWhenTooManyEntrants()
     {
         var entrantId = 1ul;
         var eventId = 2ul;
