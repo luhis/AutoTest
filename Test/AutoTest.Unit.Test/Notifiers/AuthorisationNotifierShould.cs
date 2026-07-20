@@ -29,7 +29,7 @@ public class AuthorisationNotifierShould
         var clients = mr.Create<IHubClients>();
         clients.Setup(a => a.Group(groupName)).Returns(clientProxy.Object);
         eventHub.Setup(a => a.Clients).Returns(clients.Object);
-        clientProxy.Setup(a => a.SendCoreAsync(methodName, args, CancellationToken.None)).Returns(Task.CompletedTask);
+        clientProxy.Setup(a => a.SendCoreAsync(methodName, args, TestContext.Current.CancellationToken)).Returns(Task.CompletedTask);
     }
 
     public static IEnumerable<object[]> NotifierTestData => new[]
@@ -48,7 +48,7 @@ public class AuthorisationNotifierShould
     {
         SetupHubSend("email:a@a.com", methodName, new object[] { id });
 
-        await invoke(sut, id, new[] { "a@a.com" }, CancellationToken.None);
+        await invoke(sut, id, new[] { "a@a.com" }, TestContext.Current.CancellationToken);
 
         mr.VerifyAll();
     }

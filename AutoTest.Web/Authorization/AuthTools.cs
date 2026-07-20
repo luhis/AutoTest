@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Globalization;
 using System.Linq;
 using System.Threading;
@@ -22,7 +22,7 @@ public static class AuthTools
         throw new ArgumentException("Don't know how to get EventId from this request");
     }
 
-    public static async Task<string?> GetExistingEmail(RouteData routeData, IMediator mediator)
+    public static async Task<string?> GetExistingEmail(RouteData routeData, IMediator mediator, CancellationToken cancellationToken)
     {
         if (routeData.Values.TryGetValue(RouteParams.EventId, out var eventIdString) && eventIdString is not null)
         {
@@ -30,13 +30,13 @@ public static class AuthTools
             if (routeData.Values.TryGetValue(RouteParams.EntrantId, out var entrantIdString) && entrantIdString is not null)
             {
                 var entrantId = ulong.Parse((string)entrantIdString, CultureInfo.InvariantCulture);
-                var entrant = await mediator.Send(new GetEntrant(eventId, entrantId));
+                var entrant = await mediator.Send(new GetEntrant(eventId, entrantId), cancellationToken);
                 return entrant?.Email;
             }
             if (routeData.Values.TryGetValue(RouteParams.MarshalId, out var marshalIdString) && marshalIdString is not null)
             {
                 var marshalId = ulong.Parse((string)marshalIdString, CultureInfo.InvariantCulture);
-                var existing = await mediator.Send(new GetMarshal(eventId, marshalId));
+                var existing = await mediator.Send(new GetMarshal(eventId, marshalId), cancellationToken);
                 return existing?.Email;
             }
         }
@@ -51,15 +51,15 @@ public static class AuthTools
         NotAdmin
     }
 
-    public static async Task<ClubAdminResult> CheckClubAdmin(ulong eventId, string email, IMediator mediator)
+    public static async Task<ClubAdminResult> CheckClubAdmin(ulong eventId, string email, IMediator mediator, CancellationToken cancellationToken)
     {
-        var @event = await mediator.Send(new GetEvent(eventId), CancellationToken.None);
+        var @event = await mediator.Send(new GetEvent(eventId), cancellationToken);
         if (@event is null)
         {
             return ClubAdminResult.NewEvent;
         }
 
-        var club = await mediator.Send(new GetClub(@event.ClubId));
+        var club = await mediator.Send(new GetClub(@event.ClubId), cancellationToken);
         if (club is null)
         {
             return ClubAdminResult.ClubNotFound;
@@ -69,9 +69,9 @@ public static class AuthTools
         return emails.Contains(email) ? ClubAdminResult.IsAdmin : ClubAdminResult.NotAdmin;
     }
 
-    public static async Task<bool> IsSelf(AuthorizationHandlerContext context, RouteData routeData, IMediator mediator)
+    public static async Task<bool> IsSelf(AuthorizationHandlerContext context, RouteData routeData, IMediator mediator, CancellationToken cancellationToken)
     {
-        var emailFromRoute = await GetExistingEmail(routeData, mediator);
+        var emailFromRoute = await GetExistingEmail(routeData, mediator, cancellationToken);
         var email = context.User.GetEmailAddress();
         return emailFromRoute is not null &&
             emailFromRoute.Equals(email, StringComparison.OrdinalIgnoreCase);

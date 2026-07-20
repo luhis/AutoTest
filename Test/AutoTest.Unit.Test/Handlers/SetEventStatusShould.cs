@@ -34,13 +34,13 @@ public class SetEventStatusShould
     {
         var eventId = 11ul;
         var clubId = 2ul;
-        events.Setup(a => a.GetById(eventId, CancellationToken.None)).ReturnsAsync(Models.GetEvent(eventId, clubId));
+        events.Setup(a => a.GetById(eventId, TestContext.Current.CancellationToken)).ReturnsAsync(Models.GetEvent(eventId, clubId));
         var toSave = Models.GetEvent(eventId, clubId);
         toSave.SetEventStatus(Domain.Enums.EventStatus.Open);
-        events.Setup(a => a.Upsert(Its.EquivalentTo(toSave), CancellationToken.None)).Returns(Task.CompletedTask);
-        notifier.Setup(a => a.EventStatusChanged(eventId, Domain.Enums.EventStatus.Open, CancellationToken.None)).Returns(Task.CompletedTask);
+        events.Setup(a => a.Upsert(Its.EquivalentTo(toSave), TestContext.Current.CancellationToken)).Returns(Task.CompletedTask);
+        notifier.Setup(a => a.EventStatusChanged(eventId, Domain.Enums.EventStatus.Open, TestContext.Current.CancellationToken)).Returns(Task.CompletedTask);
 
-        await sut.Handle(new SetEventStatus(eventId, Domain.Enums.EventStatus.Open), CancellationToken.None);
+        await sut.Handle(new SetEventStatus(eventId, Domain.Enums.EventStatus.Open), TestContext.Current.CancellationToken);
         mr.VerifyAll();
     }
 }

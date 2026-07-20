@@ -32,13 +32,13 @@ public class IsClubAdminShould
     {
         var eventId = 1ul;
         var clubId = 2ul;
-        eventsRepository.Setup(a => a.GetById(eventId, CancellationToken.None)).ReturnsAsync(
+        eventsRepository.Setup(a => a.GetById(eventId, TestContext.Current.CancellationToken)).ReturnsAsync(
             Models.GetEvent(eventId, clubId)
             );
         var club = new Club(clubId, "club", "pay@paypal.com", "www.club.com");
-        clubsRepository.Setup(a => a.GetById(clubId, CancellationToken.None)).ReturnsAsync(club);
+        clubsRepository.Setup(a => a.GetById(clubId, TestContext.Current.CancellationToken)).ReturnsAsync(club);
 
-        var res = await sut.Handle(new(eventId, "a@a.com"), CancellationToken.None);
+        var res = await sut.Handle(new(eventId, "a@a.com"), TestContext.Current.CancellationToken);
 
         res.Should().BeFalse();
         mr.VerifyAll();

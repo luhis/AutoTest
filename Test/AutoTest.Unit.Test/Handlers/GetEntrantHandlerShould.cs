@@ -30,9 +30,9 @@ public class GetEntrantHandlerShould
         var eventId = 1ul;
         var entrantId = (ushort)2u;
         var entrant = new Entrant(1, entrantId, "Joe", "Bloggs", "a@a.com", "A", 99, Domain.Enums.Age.Senior, false, null);
-        entrantsRepository.Setup(a => a.GetById(eventId, entrantId, CancellationToken.None)).ReturnsAsync(entrant);
+        entrantsRepository.Setup(a => a.GetById(eventId, entrantId, TestContext.Current.CancellationToken)).ReturnsAsync(entrant);
 
-        var res = await sut.Handle(new(eventId, entrantId), CancellationToken.None);
+        var res = await sut.Handle(new(eventId, entrantId), TestContext.Current.CancellationToken);
 
         res.Should().BeEquivalentTo(entrant);
         mr.VerifyAll();

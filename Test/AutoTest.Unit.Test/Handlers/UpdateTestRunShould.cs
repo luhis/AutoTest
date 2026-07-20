@@ -35,10 +35,10 @@ public class UpdateTestRunShould
         var penalties = new[] { new Penalty(Domain.Enums.PenaltyEnum.Late, 1) };
         var tr = new TestRun(1, 2, 3, 4, entrantId, new System.DateTime(2000, 1, 1), marshalId);
         tr.SetPenalties(penalties);
-        notifier.Setup(a => a.NewTestRun(Its.EquivalentTo(tr), CancellationToken.None)).Returns(Task.CompletedTask);
-        testRuns.Setup(a => a.UpdateTestRun(Its.EquivalentTo(tr), CancellationToken.None)).Returns(Task.CompletedTask);
+        notifier.Setup(a => a.NewTestRun(Its.EquivalentTo(tr), TestContext.Current.CancellationToken)).Returns(Task.CompletedTask);
+        testRuns.Setup(a => a.UpdateTestRun(Its.EquivalentTo(tr), TestContext.Current.CancellationToken)).Returns(Task.CompletedTask);
 
-        await sut.Handle(new(1, 2, 3, 4, entrantId, new System.DateTime(2000, 1, 1), marshalId, penalties), CancellationToken.None);
+        await sut.Handle(new(1, 2, 3, 4, entrantId, new System.DateTime(2000, 1, 1), marshalId, penalties), TestContext.Current.CancellationToken);
 
         mr.VerifyAll();
     }
@@ -51,10 +51,10 @@ public class UpdateTestRunShould
         var penalties = new[] { new Penalty(Domain.Enums.PenaltyEnum.Late, 1) };
         var tr = new TestRun(1, 2, 3, 4, entrantId, new System.DateTime(2000, 1, 1), marshalId);
         tr.SetPenalties(penalties);
-        notifier.Setup(a => a.NewTestRun(Its.EquivalentTo(tr), CancellationToken.None)).Returns(Task.CompletedTask);
-        testRuns.Setup(a => a.UpdateTestRun(Its.EquivalentTo(tr), CancellationToken.None)).Returns(Task.CompletedTask);
+        notifier.Setup(a => a.NewTestRun(Its.EquivalentTo(tr), TestContext.Current.CancellationToken)).Returns(Task.CompletedTask);
+        testRuns.Setup(a => a.UpdateTestRun(Its.EquivalentTo(tr), TestContext.Current.CancellationToken)).Returns(Task.CompletedTask);
 
-        await sut.Handle(new(1, 2, 3, 4, entrantId, new System.DateTime(2000, 1, 2), marshalId, penalties), CancellationToken.None);
+        await sut.Handle(new(1, 2, 3, 4, entrantId, new System.DateTime(2000, 1, 2), marshalId, penalties), TestContext.Current.CancellationToken);
 
         mr.VerifyAll();
     }

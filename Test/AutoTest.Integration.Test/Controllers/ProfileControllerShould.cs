@@ -18,14 +18,14 @@ public class ProfileControllerShould(CustomWebApplicationFactory<Startup> fixtur
     [Fact]
     public async Task GetProfileUnauthorized()
     {
-        var res = await unAuthorisedClient.GetAsync("/api/profile", CancellationToken.None);
+        var res = await unAuthorisedClient.GetAsync("/api/profile", TestContext.Current.CancellationToken);
         res.StatusCode.Should().Be(System.Net.HttpStatusCode.Unauthorized);
     }
 
     [Fact]
     public async Task GetProfile()
     {
-        var res = await authorisedClient.GetAsync("/api/profile", CancellationToken.None);
+        var res = await authorisedClient.GetAsync("/api/profile", TestContext.Current.CancellationToken);
         res.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);
         var content = await res.DeserialiseAsync<Profile>();
         content.Should().BeEquivalentTo(new Profile("user@test.com", "", "", Domain.Enums.Age.Senior, false));

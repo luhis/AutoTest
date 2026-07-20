@@ -20,7 +20,7 @@ public class MarshalsControllerShould(CustomWebApplicationFactory<Startup> fixtu
     [Fact]
     public async Task GetMarshals()
     {
-        var res = await unAuthorisedClient.GetAsync($"/api/marshals/{TestIds.EventId}", CancellationToken.None);
+        var res = await unAuthorisedClient.GetAsync($"/api/marshals/{TestIds.EventId}", TestContext.Current.CancellationToken);
         res.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);
         var content = await res.DeserialiseAsync<IEnumerable<PublicMarshalModel>>();
         content.Should().NotBeEmpty().And.ContainSingle()
@@ -30,7 +30,7 @@ public class MarshalsControllerShould(CustomWebApplicationFactory<Startup> fixtu
     [Fact]
     public async Task GetSingle()
     {
-        var res = await authorisedClient.GetAsync($"/api/marshals/{TestIds.EventId}/{TestIds.MarshalId}", CancellationToken.None);
+        var res = await authorisedClient.GetAsync($"/api/marshals/{TestIds.EventId}/{TestIds.MarshalId}", TestContext.Current.CancellationToken);
         res.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);
         var content = await res.DeserialiseAsync<Marshal>();
         content.Should().BeEquivalentTo(new Marshal(TestIds.MarshalId, "Dave", "Marshal", "test@test.com", TestIds.EventId, 123, "role"));
@@ -39,7 +39,7 @@ public class MarshalsControllerShould(CustomWebApplicationFactory<Startup> fixtu
     [Fact]
     public async Task NotFound()
     {
-        var res = await authorisedClient.GetAsync($"/api/marshals/{TestIds.EventId}/9999", CancellationToken.None);
+        var res = await authorisedClient.GetAsync($"/api/marshals/{TestIds.EventId}/9999", TestContext.Current.CancellationToken);
         res.StatusCode.Should().Be(System.Net.HttpStatusCode.NotFound);
     }
 }

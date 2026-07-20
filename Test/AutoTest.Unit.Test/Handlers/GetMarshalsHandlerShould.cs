@@ -38,7 +38,7 @@ public class GetMarshalsHandlerShould
         var mock = marshals.BuildMock();
         marshalsRepository.Setup(a => a.GetByEventId(eventId)).Returns(mock);
 
-        var res = await sut.Handle(new(eventId), CancellationToken.None);
+        var res = await sut.Handle(new(eventId), TestContext.Current.CancellationToken);
 
         res.Should().BeEquivalentTo(marshals.OrderBy(a => a.FamilyName), o => o.WithStrictOrdering());
         mr.VerifyAll();

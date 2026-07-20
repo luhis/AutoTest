@@ -18,7 +18,7 @@ public class AccessControllerShould(CustomWebApplicationFactory<Startup> fixture
     [Fact]
     public async Task GetUnauthorised()
     {
-        var res = await unAuthorisedClient.GetAsync("/api/access/", CancellationToken.None);
+        var res = await unAuthorisedClient.GetAsync("/api/access/", TestContext.Current.CancellationToken);
         res.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);
         var accessModel = await res.DeserialiseAsync<AccessModel>();
         accessModel.Should().BeEquivalentTo(new AccessModel(false, false, [], [], [], []));
@@ -27,7 +27,7 @@ public class AccessControllerShould(CustomWebApplicationFactory<Startup> fixture
     [Fact]
     public async Task GetAuthorised()
     {
-        var res = await authorisedClient.GetAsync("/api/access/", CancellationToken.None);
+        var res = await authorisedClient.GetAsync("/api/access/", TestContext.Current.CancellationToken);
         res.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);
         var accessModel = await res.DeserialiseAsync<AccessModel>();
         accessModel.Should().BeEquivalentTo(new AccessModel(false, true, [1ul], [], [], []));

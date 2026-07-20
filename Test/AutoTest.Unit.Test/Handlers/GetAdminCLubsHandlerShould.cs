@@ -41,7 +41,7 @@ public class GetAdminClubsHandlerShould
                 return true;
             });
         var email = "a@a.com";
-        var res = await sut.Handle(new(email), CancellationToken.None);
+        var res = await sut.Handle(new(email), TestContext.Current.CancellationToken);
 
         res.Should().BeEquivalentTo(Enumerable.Empty<ulong>());
         mr.VerifyAll();
@@ -59,9 +59,9 @@ public class GetAdminClubsHandlerShould
         ce.SetupSet(a => a.AbsoluteExpirationRelativeToNow = TimeSpan.FromSeconds(30));
         ce.SetupSet(a => a.Value = Enumerable.Empty<(ulong ClubId, IEnumerable<AuthorisationEmail> AdminEmails)>());
         memoryCache.Setup(a => a.CreateEntry(nameof(GetAdminClubsHandler))).Returns(ce.Object);
-        clubsRepository.Setup(a => a.GetAll(CancellationToken.None)).ReturnsAsync(Enumerable.Empty<Club>());
+        clubsRepository.Setup(a => a.GetAll(TestContext.Current.CancellationToken)).ReturnsAsync(Enumerable.Empty<Club>());
         var email = "a@a.com";
-        var res = await sut.Handle(new(email), CancellationToken.None);
+        var res = await sut.Handle(new(email), TestContext.Current.CancellationToken);
 
         res.Should().BeEquivalentTo(Enumerable.Empty<ulong>());
         mr.VerifyAll();

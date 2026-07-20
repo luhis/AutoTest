@@ -26,9 +26,9 @@ public class DeleteClubShould
     public async Task DeleteClub()
     {
         var clubId = 1ul;
-        clubs.Setup(a => a.Delete(clubId, CancellationToken.None)).Returns(Task.CompletedTask);
+        clubs.Setup(a => a.Delete(clubId, TestContext.Current.CancellationToken)).Returns(Task.CompletedTask);
 
-        await sut.Handle(new(clubId), CancellationToken.None);
+        await sut.Handle(new(clubId), TestContext.Current.CancellationToken);
 
         mr.VerifyAll();
     }

@@ -31,9 +31,9 @@ public class GetTestsHandlerShould
     {
         var @event = Models.GetEvent(1);
         @event.SetCourses(new[] { new Course(0, "a") });
-        eventsRepository.Setup(a => a.GetById(1, CancellationToken.None)).ReturnsAsync(@event);
+        eventsRepository.Setup(a => a.GetById(1, TestContext.Current.CancellationToken)).ReturnsAsync(@event);
 
-        var tests = await sut.Handle(new(1), CancellationToken.None);
+        var tests = await sut.Handle(new(1), TestContext.Current.CancellationToken);
 
         tests.Should().BeEquivalentTo(new[] { new Course(0, "a") });
         mr.VerifyAll();

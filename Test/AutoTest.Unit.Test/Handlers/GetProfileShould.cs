@@ -29,9 +29,9 @@ public class GetProfileShould
     public async Task ReturnBlankProfileIfNone()
     {
         var email = "a@a.com";
-        profileRepository.Setup(a => a.Get(email, CancellationToken.None)).ReturnsAsync((Profile?)null);
+        profileRepository.Setup(a => a.Get(email, TestContext.Current.CancellationToken)).ReturnsAsync((Profile?)null);
 
-        var res = await sut.Handle(new(email), CancellationToken.None);
+        var res = await sut.Handle(new(email), TestContext.Current.CancellationToken);
 
         res.EmailAddress.Should().Be(email);
         mr.VerifyAll();
@@ -42,9 +42,9 @@ public class GetProfileShould
     {
         var email = "a@a.com";
         var profile = Models.GetProfile(email);
-        profileRepository.Setup(a => a.Get(email, CancellationToken.None)).ReturnsAsync(profile);
+        profileRepository.Setup(a => a.Get(email, TestContext.Current.CancellationToken)).ReturnsAsync(profile);
 
-        var res = await sut.Handle(new(email), CancellationToken.None);
+        var res = await sut.Handle(new(email), TestContext.Current.CancellationToken);
 
         res.Should().BeEquivalentTo(profile);
         mr.VerifyAll();

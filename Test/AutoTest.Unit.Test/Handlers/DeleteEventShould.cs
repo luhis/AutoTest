@@ -28,10 +28,10 @@ public class DeleteEventShould
     {
         var eventId = 1ul;
         var @event = Models.GetEvent(eventId);
-        events.Setup(a => a.GetById(eventId, CancellationToken.None)).ReturnsAsync(@event);
-        events.Setup(a => a.Delete(@event, CancellationToken.None)).Returns(Task.CompletedTask);
+        events.Setup(a => a.GetById(eventId, TestContext.Current.CancellationToken)).ReturnsAsync(@event);
+        events.Setup(a => a.Delete(@event, TestContext.Current.CancellationToken)).Returns(Task.CompletedTask);
 
-        await sut.Handle(new(eventId), CancellationToken.None);
+        await sut.Handle(new(eventId), TestContext.Current.CancellationToken);
 
         mr.VerifyAll();
     }

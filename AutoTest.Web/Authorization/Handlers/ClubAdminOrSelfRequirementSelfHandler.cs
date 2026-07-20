@@ -1,4 +1,4 @@
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
 using AutoTest.Web.Authorization.Attributes;
 using AutoTest.Web.Authorization.Tooling;
@@ -19,7 +19,7 @@ public class ClubAdminOrSelfRequirementSelfHandler(IHttpContextAccessor httpCont
             return;
         }
 
-        if (await AuthTools.IsSelf(context, routeData, mediator))
+        if (await AuthTools.IsSelf(context, routeData, mediator, CancellationToken.None))
         {
             context.Succeed(requirement);
         }

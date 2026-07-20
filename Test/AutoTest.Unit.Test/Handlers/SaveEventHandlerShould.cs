@@ -37,11 +37,11 @@ public class SaveEventHandlerShould
         var evt = new Event(eventId, 1, "location", DateTime.UtcNow, 2, 2, "regs", [], "", TimingSystem.StopWatch, DateTime.UtcNow, DateTime.UtcNow, 22, DateTime.UtcNow);
 
         var entrantFromDb = Models.GetEntrant(entrantId, eventId);
-        eventsRepository.Setup(a => a.Upsert(evt, CancellationToken.None)).Returns(Task.CompletedTask);
-        //fileRepository.Setup(a => a.SaveMaps(2, "", CancellationToken.None)).ReturnsAsync("");
+        eventsRepository.Setup(a => a.Upsert(evt, TestContext.Current.CancellationToken)).Returns(Task.CompletedTask);
+        //fileRepository.Setup(a => a.SaveMaps(2, "", TestContext.Current.CancellationToken)).ReturnsAsync("");
 
         var se = new SaveEvent(evt);
-        var res = await sut.Handle(se, CancellationToken.None);
+        var res = await sut.Handle(se, TestContext.Current.CancellationToken);
 
         mr.VerifyAll();
     }

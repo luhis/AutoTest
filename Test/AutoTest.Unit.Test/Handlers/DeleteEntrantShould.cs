@@ -29,10 +29,10 @@ public class DeleteEntrantShould
         var eventId = 1ul;
         var entrantId = 2ul;
         var entrant = Models.GetEntrant(entrantId, eventId);
-        entrants.Setup(a => a.GetById(eventId, entrantId, CancellationToken.None)).ReturnsAsync(entrant);
-        entrants.Setup(a => a.Delete(entrant, CancellationToken.None)).Returns(Task.CompletedTask);
+        entrants.Setup(a => a.GetById(eventId, entrantId, TestContext.Current.CancellationToken)).ReturnsAsync(entrant);
+        entrants.Setup(a => a.Delete(entrant, TestContext.Current.CancellationToken)).Returns(Task.CompletedTask);
 
-        await sut.Handle(new(eventId, entrantId), CancellationToken.None);
+        await sut.Handle(new(eventId, entrantId), TestContext.Current.CancellationToken);
 
         mr.VerifyAll();
     }

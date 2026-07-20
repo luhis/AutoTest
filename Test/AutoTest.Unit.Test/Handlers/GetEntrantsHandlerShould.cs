@@ -34,9 +34,9 @@ public class GetEntrantsHandlerShould
             new Entrant(1, 22, "Joe", "Bloggs", "a@a.com", "A", 99, Domain.Enums.Age.Senior, false, null),
             new Entrant(2, 22, "Joe", "Bloggs", "a@a.com", "A", 99, Domain.Enums.Age.Senior, false, null)
         };
-        entrantsRepository.Setup(a => a.GetAll(eventId, CancellationToken.None)).ReturnsAsync(entrants);
+        entrantsRepository.Setup(a => a.GetAll(eventId, TestContext.Current.CancellationToken)).ReturnsAsync(entrants);
 
-        var res = await sut.Handle(new(eventId), CancellationToken.None);
+        var res = await sut.Handle(new(eventId), TestContext.Current.CancellationToken);
 
         res.Should().BeEquivalentTo(entrants.OrderBy(a => a.FamilyName), o => o.WithStrictOrdering());
         mr.VerifyAll();

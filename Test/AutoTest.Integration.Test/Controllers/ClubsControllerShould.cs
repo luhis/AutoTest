@@ -18,7 +18,7 @@ public class ClubsControllerShould(CustomWebApplicationFactory<Startup> fixture)
     [Fact]
     public async Task GetClubs()
     {
-        var res = await unAuthorisedClient.GetAsync("/api/clubs/", CancellationToken.None);
+        var res = await unAuthorisedClient.GetAsync("/api/clubs/", TestContext.Current.CancellationToken);
         res.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);
         var content = await res.DeserialiseAsync<IEnumerable<Club>>();
         content.Should().NotBeEmpty().And.ContainSingle()

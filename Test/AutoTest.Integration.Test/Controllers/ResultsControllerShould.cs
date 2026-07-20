@@ -18,7 +18,7 @@ public class ResultsControllerShould(CustomWebApplicationFactory<Startup> fixtur
     [Fact]
     public async Task GetResults()
     {
-        var res = await unAuthorisedClient.GetAsync($"/api/results/{TestIds.EventId}", CancellationToken.None);
+        var res = await unAuthorisedClient.GetAsync($"/api/results/{TestIds.EventId}", TestContext.Current.CancellationToken);
         res.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);
         var content = await res.DeserialiseAsync<IEnumerable<Result>>();
         content.Should().NotBeEmpty();
@@ -27,7 +27,7 @@ public class ResultsControllerShould(CustomWebApplicationFactory<Startup> fixtur
     [Fact]
     public async Task GetAwards()
     {
-        var res = await unAuthorisedClient.GetAsync($"/api/results/{TestIds.EventId}/awards", CancellationToken.None);
+        var res = await unAuthorisedClient.GetAsync($"/api/results/{TestIds.EventId}/awards", TestContext.Current.CancellationToken);
         res.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);
         var content = await res.DeserialiseAsync<Awards>();
         content.Should().NotBeNull();

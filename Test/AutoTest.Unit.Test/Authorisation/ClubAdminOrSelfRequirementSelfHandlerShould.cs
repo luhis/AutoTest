@@ -1,4 +1,4 @@
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
 using AutoTest.Service.Messages;
 using AutoTest.Unit.Test.Fixtures;

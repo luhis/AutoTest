@@ -43,16 +43,16 @@ public class SaveClubHandlerShould
         if (dbClubHasEmail)
             clubFromDb.AdminEmails.Add(new AuthorisationEmail("test@test.com"));
 
-        clubsRepository.Setup(a => a.GetById(clubId, CancellationToken.None)).ReturnsAsync(clubFromDb);
-        clubsRepository.Setup(a => a.Upsert(club, CancellationToken.None)).Returns(Task.CompletedTask);
+        clubsRepository.Setup(a => a.GetById(clubId, TestContext.Current.CancellationToken)).ReturnsAsync(clubFromDb);
+        clubsRepository.Setup(a => a.Upsert(club, TestContext.Current.CancellationToken)).Returns(Task.CompletedTask);
 
         if (newClubHasEmail && !dbClubHasEmail)
-            signalRNotifier.Setup(a => a.NewClubAdmin(clubId, Its.EquivalentTo<IEnumerable<string>>(new[] { "test@test.com" }), CancellationToken.None)).Returns(Task.CompletedTask);
+            signalRNotifier.Setup(a => a.NewClubAdmin(clubId, Its.EquivalentTo<IEnumerable<string>>(new[] { "test@test.com" }), TestContext.Current.CancellationToken)).Returns(Task.CompletedTask);
         if (!newClubHasEmail && dbClubHasEmail)
-            signalRNotifier.Setup(a => a.RemoveClubAdmin(clubId, Its.EquivalentTo<IEnumerable<string>>(new[] { "test@test.com" }), CancellationToken.None)).Returns(Task.CompletedTask);
+            signalRNotifier.Setup(a => a.RemoveClubAdmin(clubId, Its.EquivalentTo<IEnumerable<string>>(new[] { "test@test.com" }), TestContext.Current.CancellationToken)).Returns(Task.CompletedTask);
 
         var se = new SaveClub(club);
-        var res = await sut.Handle(se, CancellationToken.None);
+        var res = await sut.Handle(se, TestContext.Current.CancellationToken);
 
         mr.VerifyAll();
     }
@@ -66,11 +66,11 @@ public class SaveClubHandlerShould
 
         var clubFromDb = new Club(clubId, "My Club", "pay|@pal.com", "clubsite.com");
         clubFromDb.AdminEmails.Add(new AuthorisationEmail("Test@test.com"));
-        clubsRepository.Setup(a => a.GetById(clubId, CancellationToken.None)).ReturnsAsync(clubFromDb);
-        clubsRepository.Setup(a => a.Upsert(club, CancellationToken.None)).Returns(Task.CompletedTask);
+        clubsRepository.Setup(a => a.GetById(clubId, TestContext.Current.CancellationToken)).ReturnsAsync(clubFromDb);
+        clubsRepository.Setup(a => a.Upsert(club, TestContext.Current.CancellationToken)).Returns(Task.CompletedTask);
         var se = new SaveClub(club);
 
-        var res = await sut.Handle(se, CancellationToken.None);
+        var res = await sut.Handle(se, TestContext.Current.CancellationToken);
 
         mr.VerifyAll();
     }

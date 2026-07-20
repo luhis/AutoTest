@@ -1,4 +1,4 @@
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
 using AutoTest.Web.Authorization.Attributes;
 using AutoTest.Web.Authorization.Tooling;
@@ -21,7 +21,7 @@ public class ClubAdminOrSelfRequirementClubAdminHandler(IHttpContextAccessor htt
 
         var eventId = AuthTools.GetEventId(routeData);
         var email = context.User.GetEmailAddress();
-        var result = await AuthTools.CheckClubAdmin(eventId, email, mediator);
+        var result = await AuthTools.CheckClubAdmin(eventId, email, mediator, CancellationToken.None);
         switch (result)
         {
             case AuthTools.ClubAdminResult.NewEvent:

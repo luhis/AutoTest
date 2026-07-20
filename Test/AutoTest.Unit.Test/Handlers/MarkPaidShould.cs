@@ -33,13 +33,13 @@ public class MarkPaidShould
         var eventId = 22ul;
         var entrant = Models.GetEntrant(entrantId, eventId);
         entrant.SetPayment(testPayment);
-        entrantsRepository.Setup(a => a.GetById(eventId, entrantId, CancellationToken.None)).ReturnsAsync(entrant);
-        entrantsRepository.Setup(a => a.Update(entrant, CancellationToken.None)).Returns(Task.CompletedTask);
+        entrantsRepository.Setup(a => a.GetById(eventId, entrantId, TestContext.Current.CancellationToken)).ReturnsAsync(entrant);
+        entrantsRepository.Setup(a => a.Update(entrant, TestContext.Current.CancellationToken)).Returns(Task.CompletedTask);
 
-        await sut.Handle(new(eventId, entrantId, null), CancellationToken.None);
+        await sut.Handle(new(eventId, entrantId, null), TestContext.Current.CancellationToken);
 
         mr.VerifyAll();
-        entrantsRepository.Verify(a => a.Update(It.Is<Entrant>(a => a.Payment == null), CancellationToken.None));
+        entrantsRepository.Verify(a => a.Update(It.Is<Entrant>(a => a.Payment == null), TestContext.Current.CancellationToken));
     }
 
     [Fact]
@@ -48,12 +48,12 @@ public class MarkPaidShould
         var entrantId = 1ul;
         var eventId = 22ul;
         var entrant = Models.GetEntrant(entrantId, eventId);
-        entrantsRepository.Setup(a => a.GetById(eventId, entrantId, CancellationToken.None)).ReturnsAsync(entrant);
-        entrantsRepository.Setup(a => a.Update(entrant, CancellationToken.None)).Returns(Task.CompletedTask);
+        entrantsRepository.Setup(a => a.GetById(eventId, entrantId, TestContext.Current.CancellationToken)).ReturnsAsync(entrant);
+        entrantsRepository.Setup(a => a.Update(entrant, TestContext.Current.CancellationToken)).Returns(Task.CompletedTask);
 
-        await sut.Handle(new(eventId, entrantId, testPayment), CancellationToken.None);
+        await sut.Handle(new(eventId, entrantId, testPayment), TestContext.Current.CancellationToken);
 
         mr.VerifyAll();
-        entrantsRepository.Verify(a => a.Update(It.Is<Entrant>(a => a.Payment != null), CancellationToken.None));
+        entrantsRepository.Verify(a => a.Update(It.Is<Entrant>(a => a.Payment != null), TestContext.Current.CancellationToken));
     }
 }

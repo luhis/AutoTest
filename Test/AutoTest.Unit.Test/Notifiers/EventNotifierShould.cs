@@ -36,11 +36,11 @@ public class EventNotifierShould
         var eventId = 2ul;
         var clientProxy = mr.Create<IClientProxy>();
         var notification = new Notification(1, eventId, "test", new System.DateTime(2000, 1, 2), "admin");
-        clientProxy.Setup(a => a.SendCoreAsync("NewNotification", new[] { notification }, CancellationToken.None)).Returns(Task.CompletedTask);
+        clientProxy.Setup(a => a.SendCoreAsync("NewNotification", new[] { notification }, TestContext.Current.CancellationToken)).Returns(Task.CompletedTask);
         clients.Setup(a => a.Group($"eventId:{eventId}")).Returns(clientProxy.Object);
         eventHub.Setup(a => a.Clients).Returns(clients.Object);
 
-        await sut.NewNotification(notification, CancellationToken.None);
+        await sut.NewNotification(notification, TestContext.Current.CancellationToken);
 
         mr.VerifyAll();
     }
@@ -54,13 +54,13 @@ public class EventNotifierShould
         var testRun = new TestRun(1, eventId, 3, 60_000, 4, new System.DateTime(2000, 1, 2), 5);
         var results = new[] { new Result("A", new[] {
             new EntrantTimes(Models.GetEntrant(1, eventId), 55, new[] { new TestTime(1, System.Array.Empty<TestRun>()) } , 1, 1)}) };
-        clientProxy.Setup(a => a.SendCoreAsync("NewResults", new[] { results }, CancellationToken.None)).Returns(Task.CompletedTask);
-        clientProxy.Setup(a => a.SendCoreAsync("NewTestRun", new[] { testRun }, CancellationToken.None)).Returns(Task.CompletedTask);
+        clientProxy.Setup(a => a.SendCoreAsync("NewResults", new[] { results }, TestContext.Current.CancellationToken)).Returns(Task.CompletedTask);
+        clientProxy.Setup(a => a.SendCoreAsync("NewTestRun", new[] { testRun }, TestContext.Current.CancellationToken)).Returns(Task.CompletedTask);
         clients.Setup(a => a.Group($"eventId:{eventId}")).Returns(clientProxy.Object);
         eventHub.Setup(a => a.Clients).Returns(clients.Object);
-        mediator.Setup(a => a.Send(Its.EquivalentTo(new GetResults(eventId)), CancellationToken.None)).ReturnsAsync(results);
+        mediator.Setup(a => a.Send(Its.EquivalentTo(new GetResults(eventId)), TestContext.Current.CancellationToken)).ReturnsAsync(results);
 
-        await sut.NewTestRun(testRun, CancellationToken.None);
+        await sut.NewTestRun(testRun, TestContext.Current.CancellationToken);
 
         mr.VerifyAll();
     }

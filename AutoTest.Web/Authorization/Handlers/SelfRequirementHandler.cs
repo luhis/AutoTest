@@ -1,7 +1,6 @@
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
 using AutoTest.Web.Authorization.Attributes;
-using AutoTest.Web.Authorization.Tooling;
 using Mediator;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -20,7 +19,7 @@ public class SelfRequirementHandler(IHttpContextAccessor httpContextAccessor, IM
             return;
         }
 
-        if (await AuthTools.IsSelf(context, routeData, mediator))
+        if (await AuthTools.IsSelf(context, routeData, mediator, CancellationToken.None))
         {
             context.Succeed(requirement);
         }

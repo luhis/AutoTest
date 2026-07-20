@@ -22,7 +22,7 @@ public class EventsControllerShould(CustomWebApplicationFactory<Startup> fixture
     [Fact]
     public async Task GetAll()
     {
-        var res = await unAuthorisedClient.GetAsync("/api/events/", CancellationToken.None);
+        var res = await unAuthorisedClient.GetAsync("/api/events/", TestContext.Current.CancellationToken);
         res.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);
         var content = await res.DeserialiseAsync<IEnumerable<Event>>();
         content.Should().NotBeEmpty();
@@ -31,7 +31,7 @@ public class EventsControllerShould(CustomWebApplicationFactory<Startup> fixture
     [Fact]
     public async Task AddFailValidation()
     {
-        var res = await authorisedClient.PutAsync($"/api/events/{TestIds.EventId}", JsonContent.Create(new EventSaveModel() { ClubId = TestIds.ClubId }), CancellationToken.None);
+        var res = await authorisedClient.PutAsync($"/api/events/{TestIds.EventId}", JsonContent.Create(new EventSaveModel() { ClubId = TestIds.ClubId }), TestContext.Current.CancellationToken);
         res.StatusCode.Should().Be(System.Net.HttpStatusCode.BadRequest);
         var content = await res.DeserialiseAsync<ProblemDetails>();
         content.Status.Should().Be(400);
@@ -41,18 +41,18 @@ public class EventsControllerShould(CustomWebApplicationFactory<Startup> fixture
     [Fact]
     public async Task GetMaps()
     {
-        var res = await unAuthorisedClient.GetAsync($"/api/events/{TestIds.ClubId}/maps", CancellationToken.None);
+        var res = await unAuthorisedClient.GetAsync($"/api/events/{TestIds.ClubId}/maps", TestContext.Current.CancellationToken);
         res.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);
-        var content = await res.Content.ReadAsStringAsync(CancellationToken.None);
+        var content = await res.Content.ReadAsStringAsync(TestContext.Current.CancellationToken);
         content.Should().Be("");
     }
 
     [Fact]
     public async Task GetRegulations()
     {
-        var res = await unAuthorisedClient.GetAsync($"/api/events/{TestIds.ClubId}/regulations", CancellationToken.None);
+        var res = await unAuthorisedClient.GetAsync($"/api/events/{TestIds.ClubId}/regulations", TestContext.Current.CancellationToken);
         res.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);
-        var content = await res.Content.ReadAsStringAsync(CancellationToken.None);
+        var content = await res.Content.ReadAsStringAsync(TestContext.Current.CancellationToken);
         content.Should().Be("");
     }
 }

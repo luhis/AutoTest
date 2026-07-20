@@ -20,7 +20,7 @@ public class EntrantsControllerShould(CustomWebApplicationFactory<Startup> fixtu
     [Fact]
     public async Task GetEntrants()
     {
-        var res = await unAuthorisedClient.GetAsync($"/api/entrants/{TestIds.EventId}", CancellationToken.None);
+        var res = await unAuthorisedClient.GetAsync($"/api/entrants/{TestIds.EventId}", TestContext.Current.CancellationToken);
         res.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);
         var content = await res.DeserialiseAsync<IEnumerable<PublicEntrantModel>>();
         content.Should().NotBeEmpty().And.ContainSingle()
@@ -30,7 +30,7 @@ public class EntrantsControllerShould(CustomWebApplicationFactory<Startup> fixtu
     [Fact]
     public async Task GetSingle()
     {
-        var res = await authorisedClient.GetAsync($"/api/entrants/{TestIds.EventId}/{TestIds.EntrantId}", CancellationToken.None);
+        var res = await authorisedClient.GetAsync($"/api/entrants/{TestIds.EventId}/{TestIds.EntrantId}", TestContext.Current.CancellationToken);
         res.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);
         var content = await res.DeserialiseAsync<Entrant>();
         content.Should().BeEquivalentTo(new Entrant(TestIds.EntrantId, 2, "Dave", "Entrant", "test@test.com", "A", TestIds.EventId, Domain.Enums.Age.Senior, false, null));
@@ -39,7 +39,7 @@ public class EntrantsControllerShould(CustomWebApplicationFactory<Startup> fixtu
     [Fact]
     public async Task NotFound()
     {
-        var res = await authorisedClient.GetAsync($"/api/entrants/{TestIds.EventId}/9999", CancellationToken.None);
+        var res = await authorisedClient.GetAsync($"/api/entrants/{TestIds.EventId}/9999", TestContext.Current.CancellationToken);
         res.StatusCode.Should().Be(System.Net.HttpStatusCode.NotFound);
     }
 }

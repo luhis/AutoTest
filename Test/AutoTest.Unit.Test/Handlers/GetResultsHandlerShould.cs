@@ -41,16 +41,16 @@ public class GetResultsHandlerShould
         var entrantId = 1ul;
         var eventId = 22ul;
 
-        eventsRepository.Setup(a => a.GetById(eventId, CancellationToken.None)).ReturnsAsync(
+        eventsRepository.Setup(a => a.GetById(eventId, TestContext.Current.CancellationToken)).ReturnsAsync(
             Models.GetEvent(eventId)
             );
         var entrant = Models.GetEntrant(entrantId, eventId);
         var entrant2 = Models.GetEntrant(entrantId + 1, eventId);
-        entrantsRepository.Setup(a => a.GetByEventId(eventId, CancellationToken.None)).ReturnsAsync(new[] { entrant, entrant2 });
-        testRunsRepository.Setup(a => a.GetAll(eventId, CancellationToken.None)).ReturnsAsync(Enumerable.Empty<TestRun>());
+        entrantsRepository.Setup(a => a.GetByEventId(eventId, TestContext.Current.CancellationToken)).ReturnsAsync(new[] { entrant, entrant2 });
+        testRunsRepository.Setup(a => a.GetAll(eventId, TestContext.Current.CancellationToken)).ReturnsAsync(Enumerable.Empty<TestRun>());
         totalTimeCalculator.Setup(a => a.GetTotalTime(It.IsAny<AutoTest.Service.ResultCalculation.TimeCalculatorConfig>(), It.IsAny<IEnumerable<TestRun>>(), It.IsAny<IEnumerable<TestRun>>())).Returns(0);
 
-        var results = await sut.Handle(new(eventId), CancellationToken.None);
+        var results = await sut.Handle(new(eventId), TestContext.Current.CancellationToken);
 
         results.Should().HaveCount(1);
         results.Should().BeEquivalentTo(new[] { new Result("A", new[] {

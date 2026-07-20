@@ -45,14 +45,14 @@ public class AddTestRunShould
         var marshalId = 6ul;
         var eventId = 1ul;
         var clubId = 2ul;
-        marshalsRepository.Setup(a => a.GetMarshalIdByEmail(eventId, "marshal@email.com", CancellationToken.None)).ReturnsAsync(marshalId);
+        marshalsRepository.Setup(a => a.GetMarshalIdByEmail(eventId, "marshal@email.com", TestContext.Current.CancellationToken)).ReturnsAsync(marshalId);
         var @event = Models.GetEvent(eventId, clubId);
         @event.SetEventStatus(Domain.Enums.EventStatus.Running);
-        eventsRepository.Setup(a => a.GetById(eventId, CancellationToken.None)).ReturnsAsync(@event);
-        notifier.Setup(a => a.NewTestRun(It.Is<TestRun>(r => r.EventId == eventId && r.Ordinal == 3), CancellationToken.None)).Returns(Task.CompletedTask);
-        testRunsRepository.Setup(a => a.AddTestRun(It.Is<TestRun>(r => r.EventId == eventId && r.Ordinal == 3), CancellationToken.None)).Returns(Task.CompletedTask);
+        eventsRepository.Setup(a => a.GetById(eventId, TestContext.Current.CancellationToken)).ReturnsAsync(@event);
+        notifier.Setup(a => a.NewTestRun(It.Is<TestRun>(r => r.EventId == eventId && r.Ordinal == 3), TestContext.Current.CancellationToken)).Returns(Task.CompletedTask);
+        testRunsRepository.Setup(a => a.AddTestRun(It.Is<TestRun>(r => r.EventId == eventId && r.Ordinal == 3), TestContext.Current.CancellationToken)).Returns(Task.CompletedTask);
 
-        var res = await sut.Handle(new(1, eventId, 3, 4, entrantId, new DateTime(2000, 1, 1), "marshal@email.com", penalties), CancellationToken.None);
+        var res = await sut.Handle(new(1, eventId, 3, 4, entrantId, new DateTime(2000, 1, 1), "marshal@email.com", penalties), TestContext.Current.CancellationToken);
 
         res.AsT0.Should().NotBeNull();
         mr.VerifyAll();
@@ -65,9 +65,9 @@ public class AddTestRunShould
         var eventId = 1ul;
         var clubId = 2ul;
         var @event = Models.GetEvent(eventId, clubId);
-        eventsRepository.Setup(a => a.GetById(eventId, CancellationToken.None)).ReturnsAsync(@event);
+        eventsRepository.Setup(a => a.GetById(eventId, TestContext.Current.CancellationToken)).ReturnsAsync(@event);
 
-        var res = await sut.Handle(new(1, eventId, 3, 4, entrantId, new DateTime(2000, 1, 1), "marshal@email.com", penalties), CancellationToken.None);
+        var res = await sut.Handle(new(1, eventId, 3, 4, entrantId, new DateTime(2000, 1, 1), "marshal@email.com", penalties), TestContext.Current.CancellationToken);
 
         res.AsT1.Value.Should().Be("Event must be running to add Test Run");
         mr.VerifyAll();
