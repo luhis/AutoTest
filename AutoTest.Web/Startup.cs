@@ -255,7 +255,10 @@ public class Startup
                         }
                     }
 
-                    var connect = builder.AddConnectSrc().Self().From(GoogleCom);
+                    var connect = builder.AddConnectSrc().Self()
+                        .From(GoogleCom)
+                        .From("https://js.monitor.azure.com")
+                        .From("https://dc.services.visualstudio.com");
                     if (env.IsDevelopment())
                     {
                         connect.From("https://localhost:*").From("ws://localhost:*");
