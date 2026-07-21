@@ -10,7 +10,7 @@ namespace AutoTest.Service.Models;
 
 public static class CompetitionData
 {
-    private static readonly TimeCalculatorConfig TimeCalculatorConfig = TimeCalculatorConfig.DefaultValues;
+    private static readonly TimeCalculatorConfig s_timeCalculatorConfig = TimeCalculatorConfig.DefaultValues;
 
     public static async Task<EntrantRuns[]> GetEntrantsAndRuns(ulong eventId, IEventsRepository eventsRepository, IEntrantsRepository entrantsRepository, ITestRunsRepository testRunsRepository, ITotalTimeCalculator totalTimeCalculator, CancellationToken cancellationToken)
     {
@@ -27,7 +27,7 @@ public static class CompetitionData
                 return new EntrantRuns(
                     entrant,
                     runs.ToArray(),
-                    totalTimeCalculator.GetTotalTime(TimeCalculatorConfig, runs, testRuns));
+                    totalTimeCalculator.GetTotalTime(s_timeCalculatorConfig, runs, testRuns));
             }).OrderBy(a => a.TotalTime).ToArray();
     }
 

@@ -28,8 +28,8 @@ public class AutoTestTotalTimeCalculator : ITotalTimeCalculator
 
     private static TestRun? GetFastestCorrectRun(TimeCalculatorConfig config, IEnumerable<TestRun> allTestRuns) => allTestRuns.Where(a => !IsInCorrectRun(a)).OrderBy(a => GetFinalTime(config, a, [])).FirstOrDefault();
 
-    private static readonly IReadOnlySet<PenaltyEnum> InCorrectTypes = new HashSet<PenaltyEnum>() { PenaltyEnum.WrongTest, PenaltyEnum.NoAttendance };
+    private static readonly IReadOnlySet<PenaltyEnum> s_inCorrectTypes = new HashSet<PenaltyEnum>() { PenaltyEnum.WrongTest, PenaltyEnum.NoAttendance };
     private static bool IsInCorrectRun(TestRun tr) => tr.Penalties.Any(a =>
-        InCorrectTypes.Contains(a.PenaltyType) &&
+        s_inCorrectTypes.Contains(a.PenaltyType) &&
         a.InstanceCount > 0);
 }

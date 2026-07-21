@@ -27,29 +27,29 @@ namespace AutoTest.Web;
 
 public class Startup
 {
-    private const string swaggerHash = "A9ZGkjzNbSHK5HWS6UkGpaaIuyNt/7a8gVIu6p70YPo=";
-    private const string swagger2Hash = "edNyF0T6h+RbJ9Kl1HXk6KaORyz6MmKnkP3XL/kRb4o=";
-    private const string googleCom = "https://*.google.com";
-    private const string googleAnal = "https://www.google-analytics.com";
-    private readonly IReadOnlyList<string> baseCssHashs = ["jwMoKfjpMtCZvgc6jvf++3CnNz9TZRnk6Xn0fh2uX3E=", "lmto2U1o7YINyHPg9TOCjIt+o5pSFNU/T2oLxDPF+uw="];
-    private readonly IReadOnlyList<string> toastHashes = ["E/nvqET/9zpctDshjbx7JreRM/gAx3JcoKF+f+rglGY=", "u3OrwPmUPyFEOg2MH8iSt1Kq+OEIL7vVcAdbanb0T68="];
+    private const string SwaggerHash = "A9ZGkjzNbSHK5HWS6UkGpaaIuyNt/7a8gVIu6p70YPo=";
+    private const string Swagger2Hash = "edNyF0T6h+RbJ9Kl1HXk6KaORyz6MmKnkP3XL/kRb4o=";
+    private const string GoogleCom = "https://*.google.com";
+    private const string GoogleAnal = "https://www.google-analytics.com";
+    private readonly IReadOnlyList<string> _baseCssHashs = ["jwMoKfjpMtCZvgc6jvf++3CnNz9TZRnk6Xn0fh2uX3E=", "lmto2U1o7YINyHPg9TOCjIt+o5pSFNU/T2oLxDPF+uw="];
+    private readonly IReadOnlyList<string> _toastHashes = ["E/nvqET/9zpctDshjbx7JreRM/gAx3JcoKF+f+rglGY=", "u3OrwPmUPyFEOg2MH8iSt1Kq+OEIL7vVcAdbanb0T68="];
 
     public Startup(IConfiguration configuration, IWebHostEnvironment webHostEnvironment)
     {
         Configuration = configuration;
         AdminEmails = new HashSet<string>(configuration.GetSection("RootAdminIds").Get<IEnumerable<string>>()!);
         var authSection = configuration.GetSection("Authentication");
-        ClientSecret = authSection["ClientSecret"] ?? "";
-        ClientId = authSection["ClientId"] ?? "";
-        env = webHostEnvironment;
+        _clientSecret = authSection["ClientSecret"] ?? "";
+        _clientId = authSection["ClientId"] ?? "";
+        _env = webHostEnvironment;
     }
 
     public IConfiguration Configuration { get; }
     private ISet<string> AdminEmails { get; }
     private const string Authority = "https://accounts.google.com";
-    private readonly string ClientSecret;
-    private readonly string ClientId;
-    private readonly IWebHostEnvironment env;
+    private readonly string _clientSecret;
+    private readonly string _clientId;
+    private readonly IWebHostEnvironment _env;
 
     public void ConfigureServices(IServiceCollection services)
     {
@@ -58,7 +58,7 @@ public class Startup
         services.AddPersistence();
         services.AddWeb(Configuration);
         services.AddHttpContextAccessor();
-        if (env.IsProduction())
+        if (_env.IsProduction())
         {
             services.AddApplicationInsightsTelemetry();
         }
@@ -81,12 +81,12 @@ public class Startup
         }).AddJwtBearer(o =>
         {
             o.Authority = Authority;
-            o.Audience = ClientId;
+            o.Audience = _clientId;
             o.RequireHttpsMetadata = false;
             o.TokenValidationParameters = new TokenValidationParameters()
             {
                 ValidateIssuerSigningKey = true,
-                IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(ClientSecret)),
+                IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(_clientSecret)),
                 ValidateIssuer = false,
                 ValidateAudience = false
             };
@@ -171,10 +171,10 @@ public class Startup
 
         services.AddSignalR(options =>
             {
-                if (env.IsDevelopment())
-                {
-                    options.EnableDetailedErrors = true;
-                }
+            if (_env.IsDevelopment())
+            {
+                options.EnableDetailedErrors = true;
+            }
             }).AddMessagePackProtocol();
     }
 
@@ -226,18 +226,18 @@ public class Startup
                 {
                     builder.AddDefaultSrc().Self();
                     var scripts = builder.AddScriptSrc().Self()
-                        .From(googleCom)
+                        .From(GoogleCom)
                         .From("https://www.gstatic.com")
-                        .From(googleAnal)
-                        .WithHash256(swaggerHash)
-                        .WithHash256(swagger2Hash);
+                        .From(GoogleAnal)
+                        .WithHash256(SwaggerHash)
+                        .WithHash256(Swagger2Hash);
                     if (env.IsDevelopment())
                     {
                         scripts.UnsafeEval();
                     }
 
-                    builder.AddFrameSrc().Self().From(googleCom);
-                    var style = builder.AddStyleSrc().Self().From(googleCom);
+                    builder.AddFrameSrc().Self().From(GoogleCom);
+                    var style = builder.AddStyleSrc().Self().From(GoogleCom);
                     if (env.IsDevelopment())
                     {
                         style.UnsafeInline();
@@ -245,17 +245,17 @@ public class Startup
                     else
                     {
                         style.UnsafeHashes();
-                        foreach (var h in baseCssHashs)
+                        foreach (var h in _baseCssHashs)
                         {
                             style.WithHash256(h);
                         }
-                        foreach (var h in toastHashes)
+                        foreach (var h in _toastHashes)
                         {
                             style.WithHash256(h);
                         }
                     }
 
-                    var connect = builder.AddConnectSrc().Self().From(googleCom);
+                    var connect = builder.AddConnectSrc().Self().From(GoogleCom);
                     if (env.IsDevelopment())
                     {
                         connect.From("https://localhost:*").From("ws://localhost:*");
@@ -279,7 +279,7 @@ public class Startup
             app.UseSwaggerUI(c =>
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
-                c.OAuthConfigObject.ClientId = ClientId;
+                c.OAuthConfigObject.ClientId = _clientId;
             });
         }
         app.UseSpa(spa =>

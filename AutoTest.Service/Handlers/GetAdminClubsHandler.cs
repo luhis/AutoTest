@@ -20,18 +20,18 @@ public sealed class GetAdminClubsHandler(IClubsRepository clubsRepository, IMemo
         return clubAdminEmails.Where(a => a.AdminEmails.Any(e => e.Email == request.EmailAddress)).Select(a => a.ClubId).Distinct();
     }
 
-    private static readonly string cacheKey = nameof(GetAdminClubsHandler);
+    private static readonly string s_cacheKey = nameof(GetAdminClubsHandler);
 
     private async Task<IEnumerable<(ulong ClubId, IEnumerable<AuthorisationEmail> AdminEmails)>> GetOrCreate(CancellationToken cancellationToken)
     {
-        if (cache.TryGetValue<IEnumerable<(ulong ClubId, IEnumerable<AuthorisationEmail> AdminEmails)>>(cacheKey, out var o) && o is not null)
+        if (cache.TryGetValue<IEnumerable<(ulong ClubId, IEnumerable<AuthorisationEmail> AdminEmails)>>(s_cacheKey, out var o) && o is not null)
         {
             return o;
         }
         else
         {
             var r = await GetClubAdminEmails(cancellationToken);
-            cache.Set(cacheKey, r, TimeSpan.FromSeconds(30));
+            cache.Set(s_cacheKey, r, TimeSpan.FromSeconds(30));
             return r;
         }
     }
