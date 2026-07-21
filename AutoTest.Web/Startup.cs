@@ -222,7 +222,9 @@ public class Startup
         app.UseSecurityHeaders(
             policies => policies.AddDefaultSecurityHeaders()
                 .AddStrictTransportSecurityMaxAgeIncludeSubDomains(maxAgeInSeconds: 63072000)
-                .RemoveServerHeader().AddContentSecurityPolicy(builder =>
+                .RemoveServerHeader()
+                .AddCrossOriginOpenerPolicy(x => x.SameOriginAllowPopups())
+                .AddContentSecurityPolicy(builder =>
                 {
                     builder.AddDefaultSrc().Self();
                     var scripts = builder.AddScriptSrc().Self()
