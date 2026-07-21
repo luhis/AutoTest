@@ -1,0 +1,13 @@
+<Solution>
+  <Folder Name="/Test/">
+    <Project Path="Test\AutoTest.Integration.Test\AutoTest.Integration.Test.csproj" />
+    <Project Path="Test\AutoTest.Unit.Test\AutoTest.Unit.Test.csproj" />
+  </Folder>
+  <Folder Name="/Solution Items/">
+    <File Path=".editorconfig" />
+  </Folder>
+  <Project Path="AutoTest.Web\AutoTest.Web.csproj" />
+  <Project Path="AutoTest.Domain\AutoTest.Domain.csproj" />
+  <Project Path="AutoTest.Service\AutoTest.Service.csproj" />
+  <Project Path="AutoTest.Persistence\AutoTest.Persistence.csproj" />
+</Solution>
