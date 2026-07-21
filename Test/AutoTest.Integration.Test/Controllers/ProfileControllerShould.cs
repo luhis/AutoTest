@@ -9,10 +9,10 @@ using Xunit;
 
 namespace AutoTest.Integration.Test.Controllers;
 
-public class ProfileControllerShould(CustomWebApplicationFactory<Startup> fixture, AuthdCustomWebApplicationFactory<Startup> fixture2) : IClassFixture<CustomWebApplicationFactory<Startup>>, IClassFixture<AuthdCustomWebApplicationFactory<Startup>>
+public class ProfileControllerShould(TestWebApplicationFactory<Startup> factory, AuthenticatedWebApplicationFactory<Startup> authenticatedFactory) : IClassFixture<TestWebApplicationFactory<Startup>>, IClassFixture<AuthenticatedWebApplicationFactory<Startup>>
 {
-    private readonly HttpClient _unAuthorisedClient = fixture.GetUnAuthorisedClient();
-    private readonly HttpClient _authorisedClient = fixture2.GetAuthorisedClient();
+    private readonly HttpClient _unAuthorisedClient = factory.GetUnAuthorisedClient();
+    private readonly HttpClient _authorisedClient = authenticatedFactory.GetAuthorisedClient();
 
     [Fact]
     public async Task GetProfileUnauthorized()

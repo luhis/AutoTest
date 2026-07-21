@@ -8,7 +8,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace AutoTest.Integration.Test.Fixtures;
 
-public class AuthdCustomWebApplicationFactory<TStartup>
+public class AuthenticatedWebApplicationFactory<TStartup>
     : WebApplicationFactory<TStartup>
     where TStartup : class
 {
@@ -38,7 +38,7 @@ public class AuthdCustomWebApplicationFactory<TStartup>
 
             var sp = services.BuildServiceProvider();
             using var scope = sp.CreateScope();
-            TestDatabaseInitializer.SeedDatabase(scope.ServiceProvider, typeof(AuthdCustomWebApplicationFactory<TStartup>));
+            TestDatabaseInitializer.SeedDatabase(scope.ServiceProvider, typeof(AuthenticatedWebApplicationFactory<TStartup>));
         });
     }
 }

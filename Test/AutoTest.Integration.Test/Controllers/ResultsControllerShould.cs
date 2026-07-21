@@ -10,9 +10,9 @@ using Xunit;
 
 namespace AutoTest.Integration.Test.Controllers;
 
-public class ResultsControllerShould(CustomWebApplicationFactory<Startup> fixture) : IClassFixture<CustomWebApplicationFactory<Startup>>
+public class ResultsControllerShould(TestWebApplicationFactory<Startup> factory) : IClassFixture<TestWebApplicationFactory<Startup>>
 {
-    private readonly HttpClient _unAuthorisedClient = fixture.GetUnAuthorisedClient();
+    private readonly HttpClient _unAuthorisedClient = factory.GetUnAuthorisedClient();
 
     [Fact]
     public async Task GetResults()

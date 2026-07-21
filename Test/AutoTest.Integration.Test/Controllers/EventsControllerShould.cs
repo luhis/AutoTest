@@ -13,10 +13,10 @@ using Xunit;
 
 namespace AutoTest.Integration.Test.Controllers;
 
-public class EventsControllerShould(CustomWebApplicationFactory<Startup> fixture, AuthdCustomWebApplicationFactory<Startup> fixture2) : IClassFixture<CustomWebApplicationFactory<Startup>>, IClassFixture<AuthdCustomWebApplicationFactory<Startup>>
+public class EventsControllerShould(TestWebApplicationFactory<Startup> factory, AuthenticatedWebApplicationFactory<Startup> authenticatedFactory) : IClassFixture<TestWebApplicationFactory<Startup>>, IClassFixture<AuthenticatedWebApplicationFactory<Startup>>
 {
-    private readonly HttpClient _unAuthorisedClient = fixture.GetUnAuthorisedClient();
-    private readonly HttpClient _authorisedClient = fixture2.GetAuthorisedClient();
+    private readonly HttpClient _unAuthorisedClient = factory.GetUnAuthorisedClient();
+    private readonly HttpClient _authorisedClient = authenticatedFactory.GetAuthorisedClient();
 
     [Fact]
     public async Task GetAll()

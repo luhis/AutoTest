@@ -6,7 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace AutoTest.Integration.Test.Fixtures;
 
-public class CustomWebApplicationFactory<TStartup>
+public class TestWebApplicationFactory<TStartup>
     : WebApplicationFactory<TStartup>
     where TStartup : class
 {
@@ -22,7 +22,7 @@ public class CustomWebApplicationFactory<TStartup>
 
             var sp = services.BuildServiceProvider();
             using var scope = sp.CreateScope();
-            TestDatabaseInitializer.SeedDatabase(scope.ServiceProvider, typeof(CustomWebApplicationFactory<TStartup>));
+            TestDatabaseInitializer.SeedDatabase(scope.ServiceProvider, typeof(TestWebApplicationFactory<TStartup>));
         });
     }
 }
