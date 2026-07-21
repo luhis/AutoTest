@@ -16,6 +16,8 @@ dotnet run --project Test/AutoTest.Integration.Test/AutoTest.Integration.Test.cs
 
 ## Build
 
+After making changes, always run a release build to ensure analyzers execute:
+
 ```bash
-dotnet build AutoTest.sln
+dotnet build AutoTest.sln -c Release
 ```
