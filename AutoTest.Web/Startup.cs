@@ -171,10 +171,10 @@ public class Startup
 
         services.AddSignalR(options =>
             {
-            if (_env.IsDevelopment())
-            {
-                options.EnableDetailedErrors = true;
-            }
+                if (_env.IsDevelopment())
+                {
+                    options.EnableDetailedErrors = true;
+                }
             }).AddMessagePackProtocol();
     }
 
