@@ -1,7 +1,9 @@
 using System.Collections.Generic;
+using System.Net;
 using System.Net.Http;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
+using AutoTest.Domain.Enums;
 using AutoTest.Domain.StorageModels;
 using AutoTest.Integration.Test.Fixtures;
 using AutoTest.Integration.Test.Tooling;
@@ -15,23 +17,47 @@ namespace AutoTest.Integration.Test.Controllers;
 
 public class EventsControllerShould(TestWebApplicationFactory<Startup> factory, AuthenticatedWebApplicationFactory<Startup> authenticatedFactory) : IClassFixture<TestWebApplicationFactory<Startup>>, IClassFixture<AuthenticatedWebApplicationFactory<Startup>>
 {
-    private readonly HttpClient _unAuthorisedClient = factory.GetUnAuthorisedClient();
-    private readonly HttpClient _authorisedClient = authenticatedFactory.GetAuthorisedClient();
+    private readonly HttpClient _client = factory.GetUnAuthorisedClient();
+    private readonly HttpClient _authClient = authenticatedFactory.GetAuthorisedClient();
 
     [Fact]
     public async Task GetAll()
     {
-        var res = await _unAuthorisedClient.GetAsync("/api/events/", TestContext.Current.CancellationToken);
-        res.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);
+        var res = await _client.GetAsync("/api/events/", TestContext.Current.CancellationToken);
+        res.StatusCode.Should().Be(HttpStatusCode.OK);
         var content = await res.DeserialiseAsync<IEnumerable<Event>>();
-        content.Should().NotBeEmpty();
+        content.Should().NotBeEmpty().And.ContainSingle()
+            .Which.Should().BeEquivalentTo(new
+            {
+                EventId = TestIds.EventId,
+                ClubId = TestIds.ClubId,
+                Location = "",
+                CourseCount = 10,
+                MaxAttemptsPerCourse = 2,
+                TimingSystem = TimingSystem.StopWatch,
+                EventTypes = new[] { EventType.AutoTest }
+            });
     }
 
     [Fact]
-    public async Task AddFailValidation()
+    public async Task SaveReturnsUnauthorized()
     {
-        var res = await _authorisedClient.PutAsync($"/api/events/{TestIds.EventId}", JsonContent.Create(new EventSaveModel() { ClubId = TestIds.ClubId }), TestContext.Current.CancellationToken);
-        res.StatusCode.Should().Be(System.Net.HttpStatusCode.BadRequest);
+        var res = await _client.PutAsJsonAsync($"/api/events/{TestIds.EventId}", new EventSaveModel { ClubId = TestIds.ClubId }, TestContext.Current.CancellationToken);
+        res.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
+    }
+
+    [Fact]
+    public async Task DeleteReturnsUnauthorized()
+    {
+        var res = await _client.DeleteAsync($"/api/events/{TestIds.EventId}", TestContext.Current.CancellationToken);
+        res.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
+    }
+
+    [Fact]
+    public async Task SaveFailValidation()
+    {
+        var res = await _authClient.PutAsJsonAsync($"/api/events/{TestIds.EventId}", new EventSaveModel() { ClubId = TestIds.ClubId }, TestContext.Current.CancellationToken);
+        res.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         var content = await res.DeserialiseAsync<ProblemDetails>();
         content.Status.Should().Be(400);
         content.Title.Should().Be("One or more validation errors occurred.");
@@ -40,8 +66,8 @@ public class EventsControllerShould(TestWebApplicationFactory<Startup> factory, 
     [Fact]
     public async Task GetMaps()
     {
-        var res = await _unAuthorisedClient.GetAsync($"/api/events/{TestIds.ClubId}/maps", TestContext.Current.CancellationToken);
-        res.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);
+        var res = await _client.GetAsync($"/api/events/{TestIds.EventId}/maps", TestContext.Current.CancellationToken);
+        res.StatusCode.Should().Be(HttpStatusCode.OK);
         var content = await res.Content.ReadAsStringAsync(TestContext.Current.CancellationToken);
         content.Should().Be("");
     }
@@ -49,8 +75,8 @@ public class EventsControllerShould(TestWebApplicationFactory<Startup> factory, 
     [Fact]
     public async Task GetRegulations()
     {
-        var res = await _unAuthorisedClient.GetAsync($"/api/events/{TestIds.ClubId}/regulations", TestContext.Current.CancellationToken);
-        res.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);
+        var res = await _client.GetAsync($"/api/events/{TestIds.EventId}/regulations", TestContext.Current.CancellationToken);
+        res.StatusCode.Should().Be(HttpStatusCode.OK);
         var content = await res.Content.ReadAsStringAsync(TestContext.Current.CancellationToken);
         content.Should().Be("");
     }

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using AutoTest.Integration.Test.Fixtures;
@@ -12,13 +13,13 @@ namespace AutoTest.Integration.Test.Controllers;
 
 public class ResultsControllerShould(TestWebApplicationFactory<Startup> factory) : IClassFixture<TestWebApplicationFactory<Startup>>
 {
-    private readonly HttpClient _unAuthorisedClient = factory.GetUnAuthorisedClient();
+    private readonly HttpClient _client = factory.GetUnAuthorisedClient();
 
     [Fact]
     public async Task GetResults()
     {
-        var res = await _unAuthorisedClient.GetAsync($"/api/results/{TestIds.EventId}", TestContext.Current.CancellationToken);
-        res.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);
+        var res = await _client.GetAsync($"/api/results/{TestIds.EventId}", TestContext.Current.CancellationToken);
+        res.StatusCode.Should().Be(HttpStatusCode.OK);
         var content = await res.DeserialiseAsync<IEnumerable<Result>>();
         content.Should().NotBeEmpty();
     }
@@ -26,8 +27,8 @@ public class ResultsControllerShould(TestWebApplicationFactory<Startup> factory)
     [Fact]
     public async Task GetAwards()
     {
-        var res = await _unAuthorisedClient.GetAsync($"/api/results/{TestIds.EventId}/awards", TestContext.Current.CancellationToken);
-        res.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);
+        var res = await _client.GetAsync($"/api/results/{TestIds.EventId}/awards", TestContext.Current.CancellationToken);
+        res.StatusCode.Should().Be(HttpStatusCode.OK);
         var content = await res.DeserialiseAsync<Awards>();
         content.Should().NotBeNull();
         content!.Ftd.Should().NotBeNull();
