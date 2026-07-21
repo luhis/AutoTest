@@ -31,7 +31,7 @@ public class Startup
     private const string Swagger2Hash = "edNyF0T6h+RbJ9Kl1HXk6KaORyz6MmKnkP3XL/kRb4o=";
     private const string GoogleCom = "https://*.google.com";
     private const string GoogleAnal = "https://www.google-analytics.com";
-    private readonly IReadOnlyList<string> _baseCssHashs = ["jwMoKfjpMtCZvgc6jvf++3CnNz9TZRnk6Xn0fh2uX3E=", "lmto2U1o7YINyHPg9TOCjIt+o5pSFNU/T2oLxDPF+uw="];
+    private readonly IReadOnlyList<string> _baseCssHashs = ["jwMoKfjpMtCZvgc6jvf++3CnNz9TZRnk6Xn0fh2uX3E=", "lmto2U1o7YINyHPg9TOCjIt+o5pSFNU/T2oLxDPF+uw=", "sha256-CJ02OVqT7p9v9HDCMKiouj0TJ0ooW7ybXUHymIEqyeE="];
     private readonly IReadOnlyList<string> _toastHashes = ["E/nvqET/9zpctDshjbx7JreRM/gAx3JcoKF+f+rglGY=", "u3OrwPmUPyFEOg2MH8iSt1Kq+OEIL7vVcAdbanb0T68="];
 
     public Startup(IConfiguration configuration, IWebHostEnvironment webHostEnvironment)
