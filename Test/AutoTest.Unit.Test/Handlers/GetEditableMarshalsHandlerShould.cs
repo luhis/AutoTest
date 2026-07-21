@@ -15,15 +15,15 @@ namespace AutoTest.Unit.Test.Handlers;
 
 public class GetEditableMarshalsHandlerShould
 {
-    private readonly MockRepository mr;
-    private readonly IRequestHandler<GetEditableMarshals, IEnumerable<ulong>> sut;
-    private readonly Mock<IMarshalsRepository> marshalsRepository;
+    private readonly MockRepository _mr;
+    private readonly IRequestHandler<GetEditableMarshals, IEnumerable<ulong>> _sut;
+    private readonly Mock<IMarshalsRepository> _marshalsRepository;
 
     public GetEditableMarshalsHandlerShould()
     {
-        mr = new MockRepository(MockBehavior.Strict);
-        marshalsRepository = mr.Create<IMarshalsRepository>();
-        sut = new GetEditableMarshalsHandler(marshalsRepository.Object);
+        _mr = new MockRepository(MockBehavior.Strict);
+        _marshalsRepository = _mr.Create<IMarshalsRepository>();
+        _sut = new GetEditableMarshalsHandler(_marshalsRepository.Object);
     }
 
     [Fact]
@@ -35,11 +35,11 @@ public class GetEditableMarshalsHandlerShould
             new Marshal(2, "a", "a", "a@a.com", eventId, 212312, "")
         };
         var mock = marshals.BuildMock();
-        marshalsRepository.Setup(a => a.GetByEmail("test@test.com")).Returns(mock);
+        _marshalsRepository.Setup(a => a.GetByEmail("test@test.com")).Returns(mock);
 
-        var res = await sut.Handle(new("test@test.com"), TestContext.Current.CancellationToken);
+        var res = await _sut.Handle(new("test@test.com"), TestContext.Current.CancellationToken);
 
         res.Should().BeEquivalentTo(marshals.Select(a => a.MarshalId));
-        mr.VerifyAll();
+        _mr.VerifyAll();
     }
 }

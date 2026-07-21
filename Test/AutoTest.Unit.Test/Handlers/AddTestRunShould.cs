@@ -18,23 +18,23 @@ namespace AutoTest.Unit.Test.Handlers;
 
 public class AddTestRunShould
 {
-    private readonly IRequestHandler<AddTestRun, OneOf<Success, Error<string>>> sut;
-    private readonly MockRepository mr;
-    private readonly Mock<ITestRunsRepository> testRunsRepository;
-    private readonly Mock<IEventNotifier> notifier;
-    private readonly Mock<IMarshalsRepository> marshalsRepository;
-    private readonly Mock<IEventsRepository> eventsRepository;
+    private readonly IRequestHandler<AddTestRun, OneOf<Success, Error<string>>> _sut;
+    private readonly MockRepository _mr;
+    private readonly Mock<ITestRunsRepository> _testRunsRepository;
+    private readonly Mock<IEventNotifier> _notifier;
+    private readonly Mock<IMarshalsRepository> _marshalsRepository;
+    private readonly Mock<IEventsRepository> _eventsRepository;
 
-    private readonly ICollection<Penalty> penalties = new[] { new Penalty(Domain.Enums.PenaltyEnum.Late, 1) };
+    private readonly ICollection<Penalty> _penalties = new[] { new Penalty(Domain.Enums.PenaltyEnum.Late, 1) };
 
     public AddTestRunShould()
     {
-        mr = new MockRepository(MockBehavior.Strict);
-        testRunsRepository = mr.Create<ITestRunsRepository>();
-        notifier = mr.Create<IEventNotifier>();
-        marshalsRepository = mr.Create<IMarshalsRepository>();
-        eventsRepository = mr.Create<IEventsRepository>();
-        sut = new AddTestRunHandler(testRunsRepository.Object, notifier.Object, marshalsRepository.Object, eventsRepository.Object);
+        _mr = new MockRepository(MockBehavior.Strict);
+        _testRunsRepository = _mr.Create<ITestRunsRepository>();
+        _notifier = _mr.Create<IEventNotifier>();
+        _marshalsRepository = _mr.Create<IMarshalsRepository>();
+        _eventsRepository = _mr.Create<IEventsRepository>();
+        _sut = new AddTestRunHandler(_testRunsRepository.Object, _notifier.Object, _marshalsRepository.Object, _eventsRepository.Object);
     }
 
     [Fact]
@@ -44,17 +44,17 @@ public class AddTestRunShould
         var marshalId = 6ul;
         var eventId = 1ul;
         var clubId = 2ul;
-        marshalsRepository.Setup(a => a.GetMarshalIdByEmail(eventId, "marshal@email.com", TestContext.Current.CancellationToken)).ReturnsAsync(marshalId);
+        _marshalsRepository.Setup(a => a.GetMarshalIdByEmail(eventId, "marshal@email.com", TestContext.Current.CancellationToken)).ReturnsAsync(marshalId);
         var @event = Models.GetEvent(eventId, clubId);
         @event.SetEventStatus(Domain.Enums.EventStatus.Running);
-        eventsRepository.Setup(a => a.GetById(eventId, TestContext.Current.CancellationToken)).ReturnsAsync(@event);
-        notifier.Setup(a => a.NewTestRun(It.Is<TestRun>(r => r.EventId == eventId && r.Ordinal == 3), TestContext.Current.CancellationToken)).Returns(Task.CompletedTask);
-        testRunsRepository.Setup(a => a.AddTestRun(It.Is<TestRun>(r => r.EventId == eventId && r.Ordinal == 3), TestContext.Current.CancellationToken)).Returns(Task.CompletedTask);
+        _eventsRepository.Setup(a => a.GetById(eventId, TestContext.Current.CancellationToken)).ReturnsAsync(@event);
+        _notifier.Setup(a => a.NewTestRun(It.Is<TestRun>(r => r.EventId == eventId && r.Ordinal == 3), TestContext.Current.CancellationToken)).Returns(Task.CompletedTask);
+        _testRunsRepository.Setup(a => a.AddTestRun(It.Is<TestRun>(r => r.EventId == eventId && r.Ordinal == 3), TestContext.Current.CancellationToken)).Returns(Task.CompletedTask);
 
-        var res = await sut.Handle(new(1, eventId, 3, 4, entrantId, new DateTime(2000, 1, 1), "marshal@email.com", penalties), TestContext.Current.CancellationToken);
+        var res = await _sut.Handle(new(1, eventId, 3, 4, entrantId, new DateTime(2000, 1, 1), "marshal@email.com", _penalties), TestContext.Current.CancellationToken);
 
         res.AsT0.Should().NotBeNull();
-        mr.VerifyAll();
+        _mr.VerifyAll();
     }
 
     [Fact]
@@ -64,11 +64,11 @@ public class AddTestRunShould
         var eventId = 1ul;
         var clubId = 2ul;
         var @event = Models.GetEvent(eventId, clubId);
-        eventsRepository.Setup(a => a.GetById(eventId, TestContext.Current.CancellationToken)).ReturnsAsync(@event);
+        _eventsRepository.Setup(a => a.GetById(eventId, TestContext.Current.CancellationToken)).ReturnsAsync(@event);
 
-        var res = await sut.Handle(new(1, eventId, 3, 4, entrantId, new DateTime(2000, 1, 1), "marshal@email.com", penalties), TestContext.Current.CancellationToken);
+        var res = await _sut.Handle(new(1, eventId, 3, 4, entrantId, new DateTime(2000, 1, 1), "marshal@email.com", _penalties), TestContext.Current.CancellationToken);
 
         res.AsT1.Value.Should().Be("Event must be running to add Test Run");
-        mr.VerifyAll();
+        _mr.VerifyAll();
     }
 }

@@ -12,27 +12,27 @@ namespace AutoTest.Unit.Test.Handlers;
 
 public class GetClubHandlerShould
 {
-    private readonly MockRepository mr;
-    private readonly IRequestHandler<GetClub, Club?> sut;
-    private readonly Mock<IClubsRepository> clubsRepository;
+    private readonly MockRepository _mr;
+    private readonly IRequestHandler<GetClub, Club?> _sut;
+    private readonly Mock<IClubsRepository> _clubsRepository;
 
     public GetClubHandlerShould()
     {
-        mr = new MockRepository(MockBehavior.Strict);
-        clubsRepository = mr.Create<IClubsRepository>();
-        sut = new GetClubHandler(clubsRepository.Object);
+        _mr = new MockRepository(MockBehavior.Strict);
+        _clubsRepository = _mr.Create<IClubsRepository>();
+        _sut = new GetClubHandler(_clubsRepository.Object);
     }
 
     [Fact]
     public async Task ReturnNullIfNotClub()
     {
         var clubId = 1ul;
-        clubsRepository.Setup(a => a.GetById(clubId, TestContext.Current.CancellationToken)).ReturnsAsync((Club?)null);
+        _clubsRepository.Setup(a => a.GetById(clubId, TestContext.Current.CancellationToken)).ReturnsAsync((Club?)null);
 
-        var res = await sut.Handle(new(clubId), TestContext.Current.CancellationToken);
+        var res = await _sut.Handle(new(clubId), TestContext.Current.CancellationToken);
 
         res.Should().BeNull();
-        mr.VerifyAll();
+        _mr.VerifyAll();
     }
 
     [Fact]
@@ -40,11 +40,11 @@ public class GetClubHandlerShould
     {
         var clubId = 1ul;
         var club = new Club(clubId, "First", "Last", "");
-        clubsRepository.Setup(a => a.GetById(clubId, TestContext.Current.CancellationToken)).ReturnsAsync(club);
+        _clubsRepository.Setup(a => a.GetById(clubId, TestContext.Current.CancellationToken)).ReturnsAsync(club);
 
-        var res = await sut.Handle(new(clubId), TestContext.Current.CancellationToken);
+        var res = await _sut.Handle(new(clubId), TestContext.Current.CancellationToken);
 
         res.Should().BeEquivalentTo(club);
-        mr.VerifyAll();
+        _mr.VerifyAll();
     }
 }

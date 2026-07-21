@@ -11,15 +11,15 @@ namespace AutoTest.Unit.Test.Handlers;
 
 public class DeleteEntrantShould
 {
-    private readonly IRequestHandler<DeleteEntrant> sut;
-    private readonly MockRepository mr;
-    private readonly Mock<IEntrantsRepository> entrants;
+    private readonly IRequestHandler<DeleteEntrant> _sut;
+    private readonly MockRepository _mr;
+    private readonly Mock<IEntrantsRepository> _entrants;
 
     public DeleteEntrantShould()
     {
-        mr = new MockRepository(MockBehavior.Strict);
-        entrants = mr.Create<IEntrantsRepository>();
-        sut = new DeleteEntrantHandler(entrants.Object);
+        _mr = new MockRepository(MockBehavior.Strict);
+        _entrants = _mr.Create<IEntrantsRepository>();
+        _sut = new DeleteEntrantHandler(_entrants.Object);
     }
 
     [Fact]
@@ -28,11 +28,11 @@ public class DeleteEntrantShould
         var eventId = 1ul;
         var entrantId = 2ul;
         var entrant = Models.GetEntrant(entrantId, eventId);
-        entrants.Setup(a => a.GetById(eventId, entrantId, TestContext.Current.CancellationToken)).ReturnsAsync(entrant);
-        entrants.Setup(a => a.Delete(entrant, TestContext.Current.CancellationToken)).Returns(Task.CompletedTask);
+        _entrants.Setup(a => a.GetById(eventId, entrantId, TestContext.Current.CancellationToken)).ReturnsAsync(entrant);
+        _entrants.Setup(a => a.Delete(entrant, TestContext.Current.CancellationToken)).Returns(Task.CompletedTask);
 
-        await sut.Handle(new(eventId, entrantId), TestContext.Current.CancellationToken);
+        await _sut.Handle(new(eventId, entrantId), TestContext.Current.CancellationToken);
 
-        mr.VerifyAll();
+        _mr.VerifyAll();
     }
 }

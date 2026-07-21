@@ -12,15 +12,15 @@ namespace AutoTest.Unit.Test.Handlers;
 
 public class SetEntrantStatusShould
 {
-    private readonly IRequestHandler<SetEntrantStatus> sut;
-    private readonly MockRepository mr;
-    private readonly Mock<IEntrantsRepository> entrants;
+    private readonly IRequestHandler<SetEntrantStatus> _sut;
+    private readonly MockRepository _mr;
+    private readonly Mock<IEntrantsRepository> _entrants;
 
     public SetEntrantStatusShould()
     {
-        mr = new MockRepository(MockBehavior.Strict);
-        entrants = mr.Create<IEntrantsRepository>();
-        sut = new SetEntrantStatusHandler(entrants.Object);
+        _mr = new MockRepository(MockBehavior.Strict);
+        _entrants = _mr.Create<IEntrantsRepository>();
+        _sut = new SetEntrantStatusHandler(_entrants.Object);
     }
 
     [Fact]
@@ -28,12 +28,12 @@ public class SetEntrantStatusShould
     {
         var eventId = 11ul;
         var entrantId = 11ul;
-        entrants.Setup(a => a.GetById(eventId, entrantId, TestContext.Current.CancellationToken)).ReturnsAsync(Models.GetEntrant(entrantId, eventId));
+        _entrants.Setup(a => a.GetById(eventId, entrantId, TestContext.Current.CancellationToken)).ReturnsAsync(Models.GetEntrant(entrantId, eventId));
         var toSave = Models.GetEntrant(entrantId, eventId);
         toSave.SetEntrantStatus(Domain.Enums.EntrantStatus.Withdrawn);
-        entrants.Setup(a => a.Upsert(Its.EquivalentTo(toSave, o => o.Excluding(a => a.EmergencyContact).Excluding(a => a.MsaMembership).Excluding(a => a.AcceptDeclaration)), TestContext.Current.CancellationToken)).Returns(Task.CompletedTask);
+        _entrants.Setup(a => a.Upsert(Its.EquivalentTo(toSave, o => o.Excluding(a => a.EmergencyContact).Excluding(a => a.MsaMembership).Excluding(a => a.AcceptDeclaration)), TestContext.Current.CancellationToken)).Returns(Task.CompletedTask);
 
-        await sut.Handle(new SetEntrantStatus(eventId, entrantId, Domain.Enums.EntrantStatus.Withdrawn), TestContext.Current.CancellationToken);
-        mr.VerifyAll();
+        await _sut.Handle(new SetEntrantStatus(eventId, entrantId, Domain.Enums.EntrantStatus.Withdrawn), TestContext.Current.CancellationToken);
+        _mr.VerifyAll();
     }
 }

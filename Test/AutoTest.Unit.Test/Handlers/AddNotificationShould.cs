@@ -1,4 +1,4 @@
-﻿using System.Threading.Tasks;
+using System.Threading.Tasks;
 using AutoTest.Domain.Repositories;
 using AutoTest.Domain.StorageModels;
 using AutoTest.Service.Handlers;
@@ -12,28 +12,28 @@ namespace AutoTest.Unit.Test.Handlers;
 
 public class AddNotificationShould
 {
-    private readonly IRequestHandler<AddNotification> sut;
-    private readonly MockRepository mr;
-    private readonly Mock<INotificationsRepository> notificationsRepository;
-    private readonly Mock<IEventNotifier> notifier;
+    private readonly IRequestHandler<AddNotification> _sut;
+    private readonly MockRepository _mr;
+    private readonly Mock<INotificationsRepository> _notificationsRepository;
+    private readonly Mock<IEventNotifier> _notifier;
 
     public AddNotificationShould()
     {
-        mr = new MockRepository(MockBehavior.Strict);
-        notificationsRepository = mr.Create<INotificationsRepository>();
-        notifier = mr.Create<IEventNotifier>();
-        sut = new AddNotificationHandler(notificationsRepository.Object, notifier.Object);
+        _mr = new MockRepository(MockBehavior.Strict);
+        _notificationsRepository = _mr.Create<INotificationsRepository>();
+        _notifier = _mr.Create<IEventNotifier>();
+        _sut = new AddNotificationHandler(_notificationsRepository.Object, _notifier.Object);
     }
 
     [Fact]
     public async Task NotifyOnNewNotification()
     {
         var notification = new Notification(1, 2, "message", new System.DateTime(2000, 1, 1), "test user");
-        notifier.Setup(a => a.NewNotification(notification, TestContext.Current.CancellationToken)).Returns(Task.CompletedTask);
-        notificationsRepository.Setup(a => a.AddNotification(notification, TestContext.Current.CancellationToken)).Returns(Task.CompletedTask);
+        _notifier.Setup(a => a.NewNotification(notification, TestContext.Current.CancellationToken)).Returns(Task.CompletedTask);
+        _notificationsRepository.Setup(a => a.AddNotification(notification, TestContext.Current.CancellationToken)).Returns(Task.CompletedTask);
 
-        await sut.Handle(new(notification), TestContext.Current.CancellationToken);
+        await _sut.Handle(new(notification), TestContext.Current.CancellationToken);
 
-        mr.VerifyAll();
+        _mr.VerifyAll();
     }
 }

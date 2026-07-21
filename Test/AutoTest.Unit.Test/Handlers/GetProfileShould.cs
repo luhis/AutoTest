@@ -13,27 +13,27 @@ namespace AutoTest.Unit.Test.Handlers;
 
 public class GetProfileShould
 {
-    private readonly MockRepository mr;
-    private readonly IRequestHandler<GetProfile, Profile> sut;
-    private readonly Mock<IProfileRepository> profileRepository;
+    private readonly MockRepository _mr;
+    private readonly IRequestHandler<GetProfile, Profile> _sut;
+    private readonly Mock<IProfileRepository> _profileRepository;
 
     public GetProfileShould()
     {
-        mr = new MockRepository(MockBehavior.Strict);
-        profileRepository = mr.Create<IProfileRepository>();
-        sut = new GetProfileHandler(profileRepository.Object);
+        _mr = new MockRepository(MockBehavior.Strict);
+        _profileRepository = _mr.Create<IProfileRepository>();
+        _sut = new GetProfileHandler(_profileRepository.Object);
     }
 
     [Fact]
     public async Task ReturnBlankProfileIfNone()
     {
         var email = "a@a.com";
-        profileRepository.Setup(a => a.Get(email, TestContext.Current.CancellationToken)).ReturnsAsync((Profile?)null);
+        _profileRepository.Setup(a => a.Get(email, TestContext.Current.CancellationToken)).ReturnsAsync((Profile?)null);
 
-        var res = await sut.Handle(new(email), TestContext.Current.CancellationToken);
+        var res = await _sut.Handle(new(email), TestContext.Current.CancellationToken);
 
         res.EmailAddress.Should().Be(email);
-        mr.VerifyAll();
+        _mr.VerifyAll();
     }
 
     [Fact]
@@ -41,11 +41,11 @@ public class GetProfileShould
     {
         var email = "a@a.com";
         var profile = Models.GetProfile(email);
-        profileRepository.Setup(a => a.Get(email, TestContext.Current.CancellationToken)).ReturnsAsync(profile);
+        _profileRepository.Setup(a => a.Get(email, TestContext.Current.CancellationToken)).ReturnsAsync(profile);
 
-        var res = await sut.Handle(new(email), TestContext.Current.CancellationToken);
+        var res = await _sut.Handle(new(email), TestContext.Current.CancellationToken);
 
         res.Should().BeEquivalentTo(profile);
-        mr.VerifyAll();
+        _mr.VerifyAll();
     }
 }

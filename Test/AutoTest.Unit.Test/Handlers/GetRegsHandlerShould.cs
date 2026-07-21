@@ -11,25 +11,25 @@ namespace AutoTest.Unit.Test.Handlers;
 
 public class GetRegsHandlerShould
 {
-    private readonly MockRepository mr;
-    private readonly IRequestHandler<GetRegs, string> sut;
-    private readonly Mock<IFileRepository> fs;
+    private readonly MockRepository _mr;
+    private readonly IRequestHandler<GetRegs, string> _sut;
+    private readonly Mock<IFileRepository> _fs;
 
     public GetRegsHandlerShould()
     {
-        mr = new MockRepository(MockBehavior.Strict);
-        fs = mr.Create<IFileRepository>();
-        sut = new GetRegsHandler(fs.Object);
+        _mr = new MockRepository(MockBehavior.Strict);
+        _fs = _mr.Create<IFileRepository>();
+        _sut = new GetRegsHandler(_fs.Object);
     }
 
     [Fact]
     public async Task Get()
     {
-        fs.Setup(a => a.GetRegs(11, TestContext.Current.CancellationToken)).ReturnsAsync("data");
+        _fs.Setup(a => a.GetRegs(11, TestContext.Current.CancellationToken)).ReturnsAsync("data");
 
-        var regs = await sut.Handle(new GetRegs(11), TestContext.Current.CancellationToken);
+        var regs = await _sut.Handle(new GetRegs(11), TestContext.Current.CancellationToken);
 
         regs.Should().Be("data");
-        mr.VerifyAll();
+        _mr.VerifyAll();
     }
 }

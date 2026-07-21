@@ -14,15 +14,15 @@ namespace AutoTest.Unit.Test.Handlers;
 
 public class GetEntrantsHandlerShould
 {
-    private readonly MockRepository mr;
-    private readonly IRequestHandler<GetEntrants, IEnumerable<Entrant>> sut;
-    private readonly Mock<IEntrantsRepository> entrantsRepository;
+    private readonly MockRepository _mr;
+    private readonly IRequestHandler<GetEntrants, IEnumerable<Entrant>> _sut;
+    private readonly Mock<IEntrantsRepository> _entrantsRepository;
 
     public GetEntrantsHandlerShould()
     {
-        mr = new MockRepository(MockBehavior.Strict);
-        entrantsRepository = mr.Create<IEntrantsRepository>();
-        sut = new GetEntrantsHandler(entrantsRepository.Object);
+        _mr = new MockRepository(MockBehavior.Strict);
+        _entrantsRepository = _mr.Create<IEntrantsRepository>();
+        _sut = new GetEntrantsHandler(_entrantsRepository.Object);
     }
 
     [Fact]
@@ -33,11 +33,11 @@ public class GetEntrantsHandlerShould
             new Entrant(1, 22, "Joe", "Bloggs", "a@a.com", "A", 99, Domain.Enums.Age.Senior, false, null),
             new Entrant(2, 22, "Joe", "Bloggs", "a@a.com", "A", 99, Domain.Enums.Age.Senior, false, null)
         };
-        entrantsRepository.Setup(a => a.GetAll(eventId, TestContext.Current.CancellationToken)).ReturnsAsync(entrants);
+        _entrantsRepository.Setup(a => a.GetAll(eventId, TestContext.Current.CancellationToken)).ReturnsAsync(entrants);
 
-        var res = await sut.Handle(new(eventId), TestContext.Current.CancellationToken);
+        var res = await _sut.Handle(new(eventId), TestContext.Current.CancellationToken);
 
         res.Should().BeEquivalentTo(entrants.OrderBy(a => a.FamilyName), o => o.WithStrictOrdering());
-        mr.VerifyAll();
+        _mr.VerifyAll();
     }
 }

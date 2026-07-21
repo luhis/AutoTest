@@ -1,15 +1,15 @@
-﻿using System.Net.Http;
+using System.Net.Http;
 using System.Text.Json;
 
 namespace AutoTest.Integration.Test.Tooling;
 
 internal static class Deserialise
 {
-    private static readonly JsonSerializerOptions Options = new() { PropertyNamingPolicy = JsonNamingPolicy.CamelCase };
+    private static readonly JsonSerializerOptions s_Options = new() { PropertyNamingPolicy = JsonNamingPolicy.CamelCase };
 
     public static async System.Threading.Tasks.Task<T> DeserialiseAsync<T>(this HttpResponseMessage message)
     {
         var content = await message.Content.ReadAsStringAsync();
-        return JsonSerializer.Deserialize<T>(content, Options)!;
+        return JsonSerializer.Deserialize<T>(content, s_Options)!;
     }
 }

@@ -1,4 +1,4 @@
-﻿using System.Threading;
+using System.Threading;
 using System.Threading.Tasks;
 using AutoTest.Service.Messages;
 using AutoTest.Unit.Test.Fixtures;
@@ -17,17 +17,17 @@ namespace AutoTest.Unit.Test.Authorisation;
 
 public class ClubAdminOrSelfRequirementSelfHandlerShould
 {
-    private readonly AuthorizationHandler<ClubAdminOrSelfRequirement> sut;
-    private readonly MockRepository mr;
-    private readonly Mock<IMediator> mediator;
-    private readonly Mock<IHttpContextAccessor> httpContextAccessor;
+    private readonly AuthorizationHandler<ClubAdminOrSelfRequirement> _sut;
+    private readonly MockRepository _mr;
+    private readonly Mock<IMediator> _mediator;
+    private readonly Mock<IHttpContextAccessor> _httpContextAccessor;
 
     public ClubAdminOrSelfRequirementSelfHandlerShould()
     {
-        mr = new MockRepository(MockBehavior.Strict);
-        mediator = mr.Create<IMediator>();
-        httpContextAccessor = mr.Create<IHttpContextAccessor>();
-        sut = new ClubAdminOrSelfRequirementSelfHandler(httpContextAccessor.Object, mediator.Object);
+        _mr = new MockRepository(MockBehavior.Strict);
+        _mediator = _mr.Create<IMediator>();
+        _httpContextAccessor = _mr.Create<IHttpContextAccessor>();
+        _sut = new ClubAdminOrSelfRequirementSelfHandler(_httpContextAccessor.Object, _mediator.Object);
     }
 
     [Fact]
@@ -39,13 +39,13 @@ public class ClubAdminOrSelfRequirementSelfHandlerShould
         var entrantId = 99ul;
         var eventId = 1ul;
         var ctx = HttpContextFixture.GetHttpContext(new[] { ("eventId", $"{eventId}"), ("entrantId", $"{entrantId}") });
-        httpContextAccessor.SetupGet(a => a.HttpContext).Returns(ctx);
-        mediator.Setup(a => a.Send(Its.EquivalentTo(new GetEntrant(eventId, entrantId)), CancellationToken.None)).ReturnsAsync(Models.GetEntrant(eventId, entrantId));
+        _httpContextAccessor.SetupGet(a => a.HttpContext).Returns(ctx);
+        _mediator.Setup(a => a.Send(Its.EquivalentTo(new GetEntrant(eventId, entrantId)), CancellationToken.None)).ReturnsAsync(Models.GetEntrant(eventId, entrantId));
 
-        await sut.HandleAsync(ac);
+        await _sut.HandleAsync(ac);
 
         ac.HasSucceeded.Should().BeTrue();
-        mr.VerifyAll();
+        _mr.VerifyAll();
     }
 
     [Fact]
@@ -57,13 +57,13 @@ public class ClubAdminOrSelfRequirementSelfHandlerShould
         var entrantId = 99ul;
         var eventId = 1ul;
         var ctx = HttpContextFixture.GetHttpContext(new[] { ("eventId", $"{eventId}"), ("entrantId", $"{entrantId}") });
-        httpContextAccessor.SetupGet(a => a.HttpContext).Returns(ctx);
-        mediator.Setup(a => a.Send(Its.EquivalentTo(new GetEntrant(eventId, entrantId)), CancellationToken.None)).ReturnsAsync(Models.GetEntrant(eventId, entrantId)
+        _httpContextAccessor.SetupGet(a => a.HttpContext).Returns(ctx);
+        _mediator.Setup(a => a.Send(Its.EquivalentTo(new GetEntrant(eventId, entrantId)), CancellationToken.None)).ReturnsAsync(Models.GetEntrant(eventId, entrantId)
             );
 
-        await sut.HandleAsync(ac);
+        await _sut.HandleAsync(ac);
 
         ac.HasSucceeded.Should().BeFalse();
-        mr.VerifyAll();
+        _mr.VerifyAll();
     }
 }

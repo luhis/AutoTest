@@ -19,19 +19,19 @@ namespace AutoTest.Unit.Test.Handlers;
 
 public class SaveEntrantHandlerShould
 {
-    private readonly IRequestHandler<SaveEntrant, OneOf<Entrant, Error<string>>> sut;
-    private readonly MockRepository mr;
-    private readonly Mock<IEntrantsRepository> entrantsRepository;
-    private readonly Mock<IEventsRepository> eventsRepository;
-    private readonly Mock<IAuthorisationNotifier> authorisationNotifier;
+    private readonly IRequestHandler<SaveEntrant, OneOf<Entrant, Error<string>>> _sut;
+    private readonly MockRepository _mr;
+    private readonly Mock<IEntrantsRepository> _entrantsRepository;
+    private readonly Mock<IEventsRepository> _eventsRepository;
+    private readonly Mock<IAuthorisationNotifier> _authorisationNotifier;
 
     public SaveEntrantHandlerShould()
     {
-        mr = new MockRepository(MockBehavior.Strict);
-        entrantsRepository = mr.Create<IEntrantsRepository>();
-        eventsRepository = mr.Create<IEventsRepository>();
-        authorisationNotifier = mr.Create<IAuthorisationNotifier>();
-        sut = new SaveEntrantHandler(entrantsRepository.Object, eventsRepository.Object, authorisationNotifier.Object);
+        _mr = new MockRepository(MockBehavior.Strict);
+        _entrantsRepository = _mr.Create<IEntrantsRepository>();
+        _eventsRepository = _mr.Create<IEventsRepository>();
+        _authorisationNotifier = _mr.Create<IAuthorisationNotifier>();
+        _sut = new SaveEntrantHandler(_entrantsRepository.Object, _eventsRepository.Object, _authorisationNotifier.Object);
     }
 
     static Event GetEvent(ulong eventId, DateTime open, DateTime close) =>
@@ -47,13 +47,13 @@ public class SaveEntrantHandlerShould
         var entrant = Models.GetEntrant(entrantId, eventId);
         entrant.SetPayment(new Payment());
 
-        eventsRepository.Setup(a => a.GetById(eventId, TestContext.Current.CancellationToken)).ReturnsAsync(GetEvent(eventId, DateTime.UtcNow.AddDays(openOffsetDays), DateTime.UtcNow.AddDays(closeOffsetDays)));
+        _eventsRepository.Setup(a => a.GetById(eventId, TestContext.Current.CancellationToken)).ReturnsAsync(GetEvent(eventId, DateTime.UtcNow.AddDays(openOffsetDays), DateTime.UtcNow.AddDays(closeOffsetDays)));
 
         var se = new SaveEntrant(entrant);
-        var res = await sut.Handle(se, TestContext.Current.CancellationToken);
+        var res = await _sut.Handle(se, TestContext.Current.CancellationToken);
 
         res.AsT1.Value.Should().Be(expectedError);
-        mr.VerifyAll();
+        _mr.VerifyAll();
     }
 
     [Theory]
@@ -71,16 +71,16 @@ public class SaveEntrantHandlerShould
         if (dbHasPayment)
             entrantFromDb.SetPayment(new Payment());
 
-        entrantsRepository.Setup(a => a.GetById(eventId, entrantId, TestContext.Current.CancellationToken)).ReturnsAsync(entrantFromDb);
-        entrantsRepository.Setup(a => a.Upsert(entrant, TestContext.Current.CancellationToken)).Returns(Task.CompletedTask);
-        eventsRepository.Setup(a => a.GetById(eventId, TestContext.Current.CancellationToken)).ReturnsAsync(GetEvent(eventId, DateTime.UtcNow.AddDays(-2), DateTime.UtcNow.AddDays(2)));
-        entrantsRepository.Setup(a => a.GetEntrantCount(eventId, TestContext.Current.CancellationToken)).ReturnsAsync(0);
-        authorisationNotifier.Setup(a => a.AddEditableEntrant(entrantId, Its.EquivalentTo(new[] { "a@a.com" }), TestContext.Current.CancellationToken)).Returns(Task.CompletedTask);
+        _entrantsRepository.Setup(a => a.GetById(eventId, entrantId, TestContext.Current.CancellationToken)).ReturnsAsync(entrantFromDb);
+        _entrantsRepository.Setup(a => a.Upsert(entrant, TestContext.Current.CancellationToken)).Returns(Task.CompletedTask);
+        _eventsRepository.Setup(a => a.GetById(eventId, TestContext.Current.CancellationToken)).ReturnsAsync(GetEvent(eventId, DateTime.UtcNow.AddDays(-2), DateTime.UtcNow.AddDays(2)));
+        _entrantsRepository.Setup(a => a.GetEntrantCount(eventId, TestContext.Current.CancellationToken)).ReturnsAsync(0);
+        _authorisationNotifier.Setup(a => a.AddEditableEntrant(entrantId, Its.EquivalentTo(new[] { "a@a.com" }), TestContext.Current.CancellationToken)).Returns(Task.CompletedTask);
 
         var se = new SaveEntrant(entrant);
-        var res = await sut.Handle(se, TestContext.Current.CancellationToken);
+        var res = await _sut.Handle(se, TestContext.Current.CancellationToken);
 
-        mr.VerifyAll();
+        _mr.VerifyAll();
         if (entrantHasPayment)
             res.AsT0.Payment.Should().BeNull();
         else
@@ -95,16 +95,16 @@ public class SaveEntrantHandlerShould
         var entrant = Models.GetEntrant(entrantId, eventId);
         entrant.SetPayment(new Payment());
 
-        eventsRepository.Setup(a => a.GetById(eventId, TestContext.Current.CancellationToken)).ReturnsAsync(GetEvent(eventId, DateTime.UtcNow.AddDays(-2), DateTime.UtcNow.AddDays(1)));
-        entrantsRepository.Setup(a => a.GetEntrantCount(eventId, TestContext.Current.CancellationToken)).ReturnsAsync(10);
-        entrantsRepository.Setup(a => a.GetById(eventId, entrantId, TestContext.Current.CancellationToken)).ReturnsAsync((Entrant?)null);
-        entrantsRepository.Setup(a => a.Upsert(entrant, TestContext.Current.CancellationToken)).Returns(Task.CompletedTask);
-        authorisationNotifier.Setup(a => a.AddEditableEntrant(entrantId, new[] { "a@a.com" }, TestContext.Current.CancellationToken)).Returns(Task.CompletedTask);
+        _eventsRepository.Setup(a => a.GetById(eventId, TestContext.Current.CancellationToken)).ReturnsAsync(GetEvent(eventId, DateTime.UtcNow.AddDays(-2), DateTime.UtcNow.AddDays(1)));
+        _entrantsRepository.Setup(a => a.GetEntrantCount(eventId, TestContext.Current.CancellationToken)).ReturnsAsync(10);
+        _entrantsRepository.Setup(a => a.GetById(eventId, entrantId, TestContext.Current.CancellationToken)).ReturnsAsync((Entrant?)null);
+        _entrantsRepository.Setup(a => a.Upsert(entrant, TestContext.Current.CancellationToken)).Returns(Task.CompletedTask);
+        _authorisationNotifier.Setup(a => a.AddEditableEntrant(entrantId, new[] { "a@a.com" }, TestContext.Current.CancellationToken)).Returns(Task.CompletedTask);
 
         var se = new SaveEntrant(entrant);
-        var res = await sut.Handle(se, TestContext.Current.CancellationToken);
+        var res = await _sut.Handle(se, TestContext.Current.CancellationToken);
 
         res.AsT0.Should().Be(entrant);
-        mr.VerifyAll();
+        _mr.VerifyAll();
     }
 }

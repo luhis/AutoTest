@@ -12,17 +12,17 @@ namespace AutoTest.Unit.Test.Handlers;
 
 public class DeleteMarshalShould
 {
-    private readonly IRequestHandler<DeleteMarshal> sut;
-    private readonly MockRepository mr;
-    private readonly Mock<IMarshalsRepository> marshalsRepository;
-    private readonly Mock<IAuthorisationNotifier> signalRNotifier;
+    private readonly IRequestHandler<DeleteMarshal> _sut;
+    private readonly MockRepository _mr;
+    private readonly Mock<IMarshalsRepository> _marshalsRepository;
+    private readonly Mock<IAuthorisationNotifier> _signalRNotifier;
 
     public DeleteMarshalShould()
     {
-        mr = new MockRepository(MockBehavior.Strict);
-        marshalsRepository = mr.Create<IMarshalsRepository>();
-        signalRNotifier = mr.Create<IAuthorisationNotifier>();
-        sut = new DeleteMarshalHandler(marshalsRepository.Object, signalRNotifier.Object);
+        _mr = new MockRepository(MockBehavior.Strict);
+        _marshalsRepository = _mr.Create<IMarshalsRepository>();
+        _signalRNotifier = _mr.Create<IAuthorisationNotifier>();
+        _sut = new DeleteMarshalHandler(_marshalsRepository.Object, _signalRNotifier.Object);
     }
 
     [Fact]
@@ -31,12 +31,12 @@ public class DeleteMarshalShould
         var eventId = 1ul;
         var marshalId = 2ul;
         var marshal = new Domain.StorageModels.Marshal(marshalId, "joe", "bloggs", "joe@bloggs.com", eventId, 1234, "");
-        marshalsRepository.Setup(a => a.GetById(eventId, marshalId, TestContext.Current.CancellationToken)).ReturnsAsync(marshal);
-        marshalsRepository.Setup(a => a.Remove(marshal, TestContext.Current.CancellationToken)).Returns(Task.CompletedTask);
-        signalRNotifier.Setup(a => a.RemoveEventMarshal(marshalId, Its.EquivalentTo(new[] { "joe@bloggs.com" }), TestContext.Current.CancellationToken)).Returns(Task.CompletedTask);
+        _marshalsRepository.Setup(a => a.GetById(eventId, marshalId, TestContext.Current.CancellationToken)).ReturnsAsync(marshal);
+        _marshalsRepository.Setup(a => a.Remove(marshal, TestContext.Current.CancellationToken)).Returns(Task.CompletedTask);
+        _signalRNotifier.Setup(a => a.RemoveEventMarshal(marshalId, Its.EquivalentTo(new[] { "joe@bloggs.com" }), TestContext.Current.CancellationToken)).Returns(Task.CompletedTask);
 
-        await sut.Handle(new(eventId, marshalId), TestContext.Current.CancellationToken);
+        await _sut.Handle(new(eventId, marshalId), TestContext.Current.CancellationToken);
 
-        mr.VerifyAll();
+        _mr.VerifyAll();
     }
 }

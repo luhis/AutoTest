@@ -1,4 +1,4 @@
-﻿using System.Threading;
+using System.Threading;
 using System.Threading.Tasks;
 using AutoTest.Domain.StorageModels;
 using AutoTest.Service.Messages;
@@ -18,17 +18,17 @@ namespace AutoTest.Unit.Test.Authorisation;
 
 public class MarshalRequirementHandlerShould
 {
-    private readonly AuthorizationHandler<MarshalRequirement> sut;
-    private readonly MockRepository mr;
-    private readonly Mock<IMediator> mediator;
-    private readonly Mock<IHttpContextAccessor> httpContextAccessor;
+    private readonly AuthorizationHandler<MarshalRequirement> _sut;
+    private readonly MockRepository _mr;
+    private readonly Mock<IMediator> _mediator;
+    private readonly Mock<IHttpContextAccessor> _httpContextAccessor;
 
     public MarshalRequirementHandlerShould()
     {
-        mr = new MockRepository(MockBehavior.Strict);
-        mediator = mr.Create<IMediator>();
-        httpContextAccessor = mr.Create<IHttpContextAccessor>();
-        sut = new MarshalRequirementHandler(httpContextAccessor.Object, mediator.Object);
+        _mr = new MockRepository(MockBehavior.Strict);
+        _mediator = _mr.Create<IMediator>();
+        _httpContextAccessor = _mr.Create<IHttpContextAccessor>();
+        _sut = new MarshalRequirementHandler(_httpContextAccessor.Object, _mediator.Object);
     }
 
     [Fact]
@@ -37,16 +37,16 @@ public class MarshalRequirementHandlerShould
         var ac = AuthorizationHandlerContextFixture.GetAuthContext(new[] { new MarshalRequirement() }, "marshal@email.com");
         var eventId = 1ul;
         var ctx = HttpContextFixture.GetHttpContext(new[] { ("eventId", $"{eventId}") });
-        httpContextAccessor.SetupGet(a => a.HttpContext).Returns(ctx);
-        mediator.Setup(a => a.Send(Its.EquivalentTo(new GetEvent(eventId)), CancellationToken.None)).ReturnsAsync(Models.GetEvent(eventId));
-        mediator.Setup(a => a.Send(Its.EquivalentTo(new GetMarshals(eventId)), CancellationToken.None))
+        _httpContextAccessor.SetupGet(a => a.HttpContext).Returns(ctx);
+        _mediator.Setup(a => a.Send(Its.EquivalentTo(new GetEvent(eventId)), CancellationToken.None)).ReturnsAsync(Models.GetEvent(eventId));
+        _mediator.Setup(a => a.Send(Its.EquivalentTo(new GetMarshals(eventId)), CancellationToken.None))
             .ReturnsAsync(new[] { new Marshal(1, "Joe", "Marshall", "marshal@email.com", eventId, 123456, "") });
 
 
-        await sut.HandleAsync(ac);
+        await _sut.HandleAsync(ac);
 
         ac.HasSucceeded.Should().BeTrue();
-        mr.VerifyAll();
+        _mr.VerifyAll();
     }
 
     [Fact]
@@ -55,15 +55,15 @@ public class MarshalRequirementHandlerShould
         var ac = AuthorizationHandlerContextFixture.GetAuthContext(new[] { new MarshalRequirement() }, "marshal@email.com");
         var eventId = 1ul;
         var ctx = HttpContextFixture.GetHttpContext(new[] { ("eventId", $"{eventId}") });
-        httpContextAccessor.SetupGet(a => a.HttpContext).Returns(ctx);
-        mediator.Setup(a => a.Send(Its.EquivalentTo(new GetEvent(eventId)), CancellationToken.None)).ReturnsAsync(
+        _httpContextAccessor.SetupGet(a => a.HttpContext).Returns(ctx);
+        _mediator.Setup(a => a.Send(Its.EquivalentTo(new GetEvent(eventId)), CancellationToken.None)).ReturnsAsync(
             (Event?)null);
 
-        await sut.HandleAsync(ac);
+        await _sut.HandleAsync(ac);
 
         ac.HasFailed.Should().BeTrue();
-        ac.FailureReasons.Should().BeEquivalentTo([new AuthorizationFailureReason(sut, "Cannot find event")]);
-        mr.VerifyAll();
+        ac.FailureReasons.Should().BeEquivalentTo([new AuthorizationFailureReason(_sut, "Cannot find event")]);
+        _mr.VerifyAll();
     }
 
     [Fact]
@@ -72,16 +72,16 @@ public class MarshalRequirementHandlerShould
         var ac = AuthorizationHandlerContextFixture.GetAuthContext(new[] { new MarshalRequirement() }, "NotMarshal@email.com");
         var eventId = 1ul;
         var ctx = HttpContextFixture.GetHttpContext(new[] { ("eventId", $"{eventId}") });
-        httpContextAccessor.SetupGet(a => a.HttpContext).Returns(ctx);
-        mediator.Setup(a => a.Send(Its.EquivalentTo(new GetEvent(eventId)), CancellationToken.None)).ReturnsAsync(
+        _httpContextAccessor.SetupGet(a => a.HttpContext).Returns(ctx);
+        _mediator.Setup(a => a.Send(Its.EquivalentTo(new GetEvent(eventId)), CancellationToken.None)).ReturnsAsync(
             Models.GetEvent(eventId));
-        mediator.Setup(a => a.Send(Its.EquivalentTo(new GetMarshals(eventId)), CancellationToken.None))
+        _mediator.Setup(a => a.Send(Its.EquivalentTo(new GetMarshals(eventId)), CancellationToken.None))
             .ReturnsAsync(new[] { new Marshal(1, "Joe", "Marshall", "marshal@email.com", eventId, 123456, "") });
 
 
-        await sut.HandleAsync(ac);
+        await _sut.HandleAsync(ac);
 
         ac.HasSucceeded.Should().BeFalse();
-        mr.VerifyAll();
+        _mr.VerifyAll();
     }
 }

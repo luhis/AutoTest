@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
 using AutoTest.Domain.StorageModels;
@@ -12,12 +12,12 @@ namespace AutoTest.Integration.Test.Controllers;
 
 public class NotificationsControllerShould(CustomWebApplicationFactory<Startup> fixture) : IClassFixture<CustomWebApplicationFactory<Startup>>
 {
-    private readonly HttpClient unAuthorisedClient = fixture.GetUnAuthorisedClient();
+    private readonly HttpClient _unAuthorisedClient = fixture.GetUnAuthorisedClient();
 
     [Fact]
     public async Task GetNotifications()
     {
-        var res = await unAuthorisedClient.GetAsync($"/api/notifications/{TestIds.EventId}", TestContext.Current.CancellationToken);
+        var res = await _unAuthorisedClient.GetAsync($"/api/notifications/{TestIds.EventId}", TestContext.Current.CancellationToken);
         res.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);
         var content = await res.DeserialiseAsync<IEnumerable<Notification>>();
         content.Should().NotBeEmpty().And.ContainSingle()

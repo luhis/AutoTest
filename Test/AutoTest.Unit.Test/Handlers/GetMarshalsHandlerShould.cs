@@ -15,15 +15,15 @@ namespace AutoTest.Unit.Test.Handlers;
 
 public class GetMarshalsHandlerShould
 {
-    private readonly MockRepository mr;
-    private readonly IRequestHandler<GetMarshals, IEnumerable<Marshal>> sut;
-    private readonly Mock<IMarshalsRepository> marshalsRepository;
+    private readonly MockRepository _mr;
+    private readonly IRequestHandler<GetMarshals, IEnumerable<Marshal>> _sut;
+    private readonly Mock<IMarshalsRepository> _marshalsRepository;
 
     public GetMarshalsHandlerShould()
     {
-        mr = new MockRepository(MockBehavior.Strict);
-        marshalsRepository = mr.Create<IMarshalsRepository>();
-        sut = new GetMarshalsHandler(marshalsRepository.Object);
+        _mr = new MockRepository(MockBehavior.Strict);
+        _marshalsRepository = _mr.Create<IMarshalsRepository>();
+        _sut = new GetMarshalsHandler(_marshalsRepository.Object);
     }
 
     [Fact]
@@ -35,11 +35,11 @@ public class GetMarshalsHandlerShould
             new Marshal(2, "a", "a", "a@a.com", eventId, 212312, "")
         };
         var mock = marshals.BuildMock();
-        marshalsRepository.Setup(a => a.GetByEventId(eventId)).Returns(mock);
+        _marshalsRepository.Setup(a => a.GetByEventId(eventId)).Returns(mock);
 
-        var res = await sut.Handle(new(eventId), TestContext.Current.CancellationToken);
+        var res = await _sut.Handle(new(eventId), TestContext.Current.CancellationToken);
 
         res.Should().BeEquivalentTo(marshals.OrderBy(a => a.FamilyName), o => o.WithStrictOrdering());
-        mr.VerifyAll();
+        _mr.VerifyAll();
     }
 }

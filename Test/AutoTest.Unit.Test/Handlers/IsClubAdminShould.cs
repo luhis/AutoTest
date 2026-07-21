@@ -13,17 +13,17 @@ namespace AutoTest.Unit.Test.Handlers;
 
 public class IsClubAdminShould
 {
-    private readonly IRequestHandler<IsClubAdmin, bool> sut;
-    private readonly Mock<IClubsRepository> clubsRepository;
-    private readonly MockRepository mr;
-    private readonly Mock<IEventsRepository> eventsRepository;
+    private readonly IRequestHandler<IsClubAdmin, bool> _sut;
+    private readonly Mock<IClubsRepository> _clubsRepository;
+    private readonly MockRepository _mr;
+    private readonly Mock<IEventsRepository> _eventsRepository;
 
     public IsClubAdminShould()
     {
-        mr = new MockRepository(MockBehavior.Strict);
-        eventsRepository = mr.Create<IEventsRepository>();
-        clubsRepository = mr.Create<IClubsRepository>();
-        sut = new IsClubAdminHandler(clubsRepository.Object, eventsRepository.Object);
+        _mr = new MockRepository(MockBehavior.Strict);
+        _eventsRepository = _mr.Create<IEventsRepository>();
+        _clubsRepository = _mr.Create<IClubsRepository>();
+        _sut = new IsClubAdminHandler(_clubsRepository.Object, _eventsRepository.Object);
     }
 
     [Fact]
@@ -31,15 +31,15 @@ public class IsClubAdminShould
     {
         var eventId = 1ul;
         var clubId = 2ul;
-        eventsRepository.Setup(a => a.GetById(eventId, TestContext.Current.CancellationToken)).ReturnsAsync(
+        _eventsRepository.Setup(a => a.GetById(eventId, TestContext.Current.CancellationToken)).ReturnsAsync(
             Models.GetEvent(eventId, clubId)
             );
         var club = new Club(clubId, "club", "pay@paypal.com", "www.club.com");
-        clubsRepository.Setup(a => a.GetById(clubId, TestContext.Current.CancellationToken)).ReturnsAsync(club);
+        _clubsRepository.Setup(a => a.GetById(clubId, TestContext.Current.CancellationToken)).ReturnsAsync(club);
 
-        var res = await sut.Handle(new(eventId, "a@a.com"), TestContext.Current.CancellationToken);
+        var res = await _sut.Handle(new(eventId, "a@a.com"), TestContext.Current.CancellationToken);
 
         res.Should().BeFalse();
-        mr.VerifyAll();
+        _mr.VerifyAll();
     }
 }

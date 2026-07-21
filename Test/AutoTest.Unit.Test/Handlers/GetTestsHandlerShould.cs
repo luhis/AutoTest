@@ -15,14 +15,14 @@ namespace AutoTest.Unit.Test.Handlers;
 public class GetTestsHandlerShould
 {
     private readonly IRequestHandler<GetTests, IEnumerable<Domain.StorageModels.Course>> sut;
-    private readonly MockRepository mr;
-    private readonly Mock<IEventsRepository> eventsRepository;
+    private readonly MockRepository _mr;
+    private readonly Mock<IEventsRepository> _eventsRepository;
 
     public GetTestsHandlerShould()
     {
-        mr = new MockRepository(MockBehavior.Strict);
-        eventsRepository = mr.Create<IEventsRepository>();
-        sut = new GetTestsHandler(eventsRepository.Object);
+        _mr = new MockRepository(MockBehavior.Strict);
+        _eventsRepository = _mr.Create<IEventsRepository>();
+        sut = new GetTestsHandler(_eventsRepository.Object);
     }
 
     [Fact]
@@ -30,11 +30,11 @@ public class GetTestsHandlerShould
     {
         var @event = Models.GetEvent(1);
         @event.SetCourses(new[] { new Course(0, "a") });
-        eventsRepository.Setup(a => a.GetById(1, TestContext.Current.CancellationToken)).ReturnsAsync(@event);
+        _eventsRepository.Setup(a => a.GetById(1, TestContext.Current.CancellationToken)).ReturnsAsync(@event);
 
         var tests = await sut.Handle(new(1), TestContext.Current.CancellationToken);
 
         tests.Should().BeEquivalentTo(new[] { new Course(0, "a") });
-        mr.VerifyAll();
+        _mr.VerifyAll();
     }
 }

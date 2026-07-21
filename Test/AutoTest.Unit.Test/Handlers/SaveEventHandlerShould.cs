@@ -14,16 +14,16 @@ namespace AutoTest.Unit.Test.Handlers;
 
 public class SaveEventHandlerShould
 {
-    private readonly MockRepository mr;
-    private readonly Mock<IEventsRepository> eventsRepository;
-    //private readonly Mock<IFileRepository> fileRepository;
-    private readonly IRequestHandler<SaveEvent, ulong> sut;
+    private readonly MockRepository _mr;
+    private readonly Mock<IEventsRepository> _eventsRepository;
+    //private readonly Mock<IFileRepository> _fileRepository;
+    private readonly IRequestHandler<SaveEvent, ulong> _sut;
     public SaveEventHandlerShould()
     {
-        mr = new MockRepository(MockBehavior.Strict);
-        eventsRepository = mr.Create<IEventsRepository>();
-        //fileRepository = mr.Create<IFileRepository>();
-        sut = new SaveEventHandler(eventsRepository.Object);//, fileRepository.Object);
+        _mr = new MockRepository(MockBehavior.Strict);
+        _eventsRepository = _mr.Create<IEventsRepository>();
+        //_fileRepository = _mr.Create<IFileRepository>();
+        _sut = new SaveEventHandler(_eventsRepository.Object);//, _fileRepository.Object);
     }
 
     [Fact]
@@ -36,12 +36,12 @@ public class SaveEventHandlerShould
         var evt = new Event(eventId, 1, "location", DateTime.UtcNow, 2, 2, "regs", [], "", TimingSystem.StopWatch, DateTime.UtcNow, DateTime.UtcNow, 22, DateTime.UtcNow);
 
         var entrantFromDb = Models.GetEntrant(entrantId, eventId);
-        eventsRepository.Setup(a => a.Upsert(evt, TestContext.Current.CancellationToken)).Returns(Task.CompletedTask);
-        //fileRepository.Setup(a => a.SaveMaps(2, "", TestContext.Current.CancellationToken)).ReturnsAsync("");
+        _eventsRepository.Setup(a => a.Upsert(evt, TestContext.Current.CancellationToken)).Returns(Task.CompletedTask);
+        //_fileRepository.Setup(a => a.SaveMaps(2, "", TestContext.Current.CancellationToken)).ReturnsAsync("");
 
         var se = new SaveEvent(evt);
-        var res = await sut.Handle(se, TestContext.Current.CancellationToken);
+        var res = await _sut.Handle(se, TestContext.Current.CancellationToken);
 
-        mr.VerifyAll();
+        _mr.VerifyAll();
     }
 }

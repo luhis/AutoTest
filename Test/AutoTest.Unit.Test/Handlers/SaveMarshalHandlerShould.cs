@@ -14,17 +14,17 @@ namespace AutoTest.Unit.Test.Handlers;
 
 public class SaveMarshalHandlerShould
 {
-    private readonly IRequestHandler<SaveMarshal, Marshal> sut;
-    private readonly MockRepository mr;
-    private readonly Mock<IAuthorisationNotifier> authorisationNotifier;
-    private readonly Mock<IMarshalsRepository> marshalRepository;
+    private readonly IRequestHandler<SaveMarshal, Marshal> _sut;
+    private readonly MockRepository _mr;
+    private readonly Mock<IAuthorisationNotifier> _authorisationNotifier;
+    private readonly Mock<IMarshalsRepository> _marshalRepository;
 
     public SaveMarshalHandlerShould()
     {
-        mr = new MockRepository(MockBehavior.Strict);
-        authorisationNotifier = mr.Create<IAuthorisationNotifier>();
-        marshalRepository = mr.Create<IMarshalsRepository>();
-        sut = new SaveMarshalHandler(marshalRepository.Object, authorisationNotifier.Object);
+        _mr = new MockRepository(MockBehavior.Strict);
+        _authorisationNotifier = _mr.Create<IAuthorisationNotifier>();
+        _marshalRepository = _mr.Create<IMarshalsRepository>();
+        _sut = new SaveMarshalHandler(_marshalRepository.Object, _authorisationNotifier.Object);
     }
 
     [Fact]
@@ -34,14 +34,14 @@ public class SaveMarshalHandlerShould
         var eventId = 2ul;
         var marshal = new Marshal(marshalId, "name", "familyName", "a@a.com", eventId, 123456, "");
 
-        marshalRepository.Setup(a => a.GetById(eventId, marshalId, TestContext.Current.CancellationToken)).ReturnsAsync(marshal);
-        marshalRepository.Setup(a => a.Upsert(marshal, TestContext.Current.CancellationToken)).Returns(Task.CompletedTask);
-        authorisationNotifier.Setup(a => a.AddEditableMarshal(marshalId, Its.EquivalentTo(new[] { "a@a.com" }), TestContext.Current.CancellationToken)).Returns(Task.CompletedTask);
+        _marshalRepository.Setup(a => a.GetById(eventId, marshalId, TestContext.Current.CancellationToken)).ReturnsAsync(marshal);
+        _marshalRepository.Setup(a => a.Upsert(marshal, TestContext.Current.CancellationToken)).Returns(Task.CompletedTask);
+        _authorisationNotifier.Setup(a => a.AddEditableMarshal(marshalId, Its.EquivalentTo(new[] { "a@a.com" }), TestContext.Current.CancellationToken)).Returns(Task.CompletedTask);
 
         var se = new SaveMarshal(marshal);
-        var res = await sut.Handle(se, TestContext.Current.CancellationToken);
+        var res = await _sut.Handle(se, TestContext.Current.CancellationToken);
 
-        mr.VerifyAll();
+        _mr.VerifyAll();
     }
 
     [Fact]
@@ -52,16 +52,16 @@ public class SaveMarshalHandlerShould
         var marshal = new Marshal(marshalId, "name", "familyName", "a@a.com", eventId, 123456, "");
         var marshal2 = new Marshal(marshalId, "name", "familyName", "b@a.com", eventId, 123456, "");
 
-        marshalRepository.Setup(a => a.GetById(eventId, marshalId, TestContext.Current.CancellationToken)).ReturnsAsync(marshal);
-        marshalRepository.Setup(a => a.Upsert(marshal2, TestContext.Current.CancellationToken)).Returns(Task.CompletedTask);
-        authorisationNotifier.Setup(a => a.AddEditableMarshal(marshalId, Its.EquivalentTo(new[] { "b@a.com" }), TestContext.Current.CancellationToken)).Returns(Task.CompletedTask);
-        authorisationNotifier.Setup(a => a.RemoveEventMarshal(eventId, Its.EquivalentTo(new[] { "a@a.com" }), TestContext.Current.CancellationToken)).Returns(Task.CompletedTask);
-        authorisationNotifier.Setup(a => a.NewEventMarshal(eventId, Its.EquivalentTo(new[] { "b@a.com" }), TestContext.Current.CancellationToken)).Returns(Task.CompletedTask);
+        _marshalRepository.Setup(a => a.GetById(eventId, marshalId, TestContext.Current.CancellationToken)).ReturnsAsync(marshal);
+        _marshalRepository.Setup(a => a.Upsert(marshal2, TestContext.Current.CancellationToken)).Returns(Task.CompletedTask);
+        _authorisationNotifier.Setup(a => a.AddEditableMarshal(marshalId, Its.EquivalentTo(new[] { "b@a.com" }), TestContext.Current.CancellationToken)).Returns(Task.CompletedTask);
+        _authorisationNotifier.Setup(a => a.RemoveEventMarshal(eventId, Its.EquivalentTo(new[] { "a@a.com" }), TestContext.Current.CancellationToken)).Returns(Task.CompletedTask);
+        _authorisationNotifier.Setup(a => a.NewEventMarshal(eventId, Its.EquivalentTo(new[] { "b@a.com" }), TestContext.Current.CancellationToken)).Returns(Task.CompletedTask);
 
         var se = new SaveMarshal(marshal2);
-        var res = await sut.Handle(se, TestContext.Current.CancellationToken);
+        var res = await _sut.Handle(se, TestContext.Current.CancellationToken);
 
-        mr.VerifyAll();
+        _mr.VerifyAll();
     }
 
     [Fact]
@@ -71,14 +71,14 @@ public class SaveMarshalHandlerShould
         var eventId = 2ul;
         var marshal = new Marshal(marshalId, "name", "familyName", "a@a.com", eventId, 123456, "");
 
-        marshalRepository.Setup(a => a.GetById(eventId, marshalId, TestContext.Current.CancellationToken)).ReturnsAsync((Marshal?)null);
-        marshalRepository.Setup(a => a.Upsert(marshal, TestContext.Current.CancellationToken)).Returns(Task.CompletedTask);
-        authorisationNotifier.Setup(a => a.NewEventMarshal(eventId, Its.EquivalentTo<IEnumerable<string>>(new[] { "a@a.com" }), TestContext.Current.CancellationToken)).Returns(Task.CompletedTask);
-        authorisationNotifier.Setup(a => a.AddEditableMarshal(marshalId, Its.EquivalentTo(new[] { "a@a.com" }), TestContext.Current.CancellationToken)).Returns(Task.CompletedTask);
+        _marshalRepository.Setup(a => a.GetById(eventId, marshalId, TestContext.Current.CancellationToken)).ReturnsAsync((Marshal?)null);
+        _marshalRepository.Setup(a => a.Upsert(marshal, TestContext.Current.CancellationToken)).Returns(Task.CompletedTask);
+        _authorisationNotifier.Setup(a => a.NewEventMarshal(eventId, Its.EquivalentTo<IEnumerable<string>>(new[] { "a@a.com" }), TestContext.Current.CancellationToken)).Returns(Task.CompletedTask);
+        _authorisationNotifier.Setup(a => a.AddEditableMarshal(marshalId, Its.EquivalentTo(new[] { "a@a.com" }), TestContext.Current.CancellationToken)).Returns(Task.CompletedTask);
 
         var se = new SaveMarshal(marshal);
-        var res = await sut.Handle(se, TestContext.Current.CancellationToken);
+        var res = await _sut.Handle(se, TestContext.Current.CancellationToken);
 
-        mr.VerifyAll();
+        _mr.VerifyAll();
     }
 }

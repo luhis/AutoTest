@@ -13,15 +13,15 @@ namespace AutoTest.Unit.Test.Handlers;
 
 public class GetClubsHandlerShould
 {
-    private readonly MockRepository mr;
-    private readonly IRequestHandler<GetClubs, IEnumerable<Club>> sut;
-    private readonly Mock<IClubsRepository> clubsRepository;
+    private readonly MockRepository _mr;
+    private readonly IRequestHandler<GetClubs, IEnumerable<Club>> _sut;
+    private readonly Mock<IClubsRepository> _clubsRepository;
 
     public GetClubsHandlerShould()
     {
-        mr = new MockRepository(MockBehavior.Strict);
-        clubsRepository = mr.Create<IClubsRepository>();
-        sut = new GetClubsHandler(clubsRepository.Object);
+        _mr = new MockRepository(MockBehavior.Strict);
+        _clubsRepository = _mr.Create<IClubsRepository>();
+        _sut = new GetClubsHandler(_clubsRepository.Object);
     }
 
     [Fact]
@@ -29,11 +29,11 @@ public class GetClubsHandlerShould
     {
         var clubId = 1ul;
         var clubs = new[] { new Club(clubId, "First", "Last", "") };
-        clubsRepository.Setup(a => a.GetAll(TestContext.Current.CancellationToken)).ReturnsAsync(clubs);
+        _clubsRepository.Setup(a => a.GetAll(TestContext.Current.CancellationToken)).ReturnsAsync(clubs);
 
-        var res = await sut.Handle(new(), TestContext.Current.CancellationToken);
+        var res = await _sut.Handle(new(), TestContext.Current.CancellationToken);
 
         res.Should().BeEquivalentTo(clubs);
-        mr.VerifyAll();
+        _mr.VerifyAll();
     }
 }

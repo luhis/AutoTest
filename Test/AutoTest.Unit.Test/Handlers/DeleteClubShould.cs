@@ -10,25 +10,25 @@ namespace AutoTest.Unit.Test.Handlers;
 
 public class DeleteClubShould
 {
-    private readonly IRequestHandler<DeleteClub> sut;
-    private readonly MockRepository mr;
-    private readonly Mock<IClubsRepository> clubs;
+    private readonly IRequestHandler<DeleteClub> _sut;
+    private readonly MockRepository _mr;
+    private readonly Mock<IClubsRepository> _clubs;
 
     public DeleteClubShould()
     {
-        mr = new MockRepository(MockBehavior.Strict);
-        clubs = mr.Create<IClubsRepository>();
-        sut = new DeleteClubHandler(clubs.Object);
+        _mr = new MockRepository(MockBehavior.Strict);
+        _clubs = _mr.Create<IClubsRepository>();
+        _sut = new DeleteClubHandler(_clubs.Object);
     }
 
     [Fact]
     public async Task DeleteClub()
     {
         var clubId = 1ul;
-        clubs.Setup(a => a.Delete(clubId, TestContext.Current.CancellationToken)).Returns(Task.CompletedTask);
+        _clubs.Setup(a => a.Delete(clubId, TestContext.Current.CancellationToken)).Returns(Task.CompletedTask);
 
-        await sut.Handle(new(clubId), TestContext.Current.CancellationToken);
+        await _sut.Handle(new(clubId), TestContext.Current.CancellationToken);
 
-        mr.VerifyAll();
+        _mr.VerifyAll();
     }
 }

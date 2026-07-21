@@ -12,17 +12,17 @@ namespace AutoTest.Unit.Test.Handlers;
 
 public class MarkPaidShould
 {
-    private readonly IRequestHandler<MarkPaid> sut;
-    private readonly MockRepository mr;
-    private readonly Mock<IEntrantsRepository> entrantsRepository;
+    private readonly IRequestHandler<MarkPaid> _sut;
+    private readonly MockRepository _mr;
+    private readonly Mock<IEntrantsRepository> _entrantsRepository;
 
-    private readonly Payment testPayment = new(new System.DateTime(2000, 1, 1), Domain.Enums.PaymentMethod.Paypal, new System.DateTime(2000, 2, 2), "test@test.com");
+    private readonly Payment _testPayment = new(new System.DateTime(2000, 1, 1), Domain.Enums.PaymentMethod.Paypal, new System.DateTime(2000, 2, 2), "test@test.com");
 
     public MarkPaidShould()
     {
-        mr = new MockRepository(MockBehavior.Strict);
-        entrantsRepository = mr.Create<IEntrantsRepository>();
-        sut = new MarkPaidHandler(entrantsRepository.Object);
+        _mr = new MockRepository(MockBehavior.Strict);
+        _entrantsRepository = _mr.Create<IEntrantsRepository>();
+        _sut = new MarkPaidHandler(_entrantsRepository.Object);
     }
 
     [Fact]
@@ -31,14 +31,14 @@ public class MarkPaidShould
         var entrantId = 1ul;
         var eventId = 22ul;
         var entrant = Models.GetEntrant(entrantId, eventId);
-        entrant.SetPayment(testPayment);
-        entrantsRepository.Setup(a => a.GetById(eventId, entrantId, TestContext.Current.CancellationToken)).ReturnsAsync(entrant);
-        entrantsRepository.Setup(a => a.Update(entrant, TestContext.Current.CancellationToken)).Returns(Task.CompletedTask);
+        entrant.SetPayment(_testPayment);
+        _entrantsRepository.Setup(a => a.GetById(eventId, entrantId, TestContext.Current.CancellationToken)).ReturnsAsync(entrant);
+        _entrantsRepository.Setup(a => a.Update(entrant, TestContext.Current.CancellationToken)).Returns(Task.CompletedTask);
 
-        await sut.Handle(new(eventId, entrantId, null), TestContext.Current.CancellationToken);
+        await _sut.Handle(new(eventId, entrantId, null), TestContext.Current.CancellationToken);
 
-        mr.VerifyAll();
-        entrantsRepository.Verify(a => a.Update(It.Is<Entrant>(a => a.Payment == null), TestContext.Current.CancellationToken));
+        _mr.VerifyAll();
+        _entrantsRepository.Verify(a => a.Update(It.Is<Entrant>(a => a.Payment == null), TestContext.Current.CancellationToken));
     }
 
     [Fact]
@@ -47,12 +47,12 @@ public class MarkPaidShould
         var entrantId = 1ul;
         var eventId = 22ul;
         var entrant = Models.GetEntrant(entrantId, eventId);
-        entrantsRepository.Setup(a => a.GetById(eventId, entrantId, TestContext.Current.CancellationToken)).ReturnsAsync(entrant);
-        entrantsRepository.Setup(a => a.Update(entrant, TestContext.Current.CancellationToken)).Returns(Task.CompletedTask);
+        _entrantsRepository.Setup(a => a.GetById(eventId, entrantId, TestContext.Current.CancellationToken)).ReturnsAsync(entrant);
+        _entrantsRepository.Setup(a => a.Update(entrant, TestContext.Current.CancellationToken)).Returns(Task.CompletedTask);
 
-        await sut.Handle(new(eventId, entrantId, testPayment), TestContext.Current.CancellationToken);
+        await _sut.Handle(new(eventId, entrantId, _testPayment), TestContext.Current.CancellationToken);
 
-        mr.VerifyAll();
-        entrantsRepository.Verify(a => a.Update(It.Is<Entrant>(a => a.Payment != null), TestContext.Current.CancellationToken));
+        _mr.VerifyAll();
+        _entrantsRepository.Verify(a => a.Update(It.Is<Entrant>(a => a.Payment != null), TestContext.Current.CancellationToken));
     }
 }

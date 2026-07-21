@@ -11,15 +11,15 @@ namespace AutoTest.Unit.Test.Handlers;
 
 public class DeleteEventShould
 {
-    private readonly IRequestHandler<DeleteEvent> sut;
-    private readonly MockRepository mr;
-    private readonly Mock<IEventsRepository> events;
+    private readonly IRequestHandler<DeleteEvent> _sut;
+    private readonly MockRepository _mr;
+    private readonly Mock<IEventsRepository> _events;
 
     public DeleteEventShould()
     {
-        mr = new MockRepository(MockBehavior.Strict);
-        events = mr.Create<IEventsRepository>();
-        sut = new DeleteEventHandler(events.Object);
+        _mr = new MockRepository(MockBehavior.Strict);
+        _events = _mr.Create<IEventsRepository>();
+        _sut = new DeleteEventHandler(_events.Object);
     }
 
     [Fact]
@@ -27,11 +27,11 @@ public class DeleteEventShould
     {
         var eventId = 1ul;
         var @event = Models.GetEvent(eventId);
-        events.Setup(a => a.GetById(eventId, TestContext.Current.CancellationToken)).ReturnsAsync(@event);
-        events.Setup(a => a.Delete(@event, TestContext.Current.CancellationToken)).Returns(Task.CompletedTask);
+        _events.Setup(a => a.GetById(eventId, TestContext.Current.CancellationToken)).ReturnsAsync(@event);
+        _events.Setup(a => a.Delete(@event, TestContext.Current.CancellationToken)).Returns(Task.CompletedTask);
 
-        await sut.Handle(new(eventId), TestContext.Current.CancellationToken);
+        await _sut.Handle(new(eventId), TestContext.Current.CancellationToken);
 
-        mr.VerifyAll();
+        _mr.VerifyAll();
     }
 }

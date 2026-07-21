@@ -17,21 +17,21 @@ namespace AutoTest.Unit.Test.Handlers;
 
 public class GetAwardsHandlerShould
 {
-    private readonly IRequestHandler<GetAwards, Awards> sut;
-    private readonly MockRepository mr;
-    private readonly Mock<ITestRunsRepository> testRunsRepository;
-    private readonly Mock<IEventsRepository> eventsRepository;
-    private readonly Mock<IEntrantsRepository> entrantsRepository;
-    private readonly Mock<ITotalTimeCalculator> totalTimeCalculator;
+    private readonly IRequestHandler<GetAwards, Awards> _sut;
+    private readonly MockRepository _mr;
+    private readonly Mock<ITestRunsRepository> _testRunsRepository;
+    private readonly Mock<IEventsRepository> _eventsRepository;
+    private readonly Mock<IEntrantsRepository> _entrantsRepository;
+    private readonly Mock<ITotalTimeCalculator> _totalTimeCalculator;
 
     public GetAwardsHandlerShould()
     {
-        mr = new MockRepository(MockBehavior.Strict);
-        testRunsRepository = mr.Create<ITestRunsRepository>();
-        eventsRepository = mr.Create<IEventsRepository>();
-        entrantsRepository = mr.Create<IEntrantsRepository>();
-        totalTimeCalculator = mr.Create<ITotalTimeCalculator>();
-        sut = new GetAwardsHandler(testRunsRepository.Object, eventsRepository.Object, entrantsRepository.Object, totalTimeCalculator.Object);
+        _mr = new MockRepository(MockBehavior.Strict);
+        _testRunsRepository = _mr.Create<ITestRunsRepository>();
+        _eventsRepository = _mr.Create<IEventsRepository>();
+        _entrantsRepository = _mr.Create<IEntrantsRepository>();
+        _totalTimeCalculator = _mr.Create<ITotalTimeCalculator>();
+        _sut = new GetAwardsHandler(_testRunsRepository.Object, _eventsRepository.Object, _entrantsRepository.Object, _totalTimeCalculator.Object);
     }
 
     [Fact]
@@ -40,21 +40,21 @@ public class GetAwardsHandlerShould
         var entrantId = 1ul;
         var eventId = 22ul;
 
-        eventsRepository.Setup(a => a.GetById(eventId, TestContext.Current.CancellationToken)).ReturnsAsync(
+        _eventsRepository.Setup(a => a.GetById(eventId, TestContext.Current.CancellationToken)).ReturnsAsync(
             Models.GetEvent(eventId)
             );
         var entrant = Models.GetEntrant(entrantId, eventId);
         var entrant2 = Models.GetEntrant(entrantId + 1, eventId);
-        entrantsRepository.Setup(a => a.GetByEventId(eventId, TestContext.Current.CancellationToken)).ReturnsAsync(new[] { entrant, entrant2 });
-        testRunsRepository.Setup(a => a.GetAll(eventId, TestContext.Current.CancellationToken)).ReturnsAsync(Enumerable.Empty<TestRun>());
-        totalTimeCalculator.Setup(a => a.GetTotalTime(It.IsAny<AutoTest.Service.ResultCalculation.TimeCalculatorConfig>(), It.IsAny<IEnumerable<TestRun>>(), It.IsAny<IEnumerable<TestRun>>())).Returns(0);
+        _entrantsRepository.Setup(a => a.GetByEventId(eventId, TestContext.Current.CancellationToken)).ReturnsAsync(new[] { entrant, entrant2 });
+        _testRunsRepository.Setup(a => a.GetAll(eventId, TestContext.Current.CancellationToken)).ReturnsAsync(Enumerable.Empty<TestRun>());
+        _totalTimeCalculator.Setup(a => a.GetTotalTime(It.IsAny<AutoTest.Service.ResultCalculation.TimeCalculatorConfig>(), It.IsAny<IEnumerable<TestRun>>(), It.IsAny<IEnumerable<TestRun>>())).Returns(0);
 
-        var res = await sut.Handle(new(eventId), TestContext.Current.CancellationToken);
+        var res = await _sut.Handle(new(eventId), TestContext.Current.CancellationToken);
 
         res.Should().BeEquivalentTo(new Awards(new EntrantTimes(entrant, 0, Enumerable.Empty<TestTime>(), 0, 0), new[] {
             new Result("A", new[] { new EntrantTimes(entrant2, 0, Enumerable.Empty<TestTime>(), 1, 1) })
         }));
 
-        mr.VerifyAll();
+        _mr.VerifyAll();
     }
 }

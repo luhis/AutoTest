@@ -13,17 +13,17 @@ namespace AutoTest.Unit.Test.Handlers;
 
 public class SetEventStatusShould
 {
-    private readonly IRequestHandler<SetEventStatus> sut;
-    private readonly MockRepository mr;
-    private readonly Mock<IEventsRepository> events;
-    private readonly Mock<IEventNotifier> notifier;
+    private readonly IRequestHandler<SetEventStatus> _sut;
+    private readonly MockRepository _mr;
+    private readonly Mock<IEventsRepository> _events;
+    private readonly Mock<IEventNotifier> _notifier;
 
     public SetEventStatusShould()
     {
-        mr = new MockRepository(MockBehavior.Strict);
-        events = mr.Create<IEventsRepository>();
-        notifier = mr.Create<IEventNotifier>();
-        sut = new SetEventStatusHandler(events.Object, notifier.Object);
+        _mr = new MockRepository(MockBehavior.Strict);
+        _events = _mr.Create<IEventsRepository>();
+        _notifier = _mr.Create<IEventNotifier>();
+        _sut = new SetEventStatusHandler(_events.Object, _notifier.Object);
     }
 
     [Fact]
@@ -31,13 +31,13 @@ public class SetEventStatusShould
     {
         var eventId = 11ul;
         var clubId = 2ul;
-        events.Setup(a => a.GetById(eventId, TestContext.Current.CancellationToken)).ReturnsAsync(Models.GetEvent(eventId, clubId));
+        _events.Setup(a => a.GetById(eventId, TestContext.Current.CancellationToken)).ReturnsAsync(Models.GetEvent(eventId, clubId));
         var toSave = Models.GetEvent(eventId, clubId);
         toSave.SetEventStatus(Domain.Enums.EventStatus.Open);
-        events.Setup(a => a.Upsert(Its.EquivalentTo(toSave), TestContext.Current.CancellationToken)).Returns(Task.CompletedTask);
-        notifier.Setup(a => a.EventStatusChanged(eventId, Domain.Enums.EventStatus.Open, TestContext.Current.CancellationToken)).Returns(Task.CompletedTask);
+        _events.Setup(a => a.Upsert(Its.EquivalentTo(toSave), TestContext.Current.CancellationToken)).Returns(Task.CompletedTask);
+        _notifier.Setup(a => a.EventStatusChanged(eventId, Domain.Enums.EventStatus.Open, TestContext.Current.CancellationToken)).Returns(Task.CompletedTask);
 
-        await sut.Handle(new SetEventStatus(eventId, Domain.Enums.EventStatus.Open), TestContext.Current.CancellationToken);
-        mr.VerifyAll();
+        await _sut.Handle(new SetEventStatus(eventId, Domain.Enums.EventStatus.Open), TestContext.Current.CancellationToken);
+        _mr.VerifyAll();
     }
 }

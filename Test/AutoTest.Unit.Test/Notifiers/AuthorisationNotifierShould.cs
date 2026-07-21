@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
@@ -12,23 +12,23 @@ namespace AutoTest.Unit.Test.Notifiers;
 
 public class AuthorisationNotifierShould
 {
-    private readonly IAuthorisationNotifier sut;
-    private readonly MockRepository mr;
-    private readonly Mock<IHubContext<AuthorisationHub>> eventHub;
+    private readonly IAuthorisationNotifier _sut;
+    private readonly MockRepository _mr;
+    private readonly Mock<IHubContext<AuthorisationHub>> _eventHub;
 
     public AuthorisationNotifierShould()
     {
-        mr = new MockRepository(MockBehavior.Strict);
-        eventHub = mr.Create<IHubContext<AuthorisationHub>>();
-        sut = new AuthorisationNotifier(eventHub.Object);
+        _mr = new MockRepository(MockBehavior.Strict);
+        _eventHub = _mr.Create<IHubContext<AuthorisationHub>>();
+        _sut = new AuthorisationNotifier(_eventHub.Object);
     }
 
     private void SetupHubSend(string groupName, string methodName, object[] args)
     {
-        var clientProxy = mr.Create<IClientProxy>();
-        var clients = mr.Create<IHubClients>();
+        var clientProxy = _mr.Create<IClientProxy>();
+        var clients = _mr.Create<IHubClients>();
         clients.Setup(a => a.Group(groupName)).Returns(clientProxy.Object);
-        eventHub.Setup(a => a.Clients).Returns(clients.Object);
+        _eventHub.Setup(a => a.Clients).Returns(clients.Object);
         clientProxy.Setup(a => a.SendCoreAsync(methodName, args, TestContext.Current.CancellationToken)).Returns(Task.CompletedTask);
     }
 
@@ -48,8 +48,8 @@ public class AuthorisationNotifierShould
     {
         SetupHubSend("email:a@a.com", methodName, new object[] { id });
 
-        await invoke(sut, id, new[] { "a@a.com" }, TestContext.Current.CancellationToken);
+        await invoke(_sut, id, new[] { "a@a.com" }, TestContext.Current.CancellationToken);
 
-        mr.VerifyAll();
+        _mr.VerifyAll();
     }
 }

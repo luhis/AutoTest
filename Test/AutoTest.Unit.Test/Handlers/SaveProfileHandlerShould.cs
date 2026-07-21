@@ -13,25 +13,25 @@ namespace AutoTest.Unit.Test.Handlers;
 
 public class SaveProfileHandlerShould
 {
-    private readonly IRequestHandler<SaveProfile, Profile> sut;
-    private readonly MockRepository mr;
-    private readonly Mock<IProfileRepository> profileRepository;
+    private readonly IRequestHandler<SaveProfile, Profile> _sut;
+    private readonly MockRepository _mr;
+    private readonly Mock<IProfileRepository> _profileRepository;
 
     public SaveProfileHandlerShould()
     {
-        mr = new MockRepository(MockBehavior.Strict);
-        profileRepository = mr.Create<IProfileRepository>();
-        sut = new SaveProfileHandler(profileRepository.Object);
+        _mr = new MockRepository(MockBehavior.Strict);
+        _profileRepository = _mr.Create<IProfileRepository>();
+        _sut = new SaveProfileHandler(_profileRepository.Object);
     }
 
     [Fact]
     public async Task SaveProfile()
     {
         var profile = Models.GetProfile("aa@aa.com");
-        profileRepository.Setup(a => a.Upsert(Its.EquivalentTo(profile), TestContext.Current.CancellationToken)).Returns(Task.CompletedTask);
+        _profileRepository.Setup(a => a.Upsert(Its.EquivalentTo(profile), TestContext.Current.CancellationToken)).Returns(Task.CompletedTask);
 
-        await sut.Handle(new(profile), TestContext.Current.CancellationToken);
+        await _sut.Handle(new(profile), TestContext.Current.CancellationToken);
 
-        mr.VerifyAll();
+        _mr.VerifyAll();
     }
 }

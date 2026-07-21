@@ -1,4 +1,4 @@
-﻿using System.Threading;
+using System.Threading;
 using System.Threading.Tasks;
 using AutoTest.Domain.StorageModels;
 using AutoTest.Service.Messages;
@@ -18,17 +18,17 @@ namespace AutoTest.Unit.Test.Authorisation;
 
 public class ClubAdminOrSelfRequirementClubAdminHandlerShould
 {
-    private readonly AuthorizationHandler<ClubAdminOrSelfRequirement> sut;
-    private readonly MockRepository mr;
-    private readonly Mock<IMediator> mediator;
-    private readonly Mock<IHttpContextAccessor> httpContextAccessor;
+    private readonly AuthorizationHandler<ClubAdminOrSelfRequirement> _sut;
+    private readonly MockRepository _mr;
+    private readonly Mock<IMediator> _mediator;
+    private readonly Mock<IHttpContextAccessor> _httpContextAccessor;
 
     public ClubAdminOrSelfRequirementClubAdminHandlerShould()
     {
-        mr = new MockRepository(MockBehavior.Strict);
-        mediator = mr.Create<IMediator>();
-        httpContextAccessor = mr.Create<IHttpContextAccessor>();
-        sut = new ClubAdminOrSelfRequirementClubAdminHandler(httpContextAccessor.Object, mediator.Object);
+        _mr = new MockRepository(MockBehavior.Strict);
+        _mediator = _mr.Create<IMediator>();
+        _httpContextAccessor = _mr.Create<IHttpContextAccessor>();
+        _sut = new ClubAdminOrSelfRequirementClubAdminHandler(_httpContextAccessor.Object, _mediator.Object);
     }
 
     [Fact]
@@ -41,18 +41,18 @@ public class ClubAdminOrSelfRequirementClubAdminHandlerShould
         var eventId = 1ul;
         var clubId = 88ul;
         var ctx = HttpContextFixture.GetHttpContext(new[] { ("eventId", $"{eventId}"), ("entrantId", $"{entrantId}") });
-        httpContextAccessor.SetupGet(a => a.HttpContext).Returns(ctx);
-        mediator.Setup(a => a.Send(Its.EquivalentTo(new GetEvent(eventId)), CancellationToken.None)).ReturnsAsync(
+        _httpContextAccessor.SetupGet(a => a.HttpContext).Returns(ctx);
+        _mediator.Setup(a => a.Send(Its.EquivalentTo(new GetEvent(eventId)), CancellationToken.None)).ReturnsAsync(
             Models.GetEvent(eventId, clubId));
         var club = new Club(clubId, "BRMC", "pay@brmc.org", "www.com");
         club.AdminEmails.Add(new("a@a.com"));
-        mediator.Setup(a => a.Send(Its.EquivalentTo(new GetClub(clubId)), CancellationToken.None)).ReturnsAsync(
+        _mediator.Setup(a => a.Send(Its.EquivalentTo(new GetClub(clubId)), CancellationToken.None)).ReturnsAsync(
             club);
 
-        await sut.HandleAsync(ac);
+        await _sut.HandleAsync(ac);
 
         ac.HasSucceeded.Should().BeTrue();
-        mr.VerifyAll();
+        _mr.VerifyAll();
     }
 
     [Fact]
@@ -64,13 +64,13 @@ public class ClubAdminOrSelfRequirementClubAdminHandlerShould
         var entrantId = 99ul;
         var eventId = 1ul;
         var ctx = HttpContextFixture.GetHttpContext(new[] { ("eventId", $"{eventId}"), ("entrantId", $"{entrantId}") });
-        httpContextAccessor.SetupGet(a => a.HttpContext).Returns(ctx);
-        mediator.Setup(a => a.Send(Its.EquivalentTo(new GetEvent(eventId)), CancellationToken.None)).ReturnsAsync((Event?)null);
+        _httpContextAccessor.SetupGet(a => a.HttpContext).Returns(ctx);
+        _mediator.Setup(a => a.Send(Its.EquivalentTo(new GetEvent(eventId)), CancellationToken.None)).ReturnsAsync((Event?)null);
 
-        await sut.HandleAsync(ac);
+        await _sut.HandleAsync(ac);
 
         ac.HasSucceeded.Should().BeTrue();
-        mr.VerifyAll();
+        _mr.VerifyAll();
     }
 
     [Fact]
@@ -83,18 +83,18 @@ public class ClubAdminOrSelfRequirementClubAdminHandlerShould
         var eventId = 1ul;
         var clubId = 88ul;
         var ctx = HttpContextFixture.GetHttpContext(new[] { ("eventId", $"{eventId}"), ("entrantId", $"{entrantId}") });
-        httpContextAccessor.SetupGet(a => a.HttpContext).Returns(ctx);
-        mediator.Setup(a => a.Send(Its.EquivalentTo(new GetEvent(eventId)), CancellationToken.None)).ReturnsAsync(
+        _httpContextAccessor.SetupGet(a => a.HttpContext).Returns(ctx);
+        _mediator.Setup(a => a.Send(Its.EquivalentTo(new GetEvent(eventId)), CancellationToken.None)).ReturnsAsync(
             Models.GetEvent(eventId, clubId));
         var club = new Club(clubId, "BRMC", "pay@brmc.org", "www.com");
         club.AdminEmails.Add(new("a@a.com"));
-        mediator.Setup(a => a.Send(Its.EquivalentTo(new GetClub(clubId)), CancellationToken.None)).ReturnsAsync(
+        _mediator.Setup(a => a.Send(Its.EquivalentTo(new GetClub(clubId)), CancellationToken.None)).ReturnsAsync(
             club);
-        await sut.HandleAsync(ac);
+        await _sut.HandleAsync(ac);
 
         ac.HasFailed.Should().BeTrue();
-        ac.FailureReasons.Should().BeEquivalentTo([new AuthorizationFailureReason(sut, "Wrong Email")]);
-        mr.VerifyAll();
+        ac.FailureReasons.Should().BeEquivalentTo([new AuthorizationFailureReason(_sut, "Wrong Email")]);
+        _mr.VerifyAll();
     }
 
     [Fact]
@@ -107,16 +107,16 @@ public class ClubAdminOrSelfRequirementClubAdminHandlerShould
         var eventId = 1ul;
         var clubId = 88ul;
         var ctx = HttpContextFixture.GetHttpContext(new[] { ("eventId", $"{eventId}"), ("entrantId", $"{entrantId}") });
-        httpContextAccessor.SetupGet(a => a.HttpContext).Returns(ctx);
-        mediator.Setup(a => a.Send(Its.EquivalentTo(new GetEvent(eventId)), CancellationToken.None)).ReturnsAsync(
+        _httpContextAccessor.SetupGet(a => a.HttpContext).Returns(ctx);
+        _mediator.Setup(a => a.Send(Its.EquivalentTo(new GetEvent(eventId)), CancellationToken.None)).ReturnsAsync(
             Models.GetEvent(eventId, clubId));
-        mediator.Setup(a => a.Send(Its.EquivalentTo(new GetClub(clubId)), CancellationToken.None)).ReturnsAsync(
+        _mediator.Setup(a => a.Send(Its.EquivalentTo(new GetClub(clubId)), CancellationToken.None)).ReturnsAsync(
             (Club?)null);
 
-        await sut.HandleAsync(ac);
+        await _sut.HandleAsync(ac);
 
         ac.HasFailed.Should().BeTrue();
-        ac.FailureReasons.Should().BeEquivalentTo([new AuthorizationFailureReason(sut, "Cannot find club")]);
-        mr.VerifyAll();
+        ac.FailureReasons.Should().BeEquivalentTo([new AuthorizationFailureReason(_sut, "Cannot find club")]);
+        _mr.VerifyAll();
     }
 }

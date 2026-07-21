@@ -11,25 +11,25 @@ namespace AutoTest.Unit.Test.Handlers;
 
 public class GetMapsHandlerShould
 {
-    private readonly MockRepository mr;
-    private readonly IRequestHandler<GetMaps, string> sut;
-    private readonly Mock<IFileRepository> fs;
+    private readonly MockRepository _mr;
+    private readonly IRequestHandler<GetMaps, string> _sut;
+    private readonly Mock<IFileRepository> _fs;
 
     public GetMapsHandlerShould()
     {
-        mr = new MockRepository(MockBehavior.Strict);
-        fs = mr.Create<IFileRepository>();
-        sut = new GetMapsHandler(fs.Object);
+        _mr = new MockRepository(MockBehavior.Strict);
+        _fs = _mr.Create<IFileRepository>();
+        _sut = new GetMapsHandler(_fs.Object);
     }
 
     [Fact]
     public async Task Get()
     {
-        fs.Setup(a => a.GetMaps(11, TestContext.Current.CancellationToken)).ReturnsAsync("data");
+        _fs.Setup(a => a.GetMaps(11, TestContext.Current.CancellationToken)).ReturnsAsync("data");
 
-        var maps = await sut.Handle(new GetMaps(11), TestContext.Current.CancellationToken);
+        var maps = await _sut.Handle(new GetMaps(11), TestContext.Current.CancellationToken);
 
         maps.Should().Be("data");
-        mr.VerifyAll();
+        _mr.VerifyAll();
     }
 }

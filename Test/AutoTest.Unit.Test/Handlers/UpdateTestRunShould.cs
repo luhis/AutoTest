@@ -13,17 +13,17 @@ namespace AutoTest.Unit.Test.Handlers;
 
 public class UpdateTestRunShould
 {
-    private readonly IRequestHandler<UpdateTestRun> sut;
-    private readonly MockRepository mr;
-    private readonly Mock<IEventNotifier> notifier;
-    private readonly Mock<ITestRunsRepository> testRuns;
+    private readonly IRequestHandler<UpdateTestRun> _sut;
+    private readonly MockRepository _mr;
+    private readonly Mock<IEventNotifier> _notifier;
+    private readonly Mock<ITestRunsRepository> _testRuns;
 
     public UpdateTestRunShould()
     {
-        mr = new MockRepository(MockBehavior.Strict);
-        notifier = mr.Create<IEventNotifier>();
-        testRuns = mr.Create<ITestRunsRepository>();
-        sut = new UpdateTestRunHandler(testRuns.Object, notifier.Object);
+        _mr = new MockRepository(MockBehavior.Strict);
+        _notifier = _mr.Create<IEventNotifier>();
+        _testRuns = _mr.Create<ITestRunsRepository>();
+        _sut = new UpdateTestRunHandler(_testRuns.Object, _notifier.Object);
     }
 
     [Fact]
@@ -34,12 +34,12 @@ public class UpdateTestRunShould
         var penalties = new[] { new Penalty(Domain.Enums.PenaltyEnum.Late, 1) };
         var tr = new TestRun(1, 2, 3, 4, entrantId, new System.DateTime(2000, 1, 1), marshalId);
         tr.SetPenalties(penalties);
-        notifier.Setup(a => a.NewTestRun(Its.EquivalentTo(tr), TestContext.Current.CancellationToken)).Returns(Task.CompletedTask);
-        testRuns.Setup(a => a.UpdateTestRun(Its.EquivalentTo(tr), TestContext.Current.CancellationToken)).Returns(Task.CompletedTask);
+        _notifier.Setup(a => a.NewTestRun(Its.EquivalentTo(tr), TestContext.Current.CancellationToken)).Returns(Task.CompletedTask);
+        _testRuns.Setup(a => a.UpdateTestRun(Its.EquivalentTo(tr), TestContext.Current.CancellationToken)).Returns(Task.CompletedTask);
 
-        await sut.Handle(new(1, 2, 3, 4, entrantId, new System.DateTime(2000, 1, 1), marshalId, penalties), TestContext.Current.CancellationToken);
+        await _sut.Handle(new(1, 2, 3, 4, entrantId, new System.DateTime(2000, 1, 1), marshalId, penalties), TestContext.Current.CancellationToken);
 
-        mr.VerifyAll();
+        _mr.VerifyAll();
     }
 
     [Fact(Skip = "Todo not implemented")]
@@ -50,11 +50,11 @@ public class UpdateTestRunShould
         var penalties = new[] { new Penalty(Domain.Enums.PenaltyEnum.Late, 1) };
         var tr = new TestRun(1, 2, 3, 4, entrantId, new System.DateTime(2000, 1, 1), marshalId);
         tr.SetPenalties(penalties);
-        notifier.Setup(a => a.NewTestRun(Its.EquivalentTo(tr), TestContext.Current.CancellationToken)).Returns(Task.CompletedTask);
-        testRuns.Setup(a => a.UpdateTestRun(Its.EquivalentTo(tr), TestContext.Current.CancellationToken)).Returns(Task.CompletedTask);
+        _notifier.Setup(a => a.NewTestRun(Its.EquivalentTo(tr), TestContext.Current.CancellationToken)).Returns(Task.CompletedTask);
+        _testRuns.Setup(a => a.UpdateTestRun(Its.EquivalentTo(tr), TestContext.Current.CancellationToken)).Returns(Task.CompletedTask);
 
-        await sut.Handle(new(1, 2, 3, 4, entrantId, new System.DateTime(2000, 1, 2), marshalId, penalties), TestContext.Current.CancellationToken);
+        await _sut.Handle(new(1, 2, 3, 4, entrantId, new System.DateTime(2000, 1, 2), marshalId, penalties), TestContext.Current.CancellationToken);
 
-        mr.VerifyAll();
+        _mr.VerifyAll();
     }
 }

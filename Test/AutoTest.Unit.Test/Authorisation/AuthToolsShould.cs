@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Threading.Tasks;
 using AutoTest.Domain.StorageModels;
 using AutoTest.Service.Messages;
@@ -14,13 +14,13 @@ namespace AutoTest.Unit.Test.Authorisation;
 
 public class AuthToolsShould
 {
-    private readonly MockRepository mr;
-    private readonly Mock<IMediator> mediator;
+    private readonly MockRepository _mr;
+    private readonly Mock<IMediator> _mediator;
 
     public AuthToolsShould()
     {
-        mr = new MockRepository(MockBehavior.Strict);
-        mediator = mr.Create<IMediator>();
+        _mr = new MockRepository(MockBehavior.Strict);
+        _mediator = _mr.Create<IMediator>();
     }
 
     [Fact]
@@ -48,10 +48,10 @@ public class AuthToolsShould
     {
         var rd = new RouteData(new RouteValueDictionary());
 
-        Func<Task<string?>> act = () => AuthTools.GetExistingEmail(rd, mediator.Object, TestContext.Current.CancellationToken);
+        Func<Task<string?>> act = () => AuthTools.GetExistingEmail(rd, _mediator.Object, TestContext.Current.CancellationToken);
 
         await act.Should().ThrowAsync<Exception>().WithMessage("Don't know how to get Email from this request");
-        mr.VerifyAll();
+        _mr.VerifyAll();
     }
 
     [Fact]
@@ -62,13 +62,13 @@ public class AuthToolsShould
         var rd = new RouteData(new RouteValueDictionary());
         rd.Values.Add("eventId", $"{eventId}");
         rd.Values.Add("entrantId", $"{entrantId}");
-        mediator.Setup(a => a.Send(Its.EquivalentTo(new GetEntrant(eventId, entrantId)), TestContext.Current.CancellationToken)).ReturnsAsync(
+        _mediator.Setup(a => a.Send(Its.EquivalentTo(new GetEntrant(eventId, entrantId)), TestContext.Current.CancellationToken)).ReturnsAsync(
             new Entrant(entrantId, 22, "Joe", "Bloggs", "a@a.com", "A", 99, Domain.Enums.Age.Senior, false, null));
 
-        var email = await AuthTools.GetExistingEmail(rd, mediator.Object, TestContext.Current.CancellationToken);
+        var email = await AuthTools.GetExistingEmail(rd, _mediator.Object, TestContext.Current.CancellationToken);
 
         email.Should().Be("a@a.com");
-        mr.VerifyAll();
+        _mr.VerifyAll();
     }
 
     [Fact]
@@ -79,13 +79,13 @@ public class AuthToolsShould
         var rd = new RouteData(new RouteValueDictionary());
         rd.Values.Add("eventId", $"{eventId}");
         rd.Values.Add("entrantId", $"{entrantId}");
-        mediator.Setup(a => a.Send(Its.EquivalentTo(new GetEntrant(eventId, entrantId)), TestContext.Current.CancellationToken)).ReturnsAsync((Entrant?)
+        _mediator.Setup(a => a.Send(Its.EquivalentTo(new GetEntrant(eventId, entrantId)), TestContext.Current.CancellationToken)).ReturnsAsync((Entrant?)
             null);
 
-        var email = await AuthTools.GetExistingEmail(rd, mediator.Object, TestContext.Current.CancellationToken);
+        var email = await AuthTools.GetExistingEmail(rd, _mediator.Object, TestContext.Current.CancellationToken);
 
         email.Should().BeNull();
-        mr.VerifyAll();
+        _mr.VerifyAll();
     }
 
     [Fact]
@@ -96,13 +96,13 @@ public class AuthToolsShould
         var rd = new RouteData(new RouteValueDictionary());
         rd.Values.Add("eventId", $"{eventId}");
         rd.Values.Add("marshalId", $"{marshalId}");
-        mediator.Setup(a => a.Send(Its.EquivalentTo(new GetMarshal(eventId, marshalId)), TestContext.Current.CancellationToken)).ReturnsAsync(
+        _mediator.Setup(a => a.Send(Its.EquivalentTo(new GetMarshal(eventId, marshalId)), TestContext.Current.CancellationToken)).ReturnsAsync(
             new Marshal(marshalId, "Joe", "Bloggs", "a@a.com", eventId, 9876543, "role"));
 
-        var email = await AuthTools.GetExistingEmail(rd, mediator.Object, TestContext.Current.CancellationToken);
+        var email = await AuthTools.GetExistingEmail(rd, _mediator.Object, TestContext.Current.CancellationToken);
 
         email.Should().Be("a@a.com");
-        mr.VerifyAll();
+        _mr.VerifyAll();
     }
 
     [Fact]
@@ -113,11 +113,11 @@ public class AuthToolsShould
         var rd = new RouteData(new RouteValueDictionary());
         rd.Values.Add("eventId", $"{eventId}");
         rd.Values.Add("marshalId", $"{marshalId}");
-        mediator.Setup(a => a.Send(Its.EquivalentTo(new GetMarshal(eventId, marshalId)), TestContext.Current.CancellationToken)).ReturnsAsync((Marshal?)null);
+        _mediator.Setup(a => a.Send(Its.EquivalentTo(new GetMarshal(eventId, marshalId)), TestContext.Current.CancellationToken)).ReturnsAsync((Marshal?)null);
 
-        var email = await AuthTools.GetExistingEmail(rd, mediator.Object, TestContext.Current.CancellationToken);
+        var email = await AuthTools.GetExistingEmail(rd, _mediator.Object, TestContext.Current.CancellationToken);
 
         email.Should().BeNull();
-        mr.VerifyAll();
+        _mr.VerifyAll();
     }
 }
