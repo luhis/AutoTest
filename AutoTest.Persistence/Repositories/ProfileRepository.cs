@@ -11,7 +11,7 @@ public class ProfileRepository(AutoTestContext autoTestContext) : IProfileReposi
 {
     Task<Profile?> IProfileRepository.Get(string email, CancellationToken cancellationToken)
     {
-        return autoTestContext.Users.Where(a => a.EmailAddress == email).SingleOrDefaultAsync(cancellationToken);
+        return autoTestContext.Users.Where(a => a.EmailAddress == email).FirstOrDefaultAsync(cancellationToken);
     }
 
     async Task IProfileRepository.Upsert(Profile profile, CancellationToken cancellationToken)

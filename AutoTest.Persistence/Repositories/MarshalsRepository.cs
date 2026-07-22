@@ -26,7 +26,7 @@ public class MarshalsRepository(AutoTestContext autoTestContext) : IMarshalsRepo
 
     Task<Marshal?> IMarshalsRepository.GetById(ulong eventId, ulong marshalId, CancellationToken cancellationToken)
     {
-        return autoTestContext.Marshals.SingleOrDefaultAsync(a => a.EventId == eventId && a.MarshalId == marshalId, cancellationToken);
+        return autoTestContext.Marshals.Where(a => a.EventId == eventId && a.MarshalId == marshalId).FirstOrDefaultAsync(cancellationToken);
     }
 
     async Task IMarshalsRepository.Upsert(Marshal marshal, CancellationToken cancellationToken)

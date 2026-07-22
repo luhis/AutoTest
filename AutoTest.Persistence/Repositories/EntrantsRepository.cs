@@ -12,7 +12,7 @@ public class EntrantsRepository(AutoTestContext autoTestContext) : IEntrantsRepo
 {
     Task<Entrant?> IEntrantsRepository.GetById(ulong eventId, ulong entrantId, CancellationToken cancellationToken)
     {
-        return autoTestContext.Entrants.Where(a => a.EventId == eventId && a.EntrantId == entrantId).SingleOrDefaultAsync(cancellationToken);
+        return autoTestContext.Entrants.Where(a => a.EventId == eventId && a.EntrantId == entrantId).FirstOrDefaultAsync(cancellationToken);
     }
 
     Task<IEnumerable<Entrant>> IEntrantsRepository.GetByEventId(ulong eventId, CancellationToken cancellationToken)

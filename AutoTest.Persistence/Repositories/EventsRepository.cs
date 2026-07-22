@@ -12,7 +12,7 @@ public class EventsRepository(AutoTestContext autoTestContext) : IEventsReposito
 {
     Task<Event?> IEventsRepository.GetById(ulong eventId, CancellationToken cancellationToken)
     {
-        return autoTestContext.Events.Where(a => a.EventId == eventId).SingleOrDefaultAsync(cancellationToken);
+        return autoTestContext.Events.Where(a => a.EventId == eventId).FirstOrDefaultAsync(cancellationToken);
     }
 
     Task<IEnumerable<Event>> IEventsRepository.GetAll(CancellationToken cancellationToken)
