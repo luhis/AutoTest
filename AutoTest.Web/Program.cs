@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 using AutoTest.Persistence;
 using Microsoft.AspNetCore.Hosting;
@@ -26,11 +27,16 @@ public static class Program
             using var scope = host.Services.CreateScope();
             var autoTestContext = scope.ServiceProvider.GetRequiredService<AutoTestContext>();
             logger.LogInformation("Seeding database...");
-            await autoTestContext.SeedDatabaseAsync();
+            using var cts = new CancellationTokenSource(TimeSpan.FromSeconds(60));
+            await autoTestContext.SeedDatabaseAsync(cts.Token);
             logger.LogInformation("Database seeded successfully.");
 
             logger.LogInformation("Starting web host...");
             await host.RunAsync();
+        }
+        catch (OperationCanceledException)
+        {
+            logger.LogCritical("Cosmos DB was not ready within the timeout. Exiting.");
         }
         catch (Exception ex)
         {
