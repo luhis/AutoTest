@@ -10,4 +10,8 @@
   <Project Path="AutoTest.Domain\AutoTest.Domain.csproj" />
   <Project Path="AutoTest.Service\AutoTest.Service.csproj" />
   <Project Path="AutoTest.Persistence\AutoTest.Persistence.csproj" />
+  <Project Path="docker-compose.dcproj">
+    <BuildType Project="Release" />
+    <Build />
+  </Project>
 </Solution>

@@ -1,0 +1,27 @@
+services:
+  cosmosdb:
+    image: mcr.microsoft.com/cosmosdb/linux/azure-cosmos-emulator
+    hostname: cosmosdb
+    environment:
+      - AZURE_COSMOS_EMULATOR_PARTITION_COUNT=1
+      - AZURE_COSMOS_EMULATOR_ENABLE_DATA_PERSISTENCE=false
+      - AZURE_COSMOS_EMULATOR_IP_ADDRESS_FILTER=*
+    ports:
+      - "8081:8081"
+      - "10250:10250"
+      - "10251:10251"
+      - "10252:10252"
+      - "10254:10254"
+    volumes:
+      - cosmosdb-data:/data
+
+  autotest.web:
+    image: ${DOCKER_REGISTRY-}autotestweb
+    build:
+      context: .
+      dockerfile: AutoTest.Web/Dockerfile
+    depends_on:
+      - cosmosdb
+
+volumes:
+  cosmosdb-data:
