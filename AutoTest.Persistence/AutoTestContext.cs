@@ -79,7 +79,7 @@ public class AutoTestContext : DbContext
 
             if (await Marshals.FindAsync([6UL], cancellationToken) is null)
             {
-                var m = new Marshal(6, "Matt", "McCorry", "mccorry@gmail.com", 2, 69, "Play");
+                var m = new Marshal(6, "Matt", "McCorry", "mccorry@gmail.com", 1, 69, "Play");
                 Marshals.Add(m);
             }
 

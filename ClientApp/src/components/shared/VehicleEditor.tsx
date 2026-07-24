@@ -108,20 +108,24 @@ const VehicleEditor: FunctionComponent<Props> = ({
       </Columns>
       <Field>
         <Label>Induction</Label>
-        <Radio
-          checked={vehicle.induction === InductionTypes.NA}
-          onChange={setInduction}
-          value={InductionTypes.NA}
-        >
-          NA
-        </Radio>
-        <Radio
-          checked={vehicle.induction === InductionTypes.Forced}
-          onChange={setInduction}
-          value={InductionTypes.Forced}
-        >
-          Forced
-        </Radio>
+        <Control>
+          <Radio
+            checked={vehicle.induction === InductionTypes.NA}
+            onChange={setInduction}
+            value={InductionTypes.NA}
+          >
+            NA
+          </Radio>
+        </Control>
+        <Control>
+          <Radio
+            checked={vehicle.induction === InductionTypes.Forced}
+            onChange={setInduction}
+            value={InductionTypes.Forced}
+          >
+            Forced
+          </Radio>
+        </Control>
       </Field>
     </Fragment>
   );

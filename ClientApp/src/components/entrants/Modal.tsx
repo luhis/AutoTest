@@ -113,18 +113,22 @@ const EntrantsModal: FunctionComponent<Props> = ({
             <FormColumn>
               <Control fullwidth={true}>
                 <Label>Age</Label>
-                <Radio
-                  checked={entrant.age === Age.Junior}
-                  onChange={() => setField({ age: Age.Junior })}
-                >
-                  Junior
-                </Radio>
-                <Radio
-                  checked={entrant.age === Age.Senior}
-                  onChange={() => setField({ age: Age.Senior })}
-                >
-                  Senior
-                </Radio>
+                <Control>
+                  <Radio
+                    checked={entrant.age === Age.Junior}
+                    onChange={() => setField({ age: Age.Junior })}
+                  >
+                    Junior
+                  </Radio>
+                </Control>
+                <Control>
+                  <Radio
+                    checked={entrant.age === Age.Senior}
+                    onChange={() => setField({ age: Age.Senior })}
+                  >
+                    Senior
+                  </Radio>
+                </Control>
               </Control>
             </FormColumn>
             <FormColumn>
