@@ -83,7 +83,7 @@ public class AutoTestContext : DbContext
                 Marshals.Add(m);
             }
 
-            if (!await TestRuns.AnyAsync(t => t.EventId == 2, cancellationToken))
+            if (await TestRuns.FindAsync([100UL], cancellationToken) is null)
             {
                 TestRuns.Add(new TestRun(100, 2, 1, 45200, 4, DateTime.UtcNow, 6));
                 TestRuns.Add(new TestRun(101, 2, 1, 43800, 4, DateTime.UtcNow, 6));
