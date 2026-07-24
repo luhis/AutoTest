@@ -1,11 +1,17 @@
 {
   "dependencies": {
-    "cosmosdb1": {
-      "type": "cosmosdb",
-      "connectionId": "Cosmos"
-    },
     "appInsights1": {
       "type": "appInsights"
+    },
+    "cosmosdb1": {
+      "type": "cosmosdb",
+      "connectionId": "Cosmos",
+      "dynamicId": null
+    },
+    "storage1": {
+      "type": "storage",
+      "connectionId": "StorageConnection",
+      "dynamicId": null
     }
   }
 }
