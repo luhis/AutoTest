@@ -1,8 +1,8 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <ItemGroup>
-    <PackageReference Include="Mediator.Abstractions" Version="3.0.2" />
-    <PackageReference Include="OneOf" Version="3.0.271" />
+    <PackageReference Include="Mediator.Abstractions" />
+    <PackageReference Include="OneOf" />
   </ItemGroup>
 
   <ItemGroup>
