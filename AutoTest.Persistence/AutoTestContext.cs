@@ -83,6 +83,16 @@ public class AutoTestContext : DbContext
                 Marshals.Add(m);
             }
 
+            if (!await TestRuns.AnyAsync(t => t.EventId == 2, cancellationToken))
+            {
+                TestRuns.Add(new TestRun(100, 2, 1, 45200, 4, DateTime.UtcNow, 6));
+                TestRuns.Add(new TestRun(101, 2, 1, 43800, 4, DateTime.UtcNow, 6));
+                TestRuns.Add(new TestRun(102, 2, 2, 51200, 4, DateTime.UtcNow, 6));
+                TestRuns.Add(new TestRun(103, 2, 2, 49900, 4, DateTime.UtcNow, 6));
+                TestRuns.Add(new TestRun(104, 2, 3, 38700, 4, DateTime.UtcNow, 6));
+                TestRuns.Add(new TestRun(105, 2, 3, 40100, 4, DateTime.UtcNow, 6));
+            }
+
             await SaveChangesAsync(cancellationToken);
         }
     }
