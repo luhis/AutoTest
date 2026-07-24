@@ -241,6 +241,7 @@ const EntrantsModal: FunctionComponent<Props> = ({
                       {a.familyName}
                     </option>
                   ),
+                  (a) => entrant.isNew || a.entrantId !== entrant.entrantId,
                 )}
               </Select>
             </Control>
