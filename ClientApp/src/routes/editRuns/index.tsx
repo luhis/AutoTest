@@ -114,39 +114,41 @@ const EditRuns: FunctionalComponent<Props> = ({ eventId }) => {
           </option>
         ))}
       </Form.Select>
-      <Table>
-        <thead>
-          <tr>
-            <th>Test Run ID</th>
-            <th>Marshal</th>
-            <th>Entrant</th>
-            <th>Time</th>
-            <th>Penalties</th>
-            <th>Created</th>
-          </tr>
-        </thead>
-        {ifSome(
-          testRuns,
-          (r) => r.testRunId,
-          (result) => (
-            <tr
-              key={result.testRunId}
-              onClick={() => setEditing(result)}
-              class="is-clickable"
-            >
-              <td>{result.testRunId}</td>
-              <td>{getMarshalName(result.marshalId)}</td>
-              <td>{getEntrantName(result.entrantId)}</td>
-              <td>{(result.timeInMS / 1000).toFixed(2)}s</td>
-              <td>
-                <Penalties penalties={result.penalties} />
-              </td>
-              <td>{result.created.toUTCString()}</td>
+      <Table.Container>
+        <Table>
+          <thead>
+            <tr>
+              <th>Test Run ID</th>
+              <th>Marshal</th>
+              <th>Entrant</th>
+              <th>Time</th>
+              <th>Penalties</th>
+              <th>Created</th>
             </tr>
-          ),
-          (_) => true,
-        )}
-      </Table>
+          </thead>
+          {ifSome(
+            testRuns,
+            (r) => r.testRunId,
+            (result) => (
+              <tr
+                key={result.testRunId}
+                onClick={() => setEditing(result)}
+                class="is-clickable"
+              >
+                <td>{result.testRunId}</td>
+                <td>{getMarshalName(result.marshalId)}</td>
+                <td>{getEntrantName(result.entrantId)}</td>
+                <td>{(result.timeInMS / 1000).toFixed(2)}s</td>
+                <td>
+                  <Penalties penalties={result.penalties} />
+                </td>
+                <td>{result.created.toUTCString()}</td>
+              </tr>
+            ),
+            (_) => true,
+          )}
+        </Table>
+      </Table.Container>
       {editing ? (
         <Modal
           run={editing}

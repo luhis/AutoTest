@@ -60,10 +60,11 @@ export enum EntrantStatus {
 }
 
 export enum EventStatus {
-  Open = 0,
-  Running = 1,
-  Provisional = 2,
-  Finalised = 3,
+  Created = 0,
+  Open = 1,
+  Running = 2,
+  Provisional = 3,
+  Finalised = 4,
 }
 
 export enum TestRunUploadState {

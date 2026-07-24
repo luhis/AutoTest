@@ -133,7 +133,7 @@ const Event: FunctionalComponent<Props> = ({ eventId }) => {
             <Button.Group>
               <Button
                 onClick={previousStatus}
-                disabled={currentEvent.eventStatus === EventStatus.Open}
+                disabled={currentEvent.eventStatus === EventStatus.Created}
               >
                 Back
               </Button>

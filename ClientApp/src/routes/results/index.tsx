@@ -206,48 +206,54 @@ const Results: FunctionComponent<
       {window.Notification.permission !== "granted"
         ? "Please allow notifications to get run notifications"
         : null}
-      <Table>
-        <thead>
-          <tr>
-            {headers.map((header) => (
-              <th key={header}>{header}</th>
-            ))}
-          </tr>
-        </thead>
-        {ifSome(
-          results,
-          (r) => r.class,
-          (result) => (
-            <Fragment>
-              {result.entrantTimes.map((a) => (
-                <tr key={a.entrant.entrantId}>
-                  <td>
-                    <p>{result.class}</p>
-                  </td>
-                  <td>
-                    <DriverNumber driverNumber={a.entrant.driverNumber} />
-                  </td>
-                  <td>{`${a.entrant.givenName} ${a.entrant.familyName}`}</td>
-                  <td>{(a.totalTime / 1000).toFixed(2)}</td>
-                  {currentEvent
-                    ? currentEvent.courses.map((test) =>
-                        testRuns.map((run) => (
-                          <td key={`${test.ordinal}.${run}`}>
-                            <Time times={a} ordinal={test.ordinal} run={run} />
-                          </td>
-                        )),
-                      )
-                    : null}
-                  <td>{a.classPosition + 1}</td>
-                  <td>{a.position + 1}</td>
-                </tr>
+      <Table.Container>
+        <Table>
+          <thead>
+            <tr>
+              {headers.map((header) => (
+                <th key={header}>{header}</th>
               ))}
-            </Fragment>
-          ),
-          (r: Result) =>
-            classFilter.length === 0 || classFilter.includes(r.class),
-        )}
-      </Table>
+            </tr>
+          </thead>
+          {ifSome(
+            results,
+            (r) => r.class,
+            (result) => (
+              <Fragment>
+                {result.entrantTimes.map((a) => (
+                  <tr key={a.entrant.entrantId}>
+                    <td>
+                      <p>{result.class}</p>
+                    </td>
+                    <td>
+                      <DriverNumber driverNumber={a.entrant.driverNumber} />
+                    </td>
+                    <td>{`${a.entrant.givenName} ${a.entrant.familyName}`}</td>
+                    <td>{(a.totalTime / 1000).toFixed(2)}</td>
+                    {currentEvent
+                      ? currentEvent.courses.map((test) =>
+                          testRuns.map((run) => (
+                            <td key={`${test.ordinal}.${run}`}>
+                              <Time
+                                times={a}
+                                ordinal={test.ordinal}
+                                run={run}
+                              />
+                            </td>
+                          )),
+                        )
+                      : null}
+                    <td>{a.classPosition + 1}</td>
+                    <td>{a.position + 1}</td>
+                  </tr>
+                ))}
+              </Fragment>
+            ),
+            (r: Result) =>
+              classFilter.length === 0 || classFilter.includes(r.class),
+          )}
+        </Table>
+      </Table.Container>
       <Button onClick={downloadCSV}>Download CSV</Button>
       {showModal && notifications.tag === "Loaded" ? (
         <NotificationsModal

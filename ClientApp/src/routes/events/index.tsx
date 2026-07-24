@@ -51,7 +51,7 @@ const blankEvent = (clubId: number | undefined): EditingEvent => ({
   entryOpenDate: getDateTimeString(newValidDate()),
   entryCloseDate: getDateTimeString(newValidDate()),
   timingSystem: TimingSystem.App,
-  eventStatus: EventStatus.Open,
+  eventStatus: EventStatus.Created,
 });
 
 const Events: FunctionalComponent<Props> = ({ clubId }) => {
