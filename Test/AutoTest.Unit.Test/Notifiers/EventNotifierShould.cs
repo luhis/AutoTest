@@ -15,14 +15,13 @@ namespace AutoTest.Unit.Test.Notifiers;
 
 public class EventNotifierShould
 {
-    private readonly IEventNotifier _sut;
-    private readonly MockRepository _mr;
+    private readonly MockRepository _mr = new(MockBehavior.Strict);
     private readonly Mock<IHubContext<EventHub>> _eventHub;
     private readonly Mock<IMediator> _mediator;
+    private readonly IEventNotifier _sut;
 
     public EventNotifierShould()
     {
-        _mr = new MockRepository(MockBehavior.Strict);
         _eventHub = _mr.Create<IHubContext<EventHub>>();
         _mediator = _mr.Create<IMediator>();
         _sut = new EventNotifier(_eventHub.Object, _mediator.Object);

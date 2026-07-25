@@ -11,13 +11,12 @@ namespace AutoTest.Unit.Test.Handlers;
 
 public class GetRegsHandlerShould
 {
-    private readonly MockRepository _mr;
-    private readonly IRequestHandler<GetRegs, string> _sut;
+    private readonly MockRepository _mr = new(MockBehavior.Strict);
     private readonly Mock<IFileRepository> _fs;
+    private readonly IRequestHandler<GetRegs, string> _sut;
 
     public GetRegsHandlerShould()
     {
-        _mr = new MockRepository(MockBehavior.Strict);
         _fs = _mr.Create<IFileRepository>();
         _sut = new GetRegsHandler(_fs.Object);
     }

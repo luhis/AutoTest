@@ -14,13 +14,12 @@ namespace AutoTest.Unit.Test.Handlers;
 
 public class GetNotificationsHandlerShould
 {
-    private readonly MockRepository _mr;
-    private readonly IRequestHandler<GetNotifications, IEnumerable<Notification>> _sut;
+    private readonly MockRepository _mr = new(MockBehavior.Strict);
     private readonly Mock<INotificationsRepository> _notificationsRepository;
+    private readonly IRequestHandler<GetNotifications, IEnumerable<Notification>> _sut;
 
     public GetNotificationsHandlerShould()
     {
-        _mr = new MockRepository(MockBehavior.Strict);
         _notificationsRepository = _mr.Create<INotificationsRepository>();
         _sut = new GetNotificationsHandler(_notificationsRepository.Object);
     }

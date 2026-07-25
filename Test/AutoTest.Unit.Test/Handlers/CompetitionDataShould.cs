@@ -15,7 +15,7 @@ namespace AutoTest.Unit.Test.Handlers;
 
 public class CompetitionDataShould
 {
-    private readonly MockRepository _mr;
+    private readonly MockRepository _mr = new(MockBehavior.Strict);
     private readonly Mock<IEventsRepository> _eventsRepository;
     private readonly Mock<IEntrantsRepository> _entrantsRepository;
     private readonly Mock<ITestRunsRepository> _testRunsRepository;
@@ -23,7 +23,6 @@ public class CompetitionDataShould
 
     public CompetitionDataShould()
     {
-        _mr = new MockRepository(MockBehavior.Strict);
         _eventsRepository = _mr.Create<IEventsRepository>();
         _entrantsRepository = _mr.Create<IEntrantsRepository>();
         _testRunsRepository = _mr.Create<ITestRunsRepository>();

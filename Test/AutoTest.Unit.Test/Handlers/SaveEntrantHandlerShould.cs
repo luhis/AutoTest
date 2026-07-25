@@ -19,15 +19,14 @@ namespace AutoTest.Unit.Test.Handlers;
 
 public class SaveEntrantHandlerShould
 {
-    private readonly IRequestHandler<SaveEntrant, OneOf<Entrant, Error<string>>> _sut;
-    private readonly MockRepository _mr;
+    private readonly MockRepository _mr = new(MockBehavior.Strict);
     private readonly Mock<IEntrantsRepository> _entrantsRepository;
     private readonly Mock<IEventsRepository> _eventsRepository;
     private readonly Mock<IAuthorisationNotifier> _authorisationNotifier;
+    private readonly IRequestHandler<SaveEntrant, OneOf<Entrant, Error<string>>> _sut;
 
     public SaveEntrantHandlerShould()
     {
-        _mr = new MockRepository(MockBehavior.Strict);
         _entrantsRepository = _mr.Create<IEntrantsRepository>();
         _eventsRepository = _mr.Create<IEventsRepository>();
         _authorisationNotifier = _mr.Create<IAuthorisationNotifier>();

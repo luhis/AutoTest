@@ -13,13 +13,12 @@ namespace AutoTest.Unit.Test.Handlers;
 
 public class SaveProfileHandlerShould
 {
-    private readonly IRequestHandler<SaveProfile, Profile> _sut;
-    private readonly MockRepository _mr;
+    private readonly MockRepository _mr = new(MockBehavior.Strict);
     private readonly Mock<IProfileRepository> _profileRepository;
+    private readonly IRequestHandler<SaveProfile, Profile> _sut;
 
     public SaveProfileHandlerShould()
     {
-        _mr = new MockRepository(MockBehavior.Strict);
         _profileRepository = _mr.Create<IProfileRepository>();
         _sut = new SaveProfileHandler(_profileRepository.Object);
     }

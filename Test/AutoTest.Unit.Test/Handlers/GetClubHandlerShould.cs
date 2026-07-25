@@ -12,13 +12,12 @@ namespace AutoTest.Unit.Test.Handlers;
 
 public class GetClubHandlerShould
 {
-    private readonly MockRepository _mr;
-    private readonly IRequestHandler<GetClub, Club?> _sut;
+    private readonly MockRepository _mr = new(MockBehavior.Strict);
     private readonly Mock<IClubsRepository> _clubsRepository;
+    private readonly IRequestHandler<GetClub, Club?> _sut;
 
     public GetClubHandlerShould()
     {
-        _mr = new MockRepository(MockBehavior.Strict);
         _clubsRepository = _mr.Create<IClubsRepository>();
         _sut = new GetClubHandler(_clubsRepository.Object);
     }

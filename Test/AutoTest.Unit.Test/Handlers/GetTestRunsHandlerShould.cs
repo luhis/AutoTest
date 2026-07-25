@@ -14,13 +14,12 @@ namespace AutoTest.Unit.Test.Handlers;
 
 public class GetTestRunsHandlerShould
 {
-    private readonly MockRepository _mr;
-    private readonly IRequestHandler<GetTestRuns, IEnumerable<TestRun>> _sut;
+    private readonly MockRepository _mr = new(MockBehavior.Strict);
     private readonly Mock<ITestRunsRepository> _testRunsRepository;
+    private readonly IRequestHandler<GetTestRuns, IEnumerable<TestRun>> _sut;
 
     public GetTestRunsHandlerShould()
     {
-        _mr = new MockRepository(MockBehavior.Strict);
         _testRunsRepository = _mr.Create<ITestRunsRepository>();
         _sut = new GetTestRunsHandler(_testRunsRepository.Object);
     }

@@ -13,13 +13,12 @@ namespace AutoTest.Unit.Test.Handlers;
 
 public class GetProfileShould
 {
-    private readonly MockRepository _mr;
-    private readonly IRequestHandler<GetProfile, Profile> _sut;
+    private readonly MockRepository _mr = new(MockBehavior.Strict);
     private readonly Mock<IProfileRepository> _profileRepository;
+    private readonly IRequestHandler<GetProfile, Profile> _sut;
 
     public GetProfileShould()
     {
-        _mr = new MockRepository(MockBehavior.Strict);
         _profileRepository = _mr.Create<IProfileRepository>();
         _sut = new GetProfileHandler(_profileRepository.Object);
     }

@@ -10,13 +10,12 @@ namespace AutoTest.Unit.Test.Handlers;
 
 public class DeleteClubShould
 {
-    private readonly IRequestHandler<DeleteClub> _sut;
-    private readonly MockRepository _mr;
+    private readonly MockRepository _mr = new(MockBehavior.Strict);
     private readonly Mock<IClubsRepository> _clubs;
+    private readonly IRequestHandler<DeleteClub> _sut;
 
     public DeleteClubShould()
     {
-        _mr = new MockRepository(MockBehavior.Strict);
         _clubs = _mr.Create<IClubsRepository>();
         _sut = new DeleteClubHandler(_clubs.Object);
     }

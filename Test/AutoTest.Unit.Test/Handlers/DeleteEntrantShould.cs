@@ -11,13 +11,12 @@ namespace AutoTest.Unit.Test.Handlers;
 
 public class DeleteEntrantShould
 {
-    private readonly IRequestHandler<DeleteEntrant> _sut;
-    private readonly MockRepository _mr;
+    private readonly MockRepository _mr = new(MockBehavior.Strict);
     private readonly Mock<IEntrantsRepository> _entrants;
+    private readonly IRequestHandler<DeleteEntrant> _sut;
 
     public DeleteEntrantShould()
     {
-        _mr = new MockRepository(MockBehavior.Strict);
         _entrants = _mr.Create<IEntrantsRepository>();
         _sut = new DeleteEntrantHandler(_entrants.Object);
     }

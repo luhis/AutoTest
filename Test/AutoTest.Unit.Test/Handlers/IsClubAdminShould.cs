@@ -13,14 +13,13 @@ namespace AutoTest.Unit.Test.Handlers;
 
 public class IsClubAdminShould
 {
-    private readonly IRequestHandler<IsClubAdmin, bool> _sut;
+    private readonly MockRepository _mr = new(MockBehavior.Strict);
     private readonly Mock<IClubsRepository> _clubsRepository;
-    private readonly MockRepository _mr;
     private readonly Mock<IEventsRepository> _eventsRepository;
+    private readonly IRequestHandler<IsClubAdmin, bool> _sut;
 
     public IsClubAdminShould()
     {
-        _mr = new MockRepository(MockBehavior.Strict);
         _eventsRepository = _mr.Create<IEventsRepository>();
         _clubsRepository = _mr.Create<IClubsRepository>();
         _sut = new IsClubAdminHandler(_clubsRepository.Object, _eventsRepository.Object);

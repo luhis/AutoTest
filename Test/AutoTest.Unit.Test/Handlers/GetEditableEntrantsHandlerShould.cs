@@ -16,13 +16,12 @@ namespace AutoTest.Unit.Test.Handlers;
 
 public class GetEditableEntrantsHandlerShould
 {
-    private readonly MockRepository _mr;
-    private readonly IRequestHandler<GetEditableEntrants, IEnumerable<ulong>> _sut;
+    private readonly MockRepository _mr = new(MockBehavior.Strict);
     private readonly AutoTestContext _db;
+    private readonly IRequestHandler<GetEditableEntrants, IEnumerable<ulong>> _sut;
 
     public GetEditableEntrantsHandlerShould()
     {
-        _mr = new MockRepository(MockBehavior.Strict);
         _db = InMemDbFixture.GetDbContext();
         _sut = new GetEditableEntrantsHandler(new EntrantsRepository(_db));
     }

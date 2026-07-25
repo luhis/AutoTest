@@ -18,18 +18,17 @@ namespace AutoTest.Unit.Test.Handlers;
 
 public class AddTestRunShould
 {
-    private readonly IRequestHandler<AddTestRun, OneOf<Success, Error<string>>> _sut;
-    private readonly MockRepository _mr;
+    private readonly MockRepository _mr = new(MockBehavior.Strict);
     private readonly Mock<ITestRunsRepository> _testRunsRepository;
     private readonly Mock<IEventNotifier> _notifier;
     private readonly Mock<IMarshalsRepository> _marshalsRepository;
     private readonly Mock<IEventsRepository> _eventsRepository;
+    private readonly IRequestHandler<AddTestRun, OneOf<Success, Error<string>>> _sut;
 
     private readonly ICollection<Penalty> _penalties = new[] { new Penalty(Domain.Enums.PenaltyEnum.Late, 1) };
 
     public AddTestRunShould()
     {
-        _mr = new MockRepository(MockBehavior.Strict);
         _testRunsRepository = _mr.Create<ITestRunsRepository>();
         _notifier = _mr.Create<IEventNotifier>();
         _marshalsRepository = _mr.Create<IMarshalsRepository>();

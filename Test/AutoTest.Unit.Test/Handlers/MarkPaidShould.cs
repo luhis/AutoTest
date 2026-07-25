@@ -12,15 +12,14 @@ namespace AutoTest.Unit.Test.Handlers;
 
 public class MarkPaidShould
 {
-    private readonly IRequestHandler<MarkPaid> _sut;
-    private readonly MockRepository _mr;
+    private readonly MockRepository _mr = new(MockBehavior.Strict);
     private readonly Mock<IEntrantsRepository> _entrantsRepository;
+    private readonly IRequestHandler<MarkPaid> _sut;
 
     private readonly Payment _testPayment = new(new System.DateTime(2000, 1, 1), Domain.Enums.PaymentMethod.Paypal, new System.DateTime(2000, 2, 2), "test@test.com");
 
     public MarkPaidShould()
     {
-        _mr = new MockRepository(MockBehavior.Strict);
         _entrantsRepository = _mr.Create<IEntrantsRepository>();
         _sut = new MarkPaidHandler(_entrantsRepository.Object);
     }

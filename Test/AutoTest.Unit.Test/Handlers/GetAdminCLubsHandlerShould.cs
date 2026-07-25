@@ -16,14 +16,13 @@ namespace AutoTest.Unit.Test.Handlers;
 
 public class GetAdminClubsHandlerShould
 {
-    private readonly IRequestHandler<GetAdminClubs, IEnumerable<ulong>> _sut;
-    private readonly MockRepository _mr;
+    private readonly MockRepository _mr = new(MockBehavior.Strict);
     private readonly Mock<IClubsRepository> _clubsRepository;
     private readonly Mock<IMemoryCache> _memoryCache;
+    private readonly IRequestHandler<GetAdminClubs, IEnumerable<ulong>> _sut;
 
     public GetAdminClubsHandlerShould()
     {
-        _mr = new MockRepository(MockBehavior.Strict);
         _clubsRepository = _mr.Create<IClubsRepository>();
         _memoryCache = _mr.Create<IMemoryCache>();
         _sut = new GetAdminClubsHandler(_clubsRepository.Object, _memoryCache.Object);

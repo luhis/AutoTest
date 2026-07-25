@@ -17,16 +17,15 @@ namespace AutoTest.Unit.Test.Handlers;
 
 public class GetResultsHandlerShould
 {
-    private readonly IRequestHandler<GetResults, IEnumerable<Result>> _sut;
-    private readonly MockRepository _mr;
+    private readonly MockRepository _mr = new(MockBehavior.Strict);
     private readonly Mock<ITestRunsRepository> _testRunsRepository;
     private readonly Mock<IEventsRepository> _eventsRepository;
     private readonly Mock<IEntrantsRepository> _entrantsRepository;
     private readonly Mock<ITotalTimeCalculator> _totalTimeCalculator;
+    private readonly IRequestHandler<GetResults, IEnumerable<Result>> _sut;
 
     public GetResultsHandlerShould()
     {
-        _mr = new MockRepository(MockBehavior.Strict);
         _testRunsRepository = _mr.Create<ITestRunsRepository>();
         _eventsRepository = _mr.Create<IEventsRepository>();
         _entrantsRepository = _mr.Create<IEntrantsRepository>();

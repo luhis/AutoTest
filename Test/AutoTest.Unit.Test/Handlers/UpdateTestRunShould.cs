@@ -13,14 +13,13 @@ namespace AutoTest.Unit.Test.Handlers;
 
 public class UpdateTestRunShould
 {
-    private readonly IRequestHandler<UpdateTestRun> _sut;
-    private readonly MockRepository _mr;
+    private readonly MockRepository _mr = new(MockBehavior.Strict);
     private readonly Mock<IEventNotifier> _notifier;
     private readonly Mock<ITestRunsRepository> _testRuns;
+    private readonly IRequestHandler<UpdateTestRun> _sut;
 
     public UpdateTestRunShould()
     {
-        _mr = new MockRepository(MockBehavior.Strict);
         _notifier = _mr.Create<IEventNotifier>();
         _testRuns = _mr.Create<ITestRunsRepository>();
         _sut = new UpdateTestRunHandler(_testRuns.Object, _notifier.Object);

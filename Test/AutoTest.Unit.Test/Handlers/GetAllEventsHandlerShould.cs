@@ -15,13 +15,12 @@ namespace AutoTest.Unit.Test.Handlers;
 
 public class GetAllEventsHandlerShould
 {
-    private readonly MockRepository _mr;
-    private readonly IRequestHandler<GetAllEvents, IEnumerable<Event>> _sut;
+    private readonly MockRepository _mr = new(MockBehavior.Strict);
     private readonly Mock<IEventsRepository> _eventsRepository;
+    private readonly IRequestHandler<GetAllEvents, IEnumerable<Event>> _sut;
 
     public GetAllEventsHandlerShould()
     {
-        _mr = new MockRepository(MockBehavior.Strict);
         _eventsRepository = _mr.Create<IEventsRepository>();
         _sut = new GetAllEventsHandler(_eventsRepository.Object);
     }

@@ -13,14 +13,13 @@ namespace AutoTest.Unit.Test.Handlers;
 
 public class SetEventStatusShould
 {
-    private readonly IRequestHandler<SetEventStatus> _sut;
-    private readonly MockRepository _mr;
+    private readonly MockRepository _mr = new(MockBehavior.Strict);
     private readonly Mock<IEventsRepository> _events;
     private readonly Mock<IEventNotifier> _notifier;
+    private readonly IRequestHandler<SetEventStatus> _sut;
 
     public SetEventStatusShould()
     {
-        _mr = new MockRepository(MockBehavior.Strict);
         _events = _mr.Create<IEventsRepository>();
         _notifier = _mr.Create<IEventNotifier>();
         _sut = new SetEventStatusHandler(_events.Object, _notifier.Object);

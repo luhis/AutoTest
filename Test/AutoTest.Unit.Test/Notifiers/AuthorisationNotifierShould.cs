@@ -12,13 +12,12 @@ namespace AutoTest.Unit.Test.Notifiers;
 
 public class AuthorisationNotifierShould
 {
-    private readonly IAuthorisationNotifier _sut;
-    private readonly MockRepository _mr;
+    private readonly MockRepository _mr = new(MockBehavior.Strict);
     private readonly Mock<IHubContext<AuthorisationHub>> _eventHub;
+    private readonly IAuthorisationNotifier _sut;
 
     public AuthorisationNotifierShould()
     {
-        _mr = new MockRepository(MockBehavior.Strict);
         _eventHub = _mr.Create<IHubContext<AuthorisationHub>>();
         _sut = new AuthorisationNotifier(_eventHub.Object);
     }

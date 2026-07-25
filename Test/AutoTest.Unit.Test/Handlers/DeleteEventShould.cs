@@ -11,13 +11,12 @@ namespace AutoTest.Unit.Test.Handlers;
 
 public class DeleteEventShould
 {
-    private readonly IRequestHandler<DeleteEvent> _sut;
-    private readonly MockRepository _mr;
+    private readonly MockRepository _mr = new(MockBehavior.Strict);
     private readonly Mock<IEventsRepository> _events;
+    private readonly IRequestHandler<DeleteEvent> _sut;
 
     public DeleteEventShould()
     {
-        _mr = new MockRepository(MockBehavior.Strict);
         _events = _mr.Create<IEventsRepository>();
         _sut = new DeleteEventHandler(_events.Object);
     }

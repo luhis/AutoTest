@@ -14,13 +14,13 @@ namespace AutoTest.Unit.Test.Handlers;
 
 public class SaveEventHandlerShould
 {
-    private readonly MockRepository _mr;
+    private readonly MockRepository _mr = new(MockBehavior.Strict);
     private readonly Mock<IEventsRepository> _eventsRepository;
     private readonly Mock<IFileRepository> _fileRepository;
     private readonly IRequestHandler<SaveEvent, ulong> _sut;
+
     public SaveEventHandlerShould()
     {
-        _mr = new MockRepository(MockBehavior.Strict);
         _eventsRepository = _mr.Create<IEventsRepository>();
         _fileRepository = _mr.Create<IFileRepository>();
         _sut = new SaveEventHandler(_eventsRepository.Object, _fileRepository.Object);

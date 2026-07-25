@@ -11,13 +11,12 @@ namespace AutoTest.Unit.Test.Handlers;
 
 public class GetMapsHandlerShould
 {
-    private readonly MockRepository _mr;
-    private readonly IRequestHandler<GetMaps, string> _sut;
+    private readonly MockRepository _mr = new(MockBehavior.Strict);
     private readonly Mock<IFileRepository> _fs;
+    private readonly IRequestHandler<GetMaps, string> _sut;
 
     public GetMapsHandlerShould()
     {
-        _mr = new MockRepository(MockBehavior.Strict);
         _fs = _mr.Create<IFileRepository>();
         _sut = new GetMapsHandler(_fs.Object);
     }

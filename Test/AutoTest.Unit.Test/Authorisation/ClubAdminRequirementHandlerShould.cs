@@ -18,14 +18,13 @@ namespace AutoTest.Unit.Test.Authorisation;
 
 public class ClubAdminRequirementHandlerShould
 {
-    private readonly AuthorizationHandler<ClubAdminRequirement> _sut;
-    private readonly MockRepository _mr;
+    private readonly MockRepository _mr = new(MockBehavior.Strict);
     private readonly Mock<IMediator> _mediator;
     private readonly Mock<IHttpContextAccessor> _httpContextAccessor;
+    private readonly AuthorizationHandler<ClubAdminRequirement> _sut;
 
     public ClubAdminRequirementHandlerShould()
     {
-        _mr = new MockRepository(MockBehavior.Strict);
         _mediator = _mr.Create<IMediator>();
         _httpContextAccessor = _mr.Create<IHttpContextAccessor>();
         _sut = new ClubAdminRequirementHandler(_httpContextAccessor.Object, _mediator.Object);

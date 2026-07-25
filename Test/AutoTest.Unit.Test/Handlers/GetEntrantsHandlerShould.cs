@@ -14,13 +14,12 @@ namespace AutoTest.Unit.Test.Handlers;
 
 public class GetEntrantsHandlerShould
 {
-    private readonly MockRepository _mr;
-    private readonly IRequestHandler<GetEntrants, IEnumerable<Entrant>> _sut;
+    private readonly MockRepository _mr = new(MockBehavior.Strict);
     private readonly Mock<IEntrantsRepository> _entrantsRepository;
+    private readonly IRequestHandler<GetEntrants, IEnumerable<Entrant>> _sut;
 
     public GetEntrantsHandlerShould()
     {
-        _mr = new MockRepository(MockBehavior.Strict);
         _entrantsRepository = _mr.Create<IEntrantsRepository>();
         _sut = new GetEntrantsHandler(_entrantsRepository.Object);
     }
