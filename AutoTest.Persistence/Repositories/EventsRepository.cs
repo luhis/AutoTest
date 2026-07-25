@@ -22,19 +22,19 @@ public class EventsRepository(AutoTestContext autoTestContext) : IEventsReposito
 
     async Task IEventsRepository.Upsert(Event @event, CancellationToken cancellationToken)
     {
-        SyncTests(@event);
+        ////SyncCourses(@event);
         await autoTestContext.Events.Upsert(@event, a => a.EventId == @event.EventId, cancellationToken);
 
         await autoTestContext.SaveChangesAsync(cancellationToken);
     }
 
-    private static void SyncTests(Event @event)
+    private static void SyncCourses(Event @event)
     {
-        var tests = @event.Courses;
+        var courses = @event.Courses;
         var expectedOrdinals = Enumerable.Range(0, @event.CourseCount).ToArray();
-        var toAddOrdinals = expectedOrdinals.Except(tests.Select(a => a.Ordinal));
+        var toAddOrdinals = expectedOrdinals.Except(courses.Select(a => a.Ordinal));
 
-        @event.SetCourses(tests.Where(a => expectedOrdinals.Contains(a.Ordinal)).Concat(toAddOrdinals.Select(a => new Course(a, ""))).ToArray());
+        @event.SetCourses(courses.Where(a => expectedOrdinals.Contains(a.Ordinal)).Concat(toAddOrdinals.Select(a => new Course(a, ""))).ToArray());
     }
 
     Task IEventsRepository.Delete(Event @event, CancellationToken cancellationToken)

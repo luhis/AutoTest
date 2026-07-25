@@ -2,7 +2,4 @@ using Mediator;
 
 namespace AutoTest.Service.Messages;
 
-public class DeleteEvent(ulong eventId) : IRequest
-{
-    public ulong EventId { get; } = eventId;
-}
+public record DeleteEvent(ulong EventId) : IRequest;

@@ -2,7 +2,4 @@ using Mediator;
 
 namespace AutoTest.Service.Messages;
 
-public class GetRegs(ulong eventId) : IRequest<string>
-{
-    public ulong EventId { get; } = eventId;
-}
+public record GetRegs(ulong EventId) : IRequest<string>;

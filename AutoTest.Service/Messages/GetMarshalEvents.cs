@@ -3,12 +3,4 @@ using Mediator;
 
 namespace AutoTest.Service.Messages;
 
-public record GetMarshalEvents : IRequest<IEnumerable<ulong>>
-{
-    public string EmailAddress { get; }
-
-    public GetMarshalEvents(string emailAddress)
-    {
-        EmailAddress = emailAddress;
-    }
-}
+public record GetMarshalEvents(string EmailAddress) : IRequest<IEnumerable<ulong>>;

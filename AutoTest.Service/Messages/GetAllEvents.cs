@@ -4,6 +4,4 @@ using Mediator;
 
 namespace AutoTest.Service.Messages;
 
-public class GetAllEvents : IRequest<IEnumerable<Event>>
-{
-}
+public record GetAllEvents : IRequest<IEnumerable<Event>>;

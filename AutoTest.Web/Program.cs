@@ -2,6 +2,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 using AutoTest.Persistence;
+using Azure.Storage.Blobs;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -30,6 +31,10 @@ public static class Program
             using var cts = new CancellationTokenSource(TimeSpan.FromSeconds(60));
             await autoTestContext.SeedDatabaseAsync(cts.Token);
             logger.LogInformation("Database seeded successfully.");
+
+            var blobClient = scope.ServiceProvider.GetRequiredService<BlobContainerClient>();
+            await blobClient.CreateIfNotExistsAsync(cancellationToken: cts.Token);
+            logger.LogInformation("Blob container ensured.");
 
             logger.LogInformation("Starting web host...");
             await host.RunAsync();

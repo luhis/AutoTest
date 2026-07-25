@@ -16,14 +16,14 @@ public class SaveEventHandlerShould
 {
     private readonly MockRepository _mr;
     private readonly Mock<IEventsRepository> _eventsRepository;
-    //private readonly Mock<IFileRepository> _fileRepository;
+    private readonly Mock<IFileRepository> _fileRepository;
     private readonly IRequestHandler<SaveEvent, ulong> _sut;
     public SaveEventHandlerShould()
     {
         _mr = new MockRepository(MockBehavior.Strict);
         _eventsRepository = _mr.Create<IEventsRepository>();
-        //_fileRepository = _mr.Create<IFileRepository>();
-        _sut = new SaveEventHandler(_eventsRepository.Object);//, _fileRepository.Object);
+        _fileRepository = _mr.Create<IFileRepository>();
+        _sut = new SaveEventHandler(_eventsRepository.Object, _fileRepository.Object);
     }
 
     [Fact]
@@ -37,7 +37,8 @@ public class SaveEventHandlerShould
 
         var entrantFromDb = Models.GetEntrant(entrantId, eventId);
         _eventsRepository.Setup(a => a.Upsert(evt, TestContext.Current.CancellationToken)).Returns(Task.CompletedTask);
-        //_fileRepository.Setup(a => a.SaveMaps(2, "", TestContext.Current.CancellationToken)).ReturnsAsync("");
+        _fileRepository.Setup(a => a.SaveMaps(eventId, "", TestContext.Current.CancellationToken)).ReturnsAsync("");
+        _fileRepository.Setup(a => a.SaveRegs(eventId, "regs", TestContext.Current.CancellationToken)).ReturnsAsync("");
 
         var se = new SaveEvent(evt);
         var res = await _sut.Handle(se, TestContext.Current.CancellationToken);

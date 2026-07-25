@@ -4,6 +4,4 @@ using Mediator;
 
 namespace AutoTest.Service.Messages;
 
-public class GetClubs : IRequest<IEnumerable<Club>>
-{
-}
+public record GetClubs : IRequest<IEnumerable<Club>>;
