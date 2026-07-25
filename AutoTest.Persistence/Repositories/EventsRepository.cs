@@ -4,7 +4,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using AutoTest.Domain.Repositories;
 using AutoTest.Domain.StorageModels;
-using Microsoft.EntityFrameworkCore;
 
 namespace AutoTest.Persistence.Repositories;
 
@@ -12,7 +11,7 @@ public class EventsRepository(AutoTestContext autoTestContext) : IEventsReposito
 {
     Task<Event?> IEventsRepository.GetById(ulong eventId, CancellationToken cancellationToken)
     {
-        return autoTestContext.Events.Where(a => a.EventId == eventId).FirstOrDefaultAsync(cancellationToken);
+        return autoTestContext.Events.FindAsync([eventId], cancellationToken).AsTask();
     }
 
     Task<IEnumerable<Event>> IEventsRepository.GetAll(CancellationToken cancellationToken)

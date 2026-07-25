@@ -12,7 +12,7 @@ public class ClubRepository(AutoTestContext autoTestContext) : IClubsRepository
 {
     Task<Club?> IClubsRepository.GetById(ulong clubId, CancellationToken cancellationToken)
     {
-        return autoTestContext.Clubs.Where(a => a.ClubId == clubId).FirstOrDefaultAsync(cancellationToken);
+        return autoTestContext.Clubs.FindAsync([clubId], cancellationToken).AsTask();
     }
 
     async Task IClubsRepository.Delete(ulong clubId, CancellationToken cancellationToken)

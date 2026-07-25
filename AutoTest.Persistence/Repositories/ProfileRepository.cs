@@ -1,9 +1,7 @@
-﻿using System.Linq;
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
 using AutoTest.Domain.Repositories;
 using AutoTest.Domain.StorageModels;
-using Microsoft.EntityFrameworkCore;
 
 namespace AutoTest.Persistence.Repositories;
 
@@ -11,7 +9,7 @@ public class ProfileRepository(AutoTestContext autoTestContext) : IProfileReposi
 {
     Task<Profile?> IProfileRepository.Get(string email, CancellationToken cancellationToken)
     {
-        return autoTestContext.Users.Where(a => a.EmailAddress == email).FirstOrDefaultAsync(cancellationToken);
+        return autoTestContext.Users.FindAsync([email], cancellationToken).AsTask();
     }
 
     async Task IProfileRepository.Upsert(Profile profile, CancellationToken cancellationToken)
