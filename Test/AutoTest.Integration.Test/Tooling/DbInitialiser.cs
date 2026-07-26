@@ -18,7 +18,7 @@ public static class DbInitialiser
         }
         if (!db.Events.Where(a => a.EventId == TestIds.EventId).Any())
         {
-            var @event = new Event(TestIds.EventId, TestIds.ClubId, "", DateTime.Today, 10, 2, "", new[] { EventType.AutoTest }, string.Empty, TimingSystem.StopWatch, DateTime.Today.Date, DateTime.Today.Date.AddDays(7), 10, DateTime.UtcNow);
+            var @event = new Event(TestIds.EventId, TestIds.ClubId, "", DateTime.Today, 10, 2, new[] { EventType.AutoTest }, TimingSystem.StopWatch, DateTime.Today.Date, DateTime.Today.Date.AddDays(7), 10, DateTime.UtcNow);
             @event.SetCourses(Enumerable.Range(0, 10).Select(a => new Course(a, "")).ToArray());
             db.Events.Add(@event);
         }

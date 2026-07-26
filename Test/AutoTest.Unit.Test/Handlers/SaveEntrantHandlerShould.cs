@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Threading.Tasks;
 using AutoTest.Domain.Enums;
 using AutoTest.Domain.Repositories;
@@ -34,7 +34,7 @@ public class SaveEntrantHandlerShould
     }
 
     static Event GetEvent(ulong eventId, DateTime open, DateTime close) =>
-        new Event(eventId, 1, "", DateTime.UtcNow, 3, 2, "", new[] { EventType.AutoTest }, "", TimingSystem.StopWatch, open, close, 10, new DateTime());
+        new Event(eventId, 1, "", DateTime.UtcNow, 3, 2, new[] { EventType.AutoTest }, TimingSystem.StopWatch, open, close, 10, new DateTime());
 
     [Theory]
     [InlineData(1, 2, "Please wait until event open")]

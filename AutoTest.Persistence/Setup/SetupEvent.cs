@@ -23,8 +23,6 @@ public class EventConfig : IEntityTypeConfiguration<Event>
         builder.Property(e => e.EntryCloseDate).IsRequired();
         builder.Property(e => e.CourseCount).IsRequired();
         builder.Property(e => e.MaxAttemptsPerCourse).IsRequired();
-        builder.Property(e => e.Regulations).IsRequired();
-        builder.Property(e => e.Maps).IsRequired();
         builder.Property(e => e.EventTypes).IsRequired().HasConversion(
             a => string.Join(",", a.Select(t => (int)t)),
             a => a!.Split(",", StringSplitOptions.None).Where(a => !string.IsNullOrEmpty(a)).Select(e => (EventType)int.Parse(e, CultureInfo.InvariantCulture)).ToArray());

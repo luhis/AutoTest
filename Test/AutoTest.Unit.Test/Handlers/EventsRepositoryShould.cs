@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoTest.Domain.Enums;
@@ -19,7 +19,7 @@ public class EventsRepositoryShould
         using var db = InMemDbFixture.GetDbContext();
         IEventsRepository sut = new EventsRepository(db);
 
-        var evnt = new Event(1, 1, "Test Farm", new DateTime(2024, 6, 1), 2, 1, "", new[] { EventType.AutoTest }, "", TimingSystem.StopWatch, new DateTime(2000, 1, 1), new DateTime(2030, 1, 1), 10, DateTime.UtcNow);
+        var evnt = new Event(1, 1, "Test Farm", new DateTime(2024, 6, 1), 2, 1, new[] { EventType.AutoTest }, TimingSystem.StopWatch, new DateTime(2000, 1, 1), new DateTime(2030, 1, 1), 10, DateTime.UtcNow);
         evnt.SetCourses(new[] { new Course(0, ""), new Course(1, "") });
         db.Events.Add(evnt);
         await db.SaveChangesAsync(TestContext.Current.CancellationToken);
@@ -48,8 +48,8 @@ public class EventsRepositoryShould
         IEventsRepository sut = new EventsRepository(db);
 
         db.Events.AddRange(
-            new Event(1, 1, "Farm 1", new DateTime(2024, 1, 1), 1, 1, "", new[] { EventType.AutoTest }, "", TimingSystem.StopWatch, new DateTime(2000, 1, 1), new DateTime(2030, 1, 1), 10, DateTime.UtcNow),
-            new Event(2, 1, "Farm 2", new DateTime(2024, 6, 1), 1, 1, "", new[] { EventType.AutoTest }, "", TimingSystem.StopWatch, new DateTime(2000, 1, 1), new DateTime(2030, 1, 1), 10, DateTime.UtcNow));
+            new Event(1, 1, "Farm 1", new DateTime(2024, 1, 1), 1, 1, new[] { EventType.AutoTest }, TimingSystem.StopWatch, new DateTime(2000, 1, 1), new DateTime(2030, 1, 1), 10, DateTime.UtcNow),
+            new Event(2, 1, "Farm 2", new DateTime(2024, 6, 1), 1, 1, new[] { EventType.AutoTest }, TimingSystem.StopWatch, new DateTime(2000, 1, 1), new DateTime(2030, 1, 1), 10, DateTime.UtcNow));
         await db.SaveChangesAsync(TestContext.Current.CancellationToken);
 
         var result = (await sut.GetAll(TestContext.Current.CancellationToken)).ToArray();
@@ -63,7 +63,7 @@ public class EventsRepositoryShould
         using var db = InMemDbFixture.GetDbContext();
         IEventsRepository sut = new EventsRepository(db);
 
-        var evnt = new Event(1, 1, "New Farm", new DateTime(2024, 6, 1), 1, 1, "", new[] { EventType.AutoTest }, "", TimingSystem.StopWatch, new DateTime(2000, 1, 1), new DateTime(2030, 1, 1), 10, DateTime.UtcNow);
+        var evnt = new Event(1, 1, "New Farm", new DateTime(2024, 6, 1), 1, 1, new[] { EventType.AutoTest }, TimingSystem.StopWatch, new DateTime(2000, 1, 1), new DateTime(2030, 1, 1), 10, DateTime.UtcNow);
         evnt.SetCourses(new[] { new Course(0, "") });
         await sut.Upsert(evnt, TestContext.Current.CancellationToken);
 
@@ -78,7 +78,7 @@ public class EventsRepositoryShould
         using var db = InMemDbFixture.GetDbContext();
         IEventsRepository sut = new EventsRepository(db);
 
-        var evnt = new Event(1, 1, "To Delete", new DateTime(2024, 6, 1), 1, 1, "", new[] { EventType.AutoTest }, "", TimingSystem.StopWatch, new DateTime(2000, 1, 1), new DateTime(2030, 1, 1), 10, DateTime.UtcNow);
+        var evnt = new Event(1, 1, "To Delete", new DateTime(2024, 6, 1), 1, 1, new[] { EventType.AutoTest }, TimingSystem.StopWatch, new DateTime(2000, 1, 1), new DateTime(2030, 1, 1), 10, DateTime.UtcNow);
         evnt.SetCourses(new[] { new Course(0, "") });
         db.Events.Add(evnt);
         await db.SaveChangesAsync(TestContext.Current.CancellationToken);

@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -37,7 +37,7 @@ public class CompetitionDataShould
         var entrant = new Entrant(1, 1, "Joe", "Bloggs", "j@test.com", "A", eventId, Age.Senior, false, null);
 
         _eventsRepository.Setup(r => r.GetById(eventId, cancellationToken)).ReturnsAsync(
-            new Event(eventId, 1, "Farm", DateTime.MinValue, 1, 1, "", new[] { EventType.AutoTest }, "", TimingSystem.StopWatch, DateTime.MinValue, DateTime.MaxValue, 50, DateTime.MinValue));
+            new Event(eventId, 1, "Farm", DateTime.MinValue, 1, 1, new[] { EventType.AutoTest }, TimingSystem.StopWatch, DateTime.MinValue, DateTime.MaxValue, 50, DateTime.MinValue));
         _entrantsRepository.Setup(r => r.GetByEventId(eventId, cancellationToken)).ReturnsAsync(new[] { entrant });
         _testRunsRepository.Setup(r => r.GetAll(eventId, cancellationToken)).ReturnsAsync(Array.Empty<TestRun>());
         _totalTimeCalculator.Setup(r => r.GetTotalTime(It.IsAny<TimeCalculatorConfig>(), It.IsAny<IEnumerable<TestRun>>(), It.IsAny<IEnumerable<TestRun>>())).Returns(0);
@@ -60,7 +60,7 @@ public class CompetitionDataShould
         var entrant2 = new Entrant(2, 2, "Slow", "Driver", "s@test.com", "A", eventId, Age.Senior, false, null);
 
         _eventsRepository.Setup(r => r.GetById(eventId, cancellationToken)).ReturnsAsync(
-            new Event(eventId, 1, "Farm", DateTime.MinValue, 1, 1, "", new[] { EventType.AutoTest }, "", TimingSystem.StopWatch, DateTime.MinValue, DateTime.MaxValue, 50, DateTime.MinValue));
+            new Event(eventId, 1, "Farm", DateTime.MinValue, 1, 1, new[] { EventType.AutoTest }, TimingSystem.StopWatch, DateTime.MinValue, DateTime.MaxValue, 50, DateTime.MinValue));
         _entrantsRepository.Setup(r => r.GetByEventId(eventId, cancellationToken)).ReturnsAsync(new[] { entrant1, entrant2 });
         var run1 = new TestRun(1, eventId, 1, 5000, 1, DateTime.MinValue, 99);
         var run2 = new TestRun(2, eventId, 1, 10000, 2, DateTime.MinValue, 99);
@@ -91,7 +91,7 @@ public class CompetitionDataShould
         var entrant = new Entrant(1, 1, "Joe", "Bloggs", "j@test.com", "A", eventId, Age.Senior, false, null);
 
         _eventsRepository.Setup(r => r.GetById(eventId, cancellationToken)).ReturnsAsync(
-            new Event(eventId, 1, "Farm", DateTime.MinValue, 1, 1, "", new[] { EventType.AutoTest }, "", TimingSystem.StopWatch, DateTime.MinValue, DateTime.MaxValue, 50, DateTime.MinValue));
+            new Event(eventId, 1, "Farm", DateTime.MinValue, 1, 1, new[] { EventType.AutoTest }, TimingSystem.StopWatch, DateTime.MinValue, DateTime.MaxValue, 50, DateTime.MinValue));
         _entrantsRepository.Setup(r => r.GetByEventId(eventId, cancellationToken)).ReturnsAsync(new[] { entrant });
 
         var runs = new[]

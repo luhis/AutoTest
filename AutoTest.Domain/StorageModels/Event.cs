@@ -4,7 +4,7 @@ using AutoTest.Domain.Enums;
 
 namespace AutoTest.Domain.StorageModels;
 
-public class Event(ulong eventId, ulong clubId, string location, DateTime startTime, int courseCount, int maxAttemptsPerCourse, string regulations, ICollection<EventType> eventTypes, string maps, TimingSystem timingSystem, DateTime entryOpenDate, DateTime entryCloseDate, uint maxEntrants, DateTime created)
+public class Event(ulong eventId, ulong clubId, string location, DateTime startTime, int courseCount, int maxAttemptsPerCourse, ICollection<EventType> eventTypes, TimingSystem timingSystem, DateTime entryOpenDate, DateTime entryCloseDate, uint maxEntrants, DateTime created)
 {
     public ulong EventId { get; } = eventId;
 
@@ -28,10 +28,6 @@ public class Event(ulong eventId, ulong clubId, string location, DateTime startT
         }
         Courses = courses;
     }
-
-    public string Regulations { get; } = regulations;
-
-    public string Maps { get; } = maps;
 
     public EventStatus EventStatus { get; private set; }
 

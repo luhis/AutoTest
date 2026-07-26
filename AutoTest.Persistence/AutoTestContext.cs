@@ -49,14 +49,14 @@ public class AutoTestContext : DbContext
 
             if (await Events.FindAsync([2UL], cancellationToken) is null)
             {
-                var e1 = new Event(2, 1, "Kev's Farm", new DateTime(2024, 3, 1), 10, 2, string.Empty, [EventType.AutoTest], string.Empty, TimingSystem.StopWatch, new DateTime(2000, 1, 1), new DateTime(2030, 1, 1), 10, DateTime.UtcNow);
+                var e1 = new Event(2, 1, "Kev's Farm", new DateTime(2024, 3, 1), 10, 2, [EventType.AutoTest], TimingSystem.StopWatch, new DateTime(2000, 1, 1), new DateTime(2030, 1, 1), 10, DateTime.UtcNow);
                 e1.SetCourses(Enumerable.Range(0, 10).Select(x => new Course(x, "")).ToArray());
                 Events.Add(e1);
             }
 
             if (await Events.FindAsync([3UL], cancellationToken) is null)
             {
-                var e2 = new Event(3, 1, "Kev's Farm 2", new DateTime(2024, 1, 1), 10, 2, string.Empty, [EventType.AutoTest], string.Empty, TimingSystem.StopWatch, new DateTime(2000, 1, 1), new DateTime(2030, 1, 1), 10, DateTime.UtcNow);
+                var e2 = new Event(3, 1, "Kev's Farm 2", new DateTime(2024, 1, 1), 10, 2, [EventType.AutoTest], TimingSystem.StopWatch, new DateTime(2000, 1, 1), new DateTime(2030, 1, 1), 10, DateTime.UtcNow);
                 e2.SetCourses(Enumerable.Range(0, 10).Select(x => new Course(x, "")).ToArray());
                 Events.Add(e2);
             }

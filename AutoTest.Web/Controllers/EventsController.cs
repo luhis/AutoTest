@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoTest.Domain.Enums;
@@ -23,7 +23,7 @@ public class EventsController(IMediator mediator) : ControllerBase
     [Authorize(policy: Policies.ClubAdmin)]
     [HttpPut("{eventId}")]
     public Task<ulong> Save(ulong eventId, EventSaveModel @event, CancellationToken cancellationToken) =>
-        mediator.Send(new SaveEvent(MapEvent.Map(eventId, @event)), cancellationToken).AsTask();
+        mediator.Send(new SaveEvent(MapEvent.Map(eventId, @event), @event.Maps, @event.Regulations), cancellationToken).AsTask();
 
     [Authorize(policy: Policies.ClubAdmin)]
     [HttpPut("{eventId}/[action]")]
