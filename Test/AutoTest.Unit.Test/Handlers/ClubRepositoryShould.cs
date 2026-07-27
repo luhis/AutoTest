@@ -52,9 +52,11 @@ public class ClubRepositoryShould
 
         var result = (await sut.GetAll(TestContext.Current.CancellationToken)).ToArray();
 
-        result.Should().HaveCount(2);
-        result[0].ClubName.Should().Be("Alpha Club");
-        result[1].ClubName.Should().Be("Beta Club");
+        result.Should().BeEquivalentTo(new[]
+        {
+            new { ClubName = "Alpha Club" },
+            new { ClubName = "Beta Club" },
+        }, o => o.WithStrictOrdering());
     }
 
     [Fact]

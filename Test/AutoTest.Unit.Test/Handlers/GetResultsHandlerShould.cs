@@ -50,7 +50,6 @@ public class GetResultsHandlerShould
 
         var results = await _sut.Handle(new(eventId), TestContext.Current.CancellationToken);
 
-        results.Should().HaveCount(1);
         results.Should().BeEquivalentTo(new[] { new Result("A", new[] {
             new EntrantTimes(entrant, 0, Enumerable.Empty<TestTime>(), 0, 0),
             new EntrantTimes(entrant2, 0, Enumerable.Empty<TestTime>(), 1, 1)

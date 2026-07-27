@@ -4,4 +4,4 @@ using Mediator;
 
 namespace AutoTest.Service.Messages;
 
-public record GetAllEvents : IRequest<IEnumerable<Event>>;
+public record GetAllEvents : IRequest<IEnumerable<EventViewModel>>;

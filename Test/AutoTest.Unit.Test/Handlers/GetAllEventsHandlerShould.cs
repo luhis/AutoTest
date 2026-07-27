@@ -17,12 +17,14 @@ public class GetAllEventsHandlerShould
 {
     private readonly MockRepository _mr = new(MockBehavior.Strict);
     private readonly Mock<IEventsRepository> _eventsRepository;
-    private readonly IRequestHandler<GetAllEvents, IEnumerable<Event>> _sut;
+    private readonly Mock<IFileRepository> _fileRepository;
+    private readonly IRequestHandler<GetAllEvents, IEnumerable<EventViewModel>> _sut;
 
     public GetAllEventsHandlerShould()
     {
         _eventsRepository = _mr.Create<IEventsRepository>();
-        _sut = new GetAllEventsHandler(_eventsRepository.Object);
+        _fileRepository = _mr.Create<IFileRepository>();
+        _sut = new GetAllEventsHandler(_eventsRepository.Object, _fileRepository.Object);
     }
 
     [Fact]
@@ -30,10 +32,18 @@ public class GetAllEventsHandlerShould
     {
         var events = new[] { Models.GetEvent(1), Models.GetEvent(2) };
         _eventsRepository.Setup(a => a.GetAll(TestContext.Current.CancellationToken)).ReturnsAsync(events);
+        _fileRepository.Setup(a => a.HasRegs(1UL, TestContext.Current.CancellationToken)).ReturnsAsync(false);
+        _fileRepository.Setup(a => a.HasMaps(1UL, TestContext.Current.CancellationToken)).ReturnsAsync(true);
+        _fileRepository.Setup(a => a.HasRegs(2UL, TestContext.Current.CancellationToken)).ReturnsAsync(true);
+        _fileRepository.Setup(a => a.HasMaps(2UL, TestContext.Current.CancellationToken)).ReturnsAsync(false);
 
         var res = (await _sut.Handle(new(), TestContext.Current.CancellationToken)).ToArray();
 
-        res.Should().BeEquivalentTo(events);
+        res.Should().BeEquivalentTo(new[]
+        {
+            new { EventId = 1UL, HasRegulations = false, HasMaps = true },
+            new { EventId = 2UL, HasRegulations = true, HasMaps = false },
+        });
         _mr.VerifyAll();
     }
 

@@ -18,7 +18,7 @@ namespace AutoTest.Web.Controllers;
 public class EventsController(IMediator mediator) : ControllerBase
 {
     [HttpGet]
-    public Task<IEnumerable<Event>> GetAll(CancellationToken cancellationToken) => mediator.Send(new GetAllEvents(), cancellationToken).AsTask();
+    public Task<IEnumerable<EventViewModel>> GetAll(CancellationToken cancellationToken) => mediator.Send(new GetAllEvents(), cancellationToken).AsTask();
 
     [Authorize(policy: Policies.ClubAdmin)]
     [HttpPut("{eventId}")]

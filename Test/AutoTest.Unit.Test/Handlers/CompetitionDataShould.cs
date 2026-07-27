@@ -44,10 +44,8 @@ public class CompetitionDataShould
 
         var result = await CompetitionData.GetEntrantsAndRuns(eventId, _eventsRepository.Object, _entrantsRepository.Object, _testRunsRepository.Object, _totalTimeCalculator.Object, cancellationToken);
 
-        result.Should().HaveCount(1);
-        result[0].Entrant.Should().BeSameAs(entrant);
-        result[0].Runs.Should().BeEmpty();
-        result[0].TotalTime.Should().Be(0);
+        result.Should().BeEquivalentTo(new[] { new { Entrant = entrant, Runs = Array.Empty<TestRun>(), TotalTime = 0 } },
+            o => o.WithStrictOrdering());
         _mr.VerifyAll();
     }
 
@@ -75,11 +73,11 @@ public class CompetitionDataShould
 
         var result = await CompetitionData.GetEntrantsAndRuns(eventId, _eventsRepository.Object, _entrantsRepository.Object, _testRunsRepository.Object, _totalTimeCalculator.Object, cancellationToken);
 
-        result.Should().HaveCount(2);
-        result[0].Entrant.EntrantId.Should().Be(1);
-        result[0].TotalTime.Should().Be(5000);
-        result[1].Entrant.EntrantId.Should().Be(2);
-        result[1].TotalTime.Should().Be(10000);
+        result.Should().BeEquivalentTo(new[]
+        {
+            new { Entrant = new { EntrantId = 1UL }, TotalTime = 5000 },
+            new { Entrant = new { EntrantId = 2UL }, TotalTime = 10000 },
+        }, o => o.WithStrictOrdering());
         _mr.VerifyAll();
     }
 
@@ -105,10 +103,10 @@ public class CompetitionDataShould
 
         var result = await CompetitionData.GetEntrantsAndRuns(eventId, _eventsRepository.Object, _entrantsRepository.Object, _testRunsRepository.Object, _totalTimeCalculator.Object, cancellationToken);
 
-        result.Should().HaveCount(1);
-        result[0].Runs.Should().HaveCount(2);
-        result[0].Runs[0].Created.Should().Be(new DateTime(2024, 1, 1, 10, 0, 0));
-        result[0].Runs[1].Created.Should().Be(new DateTime(2024, 1, 1, 10, 1, 0));
+        result.Should().BeEquivalentTo(new[]
+        {
+            new { Runs = new[] { new { Created = new DateTime(2024, 1, 1, 10, 0, 0) }, new { Created = new DateTime(2024, 1, 1, 10, 1, 0) } } },
+        }, o => o.WithStrictOrdering());
         _mr.VerifyAll();
     }
 
@@ -152,16 +150,10 @@ public class CompetitionDataShould
 
         var result = CompetitionData.ToEntrantTimes(entrantsAndRuns, courses);
 
-        result.Should().HaveCount(2);
-        result[0].Entrant.Should().BeSameAs(entrant1);
-        result[0].TotalTime.Should().Be(5000);
-        result[0].Position.Should().Be(0);
-        result[0].Times.Should().HaveCount(1);
-        result[0].Times.First().Ordinal.Should().Be(1);
-
-        result[1].Entrant.Should().BeSameAs(entrant2);
-        result[1].TotalTime.Should().Be(13000);
-        result[1].Position.Should().Be(1);
-        result[1].Times.Should().HaveCount(2);
+        result.Should().BeEquivalentTo(new[]
+        {
+            new { Entrant = entrant1, TotalTime = 5000, Position = 0, Times = new[] { new { Ordinal = 1 } } },
+            new { Entrant = entrant2, TotalTime = 13000, Position = 1, Times = new[] { new { Ordinal = 1 }, new { Ordinal = 2 } } },
+        }, o => o.WithStrictOrdering());
     }
 }

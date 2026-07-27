@@ -59,8 +59,7 @@ public class EventsControllerShould(TestWebApplicationFactory<Startup> factory, 
         var res = await _authClient.PutAsJsonAsync($"/api/events/{TestIds.EventId}", new EventSaveModel() { ClubId = TestIds.ClubId }, TestContext.Current.CancellationToken);
         res.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         var content = await res.DeserialiseAsync<ProblemDetails>();
-        content.Status.Should().Be(400);
-        content.Title.Should().Be("One or more validation errors occurred.");
+        content.Should().BeEquivalentTo(new { Status = 400, Title = "One or more validation errors occurred." });
     }
 
     [Fact]

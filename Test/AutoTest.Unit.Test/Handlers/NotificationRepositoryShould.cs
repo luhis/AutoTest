@@ -25,9 +25,11 @@ public class NotificationRepositoryShould
 
         var result = (await sut.GetNotifications(10, TestContext.Current.CancellationToken)).ToArray();
 
-        result.Should().HaveCount(2);
-        result[0].Message.Should().Be("Message 2");
-        result[1].Message.Should().Be("Message 1");
+        result.Should().BeEquivalentTo(new[]
+        {
+            new { Message = "Message 2" },
+            new { Message = "Message 1" },
+        }, o => o.WithStrictOrdering());
     }
 
     [Fact]

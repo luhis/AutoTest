@@ -9,4 +9,6 @@ public interface IFileRepository
     Task<string> SaveRegs(ulong eventId, string data, CancellationToken cancellationToken);
     Task<string> GetMaps(ulong eventId, CancellationToken cancellationToken);
     Task<string> SaveMaps(ulong eventId, string data, CancellationToken cancellationToken);
+    Task<bool> HasRegs(ulong eventId, CancellationToken cancellationToken);
+    Task<bool> HasMaps(ulong eventId, CancellationToken cancellationToken);
 }

@@ -44,4 +44,16 @@ public class FileRepository(BlobContainerClient containerClient) : IFileReposito
         await blobClient.UploadAsync(new BinaryData(Encoding.UTF8.GetBytes(data)), overwrite: true, cancellationToken);
         return string.Empty;
     }
+
+    public async Task<bool> HasRegs(ulong eventId, CancellationToken cancellationToken)
+    {
+        var blobClient = containerClient.GetBlobClient($"regs/{eventId}");
+        return await blobClient.ExistsAsync(cancellationToken);
+    }
+
+    public async Task<bool> HasMaps(ulong eventId, CancellationToken cancellationToken)
+    {
+        var blobClient = containerClient.GetBlobClient($"maps/{eventId}");
+        return await blobClient.ExistsAsync(cancellationToken);
+    }
 }

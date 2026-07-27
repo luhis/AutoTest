@@ -26,3 +26,5 @@ dotnet build AutoTest.slnx -c Release
 
 - Use **Bulma components** from `react-bulma-components` where possible (e.g., `Table.Container` for scrollable tables, `Control` for form field spacing, `Columns` for layouts). Avoid inline styles for spacing or layout.
 - Use **strict mocks** (`MockBehavior.Strict`) in unit tests. Avoid `It.IsAny<T>()` where a specific value can be used instead — narrow down mock setups to match actual expected calls.
+- Prefer `BeEquivalentTo` over multiple individual assertions (e.g., `res.Should().BeEquivalentTo(new[] { new { ... } })`) for cleaner, more maintainable tests.
+- Prefer LINQ (`Select`, `Where`, etc.) over `foreach` loops where possible for more declarative, concise code.
