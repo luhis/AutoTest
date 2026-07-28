@@ -1,3 +1,4 @@
+using System;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading;
@@ -30,7 +31,7 @@ public class AuthenticatedWebApplicationFactory<TStartup>
     {
         builder.ConfigureTestServices(services =>
         {
-            TestDatabaseInitializer.ConfigureInMemoryDatabase(services, "InMemoryDbForTestingAuth");
+            TestDatabaseInitializer.ConfigureInMemoryDatabase(services, $"InMemoryDbForTestingAuth_{Guid.NewGuid()}");
 
             var fileRepo = new Mock<IFileRepository>();
             fileRepo.Setup(a => a.GetMaps(It.IsAny<ulong>(), It.IsAny<CancellationToken>())).ReturnsAsync("");

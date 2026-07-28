@@ -1,3 +1,4 @@
+using System;
 using System.Net.Http;
 using System.Threading;
 using AutoTest.Domain.Repositories;
@@ -21,7 +22,7 @@ public class TestWebApplicationFactory<TStartup>
     {
         builder.ConfigureTestServices(services =>
         {
-            TestDatabaseInitializer.ConfigureInMemoryDatabase(services, "InMemoryDbForTestingNoAuth");
+            TestDatabaseInitializer.ConfigureInMemoryDatabase(services, $"InMemoryDbForTestingNoAuth_{Guid.NewGuid()}");
 
             var fileRepo = new Mock<IFileRepository>();
             fileRepo.Setup(a => a.GetMaps(It.IsAny<ulong>(), It.IsAny<CancellationToken>())).ReturnsAsync("");
