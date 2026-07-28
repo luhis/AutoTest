@@ -37,7 +37,6 @@ public class Startup
     public Startup(IConfiguration configuration, IWebHostEnvironment webHostEnvironment)
     {
         Configuration = configuration;
-        AdminEmails = new HashSet<string>(configuration.GetSection("RootAdminIds").Get<IEnumerable<string>>()!);
         var authSection = configuration.GetSection("Authentication");
         _clientSecret = authSection["ClientSecret"] ?? "";
         _clientId = authSection["ClientId"] ?? "";
@@ -45,7 +44,6 @@ public class Startup
     }
 
     public IConfiguration Configuration { get; }
-    private ISet<string> AdminEmails { get; }
     private const string Authority = "https://accounts.google.com";
     private readonly string _clientSecret;
     private readonly string _clientId;
@@ -53,6 +51,8 @@ public class Startup
 
     public void ConfigureServices(IServiceCollection services)
     {
+        var rootAdminEmails = RootAdminEmails.FromConfig(Configuration.GetSection("RootAdminIds").Get<IEnumerable<string>>() ?? []);
+        services.AddSingleton(rootAdminEmails);
         services.AddControllersWithViews(o => o.AllowEmptyInputInBodyModelBinding = true);
         services.AddMediator(options => options.ServiceLifetime = ServiceLifetime.Transient);
         services.AddPersistence();
@@ -109,7 +109,7 @@ public class Startup
             .AddPolicy(Policies.Admin, p =>
             {
                 p.RequireAuthenticatedUser();
-                p.RequireClaim(ClaimTypes.Email, AdminEmails);
+                p.RequireClaim(ClaimTypes.Email, rootAdminEmails.Emails);
             })
             .AddPolicy(Policies.ClubAdmin, p =>
             {
