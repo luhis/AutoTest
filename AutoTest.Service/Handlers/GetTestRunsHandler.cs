@@ -10,8 +10,6 @@ namespace AutoTest.Service.Handlers;
 
 public sealed class GetTestRunsHandler(ITestRunsRepository testRunsRepository) : IRequestHandler<GetTestRuns, IEnumerable<TestRun>>
 {
-    public async ValueTask<IEnumerable<TestRun>> Handle(GetTestRuns request, CancellationToken cancellationToken)
-    {
-        return await testRunsRepository.GetAll(request.EventId, request.Ordinal, cancellationToken);
-    }
+    public ValueTask<IEnumerable<TestRun>> Handle(GetTestRuns request, CancellationToken cancellationToken) =>
+        new(testRunsRepository.GetAll(request.EventId, request.Ordinal, cancellationToken));
 }

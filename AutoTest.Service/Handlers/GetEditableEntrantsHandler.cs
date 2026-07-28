@@ -9,8 +9,6 @@ namespace AutoTest.Service.Handlers;
 
 public sealed class GetEditableEntrantsHandler(IEntrantsRepository entrantsRepository) : IRequestHandler<GetEditableEntrants, IEnumerable<ulong>>
 {
-    public async ValueTask<IEnumerable<ulong>> Handle(GetEditableEntrants request, CancellationToken cancellationToken)
-    {
-        return await entrantsRepository.GetEntrantIdsByEmail(request.EmailAddress, cancellationToken);
-    }
+    public ValueTask<IEnumerable<ulong>> Handle(GetEditableEntrants request, CancellationToken cancellationToken) =>
+        new(entrantsRepository.GetEntrantIdsByEmail(request.EmailAddress, cancellationToken));
 }

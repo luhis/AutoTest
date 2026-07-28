@@ -11,8 +11,6 @@ namespace AutoTest.Service.Handlers;
 
 public sealed class GetEditableMarshalsHandler(IMarshalsRepository marshalsRepository) : IRequestHandler<GetEditableMarshals, IEnumerable<ulong>>
 {
-    public async ValueTask<IEnumerable<ulong>> Handle(GetEditableMarshals request, CancellationToken cancellationToken)
-    {
-        return await marshalsRepository.GetByEmail(request.EmailAddress).Select(a => a.MarshalId).ToEnumerableAsync(cancellationToken);
-    }
+    public ValueTask<IEnumerable<ulong>> Handle(GetEditableMarshals request, CancellationToken cancellationToken) =>
+        new(marshalsRepository.GetByEmail(request.EmailAddress).Select(a => a.MarshalId).ToEnumerableAsync(cancellationToken));
 }

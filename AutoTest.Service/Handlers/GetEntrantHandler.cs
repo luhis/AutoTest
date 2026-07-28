@@ -9,8 +9,6 @@ namespace AutoTest.Service.Handlers;
 
 public sealed class GetEntrantHandler(IEntrantsRepository entrantsRepository) : IRequestHandler<GetEntrant, Entrant?>
 {
-    public async ValueTask<Entrant?> Handle(GetEntrant request, CancellationToken cancellationToken)
-    {
-        return await entrantsRepository.GetById(request.EventId, request.EntrantId, cancellationToken);
-    }
+    public ValueTask<Entrant?> Handle(GetEntrant request, CancellationToken cancellationToken) =>
+        new(entrantsRepository.GetById(request.EventId, request.EntrantId, cancellationToken));
 }

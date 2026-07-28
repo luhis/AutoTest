@@ -10,8 +10,6 @@ namespace AutoTest.Service.Handlers;
 
 public sealed class GetClubsHandler(IClubsRepository clubRepository) : IRequestHandler<GetClubs, IEnumerable<Club>>
 {
-    public async ValueTask<IEnumerable<Club>> Handle(GetClubs request, CancellationToken cancellationToken)
-    {
-        return await clubRepository.GetAll(cancellationToken);
-    }
+    public ValueTask<IEnumerable<Club>> Handle(GetClubs request, CancellationToken cancellationToken) =>
+        new(clubRepository.GetAll(cancellationToken));
 }

@@ -11,8 +11,6 @@ namespace AutoTest.Service.Handlers;
 
 public sealed class GetMarshalEventsHandler(IMarshalsRepository marshalsRepository) : IRequestHandler<GetMarshalEvents, IEnumerable<ulong>>
 {
-    public async ValueTask<IEnumerable<ulong>> Handle(GetMarshalEvents request, CancellationToken cancellationToken)
-    {
-        return await marshalsRepository.GetByEmail(request.EmailAddress).Select(a => a.EventId).Distinct().ToEnumerableAsync(cancellationToken);
-    }
+    public ValueTask<IEnumerable<ulong>> Handle(GetMarshalEvents request, CancellationToken cancellationToken) =>
+        new(marshalsRepository.GetByEmail(request.EmailAddress).Select(a => a.EventId).Distinct().ToEnumerableAsync(cancellationToken));
 }

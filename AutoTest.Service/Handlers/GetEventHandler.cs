@@ -9,8 +9,6 @@ namespace AutoTest.Service.Handlers;
 
 public sealed class GetEventHandler(IEventsRepository eventsRepository) : IRequestHandler<GetEvent, Event?>
 {
-    public async ValueTask<Event?> Handle(GetEvent request, CancellationToken cancellationToken)
-    {
-        return await eventsRepository.GetById(request.EventId, cancellationToken);
-    }
+    public ValueTask<Event?> Handle(GetEvent request, CancellationToken cancellationToken) =>
+        new(eventsRepository.GetById(request.EventId, cancellationToken));
 }

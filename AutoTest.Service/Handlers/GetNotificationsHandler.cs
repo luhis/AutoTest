@@ -10,8 +10,6 @@ namespace AutoTest.Service.Handlers;
 
 public sealed class GetNotificationsHandler(INotificationsRepository notificationsRepository) : IRequestHandler<GetNotifications, IEnumerable<Notification>>
 {
-    public async ValueTask<IEnumerable<Notification>> Handle(GetNotifications request, CancellationToken cancellationToken)
-    {
-        return await notificationsRepository.GetNotifications(request.EventId, cancellationToken);
-    }
+    public ValueTask<IEnumerable<Notification>> Handle(GetNotifications request, CancellationToken cancellationToken) =>
+        new(notificationsRepository.GetNotifications(request.EventId, cancellationToken));
 }

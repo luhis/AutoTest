@@ -8,8 +8,6 @@ namespace AutoTest.Service.Handlers;
 
 public sealed class GetMapsHandler(IFileRepository fileRepository) : IRequestHandler<GetMaps, string>
 {
-    public async ValueTask<string> Handle(GetMaps request, CancellationToken cancellationToken)
-    {
-        return await fileRepository.GetMaps(request.EventId, cancellationToken);
-    }
+    public ValueTask<string> Handle(GetMaps request, CancellationToken cancellationToken) =>
+        new(fileRepository.GetMaps(request.EventId, cancellationToken));
 }
