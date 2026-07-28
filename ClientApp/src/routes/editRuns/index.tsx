@@ -142,7 +142,7 @@ const EditRuns: FunctionalComponent<Props> = ({ eventId }) => {
                 <td>
                   <Penalties penalties={result.penalties} />
                 </td>
-                <td>{result.created.toUTCString()}</td>
+                <td>{result.created.toLocaleString()}</td>
               </tr>
             ),
             (_) => true,
