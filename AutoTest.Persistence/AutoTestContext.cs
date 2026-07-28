@@ -46,10 +46,11 @@ public class AutoTestContext : DbContext
                 brmc.SetAdminEmails([new AuthorisationEmail("mccorry@gmail.com"), new AuthorisationEmail("briandyer68@hotmail.com")]);
                 Clubs.Add(brmc);
             }
+            var eventId = 2UL;
 
-            if (await Events.FindAsync([2UL], cancellationToken) is null)
+            if (await Events.FindAsync([eventId], cancellationToken) is null)
             {
-                var e1 = new Event(2, 1, "Kev's Farm", new DateTime(2024, 3, 1), 10, 2, [EventType.AutoTest], TimingSystem.StopWatch, new DateTime(2000, 1, 1), new DateTime(2030, 1, 1), 10, DateTime.UtcNow);
+                var e1 = new Event(eventId, 1, "Kev's Farm", new DateTime(2024, 3, 1), 10, 2, [EventType.AutoTest], TimingSystem.StopWatch, new DateTime(2000, 1, 1), new DateTime(2030, 1, 1), 10, DateTime.UtcNow);
                 e1.SetCourses(Enumerable.Range(0, 10).Select(x => new Course(x, "")).ToArray());
                 Events.Add(e1);
             }
@@ -63,34 +64,38 @@ public class AutoTestContext : DbContext
 
             if (await Entrants.FindAsync([4UL], cancellationToken) is null)
             {
-                var en1 = new Entrant(4, 1, "Matt", "McCorry", "test@email.com", "A", 1, Age.Senior, false, null);
+                var en1 = new Entrant(4, 1, "Matt", "McCorry", "test@email.com", "A", 3UL, Age.Senior, false, null);
                 en1.SetVehicle(new Vehicle("Vauxhall", "Corsa", 1229, Induction.NA, "AA05AAA"));
                 en1.SetMsaMembership(new MsaMembership("Clubman", 1234));
                 Entrants.Add(en1);
             }
 
-            if (await Entrants.FindAsync([5UL], cancellationToken) is null)
+            var entrantId = 5UL;
+            if (await Entrants.FindAsync([entrantId], cancellationToken) is null)
             {
-                var en2 = new Entrant(5, 2, "Matt", "McCorry", "test@email.com", "A", 2, Age.Senior, false, null);
+                var en2 = new Entrant(entrantId, 2, "Matt", "McCorry", "test@email.com", "A", eventId, Age.Senior, false, null);
                 en2.SetVehicle(new Vehicle("Vauxhall", "Corsa", 1229, Induction.NA, "AA05AAA"));
                 en2.SetMsaMembership(new MsaMembership("Clubman", 1234));
                 Entrants.Add(en2);
             }
 
-            if (await Marshals.FindAsync([6UL], cancellationToken) is null)
+            var marshalId = 6UL;
+            if (await Marshals.FindAsync([marshalId], cancellationToken) is null)
             {
-                var m = new Marshal(6, "Matt", "McCorry", "mccorry@gmail.com", 1, 69, "Play");
+                var m = new Marshal(marshalId, "Matt", "McCorry", "mccorry@gmail.com", eventId, 69, "Play");
                 Marshals.Add(m);
             }
 
             if (await TestRuns.FindAsync([100UL], cancellationToken) is null)
             {
-                TestRuns.Add(new TestRun(100, 2, 1, 45200, 4, DateTime.UtcNow, 6));
-                TestRuns.Add(new TestRun(101, 2, 1, 43800, 4, DateTime.UtcNow, 6));
-                TestRuns.Add(new TestRun(102, 2, 2, 51200, 4, DateTime.UtcNow, 6));
-                TestRuns.Add(new TestRun(103, 2, 2, 49900, 4, DateTime.UtcNow, 6));
-                TestRuns.Add(new TestRun(104, 2, 3, 38700, 4, DateTime.UtcNow, 6));
-                TestRuns.Add(new TestRun(105, 2, 3, 40100, 4, DateTime.UtcNow, 6));
+                TestRuns.Add(new TestRun(98, eventId, 0, 45200, entrantId, DateTime.UtcNow, marshalId));
+                TestRuns.Add(new TestRun(99, eventId, 0, 43800, entrantId, DateTime.UtcNow, marshalId));
+                TestRuns.Add(new TestRun(100, eventId, 1, 45200, entrantId, DateTime.UtcNow, marshalId));
+                TestRuns.Add(new TestRun(101, eventId, 1, 43800, entrantId, DateTime.UtcNow, marshalId));
+                TestRuns.Add(new TestRun(102, eventId, 2, 51200, entrantId, DateTime.UtcNow, marshalId));
+                TestRuns.Add(new TestRun(103, eventId, 2, 49900, entrantId, DateTime.UtcNow, marshalId));
+                TestRuns.Add(new TestRun(104, eventId, 3, 38700, entrantId, DateTime.UtcNow, marshalId));
+                TestRuns.Add(new TestRun(105, eventId, 3, 40100, entrantId, DateTime.UtcNow, marshalId));
             }
 
             await SaveChangesAsync(cancellationToken);
