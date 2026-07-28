@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace AutoTest.Web;
+namespace AutoTest.Domain.StorageModels;
 
 public record RootAdminEmails(IReadOnlySet<string> Emails)
 {

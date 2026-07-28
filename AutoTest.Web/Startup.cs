@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using AutoTest.Domain.StorageModels;
 using AutoTest.Persistence;
 using AutoTest.Web.Authorization;
 using AutoTest.Web.Authorization.Attributes;
