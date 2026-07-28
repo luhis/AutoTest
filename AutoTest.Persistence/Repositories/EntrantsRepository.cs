@@ -15,11 +15,6 @@ public class EntrantsRepository(AutoTestContext autoTestContext) : IEntrantsRepo
         return autoTestContext.Entrants.Where(a => a.EventId == eventId && a.EntrantId == entrantId).FirstOrDefaultAsync(cancellationToken);
     }
 
-    Task<IEnumerable<Entrant>> IEntrantsRepository.GetByEventId(ulong eventId, CancellationToken cancellationToken)
-    {
-        return autoTestContext.Entrants.Where(a => a.EventId == eventId).ToEnumerableAsync(cancellationToken);
-    }
-
     Task<IEnumerable<Entrant>> IEntrantsRepository.GetAll(ulong eventId, CancellationToken cancellationToken)
     {
         return autoTestContext.Entrants.Where(a => a.EventId == eventId).OrderBy(a => a.DriverNumber).ToEnumerableAsync(cancellationToken);

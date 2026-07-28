@@ -9,8 +9,6 @@ public interface IEntrantsRepository
 {
     Task<Entrant?> GetById(ulong eventId, ulong entrantId, CancellationToken cancellationToken);
 
-    Task<IEnumerable<Entrant>> GetByEventId(ulong eventId, CancellationToken cancellationToken);
-
     Task<IEnumerable<Entrant>> GetAll(ulong eventId, CancellationToken cancellationToken);
 
     Task<IEnumerable<ulong>> GetEntrantIdsByEmail(string email, CancellationToken cancellationToken);

@@ -1,5 +1,4 @@
 using System;
-using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoTest.Service.Messages;
@@ -19,7 +18,7 @@ public class MarshalRequirementHandler(IHttpContextAccessor httpContextAccessor,
         var routeData = httpContextAccessor.HttpContext?.GetRouteData();
         if (routeData is not null)
         {
-            var eventId = ulong.Parse((string)routeData.Values[RouteParams.EventId]!, CultureInfo.InvariantCulture);
+            var eventId = AuthTools.GetEventId(routeData);
             var @event = await mediator.Send(new GetEvent(eventId));
             if (@event is null)
             {

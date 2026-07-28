@@ -44,7 +44,7 @@ public class GetResultsHandlerShould
             );
         var entrant = Models.GetEntrant(entrantId, eventId);
         var entrant2 = Models.GetEntrant(entrantId + 1, eventId);
-        _entrantsRepository.Setup(a => a.GetByEventId(eventId, TestContext.Current.CancellationToken)).ReturnsAsync(new[] { entrant, entrant2 });
+        _entrantsRepository.Setup(a => a.GetAll(eventId, TestContext.Current.CancellationToken)).ReturnsAsync(new[] { entrant, entrant2 });
         _testRunsRepository.Setup(a => a.GetAll(eventId, TestContext.Current.CancellationToken)).ReturnsAsync(Enumerable.Empty<TestRun>());
         _totalTimeCalculator.Setup(a => a.GetTotalTime(It.IsAny<AutoTest.Service.ResultCalculation.TimeCalculatorConfig>(), It.IsAny<IEnumerable<TestRun>>(), It.IsAny<IEnumerable<TestRun>>())).Returns(0);
 

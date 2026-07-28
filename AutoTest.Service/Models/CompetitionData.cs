@@ -16,7 +16,7 @@ public static class CompetitionData
     {
         var @event = await eventsRepository.GetById(eventId, cancellationToken) ?? throw new InvalidOperationException("Event not found");
 
-        var entrants = await entrantsRepository.GetByEventId(eventId, cancellationToken);
+        var entrants = await entrantsRepository.GetAll(eventId, cancellationToken);
         var testRuns = await testRunsRepository.GetAll(eventId, cancellationToken);
 
         return entrants.Select(
