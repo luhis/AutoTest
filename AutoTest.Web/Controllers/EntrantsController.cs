@@ -27,7 +27,7 @@ public class EntrantsController(IMediator mediator) : ControllerBase
     public async Task<IEnumerable<PublicEntrantModel>> GetEntrants(ulong eventId, CancellationToken cancellationToken)
     {
         var entrants = await mediator.Send(new GetEntrants(eventId), cancellationToken);
-        return entrants.Select(a => MapEntrant.Map(a));
+        return entrants.Select(MapEntrant.Map);
     }
 
     [Authorize(policy: Policies.ClubAdminOrSelf)]

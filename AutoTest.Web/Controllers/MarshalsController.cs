@@ -24,7 +24,7 @@ public class MarshalsController(IMediator mediator) : ControllerBase
     public async Task<IEnumerable<PublicMarshalModel>> GetMarshals(ulong eventId, CancellationToken cancellationToken)
     {
         var marshals = await mediator.Send(new GetMarshals(eventId), cancellationToken);
-        return marshals.Select(a => MapMarshal.Map(a));
+        return marshals.Select(MapMarshal.Map);
     }
 
     [Authorize(policy: Policies.ClubAdminOrSelf)]
