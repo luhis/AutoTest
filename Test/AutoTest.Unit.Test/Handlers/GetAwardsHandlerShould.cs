@@ -41,12 +41,12 @@ public class GetAwardsHandlerShould
 
         _eventsRepository.Setup(a => a.GetById(eventId, TestContext.Current.CancellationToken)).ReturnsAsync(
             Models.GetEvent(eventId)
-            ).Verifiable(Times.AtLeastOnce);
+            ).Verifiable(Times.Exactly(2));
         var entrant = Models.GetEntrant(entrantId, eventId);
         var entrant2 = Models.GetEntrant(entrantId + 1, eventId);
         _entrantsRepository.Setup(a => a.GetAll(eventId, TestContext.Current.CancellationToken)).ReturnsAsync(new[] { entrant, entrant2 }).Verifiable(Times.Once);
         _testRunsRepository.Setup(a => a.GetAll(eventId, TestContext.Current.CancellationToken)).ReturnsAsync(Enumerable.Empty<TestRun>()).Verifiable(Times.Once);
-        _totalTimeCalculator.Setup(a => a.GetTotalTime(It.IsAny<AutoTest.Service.ResultCalculation.TimeCalculatorConfig>(), It.IsAny<IEnumerable<TestRun>>(), It.IsAny<IEnumerable<TestRun>>())).Returns(0).Verifiable(Times.AtLeastOnce);
+        _totalTimeCalculator.Setup(a => a.GetTotalTime(It.IsAny<AutoTest.Service.ResultCalculation.TimeCalculatorConfig>(), It.IsAny<IEnumerable<TestRun>>(), It.IsAny<IEnumerable<TestRun>>())).Returns(0).Verifiable(Times.Exactly(2));
 
         var res = await _sut.Handle(new(eventId), TestContext.Current.CancellationToken);
 

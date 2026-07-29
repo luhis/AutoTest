@@ -27,9 +27,9 @@ public class GetAccessHandlerShould
         _scope = _mr.Create<IServiceScope>();
         _mediator = _mr.Create<IMediator>();
 
-        _scopeFactory.Setup(a => a.CreateScope()).Returns(_scope.Object).Verifiable(Times.AtLeastOnce);
+        _scopeFactory.Setup(a => a.CreateScope()).Returns(_scope.Object).Verifiable(Times.Exactly(4));
         _scope.Setup(a => a.ServiceProvider).Returns(Mock.Of<IServiceProvider>(sp =>
-            sp.GetService(typeof(IMediator)) == _mediator.Object)).Verifiable(Times.AtLeastOnce);
+            sp.GetService(typeof(IMediator)) == _mediator.Object)).Verifiable(Times.Exactly(4));
         _scope.Setup(a => a.Dispose());
 
         _sut = new GetAccessHandler(_rootAdminEmails, _scopeFactory.Object);

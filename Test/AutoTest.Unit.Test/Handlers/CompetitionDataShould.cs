@@ -69,7 +69,7 @@ public class CompetitionDataShould
                 var first = runs.FirstOrDefault();
                 if (first == null) return 0;
                 return first.EntrantId == 1 ? 5000 : 10000;
-            }).Verifiable(Times.AtLeastOnce);
+            }).Verifiable(Times.Exactly(2));
 
         var result = await CompetitionData.GetEntrantsAndRuns(eventId, _eventsRepository.Object, _entrantsRepository.Object, _testRunsRepository.Object, _totalTimeCalculator.Object, cancellationToken);
 
