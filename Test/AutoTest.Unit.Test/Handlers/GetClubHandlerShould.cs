@@ -26,7 +26,7 @@ public class GetClubHandlerShould
     public async Task ReturnNullIfNotClub()
     {
         var clubId = 1ul;
-        _clubsRepository.Setup(a => a.GetById(clubId, TestContext.Current.CancellationToken)).ReturnsAsync((Club?)null);
+        _clubsRepository.Setup(a => a.GetById(clubId, TestContext.Current.CancellationToken)).ReturnsAsync((Club?)null).Verifiable(Times.Once);
 
         var res = await _sut.Handle(new(clubId), TestContext.Current.CancellationToken);
 
@@ -39,7 +39,7 @@ public class GetClubHandlerShould
     {
         var clubId = 1ul;
         var club = new Club(clubId, "First", "Last", "");
-        _clubsRepository.Setup(a => a.GetById(clubId, TestContext.Current.CancellationToken)).ReturnsAsync(club);
+        _clubsRepository.Setup(a => a.GetById(clubId, TestContext.Current.CancellationToken)).ReturnsAsync(club).Verifiable(Times.Once);
 
         var res = await _sut.Handle(new(clubId), TestContext.Current.CancellationToken);
 

@@ -27,8 +27,8 @@ public class DeleteEntrantShould
         var eventId = 1ul;
         var entrantId = 2ul;
         var entrant = Models.GetEntrant(entrantId, eventId);
-        _entrants.Setup(a => a.GetById(eventId, entrantId, TestContext.Current.CancellationToken)).ReturnsAsync(entrant);
-        _entrants.Setup(a => a.Delete(entrant, TestContext.Current.CancellationToken)).Returns(Task.CompletedTask);
+        _entrants.Setup(a => a.GetById(eventId, entrantId, TestContext.Current.CancellationToken)).ReturnsAsync(entrant).Verifiable(Times.Once);
+        _entrants.Setup(a => a.Delete(entrant, TestContext.Current.CancellationToken)).Returns(Task.CompletedTask).Verifiable(Times.Once);
 
         await _sut.Handle(new(eventId, entrantId), TestContext.Current.CancellationToken);
 

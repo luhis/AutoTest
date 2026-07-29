@@ -27,7 +27,7 @@ public class GetEventHandlerShould
     public async Task ReturnNullWhenNotFound()
     {
         var eventId = 1ul;
-        _eventsRepository.Setup(a => a.GetById(eventId, TestContext.Current.CancellationToken)).ReturnsAsync((Event?)null);
+        _eventsRepository.Setup(a => a.GetById(eventId, TestContext.Current.CancellationToken)).ReturnsAsync((Event?)null).Verifiable(Times.Once);
 
         var res = await _sut.Handle(new(eventId), TestContext.Current.CancellationToken);
 
@@ -40,7 +40,7 @@ public class GetEventHandlerShould
     {
         var eventId = 1ul;
         var evnt = Models.GetEvent(eventId);
-        _eventsRepository.Setup(a => a.GetById(eventId, TestContext.Current.CancellationToken)).ReturnsAsync(evnt);
+        _eventsRepository.Setup(a => a.GetById(eventId, TestContext.Current.CancellationToken)).ReturnsAsync(evnt).Verifiable(Times.Once);
 
         var res = await _sut.Handle(new(eventId), TestContext.Current.CancellationToken);
 

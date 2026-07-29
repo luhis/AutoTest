@@ -32,9 +32,9 @@ public class IsClubAdminShould
         var clubId = 2ul;
         _eventsRepository.Setup(a => a.GetById(eventId, TestContext.Current.CancellationToken)).ReturnsAsync(
             Models.GetEvent(eventId, clubId)
-            );
+            ).Verifiable(Times.Once);
         var club = new Club(clubId, "club", "pay@paypal.com", "www.club.com");
-        _clubsRepository.Setup(a => a.GetById(clubId, TestContext.Current.CancellationToken)).ReturnsAsync(club);
+        _clubsRepository.Setup(a => a.GetById(clubId, TestContext.Current.CancellationToken)).ReturnsAsync(club).Verifiable(Times.Once);
 
         var res = await _sut.Handle(new(eventId, "a@a.com"), TestContext.Current.CancellationToken);
 

@@ -32,7 +32,7 @@ public class GetEntrantsHandlerShould
             new Entrant(1, 22, "Joe", "Bloggs", "a@a.com", "A", 99, Domain.Enums.Age.Senior, false, null),
             new Entrant(2, 22, "Joe", "Bloggs", "a@a.com", "A", 99, Domain.Enums.Age.Senior, false, null)
         };
-        _entrantsRepository.Setup(a => a.GetAll(eventId, TestContext.Current.CancellationToken)).ReturnsAsync(entrants);
+        _entrantsRepository.Setup(a => a.GetAll(eventId, TestContext.Current.CancellationToken)).ReturnsAsync(entrants).Verifiable(Times.Once);
 
         var res = await _sut.Handle(new(eventId), TestContext.Current.CancellationToken);
 

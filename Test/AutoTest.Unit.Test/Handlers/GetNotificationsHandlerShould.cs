@@ -32,7 +32,7 @@ public class GetNotificationsHandlerShould
         {
             new Notification(1, eventId, "Test message", new System.DateTime(2000, 1, 1), "admin@test.com"),
         };
-        _notificationsRepository.Setup(a => a.GetNotifications(eventId, TestContext.Current.CancellationToken)).ReturnsAsync(notifications);
+        _notificationsRepository.Setup(a => a.GetNotifications(eventId, TestContext.Current.CancellationToken)).ReturnsAsync(notifications).Verifiable(Times.Once);
 
         var res = (await _sut.Handle(new(eventId), TestContext.Current.CancellationToken)).ToArray();
 
@@ -44,7 +44,7 @@ public class GetNotificationsHandlerShould
     public async Task ReturnEmptyWhenNoNotifications()
     {
         var eventId = 1ul;
-        _notificationsRepository.Setup(a => a.GetNotifications(eventId, TestContext.Current.CancellationToken)).ReturnsAsync(Enumerable.Empty<Notification>());
+        _notificationsRepository.Setup(a => a.GetNotifications(eventId, TestContext.Current.CancellationToken)).ReturnsAsync(Enumerable.Empty<Notification>()).Verifiable(Times.Once);
 
         var res = (await _sut.Handle(new(eventId), TestContext.Current.CancellationToken)).ToArray();
 

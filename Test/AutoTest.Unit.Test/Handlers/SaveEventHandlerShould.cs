@@ -36,9 +36,9 @@ public class SaveEventHandlerShould
         var evt = new Event(eventId, 1, "location", DateTime.UtcNow, 2, 2, [], TimingSystem.StopWatch, DateTime.UtcNow, DateTime.UtcNow, 22, DateTime.UtcNow);
 
         var entrantFromDb = Models.GetEntrant(entrantId, eventId);
-        _eventsRepository.Setup(a => a.Upsert(evt, TestContext.Current.CancellationToken)).Returns(Task.CompletedTask);
-        _fileRepository.Setup(a => a.SaveMaps(eventId, "maps", TestContext.Current.CancellationToken)).ReturnsAsync("");
-        _fileRepository.Setup(a => a.SaveRegs(eventId, "regs", TestContext.Current.CancellationToken)).ReturnsAsync("");
+        _eventsRepository.Setup(a => a.Upsert(evt, TestContext.Current.CancellationToken)).Returns(Task.CompletedTask).Verifiable(Times.Once);
+        _fileRepository.Setup(a => a.SaveMaps(eventId, "maps", TestContext.Current.CancellationToken)).ReturnsAsync("").Verifiable(Times.Once);
+        _fileRepository.Setup(a => a.SaveRegs(eventId, "regs", TestContext.Current.CancellationToken)).ReturnsAsync("").Verifiable(Times.Once);
 
         var se = new SaveEvent(evt, "maps", "regs");
         var res = await _sut.Handle(se, TestContext.Current.CancellationToken);

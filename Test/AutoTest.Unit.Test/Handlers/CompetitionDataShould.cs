@@ -37,10 +37,10 @@ public class CompetitionDataShould
         var entrant = new Entrant(1, 1, "Joe", "Bloggs", "j@test.com", "A", eventId, Age.Senior, false, null);
 
         _eventsRepository.Setup(r => r.GetById(eventId, cancellationToken)).ReturnsAsync(
-            new Event(eventId, 1, "Farm", DateTime.MinValue, 1, 1, new[] { EventType.AutoTest }, TimingSystem.StopWatch, DateTime.MinValue, DateTime.MaxValue, 50, DateTime.MinValue));
-        _entrantsRepository.Setup(r => r.GetAll(eventId, cancellationToken)).ReturnsAsync(new[] { entrant });
-        _testRunsRepository.Setup(r => r.GetAll(eventId, cancellationToken)).ReturnsAsync(Array.Empty<TestRun>());
-        _totalTimeCalculator.Setup(r => r.GetTotalTime(It.IsAny<TimeCalculatorConfig>(), It.IsAny<IEnumerable<TestRun>>(), It.IsAny<IEnumerable<TestRun>>())).Returns(0);
+            new Event(eventId, 1, "Farm", DateTime.MinValue, 1, 1, new[] { EventType.AutoTest }, TimingSystem.StopWatch, DateTime.MinValue, DateTime.MaxValue, 50, DateTime.MinValue)).Verifiable(Times.Once);
+        _entrantsRepository.Setup(r => r.GetAll(eventId, cancellationToken)).ReturnsAsync(new[] { entrant }).Verifiable(Times.Once);
+        _testRunsRepository.Setup(r => r.GetAll(eventId, cancellationToken)).ReturnsAsync(Array.Empty<TestRun>()).Verifiable(Times.Once);
+        _totalTimeCalculator.Setup(r => r.GetTotalTime(It.IsAny<TimeCalculatorConfig>(), It.IsAny<IEnumerable<TestRun>>(), It.IsAny<IEnumerable<TestRun>>())).Returns(0).Verifiable(Times.Once);
 
         var result = await CompetitionData.GetEntrantsAndRuns(eventId, _eventsRepository.Object, _entrantsRepository.Object, _testRunsRepository.Object, _totalTimeCalculator.Object, cancellationToken);
 
@@ -58,18 +58,18 @@ public class CompetitionDataShould
         var entrant2 = new Entrant(2, 2, "Slow", "Driver", "s@test.com", "A", eventId, Age.Senior, false, null);
 
         _eventsRepository.Setup(r => r.GetById(eventId, cancellationToken)).ReturnsAsync(
-            new Event(eventId, 1, "Farm", DateTime.MinValue, 1, 1, new[] { EventType.AutoTest }, TimingSystem.StopWatch, DateTime.MinValue, DateTime.MaxValue, 50, DateTime.MinValue));
-        _entrantsRepository.Setup(r => r.GetAll(eventId, cancellationToken)).ReturnsAsync(new[] { entrant1, entrant2 });
+            new Event(eventId, 1, "Farm", DateTime.MinValue, 1, 1, new[] { EventType.AutoTest }, TimingSystem.StopWatch, DateTime.MinValue, DateTime.MaxValue, 50, DateTime.MinValue)).Verifiable(Times.Once);
+        _entrantsRepository.Setup(r => r.GetAll(eventId, cancellationToken)).ReturnsAsync(new[] { entrant1, entrant2 }).Verifiable(Times.Once);
         var run1 = new TestRun(1, eventId, 1, 5000, 1, DateTime.MinValue, 99);
         var run2 = new TestRun(2, eventId, 1, 10000, 2, DateTime.MinValue, 99);
-        _testRunsRepository.Setup(r => r.GetAll(eventId, cancellationToken)).ReturnsAsync(new[] { run1, run2 });
+        _testRunsRepository.Setup(r => r.GetAll(eventId, cancellationToken)).ReturnsAsync(new[] { run1, run2 }).Verifiable(Times.Once);
         _totalTimeCalculator.Setup(r => r.GetTotalTime(It.IsAny<TimeCalculatorConfig>(), It.IsAny<IEnumerable<TestRun>>(), It.IsAny<IEnumerable<TestRun>>()))
             .Returns((TimeCalculatorConfig c, IEnumerable<TestRun> runs, IEnumerable<TestRun> all) =>
             {
                 var first = runs.FirstOrDefault();
                 if (first == null) return 0;
                 return first.EntrantId == 1 ? 5000 : 10000;
-            });
+            }).Verifiable(Times.AtLeastOnce);
 
         var result = await CompetitionData.GetEntrantsAndRuns(eventId, _eventsRepository.Object, _entrantsRepository.Object, _testRunsRepository.Object, _totalTimeCalculator.Object, cancellationToken);
 
@@ -89,8 +89,8 @@ public class CompetitionDataShould
         var entrant = new Entrant(1, 1, "Joe", "Bloggs", "j@test.com", "A", eventId, Age.Senior, false, null);
 
         _eventsRepository.Setup(r => r.GetById(eventId, cancellationToken)).ReturnsAsync(
-            new Event(eventId, 1, "Farm", DateTime.MinValue, 1, 1, new[] { EventType.AutoTest }, TimingSystem.StopWatch, DateTime.MinValue, DateTime.MaxValue, 50, DateTime.MinValue));
-        _entrantsRepository.Setup(r => r.GetAll(eventId, cancellationToken)).ReturnsAsync(new[] { entrant });
+            new Event(eventId, 1, "Farm", DateTime.MinValue, 1, 1, new[] { EventType.AutoTest }, TimingSystem.StopWatch, DateTime.MinValue, DateTime.MaxValue, 50, DateTime.MinValue)).Verifiable(Times.Once);
+        _entrantsRepository.Setup(r => r.GetAll(eventId, cancellationToken)).ReturnsAsync(new[] { entrant }).Verifiable(Times.Once);
 
         var runs = new[]
         {
@@ -98,8 +98,8 @@ public class CompetitionDataShould
             new TestRun(2, eventId, 1, 2000, 1, new DateTime(2024, 1, 1, 10, 1, 0), 99),
             new TestRun(3, eventId, 1, 3000, 1, new DateTime(2024, 1, 1, 10, 2, 0), 99),
         };
-        _testRunsRepository.Setup(r => r.GetAll(eventId, cancellationToken)).ReturnsAsync(runs);
-        _totalTimeCalculator.Setup(r => r.GetTotalTime(It.IsAny<TimeCalculatorConfig>(), It.IsAny<IEnumerable<TestRun>>(), It.IsAny<IEnumerable<TestRun>>())).Returns(1000);
+        _testRunsRepository.Setup(r => r.GetAll(eventId, cancellationToken)).ReturnsAsync(runs).Verifiable(Times.Once);
+        _totalTimeCalculator.Setup(r => r.GetTotalTime(It.IsAny<TimeCalculatorConfig>(), It.IsAny<IEnumerable<TestRun>>(), It.IsAny<IEnumerable<TestRun>>())).Returns(1000).Verifiable(Times.Once);
 
         var result = await CompetitionData.GetEntrantsAndRuns(eventId, _eventsRepository.Object, _entrantsRepository.Object, _testRunsRepository.Object, _totalTimeCalculator.Object, cancellationToken);
 
@@ -115,7 +115,7 @@ public class CompetitionDataShould
     {
         var cancellationToken = TestContext.Current.CancellationToken;
         var eventId = 10ul;
-        _eventsRepository.Setup(r => r.GetById(eventId, cancellationToken)).ReturnsAsync((Event?)null);
+        _eventsRepository.Setup(r => r.GetById(eventId, cancellationToken)).ReturnsAsync((Event?)null).Verifiable(Times.Once);
 
         var act = () => CompetitionData.GetEntrantsAndRuns(eventId, _eventsRepository.Object, _entrantsRepository.Object, _testRunsRepository.Object, _totalTimeCalculator.Object, cancellationToken);
 

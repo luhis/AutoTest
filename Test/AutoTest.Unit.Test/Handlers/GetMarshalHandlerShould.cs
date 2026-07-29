@@ -28,7 +28,7 @@ public class GetMarshalHandlerShould
     {
         var eventId = 1ul;
         var marshalId = 2ul;
-        _marshalsRepository.Setup(a => a.GetById(eventId, marshalId, TestContext.Current.CancellationToken)).ReturnsAsync((Marshal?)null);
+        _marshalsRepository.Setup(a => a.GetById(eventId, marshalId, TestContext.Current.CancellationToken)).ReturnsAsync((Marshal?)null).Verifiable(Times.Once);
 
         var res = await _sut.Handle(new(eventId, marshalId), TestContext.Current.CancellationToken);
 
@@ -42,7 +42,7 @@ public class GetMarshalHandlerShould
         var eventId = 1ul;
         var marshalId = 2ul;
         var marshal = Models.GetMarshal(marshalId, eventId);
-        _marshalsRepository.Setup(a => a.GetById(eventId, marshalId, TestContext.Current.CancellationToken)).ReturnsAsync(marshal);
+        _marshalsRepository.Setup(a => a.GetById(eventId, marshalId, TestContext.Current.CancellationToken)).ReturnsAsync(marshal).Verifiable(Times.Once);
 
         var res = await _sut.Handle(new(eventId, marshalId), TestContext.Current.CancellationToken);
 

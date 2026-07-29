@@ -29,7 +29,7 @@ public class GetTestsHandlerShould
     {
         var @event = Models.GetEvent(1);
         @event.SetCourses(new[] { new Course(0, "a") });
-        _eventsRepository.Setup(a => a.GetById(1, TestContext.Current.CancellationToken)).ReturnsAsync(@event);
+        _eventsRepository.Setup(a => a.GetById(1, TestContext.Current.CancellationToken)).ReturnsAsync(@event).Verifiable(Times.Once);
 
         var tests = await sut.Handle(new(1), TestContext.Current.CancellationToken);
 

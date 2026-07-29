@@ -24,7 +24,7 @@ public class GetMapsHandlerShould
     [Fact]
     public async Task Get()
     {
-        _fs.Setup(a => a.GetMaps(11, TestContext.Current.CancellationToken)).ReturnsAsync("data");
+        _fs.Setup(a => a.GetMaps(11, TestContext.Current.CancellationToken)).ReturnsAsync("data").Verifiable(Times.Once);
 
         var maps = await _sut.Handle(new GetMaps(11), TestContext.Current.CancellationToken);
 

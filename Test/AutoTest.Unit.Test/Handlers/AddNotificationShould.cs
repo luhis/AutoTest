@@ -28,8 +28,8 @@ public class AddNotificationShould
     public async Task NotifyOnNewNotification()
     {
         var notification = new Notification(1, 2, "message", new System.DateTime(2000, 1, 1), "test user");
-        _notifier.Setup(a => a.NewNotification(notification, TestContext.Current.CancellationToken)).Returns(Task.CompletedTask);
-        _notificationsRepository.Setup(a => a.AddNotification(notification, TestContext.Current.CancellationToken)).Returns(Task.CompletedTask);
+        _notifier.Setup(a => a.NewNotification(notification, TestContext.Current.CancellationToken)).Returns(Task.CompletedTask).Verifiable(Times.Once);
+        _notificationsRepository.Setup(a => a.AddNotification(notification, TestContext.Current.CancellationToken)).Returns(Task.CompletedTask).Verifiable(Times.Once);
 
         await _sut.Handle(new(notification), TestContext.Current.CancellationToken);
 

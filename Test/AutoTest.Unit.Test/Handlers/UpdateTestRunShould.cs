@@ -33,8 +33,8 @@ public class UpdateTestRunShould
         var penalties = new[] { new Penalty(Domain.Enums.PenaltyEnum.Late, 1) };
         var tr = new TestRun(1, 2, 3, 4, entrantId, new System.DateTime(2000, 1, 1), marshalId);
         tr.SetPenalties(penalties);
-        _notifier.Setup(a => a.NewTestRun(Its.EquivalentTo(tr), TestContext.Current.CancellationToken)).Returns(Task.CompletedTask);
-        _testRuns.Setup(a => a.UpdateTestRun(Its.EquivalentTo(tr), TestContext.Current.CancellationToken)).Returns(Task.CompletedTask);
+        _notifier.Setup(a => a.NewTestRun(Its.EquivalentTo(tr), TestContext.Current.CancellationToken)).Returns(Task.CompletedTask).Verifiable(Times.Once);
+        _testRuns.Setup(a => a.UpdateTestRun(Its.EquivalentTo(tr), TestContext.Current.CancellationToken)).Returns(Task.CompletedTask).Verifiable(Times.Once);
 
         await _sut.Handle(new(1, 2, 3, 4, entrantId, new System.DateTime(2000, 1, 1), marshalId, penalties), TestContext.Current.CancellationToken);
 
@@ -49,8 +49,8 @@ public class UpdateTestRunShould
         var penalties = new[] { new Penalty(Domain.Enums.PenaltyEnum.Late, 1) };
         var tr = new TestRun(1, 2, 3, 4, entrantId, new System.DateTime(2000, 1, 1), marshalId);
         tr.SetPenalties(penalties);
-        _notifier.Setup(a => a.NewTestRun(Its.EquivalentTo(tr), TestContext.Current.CancellationToken)).Returns(Task.CompletedTask);
-        _testRuns.Setup(a => a.UpdateTestRun(Its.EquivalentTo(tr), TestContext.Current.CancellationToken)).Returns(Task.CompletedTask);
+        _notifier.Setup(a => a.NewTestRun(Its.EquivalentTo(tr), TestContext.Current.CancellationToken)).Returns(Task.CompletedTask).Verifiable(Times.Once);
+        _testRuns.Setup(a => a.UpdateTestRun(Its.EquivalentTo(tr), TestContext.Current.CancellationToken)).Returns(Task.CompletedTask).Verifiable(Times.Once);
 
         await _sut.Handle(new(1, 2, 3, 4, entrantId, new System.DateTime(2000, 1, 2), marshalId, penalties), TestContext.Current.CancellationToken);
 

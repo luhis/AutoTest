@@ -31,11 +31,11 @@ public class GetAllEventsHandlerShould
     public async Task ReturnEvents()
     {
         var events = new[] { Models.GetEvent(1), Models.GetEvent(2) };
-        _eventsRepository.Setup(a => a.GetAll(TestContext.Current.CancellationToken)).ReturnsAsync(events);
-        _fileRepository.Setup(a => a.HasRegs(1UL, TestContext.Current.CancellationToken)).ReturnsAsync(false);
-        _fileRepository.Setup(a => a.HasMaps(1UL, TestContext.Current.CancellationToken)).ReturnsAsync(true);
-        _fileRepository.Setup(a => a.HasRegs(2UL, TestContext.Current.CancellationToken)).ReturnsAsync(true);
-        _fileRepository.Setup(a => a.HasMaps(2UL, TestContext.Current.CancellationToken)).ReturnsAsync(false);
+        _eventsRepository.Setup(a => a.GetAll(TestContext.Current.CancellationToken)).ReturnsAsync(events).Verifiable(Times.Once);
+        _fileRepository.Setup(a => a.HasRegs(1UL, TestContext.Current.CancellationToken)).ReturnsAsync(false).Verifiable(Times.Once);
+        _fileRepository.Setup(a => a.HasMaps(1UL, TestContext.Current.CancellationToken)).ReturnsAsync(true).Verifiable(Times.Once);
+        _fileRepository.Setup(a => a.HasRegs(2UL, TestContext.Current.CancellationToken)).ReturnsAsync(true).Verifiable(Times.Once);
+        _fileRepository.Setup(a => a.HasMaps(2UL, TestContext.Current.CancellationToken)).ReturnsAsync(false).Verifiable(Times.Once);
 
         var res = (await _sut.Handle(new(), TestContext.Current.CancellationToken)).ToArray();
 
@@ -50,7 +50,7 @@ public class GetAllEventsHandlerShould
     [Fact]
     public async Task ReturnEmptyWhenNoEvents()
     {
-        _eventsRepository.Setup(a => a.GetAll(TestContext.Current.CancellationToken)).ReturnsAsync(Enumerable.Empty<Event>());
+        _eventsRepository.Setup(a => a.GetAll(TestContext.Current.CancellationToken)).ReturnsAsync(Enumerable.Empty<Event>()).Verifiable(Times.Once);
 
         var res = (await _sut.Handle(new(), TestContext.Current.CancellationToken)).ToArray();
 

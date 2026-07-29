@@ -38,8 +38,8 @@ public class ClubAdminOrSelfRequirementSelfHandlerShould
         var entrantId = 99ul;
         var eventId = 1ul;
         var ctx = HttpContextFixture.GetHttpContext(new[] { ("eventId", $"{eventId}"), ("entrantId", $"{entrantId}") });
-        _httpContextAccessor.SetupGet(a => a.HttpContext).Returns(ctx);
-        _mediator.Setup(a => a.Send(Its.EquivalentTo(new GetEntrant(eventId, entrantId)), CancellationToken.None)).ReturnsAsync(Models.GetEntrant(eventId, entrantId));
+        _httpContextAccessor.SetupGet(a => a.HttpContext).Returns(ctx).Verifiable(Times.Once);
+        _mediator.Setup(a => a.Send(Its.EquivalentTo(new GetEntrant(eventId, entrantId)), CancellationToken.None)).ReturnsAsync(Models.GetEntrant(eventId, entrantId)).Verifiable(Times.Once);
 
         await _sut.HandleAsync(ac);
 
@@ -56,9 +56,9 @@ public class ClubAdminOrSelfRequirementSelfHandlerShould
         var entrantId = 99ul;
         var eventId = 1ul;
         var ctx = HttpContextFixture.GetHttpContext(new[] { ("eventId", $"{eventId}"), ("entrantId", $"{entrantId}") });
-        _httpContextAccessor.SetupGet(a => a.HttpContext).Returns(ctx);
+        _httpContextAccessor.SetupGet(a => a.HttpContext).Returns(ctx).Verifiable(Times.Once);
         _mediator.Setup(a => a.Send(Its.EquivalentTo(new GetEntrant(eventId, entrantId)), CancellationToken.None)).ReturnsAsync(Models.GetEntrant(eventId, entrantId)
-            );
+            ).Verifiable(Times.Once);
 
         await _sut.HandleAsync(ac);
 

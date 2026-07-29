@@ -46,7 +46,7 @@ public class SaveEntrantHandlerShould
         var entrant = Models.GetEntrant(entrantId, eventId);
         entrant.SetPayment(new Payment());
 
-        _eventsRepository.Setup(a => a.GetById(eventId, TestContext.Current.CancellationToken)).ReturnsAsync(GetEvent(eventId, DateTime.UtcNow.AddDays(openOffsetDays), DateTime.UtcNow.AddDays(closeOffsetDays)));
+        _eventsRepository.Setup(a => a.GetById(eventId, TestContext.Current.CancellationToken)).ReturnsAsync(GetEvent(eventId, DateTime.UtcNow.AddDays(openOffsetDays), DateTime.UtcNow.AddDays(closeOffsetDays))).Verifiable(Times.Once);
 
         var se = new SaveEntrant(entrant);
         var res = await _sut.Handle(se, TestContext.Current.CancellationToken);
@@ -70,11 +70,11 @@ public class SaveEntrantHandlerShould
         if (dbHasPayment)
             entrantFromDb.SetPayment(new Payment());
 
-        _entrantsRepository.Setup(a => a.GetById(eventId, entrantId, TestContext.Current.CancellationToken)).ReturnsAsync(entrantFromDb);
-        _entrantsRepository.Setup(a => a.Upsert(entrant, TestContext.Current.CancellationToken)).Returns(Task.CompletedTask);
-        _eventsRepository.Setup(a => a.GetById(eventId, TestContext.Current.CancellationToken)).ReturnsAsync(GetEvent(eventId, DateTime.UtcNow.AddDays(-2), DateTime.UtcNow.AddDays(2)));
-        _entrantsRepository.Setup(a => a.GetEntrantCount(eventId, TestContext.Current.CancellationToken)).ReturnsAsync(0);
-        _authorisationNotifier.Setup(a => a.AddEditableEntrant(entrantId, Its.EquivalentTo(new[] { "a@a.com" }), TestContext.Current.CancellationToken)).Returns(Task.CompletedTask);
+        _entrantsRepository.Setup(a => a.GetById(eventId, entrantId, TestContext.Current.CancellationToken)).ReturnsAsync(entrantFromDb).Verifiable(Times.Once);
+        _entrantsRepository.Setup(a => a.Upsert(entrant, TestContext.Current.CancellationToken)).Returns(Task.CompletedTask).Verifiable(Times.Once);
+        _eventsRepository.Setup(a => a.GetById(eventId, TestContext.Current.CancellationToken)).ReturnsAsync(GetEvent(eventId, DateTime.UtcNow.AddDays(-2), DateTime.UtcNow.AddDays(2))).Verifiable(Times.Once);
+        _entrantsRepository.Setup(a => a.GetEntrantCount(eventId, TestContext.Current.CancellationToken)).ReturnsAsync(0).Verifiable(Times.Once);
+        _authorisationNotifier.Setup(a => a.AddEditableEntrant(entrantId, Its.EquivalentTo(new[] { "a@a.com" }), TestContext.Current.CancellationToken)).Returns(Task.CompletedTask).Verifiable(Times.Once);
 
         var se = new SaveEntrant(entrant);
         var res = await _sut.Handle(se, TestContext.Current.CancellationToken);
@@ -94,11 +94,11 @@ public class SaveEntrantHandlerShould
         var entrant = Models.GetEntrant(entrantId, eventId);
         entrant.SetPayment(new Payment());
 
-        _eventsRepository.Setup(a => a.GetById(eventId, TestContext.Current.CancellationToken)).ReturnsAsync(GetEvent(eventId, DateTime.UtcNow.AddDays(-2), DateTime.UtcNow.AddDays(1)));
-        _entrantsRepository.Setup(a => a.GetEntrantCount(eventId, TestContext.Current.CancellationToken)).ReturnsAsync(10);
-        _entrantsRepository.Setup(a => a.GetById(eventId, entrantId, TestContext.Current.CancellationToken)).ReturnsAsync((Entrant?)null);
-        _entrantsRepository.Setup(a => a.Upsert(entrant, TestContext.Current.CancellationToken)).Returns(Task.CompletedTask);
-        _authorisationNotifier.Setup(a => a.AddEditableEntrant(entrantId, new[] { "a@a.com" }, TestContext.Current.CancellationToken)).Returns(Task.CompletedTask);
+        _eventsRepository.Setup(a => a.GetById(eventId, TestContext.Current.CancellationToken)).ReturnsAsync(GetEvent(eventId, DateTime.UtcNow.AddDays(-2), DateTime.UtcNow.AddDays(1))).Verifiable(Times.Once);
+        _entrantsRepository.Setup(a => a.GetEntrantCount(eventId, TestContext.Current.CancellationToken)).ReturnsAsync(10).Verifiable(Times.Once);
+        _entrantsRepository.Setup(a => a.GetById(eventId, entrantId, TestContext.Current.CancellationToken)).ReturnsAsync((Entrant?)null).Verifiable(Times.Once);
+        _entrantsRepository.Setup(a => a.Upsert(entrant, TestContext.Current.CancellationToken)).Returns(Task.CompletedTask).Verifiable(Times.Once);
+        _authorisationNotifier.Setup(a => a.AddEditableEntrant(entrantId, new[] { "a@a.com" }, TestContext.Current.CancellationToken)).Returns(Task.CompletedTask).Verifiable(Times.Once);
 
         var se = new SaveEntrant(entrant);
         var res = await _sut.Handle(se, TestContext.Current.CancellationToken);

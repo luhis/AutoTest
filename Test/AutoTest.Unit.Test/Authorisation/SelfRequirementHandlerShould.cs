@@ -38,9 +38,9 @@ public class SelfRequirementHandlerShould
         var entrantId = 99ul;
         var eventId = 1ul;
         var ctx = HttpContextFixture.GetHttpContext(new[] { ("eventId", $"{eventId}"), ("entrantId", $"{entrantId}") });
-        _httpContextAccessor.SetupGet(a => a.HttpContext).Returns(ctx);
+        _httpContextAccessor.SetupGet(a => a.HttpContext).Returns(ctx).Verifiable(Times.Once);
         _mediator.Setup(a => a.Send(Its.EquivalentTo(new GetEntrant(eventId, entrantId)), CancellationToken.None)).ReturnsAsync(
-            Models.GetEntrant(entrantId, eventId));
+            Models.GetEntrant(entrantId, eventId)).Verifiable(Times.Once);
 
         await _sut.HandleAsync(ac);
 
@@ -57,9 +57,9 @@ public class SelfRequirementHandlerShould
         var entrantId = 99ul;
         var eventId = 1ul;
         var ctx = HttpContextFixture.GetHttpContext(new[] { ("eventId", $"{eventId}"), ("entrantId", $"{entrantId}") });
-        _httpContextAccessor.SetupGet(a => a.HttpContext).Returns(ctx);
+        _httpContextAccessor.SetupGet(a => a.HttpContext).Returns(ctx).Verifiable(Times.Once);
         _mediator.Setup(a => a.Send(Its.EquivalentTo(new GetEntrant(eventId, entrantId)), CancellationToken.None)).ReturnsAsync(
-            Models.GetEntrant(entrantId, eventId));
+            Models.GetEntrant(entrantId, eventId)).Verifiable(Times.Once);
 
         await _sut.HandleAsync(ac);
 

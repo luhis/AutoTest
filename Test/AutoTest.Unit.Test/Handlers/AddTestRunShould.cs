@@ -43,12 +43,12 @@ public class AddTestRunShould
         var marshalId = 6ul;
         var eventId = 1ul;
         var clubId = 2ul;
-        _marshalsRepository.Setup(a => a.GetMarshalIdByEmail(eventId, "marshal@email.com", TestContext.Current.CancellationToken)).ReturnsAsync(marshalId);
+        _marshalsRepository.Setup(a => a.GetMarshalIdByEmail(eventId, "marshal@email.com", TestContext.Current.CancellationToken)).ReturnsAsync(marshalId).Verifiable(Times.Once);
         var @event = Models.GetEvent(eventId, clubId);
         @event.SetEventStatus(Domain.Enums.EventStatus.Running);
-        _eventsRepository.Setup(a => a.GetById(eventId, TestContext.Current.CancellationToken)).ReturnsAsync(@event);
-        _notifier.Setup(a => a.NewTestRun(It.Is<TestRun>(r => r.EventId == eventId && r.Ordinal == 3), TestContext.Current.CancellationToken)).Returns(Task.CompletedTask);
-        _testRunsRepository.Setup(a => a.AddTestRun(It.Is<TestRun>(r => r.EventId == eventId && r.Ordinal == 3), TestContext.Current.CancellationToken)).Returns(Task.CompletedTask);
+        _eventsRepository.Setup(a => a.GetById(eventId, TestContext.Current.CancellationToken)).ReturnsAsync(@event).Verifiable(Times.Once);
+        _notifier.Setup(a => a.NewTestRun(It.Is<TestRun>(r => r.EventId == eventId && r.Ordinal == 3), TestContext.Current.CancellationToken)).Returns(Task.CompletedTask).Verifiable(Times.Once);
+        _testRunsRepository.Setup(a => a.AddTestRun(It.Is<TestRun>(r => r.EventId == eventId && r.Ordinal == 3), TestContext.Current.CancellationToken)).Returns(Task.CompletedTask).Verifiable(Times.Once);
 
         var res = await _sut.Handle(new(1, eventId, 3, 4, entrantId, new DateTime(2000, 1, 1), "marshal@email.com", _penalties), TestContext.Current.CancellationToken);
 
@@ -63,7 +63,7 @@ public class AddTestRunShould
         var eventId = 1ul;
         var clubId = 2ul;
         var @event = Models.GetEvent(eventId, clubId);
-        _eventsRepository.Setup(a => a.GetById(eventId, TestContext.Current.CancellationToken)).ReturnsAsync(@event);
+        _eventsRepository.Setup(a => a.GetById(eventId, TestContext.Current.CancellationToken)).ReturnsAsync(@event).Verifiable(Times.Once);
 
         var res = await _sut.Handle(new(1, eventId, 3, 4, entrantId, new DateTime(2000, 1, 1), "marshal@email.com", _penalties), TestContext.Current.CancellationToken);
 

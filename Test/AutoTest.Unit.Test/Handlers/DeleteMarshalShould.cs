@@ -30,9 +30,9 @@ public class DeleteMarshalShould
         var eventId = 1ul;
         var marshalId = 2ul;
         var marshal = new Domain.StorageModels.Marshal(marshalId, "joe", "bloggs", "joe@bloggs.com", eventId, 1234, "");
-        _marshalsRepository.Setup(a => a.GetById(eventId, marshalId, TestContext.Current.CancellationToken)).ReturnsAsync(marshal);
-        _marshalsRepository.Setup(a => a.Remove(marshal, TestContext.Current.CancellationToken)).Returns(Task.CompletedTask);
-        _signalRNotifier.Setup(a => a.RemoveEventMarshal(marshalId, Its.EquivalentTo(new[] { "joe@bloggs.com" }), TestContext.Current.CancellationToken)).Returns(Task.CompletedTask);
+        _marshalsRepository.Setup(a => a.GetById(eventId, marshalId, TestContext.Current.CancellationToken)).ReturnsAsync(marshal).Verifiable(Times.Once);
+        _marshalsRepository.Setup(a => a.Remove(marshal, TestContext.Current.CancellationToken)).Returns(Task.CompletedTask).Verifiable(Times.Once);
+        _signalRNotifier.Setup(a => a.RemoveEventMarshal(marshalId, Its.EquivalentTo(new[] { "joe@bloggs.com" }), TestContext.Current.CancellationToken)).Returns(Task.CompletedTask).Verifiable(Times.Once);
 
         await _sut.Handle(new(eventId, marshalId), TestContext.Current.CancellationToken);
 

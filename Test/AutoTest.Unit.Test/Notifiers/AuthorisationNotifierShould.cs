@@ -26,9 +26,9 @@ public class AuthorisationNotifierShould
     {
         var clientProxy = _mr.Create<IClientProxy>();
         var clients = _mr.Create<IHubClients>();
-        clients.Setup(a => a.Group(groupName)).Returns(clientProxy.Object);
-        _eventHub.Setup(a => a.Clients).Returns(clients.Object);
-        clientProxy.Setup(a => a.SendCoreAsync(methodName, args, TestContext.Current.CancellationToken)).Returns(Task.CompletedTask);
+        clients.Setup(a => a.Group(groupName)).Returns(clientProxy.Object).Verifiable(Times.Once);
+        _eventHub.Setup(a => a.Clients).Returns(clients.Object).Verifiable(Times.Once);
+        clientProxy.Setup(a => a.SendCoreAsync(methodName, args, TestContext.Current.CancellationToken)).Returns(Task.CompletedTask).Verifiable(Times.Once);
     }
 
     public static IEnumerable<object[]> NotifierTestData => new[]

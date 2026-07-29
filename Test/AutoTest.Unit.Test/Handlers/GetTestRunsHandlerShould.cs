@@ -33,7 +33,7 @@ public class GetTestRunsHandlerShould
         {
             new TestRun(1, eventId, ordinal, 50_000, 1, new System.DateTime(2000, 1, 1), 1),
         };
-        _testRunsRepository.Setup(a => a.GetAll(eventId, ordinal, TestContext.Current.CancellationToken)).ReturnsAsync(testRuns);
+        _testRunsRepository.Setup(a => a.GetAll(eventId, ordinal, TestContext.Current.CancellationToken)).ReturnsAsync(testRuns).Verifiable(Times.Once);
 
         var res = (await _sut.Handle(new(eventId, ordinal), TestContext.Current.CancellationToken)).ToArray();
 
@@ -46,7 +46,7 @@ public class GetTestRunsHandlerShould
     {
         var eventId = 1ul;
         var ordinal = 2;
-        _testRunsRepository.Setup(a => a.GetAll(eventId, ordinal, TestContext.Current.CancellationToken)).ReturnsAsync(Enumerable.Empty<TestRun>());
+        _testRunsRepository.Setup(a => a.GetAll(eventId, ordinal, TestContext.Current.CancellationToken)).ReturnsAsync(Enumerable.Empty<TestRun>()).Verifiable(Times.Once);
 
         var res = (await _sut.Handle(new(eventId, ordinal), TestContext.Current.CancellationToken)).ToArray();
 

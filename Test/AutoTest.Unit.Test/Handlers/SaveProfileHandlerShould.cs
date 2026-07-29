@@ -27,7 +27,7 @@ public class SaveProfileHandlerShould
     public async Task SaveProfile()
     {
         var profile = Models.GetProfile("aa@aa.com");
-        _profileRepository.Setup(a => a.Upsert(Its.EquivalentTo(profile), TestContext.Current.CancellationToken)).Returns(Task.CompletedTask);
+        _profileRepository.Setup(a => a.Upsert(Its.EquivalentTo(profile), TestContext.Current.CancellationToken)).Returns(Task.CompletedTask).Verifiable(Times.Once);
 
         await _sut.Handle(new(profile), TestContext.Current.CancellationToken);
 

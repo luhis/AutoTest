@@ -34,7 +34,7 @@ public class GetMarshalEventsHandlerShould
             new Marshal(2, "a", "a", "a@a.com", eventId, 212312, "")
         };
         var mock = marshals.BuildMock();
-        _marshalsRepository.Setup(a => a.GetByEmail("test@test.com")).Returns(mock);
+        _marshalsRepository.Setup(a => a.GetByEmail("test@test.com")).Returns(mock).Verifiable(Times.Once);
 
         var res = await _sut.Handle(new("test@test.com"), TestContext.Current.CancellationToken);
 

@@ -27,10 +27,10 @@ public class SetEntrantStatusShould
     {
         var eventId = 11ul;
         var entrantId = 11ul;
-        _entrants.Setup(a => a.GetById(eventId, entrantId, TestContext.Current.CancellationToken)).ReturnsAsync(Models.GetEntrant(entrantId, eventId));
+        _entrants.Setup(a => a.GetById(eventId, entrantId, TestContext.Current.CancellationToken)).ReturnsAsync(Models.GetEntrant(entrantId, eventId)).Verifiable(Times.Once);
         var toSave = Models.GetEntrant(entrantId, eventId);
         toSave.SetEntrantStatus(Domain.Enums.EntrantStatus.Withdrawn);
-        _entrants.Setup(a => a.Upsert(Its.EquivalentTo(toSave, o => o.Excluding(a => a.EmergencyContact).Excluding(a => a.MsaMembership).Excluding(a => a.AcceptDeclaration)), TestContext.Current.CancellationToken)).Returns(Task.CompletedTask);
+        _entrants.Setup(a => a.Upsert(Its.EquivalentTo(toSave, o => o.Excluding(a => a.EmergencyContact).Excluding(a => a.MsaMembership).Excluding(a => a.AcceptDeclaration)), TestContext.Current.CancellationToken)).Returns(Task.CompletedTask).Verifiable(Times.Once);
 
         await _sut.Handle(new SetEntrantStatus(eventId, entrantId, Domain.Enums.EntrantStatus.Withdrawn), TestContext.Current.CancellationToken);
         _mr.VerifyAll();

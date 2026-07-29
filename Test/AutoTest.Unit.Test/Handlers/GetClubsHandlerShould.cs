@@ -28,7 +28,7 @@ public class GetClubsHandlerShould
     {
         var clubId = 1ul;
         var clubs = new[] { new Club(clubId, "First", "Last", "") };
-        _clubsRepository.Setup(a => a.GetAll(TestContext.Current.CancellationToken)).ReturnsAsync(clubs);
+        _clubsRepository.Setup(a => a.GetAll(TestContext.Current.CancellationToken)).ReturnsAsync(clubs).Verifiable(Times.Once);
 
         var res = await _sut.Handle(new(), TestContext.Current.CancellationToken);
 

@@ -28,7 +28,8 @@ public class GetAdminClubsHandlerShould
     {
         _clubsRepository
             .Setup(a => a.GetClubIdsByEmail("a@a.com", TestContext.Current.CancellationToken))
-            .ReturnsAsync(new[] { 1ul, 2ul });
+            .ReturnsAsync(new[] { 1ul, 2ul })
+            .Verifiable(Times.Once);
         var res = await _sut.Handle(new("a@a.com"), TestContext.Current.CancellationToken);
 
         res.Should().BeEquivalentTo(new[] { 1ul, 2ul });
@@ -40,7 +41,8 @@ public class GetAdminClubsHandlerShould
     {
         _clubsRepository
             .Setup(a => a.GetClubIdsByEmail("a@a.com", TestContext.Current.CancellationToken))
-            .ReturnsAsync(Enumerable.Empty<ulong>());
+            .ReturnsAsync(Enumerable.Empty<ulong>())
+            .Verifiable(Times.Once);
         var res = await _sut.Handle(new("a@a.com"), TestContext.Current.CancellationToken);
 
         res.Should().BeEquivalentTo(Enumerable.Empty<ulong>());

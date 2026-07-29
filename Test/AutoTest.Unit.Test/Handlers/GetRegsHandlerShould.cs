@@ -24,7 +24,7 @@ public class GetRegsHandlerShould
     [Fact]
     public async Task Get()
     {
-        _fs.Setup(a => a.GetRegs(11, TestContext.Current.CancellationToken)).ReturnsAsync("data");
+        _fs.Setup(a => a.GetRegs(11, TestContext.Current.CancellationToken)).ReturnsAsync("data").Verifiable(Times.Once);
 
         var regs = await _sut.Handle(new GetRegs(11), TestContext.Current.CancellationToken);
 

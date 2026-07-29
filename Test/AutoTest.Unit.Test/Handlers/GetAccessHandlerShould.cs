@@ -27,9 +27,9 @@ public class GetAccessHandlerShould
         _scope = _mr.Create<IServiceScope>();
         _mediator = _mr.Create<IMediator>();
 
-        _scopeFactory.Setup(a => a.CreateScope()).Returns(_scope.Object);
+        _scopeFactory.Setup(a => a.CreateScope()).Returns(_scope.Object).Verifiable(Times.AtLeastOnce);
         _scope.Setup(a => a.ServiceProvider).Returns(Mock.Of<IServiceProvider>(sp =>
-            sp.GetService(typeof(IMediator)) == _mediator.Object));
+            sp.GetService(typeof(IMediator)) == _mediator.Object)).Verifiable(Times.AtLeastOnce);
         _scope.Setup(a => a.Dispose());
 
         _sut = new GetAccessHandler(_rootAdminEmails, _scopeFactory.Object);
@@ -80,12 +80,12 @@ public class GetAccessHandlerShould
     private void SetupSubHandlers(string email, ulong[] adminClubs, ulong[] marshalEvents, ulong[] editableEntrants, ulong[] editableMarshals)
     {
         _mediator.Setup(a => a.Send(It.Is<GetAdminClubs>(m => m.EmailAddress == email), It.IsAny<CancellationToken>()))
-            .ReturnsAsync(adminClubs);
+            .ReturnsAsync(adminClubs).Verifiable(Times.Once);
         _mediator.Setup(a => a.Send(It.Is<GetMarshalEvents>(m => m.EmailAddress == email), It.IsAny<CancellationToken>()))
-            .ReturnsAsync(marshalEvents);
+            .ReturnsAsync(marshalEvents).Verifiable(Times.Once);
         _mediator.Setup(a => a.Send(It.Is<GetEditableEntrants>(m => m.EmailAddress == email), It.IsAny<CancellationToken>()))
-            .ReturnsAsync(editableEntrants);
+            .ReturnsAsync(editableEntrants).Verifiable(Times.Once);
         _mediator.Setup(a => a.Send(It.Is<GetEditableMarshals>(m => m.EmailAddress == email), It.IsAny<CancellationToken>()))
-            .ReturnsAsync(editableMarshals);
+            .ReturnsAsync(editableMarshals).Verifiable(Times.Once);
     }
 }

@@ -30,11 +30,11 @@ public class SetEventStatusShould
     {
         var eventId = 11ul;
         var clubId = 2ul;
-        _events.Setup(a => a.GetById(eventId, TestContext.Current.CancellationToken)).ReturnsAsync(Models.GetEvent(eventId, clubId));
+        _events.Setup(a => a.GetById(eventId, TestContext.Current.CancellationToken)).ReturnsAsync(Models.GetEvent(eventId, clubId)).Verifiable(Times.Once);
         var toSave = Models.GetEvent(eventId, clubId);
         toSave.SetEventStatus(Domain.Enums.EventStatus.Open);
-        _events.Setup(a => a.Upsert(Its.EquivalentTo(toSave), TestContext.Current.CancellationToken)).Returns(Task.CompletedTask);
-        _notifier.Setup(a => a.EventStatusChanged(eventId, Domain.Enums.EventStatus.Open, TestContext.Current.CancellationToken)).Returns(Task.CompletedTask);
+        _events.Setup(a => a.Upsert(Its.EquivalentTo(toSave), TestContext.Current.CancellationToken)).Returns(Task.CompletedTask).Verifiable(Times.Once);
+        _notifier.Setup(a => a.EventStatusChanged(eventId, Domain.Enums.EventStatus.Open, TestContext.Current.CancellationToken)).Returns(Task.CompletedTask).Verifiable(Times.Once);
 
         await _sut.Handle(new SetEventStatus(eventId, Domain.Enums.EventStatus.Open), TestContext.Current.CancellationToken);
         _mr.VerifyAll();

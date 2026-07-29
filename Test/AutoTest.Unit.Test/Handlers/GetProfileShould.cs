@@ -27,7 +27,7 @@ public class GetProfileShould
     public async Task ReturnBlankProfileIfNone()
     {
         var email = "a@a.com";
-        _profileRepository.Setup(a => a.Get(email, TestContext.Current.CancellationToken)).ReturnsAsync((Profile?)null);
+        _profileRepository.Setup(a => a.Get(email, TestContext.Current.CancellationToken)).ReturnsAsync((Profile?)null).Verifiable(Times.Once);
 
         var res = await _sut.Handle(new(email), TestContext.Current.CancellationToken);
 
@@ -40,7 +40,7 @@ public class GetProfileShould
     {
         var email = "a@a.com";
         var profile = Models.GetProfile(email);
-        _profileRepository.Setup(a => a.Get(email, TestContext.Current.CancellationToken)).ReturnsAsync(profile);
+        _profileRepository.Setup(a => a.Get(email, TestContext.Current.CancellationToken)).ReturnsAsync(profile).Verifiable(Times.Once);
 
         var res = await _sut.Handle(new(email), TestContext.Current.CancellationToken);
 
