@@ -18,12 +18,14 @@ public sealed class SaveClubHandler(IClubsRepository clubRepository, IAuthorisat
         await clubRepository.Upsert(request.Club, cancellationToken);
         if (existing is not null && existing.AdminEmails != request.Club.AdminEmails)
         {
-            var newEmails = GetNewItems(existing.AdminEmails.Select(a => a.Email), request.Club.AdminEmails.Select(a => a.Email));
+            var existingEmails = existing.AdminEmails.Select(a => a.Email).ToList();
+            var currentEmails = request.Club.AdminEmails.Select(a => a.Email).ToList();
+            var newEmails = GetNewItems(existingEmails, currentEmails);
             if (newEmails.Any())
             {
                 await signalRNotifier.NewClubAdmin(request.Club.ClubId, newEmails, cancellationToken);
             }
-            var removedEmails = GetRemovedItems(existing.AdminEmails.Select(a => a.Email), request.Club.AdminEmails.Select(a => a.Email));
+            var removedEmails = GetRemovedItems(existingEmails, currentEmails);
             if (removedEmails.Any())
             {
                 await signalRNotifier.RemoveClubAdmin(request.Club.ClubId, removedEmails, cancellationToken);

@@ -14,7 +14,7 @@ public class AuthorisationHub : Hub
     {
         var email = Context.User!.GetEmailAddress();
 
-        if (email is not null)
+        if (!string.IsNullOrEmpty(email))
         {
             await Groups.AddToGroupAsync(Context.ConnectionId, GetEmailKey(email));
         }
@@ -26,7 +26,7 @@ public class AuthorisationHub : Hub
     {
         var email = Context.User!.GetEmailAddress();
 
-        if (email is not null)
+        if (!string.IsNullOrEmpty(email))
         {
             await Groups.RemoveFromGroupAsync(Context.ConnectionId, GetEmailKey(email));
         }
