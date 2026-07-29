@@ -14,6 +14,7 @@ public sealed class GetMarshalsHandler(IMarshalsRepository marshalsRepository) :
 {
     public async ValueTask<IEnumerable<Marshal>> Handle(GetMarshals request, CancellationToken cancellationToken)
     {
+        // in efCore 10, the migrations will not create server side indexes, will fix this in future
         var marshals = await marshalsRepository.GetByEventId(request.EventId).OrderBy(a => a.FamilyName).ToEnumerableAsync(cancellationToken);
         return marshals.OrderBy(a => a.FamilyName).ThenBy(a => a.GivenName);
     }
