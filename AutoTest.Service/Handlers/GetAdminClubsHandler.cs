@@ -1,41 +1,14 @@
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoTest.Domain.Repositories;
-using AutoTest.Domain.StorageModels;
 using AutoTest.Service.Messages;
 using Mediator;
-using Microsoft.Extensions.Caching.Memory;
 
 namespace AutoTest.Service.Handlers;
 
-public sealed class GetAdminClubsHandler(IClubsRepository clubsRepository, IMemoryCache cache) : IRequestHandler<GetAdminClubs, IEnumerable<ulong>>
+public sealed class GetAdminClubsHandler(IClubsRepository clubsRepository) : IRequestHandler<GetAdminClubs, IEnumerable<ulong>>
 {
-    public async ValueTask<IEnumerable<ulong>> Handle(GetAdminClubs request, CancellationToken cancellationToken)
-    {
-        // TODO: this is very inefficient, but the only other option at this time is SQL
-        var clubAdminEmails = await GetOrCreate(cancellationToken);
-        return clubAdminEmails.Where(a => a.AdminEmails.Any(e => e.Email == request.EmailAddress)).Select(a => a.ClubId).Distinct();
-    }
-
-    private static readonly string s_cacheKey = nameof(GetAdminClubsHandler);
-
-    private async Task<IEnumerable<(ulong ClubId, IEnumerable<AuthorisationEmail> AdminEmails)>> GetOrCreate(CancellationToken cancellationToken)
-    {
-        if (cache.TryGetValue<IEnumerable<(ulong ClubId, IEnumerable<AuthorisationEmail> AdminEmails)>>(s_cacheKey, out var o) && o is not null)
-        {
-            return o;
-        }
-        else
-        {
-            var r = await GetClubAdminEmails(cancellationToken);
-            cache.Set(s_cacheKey, r, TimeSpan.FromSeconds(30));
-            return r;
-        }
-    }
-
-    private async Task<IEnumerable<(ulong ClubId, IEnumerable<AuthorisationEmail> AdminEmails)>> GetClubAdminEmails(CancellationToken cancellationToken) =>
-        (await clubsRepository.GetAll(cancellationToken)).Select(a => (a.ClubId, a.AdminEmails.AsEnumerable()));
+    public ValueTask<IEnumerable<ulong>> Handle(GetAdminClubs request, CancellationToken cancellationToken) =>
+        new(clubsRepository.GetClubIdsByEmail(request.EmailAddress, cancellationToken));
 }

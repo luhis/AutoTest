@@ -25,6 +25,13 @@ public class ClubRepository(AutoTestContext autoTestContext) : IClubsRepository
     Task<IEnumerable<Club>> IClubsRepository.GetAll(CancellationToken cancellationToken) =>
         autoTestContext.Clubs.OrderBy(a => a.ClubName).ToEnumerableAsync(cancellationToken);
 
+    Task<IEnumerable<ulong>> IClubsRepository.GetClubIdsByEmail(string emailAddress, CancellationToken cancellationToken) =>
+        autoTestContext.Clubs
+            .Where(c => c.AdminEmails.Any(e => e.Email == emailAddress))
+            .Select(c => c.ClubId)
+            .Distinct()
+            .ToEnumerableAsync(cancellationToken);
+
     async Task IClubsRepository.Upsert(Club club, CancellationToken cancellationToken)
     {
         await autoTestContext.Clubs.Upsert(club, a => a.ClubId == club.ClubId, cancellationToken);

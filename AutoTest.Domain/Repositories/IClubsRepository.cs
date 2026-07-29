@@ -13,5 +13,7 @@ public interface IClubsRepository
 
     Task<IEnumerable<Club>> GetAll(CancellationToken cancellationToken);
 
+    Task<IEnumerable<ulong>> GetClubIdsByEmail(string emailAddress, CancellationToken cancellationToken);
+
     Task Upsert(Club club, CancellationToken cancellationToken);
 }
