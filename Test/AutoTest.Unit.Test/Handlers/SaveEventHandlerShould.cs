@@ -5,7 +5,6 @@ using AutoTest.Domain.Repositories;
 using AutoTest.Domain.StorageModels;
 using AutoTest.Service.Handlers;
 using AutoTest.Service.Messages;
-using AutoTest.Unit.Test.MockData;
 using Mediator;
 using Moq;
 using Xunit;
@@ -29,13 +28,9 @@ public class SaveEventHandlerShould
     [Fact]
     public async Task Save()
     {
-        var entrantId = 1ul;
         var eventId = 2ul;
-        var entrant = Models.GetEntrant(entrantId, eventId);
-        entrant.SetPayment(new Payment());
         var evt = new Event(eventId, 1, "location", DateTime.UtcNow, 2, 2, [], TimingSystem.StopWatch, DateTime.UtcNow, DateTime.UtcNow, 22, DateTime.UtcNow);
 
-        var entrantFromDb = Models.GetEntrant(entrantId, eventId);
         _eventsRepository.Setup(a => a.Upsert(evt, TestContext.Current.CancellationToken)).Returns(Task.CompletedTask).Verifiable(Times.Once);
         _fileRepository.Setup(a => a.SaveMaps(eventId, "maps", TestContext.Current.CancellationToken)).ReturnsAsync("").Verifiable(Times.Once);
         _fileRepository.Setup(a => a.SaveRegs(eventId, "regs", TestContext.Current.CancellationToken)).ReturnsAsync("").Verifiable(Times.Once);
