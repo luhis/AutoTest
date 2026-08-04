@@ -17,6 +17,10 @@ public sealed class SaveEntrantHandler(IEntrantsRepository entrantsRepository, I
     {
         var @event = await eventsRepository.GetById(request.Entrant.EventId, cancellationToken)
             ?? throw new InvalidOperationException($"Event with id {request.Entrant.EventId} not found");
+        if (@event.EventStatus == Domain.Enums.EventStatus.Cancelled)
+        {
+            return new Error<string>("Event is cancelled");
+        }
         var now = DateTime.UtcNow;
         if (@event.EntryOpenDate > now)
         {

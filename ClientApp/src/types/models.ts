@@ -64,6 +64,7 @@ export enum EventStatus {
   Running = 1,
   Provisional = 2,
   Finalised = 3,
+  Cancelled = 4,
 }
 
 export enum TestRunUploadState {

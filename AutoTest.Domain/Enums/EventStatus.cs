@@ -2,5 +2,5 @@
 
 public enum EventStatus
 {
-    Open = 0, Running = 1, Provisional = 2, Finalised = 3
+    Open = 0, Running = 1, Provisional = 2, Finalised = 3, Cancelled = 4
 }

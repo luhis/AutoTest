@@ -1,3 +1,4 @@
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoTest.Domain.Repositories;
@@ -5,13 +6,22 @@ using AutoTest.Domain.StorageModels;
 using AutoTest.Service.Interfaces;
 using AutoTest.Service.Messages;
 using Mediator;
+using OneOf;
+using OneOf.Types;
 
 namespace AutoTest.Service.Handlers;
 
-public sealed class SaveMarshalHandler(IMarshalsRepository marshalRepository, IAuthorisationNotifier signalRNotifier) : IRequestHandler<SaveMarshal, Marshal>
+public sealed class SaveMarshalHandler(IMarshalsRepository marshalRepository, IEventsRepository eventsRepository, IAuthorisationNotifier signalRNotifier) : IRequestHandler<SaveMarshal, OneOf<Marshal, Error<string>>>
 {
-    public async ValueTask<Marshal> Handle(SaveMarshal request, CancellationToken cancellationToken)
+    public async ValueTask<OneOf<Marshal, Error<string>>> Handle(SaveMarshal request, CancellationToken cancellationToken)
     {
+        var @event = await eventsRepository.GetById(request.Marshal.EventId, cancellationToken)
+            ?? throw new InvalidOperationException($"Event with id {request.Marshal.EventId} not found");
+        if (@event.EventStatus == Domain.Enums.EventStatus.Cancelled)
+        {
+            return new Error<string>("Event is cancelled");
+        }
+
         var existing = await marshalRepository.GetById(request.Marshal.EventId, request.Marshal.MarshalId, cancellationToken);
 
         await marshalRepository.Upsert(request.Marshal, cancellationToken);

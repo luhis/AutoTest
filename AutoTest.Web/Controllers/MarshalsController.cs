@@ -13,6 +13,8 @@ using AutoTest.Web.Models.Save;
 using Mediator;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using OneOf;
+using OneOf.Types;
 
 namespace AutoTest.Web.Controllers;
 
@@ -35,14 +37,16 @@ public class MarshalsController(IMediator mediator) : ControllerBase
         return r.ToAr();
     }
 
+    ActionResult<Marshal> Map(OneOf<Marshal, Error<string>> r) => r.Match(succ => succ.ToAr(), error => BadRequest(error.Value));
+
     [Authorize(policy: Policies.ClubAdminOrSelf)]
     [HttpPut("{marshalId}")]
-    public async Task<Marshal> PutMarshal(ulong eventId, ulong marshalId, MarshalSaveModel marshalSaveModel, CancellationToken cancellationToken)
+    public async Task<ActionResult<Marshal>> PutMarshal(ulong eventId, ulong marshalId, MarshalSaveModel marshalSaveModel, CancellationToken cancellationToken)
     {
         var currentUserEmail = User.GetEmailAddress();
         var isClubAdmin = await mediator.Send(new IsClubAdmin(eventId, currentUserEmail), cancellationToken);
-        return await mediator.Send(new SaveMarshal(MapMarshal.Map(marshalId, eventId, marshalSaveModel, isClubAdmin ? marshalSaveModel.Email : currentUserEmail)),
-            cancellationToken);
+        return Map(await mediator.Send(new SaveMarshal(MapMarshal.Map(marshalId, eventId, marshalSaveModel, isClubAdmin ? marshalSaveModel.Email : currentUserEmail)),
+            cancellationToken));
     }
 
     [Authorize(policy: Policies.ClubAdminOrSelf)]

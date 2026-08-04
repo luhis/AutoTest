@@ -55,6 +55,25 @@ public class SaveEntrantHandlerShould
         _mr.VerifyAll();
     }
 
+    [Fact]
+    public async Task ErrorWhenEventCancelled()
+    {
+        var entrantId = 1ul;
+        var eventId = 2ul;
+        var entrant = Models.GetEntrant(entrantId, eventId);
+        entrant.SetPayment(new Payment());
+
+        var @event = GetEvent(eventId, DateTime.UtcNow.AddDays(-2), DateTime.UtcNow.AddDays(2));
+        @event.SetEventStatus(EventStatus.Cancelled);
+        _eventsRepository.Setup(a => a.GetById(eventId, TestContext.Current.CancellationToken)).ReturnsAsync(@event).Verifiable(Times.Once);
+
+        var se = new SaveEntrant(entrant);
+        var res = await _sut.Handle(se, TestContext.Current.CancellationToken);
+
+        res.AsT1.Value.Should().Be("Event is cancelled");
+        _mr.VerifyAll();
+    }
+
     [Theory]
     [InlineData(true, false)]
     [InlineData(false, true)]

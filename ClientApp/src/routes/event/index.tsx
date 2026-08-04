@@ -131,19 +131,49 @@ const Event: FunctionalComponent<Props> = ({ eventId }) => {
           <Panel.Header>Event Status</Panel.Header>
           <Panel.Block>
             <Button.Group>
-              <Button
-                onClick={previousStatus}
-                disabled={currentEvent.eventStatus === EventStatus.Open}
-              >
-                Back
-              </Button>
+              {currentEvent.eventStatus !== EventStatus.Cancelled &&
+                currentEvent.eventStatus !== EventStatus.Open && (
+                  <Button onClick={previousStatus}>Back</Button>
+                )}
               {EventStatus[currentEvent.eventStatus]}
-              <Button
-                onClick={nextStatus}
-                disabled={currentEvent.eventStatus === EventStatus.Finalised}
-              >
-                Forward
-              </Button>
+              {currentEvent.eventStatus !== EventStatus.Cancelled &&
+                currentEvent.eventStatus !== EventStatus.Finalised && (
+                  <Button onClick={nextStatus}>Forward</Button>
+                )}
+              {currentEvent.eventStatus !== EventStatus.Cancelled &&
+                (currentEvent.eventStatus === EventStatus.Open ||
+                  currentEvent.eventStatus === EventStatus.Running) && (
+                  <Button
+                    color="danger"
+                    onClick={() =>
+                      dispatch(
+                        SetEventStatus(
+                          currentEvent.eventId,
+                          EventStatus.Cancelled,
+                          getAccessToken(auth),
+                        ),
+                      )
+                    }
+                  >
+                    Cancel Event
+                  </Button>
+                )}
+              {currentEvent.eventStatus === EventStatus.Cancelled && (
+                <Button
+                  color="warning"
+                  onClick={() =>
+                    dispatch(
+                      SetEventStatus(
+                        currentEvent.eventId,
+                        EventStatus.Open,
+                        getAccessToken(auth),
+                      ),
+                    )
+                  }
+                >
+                  Uncancel
+                </Button>
+              )}
             </Button.Group>
           </Panel.Block>
         </Panel>
