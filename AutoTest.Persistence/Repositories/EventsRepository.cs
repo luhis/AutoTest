@@ -21,7 +21,15 @@ public class EventsRepository(AutoTestContext autoTestContext) : IEventsReposito
 
     async Task IEventsRepository.Upsert(Event @event, CancellationToken cancellationToken)
     {
-        ////SyncCourses(@event);
+        var existing = await autoTestContext.Events.FindAsync([@event.EventId], cancellationToken);
+        if (existing is not null)
+        {
+            foreach (var course in existing.Courses)
+            {
+                @event.Courses.Add(course);
+            }
+        }
+        SyncCourses(@event);
         await autoTestContext.Events.Upsert(@event, a => a.EventId == @event.EventId, cancellationToken);
 
         await autoTestContext.SaveChangesAsync(cancellationToken);
