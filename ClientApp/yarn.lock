@@ -1711,18 +1711,18 @@
   dependencies:
     "@nevware21/ts-utils" ">= 0.14.0 < 2.x"
 
-"@microsoft/signalr-protocol-msgpack@10.0.0":
-  version "10.0.0"
-  resolved "https://registry.npmjs.org/@microsoft/signalr-protocol-msgpack/-/signalr-protocol-msgpack-10.0.0.tgz"
-  integrity sha512-N4h4BD+y9kw/iszpDaDaIRJpxaRSA5uBtveM6HUIwmwkeJIPOoMrPNvmj77UrjZHAsbVwa/acLiWnPDfffO3yQ==
+"@microsoft/signalr-protocol-msgpack@10.0.11":
+  version "10.0.11"
+  resolved "https://registry.yarnpkg.com/@microsoft/signalr-protocol-msgpack/-/signalr-protocol-msgpack-10.0.11.tgz#8f1e65b87a8b6ab25c0367fb196e0d4ad8f801ee"
+  integrity sha512-7b8SFwexzaD62fPkO3t3AlYTNCaTLy+0GNndlzYIry8mXCcG4qSwbnI2vkwY623I+YyywPby+d97/jkEl3oGLA==
   dependencies:
-    "@microsoft/signalr" ">=10.0.0"
+    "@microsoft/signalr" ">=10.0.11"
     "@msgpack/msgpack" "^2.7.0"
 
-"@microsoft/signalr@>=10.0.0":
-  version "10.0.0"
-  resolved "https://registry.npmjs.org/@microsoft/signalr/-/signalr-10.0.0.tgz"
-  integrity sha512-0BRqz/uCx3JdrOqiqgFhih/+hfTERaUfCZXFB52uMaZJrKaPRzHzMuqVsJC/V3pt7NozcNXGspjKiQEK+X7P2w==
+"@microsoft/signalr@>=10.0.11":
+  version "10.0.11"
+  resolved "https://registry.yarnpkg.com/@microsoft/signalr/-/signalr-10.0.11.tgz#2b96b016ed38f9754178d389ca1d7fd89666f471"
+  integrity sha512-FulOJ2EEtKvLQcswe/U7v8pzyXyk7Jua5xgWJPPwyQU/2Z9ORvKcVjyO75VvLsem+CJ1ORRexJ+7Bz1FCei2aw==
   dependencies:
     abort-controller "^3.0.0"
     eventsource "^2.0.2"
