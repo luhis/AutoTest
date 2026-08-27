@@ -1,6 +1,6 @@
 import { FunctionalComponent, h } from "preact";
 import { useCallback, useEffect, useState } from "preact/hooks";
-import { Button, Heading, Panel } from "react-bulma-components";
+import { Button, Heading, Panel, Tag } from "react-bulma-components";
 import { useSelector } from "react-redux";
 import { newValidDate } from "ts-date";
 import UUID from "uuid-int";
@@ -125,9 +125,9 @@ const Event: FunctionalComponent<Props> = ({ eventId }) => {
   return (
     <div>
       <Breadcrumbs club={currentClub} event={currentEvent} />
-      <Heading>Event {currentEvent?.location}</Heading>
+      <Heading>{currentEvent?.location}</Heading>
       {!canNotEdit ? (
-        <Panel>
+        <Panel color="primary">
           <Panel.Header>Event Status</Panel.Header>
           <Panel.Block>
             <Button.Group>
@@ -135,7 +135,9 @@ const Event: FunctionalComponent<Props> = ({ eventId }) => {
                 currentEvent.eventStatus !== EventStatus.Open && (
                   <Button onClick={previousStatus}>Back</Button>
                 )}
-              {EventStatus[currentEvent.eventStatus]}
+              <Tag color="info" size="medium">
+                {EventStatus[currentEvent.eventStatus]}
+              </Tag>
               {currentEvent.eventStatus !== EventStatus.Cancelled &&
                 currentEvent.eventStatus !== EventStatus.Finalised && (
                   <Button onClick={nextStatus}>Forward</Button>
@@ -179,7 +181,7 @@ const Event: FunctionalComponent<Props> = ({ eventId }) => {
         </Panel>
       ) : null}
 
-      <Panel>
+      <Panel color="link">
         <Panel.Header>Notifications</Panel.Header>
         <Panel.Block>
           <Button.Group>
@@ -211,20 +213,20 @@ const Event: FunctionalComponent<Props> = ({ eventId }) => {
           </Button.Group>
         </Panel.Block>
       </Panel>
-      <Panel>
+      <Panel color="info">
         <Panel.Header>People</Panel.Header>
         <Panel.Block>
           <Button.Group>
-            <Button onClick={() => route(`/entrants/${eventId}`)}>
+            <Button color="info" onClick={() => route(`/entrants/${eventId}`)}>
               Entrants
             </Button>
-            <Button onClick={() => route(`/marshals/${eventId}`)}>
+            <Button color="info" onClick={() => route(`/marshals/${eventId}`)}>
               Marshals
             </Button>
           </Button.Group>
         </Panel.Block>
       </Panel>
-      <Panel>
+      <Panel color="warning">
         <Panel.Header>Times</Panel.Header>
         <Panel.Block>
           <Button.Group>
@@ -243,14 +245,20 @@ const Event: FunctionalComponent<Props> = ({ eventId }) => {
           </Button.Group>
         </Panel.Block>
       </Panel>
-      <Panel>
+      <Panel color="success">
         <Panel.Header>Results</Panel.Header>
         <Panel.Block>
           <Button.Group>
-            <Button onClick={() => route(`/results/${eventId}`)}>
+            <Button
+              color="success"
+              onClick={() => route(`/results/${eventId}`)}
+            >
               Results
             </Button>
-            <Button onClick={() => route(`/liveRuns/${eventId}`)}>
+            <Button
+              color="success"
+              onClick={() => route(`/liveRuns/${eventId}`)}
+            >
               Live Runs
             </Button>
           </Button.Group>

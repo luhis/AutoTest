@@ -63,8 +63,11 @@ const Header: FunctionalComponent = () => {
   );
   const toggleActive = () => setIsActive((a) => !a);
   return (
-    <Navbar active={isActive}>
+    <Navbar color="primary" active={isActive}>
       <Navbar.Brand>
+        <Navbar.Item href="/" renderAs={Link}>
+          <strong class="has-text-white">AutoTest</strong>
+        </Navbar.Item>
         <Navbar.Burger onClick={toggleActive} />
       </Navbar.Brand>
       <Navbar.Menu>
@@ -105,9 +108,13 @@ const Header: FunctionalComponent = () => {
                   onError={() => console.error("Auth Error")}
                 />
               ) : (
-                <Button onClick={signOutAndClear}>Sign out</Button>
+                <Button color="light" onClick={signOutAndClear}>
+                  Sign out
+                </Button>
               )}
-              <Button onClick={clearCache}>Clear Cache</Button>
+              <Button color="light" onClick={clearCache}>
+                Clear Cache
+              </Button>
             </Button.Group>
           </Navbar.Item>
         </Navbar.Container>

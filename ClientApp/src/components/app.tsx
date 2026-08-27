@@ -54,7 +54,7 @@ const App: FunctionComponent = () => {
         <PersistGate loading={<Loader />} persistor={persistor}>
           <GoogleOAuthProvider clientId={googleKey}>
             <Header />
-            <Container fluid>
+            <Container fluid class="section">
               <Router>
                 <Route path="/" component={Home} />
                 <Route path="/profile/" component={Profile} />

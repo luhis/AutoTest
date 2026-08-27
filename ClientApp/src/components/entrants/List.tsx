@@ -1,5 +1,5 @@
 import { FunctionComponent, h } from "preact";
-import { Columns, Button, Form, Dropdown } from "react-bulma-components";
+import { Box, Button, Form, Dropdown, Tag } from "react-bulma-components";
 import { FaMoneyBill } from "react-icons/fa";
 import { startCase } from "@s-libs/micro-dash";
 const { Field, Control } = Form;
@@ -42,21 +42,44 @@ const List: FunctionComponent<Props> = ({
     entrants,
     (entrant) => entrant.entrantId,
     (entrant) => (
-      <Columns>
-        <Columns.Column>
-          <DriverNumber driverNumber={entrant.driverNumber} />
-        </Columns.Column>
-        <Columns.Column>
-          <NumberPlate registration={entrant.vehicle.registration} />
-        </Columns.Column>
-        <Columns.Column>{`${entrant.givenName} ${entrant.familyName}`}</Columns.Column>
-        <Columns.Column>{EntrantStatus[entrant.entrantStatus]}</Columns.Column>
-        <Columns.Column>
-          {entrant.payment !== null
-            ? `Paid (${startCase(PaymentMethod[entrant.payment.method])} ${TimeAgo(entrant.payment.timestamp)})`
-            : "Unpaid"}
-        </Columns.Column>
-        <Columns.Column>
+      <Box>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            flexWrap: "wrap",
+            gap: "0.5rem",
+          }}
+        >
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: "0.75rem",
+              flexWrap: "wrap",
+            }}
+          >
+            <DriverNumber driverNumber={entrant.driverNumber} />
+            <NumberPlate registration={entrant.vehicle.registration} />
+            <span class="has-text-weight-semibold">{`${entrant.givenName} ${entrant.familyName}`}</span>
+            <Tag
+              color={entrant.entrantStatus === 0 ? "success" : "info"}
+              size="small"
+            >
+              {EntrantStatus[entrant.entrantStatus]}
+            </Tag>
+            {entrant.payment !== null ? (
+              <Tag color="success is-light" size="small">
+                Paid ({startCase(PaymentMethod[entrant.payment.method])}{" "}
+                {TimeAgo(entrant.payment.timestamp)})
+              </Tag>
+            ) : (
+              <Tag color="warning is-light" size="small">
+                Unpaid
+              </Tag>
+            )}
+          </div>
           <Field kind="group">
             {entrant.payment !== null ? (
               <Control>
@@ -98,8 +121,8 @@ const List: FunctionComponent<Props> = ({
               </DeleteButton>
             </Control>
           </Field>
-        </Columns.Column>
-      </Columns>
+        </div>
+      </Box>
     ),
   );
 

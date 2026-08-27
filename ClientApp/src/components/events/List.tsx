@@ -1,7 +1,6 @@
 import { FunctionComponent, h } from "preact";
-import { Columns, Button, Form } from "react-bulma-components";
+import { Box, Button, Form } from "react-bulma-components";
 import { Link } from "preact-router";
-const { Column } = Columns;
 const { Field, Control } = Form;
 
 import ifSome from "../shared/ifSome";
@@ -27,14 +26,33 @@ const List: FunctionComponent<Props> = ({
     (event) => event.eventId,
     (event) => {
       return (
-        <Columns>
-          <Column>
-            {event.startTime.toLocaleDateString()} {event.location}
-          </Column>
-          <Column>
+        <Box>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+              flexWrap: "wrap",
+              gap: "0.5rem",
+            }}
+          >
+            <div>
+              <span class="has-text-weight-semibold is-size-5">
+                {event.location}
+              </span>
+              <br />
+              <span class="has-text-grey">
+                {event.startTime.toLocaleDateString()}
+              </span>
+            </div>
             <Field kind="group">
               <Control>
-                <Link href={`/event/${event.eventId}`}>View</Link>
+                <Link
+                  class="button is-link is-outlined"
+                  href={`/event/${event.eventId}`}
+                >
+                  View
+                </Link>
               </Control>
               <Control>
                 <Button
@@ -44,7 +62,6 @@ const List: FunctionComponent<Props> = ({
                   Edit
                 </Button>
               </Control>
-
               <Control>
                 <DeleteButton
                   disabled={!canAdmin(event.clubId)}
@@ -52,8 +69,8 @@ const List: FunctionComponent<Props> = ({
                 />
               </Control>
             </Field>
-          </Column>
-        </Columns>
+          </div>
+        </Box>
       );
     },
   );

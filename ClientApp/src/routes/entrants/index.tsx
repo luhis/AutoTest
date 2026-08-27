@@ -248,6 +248,9 @@ const Entrants: FunctionalComponent<Readonly<Props>> = ({ eventId }) => {
       >
         Add Entrant
       </Button>
+      {addEntrantDisabled ? (
+        <p class="has-text-grey is-size-7 mt-1">{addEntrantText}</p>
+      ) : null}
       {editingEntrant ? (
         <EntrantsModal
           clubMemberships={mapOrDefault(

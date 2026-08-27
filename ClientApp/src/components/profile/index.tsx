@@ -1,5 +1,5 @@
 import { h, FunctionComponent } from "preact";
-import { Button, Columns, Form, Heading } from "react-bulma-components";
+import { Button, Box, Columns, Form, Heading } from "react-bulma-components";
 const { Label, Input, Field, Radio, Checkbox, Control } = Form;
 import { useState } from "preact/hooks";
 import { useSelector } from "react-redux";
@@ -28,98 +28,137 @@ const ProfileComp: FunctionComponent<Props> = ({ save, profile, setField }) => {
   return (
     <form onSubmit={formSave}>
       <Heading>Profile</Heading>
-      <Field>
-        <Label>Given Name</Label>
-        <Input
-          required
-          value={profile.givenName}
-          onChange={(e: OnChange) => setField({ givenName: e.target.value })}
-        />
-      </Field>
-      <Field>
-        <Label>Family Name</Label>
-        <Input
-          required
-          value={profile.familyName}
-          onChange={(e: OnChange) => setField({ familyName: e.target.value })}
-        />
-      </Field>
-      <Columns>
-        <FormColumn>
-          <Control>
-            <Label>Age</Label>
+      <Box>
+        <Heading size={5} spaced>
+          Personal Information
+        </Heading>
+        <Columns>
+          <Columns.Column>
+            <Field>
+              <Label>Given Name</Label>
+              <Input
+                required
+                value={profile.givenName}
+                onChange={(e: OnChange) =>
+                  setField({ givenName: e.target.value })
+                }
+              />
+            </Field>
+          </Columns.Column>
+          <Columns.Column>
+            <Field>
+              <Label>Family Name</Label>
+              <Input
+                required
+                value={profile.familyName}
+                onChange={(e: OnChange) =>
+                  setField({ familyName: e.target.value })
+                }
+              />
+            </Field>
+          </Columns.Column>
+        </Columns>
+        <Columns>
+          <FormColumn>
             <Control>
-              <Radio
-                checked={profile.age === Age.Junior}
-                onChange={() => setField({ age: Age.Junior })}
-              >
-                Junior
-              </Radio>
+              <Label>Age</Label>
+              <Control>
+                <Radio
+                  checked={profile.age === Age.Junior}
+                  onChange={() => setField({ age: Age.Junior })}
+                >
+                  Junior
+                </Radio>
+              </Control>
+              <Control>
+                <Radio
+                  checked={profile.age === Age.Senior}
+                  onChange={() => setField({ age: Age.Senior })}
+                >
+                  Senior
+                </Radio>
+              </Control>
             </Control>
+          </FormColumn>
+          <FormColumn>
             <Control>
-              <Radio
-                checked={profile.age === Age.Senior}
-                onChange={() => setField({ age: Age.Senior })}
+              <Label>Lady?</Label>
+              <Checkbox
+                checked={profile.isLady}
+                onChange={() => setField({ isLady: !profile.isLady })}
               >
-                Senior
-              </Radio>
+                Is Lady
+              </Checkbox>
             </Control>
-          </Control>
-        </FormColumn>
-        <FormColumn>
-          <Control>
-            <Label>Lady?</Label>
-            <Checkbox
-              checked={profile.isLady}
-              onChange={() => setField({ isLady: !profile.isLady })}
-            >
-              Is Lady
-            </Checkbox>
-          </Control>
-        </FormColumn>
-      </Columns>
+          </FormColumn>
+        </Columns>
+      </Box>
 
-      <VehicleEditor
-        vehicle={profile.vehicle}
-        setField={(e: Vehicle) =>
-          setField({
-            vehicle: e,
-          })
-        }
-        makeAndModels={[]}
-      />
-      <EmergencyContactEditor
-        emergencyContact={profile.emergencyContact}
-        setField={(e: EmergencyContact) => {
-          setField({
-            emergencyContact: e,
-          });
-        }}
-      />
-      <MsaMembershipEditor
-        licenseTypes={licenseTypes}
-        membership={profile.msaMembership}
-        setField={(e: MsaMembership) =>
-          setField({
-            msaMembership: e,
-          })
-        }
-      />
-      <MembershipList
-        memberships={profile.clubMemberships}
-        addNew={(s) => {
-          setField({
-            clubMemberships: profile.clubMemberships.concat(s),
-          });
-        }}
-        remove={(removeIndex) => {
-          setField({
-            clubMemberships: profile.clubMemberships.filter(
-              (_, i) => i !== removeIndex,
-            ),
-          });
-        }}
-      />
+      <Box>
+        <Heading size={5} spaced>
+          Vehicle Details
+        </Heading>
+        <VehicleEditor
+          vehicle={profile.vehicle}
+          setField={(e: Vehicle) =>
+            setField({
+              vehicle: e,
+            })
+          }
+          makeAndModels={[]}
+        />
+      </Box>
+
+      <Box>
+        <Heading size={5} spaced>
+          Emergency Contact
+        </Heading>
+        <EmergencyContactEditor
+          emergencyContact={profile.emergencyContact}
+          setField={(e: EmergencyContact) => {
+            setField({
+              emergencyContact: e,
+            });
+          }}
+        />
+      </Box>
+
+      <Box>
+        <Heading size={5} spaced>
+          MSA Membership
+        </Heading>
+        <MsaMembershipEditor
+          licenseTypes={licenseTypes}
+          membership={profile.msaMembership}
+          setField={(e: MsaMembership) =>
+            setField({
+              msaMembership: e,
+            })
+          }
+        />
+      </Box>
+
+      <Box>
+        <Heading size={5} spaced>
+          Club Memberships
+        </Heading>
+        <MembershipList
+          memberships={profile.clubMemberships}
+          addNew={(s) => {
+            setField({
+              clubMemberships: profile.clubMemberships.concat(s),
+            });
+          }}
+          remove={(removeIndex) => {
+            setField({
+              clubMemberships: profile.clubMemberships.filter(
+                (_, i) => i !== removeIndex,
+              ),
+            });
+          }}
+        />
+      </Box>
+
       <Button.Group>
         <Button loading={saving} color="primary" type="submit">
           Save changes

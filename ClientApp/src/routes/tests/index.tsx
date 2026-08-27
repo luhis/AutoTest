@@ -1,9 +1,8 @@
 import { FunctionalComponent, h } from "preact";
 import { useEffect } from "preact/hooks";
 import { route } from "preact-router";
-import { Heading, Columns, Button, Loader } from "react-bulma-components";
+import { Heading, Box, Button, Loader } from "react-bulma-components";
 import { useSelector } from "react-redux";
-const { Column } = Columns;
 
 import { getAccessToken } from "../../api/api";
 import {
@@ -49,21 +48,26 @@ const Tests: FunctionalComponent<Readonly<Props>> = ({ eventId }) => {
       <Heading>Tests</Heading>
       {currentEvent ? (
         currentEvent.courses.map(({ ordinal }) => (
-          <Columns key={ordinal}>
-            <Column>
-              <p class="number">{ordinal + 1}</p>
-            </Column>
-            <Column>
-              <Button.Group>
-                <Button
-                  disabled={!access.marshalEvents.includes(eventId)}
-                  onClick={() => route(`/marshal/${eventId}/${ordinal}`)}
-                >
-                  Marshal
-                </Button>
-              </Button.Group>
-            </Column>
-          </Columns>
+          <Box key={ordinal}>
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+              }}
+            >
+              <Heading size={5} style={{ marginBottom: 0 }}>
+                Test {ordinal + 1}
+              </Heading>
+              <Button
+                color="link"
+                disabled={!access.marshalEvents.includes(eventId)}
+                onClick={() => route(`/marshal/${eventId}/${ordinal}`)}
+              >
+                Marshal
+              </Button>
+            </div>
+          </Box>
         ))
       ) : (
         <div>

@@ -226,7 +226,7 @@ interface TestTime {
   readonly testRuns: readonly TestRunFromServer[];
 }
 
-export type Override<T, P> = P & Omit<T, keyof P>;
+export type Override<T, P> = Omit<T, keyof P> & P;
 
 export interface MakeAndModel {
   readonly make: string;

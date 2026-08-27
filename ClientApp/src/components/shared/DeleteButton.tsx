@@ -9,14 +9,19 @@ const DeleteModal: FunctionComponent<{
   <Modal show={true} showClose={false}>
     <Modal.Card>
       <Modal.Card.Header showClose={false}>
-        <Modal.Card.Title>Delete?</Modal.Card.Title>
+        <Modal.Card.Title>Confirm Delete</Modal.Card.Title>
       </Modal.Card.Header>
-      <Modal.Card.Body>Are you sure you want to delete?</Modal.Card.Body>
+      <Modal.Card.Body>
+        <p class="has-text-grey-dark">
+          Are you sure you want to delete this item? This action cannot be
+          undone.
+        </p>
+      </Modal.Card.Body>
       <Modal.Card.Footer>
-        <Button color="primary" onClick={deleteFunc}>
+        <Button color="danger" onClick={deleteFunc}>
           Delete
         </Button>
-        <Button color="secondary" onClick={cancel}>
+        <Button color="light" onClick={cancel}>
           Cancel
         </Button>
       </Modal.Card.Footer>
@@ -34,7 +39,7 @@ const DeleteButton: FunctionComponent<Props> = ({ deleteFunc, disabled }) => {
   const hide = useCallback(() => setShowModal(false), []);
   return (
     <Fragment>
-      <Button delete disabled={disabled} color="danger" onClick={show}>
+      <Button color="danger is-outlined" disabled={disabled} onClick={show}>
         Delete
       </Button>
       {showModal ? <DeleteModal cancel={hide} deleteFunc={deleteFunc} /> : null}

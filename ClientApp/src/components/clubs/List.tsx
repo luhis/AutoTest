@@ -1,5 +1,5 @@
 import { FunctionComponent, h } from "preact";
-import { Columns, Button, Form } from "react-bulma-components";
+import { Box, Button, Form } from "react-bulma-components";
 import { route } from "preact-router";
 const { Field, Control } = Form;
 
@@ -25,16 +25,39 @@ const ClubsList: FunctionComponent<Props> = ({
     clubs,
     (club) => club.clubId,
     (club) => (
-      <Columns>
-        <Columns.Column>
-          {club.clubName}
-          &nbsp;
-          {club.website !== "" ? <a href={club.website}>Homepage</a> : null}
-        </Columns.Column>
-        <Columns.Column>
+      <Box>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            flexWrap: "wrap",
+            gap: "0.5rem",
+          }}
+        >
+          <div>
+            <span class="has-text-weight-semibold is-size-5">
+              {club.clubName}
+            </span>
+            {club.website !== "" ? (
+              <span class="ml-2">
+                <a
+                  href={club.website}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="has-text-link"
+                >
+                  Homepage
+                </a>
+              </span>
+            ) : null}
+          </div>
           <Field kind="group">
             <Control>
-              <Button onClick={() => route(`/events?clubId=${club.clubId}`)}>
+              <Button
+                color="link is-outlined"
+                onClick={() => route(`/events?clubId=${club.clubId}`)}
+              >
                 Events
               </Button>
             </Control>
@@ -55,8 +78,8 @@ const ClubsList: FunctionComponent<Props> = ({
               </DeleteButton>
             </Control>
           </Field>
-        </Columns.Column>
-      </Columns>
+        </div>
+      </Box>
     ),
   );
 

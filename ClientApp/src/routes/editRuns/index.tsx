@@ -101,21 +101,33 @@ const EditRuns: FunctionalComponent<Props> = ({ eventId }) => {
     <div>
       <Breadcrumbs club={currentClub} event={currentEvent} />
       <Heading>Edit Runs</Heading>
-      Test Number:
-      <Form.Select<number>
-        value={ordinal}
-        onChange={(a: OnSelectChange) =>
-          setSelectedOrdinal(Number.parseInt(a.target.value))
-        }
-      >
-        {(currentEvent ? range(currentEvent.courseCount) : []).map((a) => (
-          <option key={a} value={a}>
-            {a + 1}
-          </option>
-        ))}
-      </Form.Select>
+      <div class="field is-horizontal mb-4">
+        <div class="field-label is-normal">
+          <label class="label">Test Number</label>
+        </div>
+        <div class="field-body">
+          <div class="control">
+            <div class="select">
+              <Form.Select<number>
+                value={ordinal}
+                onChange={(a: OnSelectChange) =>
+                  setSelectedOrdinal(Number.parseInt(a.target.value))
+                }
+              >
+                {(currentEvent ? range(currentEvent.courseCount) : []).map(
+                  (a) => (
+                    <option key={a} value={a}>
+                      {a + 1}
+                    </option>
+                  ),
+                )}
+              </Form.Select>
+            </div>
+          </div>
+        </div>
+      </div>
       <Table.Container>
-        <Table>
+        <Table striped hoverable fullwidth>
           <thead>
             <tr>
               <th>Test Run ID</th>

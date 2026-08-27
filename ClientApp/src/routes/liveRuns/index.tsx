@@ -94,12 +94,20 @@ const Results: FunctionalComponent<Props> = ({
         setFilter={setTestFilterState}
       />
       {currentRun ? (
-        <p>
-          {getEntrantName(currentEntrants, currentRun.entrantId)}:{" "}
-          {(currentRun.timeInMS / 1_000).toFixed(2)}s
+        <div class="box mt-4">
+          <Heading size={4}>
+            {getEntrantName(currentEntrants, currentRun.entrantId)}
+          </Heading>
+          <Heading size={3} color="link">
+            {(currentRun.timeInMS / 1_000).toFixed(2)}s
+          </Heading>
           <Penalties penalties={currentRun.penalties} />
-        </p>
-      ) : null}
+        </div>
+      ) : (
+        <div class="notification is-light mt-4 has-text-centered">
+          <p class="has-text-grey">Waiting for runs...</p>
+        </div>
+      )}
     </div>
   );
 };

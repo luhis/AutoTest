@@ -187,27 +187,31 @@ const Results: FunctionComponent<
     <div>
       <Breadcrumbs club={currentClub} event={currentEvent} />
       <Heading>Results</Heading>
-      <Button.Group>
-        <Button
-          onClick={() => setShowModal(true)}
-          loading={notifications.tag === "Loaded" ? false : true}
-        >
-          <FaBell />
-          &nbsp;
-          {notifications.tag === "Loaded" ? notifications.value.length : 0}
-        </Button>
+      <div class="buttons mb-4">
+        <Button.Group>
+          <Button
+            onClick={() => setShowModal(true)}
+            loading={notifications.tag === "Loaded" ? false : true}
+          >
+            <FaBell />
+            &nbsp;
+            {notifications.tag === "Loaded" ? notifications.value.length : 0}
+          </Button>
+        </Button.Group>
         <FilterDropdown
           filterName="Class"
           options={allClasses}
           selected={classFilter}
           setFilter={setClassFilter}
         />
-      </Button.Group>
-      {window.Notification.permission !== "granted"
-        ? "Please allow notifications to get run notifications"
-        : null}
+      </div>
+      {window.Notification.permission !== "granted" ? (
+        <span class="tag is-warning is-light">
+          Please allow notifications to get run notifications
+        </span>
+      ) : null}
       <Table.Container>
-        <Table>
+        <Table striped hoverable fullwidth>
           <thead>
             <tr>
               {headers.map((header) => (
@@ -254,7 +258,9 @@ const Results: FunctionComponent<
           )}
         </Table>
       </Table.Container>
-      <Button onClick={downloadCSV}>Download CSV</Button>
+      <Button color="link" class="mt-4" onClick={downloadCSV}>
+        Download CSV
+      </Button>
       {showModal && notifications.tag === "Loaded" ? (
         <NotificationsModal
           cancel={() => setShowModal(false)}

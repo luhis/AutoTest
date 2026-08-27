@@ -1,5 +1,5 @@
 import { FunctionalComponent, h, Fragment } from "preact";
-import { Loader } from "react-bulma-components";
+import { Loader, Notification, Tag } from "react-bulma-components";
 
 import { LoadingState } from "../../types/loadingState";
 
@@ -12,7 +12,6 @@ const ifSome = <T, TT>(
   switch (arr.tag) {
     case "Loaded": {
       if (arr.value.length) {
-        // bad idea maybe, maybe inject in a keyMap function
         return (
           <Fragment>
             {arr.value.filter(filter).map((a) => (
@@ -21,19 +20,36 @@ const ifSome = <T, TT>(
           </Fragment>
         );
       } else {
-        return <div>No Data</div>;
+        return (
+          <Notification color="light" class="has-text-centered">
+            <Tag color="info" size="medium">
+              No Data
+            </Tag>
+          </Notification>
+        );
       }
     }
     case "Loading":
       return (
-        <span>
-          Loading... <Loader />
-        </span>
+        <div class="has-text-centered p-4">
+          <Loader size="medium" />
+          <p class="mt-2 has-text-grey">Loading...</p>
+        </div>
       );
     case "Error":
-      return <span>Error: {arr.value}</span>;
+      return (
+        <Notification color="danger">
+          <strong>Error:</strong> {arr.value}
+        </Notification>
+      );
     case "Idle":
-      return <span>Idle</span>;
+      return (
+        <Notification color="light" class="has-text-centered">
+          <Tag color="grey" size="medium">
+            Idle
+          </Tag>
+        </Notification>
+      );
   }
 };
 
