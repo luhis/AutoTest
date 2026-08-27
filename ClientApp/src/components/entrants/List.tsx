@@ -64,7 +64,11 @@ const List: FunctionComponent<Props> = ({
             <NumberPlate registration={entrant.vehicle.registration} />
             <span class="has-text-weight-semibold">{`${entrant.givenName} ${entrant.familyName}`}</span>
             <Tag
-              color={entrant.entrantStatus === 0 ? "success" : "info"}
+              color={
+                entrant.entrantStatus === EntrantStatus.Entered
+                  ? "success"
+                  : "info"
+              }
               size="small"
             >
               {EntrantStatus[entrant.entrantStatus]}
