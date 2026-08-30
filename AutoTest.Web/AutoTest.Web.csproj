@@ -32,7 +32,8 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore.Cosmos" />
     <PackageReference Include="Microsoft.VisualStudio.Threading.Analyzers" />
     <PackageReference Include="NetEscapades.AspNetCore.SecurityHeaders" />
-    <PackageReference Include="Swashbuckle.AspNetCore" />
+    <PackageReference Include="Microsoft.AspNetCore.OpenApi" />
+    <PackageReference Include="Scalar.AspNetCore" />
     <PackageReference Include="WebMarkupMin.AspNetCoreLatest" />
   </ItemGroup>
 

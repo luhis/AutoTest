@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
@@ -22,14 +23,13 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi;
+using Scalar.AspNetCore;
 using WebMarkupMin.AspNetCoreLatest;
 
 namespace AutoTest.Web;
 
 public class Startup
 {
-    private const string SwaggerHash = "A9ZGkjzNbSHK5HWS6UkGpaaIuyNt/7a8gVIu6p70YPo=";
-    private const string Swagger2Hash = "edNyF0T6h+RbJ9Kl1HXk6KaORyz6MmKnkP3XL/kRb4o=";
     private const string GoogleCom = "https://*.google.com";
     private const string GoogleAnal = "https://www.google-analytics.com";
     private readonly IReadOnlyList<string> _baseCssHashs = ["jwMoKfjpMtCZvgc6jvf++3CnNz9TZRnk6Xn0fh2uX3E=", "lmto2U1o7YINyHPg9TOCjIt+o5pSFNU/T2oLxDPF+uw=", "CJ02OVqT7p9v9HDCMKiouj0TJ0ooW7ybXUHymIEqyeE="];
@@ -146,22 +146,50 @@ public class Startup
         {
             configuration.RootPath = "ClientApp/build";
         });
-        services.AddSwaggerGen(c =>
+        services.AddOpenApi(options =>
         {
-            c.SwaggerDoc("v1", new OpenApiInfo { Title = "AutoTest API", Version = "v1" });
-            c.AddSecurityDefinition("bearer", new OpenApiSecurityScheme()
+            options.AddDocumentTransformer((document, _, _) =>
             {
-                Type = SecuritySchemeType.OAuth2,
-                Flows = new OpenApiOAuthFlows()
+                document.Components ??= new OpenApiComponents();
+                document.Components.SecuritySchemes ??= new Dictionary<string, IOpenApiSecurityScheme>();
+                document.Components.SecuritySchemes["bearer"] = new OpenApiSecurityScheme
                 {
-                    Implicit = new OpenApiOAuthFlow()
+                    Type = SecuritySchemeType.OAuth2,
+                    Flows = new OpenApiOAuthFlows
                     {
-                        AuthorizationUrl = new Uri("https://accounts.google.com/o/oauth2/auth"),
-                        Scopes = new Dictionary<string, string> { { "email", "View Email" }, { "profile", "View Profile" } }
-                    },
-                }
+                        Implicit = new OpenApiOAuthFlow
+                        {
+                            AuthorizationUrl = new Uri("https://accounts.google.com/o/oauth2/auth"),
+                            Scopes = new Dictionary<string, string>
+                            {
+                                { "email", "View Email" },
+                                { "profile", "View Profile" }
+                            }
+                        }
+                    }
+                };
+                return Task.CompletedTask;
             });
-            c.OperationFilter<OAuth2OperationFilter>();
+            options.AddOperationTransformer((operation, context, _) =>
+            {
+                var hasAuthorize = context.Description.ActionDescriptor.EndpointMetadata
+                    .OfType<Microsoft.AspNetCore.Authorization.IAuthorizeData>()
+                    .Any();
+
+                if (!hasAuthorize) return Task.CompletedTask;
+
+                operation.Responses ??= [];
+                operation.Responses.TryAdd("401", new OpenApiResponse { Description = "Unauthorized" });
+                operation.Responses.TryAdd("403", new OpenApiResponse { Description = "Forbidden" });
+
+                var securityScheme = new OpenApiSecuritySchemeReference("bearer");
+                operation.Security ??= [];
+                operation.Security.Add(new OpenApiSecurityRequirement
+                {
+                    [securityScheme] = ["email"]
+                });
+                return Task.CompletedTask;
+            });
         });
 
         services.AddResponseCompression(options =>
@@ -231,12 +259,10 @@ public class Startup
                     var scripts = builder.AddScriptSrc().Self()
                         .From(GoogleCom)
                         .From("https://www.gstatic.com")
-                        .From(GoogleAnal)
-                        .WithHash256(SwaggerHash)
-                        .WithHash256(Swagger2Hash);
+                        .From(GoogleAnal);
                     if (env.IsDevelopment())
                     {
-                        scripts.UnsafeEval();
+                        scripts.UnsafeEval().WithHash256("jDGBXYK+Sm3XiWvz0wjbHFk+WxKhcF4u4WdUbTFZSRk=");
                     }
 
                     builder.AddFrameSrc().Self().From(GoogleCom);
@@ -264,9 +290,15 @@ public class Startup
                         .From("https://dc.services.visualstudio.com");
                     if (env.IsDevelopment())
                     {
-                        connect.From("https://localhost:*").From("ws://localhost:*");
+                        connect.From("https://localhost:*").From("ws://localhost:*")
+                            .From("https://api.scalar.com").From("https://fonts.scalar.com");
                     }
 
+                    var fonts = builder.AddFontSrc().Self();
+                    if (env.IsDevelopment())
+                    {
+                        fonts.From("https://fonts.scalar.com");
+                    }
                     builder.AddUpgradeInsecureRequests();
                 }));
 
@@ -278,16 +310,14 @@ public class Startup
             endpoints.MapControllerRoute(
                 name: "default",
                 pattern: "{controller}/{action=Index}/{id?}");
-        });
-        if (env.IsDevelopment())
-        {
-            app.UseSwagger();
-            app.UseSwaggerUI(c =>
+            if (env.IsDevelopment())
             {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
-                c.OAuthConfigObject.ClientId = _clientId;
-            });
-        }
+                endpoints.MapOpenApi("/openapi/{documentName}.json");
+                endpoints.MapScalarApiReference(options => options
+                    .WithTitle("AutoTest API")
+                    .AddPreferredSecuritySchemes("bearer"));
+            }
+        });
         app.UseSpa(spa =>
         {
             if (env.IsDevelopment())
