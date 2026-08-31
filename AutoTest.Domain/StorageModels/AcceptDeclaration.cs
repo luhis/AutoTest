@@ -2,4 +2,4 @@
 
 namespace AutoTest.Domain.StorageModels;
 
-public record AcceptDeclaration(string Email = "", DateTime Timestamp = default, bool IsAccepted = false);
+public record AcceptDeclaration(string Email, DateTime Timestamp, bool IsAccepted);

@@ -31,7 +31,7 @@ string @class, ulong eventId, Age age, bool isLady, ulong? doubleDrivenWith)
 
     public MsaMembership MsaMembership { get; private set; } = new();
 
-    public AcceptDeclaration AcceptDeclaration { get; private set; } = new();
+    public AcceptDeclaration AcceptDeclaration { get; private set; } = new("", default, false);
 
     public Payment? Payment { get; private set; }
 

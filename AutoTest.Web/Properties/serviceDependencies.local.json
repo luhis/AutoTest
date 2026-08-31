@@ -4,7 +4,7 @@
       "type": "appInsights.sdk"
     },
     "cosmosdb1": {
-      "containerPorts": "8081:8081,10251:10251,10252:10252,10253:10253,10254:10254",
+      "containerPorts": "8081:8081,10250:10250,10251:10251,10252:10252,10253:10253,10254:10254,10255:10255,10350:10350",
       "secretStore": "LocalSecretsFile",
       "containerName": "cosmosdb",
       "containerImage": "mcr.microsoft.com/cosmosdb/linux/azure-cosmos-emulator",

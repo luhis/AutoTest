@@ -3,4 +3,4 @@ using AutoTest.Domain.Enums;
 
 namespace AutoTest.Domain.StorageModels;
 
-public record Payment(DateTime PaidAt = default, PaymentMethod Method = default, DateTime Timestamp = default, string CreatedBy = "");
+public record Payment(DateTime PaidAt, PaymentMethod Method, DateTime Timestamp, string CreatedBy);

@@ -44,7 +44,7 @@ public class SaveEntrantHandlerShould
         var entrantId = 1ul;
         var eventId = 2ul;
         var entrant = Models.GetEntrant(entrantId, eventId);
-        entrant.SetPayment(new Payment());
+        entrant.SetPayment(new Payment(default, default, default, ""));
 
         _eventsRepository.Setup(a => a.GetById(eventId, TestContext.Current.CancellationToken)).ReturnsAsync(GetEvent(eventId, DateTime.UtcNow.AddDays(openOffsetDays), DateTime.UtcNow.AddDays(closeOffsetDays))).Verifiable(Times.Once);
 
@@ -61,7 +61,7 @@ public class SaveEntrantHandlerShould
         var entrantId = 1ul;
         var eventId = 2ul;
         var entrant = Models.GetEntrant(entrantId, eventId);
-        entrant.SetPayment(new Payment());
+        entrant.SetPayment(new Payment(default, default, default, ""));
 
         var @event = GetEvent(eventId, DateTime.UtcNow.AddDays(-2), DateTime.UtcNow.AddDays(2));
         @event.SetEventStatus(EventStatus.Cancelled);
@@ -83,11 +83,11 @@ public class SaveEntrantHandlerShould
         var eventId = 2ul;
         var entrant = Models.GetEntrant(entrantId, eventId);
         if (entrantHasPayment)
-            entrant.SetPayment(new Payment());
+            entrant.SetPayment(new Payment(default, default, default, ""));
 
         var entrantFromDb = Models.GetEntrant(entrantId, eventId);
         if (dbHasPayment)
-            entrantFromDb.SetPayment(new Payment());
+            entrantFromDb.SetPayment(new Payment(default, default, default, ""));
 
         _entrantsRepository.Setup(a => a.GetById(eventId, entrantId, TestContext.Current.CancellationToken)).ReturnsAsync(entrantFromDb).Verifiable(Times.Once);
         _entrantsRepository.Setup(a => a.Upsert(entrant, TestContext.Current.CancellationToken)).Returns(Task.CompletedTask).Verifiable(Times.Once);
@@ -111,7 +111,7 @@ public class SaveEntrantHandlerShould
         var entrantId = 1ul;
         var eventId = 2ul;
         var entrant = Models.GetEntrant(entrantId, eventId);
-        entrant.SetPayment(new Payment());
+        entrant.SetPayment(new Payment(default, default, default, ""));
 
         _eventsRepository.Setup(a => a.GetById(eventId, TestContext.Current.CancellationToken)).ReturnsAsync(GetEvent(eventId, DateTime.UtcNow.AddDays(-2), DateTime.UtcNow.AddDays(1))).Verifiable(Times.Once);
         _entrantsRepository.Setup(a => a.GetEntrantCount(eventId, TestContext.Current.CancellationToken)).ReturnsAsync(10).Verifiable(Times.Once);
