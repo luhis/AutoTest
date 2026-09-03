@@ -11,12 +11,12 @@ const FillProfileButton: FunctionComponent<{
   if (isEmpty(clubMemberships) || clubMemberships.length === 1) {
     return (
       <Button onClick={() => fillFromProfile(clubMemberships[0])}>
-        Fill from Profile
+        Fill from profile
       </Button>
     );
   } else {
     return (
-      <Dropdown color="secondary" label="Fill from Profile">
+      <Dropdown color="secondary" label="Fill from profile">
         {clubMemberships.map((a) => (
           <Dropdown.Item
             renderAs="a"

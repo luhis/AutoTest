@@ -31,7 +31,7 @@ const NotificationsModal: FunctionComponent<Props> = ({
         </Modal.Card.Body>
         <Modal.Card.Footer>
           <Button type="button" color="secondary" onClick={cancel}>
-            Cancel
+            Close
           </Button>
         </Modal.Card.Footer>
       </Modal.Card>

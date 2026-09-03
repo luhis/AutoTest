@@ -170,7 +170,7 @@ const MarshalsModal: FunctionComponent<Props> = ({
           </Button>
           {marshal.isNew ? (
             <Button color="secondary" type="button" onClick={fillFromProfile}>
-              Fill from Profile
+              Fill from profile
             </Button>
           ) : null}
           <Button type="button" color="secondary" onClick={cancel}>
