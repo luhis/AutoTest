@@ -1,5 +1,4 @@
 import { resolve } from "path";
-import envVars from "preact-cli-plugin-env-vars";
 
 export default {
   webpack(config, env, helpers) {
@@ -22,7 +21,5 @@ export default {
     if (critters) {
       config.plugins.splice(critters.index, 1);
     }
-
-    envVars(config, env, helpers);
   },
 };

@@ -72,7 +72,7 @@
     "jest-preset-preact": "4.1.1",
     "lint-staged": "17.4.1",
     "preact-cli": "3.5.1",
-    "preact-cli-plugin-env-vars": "1.2.1",
+
     "preact-render-to-string": "6.7.0",
     "prettier": "3.9.6",
     "sirv-cli": "3.0.1",
