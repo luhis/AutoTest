@@ -4,7 +4,7 @@
     "target": "ES2020",
     "module": "ESNext",
     "lib": ["ES2023"],
-    "types": ["jest"],
+    "types": ["jest", "node", "@testing-library/jest-dom"],
     "allowJs": true,
     "jsx": "react",
     "jsxFactory": "h",

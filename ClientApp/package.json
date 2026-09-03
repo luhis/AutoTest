@@ -55,6 +55,7 @@
     "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/preact": "^3.2.4",
     "@types/jest": "30.0.0",
+    "@types/node": "^26.4.1",
     "@types/webpack-env": "1.18.8",
     "@typescript-eslint/eslint-plugin": "8.69.0",
     "@typescript-eslint/parser": "8.69.0",
