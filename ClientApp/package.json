@@ -52,7 +52,7 @@
   },
   "devDependencies": {
     "@teamsupercell/typings-for-css-modules-loader": "2.5.2",
-    "@testing-library/jest-dom": "^6.6.3",
+    "@testing-library/jest-dom": "^7.0.0",
     "@testing-library/preact": "^3.2.4",
     "@types/jest": "30.0.0",
     "@types/node": "^26.4.1",
