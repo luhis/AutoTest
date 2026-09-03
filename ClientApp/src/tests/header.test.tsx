@@ -1,19 +1,32 @@
 import { h } from "preact";
-// See: https://github.com/preactjs/enzyme-adapter-preact-pure
-import { shallow } from "enzyme";
+import { render, screen } from "@testing-library/preact";
 import { configureStore } from "@reduxjs/toolkit";
 import { Provider } from "react-redux";
+import { GoogleOAuthProvider } from "@react-oauth/google";
 
 import Header from "../components/header";
 import { rootReducer } from "../store";
 
-describe("Initial Test of the Header", () => {
-  const store = configureStore({ reducer: rootReducer });
-  test("Header renders 3 nav items", () => {
-    shallow(
+const store = configureStore({ reducer: rootReducer });
+
+const renderHeader = () =>
+  render(
+    <GoogleOAuthProvider clientId="test-client-id">
       <Provider store={store}>
         <Header />
-      </Provider>,
-    );
+      </Provider>
+    </GoogleOAuthProvider>,
+  );
+
+describe("Header", () => {
+  test("renders the app title", () => {
+    renderHeader();
+    expect(screen.getByText("AutoTest")).toBeInTheDocument();
+  });
+
+  test("renders navigation links", () => {
+    renderHeader();
+    expect(screen.getByText("Home")).toBeInTheDocument();
+    expect(screen.getByText("Events")).toBeInTheDocument();
   });
 });

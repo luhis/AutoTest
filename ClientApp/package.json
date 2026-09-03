@@ -10,7 +10,7 @@
     "dev": "yarn preact-cli watch --no-esm && echo Starting the development server",
     "lint": "eslint src/**/*.{js,jsx,ts,tsx}",
     "lint-fix": "eslint src/**/*.{js,jsx,ts,tsx} --fix",
-    "test": "jest src/tests",
+    "test": "jest src/tests --forceExit",
     "type-check": "tsc --noEmit"
   },
   "husky": {
@@ -52,14 +52,13 @@
   },
   "devDependencies": {
     "@teamsupercell/typings-for-css-modules-loader": "2.5.2",
-    "@types/enzyme": "3.10.19",
+    "@testing-library/jest-dom": "^6.6.3",
+    "@testing-library/preact": "^3.2.4",
     "@types/jest": "30.0.0",
     "@types/webpack-env": "1.18.8",
     "@typescript-eslint/eslint-plugin": "8.69.0",
     "@typescript-eslint/parser": "8.69.0",
     "css-loader": "7.1.5",
-    "enzyme": "3.11.0",
-    "enzyme-adapter-preact-pure": "4.1.0",
     "eslint": "9.39.5",
     "eslint-config-prettier": "10.1.8",
     "eslint-plugin-functional": "^10.0.0",

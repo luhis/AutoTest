@@ -6,7 +6,9 @@ module.exports = {
   preset: "jest-preset-preact",
   setupFiles: [
     "<rootDir>/src/tests/__mocks__/setupTests.js",
-    "<rootDir>/src/tests/__mocks__/browserMocks.js",
+  ],
+  setupFilesAfterEnv: [
+    "<rootDir>/src/tests/__mocks__/setupAfterFramework.js",
   ],
   testEnvironmentOptions: {
     url: "http://localhost:8080",
