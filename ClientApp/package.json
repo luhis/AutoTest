@@ -54,7 +54,7 @@
     "@types/node": "^26.4.1",
     "@typescript-eslint/eslint-plugin": "8.69.0",
     "@typescript-eslint/parser": "8.69.0",
-    "eslint": "9.39.5",
+    "eslint": "10.10.0",
     "eslint-config-prettier": "10.1.8",
     "eslint-plugin-functional": "^10.0.0",
     "eslint-plugin-prettier": "5.5.6",
