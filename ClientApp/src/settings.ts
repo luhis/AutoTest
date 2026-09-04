@@ -1,10 +1,8 @@
-export const keySeed = Number.parseInt(
-  process.env.PREACT_APP_KEY_SEED as string,
-);
+export const keySeed = Number.parseInt(import.meta.env.VITE_APP_KEY_SEED);
 
-export const googleKey = process.env.PREACT_APP_GOOGLE_CLIENT_ID as string;
+export const googleKey = import.meta.env.VITE_APP_GOOGLE_CLIENT_ID;
 
-export const appInsightsKey = process.env.PREACT_APP_APP_INSIGHTS as string;
+export const appInsightsKey = import.meta.env.VITE_APP_APP_INSIGHTS;
 
 export const MarshalAgreement =
   "https://www.motorsportuk.org/wp-content/uploads/2022/02/2022-03-01-signing-on-declaration-officials-pdf.pdf";

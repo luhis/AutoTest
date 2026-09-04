@@ -3,8 +3,8 @@
     "ignoreDeprecations": "6.0",
     "target": "ES2020",
     "module": "ESNext",
-    "lib": ["ES2023"],
-    "types": ["jest", "node", "@testing-library/jest-dom"],
+    "lib": ["ES2023", "DOM", "DOM.Iterable"],
+    "types": ["jest", "node", "@testing-library/jest-dom", "vite/client"],
     "allowJs": true,
     "jsx": "react",
     "jsxFactory": "h",
@@ -13,7 +13,7 @@
     "noUnusedParameters": true,
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
-    "moduleResolution": "node",
+    "moduleResolution": "bundler",
     "esModuleInterop": true,
     "skipLibCheck": true,
     "incremental": true,
@@ -27,6 +27,6 @@
       "react-dom": ["./node_modules/preact/compat"]
     }
   },
-  "include": ["src/**/*.ts", "src/**/*.tsx"],
+  "include": ["src/**/*.ts", "src/**/*.tsx", "src/**/*.d.ts", "vite.config.ts"],
   "exclude": ["src/integrationTests"]
 }

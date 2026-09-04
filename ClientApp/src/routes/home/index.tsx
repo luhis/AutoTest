@@ -4,15 +4,13 @@ import { useEffect } from "preact/hooks";
 import { useSelector } from "react-redux";
 import { formatDateIso, newValidDate } from "ts-date";
 import { Link } from "preact-router";
-import preval from "preval.macro";
-
 import { GetEventsIfRequired } from "../../store/event/actions";
 import { get10LatestEvents, selectEvents } from "../../store/event/selectors";
 import ifSome from "../../components/shared/ifSome";
 import { ifLoaded } from "../../types/loadingState";
 import { useThunkDispatch } from "../../store";
 
-const buildDate = preval`module.exports = new Date().toISOString();` as string;
+declare const __BUILD_DATE__: string;
 
 const EventCard: FunctionalComponent<{
   readonly eventId: number;
@@ -108,7 +106,7 @@ const Home: FunctionalComponent = () => {
           ),
         )}
         <p class="has-text-grey-light is-size-7 mt-5">
-          Build Date: {buildDate}
+          Build Date: {__BUILD_DATE__}
         </p>
       </div>
     </div>

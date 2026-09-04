@@ -17,7 +17,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.ResponseCompression;
-using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
+using Microsoft.AspNetCore.SpaServices;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -323,7 +323,7 @@ public class Startup
             if (env.IsDevelopment())
             {
                 spa.Options.SourcePath = "../ClientApp/";
-                spa.UseReactDevelopmentServer(npmScript: "dev");
+                spa.UseProxyToSpaDevelopmentServer("http://localhost:8080");
             }
             else
             {

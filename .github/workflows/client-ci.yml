@@ -38,5 +38,5 @@ jobs:
         cache-dependency-path: ClientApp/yarn.lock
     - run: yarn --cwd ./ClientApp install --frozen-lockfile
     - run: yarn --cwd ./ClientApp lint
-    - run: yarn --cwd ./ClientApp preact-cli build --no-esm
+    - run: yarn --cwd ./ClientApp build
     - run: yarn --cwd ./ClientApp test

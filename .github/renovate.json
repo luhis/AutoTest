@@ -103,10 +103,10 @@
       ]
     },
     {
-      "description": "Group all preact-cli related packages",
-      "groupName": "preact-cli",
+      "description": "Group all preact related packages",
+      "groupName": "preact",
       "matchPackageNames": [
-        "/^preact-cli|^preact-render/"
+        "/^@preact/|^preact-render/"
       ]
     },
     {

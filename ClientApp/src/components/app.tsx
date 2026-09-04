@@ -26,8 +26,8 @@ import { appInsightsKey, googleKey } from "../settings";
 
 import "bulma/css/bulma.min.css";
 
-if ((module as unknown as { readonly hot?: boolean }).hot) {
-  require("preact/debug");
+if (import.meta.hot) {
+  void import("preact/debug");
 }
 
 if (typeof window !== "undefined") {
