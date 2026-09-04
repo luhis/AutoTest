@@ -5,6 +5,8 @@
     <TypeScriptToolsVersion>Latest</TypeScriptToolsVersion>
     <IsPackable>false</IsPackable>
     <SpaRoot>..\ClientApp\</SpaRoot>
+    <SpaProxyServerUrl>http://localhost:8080</SpaProxyServerUrl>
+    <SpaProxyLaunchCommand>npm run dev</SpaProxyLaunchCommand>
     <DefaultItemExcludes>$(DefaultItemExcludes);$(SpaRoot)node_modules\**</DefaultItemExcludes>
     <WarningsAsErrors />
     <UserSecretsId>9baa697e-94c6-4813-8d03-8247fd7bfb88</UserSecretsId>
@@ -28,6 +30,7 @@
     <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" />
     <PackageReference Include="Microsoft.AspNetCore.SignalR.Protocols.MessagePack" />
+    <PackageReference Include="Microsoft.AspNetCore.SpaProxy" />
     <PackageReference Include="Microsoft.AspNetCore.SpaServices.Extensions" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Cosmos" />
     <PackageReference Include="Microsoft.VisualStudio.Threading.Analyzers" />
