@@ -87,6 +87,7 @@ const Results: FunctionComponent<
     (a) => a.clubId === currentEvent?.clubId,
   );
   const notifications = useSelector(selectNotifications);
+  const courses = currentEvent?.courses ?? [];
   const testRuns = range(
     currentEvent !== undefined ? currentEvent.maxAttemptsPerCourse : 0,
   );
@@ -147,11 +148,9 @@ const Results: FunctionComponent<
   const allClasses = mapOrDefault(results, (a) => a.map((b) => b.class), []);
   const headers = ["Class", "Number", "Name", "TotalTime"]
     .concat(
-      currentEvent
-        ? currentEvent.courses.flatMap((test) =>
-            testRuns.map((run) => `${test.ordinal + 1}.${numberToChar(run)}`),
-          )
-        : [],
+      courses.flatMap((test) =>
+        testRuns.map((run) => `${test.ordinal + 1}.${numberToChar(run)}`),
+      ),
     )
     .concat("ClassPosition", "Overall");
 
@@ -168,7 +167,7 @@ const Results: FunctionComponent<
               et.totalTime,
             ]
               .concat(
-                currentEvent.courses.flatMap((test) => {
+                courses.flatMap((test) => {
                   const runs = et.times.find((a) => a.ordinal === test.ordinal);
                   return testRuns.map((id) =>
                     runs ? runs.testRuns[id]?.timeInMS.toFixed(2) || "" : "",
@@ -234,19 +233,13 @@ const Results: FunctionComponent<
                     </td>
                     <td>{`${a.entrant.givenName} ${a.entrant.familyName}`}</td>
                     <td>{(a.totalTime / 1000).toFixed(2)}</td>
-                    {currentEvent
-                      ? currentEvent.courses.map((test) =>
-                          testRuns.map((run) => (
-                            <td key={`${test.ordinal}.${run}`}>
-                              <Time
-                                times={a}
-                                ordinal={test.ordinal}
-                                run={run}
-                              />
-                            </td>
-                          )),
-                        )
-                      : null}
+                    {courses.map((test) =>
+                      testRuns.map((run) => (
+                        <td key={`${test.ordinal}.${run}`}>
+                          <Time times={a} ordinal={test.ordinal} run={run} />
+                        </td>
+                      )),
+                    )}
                     <td>{a.classPosition + 1}</td>
                     <td>{a.position + 1}</td>
                   </tr>

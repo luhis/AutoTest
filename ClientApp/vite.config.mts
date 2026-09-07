@@ -1,4 +1,3 @@
-import { resolve } from "path";
 import { defineConfig } from "vite";
 import preact from "@preact/preset-vite";
 
@@ -9,8 +8,8 @@ export default defineConfig({
   },
   resolve: {
     alias: {
-      react: resolve(__dirname, "node_modules/preact/compat"),
-      "react-dom": resolve(__dirname, "node_modules/preact/compat"),
+      react: `${import.meta.dirname}/node_modules/preact/compat`,
+      "react-dom": `${import.meta.dirname}/node_modules/preact/compat`,
     },
   },
   define: {

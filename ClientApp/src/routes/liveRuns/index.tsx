@@ -77,9 +77,8 @@ const Results: FunctionalComponent<Props> = ({
   const filterRuns = (r: TestRunFromServer) =>
     testFilterState.length === 0 || testFilterState.includes(r.ordinal);
 
-  const allTests = currentEvent
-    ? currentEvent.courses.map((a) => a.ordinal + 1)
-    : [];
+  const courses = currentEvent?.courses ?? [];
+  const allTests = courses.map((a) => a.ordinal + 1);
 
   const filteredRuns = runs.filter(filterRuns);
   const currentRun = filteredRuns.length > 0 ? last(filteredRuns) : undefined;
