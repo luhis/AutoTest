@@ -18,10 +18,7 @@ import FilterDropdown from "../../components/shared/FilterDropdown";
 import Penalties from "../../components/shared/Penalties";
 import RouteParamsParser from "../../components/shared/RouteParamsParser";
 import { useThunkDispatch } from "../../store";
-import {
-  NewTestRun,
-  useConnection,
-} from "../../signalR/eventHub";
+import { NewTestRun, useConnection } from "../../signalR/eventHub";
 import { selectAccessToken } from "../../store/profile/selectors";
 
 interface Props {
