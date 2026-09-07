@@ -40,8 +40,6 @@ import FilterDropdown from "../../components/shared/FilterDropdown";
 import { selectAccess, selectAccessToken } from "../../store/profile/selectors";
 import { useThunkDispatch } from "../../store";
 import {
-  LeaveEvent,
-  ListenToEvent,
   NewNotification,
   NewResults,
   NewTestRun,
@@ -265,27 +263,18 @@ const Results: FunctionComponent<
 };
 
 const SignalRWrapper: FunctionComponent<Props> = ({ eventId, classFilter }) => {
-  const connection = useConnection();
+  const connection = useConnection(eventId);
 
   useEffect(() => {
     if (connection) {
-      void connection
-        .start()
-        .then(() => {
-          void connection.invoke(ListenToEvent, eventId);
-        })
-        .catch(console.error);
+      void connection.start().catch(console.error);
       return () => {
-        const f = async () => {
-          await connection.invoke(LeaveEvent, eventId);
-          await connection.stop();
-        };
-        void f();
+        void connection.stop();
       };
     } else {
       return () => undefined;
     }
-  }, [connection, eventId]);
+  }, [connection]);
   return (
     <Results
       eventId={eventId}

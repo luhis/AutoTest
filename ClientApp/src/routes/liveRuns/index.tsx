@@ -19,8 +19,6 @@ import Penalties from "../../components/shared/Penalties";
 import RouteParamsParser from "../../components/shared/RouteParamsParser";
 import { useThunkDispatch } from "../../store";
 import {
-  LeaveEvent,
-  ListenToEvent,
   NewTestRun,
   useConnection,
 } from "../../signalR/eventHub";
@@ -118,27 +116,18 @@ interface OtherProps {
   };
 }
 const SignalRWrapper: FunctionComponent<OtherProps> = ({ matches }) => {
-  const connection = useConnection();
+  const connection = useConnection(matches.eventId);
 
   useEffect(() => {
     if (connection) {
-      void connection
-        .start()
-        .then(() => {
-          void connection.invoke(ListenToEvent, matches.eventId);
-        })
-        .catch(console.error);
+      void connection.start().catch(console.error);
       return () => {
-        const f = async () => {
-          await connection.invoke(LeaveEvent, matches.eventId);
-          await connection.stop();
-        };
-        void f();
+        void connection.stop();
       };
     } else {
       return () => undefined;
     }
-  }, [connection, matches.eventId]);
+  }, [connection]);
   return (
     <Results
       eventId={matches.eventId}

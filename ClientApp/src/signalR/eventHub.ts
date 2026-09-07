@@ -1,22 +1,22 @@
 import { HubConnectionBuilder, LogLevel } from "@microsoft/signalr";
 import { useMemo } from "preact/hooks";
 
-const getBaseConnection = () =>
+const getBaseConnection = (eventId: number) =>
   new HubConnectionBuilder()
-    .withUrl("/resultsHub")
+    .withUrl(`/resultsHub/${eventId}`)
     .withAutomaticReconnect()
     .configureLogging(LogLevel.Error);
 
-export const useConnection = () => {
+export const useConnection = (eventId: number | undefined) => {
   return useMemo(
     () =>
-      typeof window !== "undefined" ? getBaseConnection().build() : undefined,
-    [],
+      typeof window !== "undefined" && eventId !== undefined
+        ? getBaseConnection(eventId).build()
+        : undefined,
+    [eventId],
   );
 };
 
-export const ListenToEvent = "ListenToEvent";
-export const LeaveEvent = "LeaveEvent";
 export const NewNotification = "NewNotification";
 export const NewResults = "NewResults";
 export const NewTestRun = "NewTestRun";

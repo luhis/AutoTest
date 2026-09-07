@@ -285,7 +285,7 @@ public class Startup
 
         app.UseEndpoints(endpoints =>
         {
-            endpoints.MapHub<EventHub>("/resultsHub");
+            endpoints.MapHub<EventHub>("/resultsHub/{eventId}");
             endpoints.MapHub<AuthorisationHub>("/authorisationHub");
             endpoints.MapHealthChecks("/healthz");
             endpoints.MapControllerRoute(
