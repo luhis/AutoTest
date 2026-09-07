@@ -31,8 +31,6 @@ public class Startup
 {
     private const string GoogleCom = "https://*.google.com";
     private const string GoogleAnal = "https://www.google-analytics.com";
-    private readonly IReadOnlyList<string> _baseCssHashs = ["jwMoKfjpMtCZvgc6jvf++3CnNz9TZRnk6Xn0fh2uX3E=", "lmto2U1o7YINyHPg9TOCjIt+o5pSFNU/T2oLxDPF+uw=", "CJ02OVqT7p9v9HDCMKiouj0TJ0ooW7ybXUHymIEqyeE="];
-    private readonly IReadOnlyList<string> _toastHashes = ["E/nvqET/9zpctDshjbx7JreRM/gAx3JcoKF+f+rglGY=", "u3OrwPmUPyFEOg2MH8iSt1Kq+OEIL7vVcAdbanb0T68="];
 
     public Startup(IConfiguration configuration, IWebHostEnvironment webHostEnvironment)
     {
@@ -265,23 +263,7 @@ public class Startup
                     }
 
                     builder.AddFrameSrc().Self().From(GoogleCom);
-                    var style = builder.AddStyleSrc().Self().From(GoogleCom);
-                    if (env.IsDevelopment())
-                    {
-                        style.UnsafeInline();
-                    }
-                    else
-                    {
-                        style.UnsafeHashes();
-                        foreach (var h in _baseCssHashs)
-                        {
-                            style.WithHash256(h);
-                        }
-                        foreach (var h in _toastHashes)
-                        {
-                            style.WithHash256(h);
-                        }
-                    }
+                    var style = builder.AddStyleSrc().Self().From(GoogleCom).UnsafeInline();
 
                     var connect = builder.AddConnectSrc().Self()
                         .From(GoogleCom)
