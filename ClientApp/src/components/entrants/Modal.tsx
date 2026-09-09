@@ -1,12 +1,12 @@
-import { h, FunctionComponent } from "preact";
+import { type FunctionComponent, h } from "preact";
 import { Modal, Button, Form, Columns } from "react-bulma-components";
 import { useSelector } from "react-redux";
 const { Control, Field, Label, Input, Help, Checkbox, Radio, Select } = Form;
 import { useState, useEffect } from "preact/hooks";
 import { newValidDate } from "ts-date";
 
-import { EditingEntrant, EventType } from "../../types/models";
-import { OnChange, OnSelectChange } from "../../types/inputs";
+import type { EditingEntrant, EventType } from "../../types/models";
+import type { OnChange, OnSelectChange } from "../../types/inputs";
 import {
   selectClassOptions,
   selectClubOptions,
@@ -14,7 +14,7 @@ import {
   selectLicenseTypeOptions,
   selectMakeModelOptions,
 } from "../../store/event/selectors";
-import {
+import type {
   MsaMembership,
   EmergencyContact,
   Vehicle,

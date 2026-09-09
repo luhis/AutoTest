@@ -1,22 +1,22 @@
-import { FunctionComponent, h, Fragment } from "preact";
+import { Fragment, type FunctionComponent, h } from "preact";
 import { useEffect, useState } from "preact/hooks";
 import { Heading, Table, Button } from "react-bulma-components";
 import { useDispatch, useSelector } from "react-redux";
-import { HubConnection } from "@microsoft/signalr";
+import type { HubConnection } from "@microsoft/signalr";
 import { compact, range } from "@s-libs/micro-dash";
 import { newValidDate } from "ts-date";
 import { FaBell } from "react-icons/fa";
 import { route } from "preact-router";
 import save from "save-file";
 
-import {
+import type {
   EventNotification,
   Override,
   Result,
   TestRunFromServer,
 } from "../../types/models";
 import {
-  LoadingState,
+  type LoadingState,
   findIfLoaded,
   mapOrDefault,
 } from "../../types/loadingState";

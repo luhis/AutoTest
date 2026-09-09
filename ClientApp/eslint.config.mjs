@@ -62,6 +62,10 @@ export default tseslint.config(
       "@typescript-eslint/no-require-imports": "off",
       "@typescript-eslint/no-base-to-string": "off",
       "@typescript-eslint/explicit-module-boundary-types": "off",
+      "@typescript-eslint/consistent-type-imports": [
+        "error",
+        { disallowTypeAnnotations: false },
+      ],
       "@typescript-eslint/no-shadow": ["error"],
       "@typescript-eslint/switch-exhaustiveness-check": "error",
       "@typescript-eslint/no-unnecessary-condition": "error",

@@ -1,9 +1,9 @@
 import { uniqueId } from "@s-libs/micro-dash";
-import { h, FunctionComponent } from "preact";
+import { type FunctionComponent, h } from "preact";
 import { Form } from "react-bulma-components";
 
 import { startsWithIgnoreCase } from "../../lib/string";
-import { OnChange } from "../../types/inputs";
+import type { OnChange } from "../../types/inputs";
 const { Input } = Form;
 
 const DropdownInput: FunctionComponent<{

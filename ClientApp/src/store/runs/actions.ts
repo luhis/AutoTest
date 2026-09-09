@@ -1,12 +1,12 @@
-import { ThunkAction } from "@reduxjs/toolkit";
-import { ActionCreator } from "redux";
+import type { ThunkAction } from "@reduxjs/toolkit";
+import type { ActionCreator } from "redux";
 
-import { RunActionTypes } from "./types";
-import { AppState } from "..";
+import type { RunActionTypes } from "./types";
+import type { AppState } from "..";
 import { selectTestRuns, selectTestRunsFromServer } from "./selectors";
 import {
-  TestRunFromClient,
-  TestRunFromServer,
+  type TestRunFromClient,
+  type TestRunFromServer,
   TestRunUploadState,
 } from "../../types/models";
 import {

@@ -1,4 +1,4 @@
-import { FunctionalComponent, h } from "preact";
+import { type FunctionalComponent, h } from "preact";
 import { useCallback, useEffect, useState } from "preact/hooks";
 import { Heading, Form, Button } from "react-bulma-components";
 import UUID from "uuid-int";
@@ -8,17 +8,17 @@ const { Select, Label, Field, Input } = Form;
 import { identity } from "@s-libs/micro-dash";
 
 import {
-  EditableTestRun,
+  type EditableTestRun,
+  type Override,
+  type PenaltyType,
   EntrantStatus,
-  Override,
-  PenaltyType,
   TestRunUploadState,
   TimingSystem,
 } from "../../types/models";
 import ifSome from "../../components/shared/ifSome";
 import { getAccessToken } from "../../api/api";
 import Penalties from "../../components/marshal/Penalties";
-import { OnChange, OnSelectChange } from "../../types/inputs";
+import type { OnChange, OnSelectChange } from "../../types/inputs";
 import {
   GetEventsIfRequired,
   GetEntrantsIfRequired,

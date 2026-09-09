@@ -1,11 +1,11 @@
-import { FunctionComponent, h } from "preact";
+import { type FunctionComponent, h } from "preact";
 import { Box, Button, Form } from "react-bulma-components";
 import { Link } from "preact-router";
 const { Field, Control } = Form;
 
 import ifSome from "../shared/ifSome";
-import { Event } from "../../types/models";
-import { LoadingState } from "../../types/loadingState";
+import type { Event } from "../../types/models";
+import type { LoadingState } from "../../types/loadingState";
 import DeleteButton from "../shared/DeleteButton";
 
 interface Props {

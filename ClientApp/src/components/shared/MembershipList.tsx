@@ -1,14 +1,14 @@
-import { h, FunctionComponent, Fragment } from "preact";
+import { Fragment, type FunctionComponent, h } from "preact";
 import { Button, Form, Level } from "react-bulma-components";
 import { useState } from "preact/hooks";
 import { addYear, newValidDate, parseIsoOrThrow } from "ts-date";
 const { Input, Control, Field, Label } = Form;
 import { FaPlus } from "react-icons/fa";
 
-import { OnChange } from "../../types/inputs";
+import type { OnChange } from "../../types/inputs";
 import { getDateString } from "../../lib/date";
-import { ClubMembership } from "../../types/shared";
-import { Override } from "src/types/models";
+import type { ClubMembership } from "../../types/shared";
+import type { Override } from "src/types/models";
 
 interface Props {
   readonly memberships: readonly ClubMembership[];

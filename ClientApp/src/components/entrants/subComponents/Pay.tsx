@@ -1,13 +1,17 @@
 import { startCase } from "@s-libs/micro-dash";
-import { Fragment, FunctionComponent, h } from "preact";
+import { Fragment, type FunctionComponent, h } from "preact";
 import { useState } from "preact/hooks";
 import { Button, Form } from "react-bulma-components";
 import { FaMoneyBill } from "react-icons/fa";
 import { newValidDate, parseIsoOrThrow } from "ts-date";
 
 import { getDateString } from "../../../lib/date";
-import { OnChange, OnSelectChange } from "../../../types/inputs";
-import { PublicEntrant, Payment, PaymentMethod } from "../../../types/models";
+import type { OnChange, OnSelectChange } from "../../../types/inputs";
+import {
+  type PublicEntrant,
+  type Payment,
+  PaymentMethod,
+} from "../../../types/models";
 
 const { Field, Input, Select, Label } = Form;
 

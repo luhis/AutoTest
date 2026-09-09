@@ -1,11 +1,11 @@
-import { ThunkAction } from "@reduxjs/toolkit";
+import type { ThunkAction } from "@reduxjs/toolkit";
 
-import { EditingClub } from "src/types/models";
+import type { EditingClub } from "src/types/models";
 import { addClub, deleteClub, getClubs } from "../../api/clubs";
 import { selectClubs } from "./selectors";
-import { AppState } from "..";
+import type { AppState } from "..";
 import { canUpdate, isStale, requiresLoading } from "../../types/loadingState";
-import { ClubsActionTypes } from "./types";
+import type { ClubsActionTypes } from "./types";
 import { showError } from "../../lib/apiErrorToast";
 
 export const GetClubsIfRequired =

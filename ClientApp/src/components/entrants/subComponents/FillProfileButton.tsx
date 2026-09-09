@@ -1,8 +1,8 @@
-import { FunctionComponent, h } from "preact";
+import { type FunctionComponent, h } from "preact";
 import { isEmpty } from "@s-libs/micro-dash";
 import { Button, Dropdown } from "react-bulma-components";
 
-import { ClubMembership } from "../../../types/shared";
+import type { ClubMembership } from "../../../types/shared";
 
 const FillProfileButton: FunctionComponent<{
   readonly clubMemberships: readonly ClubMembership[];

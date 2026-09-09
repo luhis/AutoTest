@@ -1,8 +1,8 @@
-import { h, FunctionComponent } from "preact";
+import { type FunctionComponent, h } from "preact";
 import { FaExclamation } from "react-icons/fa";
 import { startCase } from "@s-libs/micro-dash";
 
-import { Penalty, PenaltyType } from "../../types/models";
+import { type Penalty, PenaltyType } from "../../types/models";
 
 const penaltyTypeToString = (p: PenaltyType) => startCase(PenaltyType[p]);
 

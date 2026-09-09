@@ -1,7 +1,7 @@
 import { parseIsoOrThrow } from "ts-date";
 
-import { Event, EventStatus, Override } from "../types/models";
-import { ApiResponse, toApiResponse } from "../types/loadingState";
+import type { Event, EventStatus, Override } from "../types/models";
+import { type ApiResponse, toApiResponse } from "../types/loadingState";
 import { extract, getHeaders, throwIfNotOk } from "./api";
 
 type ApiEvent = Override<

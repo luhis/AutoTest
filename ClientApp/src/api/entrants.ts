@@ -1,13 +1,13 @@
 import { parseIsoOrThrow } from "ts-date";
 
-import {
+import type {
   Entrant,
   Override,
   Payment,
   PublicEntrant,
   SaveEntrant,
 } from "../types/models";
-import { ApiResponse, toApiResponse } from "../types/loadingState";
+import { type ApiResponse, toApiResponse } from "../types/loadingState";
 import { extract, getHeaders, throwIfNotOk } from "./api";
 
 const mapToPublicEntrant = ({ payment, ...rest }: ApiEntrant) =>

@@ -1,13 +1,13 @@
-import { h, FunctionComponent } from "preact";
+import { type FunctionComponent, h } from "preact";
 import { Modal, Button, Form } from "react-bulma-components";
 const { Control, Field, Label, Input, Help, Checkbox } = Form;
 import { useState, useEffect } from "preact/hooks";
 import { newValidDate } from "ts-date";
 import { useSelector } from "react-redux";
 
-import { EditingMarshal } from "../../types/models";
-import { OnChange } from "../../types/inputs";
-import { EmergencyContact } from "../../types/shared";
+import type { EditingMarshal } from "../../types/models";
+import type { OnChange } from "../../types/inputs";
+import type { EmergencyContact } from "../../types/shared";
 import EmergencyContactEditor from "../shared/EmergencyContactEditor";
 import { addPreventDefault } from "../../lib/form";
 import DropdownInput from "../shared/DropdownInput";

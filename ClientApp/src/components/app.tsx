@@ -1,4 +1,4 @@
-import { FunctionComponent, h } from "preact";
+import { type FunctionComponent, h } from "preact";
 import { Route, Router } from "preact-router";
 import { Provider } from "react-redux";
 import { Container, Loader } from "react-bulma-components";

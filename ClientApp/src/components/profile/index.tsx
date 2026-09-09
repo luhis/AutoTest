@@ -1,13 +1,17 @@
-import { h, FunctionComponent } from "preact";
+import { type FunctionComponent, h } from "preact";
 import { Button, Box, Columns, Form, Heading } from "react-bulma-components";
 const { Label, Input, Field, Radio, Checkbox, Control } = Form;
 import { useState } from "preact/hooks";
 import { useSelector } from "react-redux";
 
-import { Age, Profile } from "../../types/profileModels";
-import { OnChange } from "../../types/inputs";
+import { type Profile, Age } from "../../types/profileModels";
+import type { OnChange } from "../../types/inputs";
 import EmergencyContactEditor from "../shared/EmergencyContactEditor";
-import { EmergencyContact, MsaMembership, Vehicle } from "../../types/shared";
+import type {
+  EmergencyContact,
+  MsaMembership,
+  Vehicle,
+} from "../../types/shared";
 import VehicleEditor from "../shared/VehicleEditor";
 import MembershipList from "../shared/MembershipList";
 import MsaMembershipEditor from "../shared/MsaMembershipEditor";

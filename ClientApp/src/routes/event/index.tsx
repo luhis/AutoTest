@@ -1,4 +1,4 @@
-import { FunctionalComponent, h } from "preact";
+import { type FunctionalComponent, h } from "preact";
 import { useCallback, useEffect, useState } from "preact/hooks";
 import { Button, Heading, Panel, Tag } from "react-bulma-components";
 import { useSelector } from "react-redux";
@@ -19,7 +19,11 @@ import { selectEvents, selectNotifications } from "../../store/event/selectors";
 import { findIfLoaded, mapOrDefault } from "../../types/loadingState";
 import NotificationsModal from "../../components/events/NotificationsModal";
 import RouteParamsParser from "../../components/shared/RouteParamsParser";
-import { EventNotification, EventStatus, Override } from "../../types/models";
+import {
+  type EventNotification,
+  type Override,
+  EventStatus,
+} from "../../types/models";
 import AddNotificationModal from "../../components/events/AddNotificationModal";
 import { keySeed } from "../../settings";
 import Breadcrumbs from "../../components/shared/Breadcrumbs";

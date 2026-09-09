@@ -1,6 +1,6 @@
-import { LoadingState } from "src/types/loadingState";
-import { Club } from "src/types/models";
-import { SharedActionTypes } from "../shared/types";
+import type { LoadingState } from "src/types/loadingState";
+import type { Club } from "src/types/models";
+import type { SharedActionTypes } from "../shared/types";
 
 export interface ClubsState {
   readonly clubs: LoadingState<readonly Club[]>;

@@ -1,4 +1,4 @@
-import { ValidDate } from "ts-date";
+import type { ValidDate } from "ts-date";
 
 export const getDateTimeString = (d: ValidDate) =>
   `${d.getFullYear()}-${`${d.getMonth() + 1}`.padStart(2, "0")}-${`${d.getDate()}`.padStart(2, "0")}T${`${d.getHours()}`.padStart(

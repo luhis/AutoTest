@@ -1,12 +1,12 @@
-import { ThunkAction } from "@reduxjs/toolkit";
-import { CredentialResponse } from "@react-oauth/google";
+import type { ThunkAction } from "@reduxjs/toolkit";
+import type { CredentialResponse } from "@react-oauth/google";
 
 import { getProfile, saveProfile } from "../../api/user";
-import { Profile } from "../../types/profileModels";
-import { ProfileActionTypes } from "./types";
+import type { Profile } from "../../types/profileModels";
+import type { ProfileActionTypes } from "./types";
 import { getAccess } from "../../api/access";
 import { selectProfile } from "./selectors";
-import { AppState } from "..";
+import type { AppState } from "..";
 import { isStale, requiresLoading } from "../../types/loadingState";
 import { showError } from "../../lib/apiErrorToast";
 

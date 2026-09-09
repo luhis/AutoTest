@@ -1,4 +1,4 @@
-import { CredentialResponse } from "@react-oauth/google";
+import type { CredentialResponse } from "@react-oauth/google";
 import { startCase } from "@s-libs/micro-dash";
 
 type ValidationResponse = {

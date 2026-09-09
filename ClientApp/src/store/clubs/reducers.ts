@@ -1,4 +1,4 @@
-import { ClubsActionTypes, ClubsState } from "./types";
+import type { ClubsActionTypes, ClubsState } from "./types";
 import { ifLoaded } from "../../types/loadingState";
 import { neverReached } from "../../types/shared";
 

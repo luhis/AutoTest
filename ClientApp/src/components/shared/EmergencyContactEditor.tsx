@@ -1,9 +1,9 @@
-import { h, FunctionComponent, Fragment } from "preact";
+import { Fragment, type FunctionComponent, h } from "preact";
 import { Form } from "react-bulma-components";
 const { Input, Field, Label, Control } = Form;
 
-import { EmergencyContact } from "../../types/shared";
-import { OnChange } from "../../types/inputs";
+import type { EmergencyContact } from "../../types/shared";
+import type { OnChange } from "../../types/inputs";
 
 interface Props {
   readonly emergencyContact: EmergencyContact;

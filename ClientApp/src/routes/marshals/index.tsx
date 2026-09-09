@@ -1,10 +1,14 @@
-import { FunctionalComponent, h } from "preact";
+import { type FunctionalComponent, h } from "preact";
 import { useCallback, useEffect, useState } from "preact/hooks";
 import { Heading, Button } from "react-bulma-components";
 import UUID from "uuid-int";
 import { useSelector } from "react-redux";
 
-import { Override, EditingMarshal, PublicMarshal } from "../../types/models";
+import type {
+  Override,
+  EditingMarshal,
+  PublicMarshal,
+} from "../../types/models";
 import { getAccessToken } from "../../api/api";
 import List from "../../components/marshals/List";
 import EntrantsModal from "../../components/marshals/Modal";

@@ -1,6 +1,6 @@
-import { FunctionComponent, h } from "preact";
+import { type FunctionComponent, h } from "preact";
 
-import { EntrantTime, TestRunFromServer } from "../../types/models";
+import type { EntrantTime, TestRunFromServer } from "../../types/models";
 import Penalties from "../shared/Penalties";
 
 const None: FunctionComponent = () => <span>X</span>;

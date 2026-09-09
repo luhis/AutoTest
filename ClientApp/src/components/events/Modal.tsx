@@ -1,4 +1,4 @@
-import { h, FunctionComponent } from "preact";
+import { type FunctionComponent, h } from "preact";
 import { Modal, Button, Form } from "react-bulma-components";
 import PromiseFileReader from "promise-file-reader";
 const { Label, Input, Field, Select, Help, Checkbox, Control } = Form;
@@ -7,13 +7,13 @@ import { useState } from "preact/hooks";
 import prettyBytes from "pretty-bytes";
 
 import {
-  EditingEvent,
-  Club,
+  type EditingEvent,
+  type Club,
   EventType,
   TimingSystem,
 } from "../../types/models";
-import { OnChange, OnSelectChange } from "../../types/inputs";
-import { LoadingState } from "../../types/loadingState";
+import type { OnChange, OnSelectChange } from "../../types/inputs";
+import type { LoadingState } from "../../types/loadingState";
 import ifSome from "../shared/ifSome";
 import { addPreventDefault, toggleValue } from "../../lib/form";
 

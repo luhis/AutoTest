@@ -1,4 +1,4 @@
-import { h } from "preact";
+import type { h } from "preact";
 
 export const addPreventDefault =
   (save: () => Promise<void>, setSavingStatus: (saving: boolean) => void) =>

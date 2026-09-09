@@ -1,16 +1,16 @@
-import { FunctionalComponent, h } from "preact";
+import { type FunctionalComponent, h } from "preact";
 import {
-  StateUpdater,
+  type Dispatch,
+  type StateUpdater,
   useCallback,
   useEffect,
   useState,
-  Dispatch,
 } from "preact/hooks";
 import { Form, Heading, Table } from "react-bulma-components";
 import { useSelector } from "react-redux";
 import { identity, range } from "@s-libs/micro-dash";
 
-import { Override, TestRunFromServer } from "../../types/models";
+import type { Override, TestRunFromServer } from "../../types/models";
 import { findIfLoaded, mapOrDefault } from "../../types/loadingState";
 import { getAccessToken } from "../../api/api";
 import {
@@ -27,7 +27,7 @@ import RouteParamsParser from "../../components/shared/RouteParamsParser";
 import Breadcrumbs from "../../components/shared/Breadcrumbs";
 import { selectClubs } from "../../store/clubs/selectors";
 import { GetClubsIfRequired } from "../../store/clubs/actions";
-import { OnSelectChange } from "../../types/inputs";
+import type { OnSelectChange } from "../../types/inputs";
 import ifSome from "../../components/shared/ifSome";
 import Penalties from "../../components/shared/Penalties";
 import Modal from "../../components/editRuns/Modal";

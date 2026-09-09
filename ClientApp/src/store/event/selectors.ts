@@ -1,5 +1,5 @@
-import { AppState } from "..";
-import { MakeAndModel, Event } from "../../types/models";
+import type { AppState } from "..";
+import type { MakeAndModel, Event } from "../../types/models";
 import { distinct } from "../../lib/array";
 import { mapOrDefault } from "../../types/loadingState";
 

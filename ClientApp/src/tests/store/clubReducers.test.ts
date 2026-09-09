@@ -1,5 +1,5 @@
 import { ClearCache } from "../../store/event/actions";
-import { ClubsState } from "../../store/clubs/types";
+import type { ClubsState } from "../../store/clubs/types";
 import { clubsReducer } from "../../store/clubs/reducers";
 
 const populatedState: ClubsState = {

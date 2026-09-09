@@ -1,10 +1,10 @@
-import { h, FunctionComponent } from "preact";
+import { type FunctionComponent, h } from "preact";
 import { Modal, Button, Form } from "react-bulma-components";
 import { useState } from "preact/hooks";
 const { Input, Field, Label, Help, Control } = Form;
 
-import { Club, EditingClub } from "../../types/models";
-import { OnChange } from "../../types/inputs";
+import type { Club, EditingClub } from "../../types/models";
+import type { OnChange } from "../../types/inputs";
 import EmailList from "../shared/EmailList";
 import { addPreventDefault } from "../../lib/form";
 

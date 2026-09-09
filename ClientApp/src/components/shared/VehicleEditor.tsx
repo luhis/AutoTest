@@ -1,10 +1,10 @@
-import { h, FunctionComponent, Fragment } from "preact";
+import { Fragment, type FunctionComponent, h } from "preact";
 import { Columns, Form, Icon } from "react-bulma-components";
 const { Input, Field, Label, Control, Radio } = Form;
 
-import { InductionTypes, Vehicle } from "../../types/shared";
-import { OnChange } from "../../types/inputs";
-import { MakeAndModel } from "../../types/models";
+import { type Vehicle, InductionTypes } from "../../types/shared";
+import type { OnChange } from "../../types/inputs";
+import type { MakeAndModel } from "../../types/models";
 import DropdownInput from "./DropdownInput";
 import { distinct } from "../../lib/array";
 import FormColumn from "./FormColumn";

@@ -1,4 +1,4 @@
-import { FunctionalComponent, h, Fragment } from "preact";
+import { Fragment, type FunctionalComponent, h } from "preact";
 import { useCallback, useEffect, useState } from "preact/hooks";
 import { useSelector } from "react-redux";
 
@@ -9,7 +9,7 @@ import {
   selectAccessToken,
   selectProfile,
 } from "../../store/profile/selectors";
-import { Profile } from "../../types/profileModels";
+import type { Profile } from "../../types/profileModels";
 import { useThunkDispatch } from "../../store";
 
 interface Props {

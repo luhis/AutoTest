@@ -1,11 +1,11 @@
 import { parseIsoOrThrow } from "ts-date";
 
-import {
+import type {
   Override,
   TestRunFromClient,
   TestRunFromServer,
 } from "../types/models";
-import { ApiResponse, toApiResponse } from "../types/loadingState";
+import { type ApiResponse, toApiResponse } from "../types/loadingState";
 import { extract, getHeaders, throwIfNotOk } from "./api";
 
 type TestRunApi = Override<TestRunFromServer, { readonly created: string }>;

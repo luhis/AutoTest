@@ -1,5 +1,5 @@
 import { isEqual } from "@s-libs/micro-dash";
-import { ValidDate, addMinutes, newValidDate } from "ts-date";
+import { type ValidDate, addMinutes, newValidDate } from "ts-date";
 
 const staleDataMinutes = 0.1;
 

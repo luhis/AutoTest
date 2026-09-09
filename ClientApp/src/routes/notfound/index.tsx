@@ -1,4 +1,4 @@
-import { FunctionalComponent, h } from "preact";
+import { type FunctionalComponent, h } from "preact";
 import { Hero, Heading, Button } from "react-bulma-components";
 import { Link } from "preact-router/match";
 

@@ -1,7 +1,7 @@
-import { h, RenderableProps } from "preact";
+import { type RenderableProps, h } from "preact";
 import classNames from "classnames";
 import { Dropdown } from "react-bulma-components";
-import { Dispatch, StateUpdater } from "preact/hooks";
+import type { Dispatch, StateUpdater } from "preact/hooks";
 
 import { toggleValue } from "../../lib/form";
 

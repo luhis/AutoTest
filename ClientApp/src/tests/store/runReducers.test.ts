@@ -2,7 +2,7 @@ import { newValidDate } from "ts-date";
 
 import { TestRunUploadState } from "../../types/models";
 import { runReducer } from "../../store/runs/reducers";
-import { RunState } from "../../store/runs/types";
+import type { RunState } from "../../store/runs/types";
 import { ClearCache } from "../../store/event/actions";
 
 const populatedState: RunState = {

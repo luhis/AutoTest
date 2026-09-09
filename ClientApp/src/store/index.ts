@@ -1,7 +1,7 @@
-import { combineReducers, Reducer } from "redux";
+import { type Reducer, combineReducers } from "redux";
 import {
+  type ThunkDispatch as ToolkitThunkDispatch,
   configureStore,
-  ThunkDispatch as ToolkitThunkDispatch,
 } from "@reduxjs/toolkit";
 import storage from "redux-persist/lib/storage";
 import { persistStore, persistReducer, createTransform } from "redux-persist";
@@ -11,11 +11,11 @@ import { useDispatch } from "react-redux";
 import { eventReducer } from "./event/reducers";
 import { profileReducer } from "./profile/reducers";
 import { clubsReducer } from "./clubs/reducers";
-import { EventActionTypes } from "./event/types";
-import { ClubsActionTypes } from "./clubs/types";
-import { ProfileActionTypes } from "./profile/types";
+import type { EventActionTypes } from "./event/types";
+import type { ClubsActionTypes } from "./clubs/types";
+import type { ProfileActionTypes } from "./profile/types";
 import { runReducer } from "./runs/reducers";
-import { RunActionTypes } from "./runs/types";
+import type { RunActionTypes } from "./runs/types";
 
 const persistConfig = {
   key: "root",

@@ -1,7 +1,7 @@
-import { h, FunctionComponent } from "preact";
+import { type FunctionComponent, h } from "preact";
 import { useMemo } from "preact/hooks";
 
-import { Override } from "../../types/models";
+import type { Override } from "../../types/models";
 
 export default <TOuterProps extends object, TInnerProps extends object>(
     paramsMapper: (_: TOuterProps) => TInnerProps,

@@ -1,7 +1,7 @@
 import { parseIsoOrThrow } from "ts-date";
 
-import { Override, EventNotification } from "../types/models";
-import { ApiResponse, toApiResponse } from "../types/loadingState";
+import type { Override, EventNotification } from "../types/models";
+import { type ApiResponse, toApiResponse } from "../types/loadingState";
 import { extract, getHeaders, throwIfNotOk } from "./api";
 
 export const getNotifications = async (

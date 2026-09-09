@@ -1,7 +1,7 @@
-import { CredentialResponse } from "@react-oauth/google";
+import type { CredentialResponse } from "@react-oauth/google";
 
-import { Access, Profile } from "../../types/profileModels";
-import { LoadingState } from "../../types/loadingState";
+import type { Access, Profile } from "../../types/profileModels";
+import type { LoadingState } from "../../types/loadingState";
 
 export interface ProfileState {
   readonly profile: LoadingState<Profile>;

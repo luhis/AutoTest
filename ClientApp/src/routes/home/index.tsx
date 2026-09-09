@@ -1,4 +1,4 @@
-import { FunctionalComponent, h } from "preact";
+import { type FunctionalComponent, h } from "preact";
 import { Hero, Box, Tag, Button, Heading } from "react-bulma-components";
 import { useEffect } from "preact/hooks";
 import { useSelector } from "react-redux";

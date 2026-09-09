@@ -1,10 +1,10 @@
 import { formatDateIso, parseIsoOrThrow } from "ts-date";
 
-import { Profile } from "../types/profileModels";
-import { ApiResponse, toApiResponse } from "../types/loadingState";
-import { ClubMembership } from "../types/shared";
+import type { Profile } from "../types/profileModels";
+import { type ApiResponse, toApiResponse } from "../types/loadingState";
+import type { ClubMembership } from "../types/shared";
 import { throwIfNotOk, getHeaders, extract } from "./api";
-import { Override } from "../types/models";
+import type { Override } from "../types/models";
 
 export const getProfile = async (
   token: string | undefined,

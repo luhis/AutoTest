@@ -1,7 +1,7 @@
 import { newValidDate } from "ts-date";
 
 import { get10LatestEvents } from "../../store/event/selectors";
-import { Event, EventStatus, TimingSystem } from "../../types/models";
+import { type Event, EventStatus, TimingSystem } from "../../types/models";
 
 const event: Event = {
   eventId: 1,

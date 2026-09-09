@@ -1,6 +1,6 @@
-import { Access } from "../../types/profileModels";
+import type { Access } from "../../types/profileModels";
 import { neverReached } from "../../types/shared";
-import { ProfileState, ProfileActionTypes } from "./types";
+import type { ProfileState, ProfileActionTypes } from "./types";
 
 const defaultAccess: Access = {
   isLoggedIn: false,

@@ -1,8 +1,8 @@
-import { ThunkAction } from "@reduxjs/toolkit";
+import type { ThunkAction } from "@reduxjs/toolkit";
 import { showError } from "../../lib/apiErrorToast";
 
-import { EventActionTypes } from "./types";
-import {
+import type { EventActionTypes } from "./types";
+import type {
   Event,
   EventNotification,
   Marshal,
@@ -26,7 +26,7 @@ import {
   getEvents,
   setEventStatus,
 } from "../../api/events";
-import { AppState } from "..";
+import type { AppState } from "..";
 import {
   requiresLoading,
   idsMatch,

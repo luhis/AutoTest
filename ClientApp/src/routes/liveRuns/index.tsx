@@ -1,13 +1,17 @@
-import { FunctionalComponent, FunctionComponent, h } from "preact";
+import { type FunctionalComponent, type FunctionComponent, h } from "preact";
 import { useEffect, useState } from "preact/hooks";
 import { Heading } from "react-bulma-components";
 import { useSelector } from "react-redux";
-import { HubConnection } from "@microsoft/signalr";
+import type { HubConnection } from "@microsoft/signalr";
 import { compact, last, sortBy, identity } from "@s-libs/micro-dash";
 import { route } from "preact-router";
 
-import { Override, PublicEntrant, TestRunFromServer } from "../../types/models";
-import { findIfLoaded, LoadingState } from "../../types/loadingState";
+import type {
+  Override,
+  PublicEntrant,
+  TestRunFromServer,
+} from "../../types/models";
+import { type LoadingState, findIfLoaded } from "../../types/loadingState";
 import { getAccessToken } from "../../api/api";
 import { selectEntrants, selectEvents } from "../../store/event/selectors";
 import { GetEventsIfRequired } from "../../store/event/actions";

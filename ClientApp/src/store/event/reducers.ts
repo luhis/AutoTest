@@ -1,6 +1,6 @@
-import { EventState, EventActionTypes } from "./types";
-import { Payment, PublicEntrant } from "../../types/models";
-import { ifLoaded, LoadingState } from "../../types/loadingState";
+import type { EventState, EventActionTypes } from "./types";
+import type { Payment, PublicEntrant } from "../../types/models";
+import { type LoadingState, ifLoaded } from "../../types/loadingState";
 import { neverReached } from "../../types/shared";
 
 const initialState: EventState = {

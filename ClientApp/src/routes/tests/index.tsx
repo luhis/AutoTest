@@ -1,4 +1,4 @@
-import { FunctionalComponent, h } from "preact";
+import { type FunctionalComponent, h } from "preact";
 import { useEffect } from "preact/hooks";
 import { route } from "preact-router";
 import { Heading, Box, Button, Loader } from "react-bulma-components";
@@ -12,7 +12,7 @@ import {
 import { selectEvents } from "../../store/event/selectors";
 import { findIfLoaded } from "../../types/loadingState";
 import RouteParamsParser from "../../components/shared/RouteParamsParser";
-import { Override } from "../../types/models";
+import type { Override } from "../../types/models";
 import Breadcrumbs from "../../components/shared/Breadcrumbs";
 import { selectClubs } from "../../store/clubs/selectors";
 import { GetClubsIfRequired } from "../../store/clubs/actions";

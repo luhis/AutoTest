@@ -1,10 +1,10 @@
-import { LoadingState } from "../../types/loadingState";
-import {
+import type { LoadingState } from "../../types/loadingState";
+import type {
   TestRunFromClient,
   TestRunFromServer,
   TestRunUploadState,
 } from "../../types/models";
-import { SharedActionTypes } from "../shared/types";
+import type { SharedActionTypes } from "../shared/types";
 
 export interface RunState {
   readonly testRuns: readonly TestRunFromClient[];

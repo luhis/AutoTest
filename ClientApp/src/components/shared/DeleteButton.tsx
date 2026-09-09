@@ -1,4 +1,4 @@
-import { h, FunctionComponent, Fragment } from "preact";
+import { Fragment, type FunctionComponent, h } from "preact";
 import { useCallback, useState } from "preact/hooks";
 import { Button, Modal } from "react-bulma-components";
 

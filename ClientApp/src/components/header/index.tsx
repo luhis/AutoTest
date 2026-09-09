@@ -1,10 +1,10 @@
-import { FunctionalComponent, h } from "preact";
+import { type FunctionalComponent, h } from "preact";
 import { Navbar, Button } from "react-bulma-components";
 import { useSelector } from "react-redux";
 import { useCallback, useEffect, useState } from "preact/hooks";
 import { Link } from "preact-router";
 import {
-  CredentialResponse,
+  type CredentialResponse,
   GoogleLogin,
   googleLogout,
 } from "@react-oauth/google";

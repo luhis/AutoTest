@@ -1,9 +1,9 @@
-import { h, FunctionComponent, Fragment } from "preact";
+import { Fragment, type FunctionComponent, h } from "preact";
 import { Form } from "react-bulma-components";
 const { Input, Field, Label, Control, Help } = Form;
 
-import { MsaMembership } from "../../types/shared";
-import { OnChange } from "../../types/inputs";
+import type { MsaMembership } from "../../types/shared";
+import type { OnChange } from "../../types/inputs";
 import DropdownInput from "./DropdownInput";
 import { ClubmanLicenseLocation } from "../../settings";
 

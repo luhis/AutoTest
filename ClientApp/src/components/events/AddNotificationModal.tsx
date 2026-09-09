@@ -1,10 +1,10 @@
-import { h, FunctionComponent } from "preact";
+import { type FunctionComponent, h } from "preact";
 import { Modal, Button, Form } from "react-bulma-components";
 import { useState } from "preact/hooks";
 const { Input, Field, Label } = Form;
 
-import { OnChange } from "src/types/inputs";
-import { EventNotification } from "../../types/models";
+import type { OnChange } from "src/types/inputs";
+import type { EventNotification } from "../../types/models";
 import { addPreventDefault } from "../../lib/form";
 
 interface Props {

@@ -1,7 +1,7 @@
 import TimeAgo from "javascript-time-ago";
 import en from "javascript-time-ago/locale/en";
-import { h, FunctionalComponent } from "preact";
-import { ValidDate } from "ts-date";
+import { type FunctionalComponent, h } from "preact";
+import type { ValidDate } from "ts-date";
 
 TimeAgo.addDefaultLocale(en);
 

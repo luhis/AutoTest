@@ -1,4 +1,4 @@
-import { FunctionComponent, h } from "preact";
+import { type FunctionComponent, h } from "preact";
 import { Box, Button, Form, Dropdown, Tag } from "react-bulma-components";
 import { FaMoneyBill } from "react-icons/fa";
 import { startCase } from "@s-libs/micro-dash";
@@ -6,12 +6,12 @@ const { Field, Control } = Form;
 
 import ifSome from "../shared/ifSome";
 import {
+  type Payment,
+  type PublicEntrant,
   EntrantStatus,
-  Payment,
   PaymentMethod,
-  PublicEntrant,
 } from "../../types/models";
-import { LoadingState } from "../../types/loadingState";
+import type { LoadingState } from "../../types/loadingState";
 import NumberPlate from "../shared/NumberPlate";
 import DeleteButton from "../shared/DeleteButton";
 import DriverNumber from "../shared/DriverNumber";

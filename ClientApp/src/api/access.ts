@@ -1,4 +1,4 @@
-import { Access } from "../types/profileModels";
+import type { Access } from "../types/profileModels";
 import { extract, getHeaders } from "./api";
 
 export const getAccess = async (token: string | undefined): Promise<Access> => {

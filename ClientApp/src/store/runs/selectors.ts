@@ -1,4 +1,4 @@
-import { AppState } from "..";
+import type { AppState } from "..";
 import { TestRunUploadState } from "../../types/models";
 
 export const selectRequiresSync = (a: AppState) =>

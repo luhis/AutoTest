@@ -1,8 +1,8 @@
-import { h, FunctionComponent } from "preact";
+import { type FunctionComponent, h } from "preact";
 import { Modal, Button, Heading } from "react-bulma-components";
 import TimeAgo from "../../components/shared/TimeAgo";
 
-import { EventNotification } from "../../types/models";
+import type { EventNotification } from "../../types/models";
 
 interface Props {
   readonly notifications: readonly EventNotification[];

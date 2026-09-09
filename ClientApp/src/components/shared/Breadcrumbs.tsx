@@ -1,8 +1,8 @@
-import { h, FunctionComponent } from "preact";
+import { type FunctionComponent, h } from "preact";
 import { Breadcrumb } from "react-bulma-components";
 import { Link } from "preact-router";
 
-import { Club, Event } from "../../types/models";
+import type { Club, Event } from "../../types/models";
 
 interface Props {
   readonly club: Club | undefined;

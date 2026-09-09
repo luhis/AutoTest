@@ -1,4 +1,4 @@
-import { ValidDate } from "ts-date";
+import type { ValidDate } from "ts-date";
 
 export interface EmergencyContact {
   readonly name: string;

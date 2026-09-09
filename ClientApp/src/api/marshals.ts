@@ -1,5 +1,5 @@
-import { Marshal, PublicMarshal } from "../types/models";
-import { ApiResponse, toApiResponse } from "../types/loadingState";
+import type { Marshal, PublicMarshal } from "../types/models";
+import { type ApiResponse, toApiResponse } from "../types/loadingState";
 import { extract, getHeaders, throwIfNotOk } from "./api";
 
 export const getMarshals = async (

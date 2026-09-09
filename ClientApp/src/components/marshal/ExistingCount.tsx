@@ -1,7 +1,7 @@
 import { uniqBy } from "@s-libs/micro-dash";
-import { FunctionalComponent, h } from "preact";
+import { type FunctionalComponent, h } from "preact";
 
-import { Event } from "../../types/models";
+import type { Event } from "../../types/models";
 
 interface Props {
   readonly entrantId: number | undefined;

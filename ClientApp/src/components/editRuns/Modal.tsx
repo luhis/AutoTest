@@ -1,16 +1,16 @@
-import { h, FunctionComponent } from "preact";
+import { type FunctionComponent, h } from "preact";
 import { Modal, Button, Form } from "react-bulma-components";
 const { Label, Field, Input, Select } = Form;
-import { Dispatch, StateUpdater, useState } from "preact/hooks";
+import { type Dispatch, type StateUpdater, useState } from "preact/hooks";
 
-import {
+import type {
   PublicEntrant,
   PenaltyType,
   TestRunFromServer,
   Penalty,
 } from "../../types/models";
 import { addPreventDefault } from "../../lib/form";
-import { OnChange } from "../../types/inputs";
+import type { OnChange } from "../../types/inputs";
 import Penalties from "../marshal/Penalties";
 
 interface Props {

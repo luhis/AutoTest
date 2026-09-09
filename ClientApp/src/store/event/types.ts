@@ -1,4 +1,4 @@
-import {
+import type {
   Event,
   EventNotification,
   Marshal,
@@ -7,9 +7,9 @@ import {
   Payment,
   EventStatus,
 } from "../../types/models";
-import { LoadingState } from "../../types/loadingState";
-import { AddEvent } from "./actions";
-import { SharedActionTypes } from "../shared/types";
+import type { LoadingState } from "../../types/loadingState";
+import type { AddEvent } from "./actions";
+import type { SharedActionTypes } from "../shared/types";
 
 export interface EventState {
   readonly events: LoadingState<readonly Event[]>;

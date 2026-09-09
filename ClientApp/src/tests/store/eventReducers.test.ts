@@ -1,14 +1,14 @@
 import { newValidDate } from "ts-date";
 
 import {
+  type Payment,
+  type PublicEntrant,
   EntrantStatus,
-  Payment,
   PaymentMethod,
-  PublicEntrant,
 } from "../../types/models";
 import { ClearCache } from "../../store/event/actions";
 import { eventReducer } from "../../store/event/reducers";
-import { EventState } from "../../store/event/types";
+import type { EventState } from "../../store/event/types";
 import { Age } from "../../types/profileModels";
 import { InductionTypes } from "../../types/shared";
 import { mapOrDefault } from "../../types/loadingState";

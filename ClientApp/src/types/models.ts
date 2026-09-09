@@ -1,7 +1,7 @@
-import { ValidDate } from "ts-date";
-import { Age } from "./profileModels";
+import type { ValidDate } from "ts-date";
+import type { Age } from "./profileModels";
 
-import { EmergencyContact, MsaMembership, Vehicle } from "./shared";
+import type { EmergencyContact, MsaMembership, Vehicle } from "./shared";
 
 export interface AuthorisationEmail {
   readonly email: string;

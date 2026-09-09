@@ -1,4 +1,4 @@
-import { h, FunctionComponent } from "preact";
+import { type FunctionComponent, h } from "preact";
 import { FaCar } from "react-icons/fa";
 
 const DriverNumber: FunctionComponent<{ readonly driverNumber: number }> = ({

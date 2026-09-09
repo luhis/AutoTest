@@ -1,4 +1,4 @@
-import { h, FunctionComponent } from "preact";
+import { type FunctionComponent, h } from "preact";
 import { Tag } from "react-bulma-components";
 
 interface Props {

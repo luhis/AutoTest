@@ -1,10 +1,10 @@
-import { FunctionalComponent, h } from "preact";
+import { type FunctionalComponent, h } from "preact";
 import { Box, Button, Form } from "react-bulma-components";
 const { Field, Control } = Form;
 
 import ifSome from "../shared/ifSome";
-import { PublicMarshal } from "../../types/models";
-import { LoadingState } from "../../types/loadingState";
+import type { PublicMarshal } from "../../types/models";
+import type { LoadingState } from "../../types/loadingState";
 import DeleteButton from "../shared/DeleteButton";
 
 interface Props {

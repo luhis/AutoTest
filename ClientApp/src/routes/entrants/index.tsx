@@ -1,11 +1,11 @@
-import { FunctionalComponent, h } from "preact";
+import { type FunctionalComponent, h } from "preact";
 import { useCallback, useEffect, useState } from "preact/hooks";
 import { Heading, Button } from "react-bulma-components";
 import UUID from "uuid-int";
 import { useSelector } from "react-redux";
 import { newValidDate } from "ts-date";
 
-import {
+import type {
   EditingEntrant,
   Override,
   Payment,
@@ -24,8 +24,8 @@ import {
 import { selectEntrants, selectEvents } from "../../store/event/selectors";
 import { keySeed } from "../../settings";
 import {
+  type LoadingState,
   findIfLoaded,
-  LoadingState,
   mapOrDefault,
 } from "../../types/loadingState";
 import {
@@ -40,7 +40,7 @@ import { selectClubs } from "../../store/clubs/selectors";
 import { GetClubsIfRequired } from "../../store/clubs/actions";
 import { getEntrant } from "../../api/entrants";
 import { Age } from "../../types/profileModels";
-import { ClubMembership, InductionTypes } from "../../types/shared";
+import { type ClubMembership, InductionTypes } from "../../types/shared";
 import { useThunkDispatch } from "../../store";
 
 interface Props {

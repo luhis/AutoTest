@@ -1,5 +1,5 @@
-import { Result } from "../types/models";
-import { ApiResponse, toApiResponse } from "../types/loadingState";
+import type { Result } from "../types/models";
+import { type ApiResponse, toApiResponse } from "../types/loadingState";
 import { extract, getHeaders } from "./api";
 
 export const getResults = async (

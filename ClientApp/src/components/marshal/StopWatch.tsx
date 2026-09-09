@@ -1,4 +1,4 @@
-import { FunctionalComponent, h } from "preact";
+import { type FunctionalComponent, h } from "preact";
 import { Button } from "react-bulma-components";
 import { useStopwatch } from "react-timer-hook";
 

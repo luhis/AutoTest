@@ -1,11 +1,11 @@
-import { FunctionalComponent, h } from "preact";
+import { type FunctionalComponent, h } from "preact";
 import { useCallback, useEffect, useState } from "preact/hooks";
 import { Button, Heading } from "react-bulma-components";
 import UUID from "uuid-int";
 import { useSelector } from "react-redux";
 
 import { getAccessToken } from "../../api/api";
-import { Club, EditingClub } from "../../types/models";
+import type { Club, EditingClub } from "../../types/models";
 import List from "../../components/clubs/List";
 import Modal from "../../components/clubs/Modal";
 import { keySeed } from "../../settings";

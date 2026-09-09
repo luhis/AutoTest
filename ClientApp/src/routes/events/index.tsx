@@ -1,4 +1,4 @@
-import { FunctionalComponent, h } from "preact";
+import { type FunctionalComponent, h } from "preact";
 import { useCallback, useEffect, useState } from "preact/hooks";
 import { Heading, Button } from "react-bulma-components";
 import UUID from "uuid-int";
@@ -6,9 +6,9 @@ import { newValidDate, newValidDateOrThrow } from "ts-date";
 import { useSelector } from "react-redux";
 
 import {
-  Event,
-  EditingEvent,
-  Override,
+  type Event,
+  type EditingEvent,
+  type Override,
   TimingSystem,
   EventStatus,
 } from "../../types/models";

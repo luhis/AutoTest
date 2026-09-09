@@ -1,7 +1,7 @@
 import { TestRunUploadState } from "../../types/models";
 import { ifLoaded } from "../../types/loadingState";
 import { neverReached } from "../../types/shared";
-import { RunActionTypes, RunState } from "./types";
+import type { RunActionTypes, RunState } from "./types";
 
 const initialState: RunState = {
   testRuns: [],
