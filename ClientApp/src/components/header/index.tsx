@@ -1,4 +1,4 @@
-import { type FunctionalComponent, h } from "preact";
+import { type FunctionComponent, h } from "preact";
 import { Navbar, Button } from "react-bulma-components";
 import { useSelector } from "react-redux";
 import { useCallback, useEffect, useState } from "preact/hooks";
@@ -34,7 +34,7 @@ import {
   useConnection,
 } from "../../signalR/authorisationHub";
 
-const Header: FunctionalComponent = () => {
+const Header: FunctionComponent = () => {
   const access = useSelector(selectAccess);
   const auth = useSelector(selectAccessToken);
 
@@ -123,7 +123,7 @@ const Header: FunctionalComponent = () => {
   );
 };
 
-const SignalRWrapper: FunctionalComponent = () => {
+const SignalRWrapper: FunctionComponent = () => {
   const auth = useSelector(selectAccessToken);
   const connection = useConnection(getAccessToken(auth));
 

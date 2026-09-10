@@ -1,4 +1,4 @@
-import { type FunctionalComponent, h } from "preact";
+import { type FunctionComponent, h } from "preact";
 import { useCallback, useEffect, useState } from "preact/hooks";
 import { Heading, Button } from "react-bulma-components";
 import UUID from "uuid-int";
@@ -54,7 +54,7 @@ const blankEvent = (clubId: number | undefined): EditingEvent => ({
   eventStatus: EventStatus.Open,
 });
 
-const Events: FunctionalComponent<Props> = ({ clubId }) => {
+const Events: FunctionComponent<Props> = ({ clubId }) => {
   const thunkDispatch = useThunkDispatch();
   const auth = useSelector(selectAccessToken);
   const events = useSelector(selectEvents);

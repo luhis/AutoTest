@@ -1,4 +1,4 @@
-import { type FunctionalComponent, type FunctionComponent, h } from "preact";
+import { type FunctionComponent, h } from "preact";
 import { useEffect, useState } from "preact/hooks";
 import { Heading } from "react-bulma-components";
 import { useSelector } from "react-redux";
@@ -39,7 +39,7 @@ const getEntrantName = (
   return found ? `${found.givenName} ${found.familyName}` : "Not Found";
 };
 
-const Results: FunctionalComponent<Props> = ({
+const Results: FunctionComponent<Props> = ({
   eventId,
   testFilter,
   connection,

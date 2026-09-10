@@ -1,4 +1,4 @@
-import { Fragment, type FunctionalComponent, h } from "preact";
+import { Fragment, type FunctionComponent, h } from "preact";
 import { useCallback, useEffect, useState } from "preact/hooks";
 import { useSelector } from "react-redux";
 
@@ -16,7 +16,7 @@ interface Props {
   readonly profile: Profile;
 }
 
-const ProfileEditor: FunctionalComponent<Readonly<Props>> = ({ profile }) => {
+const ProfileEditor: FunctionComponent<Props> = ({ profile }) => {
   const auth = useSelector(selectAccessToken);
   const thunkDispatch = useThunkDispatch();
   const [editingProfile, setEditingProfile] = useState<Profile>(profile);
@@ -36,7 +36,7 @@ const ProfileEditor: FunctionalComponent<Readonly<Props>> = ({ profile }) => {
   );
 };
 
-const ProfileRoute: FunctionalComponent = () => {
+const ProfileRoute: FunctionComponent = () => {
   const auth = useSelector(selectAccessToken);
   const thunkDispatch = useThunkDispatch();
   const profile = useSelector(selectProfile);

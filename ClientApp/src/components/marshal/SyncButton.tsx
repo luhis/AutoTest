@@ -1,7 +1,7 @@
-import { type FunctionalComponent, h } from "preact";
+import { type FunctionComponent, h } from "preact";
 import { Button } from "react-bulma-components";
 
-const SyncButton: FunctionalComponent<{
+const SyncButton: FunctionComponent<{
   readonly unSyncedCount: number;
   readonly sync: () => Promise<void>;
 }> = ({ unSyncedCount, sync }) =>

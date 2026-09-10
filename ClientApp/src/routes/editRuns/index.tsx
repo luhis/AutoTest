@@ -1,4 +1,4 @@
-import { type FunctionalComponent, h } from "preact";
+import { type FunctionComponent, h } from "preact";
 import {
   type Dispatch,
   type StateUpdater,
@@ -40,7 +40,7 @@ interface Props {
   readonly eventId: number;
 }
 
-const EditRuns: FunctionalComponent<Props> = ({ eventId }) => {
+const EditRuns: FunctionComponent<Props> = ({ eventId }) => {
   const thunkDispatch = useThunkDispatch();
   const auth = useSelector(selectAccessToken);
   const currentEvent = findIfLoaded(

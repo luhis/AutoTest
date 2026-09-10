@@ -1,4 +1,4 @@
-import { type FunctionalComponent, h } from "preact";
+import { type FunctionComponent, h } from "preact";
 import { useEffect } from "preact/hooks";
 import { route } from "preact-router";
 import { Heading, Box, Button, Loader } from "react-bulma-components";
@@ -23,7 +23,7 @@ interface Props {
   readonly eventId: number;
 }
 
-const Tests: FunctionalComponent<Readonly<Props>> = ({ eventId }) => {
+const Tests: FunctionComponent<Props> = ({ eventId }) => {
   const thunkDispatch = useThunkDispatch();
   const auth = useSelector(selectAccessToken);
   const currentEvent = findIfLoaded(

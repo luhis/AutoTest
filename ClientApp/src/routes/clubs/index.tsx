@@ -1,4 +1,4 @@
-import { type FunctionalComponent, h } from "preact";
+import { type FunctionComponent, h } from "preact";
 import { useCallback, useEffect, useState } from "preact/hooks";
 import { Button, Heading } from "react-bulma-components";
 import UUID from "uuid-int";
@@ -20,7 +20,7 @@ import { useThunkDispatch } from "../../store";
 
 const uid = UUID(keySeed);
 
-const ClubComponent: FunctionalComponent = () => {
+const ClubComponent: FunctionComponent = () => {
   const auth = useSelector(selectAccessToken);
   const thunkDispatch = useThunkDispatch();
   const clubs = useSelector(selectClubs);

@@ -1,8 +1,8 @@
-import { type FunctionalComponent, h } from "preact";
+import { type FunctionComponent, h } from "preact";
 import { Button } from "react-bulma-components";
 import { useStopwatch } from "react-timer-hook";
 
-const StopWatch: FunctionalComponent<{
+const StopWatch: FunctionComponent<{
   readonly setTime: (time: number) => void;
 }> = ({ setTime }) => {
   const { totalSeconds, start, pause } = useStopwatch();

@@ -1,4 +1,4 @@
-import { type FunctionalComponent, h } from "preact";
+import { type FunctionComponent, h } from "preact";
 import { useCallback, useEffect, useState } from "preact/hooks";
 import { Button, Heading, Panel, Tag } from "react-bulma-components";
 import { useSelector } from "react-redux";
@@ -39,7 +39,7 @@ interface Props {
   readonly eventId: number;
 }
 
-const Event: FunctionalComponent<Props> = ({ eventId }) => {
+const Event: FunctionComponent<Props> = ({ eventId }) => {
   const dispatch = useThunkDispatch();
   const auth = useSelector(selectAccessToken);
   const currentEvent = findIfLoaded(

@@ -1,4 +1,4 @@
-import { type FunctionalComponent, h } from "preact";
+import { type FunctionComponent, h } from "preact";
 import { useCallback, useEffect, useState } from "preact/hooks";
 import { Heading, Button } from "react-bulma-components";
 import UUID from "uuid-int";
@@ -59,7 +59,7 @@ const blankMarshal = (eventId: number) => ({
   acceptDeclaration: null,
 });
 
-const Marshals: FunctionalComponent<Readonly<Props>> = ({ eventId }) => {
+const Marshals: FunctionComponent<Props> = ({ eventId }) => {
   const marshals = useSelector(selectMarshals);
   const profile = useSelector(selectProfile);
   const allRoles = useSelector(selectAllRoles);

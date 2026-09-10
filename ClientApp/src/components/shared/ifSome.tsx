@@ -1,4 +1,4 @@
-import { Fragment, type FunctionalComponent, h } from "preact";
+import { Fragment, type FunctionComponent, h } from "preact";
 import { Loader, Notification, Tag } from "react-bulma-components";
 
 import type { LoadingState } from "../../types/loadingState";
@@ -6,7 +6,7 @@ import type { LoadingState } from "../../types/loadingState";
 const ifSome = <T, TT>(
   arr: LoadingState<readonly T[], TT>,
   getKey: (t: T) => string | number,
-  IfIs: FunctionalComponent<T>,
+  IfIs: FunctionComponent<T>,
   filter: (t: T) => boolean = (_: T) => true,
 ) => {
   switch (arr.tag) {

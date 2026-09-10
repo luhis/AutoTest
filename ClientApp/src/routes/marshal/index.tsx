@@ -1,4 +1,4 @@
-import { type FunctionalComponent, h } from "preact";
+import { type FunctionComponent, h } from "preact";
 import { useCallback, useEffect, useState } from "preact/hooks";
 import { Heading, Form, Button } from "react-bulma-components";
 import UUID from "uuid-int";
@@ -62,10 +62,7 @@ interface Props {
 
 const uid = UUID(keySeed);
 
-const Marshal: FunctionalComponent<Readonly<Props>> = ({
-  eventId,
-  ordinal,
-}) => {
+const Marshal: FunctionComponent<Props> = ({ eventId, ordinal }) => {
   const thunkDispatch = useThunkDispatch();
   const liveEntrants = ifLoaded(useSelector(selectEntrants), (e) =>
     e.filter((a) => a.entrantStatus === EntrantStatus.Entered),

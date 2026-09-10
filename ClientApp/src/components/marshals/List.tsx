@@ -1,4 +1,4 @@
-import { type FunctionalComponent, h } from "preact";
+import { type FunctionComponent, h } from "preact";
 import { Box, Button, Form } from "react-bulma-components";
 const { Field, Control } = Form;
 
@@ -14,7 +14,7 @@ interface Props {
   readonly canEditMarshal: (marshalId: number) => boolean;
 }
 
-const List: FunctionalComponent<Props> = ({
+const List: FunctionComponent<Props> = ({
   marshals,
   setEditingMarshal,
   deleteMarshal,

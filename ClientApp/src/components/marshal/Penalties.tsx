@@ -50,7 +50,7 @@ const getCount = (penalties: readonly Penalty[], penaltyType: PenaltyType) => {
     return found.instanceCount;
   }
 };
-const Penalties: FunctionComponent<Readonly<Props>> = ({
+const Penalties: FunctionComponent<Props> = ({
   penalties,
   increase,
   decrease,

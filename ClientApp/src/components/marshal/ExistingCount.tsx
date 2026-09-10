@@ -1,5 +1,5 @@
 import { uniqBy } from "@s-libs/micro-dash";
-import { type FunctionalComponent, h } from "preact";
+import { type FunctionComponent, h } from "preact";
 
 import type { Event } from "../../types/models";
 
@@ -12,7 +12,7 @@ interface Props {
   readonly currentEvent: Event | undefined;
 }
 
-const ExportCount: FunctionalComponent<Props> = ({
+const ExportCount: FunctionComponent<Props> = ({
   entrantId,
   testRuns,
   currentEvent,

@@ -1,4 +1,4 @@
-import { type FunctionalComponent, h } from "preact";
+import { type FunctionComponent, h } from "preact";
 import { Hero, Box, Tag, Button, Heading } from "react-bulma-components";
 import { useEffect } from "preact/hooks";
 import { useSelector } from "react-redux";
@@ -12,7 +12,7 @@ import { useThunkDispatch } from "../../store";
 
 declare const __BUILD_DATE__: string;
 
-const EventCard: FunctionalComponent<{
+const EventCard: FunctionComponent<{
   readonly eventId: number;
   readonly location: string;
   readonly startTime: Date;
@@ -50,7 +50,7 @@ const EventCard: FunctionalComponent<{
   </Box>
 );
 
-const Home: FunctionalComponent = () => {
+const Home: FunctionComponent = () => {
   const thunkDispatch = useThunkDispatch();
   useEffect(() => {
     void thunkDispatch(GetEventsIfRequired());

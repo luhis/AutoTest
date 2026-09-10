@@ -1,4 +1,4 @@
-import { type FunctionalComponent, h } from "preact";
+import { type FunctionComponent, h } from "preact";
 import { useCallback, useEffect, useState } from "preact/hooks";
 import { Heading, Button } from "react-bulma-components";
 import UUID from "uuid-int";
@@ -96,7 +96,7 @@ const blankEntrant = (eventId: number): EditingEntrant => ({
   doubleDrivenWith: null,
 });
 
-const Entrants: FunctionalComponent<Readonly<Props>> = ({ eventId }) => {
+const Entrants: FunctionComponent<Props> = ({ eventId }) => {
   const access = useSelector(selectAccess);
   const entrants = useSelector(selectEntrants);
   const profile = useSelector(selectProfile);

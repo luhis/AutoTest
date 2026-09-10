@@ -1,8 +1,8 @@
-import { type FunctionalComponent, h } from "preact";
+import { type FunctionComponent, h } from "preact";
 import { Hero, Heading, Button } from "react-bulma-components";
 import { Link } from "preact-router/match";
 
-const Notfound: FunctionalComponent = () => {
+const Notfound: FunctionComponent = () => {
   return (
     <Hero color="danger" size="medium">
       <Hero.Body>
