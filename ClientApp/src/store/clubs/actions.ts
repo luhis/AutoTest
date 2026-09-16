@@ -1,6 +1,6 @@
 import type { ThunkAction } from "@reduxjs/toolkit";
 
-import type { EditingClub } from "src/types/models";
+import type { EditingClub } from "../../types/models";
 import { addClub, deleteClub, getClubs } from "../../api/clubs";
 import { selectClubs } from "./selectors";
 import type { AppState } from "..";
@@ -13,21 +13,25 @@ export const GetClubsIfRequired =
     token: string | undefined,
   ): ThunkAction<void, AppState, unknown, ClubsActionTypes> =>
   async (dispatch, getState) => {
-    const clubs = selectClubs(getState());
-    if (requiresLoading(clubs.tag) || isStale(clubs)) {
-      if (clubs.tag === "Idle") {
-        dispatch({
-          type: "GET_CLUBS",
-          payload: { tag: "Loading", id: undefined },
-        });
+    try {
+      const clubs = selectClubs(getState());
+      if (requiresLoading(clubs.tag) || isStale(clubs)) {
+        if (clubs.tag === "Idle") {
+          dispatch({
+            type: "GET_CLUBS",
+            payload: { tag: "Loading", id: undefined },
+          });
+        }
+        const res = await getClubs(token);
+        if (canUpdate(clubs, res)) {
+          dispatch({
+            type: "GET_CLUBS",
+            payload: res,
+          });
+        }
       }
-      const res = await getClubs(token);
-      if (canUpdate(clubs, res)) {
-        dispatch({
-          type: "GET_CLUBS",
-          payload: res,
-        });
-      }
+    } catch (error) {
+      showError(error);
     }
   };
 
@@ -56,13 +60,17 @@ export const DeleteClub =
     token: string | undefined,
   ): ThunkAction<Promise<void>, AppState, unknown, ClubsActionTypes> =>
   async (dispatch) => {
-    await deleteClub(clubId, token);
-    dispatch({
-      type: "GET_CLUBS",
-      payload: { tag: "Loading", id: undefined },
-    });
-    dispatch({
-      type: "GET_CLUBS",
-      payload: await getClubs(token),
-    });
+    try {
+      await deleteClub(clubId, token);
+      dispatch({
+        type: "GET_CLUBS",
+        payload: { tag: "Loading", id: undefined },
+      });
+      dispatch({
+        type: "GET_CLUBS",
+        payload: await getClubs(token),
+      });
+    } catch (error) {
+      showError(error);
+    }
   };

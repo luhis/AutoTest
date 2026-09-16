@@ -40,21 +40,25 @@ export const GetMarshalsIfRequired =
     eventId: number,
   ): ThunkAction<Promise<void>, AppState, unknown, EventActionTypes> =>
   async (dispatch, getState) => {
-    const clubs = selectMarshals(getState());
-    if (requiresLoading(clubs.tag) || isStale(clubs)) {
-      if (clubs.tag === "Idle") {
-        dispatch({
-          type: "GET_MARSHALS",
-          payload: { tag: "Loading", id: eventId },
-        });
+    try {
+      const clubs = selectMarshals(getState());
+      if (requiresLoading(clubs.tag) || isStale(clubs)) {
+        if (clubs.tag === "Idle") {
+          dispatch({
+            type: "GET_MARSHALS",
+            payload: { tag: "Loading", id: eventId },
+          });
+        }
+        const res = await getMarshals(eventId);
+        if (canUpdate(clubs, res)) {
+          dispatch({
+            type: "GET_MARSHALS",
+            payload: res,
+          });
+        }
       }
-      const res = await getMarshals(eventId);
-      if (canUpdate(clubs, res)) {
-        dispatch({
-          type: "GET_MARSHALS",
-          payload: res,
-        });
-      }
+    } catch (error) {
+      showError(error);
     }
   };
 
@@ -67,21 +71,25 @@ export const GetEntrantsIfRequired =
     eventId: number,
   ): ThunkAction<Promise<void>, AppState, unknown, EventActionTypes> =>
   async (dispatch, getState) => {
-    const entrants = selectEntrants(getState());
-    if (!idsMatch(entrants, eventId)) {
-      dispatch({
-        type: "GET_ENTRANTS",
-        payload: { tag: "Loading", id: eventId },
-      });
-    }
-    if (requiresLoading(entrants.tag) || isStale(entrants)) {
-      const res = await getEntrants(eventId);
-      if (canUpdate(entrants, res)) {
+    try {
+      const entrants = selectEntrants(getState());
+      if (!idsMatch(entrants, eventId)) {
         dispatch({
           type: "GET_ENTRANTS",
-          payload: res,
+          payload: { tag: "Loading", id: eventId },
         });
       }
+      if (requiresLoading(entrants.tag) || isStale(entrants)) {
+        const res = await getEntrants(eventId);
+        if (canUpdate(entrants, res)) {
+          dispatch({
+            type: "GET_ENTRANTS",
+            payload: res,
+          });
+        }
+      }
+    } catch (error) {
+      showError(error);
     }
   };
 
@@ -111,32 +119,40 @@ export const AddMarshal =
     onSuccess: () => void,
   ): ThunkAction<Promise<void>, AppState, unknown, EventActionTypes> =>
   async (dispatch) => {
-    const newEntrant = await addMarshal(marshal, token);
-    dispatch({
-      type: "ADD_MARSHAL",
-      payload: newEntrant,
-    });
-    onSuccess();
+    try {
+      const newMarshal = await addMarshal(marshal, token);
+      dispatch({
+        type: "ADD_MARSHAL",
+        payload: newMarshal,
+      });
+      onSuccess();
+    } catch (error) {
+      showError(error);
+    }
   };
 
 export const GetEventsIfRequired =
   (): ThunkAction<Promise<void>, AppState, unknown, EventActionTypes> =>
   async (dispatch, getState) => {
-    const events = selectEvents(getState());
-    if (requiresLoading(events.tag) || isStale(events)) {
-      if (events.tag === "Idle") {
-        dispatch({
-          type: "GET_EVENTS",
-          payload: { tag: "Loading", id: undefined },
-        });
+    try {
+      const events = selectEvents(getState());
+      if (requiresLoading(events.tag) || isStale(events)) {
+        if (events.tag === "Idle") {
+          dispatch({
+            type: "GET_EVENTS",
+            payload: { tag: "Loading", id: undefined },
+          });
+        }
+        const res = await getEvents();
+        if (canUpdate(events, res)) {
+          dispatch({
+            type: "GET_EVENTS",
+            payload: res,
+          });
+        }
       }
-      const res = await getEvents();
-      if (canUpdate(events, res)) {
-        dispatch({
-          type: "GET_EVENTS",
-          payload: res,
-        });
-      }
+    } catch (error) {
+      showError(error);
     }
   };
 
@@ -145,14 +161,18 @@ export const GetNotifications =
     eventId: number,
   ): ThunkAction<Promise<void>, AppState, unknown, EventActionTypes> =>
   async (dispatch) => {
-    dispatch({
-      type: "GET_NOTIFICATIONS",
-      payload: { tag: "Loading", id: eventId },
-    });
-    dispatch({
-      type: "GET_NOTIFICATIONS",
-      payload: await getNotifications(eventId),
-    });
+    try {
+      dispatch({
+        type: "GET_NOTIFICATIONS",
+        payload: { tag: "Loading", id: eventId },
+      });
+      dispatch({
+        type: "GET_NOTIFICATIONS",
+        payload: await getNotifications(eventId),
+      });
+    } catch (error) {
+      showError(error);
+    }
   };
 
 export const AddNotification = (notification: EventNotification) => ({
@@ -185,11 +205,15 @@ export const SetEventStatus =
     token: string | undefined,
   ): ThunkAction<Promise<void>, AppState, unknown, EventActionTypes> =>
   async (dispatch) => {
-    await setEventStatus(eventId, eventStatus, token);
-    dispatch({
-      type: "SET_EVENT_STATUS",
-      payload: { eventId, eventStatus },
-    });
+    try {
+      await setEventStatus(eventId, eventStatus, token);
+      dispatch({
+        type: "SET_EVENT_STATUS",
+        payload: { eventId, eventStatus },
+      });
+    } catch (error) {
+      showError(error);
+    }
   };
 
 export const AddEvent =
@@ -217,11 +241,15 @@ export const DeleteEvent =
     token: string | undefined,
   ): ThunkAction<Promise<void>, AppState, unknown, EventActionTypes> =>
   async (dispatch) => {
-    await deleteEvent(eventId, token);
-    dispatch({
-      type: "DELETE_EVENT",
-      payload: { eventId },
-    });
+    try {
+      await deleteEvent(eventId, token);
+      dispatch({
+        type: "DELETE_EVENT",
+        payload: { eventId },
+      });
+    } catch (error) {
+      showError(error);
+    }
   };
 
 export const SetPaid =
@@ -231,11 +259,15 @@ export const SetPaid =
     token: string | undefined,
   ): ThunkAction<Promise<void>, AppState, unknown, EventActionTypes> =>
   async (dispatch) => {
-    await markPaid(eventId, entrantId, payment, token);
-    dispatch({
-      type: "SET_PAID",
-      payload: { entrantId, payment },
-    });
+    try {
+      await markPaid(eventId, entrantId, payment, token);
+      dispatch({
+        type: "SET_PAID",
+        payload: { entrantId, payment },
+      });
+    } catch (error) {
+      showError(error);
+    }
   };
 
 export const DeleteEntrant =
@@ -244,11 +276,15 @@ export const DeleteEntrant =
     token: string | undefined,
   ): ThunkAction<Promise<void>, AppState, unknown, EventActionTypes> =>
   async (dispatch) => {
-    await deleteEntrant(eventId, entrantId, token);
-    dispatch({
-      type: "DELETE_ENTRANT",
-      payload: { entrantId },
-    });
+    try {
+      await deleteEntrant(eventId, entrantId, token);
+      dispatch({
+        type: "DELETE_ENTRANT",
+        payload: { entrantId },
+      });
+    } catch (error) {
+      showError(error);
+    }
   };
 
 export const DeleteMarshal =
@@ -257,9 +293,13 @@ export const DeleteMarshal =
     token: string | undefined,
   ): ThunkAction<Promise<void>, AppState, unknown, EventActionTypes> =>
   async (dispatch) => {
-    await deleteMarshal(eventId, marshalId, token);
-    dispatch({
-      type: "DELETE_MARSHAL",
-      payload: { marshalId },
-    });
+    try {
+      await deleteMarshal(eventId, marshalId, token);
+      dispatch({
+        type: "DELETE_MARSHAL",
+        payload: { marshalId },
+      });
+    } catch (error) {
+      showError(error);
+    }
   };

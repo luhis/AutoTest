@@ -1,5 +1,5 @@
-import type { LoadingState } from "src/types/loadingState";
-import type { Club } from "src/types/models";
+import type { LoadingState } from "../../types/loadingState";
+import type { Club } from "../../types/models";
 import type { SharedActionTypes } from "../shared/types";
 
 export interface ClubsState {

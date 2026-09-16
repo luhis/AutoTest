@@ -26,14 +26,18 @@ const GetProfile =
     token: string | undefined,
   ): ThunkAction<Promise<void>, AppState, unknown, ProfileActionTypes> =>
   async (dispatch) => {
-    dispatch({
-      type: "GET_PROFILE",
-      payload: { tag: "Loading", id: undefined },
-    });
-    dispatch({
-      type: "GET_PROFILE",
-      payload: await getProfile(token),
-    });
+    try {
+      dispatch({
+        type: "GET_PROFILE",
+        payload: { tag: "Loading", id: undefined },
+      });
+      dispatch({
+        type: "GET_PROFILE",
+        payload: await getProfile(token),
+      });
+    } catch (error) {
+      showError(error);
+    }
   };
 
 export const SaveProfile =
@@ -55,14 +59,18 @@ export const GetAccess =
     token: string | undefined,
   ): ThunkAction<Promise<void>, AppState, unknown, ProfileActionTypes> =>
   async (dispatch) => {
-    if (token) {
-      const access = await getAccess(token);
-      dispatch({
-        type: "GET_ACCESS",
-        payload: access,
-      });
-    } else {
-      dispatch(ResetAccess());
+    try {
+      if (token) {
+        const access = await getAccess(token);
+        dispatch({
+          type: "GET_ACCESS",
+          payload: access,
+        });
+      } else {
+        dispatch(ResetAccess());
+      }
+    } catch (error) {
+      showError(error);
     }
   };
 

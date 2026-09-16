@@ -26,17 +26,21 @@ export const GetTestRunsIfRequired =
     token: string | undefined,
   ): ThunkAction<Promise<void>, AppState, unknown, RunActionTypes> =>
   async (dispatch, getState) => {
-    const testRuns = selectTestRunsFromServer(getState());
-    const id = { eventId, ordinal };
-    const missMatch = !idsMatch(testRuns, id);
-    if (missMatch) {
-      dispatch({
-        type: "GET_TEST_RUNS",
-        payload: { tag: "Loading", id: id },
-      });
-    }
-    if (requiresLoading(testRuns.tag) || isStale(testRuns) || missMatch) {
-      await GetTestRuns(eventId, ordinal, token)(dispatch, getState, {});
+    try {
+      const testRuns = selectTestRunsFromServer(getState());
+      const id = { eventId, ordinal };
+      const missMatch = !idsMatch(testRuns, id);
+      if (missMatch) {
+        dispatch({
+          type: "GET_TEST_RUNS",
+          payload: { tag: "Loading", id: id },
+        });
+      }
+      if (requiresLoading(testRuns.tag) || isStale(testRuns) || missMatch) {
+        await GetTestRuns(eventId, ordinal, token)(dispatch, getState, {});
+      }
+    } catch (error) {
+      showError(error);
     }
   };
 
@@ -47,13 +51,17 @@ const GetTestRuns =
     token: string | undefined,
   ): ThunkAction<Promise<void>, AppState, unknown, RunActionTypes> =>
   async (dispatch, getState) => {
-    const testRuns = selectTestRunsFromServer(getState());
-    const res = await getTestRuns(eventId, ordinal, token);
-    if (canUpdate(testRuns, res)) {
-      dispatch({
-        type: "GET_TEST_RUNS",
-        payload: res,
-      });
+    try {
+      const testRuns = selectTestRunsFromServer(getState());
+      const res = await getTestRuns(eventId, ordinal, token);
+      if (canUpdate(testRuns, res)) {
+        dispatch({
+          type: "GET_TEST_RUNS",
+          payload: res,
+        });
+      }
+    } catch (error) {
+      showError(error);
     }
   };
 
@@ -63,15 +71,19 @@ export const AddTestRun =
     token: string | undefined,
   ): ThunkAction<Promise<void>, AppState, unknown, RunActionTypes> =>
   async (dispatch, getState) => {
-    dispatch({
-      type: "ADD_TEST_RUN",
-      payload: testRun,
-    });
-    await SyncTestRuns(testRun.eventId, testRun.ordinal, token)(
-      dispatch,
-      getState,
-      {},
-    );
+    try {
+      dispatch({
+        type: "ADD_TEST_RUN",
+        payload: testRun,
+      });
+      await SyncTestRuns(testRun.eventId, testRun.ordinal, token)(
+        dispatch,
+        getState,
+        {},
+      );
+    } catch (error) {
+      showError(error);
+    }
   };
 
 export const UpdateTestRun =

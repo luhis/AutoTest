@@ -8,7 +8,6 @@ import type {
   EventStatus,
 } from "../../types/models";
 import type { LoadingState } from "../../types/loadingState";
-import type { AddEvent } from "./actions";
 import type { SharedActionTypes } from "../shared/types";
 
 export interface EventState {
