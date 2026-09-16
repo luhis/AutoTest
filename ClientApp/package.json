@@ -3,6 +3,9 @@
   "name": "clientapp",
   "version": "0.0.0",
   "license": "MIT",
+  "engines": {
+    "node": ">=20.19.0"
+  },
   "scripts": {
     "dev": "vite",
     "build": "tsc --noEmit && vite build",
@@ -10,12 +13,8 @@
     "lint": "eslint src/**/*.{js,jsx,ts,tsx}",
     "lint-fix": "eslint src/**/*.{js,jsx,ts,tsx} --fix",
     "test": "jest src/tests --forceExit",
-    "type-check": "tsc --noEmit"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
+    "type-check": "tsc --noEmit",
+    "prepare": "husky"
   },
   "lint-staged": {
     "*.{css,md,scss}": "prettier --write",
