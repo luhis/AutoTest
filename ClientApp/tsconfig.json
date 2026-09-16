@@ -26,6 +26,6 @@
       "react-dom": ["./node_modules/preact/compat"]
     }
   },
-  "include": ["src/**/*.ts", "src/**/*.tsx", "src/**/*.d.ts", "vite.config.ts"],
+  "include": ["src/**/*.ts", "src/**/*.tsx", "src/**/*.d.ts", "vite.config.mts"],
   "exclude": ["src/integrationTests"]
 }
