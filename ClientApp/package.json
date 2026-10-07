@@ -38,7 +38,7 @@
     "react-bulma-components": "4.1.0",
     "react-icons": "5.7.0",
     "react-redux": "9.3.0",
-    "react-timer-hook": "4.0.6",
+    "react-timer-hook": "4.0.9",
     "redux-persist": "6.0.0",
     "save-file": "2.3.1",
     "ts-date": "3.1.0",
