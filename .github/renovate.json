@@ -68,6 +68,13 @@
       ]
     },
     {
+      "description": "Group all React-related packages (Preact compat)",
+      "groupName": "React/Preact compat",
+      "matchPackageNames": [
+        "/^react-|^@types/react/"
+      ]
+    },
+    {
       "description": "Group all Bulma packages",
       "groupName": "Bulma",
       "matchPackageNames": [
@@ -119,13 +126,6 @@
       "description": "Do not automerge major updates",
       "matchUpdateTypes": ["major"],
       "automerge": false
-    },
-    {
-      "description": "Group all React-related packages (Preact compat)",
-      "groupName": "React/Preact compat",
-      "matchPackageNames": [
-        "/^react-|^@types/react/"
-      ]
     }
   ],
   "postUpdateOptions": ["yarnDedupeHighest"],
