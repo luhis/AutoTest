@@ -5810,10 +5810,10 @@ postcss@^8.5.28:
     picocolors "^1.1.1"
     source-map-js "^1.2.1"
 
-preact-render-to-string@6.8.0:
-  version "6.8.0"
-  resolved "https://registry.yarnpkg.com/preact-render-to-string/-/preact-render-to-string-6.8.0.tgz#5055d28c80e5368de3af5dcafd9ba4e5b6ec4165"
-  integrity sha512-2qiMrReQz+MZ5+/bT27kbVnFE7QNCC2fku/Tnc2H5bFUS3I3ASbRy0q72XLZ+2p2KyDE5xMfvSEtkmVo6TRNyA==
+preact-render-to-string@6.8.1:
+  version "6.8.1"
+  resolved "https://registry.yarnpkg.com/preact-render-to-string/-/preact-render-to-string-6.8.1.tgz#bdbc45be1f5121e5ca20d9b95479445762bc1c4d"
+  integrity sha512-EIaLVlarET55f737gG/g1bK1UfjAgT3Z7Ch1Z7UX4/TwHh1O7EI5sCtwhVP+cs0n37SyV2HjZCSRtrpMm4Bujw==
 
 preact-router@4.1.2:
   version "4.1.2"
