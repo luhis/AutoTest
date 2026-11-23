@@ -48,7 +48,7 @@
     "@eslint/compat": "^2.1.1",
     "@eslint/js": "^10.0.1",
     "@preact/preset-vite": "2.10.6",
-    "@testing-library/jest-dom": "^7.0.0",
+    "@testing-library/jest-dom": "^8.0.0",
     "@testing-library/preact": "^3.2.4",
     "@types/jest": "30.0.0",
     "@types/node": "^26.4.1",
